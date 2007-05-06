@@ -1,4 +1,4 @@
-package framework;
+package framework.math;
 
 public class Test {
 

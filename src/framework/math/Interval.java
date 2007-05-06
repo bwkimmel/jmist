@@ -1,7 +1,7 @@
 /**
  *
  */
-package framework;
+package framework.math;
 
 /**
  * An closed interval [a, b] on the real number line.

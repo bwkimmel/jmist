@@ -1,7 +1,7 @@
 /**
  *
  */
-package framework;
+package framework.math;
 
 /**
  * A location in three dimensional space.

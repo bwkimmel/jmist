@@ -1,4 +1,4 @@
-package framework;
+package framework.math;
 
 //Timer class
 public class Timer {

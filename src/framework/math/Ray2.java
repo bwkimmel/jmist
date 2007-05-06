@@ -1,18 +1,18 @@
 /**
  *
  */
-package framework;
+package framework.math;
 
 /**
- * A ray (half-line) in three dimensional space.
+ * A ray (half-line) in two dimensional space.
  * @author brad
  */
-public final class Ray3 {
+public final class Ray2 {
 
 	/**
 	 * Default constructor.
 	 */
-	public Ray3() {
+	public Ray2() {
 	}
 
 	/**
@@ -20,7 +20,7 @@ public final class Ray3 {
 	 * @param origin The origin of the ray.
 	 * @param direction The direction of the ray.
 	 */
-	public Ray3(Point3 origin, Vector3 direction) {
+	public Ray2(Point2 origin, Vector2 direction) {
 		this.origin = origin;
 		this.direction = direction;
 	}
@@ -29,7 +29,7 @@ public final class Ray3 {
 	 * Sets the origin of this ray.
 	 * @param origin The origin of the ray.
 	 */
-	public void setOrigin(Point3 origin) {
+	public void setOrigin(Point2 origin) {
 		this.origin = origin;
 	}
 
@@ -37,7 +37,7 @@ public final class Ray3 {
 	 * Gets the origin of this ray.
 	 * @return The origin of this ray.
 	 */
-	public Point3 getOrigin() {
+	public Point2 getOrigin() {
 		return origin;
 	}
 
@@ -45,7 +45,7 @@ public final class Ray3 {
 	 * Sets the direction of this ray.
 	 * @param direction The direction of this ray.
 	 */
-	public void setDirection(Vector3 direction) {
+	public void setDirection(Vector2 direction) {
 		this.direction = direction;
 	}
 
@@ -53,7 +53,7 @@ public final class Ray3 {
 	 * Gets the direction of this ray.
 	 * @return The direction of this ray.
 	 */
-	public Vector3 getDirection() {
+	public Vector2 getDirection() {
 		return direction;
 	}
 
@@ -62,7 +62,7 @@ public final class Ray3 {
 	 * @param t The number of units along the ray to find the point of.
 	 * @return The point that is t units along the ray.
 	 */
-	public Point3 pointAt(double t) {
+	public Point2 pointAt(double t) {
 		return origin.plus(direction.times(t));
 	}
 
@@ -78,13 +78,13 @@ public final class Ray3 {
 	/**
 	 * Normalizes this ray (scales the direction so that is of unit length).
 	 * Equivalent to {@code this.setDirection(this.getDirection().unit());}
-	 * @see Vector3.normalize
+	 * @see Vector2.normalize
 	 */
 	public void normalize() {
 		direction.normalize();
 	}
 
-	private Point3 origin;
-	private Vector3 direction;
+	private Point2 origin;
+	private Vector2 direction;
 
 }

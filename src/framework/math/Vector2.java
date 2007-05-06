@@ -1,36 +1,35 @@
 /**
  *
  */
-package framework;
+package framework.math;
 
 /**
- * The difference between two points in three dimensional space.
+ * The difference between two points in two dimensional space.
  * @author brad
+ *
  */
-public final class Vector3 {
+public final class Vector2 {
 
 	/**
 	 * The lengths of the vector along each axis.
 	 */
-	public double x, y, z;
+	public double x, y;
 
 	/**
 	 * Default constructor.
 	 *
 	 */
-	public Vector3() {
+	public Vector2() {
 	}
 
 	/**
 	 * Initializes the components for the vector.
 	 * @param x The length of the vector along the x axis.
 	 * @param y The length of the vector along the y axis.
-	 * @param z The length of the vector along the z axis.
 	 */
-	public Vector3(double x, double y, double z) {
+	public Vector2(double x, double y) {
 		this.x = x;
 		this.y = y;
-		this.z = z;
 	}
 
 	/**
@@ -45,8 +44,8 @@ public final class Vector3 {
 	 * Returns the opposite of this vector.
 	 * @return The opposite of this vector.
 	 */
-	public Vector3 opposite() {
-		return new Vector3(-x, -y, -z);
+	public Vector2 opposite() {
+		return new Vector2(-x, -y);
 	}
 
 	/**
@@ -57,7 +56,6 @@ public final class Vector3 {
 	public void negate() {
 		x = -x;
 		y = -y;
-		z = -z;
 	}
 
 	/**
@@ -65,20 +63,19 @@ public final class Vector3 {
 	 * @param v The vector to add to this vector.
 	 * @return The sum of this vector and v.
 	 */
-	public Vector3 plus(Vector3 v) {
-		return new Vector3(x + v.x, y + v.y, z + v.z);
+	public Vector2 plus(Vector2 v) {
+		return new Vector2(x + v.x, y + v.y);
 	}
 
 	/**
 	 * Adds another vector to this vector.
 	 * Equivalent to {@code this = this.plus(v);}
-	 * @param v The vector to add to this vector.
+	 * @param v
 	 * @see plus
 	 */
-	public void add(Vector3 v) {
+	public void add(Vector2 v) {
 		x += v.x;
 		y += v.y;
-		z += v.z;
 	}
 
 	/**
@@ -86,8 +83,8 @@ public final class Vector3 {
 	 * @param v The vector to subtract from this vector.
 	 * @return The difference between this vector and v.
 	 */
-	public Vector3 minus(Vector3 v) {
-		return new Vector3(x - v.x, y - v.y, z - v.z);
+	public Vector2 minus(Vector2 v) {
+		return new Vector2(x - v.x, y - v.y);
 	}
 
 	/**
@@ -96,10 +93,9 @@ public final class Vector3 {
 	 * @param v The vector to subtract from this vector.
 	 * @see minus
 	 */
-	public void subtract(Vector3 v) {
+	public void subtract(Vector2 v) {
 		x -= v.x;
 		y -= v.y;
-		z -= v.z;
 	}
 
 	/**
@@ -107,12 +103,12 @@ public final class Vector3 {
 	 * @param c The factor to scale this vector by.
 	 * @return This vector scaled by c.
 	 */
-	public Vector3 times(double c) {
-		return new Vector3(c * x, c * y, c * z);
+	public Vector2 times(double c) {
+		return new Vector2(c * x, c * y);
 	}
 
 	/**
-	 * Scales this vector by the specified factor.
+	 * Scales this vector by a constant factor.
 	 * Equivalent to {@code this = this.times(c);}
 	 * @param c The factor to scale this vector by.
 	 * @see times
@@ -120,7 +116,6 @@ public final class Vector3 {
 	public void scale(double c) {
 		x *= c;
 		y *= c;
-		z *= c;
 	}
 
 	/**
@@ -128,33 +123,20 @@ public final class Vector3 {
 	 * @param v The vector to compute the dot product of with this vector.
 	 * @return The dot product of this vector and v.
 	 */
-	public double dot(Vector3 v) {
-		return (x * v.x) + (y * v.y) + (z * v.z);
-	}
-
-	/**
-	 * Computes the cross product of two vectors.
-	 * @param v The vector to compute the cross product of with this vector.
-	 * @return The cross product of this vector and v.
-	 */
-	public Vector3 cross(Vector3 v) {
-		return new Vector3(
-					(y * v.z) - (z * v.y),
-					(z * v.x) - (x * v.z),
-					(x * v.y) - (y * v.x)
-				);
+	public double dot(Vector2 v) {
+		return (x * v.x) + (y * v.y);
 	}
 
 	/**
 	 * Computes the unit vector in the same direction as this vector.
 	 * @return The unit vector in the same direction as this vector.
 	 */
-	public Vector3 unit() {
+	public Vector2 unit() {
 		return this.times(1.0 / length());
 	}
 
 	/**
-	 * Normalizes this vector (i.e., preserves its direction but makes it unit length).
+	 * Normalizes this vector (i.e., preserves its direction and sets its length to 1).
 	 * Equivalent to {@code this = this.unit();}
 	 * @see unit
 	 */
@@ -165,21 +147,16 @@ public final class Vector3 {
 	/**
 	 * The zero vector (represents the vector between two identical points).
 	 */
-	public static final Vector3 ZERO = new Vector3(0.0, 0.0, 0.0);
+	public static final Vector2 ZERO = new Vector2(0.0, 0.0);
 
 	/**
 	 * The unit vector along the x-axis.
 	 */
-	public static final Vector3 I = new Vector3(1.0, 0.0, 0.0);
+	public static final Vector2 I = new Vector2(1.0, 0.0);
 
 	/**
 	 * The unit vector along the y-axis.
 	 */
-	public static final Vector3 J = new Vector3(0.0, 1.0, 0.0);
-
-	/**
-	 * The unit vector along the z-axis.
-	 */
-	public static final Vector3 K = new Vector3(0.0, 0.0, 1.0);
+	public static final Vector2 J = new Vector2(0.0, 1.0);
 
 }

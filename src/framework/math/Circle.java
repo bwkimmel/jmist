@@ -1,7 +1,7 @@
 /**
  *
  */
-package framework;
+package framework.math;
 
 /**
  * A circle in two dimensional space (the set of points at most a
