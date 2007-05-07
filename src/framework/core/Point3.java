@@ -89,6 +89,7 @@ public final class Point3 {
 	public void add(Vector3 v) {
 		x += v.x;
 		y += v.y;
+		z += v.z;
 	}
 
 	/**
