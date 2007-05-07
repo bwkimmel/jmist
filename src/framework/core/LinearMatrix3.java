@@ -32,9 +32,9 @@ public final class LinearMatrix3 {
 			double _10, double _11, double _12,
 			double _20, double _21, double _22
 			) {
-		this.a[0][0] = a[0][0]; this.a[0][1] = a[0][1]; this.a[0][2] = a[0][2];
-		this.a[1][0] = a[1][0]; this.a[1][1] = a[1][1]; this.a[1][2] = a[1][2];
-		this.a[2][0] = a[2][0]; this.a[2][1] = a[2][1]; this.a[2][2] = a[2][2];
+		this.a[0][0] = _00; this.a[0][1] = _01; this.a[0][2] = _02;
+		this.a[1][0] = _10; this.a[1][1] = _11; this.a[1][2] = _12;
+		this.a[2][0] = _20; this.a[2][1] = _21; this.a[2][2] = _22;
 	}
 
 	/**
@@ -230,7 +230,7 @@ public final class LinearMatrix3 {
 		       a[0][1] * (a[1][2] * a[2][0] - a[1][0] * a[2][2]) +
 		       a[0][2] * (a[1][0] * a[2][1] - a[1][1] * a[2][0]);
 	}
-	
+
 	/**
 	 * Gets an element of the matrix.
 	 * @param row The row containing the element to get (0 <= row < 3).
@@ -241,7 +241,7 @@ public final class LinearMatrix3 {
 	public double at(int row, int col) {
 		return a[row][col];
 	}
-	
+
 	/**
 	 * Gets an element of the matrix.
 	 * @param row The row containing the element to get (0 <= row < 3).
@@ -252,7 +252,7 @@ public final class LinearMatrix3 {
 	public double getElement(int row, int col) {
 		return a[row][col];
 	}
-	
+
 	/**
 	 * Sets an element of the matrix.
 	 * @param row The row containing the element to set (0 <= row < 3).
