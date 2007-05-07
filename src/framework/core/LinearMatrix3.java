@@ -105,14 +105,14 @@ public final class LinearMatrix3 {
 	public LinearMatrix3 times(LinearMatrix3 other) {
 		return new LinearMatrix3(
 				a[0][0] * other.a[0][0] + a[0][1] * other.a[1][0] + a[0][2] * other.a[2][0],
-				a[0][0] * other.a[1][0] + a[0][1] * other.a[1][1] + a[0][2] * other.a[2][1],
-				a[0][0] * other.a[2][0] + a[0][1] * other.a[1][2] + a[0][2] * other.a[2][2],
+				a[0][0] * other.a[0][1] + a[0][1] * other.a[1][1] + a[0][2] * other.a[2][1],
+				a[0][0] * other.a[0][2] + a[0][1] * other.a[1][2] + a[0][2] * other.a[2][2],
 				a[1][0] * other.a[0][0] + a[1][1] * other.a[1][0] + a[1][2] * other.a[2][0],
-				a[1][0] * other.a[1][0] + a[1][1] * other.a[1][1] + a[1][2] * other.a[2][1],
-				a[1][0] * other.a[2][0] + a[1][1] * other.a[1][2] + a[1][2] * other.a[2][2],
+				a[1][0] * other.a[0][1] + a[1][1] * other.a[1][1] + a[1][2] * other.a[2][1],
+				a[1][0] * other.a[0][2] + a[1][1] * other.a[1][2] + a[1][2] * other.a[2][2],
 				a[2][0] * other.a[0][0] + a[2][1] * other.a[1][0] + a[2][2] * other.a[2][0],
-				a[2][0] * other.a[1][0] + a[2][1] * other.a[1][1] + a[2][2] * other.a[2][1],
-				a[2][0] * other.a[2][0] + a[2][1] * other.a[1][2] + a[2][2] * other.a[2][2]
+				a[2][0] * other.a[0][1] + a[2][1] * other.a[1][1] + a[2][2] * other.a[2][1],
+				a[2][0] * other.a[0][2] + a[2][1] * other.a[1][2] + a[2][2] * other.a[2][2]
 				);
 	}
 
