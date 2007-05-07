@@ -230,6 +230,38 @@ public final class LinearMatrix3 {
 		       a[0][1] * (a[1][2] * a[2][0] - a[1][0] * a[2][2]) +
 		       a[0][2] * (a[1][0] * a[2][1] - a[1][1] * a[2][0]);
 	}
+	
+	/**
+	 * Gets an element of the matrix.
+	 * @param row The row containing the element to get (0 <= row < 3).
+	 * @param col The column containing the element to get (0 <= col < 3).
+	 * @return The value of the element at the specified position.
+	 * @see getElement
+	 */
+	public double at(int row, int col) {
+		return a[row][col];
+	}
+	
+	/**
+	 * Gets an element of the matrix.
+	 * @param row The row containing the element to get (0 <= row < 3).
+	 * @param col The column containing the element to get (0 <= col < 3).
+	 * @return The value of the element at the specified position.
+	 * @see at
+	 */
+	public double getElement(int row, int col) {
+		return a[row][col];
+	}
+	
+	/**
+	 * Sets an element of the matrix.
+	 * @param row The row containing the element to set (0 <= row < 3).
+	 * @param col The column containing the element to set (0 <= col < 3).
+	 * @param value The value to set the element to.
+	 */
+	public void setElement(int row, int col, double value) {
+		a[row][col] = value;
+	}
 
 	/**
 	 * Copies another matrix.
@@ -251,6 +283,7 @@ public final class LinearMatrix3 {
 	 */
 	public static final LinearMatrix3 ZERO = new LinearMatrix3(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
+	/** The elements of the matrix. */
 	private double[][] a = new double[3][3];
 
 }
