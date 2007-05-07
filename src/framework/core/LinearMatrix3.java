@@ -32,9 +32,9 @@ public final class LinearMatrix3 {
 			double _10, double _11, double _12,
 			double _20, double _21, double _22
 			) {
-		this._00 = _00; this._01 = _01; this._02 = _02;
-		this._10 = _10; this._11 = _11; this._12 = _12;
-		this._20 = _20; this._21 = _21; this._22 = _22;
+		this.a[0][0] = a[0][0]; this.a[0][1] = a[0][1]; this.a[0][2] = a[0][2];
+		this.a[1][0] = a[1][0]; this.a[1][1] = a[1][1]; this.a[1][2] = a[1][2];
+		this.a[2][0] = a[2][0]; this.a[2][1] = a[2][1]; this.a[2][2] = a[2][2];
 	}
 
 	/**
@@ -44,9 +44,9 @@ public final class LinearMatrix3 {
 	 * @see plus
 	 */
 	public void add(LinearMatrix3 other) {
-		_00 += other._00; _01 += other._01; _02 += other._02;
-		_10 += other._10; _11 += other._11; _12 += other._12;
-		_20 += other._20; _21 += other._21; _22 += other._22;
+		a[0][0] += other.a[0][0]; a[0][1] += other.a[0][1]; a[0][2] += other.a[0][2];
+		a[1][0] += other.a[1][0]; a[1][1] += other.a[1][1]; a[1][2] += other.a[1][2];
+		a[2][0] += other.a[2][0]; a[2][1] += other.a[2][1]; a[2][2] += other.a[2][2];
 	}
 
 	/**
@@ -56,9 +56,9 @@ public final class LinearMatrix3 {
 	 */
 	public LinearMatrix3 plus(LinearMatrix3 other) {
 		return new LinearMatrix3(
-				_00 + other._00, _01 + other._01, _02 + other._02,
-				_10 + other._10, _11 + other._11, _12 + other._12,
-				_20 + other._20, _21 + other._21, _22 + other._22
+				a[0][0] + other.a[0][0], a[0][1] + other.a[0][1], a[0][2] + other.a[0][2],
+				a[1][0] + other.a[1][0], a[1][1] + other.a[1][1], a[1][2] + other.a[1][2],
+				a[2][0] + other.a[2][0], a[2][1] + other.a[2][1], a[2][2] + other.a[2][2]
 				);
 	}
 
@@ -69,9 +69,9 @@ public final class LinearMatrix3 {
 	 * @see minus
 	 */
 	public void subtract(LinearMatrix3 other) {
-		_00 -= other._00; _01 -= other._01; _02 -= other._02;
-		_10 -= other._10; _11 -= other._11; _12 -= other._12;
-		_20 -= other._20; _21 -= other._21; _22 -= other._22;
+		a[0][0] -= other.a[0][0]; a[0][1] -= other.a[0][1]; a[0][2] -= other.a[0][2];
+		a[1][0] -= other.a[1][0]; a[1][1] -= other.a[1][1]; a[1][2] -= other.a[1][2];
+		a[2][0] -= other.a[2][0]; a[2][1] -= other.a[2][1]; a[2][2] -= other.a[2][2];
 	}
 
 	/**
@@ -81,9 +81,9 @@ public final class LinearMatrix3 {
 	 */
 	public LinearMatrix3 minus(LinearMatrix3 other) {
 		return new LinearMatrix3(
-				_00 - other._00, _01 - other._01, _02 - other._02,
-				_10 - other._10, _11 - other._11, _12 - other._12,
-				_20 - other._20, _21 - other._21, _22 - other._22
+				a[0][0] - other.a[0][0], a[0][1] - other.a[0][1], a[0][2] - other.a[0][2],
+				a[1][0] - other.a[1][0], a[1][1] - other.a[1][1], a[1][2] - other.a[1][2],
+				a[2][0] - other.a[2][0], a[2][1] - other.a[2][1], a[2][2] - other.a[2][2]
 				);
 	}
 
@@ -104,15 +104,15 @@ public final class LinearMatrix3 {
 	 */
 	public LinearMatrix3 times(LinearMatrix3 other) {
 		return new LinearMatrix3(
-				_00 * other._00 + _01 * other._10 + _02 * other._20,
-				_00 * other._10 + _01 * other._11 + _02 * other._21,
-				_00 * other._20 + _01 * other._12 + _02 * other._22,
-				_10 * other._00 + _11 * other._10 + _12 * other._20,
-				_10 * other._10 + _11 * other._11 + _12 * other._21,
-				_10 * other._20 + _11 * other._12 + _12 * other._22,
-				_20 * other._00 + _21 * other._10 + _22 * other._20,
-				_20 * other._10 + _21 * other._11 + _22 * other._21,
-				_20 * other._20 + _21 * other._12 + _22 * other._22
+				a[0][0] * other.a[0][0] + a[0][1] * other.a[1][0] + a[0][2] * other.a[2][0],
+				a[0][0] * other.a[1][0] + a[0][1] * other.a[1][1] + a[0][2] * other.a[2][1],
+				a[0][0] * other.a[2][0] + a[0][1] * other.a[1][2] + a[0][2] * other.a[2][2],
+				a[1][0] * other.a[0][0] + a[1][1] * other.a[1][0] + a[1][2] * other.a[2][0],
+				a[1][0] * other.a[1][0] + a[1][1] * other.a[1][1] + a[1][2] * other.a[2][1],
+				a[1][0] * other.a[2][0] + a[1][1] * other.a[1][2] + a[1][2] * other.a[2][2],
+				a[2][0] * other.a[0][0] + a[2][1] * other.a[1][0] + a[2][2] * other.a[2][0],
+				a[2][0] * other.a[1][0] + a[2][1] * other.a[1][1] + a[2][2] * other.a[2][1],
+				a[2][0] * other.a[2][0] + a[2][1] * other.a[1][2] + a[2][2] * other.a[2][2]
 				);
 	}
 
@@ -141,9 +141,9 @@ public final class LinearMatrix3 {
 	 * @param c The factor by which to scale the matrix.
 	 */
 	public void scale(double c) {
-		_00 *= c; _01 *= c; _02 *= c;
-		_10 *= c; _11 *= c; _12 *= c;
-		_20 *= c; _21 *= c; _22 *= c;
+		a[0][0] *= c; a[0][1] *= c; a[0][2] *= c;
+		a[1][0] *= c; a[1][1] *= c; a[1][2] *= c;
+		a[2][0] *= c; a[2][1] *= c; a[2][2] *= c;
 	}
 
 	/**
@@ -152,9 +152,9 @@ public final class LinearMatrix3 {
 	 * @see negative, scale
 	 */
 	public void negate() {
-		_00 = -_00; _01 = -_01; _02 = -_02;
-		_10 = -_10; _11 = -_11; _12 = -_12;
-		_20 = -_20; _21 = -_21; _22 = -_22;
+		a[0][0] = -a[0][0]; a[0][1] = -a[0][1]; a[0][2] = -a[0][2];
+		a[1][0] = -a[1][0]; a[1][1] = -a[1][1]; a[1][2] = -a[1][2];
+		a[2][0] = -a[2][0]; a[2][1] = -a[2][1]; a[2][2] = -a[2][2];
 	}
 
 	/**
@@ -163,9 +163,9 @@ public final class LinearMatrix3 {
 	 */
 	public LinearMatrix3 negative() {
 		return new LinearMatrix3(
-				-_00, -_01, -_02,
-				-_10, -_11, -_12,
-				-_20, -_21, -_22
+				-a[0][0], -a[0][1], -a[0][2],
+				-a[1][0], -a[1][1], -a[1][2],
+				-a[2][0], -a[2][1], -a[2][2]
 				);
 	}
 
@@ -188,9 +188,9 @@ public final class LinearMatrix3 {
 		double			det = determinant();
 
 		return new LinearMatrix3(
-					(_11 * _22 - _12 * _21) / det, (_01 * _22 - _02 * _21) / det, (_01 * _12 - _02 * _11) / det,
-					(_12 * _20 - _10 * _22) / det, (_00 * _22 - _02 * _20) / det, (_02 * _10 - _00 * _12) / det,
-					(_10 * _21 - _11 * _20) / det, (_01 * _20 - _00 * _21) / det, (_00 * _11 - _01 * _10) / det
+					(a[1][1] * a[2][2] - a[1][2] * a[2][1]) / det, (a[0][1] * a[2][2] - a[0][2] * a[2][1]) / det, (a[0][1] * a[1][2] - a[0][2] * a[1][1]) / det,
+					(a[1][2] * a[2][0] - a[1][0] * a[2][2]) / det, (a[0][0] * a[2][2] - a[0][2] * a[2][0]) / det, (a[0][2] * a[1][0] - a[0][0] * a[1][2]) / det,
+					(a[1][0] * a[2][1] - a[1][1] * a[2][0]) / det, (a[0][1] * a[2][0] - a[0][0] * a[2][1]) / det, (a[0][0] * a[1][1] - a[0][1] * a[1][0]) / det
 					);
 	}
 
@@ -202,9 +202,9 @@ public final class LinearMatrix3 {
 	public void transpose() {
 		double temp;
 
-		temp = _01; _01 = _10; _10 = temp;
-		temp = _02; _02 = _20; _20 = temp;
-		temp = _12; _12 = _21; _21 = temp;
+		temp = a[0][1]; a[0][1] = a[1][0]; a[1][0] = temp;
+		temp = a[0][2]; a[0][2] = a[2][0]; a[2][0] = temp;
+		temp = a[1][2]; a[1][2] = a[2][1]; a[2][1] = temp;
 	}
 
 	/**
@@ -213,9 +213,9 @@ public final class LinearMatrix3 {
 	 */
 	public LinearMatrix3 transposed() {
 		return new LinearMatrix3(
-				_00, _10, _20,
-				_01, _11, _21,
-				_02, _12, _22
+				a[0][0], a[1][0], a[2][0],
+				a[0][1], a[1][1], a[2][1],
+				a[0][2], a[1][2], a[2][2]
 				);
 	}
 
@@ -226,9 +226,9 @@ public final class LinearMatrix3 {
 	 * @return The determinant of this matrix.
 	 */
 	public double determinant() {
-		return _00 * (_11 * _22 - _12 * _21) +
-		       _01 * (_12 * _20 - _10 * _22) +
-		       _02 * (_10 * _21 - _11 * _20);
+		return a[0][0] * (a[1][1] * a[2][2] - a[1][2] * a[2][1]) +
+		       a[0][1] * (a[1][2] * a[2][0] - a[1][0] * a[2][2]) +
+		       a[0][2] * (a[1][0] * a[2][1] - a[1][1] * a[2][0]);
 	}
 
 	/**
@@ -236,9 +236,9 @@ public final class LinearMatrix3 {
 	 * @param other The matrix to copy.
 	 */
 	private void copy(LinearMatrix3 other) {
-		_00 = other._00; _01 = other._01; _02 = other._02;
-		_10 = other._10; _11 = other._11; _12 = other._12;
-		_20 = other._20; _21 = other._21; _22 = other._22;
+		a[0][0] = other.a[0][0]; a[0][1] = other.a[0][1]; a[0][2] = other.a[0][2];
+		a[1][0] = other.a[1][0]; a[1][1] = other.a[1][1]; a[1][2] = other.a[1][2];
+		a[2][0] = other.a[2][0]; a[2][1] = other.a[2][1]; a[2][2] = other.a[2][2];
 	}
 
 	/**
@@ -251,8 +251,6 @@ public final class LinearMatrix3 {
 	 */
 	public static final LinearMatrix3 ZERO = new LinearMatrix3(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
-	private double _00, _01, _02;
-	private double _10, _11, _12;
-	private double _20, _21, _22;
+	private double[][] a = new double[3][3];
 
 }
