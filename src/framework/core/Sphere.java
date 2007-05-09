@@ -11,12 +11,6 @@ package framework.core;
 public final class Sphere {
 
 	/**
-	 * Default constructor.
-	 */
-	public Sphere() {
-	}
-
-	/**
 	 * Initializes the center and radius of the sphere.
 	 * @param center The center of the sphere.
 	 * @param radius The radius of the sphere (must be non-negative).
@@ -37,29 +31,11 @@ public final class Sphere {
 	}
 
 	/**
-	 * Sets the center of the sphere.
-	 * @param center The new center of the sphere.
-	 */
-	public void setCenter(Point3 center) {
-		this.center = center;
-	}
-
-	/**
 	 * Gets the radius of the sphere.
 	 * @return The radius of the sphere.
 	 */
 	public double getRadius() {
 		return radius;
-	}
-
-	/**
-	 * Sets the radius of the sphere.
-	 * @param radius The new radius of the sphere (must be non-negative).
-	 */
-	public void setRadius(double radius) {
-		assert(radius >= 0.0);
-
-		this.radius = radius;
 	}
 
 	/**
@@ -82,47 +58,56 @@ public final class Sphere {
 	/**
 	 * Expands this sphere outwards by the specified amount.
 	 * @param amount The amount to expand the sphere by.
+	 * @return The expanded sphere.
 	 */
-	public void expand(double amount) {
-		radius += amount;
-
-		// If the sphere was contracted by more than its radius,
-		// then it will be empty.
-		if (radius < 0.0) {
-			makeEmpty();
-		}
+	public Sphere expand(double amount) {
+		return getInstance(center, radius + amount);
 	}
 
 	/**
 	 * Expands this sphere outwards to encompass the specified point.
 	 * Guarantees that {@code this.contains(p)} after this method is called.
 	 * @param p The point to include in this sphere.
+	 * @return The expanded sphere.
 	 */
-	public void expandTo(Point3 p) {
+	public Sphere expandTo(Point3 p) {
 		if (isEmpty()) {
-			center = p;
-			radius = 0.0;
+			return new Sphere(p, 0.0);
 		} else {
-			radius = Math.max(radius, center.distanceTo(p));
+			double newRadius = center.distanceTo(p);
+
+			if (newRadius < radius) {
+				return this;
+			} else {
+				return new Sphere(center, newRadius);
+			}
 		}
 	}
 
 	/**
-	 * Makes this sphere empty.
+	 * Default constructor.
 	 */
-	private void makeEmpty() {
+	private Sphere() {
 		center = Point3.ORIGIN;
 		radius = Double.NaN;
 	}
 
 	/**
-	 * Creates an empty sphere.
-	 * @return An empty sphere.
+	 * Gets an instance of a sphere.
+	 * @param center The center of the sphere.
+	 * @param radius The radius of the sphere.
+	 * @return A new sphere if 0 <= radius < infinity,
+	 *         Sphere.UNIVERSE if radius == infinity,
+	 *         Sphere.EMPTY if radius < 0.
 	 */
-	private static Sphere getEmptySphere() {
-		Sphere sphere = new Sphere();
-		sphere.makeEmpty();
-		return sphere;
+	private static final Sphere getInstance(Point3 center, double radius) {
+		if (radius < 0.0) {
+			return Sphere.EMPTY;
+		} else if (Double.isInfinite(radius)) {
+			return Sphere.UNIVERSE;
+		} else {
+			return new Sphere(center, radius);
+		}
 	}
 
 	/**
@@ -138,12 +123,12 @@ public final class Sphere {
 	/**
 	 * An empty sphere.
 	 */
-	public static final Sphere EMPTY = getEmptySphere();
+	public static final Sphere EMPTY = new Sphere();
 
 	/** The center of the sphere. */
-	private Point3 center;
+	private final Point3 center;
 
 	/** The radius of the sphere. */
-	private double radius;
+	private final double radius;
 
 }

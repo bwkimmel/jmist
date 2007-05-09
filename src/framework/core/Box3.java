@@ -5,15 +5,10 @@ package framework.core;
 
 /**
  * An axis-aligned three dimensional box.
+ * This class is immutable.
  * @author brad
  */
 public final class Box3 {
-
-	/**
-	 * Default constructor.
-	 */
-	public Box3() {
-	}
 
 	/**
 	 * Initializes the extents of the box along the x, y, and z axes.
@@ -23,7 +18,8 @@ public final class Box3 {
 	 */
 	public Box3(Interval spanX, Interval spanY, Interval spanZ) {
 		if (spanX.isEmpty() || spanY.isEmpty() || spanZ.isEmpty()) {
-			makeEmpty();
+			minimumX = minimumY = minimumZ = Double.NaN;
+			maximumX = maximumY = maximumZ = Double.NaN;
 		} else {
 			minimumX = spanX.getMinimum();
 			maximumX = spanX.getMaximum();
@@ -40,12 +36,12 @@ public final class Box3 {
 	 * @param q The corner of the box opposite p.
 	 */
 	public Box3(Point3 p, Point3 q) {
-		minimumX = Math.min(p.x, q.x);
-		maximumX = Math.max(p.x, q.x);
-		minimumY = Math.min(p.y, q.y);
-		maximumY = Math.max(p.y, q.y);
-		minimumZ = Math.min(p.z, q.z);
-		maximumZ = Math.max(p.z, q.z);
+		minimumX = Math.min(p.x(), q.x());
+		maximumX = Math.max(p.x(), q.x());
+		minimumY = Math.min(p.y(), q.y());
+		maximumY = Math.max(p.y(), q.y());
+		minimumZ = Math.min(p.z(), q.z());
+		maximumZ = Math.max(p.z(), q.z());
 	}
 
 	/**
@@ -154,7 +150,7 @@ public final class Box3 {
 	 * @return A value indicating whether p is inside this box.
 	 */
 	public boolean contains(Point3 p) {
-		return (minimumX <= p.x && p.x <= maximumX) && (minimumY <= p.y && p.y <= maximumY) && (minimumZ <= p.z && p.z <= maximumZ);
+		return (minimumX <= p.x() && p.x() <= maximumX) && (minimumY <= p.y() && p.y() <= maximumY) && (minimumZ <= p.z() && p.z() <= maximumZ);
 	}
 
 	/**
@@ -162,117 +158,81 @@ public final class Box3 {
 	 * @param other The box to intersect with this box.
 	 * @return The intersection of this box with the other box.
 	 */
-	public Box3 intersection(Box3 other) {
-		return new Box3(
+	public Box3 intersect(Box3 other) {
+		return getInstance(
 				Math.max(minimumX, other.minimumX),
 				Math.max(minimumY, other.minimumY),
 				Math.max(minimumZ, other.minimumZ),
 				Math.min(maximumX, other.maximumX),
 				Math.min(maximumY, other.maximumY),
 				Math.min(maximumZ, other.maximumZ)
-				);
-	}
-
-	/**
-	 * Intersects this box with another.
-	 * @param other The box to intersect this box with.
-	 */
-	public void intersect(Box3 other) {
-		if (other.isEmpty()) {
-			makeEmpty();
-			return;
-		}
-
-		if (other.minimumX > minimumX) {
-			minimumX = other.minimumX;
-		}
-
-		if (other.minimumY > minimumY) {
-			minimumY = other.minimumY;
-		}
-
-		if (other.minimumZ > minimumZ) {
-			minimumZ = other.minimumZ;
-		}
-
-		if (other.maximumX < maximumX) {
-			maximumX = other.maximumX;
-		}
-
-		if (other.maximumY < maximumY) {
-			maximumY = other.maximumY;
-		}
-
-		if (other.maximumZ < maximumZ) {
-			maximumZ = other.maximumZ;
-		}
-
-		if (minimumX > maximumX || minimumY > maximumY || minimumZ > maximumZ) {
-			makeEmpty();
-		}
+		);
 	}
 
 	/**
 	 * Extends the box to contain the specified point.
 	 * Guarantees that {@code this.contains(p)} after this method is called.
 	 * @param p The point to extend the box to.
+	 * @return The extended box.
 	 * @see contains
 	 */
-	public void extendTo(Point3 p) {
+	public Box3 extendTo(Point3 p) {
 		if (isEmpty()) {
-			minimumX = maximumX = p.x;
-			minimumY = maximumY = p.y;
-			minimumZ = maximumZ = p.z;
+			return new Box3(p.x(), p.y(), p.z(), p.x(), p.y(), p.z());
 		} else {
-
-			// expand along the x-axis if necessary.
-			if (p.x < minimumX) {
-				minimumX = p.x;
-			} else if (p.x > maximumX) {
-				maximumX = p.x;
-			}
-
-			// expand along the y-axis if necessary.
-			if (p.y < minimumY) {
-				minimumY = p.y;
-			} else if (p.y > maximumY) {
-				maximumY = p.y;
-			}
-
-			// expand along the z-axis if necessary.
-			if (p.z < minimumZ) {
-				minimumZ = p.z;
-			} else if (p.z > maximumZ) {
-				maximumZ = p.z;
-			}
-
+			return new Box3(
+					Math.min(minimumX, p.x()),
+					Math.min(minimumY, p.y()),
+					Math.min(minimumZ, p.z()),
+					Math.max(maximumX, p.x()),
+					Math.max(maximumY, p.y()),
+					Math.max(maximumZ, p.z())
+			);
 		}
 	}
 
 	/**
 	 * Expands the box by the specified amount in all directions.
 	 * @param amount The amount to expand the box by.
+	 * @return The expanded box.
 	 */
-	public void expand(double amount) {
-		minimumX -= amount;
-		minimumY -= amount;
-		minimumZ -= amount;
-		maximumX += amount;
-		maximumY += amount;
-		minimumZ += amount;
-
-		// If the box is contracted (amount < 0) by more than half the span
-		// in the x or y direction, then the box will be empty.
-		if (minimumX > maximumX || minimumY > maximumY || minimumZ > maximumZ) {
-			makeEmpty();
-		}
+	public Box3 expand(double amount) {
+		return getInstance(
+				minimumX - amount,
+				minimumY - amount,
+				minimumZ - amount,
+				maximumX + amount,
+				maximumY + amount,
+				minimumZ + amount
+		);
 	}
 
 	/**
-	 * Makes this box empty.
+	 * Default constructor.
 	 */
-	private void makeEmpty() {
-		minimumX = maximumX = minimumY = maximumY = minimumZ = maximumZ = Double.NaN;
+	private Box3() {
+		minimumX = minimumY = minimumZ = Double.NaN;
+		maximumX = maximumY = maximumZ = Double.NaN;
+	}
+
+	/**
+	 * Gets an instance of a three dimensional box.
+	 * @param minimumX The minimum extent of the box along the x-axis.
+	 * @param minimumY The minimum extent of the box along the y-axis.
+	 * @param minimumZ The minimum extent of the box along the z-axis.
+	 * @param maximumX The maximum extent of the box along the x-axis.
+	 * @param maximumY The maximum extent of the box along the y-axis.
+	 * @param maximumZ The maximum extent of the box along the z-axis.
+	 * @return A new instance of the specified box if minimumX <= maximumX,
+	 *         minimumY <= maximumY, and minimumZ <= maximumZ, or
+	 *         Box3.EMPTY otherwise.
+	 */
+	private static final Box3 getInstance(double minimumX, double minimumY, double minimumZ, double maximumX, double maximumY, double maximumZ) {
+		if (minimumX > maximumX || minimumY > maximumY || minimumZ > maximumZ) {
+			return Box3.EMPTY;
+		} else {
+			return new Box3(minimumX, minimumY, minimumZ, maximumX, maximumY, maximumZ);
+		}
 	}
 
 	/**
@@ -285,7 +245,7 @@ public final class Box3 {
 	 * The empty box.
 	 * {@code Box3.EMPTY.contains(p)} will be false for all p.
 	 */
-	public static final Box3 EMPTY = new Box3(Interval.EMPTY, Interval.EMPTY, Interval.EMPTY);
+	public static final Box3 EMPTY = new Box3();
 
 	/** The lower bound along the x-axis. */
 	private double minimumX;

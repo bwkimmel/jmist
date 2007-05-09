@@ -5,15 +5,10 @@ package framework.core;
 
 /**
  * An axis-aligned two dimensional box.
+ * This class is immutable.
  * @author brad
  */
 public final class Box2 {
-
-	/**
-	 * Default constructor.
-	 */
-	public Box2() {
-	}
 
 	/**
 	 * Initializes the extents of the box along the x and y axes.
@@ -22,7 +17,7 @@ public final class Box2 {
 	 */
 	public Box2(Interval spanX, Interval spanY) {
 		if (spanX.isEmpty() || spanY.isEmpty()) {
-			makeEmpty();
+			minimumX = minimumY = maximumX = maximumY = Double.NaN;
 		} else {
 			minimumX = spanX.getMinimum();
 			maximumX = spanX.getMaximum();
@@ -37,10 +32,10 @@ public final class Box2 {
 	 * @param q The corner of the box opposite p.
 	 */
 	public Box2(Point2 p, Point2 q) {
-		minimumX = Math.min(p.x, q.x);
-		maximumX = Math.max(p.x, q.x);
-		minimumY = Math.min(p.y, q.y);
-		maximumY = Math.max(p.y, q.y);
+		minimumX = Math.min(p.x(), q.x());
+		maximumX = Math.max(p.x(), q.x());
+		minimumY = Math.min(p.y(), q.y());
+		maximumY = Math.max(p.y(), q.y());
 	}
 
 	/**
@@ -121,7 +116,7 @@ public final class Box2 {
 	 * @return A value indicating whether p is inside this box.
 	 */
 	public boolean contains(Point2 p) {
-		return (minimumX <= p.x && p.x <= maximumX) && (minimumY <= p.y && p.y <= maximumY);
+		return (minimumX <= p.x() && p.x() <= maximumX) && (minimumY <= p.y() && p.y() <= maximumY);
 	}
 
 	/**
@@ -129,97 +124,66 @@ public final class Box2 {
 	 * @param other The box to intersect with this box.
 	 * @return The intersection of this box with the other box.
 	 */
-	public Box2 intersection(Box2 other) {
-		return new Box2(
+	public Box2 intersect(Box2 other) {
+		return getInstance(
 				Math.max(minimumX, other.minimumX),
 				Math.max(minimumY, other.minimumY),
 				Math.min(maximumX, other.maximumX),
 				Math.min(maximumY, other.maximumY)
-				);
-	}
-
-	/**
-	 * Intersects this box with another.
-	 * @param other The box to intersect this box with.
-	 */
-	public void intersect(Box2 other) {
-		if (other.isEmpty()) {
-			makeEmpty();
-			return;
-		}
-
-		if (other.minimumX > minimumX) {
-			minimumX = other.minimumX;
-		}
-
-		if (other.minimumY > minimumY) {
-			minimumY = other.minimumY;
-		}
-
-		if (other.maximumX < maximumX) {
-			maximumX = other.maximumX;
-		}
-
-		if (other.maximumY < maximumY) {
-			maximumY = other.maximumY;
-		}
-
-		if (minimumX > maximumX || minimumY > maximumY) {
-			makeEmpty();
-		}
+		);
 	}
 
 	/**
 	 * Extends the box to contain the specified point.
 	 * Guarantees that {@code this.contains(p)} after this method is called.
 	 * @param p The point to extend the box to.
+	 * @return The extended box.
 	 * @see contains
 	 */
-	public void extendTo(Point2 p) {
+	public Box2 extendTo(Point2 p) {
 		if (isEmpty()) {
-			minimumX = maximumX = p.x;
-			minimumY = maximumY = p.y;
+			return new Box2(p.x(), p.y(), p.x(), p.y());
 		} else {
-
-			// expand along the x-axis if necessary.
-			if (p.x < minimumX) {
-				minimumX = p.x;
-			} else if (p.x > maximumX) {
-				maximumX = p.x;
-			}
-
-			// expand along the y-axis if necessary.
-			if (p.y < minimumY) {
-				minimumY = p.y;
-			} else if (p.y > maximumY) {
-				maximumY = p.y;
-			}
-
+			return new Box2(
+					Math.min(minimumX, p.x()),
+					Math.min(minimumY, p.y()),
+					Math.max(maximumX, p.x()),
+					Math.max(maximumY, p.y())
+			);
 		}
 	}
 
 	/**
 	 * Expands the box by the specified amount in all directions.
 	 * @param amount The amount to expand the box by.
+	 * @return The expanded box.
 	 */
-	public void expand(double amount) {
-		minimumX -= amount;
-		minimumY -= amount;
-		maximumX += amount;
-		maximumY += amount;
-
-		// If the box is contracted (amount < 0) by more than half the span
-		// in the x or y direction, then the box will be empty.
-		if (minimumX > maximumX || minimumY > maximumY) {
-			makeEmpty();
-		}
+	public Box2 expand(double amount) {
+		return getInstance(minimumX - amount, minimumY - amount, maximumX + amount, maximumY + amount);
 	}
 
 	/**
-	 * Makes this box empty.
+	 * Default constructor.
 	 */
-	private void makeEmpty() {
+	private Box2() {
 		minimumX = maximumX = minimumY = maximumY = Double.NaN;
+	}
+
+	/**
+	 * Gets an instance of a two dimensional box.
+	 * @param minimumX The minimum extent of the box along the x-axis.
+	 * @param minimumY The minimum extent of the box along the y-axis.
+	 * @param maximumX The maximum extent of the box along the x-axis.
+	 * @param maximumY The maximum extent of the box along the y-axis.
+	 * @return A new box if minimumX <= maximumX and minimumY <= maximumY,
+	 *         Box2.EMPTY otherwise.
+	 */
+	private static final Box2 getInstance(double minimumX, double minimumY, double maximumX, double maximumY) {
+		if (minimumX > maximumY || minimumY > maximumY) {
+			return Box2.EMPTY;
+		} else {
+			return new Box2(minimumX, minimumY, maximumX, maximumY);
+		}
 	}
 
 	/**
@@ -232,7 +196,7 @@ public final class Box2 {
 	 * The empty box.
 	 * {@code Box2.EMPTY.contains(p)} will be false for all p.
 	 */
-	public static final Box2 EMPTY = new Box2(Interval.EMPTY, Interval.EMPTY);
+	public static final Box2 EMPTY = new Box2();
 
 	/** The lower bound along the x-axis. */
 	private double minimumX;

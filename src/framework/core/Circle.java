@@ -6,15 +6,10 @@ package framework.core;
 /**
  * A circle in two dimensional space (the set of points at most a
  * constant distance from a fixed point).
+ * This class is immutable.
  * @author brad
  */
 public final class Circle {
-
-	/**
-	 * Default constructor.
-	 */
-	public Circle() {
-	}
 
 	/**
 	 * Initializes the center and radius of the circle.
@@ -37,29 +32,11 @@ public final class Circle {
 	}
 
 	/**
-	 * Sets the center of the circle.
-	 * @param center The new center of the circle.
-	 */
-	public void setCenter(Point2 center) {
-		this.center = center;
-	}
-
-	/**
 	 * Gets the radius of the circle.
 	 * @return The radius of the circle.
 	 */
 	public double getRadius() {
 		return radius;
-	}
-
-	/**
-	 * Sets the radius of the circle.
-	 * @param radius The new radius of the circle (must be non-negative).
-	 */
-	public void setRadius(double radius) {
-		assert(radius >= 0.0);
-
-		this.radius = radius;
 	}
 
 	/**
@@ -82,47 +59,56 @@ public final class Circle {
 	/**
 	 * Expands this circle outwards by the specified amount.
 	 * @param amount The amount to expand the circle by.
+	 * @return The expanded circle.
 	 */
-	public void expand(double amount) {
-		radius += amount;
-
-		// If the circle was contracted by more than its radius,
-		// then it will be empty.
-		if (radius < 0.0) {
-			makeEmpty();
-		}
+	public Circle expand(double amount) {
+		return getInstance(center, radius + amount);
 	}
 
 	/**
 	 * Expands this circle outwards to encompass the specified point.
 	 * Guarantees that {@code this.contains(p)} after this method is called.
 	 * @param p The point to include in this circle.
+	 * @return The expanded circle.
 	 */
-	public void expandTo(Point2 p) {
+	public Circle expandTo(Point2 p) {
 		if (isEmpty()) {
-			center = p;
-			radius = 0.0;
+			return new Circle(p, 0.0);
 		} else {
-			radius = Math.max(radius, center.distanceTo(p));
+			double newRadius = center.distanceTo(p);
+
+			if (newRadius < radius) {
+				return this;
+			} else {
+				return new Circle(center, newRadius);
+			}
 		}
 	}
 
 	/**
-	 * Makes this circle empty.
+	 * Default constructor.
 	 */
-	private void makeEmpty() {
+	private Circle() {
 		center = Point2.ORIGIN;
 		radius = Double.NaN;
 	}
 
 	/**
-	 * Creates an empty circle.
-	 * @return An empty circle.
+	 * Gets an instance of a circle.
+	 * @param center The center of the circle.
+	 * @param radius The radius of the circle.
+	 * @return A new circle if 0 <= radius < infinity,
+	 *         Circle.UNIVERSE if radius == infinity,
+	 *         Circle.EMPTY if radius < 0.
 	 */
-	private static Circle getEmptyCircle() {
-		Circle circle = new Circle();
-		circle.makeEmpty();
-		return circle;
+	private static final Circle getInstance(Point2 center, double radius) {
+		if (radius < 0.0) {
+			return Circle.EMPTY;
+		} else if (Double.isInfinite(radius)) {
+			return Circle.UNIVERSE;
+		} else {
+			return new Circle(center, radius);
+		}
 	}
 
 	/**
@@ -138,12 +124,12 @@ public final class Circle {
 	/**
 	 * An empty circle.
 	 */
-	public static final Circle EMPTY = getEmptyCircle();
+	public static final Circle EMPTY = new Circle();
 
 	/** The center of the circle. */
-	private Point2 center;
+	private final Point2 center;
 
 	/** The radius of the circle. */
-	private double radius;
+	private final double radius;
 
 }

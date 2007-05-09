@@ -5,21 +5,10 @@ package framework.core;
 
 /**
  * A location in two dimensional space.
+ * This class is immutable.
  * @author brad
  */
 public final class Point2 {
-
-	/**
-	 * The distances from the origin along each axis.
-	 */
-	public double x, y;
-
-	/**
-	 * Default constructor.
-	 *
-	 */
-	public Point2() {
-	}
 
 	/**
 	 * Initializes the components for the point.
@@ -29,6 +18,46 @@ public final class Point2 {
 	public Point2(double x, double y) {
 		this.x = x;
 		this.y = y;
+	}
+
+	/**
+	 * Gets the distance from the origin along the x-axis.
+	 * Equivalent to {@code this.minus(Point2.ORIGIN).dot(Vector2.I);}
+	 * @return The distance from the origin along the x-axis.
+	 * @see getX, I, dot
+	 */
+	public double x() {
+		return x;
+	}
+
+	/**
+	 * Gets the distance from the origin along the y-axis.
+	 * Equivalent to {@code this.minus(Point2.ORIGIN).dot(Vector2.J);}
+	 * @return The distance from the origin along the y-axis.
+	 * @see getY, J, dot
+	 */
+	public double y() {
+		return y;
+	}
+
+	/**
+	 * Gets the distance from the origin along the x-axis.
+	 * Equivalent to {@code this.minus(Point2.ORIGIN).dot(Vector2.I);}
+	 * @return The distance from the origin along the x-axis.
+	 * @see x, I, dot
+	 */
+	public double getX() {
+		return x;
+	}
+
+	/**
+	 * Gets the distance from the origin along the y-axis.
+	 * Equivalent to {@code this.minus(Point2.ORIGIN).dot(Vector2.J);}
+	 * @return The distance from the origin along the y-axis.
+	 * @see y, J, dot
+	 */
+	public double getY() {
+		return y;
 	}
 
 	/**
@@ -75,18 +104,7 @@ public final class Point2 {
 	 * @return The value of this point translated by v.
 	 */
 	public Point2 plus(Vector2 v) {
-		return new Point2(x + v.x, y + v.y);
-	}
-
-	/**
-	 * Translates this vector along the specified vector.
-	 * Equivalent to {@code this = this.plus(v);}
-	 * @param v The vector to translate this point along.
-	 * @see plus
-	 */
-	public void add(Vector2 v) {
-		x += v.x;
-		y += v.y;
+		return new Point2(x + v.x(), y + v.y());
 	}
 
 	/**
@@ -96,23 +114,17 @@ public final class Point2 {
 	 * @return The value of this point translated by -v.
 	 */
 	public Point2 minus(Vector2 v) {
-		return new Point2(x - v.x, y - v.y);
-	}
-
-	/**
-	 * Translates this point along the opposite of the specified vector.
-	 * Equivalent to {@code this = this.minus(v);}
-	 * @param v The opposite of the vector to translate this point along.
-	 * @see minus
-	 */
-	public void subtract(Vector2 v) {
-		x -= v.x;
-		y -= v.y;
+		return new Point2(x - v.x(), y - v.y());
 	}
 
 	/**
 	 * The origin of three dimensional space.
 	 */
 	public static final Point2 ORIGIN = new Point2(0.0, 0.0);
+
+	/**
+	 * The distances from the origin along each axis.
+	 */
+	private final double x, y;
 
 }

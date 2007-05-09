@@ -5,15 +5,10 @@ package framework.core;
 
 /**
  * An closed interval [a, b] on the real number line.
+ * This class is immutable.
  * @author brad
  */
 public final class Interval {
-
-	/**
-	 * Default constructor.
-	 */
-	public Interval() {
-	}
 
 	/**
 	 * Initializes the endpoints of the interval.
@@ -67,29 +62,31 @@ public final class Interval {
 	 * @param t The value to include in this interval.
 	 * @see contains
 	 */
-	public void extendTo(double t) {
+	public Interval extendTo(double t) {
 		if (isEmpty()) {
-			minimum = maximum = t;
+			return new Interval(t, t);
 		} else if (t < minimum) {
-			minimum = t;
+			return new Interval(t, maximum);
 		} else if (t > maximum) {
-			maximum = t;
+			return new Interval(minimum, maximum);
 		}
+
+		return this;
 	}
 
 	/**
 	 * Expands this interval by the specified amount.
 	 * @param amount The amount to expand this interval by.
+	 * @returns The expanded interval.
 	 */
-	public void expand(double amount) {
-		minimum -= amount;
-		maximum += amount;
+	public Interval expand(double amount) {
+		double newMinimum = minimum - amount;
+		double newMaximum = maximum + amount;
 
-		// If the interval was contracted (amount < 0) by more than
-		// half the length of the interval, then the interval will
-		// be empty.
-		if (minimum > maximum) {
-			makeEmpty();
+		if (newMinimum > newMaximum) {
+			return Interval.EMPTY;
+		} else {
+			return new Interval(newMinimum, newMaximum);
 		}
 	}
 
@@ -98,50 +95,15 @@ public final class Interval {
 	 * @param I The interval to intersect with this one.
 	 * @return The intersection of this interval with I.
 	 */
-	public Interval intersection(Interval I) {
+	public Interval intersect(Interval I) {
 		return new Interval(Math.max(minimum, I.minimum), Math.min(maximum, I.maximum));
 	}
 
 	/**
-	 * Intersects the specified ray with this one.
-	 * Equivalent to {@code this = this.intersection(I);}
-	 * @param I The interval to intersect with this one.
-	 * @see intersection
+	 * Default constructor.
 	 */
-	public void intersect(Interval I) {
-		if (I.isEmpty()) {
-			makeEmpty();
-			return;
-		}
-
-		if (I.minimum > minimum) {
-			minimum = I.minimum;
-		}
-
-		if (I.maximum < maximum) {
-			maximum = I.maximum;
-		}
-
-		if (minimum > maximum) {
-			makeEmpty();
-		}
-	}
-
-	/**
-	 * Makes this interval empty.
-	 */
-	private void makeEmpty() {
+	private Interval() {
 		minimum = maximum = Double.NaN;
-	}
-
-	/**
-	 * Creates an empty interval.
-	 * @return An empty interval.
-	 */
-	private static Interval getEmptyInterval() {
-		Interval I = new Interval();
-		I.makeEmpty();
-		return I;
 	}
 
 	/**
@@ -154,12 +116,12 @@ public final class Interval {
 	 * The empty set.
 	 * {@code Interval.EMPTY.contains(t)} will return false for all t.
 	 */
-	public static final Interval EMPTY = getEmptyInterval();
+	public static final Interval EMPTY = new Interval();
 
 	/** The lower bound of this interval. */
-	private double minimum;
+	private final double minimum;
 
 	/** The upper bound of this interval. */
-	private double maximum;
+	private final double maximum;
 
 }

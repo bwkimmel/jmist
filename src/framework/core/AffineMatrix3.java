@@ -5,15 +5,10 @@ package framework.core;
 
 /**
  * A 3x3 matrix for applying three dimensional affine transformations.
+ * This class is immutable.
  * @author brad
  */
 public final class AffineMatrix3 {
-
-	/**
-	 * Default constructor.
-	 */
-	public AffineMatrix3() {
-	}
 
 	/**
 	 * Initializes the matrix from its elements.
@@ -55,16 +50,6 @@ public final class AffineMatrix3 {
 	}
 
 	/**
-	 * Multiplies this matrix by another.
-	 * Equivalent to {@code this = this.times(other);}
-	 * @param other The matrix by which to multiply this matrix.
-	 * @see times
-	 */
-	public void multiply(AffineMatrix3 other) {
-		copy(this.times(other));
-	}
-
-	/**
 	 * Computes the product of this matrix with another.
 	 * @param other The matrix by which to multiply this matrix.
 	 * @return The product of this matrix and other.
@@ -87,32 +72,13 @@ public final class AffineMatrix3 {
 	}
 
 	/**
-	 * Multiples this matrix by the inverse of the specified matrix.
-	 * Equivalent to {@code this = this.dividedBy(other);}
-	 * @param other The matrix by which to divide this matrix.
-	 * @see dividedBy, inverse
-	 */
-	public void divide(AffineMatrix3 other) {
-		multiply(other.inverse());
-	}
-
-	/**
 	 * Multiplies this matrix by the inverse of the specified matrix.
 	 * @param other The matrix by which to divide this matrix.
 	 * @return The product of this matrix and the inverse of other.
 	 * @see inverse
 	 */
-	public AffineMatrix3 dividedBy(AffineMatrix3 other) {
+	public AffineMatrix3 divide(AffineMatrix3 other) {
 		return this.times(other.inverse());
-	}
-
-	/**
-	 * Inverts this matrix.
-	 * Equivalent to {@code this = this.inverse();}
-	 * @see inverse
-	 */
-	public void invert() {
-		copy(this.inverse());
 	}
 
 	/**
@@ -125,10 +91,10 @@ public final class AffineMatrix3 {
 
 		double			det = determinant();
 		AffineMatrix3	inv = new AffineMatrix3(
-									(a[1][1] * a[2][2] - a[1][2] * a[2][1]) / det, (a[0][1] * a[2][2] - a[0][2] * a[2][1]) / det, (a[0][1] * a[1][2] - a[0][2] * a[1][1]) / det, 0.0,
-									(a[1][2] * a[2][0] - a[1][0] * a[2][2]) / det, (a[0][0] * a[2][2] - a[0][2] * a[2][0]) / det, (a[0][2] * a[1][0] - a[0][0] * a[1][2]) / det, 0.0,
-									(a[1][0] * a[2][1] - a[1][1] * a[2][0]) / det, (a[0][1] * a[2][0] - a[0][0] * a[2][1]) / det, (a[0][0] * a[1][1] - a[0][1] * a[1][0]) / det, 0.0
-									);
+								(a[1][1] * a[2][2] - a[1][2] * a[2][1]) / det, (a[0][1] * a[2][2] - a[0][2] * a[2][1]) / det, (a[0][1] * a[1][2] - a[0][2] * a[1][1]) / det, 0.0,
+								(a[1][2] * a[2][0] - a[1][0] * a[2][2]) / det, (a[0][0] * a[2][2] - a[0][2] * a[2][0]) / det, (a[0][2] * a[1][0] - a[0][0] * a[1][2]) / det, 0.0,
+								(a[1][0] * a[2][1] - a[1][1] * a[2][0]) / det, (a[0][1] * a[2][0] - a[0][0] * a[2][1]) / det, (a[0][0] * a[1][1] - a[0][1] * a[1][0]) / det, 0.0
+						);
 
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
@@ -175,31 +141,11 @@ public final class AffineMatrix3 {
 	}
 
 	/**
-	 * Sets an element of the matrix.
-	 * @param row The row containing the element to set (0 <= row < 3).
-	 * @param col The column containing the element to set (0 <= col < 4).
-	 * @param value The value to set the element to.
-	 */
-	public void setElement(int row, int col, double value) {
-		a[row][col] = value;
-	}
-
-	/**
-	 * Copies another matrix.
-	 * @param other The matrix to copy.
-	 */
-	private void copy(AffineMatrix3 other) {
-		a[0][0] = other.a[0][0]; a[0][1] = other.a[0][1]; a[0][2] = other.a[0][2]; a[0][3] = other.a[0][3];
-		a[1][0] = other.a[1][0]; a[1][1] = other.a[1][1]; a[1][2] = other.a[1][2]; a[1][3] = other.a[1][3];
-		a[2][0] = other.a[2][0]; a[2][1] = other.a[2][1]; a[2][2] = other.a[2][2]; a[2][3] = other.a[2][3];
-	}
-
-	/**
 	 * The identity matrix ({@code this * IDENTITY == this}).
 	 */
 	public static final AffineMatrix3 IDENTITY = new AffineMatrix3(1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
 	/** The elements of the matrix. */
-	private double[][] a = new double[3][4];
+	private final double[][] a = new double[3][4];
 
 }

@@ -5,21 +5,10 @@ package framework.core;
 
 /**
  * A location in three dimensional space.
+ * This class is immutable.
  * @author brad
  */
 public final class Point3 {
-
-	/**
-	 * The distances from the origin along each axis.
-	 */
-	public double x, y, z;
-
-	/**
-	 * Default constructor.
-	 *
-	 */
-	public Point3() {
-	}
 
 	/**
 	 * Initializes the components for the point.
@@ -31,6 +20,66 @@ public final class Point3 {
 		this.x = x;
 		this.y = y;
 		this.z = z;
+	}
+
+	/**
+	 * Gets the distance from the origin along the x-axis.
+	 * Equivalent to {@code this.minus(Point3.ORIGIN).dot(Vector3.I);}
+	 * @return The distance from the origin along the x-axis.
+	 * @see getX, I, dot
+	 */
+	public double x() {
+		return x;
+	}
+
+	/**
+	 * Gets the distance from the origin along the y-axis.
+	 * Equivalent to {@code this.minus(Point3.ORIGIN).dot(Vector3.J);}
+	 * @return The distance from the origin along the y-axis.
+	 * @see getY, J, dot
+	 */
+	public double y() {
+		return y;
+	}
+
+	/**
+	 * Gets the distance from the origin along the z-axis.
+	 * Equivalent to {@code this.minus(Point3.ORIGIN).dot(Vector3.K);}
+	 * @return The distance from the origin along the z-axis.
+	 * @see getZ, K, dot
+	 */
+	public double z() {
+		return z;
+	}
+
+	/**
+	 * Gets the distance from the origin along the x-axis.
+	 * Equivalent to {@code this.minus(Point3.ORIGIN).dot(Vector3.I);}
+	 * @return The distance from the origin along the x-axis.
+	 * @see x, I, dot
+	 */
+	public double getX() {
+		return x;
+	}
+
+	/**
+	 * Gets the distance from the origin along the y-axis.
+	 * Equivalent to {@code this.minus(Point3.ORIGIN).dot(Vector3.J);}
+	 * @return The distance from the origin along the y-axis.
+	 * @see y, J, dot
+	 */
+	public double getY() {
+		return y;
+	}
+
+	/**
+	 * Gets the distance from the origin along the z-axis.
+	 * Equivalent to {@code this.minus(Point3.ORIGIN).dot(Vector3.K);}
+	 * @return The distance from the origin along the z-axis.
+	 * @see z, K, dot
+	 */
+	public double getZ() {
+		return z;
 	}
 
 	/**
@@ -77,19 +126,7 @@ public final class Point3 {
 	 * @return The value of this point translated by v.
 	 */
 	public Point3 plus(Vector3 v) {
-		return new Point3(x + v.x, y + v.y, z + v.z);
-	}
-
-	/**
-	 * Translates this point by the specified vector.
-	 * Equivalent to {@code this = this.plus(v);}
-	 * @param v The vector to translate this point along.
-	 * @see plus
-	 */
-	public void add(Vector3 v) {
-		x += v.x;
-		y += v.y;
-		z += v.z;
+		return new Point3(x + v.x(), y + v.y(), z + v.z());
 	}
 
 	/**
@@ -99,18 +136,7 @@ public final class Point3 {
 	 * @return The value of this point translated by -v.
 	 */
 	public Point3 minus(Vector3 v) {
-		return new Point3(x - v.x, y - v.y, z - v.z);
-	}
-
-	/**
-	 * Translates this point by the opposite of the specified vector.
-	 * Equivalent to {@code this = this.minus(v);}
-	 * @param v The opposite of the vector to translate this point by.
-	 * @see minus
-	 */
-	public void subtract(Vector3 v) {
-		x -= v.x;
-		y -= v.y;
+		return new Point3(x - v.x(), y - v.y(), z - v.z());
 	}
 
 	/**
@@ -118,4 +144,8 @@ public final class Point3 {
 	 */
 	public static final Point3 ORIGIN = new Point3(0.0, 0.0, 0.0);
 
+	/**
+	 * The distances from the origin along each axis.
+	 */
+	private final double x, y, z;
 }
