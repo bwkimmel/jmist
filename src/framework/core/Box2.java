@@ -120,6 +120,22 @@ public final class Box2 {
 	}
 
 	/**
+	 * Gets the area of the box.
+	 * @return The area of the box.
+	 */
+	public double getArea() {
+		return (maximumX - minimumX) * (maximumY - minimumY);
+	}
+
+	/**
+	 * Gets the length of the perimeter of the box.
+	 * @return The perimeter of the box.
+	 */
+	public double getPerimeter() {
+		return 2.0 * ((maximumX - minimumX) + (maximumY - minimumY));
+	}
+
+	/**
 	 * Computes the intersection of this box with another.
 	 * @param other The box to intersect with this box.
 	 * @return The intersection of this box with the other box.

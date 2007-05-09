@@ -154,6 +154,24 @@ public final class Box3 {
 	}
 
 	/**
+	 * Computes the volume of the box.
+	 * @return The volume of the box.
+	 */
+	public double getVolume() {
+		return (maximumX - minimumX) * (maximumY - minimumY) * (maximumZ - minimumZ);
+	}
+
+	/**
+	 * Computes the surface area of the box.
+	 * @return The surface area of the box.
+	 */
+	public double getSurfaceArea() {
+		return 2.0 * (((maximumX - minimumX) * (maximumY - minimumY)) +
+		              ((maximumY - minimumY) * (maximumZ - minimumZ)) +
+		              ((maximumZ - minimumZ) * (maximumX - minimumX)));
+	}
+
+	/**
 	 * Computes the intersection of this box with another.
 	 * @param other The box to intersect with this box.
 	 * @return The intersection of this box with the other box.

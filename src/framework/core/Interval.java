@@ -40,6 +40,15 @@ public final class Interval {
 	}
 
 	/**
+	 * Gets the length of this interval (i.e., the distance
+	 * between the endpoints).
+	 * @return The length of the interval.
+	 */
+	public double getLength() {
+		return maximum - minimum;
+	}
+
+	/**
 	 * Determines if the interval contains a particular value.
 	 * @param t The value to check for containment.
 	 * @return True if {@code this.getMinimum() <= t <= this.getMaximum()}, false otherwise.
