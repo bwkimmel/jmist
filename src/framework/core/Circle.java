@@ -57,6 +57,30 @@ public final class Circle {
 	}
 
 	/**
+	 * Computes the area of the circle.
+	 * @return The area of the circle.
+	 */
+	public double getArea() {
+		return Math.PI * radius * radius;
+	}
+
+	/**
+	 * Computes the diameter of the circle.
+	 * @return The diameter of the circle.
+	 */
+	public double getDiameter() {
+		return 2.0 * radius;
+	}
+
+	/**
+	 * Computes the circumference of the circle.
+	 * @return The circumference of the circle.
+	 */
+	public double getCircumference() {
+		return 2.0 * Math.PI * radius;
+	}
+
+	/**
 	 * Expands this circle outwards by the specified amount.
 	 * @param amount The amount to expand the circle by.
 	 * @return The expanded circle.

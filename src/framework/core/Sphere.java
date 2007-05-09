@@ -56,6 +56,30 @@ public final class Sphere {
 	}
 
 	/**
+	 * Computes the volume of the sphere.
+	 * @return The volume of the sphere.
+	 */
+	public double getVolume() {
+		return (4.0 / 3.0) * Math.PI * radius * radius * radius;
+	}
+
+	/**
+	 * Computes the diameter of the sphere.
+	 * @return The diameter of the sphere.
+	 */
+	public double getDiameter() {
+		return 2.0 * radius;
+	}
+
+	/**
+	 * Computes the surface area of the sphere.
+	 * @return The surface area of the sphere.
+	 */
+	public double getSurfaceArea() {
+		return 4.0 * Math.PI * radius * radius;
+	}
+
+	/**
 	 * Expands this sphere outwards by the specified amount.
 	 * @param amount The amount to expand the sphere by.
 	 * @return The expanded sphere.
