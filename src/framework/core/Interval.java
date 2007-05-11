@@ -122,6 +122,11 @@ public final class Interval {
 	public static final Interval UNIVERSE = new Interval(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
 
 	/**
+	 * The unit interval: [0, 1].
+	 */
+	public static final Interval UNIT = new Interval(0.0, 1.0);
+
+	/**
 	 * The empty set.
 	 * {@code Interval.EMPTY.contains(t)} will return false for all t.
 	 */

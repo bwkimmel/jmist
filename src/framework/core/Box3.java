@@ -260,6 +260,11 @@ public final class Box3 {
 	public static final Box3 UNIVERSE = new Box3(Interval.UNIVERSE, Interval.UNIVERSE, Interval.UNIVERSE);
 
 	/**
+	 * The unit box: [0, 1]^3.
+	 */
+	public static final Box3 UNIT = new Box3(0.0, 0.0, 0.0, 1.0, 1.0, 1.0);
+
+	/**
 	 * The empty box.
 	 * {@code Box3.EMPTY.contains(p)} will be false for all p.
 	 */

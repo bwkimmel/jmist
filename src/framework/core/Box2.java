@@ -209,6 +209,11 @@ public final class Box2 {
 	public static final Box2 UNIVERSE = new Box2(Interval.UNIVERSE, Interval.UNIVERSE);
 
 	/**
+	 * The unit box: [0, 1]^2.
+	 */
+	public static final Box2 UNIT = new Box2(0.0, 0.0, 1.0, 1.0);
+
+	/**
 	 * The empty box.
 	 * {@code Box2.EMPTY.contains(p)} will be false for all p.
 	 */
