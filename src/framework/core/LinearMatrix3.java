@@ -4,7 +4,14 @@
 package framework.core;
 
 /**
- * A 3x3 matrix for applying three dimensional linear transformations.
+ * A 4x4 matrix of the form
+ * <table>
+ * 		<tr><td>a</td><td>b</td><td>c</td><td>0</td></tr>
+ * 		<tr><td>d</td><td>e</td><td>f</td><td>0</td></tr>
+ * 		<tr><td>g</td><td>h</td><td>i</td><td>0</td></tr>
+ * 		<tr><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+ * </table>
+ * for applying three dimensional linear transformations.
  * This class is immutable.
  * @author brad
  */
@@ -33,32 +40,6 @@ public final class LinearMatrix3 {
 	}
 
 	/**
-	 * Adds this matrix to another matrix.
-	 * @param other The matrix to add to this matrix.
-	 * @return The sum of this matrix and other.
-	 */
-	public LinearMatrix3 plus(LinearMatrix3 other) {
-		return new LinearMatrix3(
-				a[0][0] + other.a[0][0], a[0][1] + other.a[0][1], a[0][2] + other.a[0][2],
-				a[1][0] + other.a[1][0], a[1][1] + other.a[1][1], a[1][2] + other.a[1][2],
-				a[2][0] + other.a[2][0], a[2][1] + other.a[2][1], a[2][2] + other.a[2][2]
-		);
-	}
-
-	/**
-	 * Subtracts another matrix from this one.
-	 * @param other The matrix to subtract from this one.
-	 * @return The difference between this matrix and other.
-	 */
-	public LinearMatrix3 minus(LinearMatrix3 other) {
-		return new LinearMatrix3(
-				a[0][0] - other.a[0][0], a[0][1] - other.a[0][1], a[0][2] - other.a[0][2],
-				a[1][0] - other.a[1][0], a[1][1] - other.a[1][1], a[1][2] - other.a[1][2],
-				a[2][0] - other.a[2][0], a[2][1] - other.a[2][1], a[2][2] - other.a[2][2]
-		);
-	}
-
-	/**
 	 * Computes the product of this matrix with another.
 	 * @param other The matrix by which to multiply this matrix.
 	 * @return The product of this matrix and other.
@@ -81,22 +62,10 @@ public final class LinearMatrix3 {
 	 * Multiplies this matrix by the inverse of the specified matrix.
 	 * @param other The matrix by which to divide this matrix.
 	 * @return The product of this matrix and the inverse of other.
-	 * @see inverse
+	 * @see #inverse()
 	 */
 	public LinearMatrix3 divide(LinearMatrix3 other) {
 		return this.times(other.inverse());
-	}
-
-	/**
-	 * Computes the negative of this matrix.
-	 * @return The negation of this matrix.
-	 */
-	public LinearMatrix3 negative() {
-		return new LinearMatrix3(
-				-a[0][0], -a[0][1], -a[0][2],
-				-a[1][0], -a[1][1], -a[1][2],
-				-a[2][0], -a[2][1], -a[2][2]
-		);
 	}
 
 	/**
@@ -144,7 +113,7 @@ public final class LinearMatrix3 {
 	 * @param row The row containing the element to get (0 <= row < 3).
 	 * @param col The column containing the element to get (0 <= col < 3).
 	 * @return The value of the element at the specified position.
-	 * @see getElement
+	 * @see #getElement(int, int)
 	 */
 	public double at(int row, int col) {
 		return a[row][col];
@@ -155,10 +124,68 @@ public final class LinearMatrix3 {
 	 * @param row The row containing the element to get (0 <= row < 3).
 	 * @param col The column containing the element to get (0 <= col < 3).
 	 * @return The value of the element at the specified position.
-	 * @see at
+	 * @see #at(int, int)
 	 */
 	public double getElement(int row, int col) {
 		return a[row][col];
+	}
+
+	/**
+	 * Returns a scaling matrix.
+	 * @param c The factor by which to scale.
+	 * @return A scaling matrix.
+	 */
+	public static LinearMatrix3 getScaleMatrix(double c) {
+		return new LinearMatrix3(
+				c, 0.0, 0.0,
+				0.0, c, 0.0,
+				0.0, 0.0, c
+		);
+	}
+
+	/**
+	 * Returns a matrix for scaling by independent factors along
+	 * each axis.
+	 * @param cx The factor by which to scale along the x-axis.
+	 * @param cy The factor by which to scale along the y-axis.
+	 * @param cz The factor by which to scale along the z-axis.
+	 * @return The stretch matrix.
+	 */
+	public static LinearMatrix3 getStretchMatrix(double cx, double cy, double cz) {
+		return new LinearMatrix3(
+				cx, 0.0, 0.0,
+				0.0, cy, 0.0,
+				0.0, 0.0, cz
+		);
+	}
+
+	/**
+	 * Returns a matrix for rotating about the x-axis.
+	 * @param theta The angle to rotate by.
+	 * @return The rotation matrix.
+	 */
+	public static LinearMatrix3 getRotateXMatrix(double theta) {
+		return new LinearMatrix3(
+				1.0, 0.0, 0.0,
+				0.0, Math.cos(theta), -Math.sin(theta),
+				0.0, Math.sin(theta), Math.cos(theta)
+		);
+	}
+
+	public static LinearMatrix3 getRotateYMatrix(double theta) {
+		return new LinearMatrix3(
+				Math.cos(theta), 0.0, Math.sin(theta),
+				0.0, 1.0, 0.0,
+				-Math.sin(theta), 0.0, Math.cos(theta)
+		);
+	}
+
+	public static LinearMatrix3 getRotateZMatrix(double theta) {
+		return new LinearMatrix3(
+				Math.cos(theta), -Math.sin(theta), 0.0,
+				Math.sin(theta), Math.cos(theta), 0.0,
+				0.0, 0.0, 1.0
+		);
 	}
 
 	/**

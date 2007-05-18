@@ -4,7 +4,14 @@
 package framework.core;
 
 /**
- * A 3x3 matrix for applying three dimensional affine transformations.
+ * A 4x4 matrix of the form
+ * <table>
+ * 		<tr><td>a</td><td>b</td><td>c</td><td>x</td></tr>
+ * 		<tr><td>d</td><td>e</td><td>f</td><td>y</td></tr>
+ * 		<tr><td>g</td><td>h</td><td>i</td><td>z</td></tr>
+ * 		<tr><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+ * </table>
+ * for applying three dimensional affine transformations.
  * This class is immutable.
  * @author brad
  */
@@ -71,6 +78,23 @@ public final class AffineMatrix3 {
 		);
 	}
 
+	public AffineMatrix3 times(LinearMatrix3 other) {
+		return new AffineMatrix3(
+				a[0][0] * other.at(0, 0) + a[0][1] * other.at(1, 0) + a[0][2] * other.at(2, 0),
+				a[0][0] * other.at(0, 1) + a[0][1] * other.at(1, 1) + a[0][2] * other.at(2, 1),
+				a[0][0] * other.at(0, 2) + a[0][1] * other.at(1, 2) + a[0][2] * other.at(2, 2),
+				a[0][3],
+				a[1][0] * other.at(0, 0) + a[1][1] * other.at(1, 0) + a[1][2] * other.at(2, 0),
+				a[1][0] * other.at(0, 1) + a[1][1] * other.at(1, 1) + a[1][2] * other.at(2, 1),
+				a[1][0] * other.at(0, 2) + a[1][1] * other.at(1, 2) + a[1][2] * other.at(2, 2),
+				a[1][3],
+				a[2][0] * other.at(0, 0) + a[2][1] * other.at(1, 0) + a[2][2] * other.at(2, 0),
+				a[2][0] * other.at(0, 1) + a[2][1] * other.at(1, 1) + a[2][2] * other.at(2, 1),
+				a[2][0] * other.at(0, 2) + a[2][1] * other.at(1, 2) + a[2][2] * other.at(2, 2),
+				a[2][3]
+		);
+	}
+
 	/**
 	 * Multiplies this matrix by the inverse of the specified matrix.
 	 * @param other The matrix by which to divide this matrix.
@@ -78,6 +102,16 @@ public final class AffineMatrix3 {
 	 * @see inverse
 	 */
 	public AffineMatrix3 divide(AffineMatrix3 other) {
+		return this.times(other.inverse());
+	}
+
+	/**
+	 * Multiplies this matrix by the inverse of the specified matrix.
+	 * @param other The matrix by which to divide this matrix.
+	 * @return The product of this matrix and the inverse of other.
+	 * @see inverse
+	 */
+	public AffineMatrix3 divide(LinearMatrix3 other) {
 		return this.times(other.inverse());
 	}
 
