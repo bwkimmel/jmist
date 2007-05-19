@@ -18,6 +18,6 @@ public interface IAffineTransformable3 extends ILinearTransformable3, IShapePres
 	 * Transforms this object according to the specified affine transformation.
 	 * @param T The matrix representing the affine transformation to apply.
 	 */
-	public void transform(AffineMatrix3 T);
+	void transform(AffineMatrix3 T);
 
 }

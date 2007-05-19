@@ -16,7 +16,7 @@ public interface IAxisStretchable3 extends IScalable {
 	 * @param cx The factor by which to stretch the object along the x-axis.
 	 * @see stretch
 	 */
-	public void stretchX(double cx);
+	void stretchX(double cx);
 
 	/**
 	 * Stretches the object along the y-axis.
@@ -24,7 +24,7 @@ public interface IAxisStretchable3 extends IScalable {
 	 * @param cy The factor by which to stretch the object along the y-axis.
 	 * @see stretch
 	 */
-	public void stretchY(double cy);
+	void stretchY(double cy);
 
 	/**
 	 * Stretches the object along the z-axis.
@@ -32,7 +32,7 @@ public interface IAxisStretchable3 extends IScalable {
 	 * @param cz The factor by which to stretch the object along the z-axis.
 	 * @see stretch
 	 */
-	public void stretchZ(double cz);
+	void stretchZ(double cz);
 
 	/**
 	 * Stretches an object along each axis independently.
@@ -40,6 +40,6 @@ public interface IAxisStretchable3 extends IScalable {
 	 * @param cy The factor by which to scale the object along the y-axis.
 	 * @param cz The factor by which to scale the object along the z-axis.
 	 */
-	public void stretch(double cx, double cy, double cz);
+	void stretch(double cx, double cy, double cz);
 
 }

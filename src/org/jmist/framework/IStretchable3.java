@@ -16,6 +16,6 @@ public interface IStretchable3 extends IAxisStretchable3 {
 	 * @param axis The axis along which to stretch the object (must not be Vector3.ZERO).
 	 * @param c The factor by which to stretch the object.
 	 */
-	public void stretch(Vector3 axis, double c);
+	void stretch(Vector3 axis, double c);
 
 }

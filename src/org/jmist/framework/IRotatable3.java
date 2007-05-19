@@ -17,7 +17,7 @@ public interface IRotatable3 {
 	 * @param angle The angle (in radians) to rotate the object by.
 	 * @see rotate
 	 */
-	public void rotateX(double angle);
+	void rotateX(double angle);
 
 	/**
 	 * Rotates the object about the y-axis.
@@ -25,7 +25,7 @@ public interface IRotatable3 {
 	 * @param angle The angle (in radians) to rotate the object by.
 	 * @see rotate
 	 */
-	public void rotateY(double angle);
+	void rotateY(double angle);
 
 	/**
 	 * Rotates the object about the z-axis.
@@ -33,13 +33,13 @@ public interface IRotatable3 {
 	 * @param angle The angle (in radians) to rotate the object by.
 	 * @see rotate
 	 */
-	public void rotateZ(double angle);
+	void rotateZ(double angle);
 
 	/**
 	 * Rotates the object about an arbitrary axis.
 	 * @param axis The axis to rotate the object around (must not be Vector3.ZERO).
 	 * @param angle The angle (in radians) to rotate the object by.
 	 */
-	public void rotate(Vector3 axis, double angle);
+	void rotate(Vector3 axis, double angle);
 
 }
