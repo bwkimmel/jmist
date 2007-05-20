@@ -1,8 +1,12 @@
 /**
  *
  */
-package org.jmist.framework;
+package org.jmist.framework.model;
 
+import org.jmist.framework.IBounded3;
+import org.jmist.framework.IIntersection;
+import org.jmist.framework.ISurfacePoint;
+import org.jmist.framework.IVisibilityFunction3;
 import org.jmist.toolkit.*;
 
 /**
