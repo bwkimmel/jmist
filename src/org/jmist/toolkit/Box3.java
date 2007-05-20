@@ -145,6 +145,26 @@ public final class Box3 {
 	}
 
 	/**
+	 * Returns the point at the center of this box.
+	 * @return The point at the center of this box.
+	 */
+	public Point3 getCenter() {
+		return new Point3((minimumX + maximumX) / 2.0, (minimumY + maximumY) / 2.0, (minimumZ + maximumZ) / 2.0);
+	}
+
+	/**
+	 * Computes the length of the diagonal of this box.
+	 * @return The length of the diagonal of this box.
+	 */
+	public double getDiagonal() {
+		return Math.sqrt(
+				(maximumX - minimumX) * (maximumX - minimumX) +
+				(maximumY - minimumY) * (maximumY - minimumY) +
+				(maximumZ - minimumZ) * (maximumZ - minimumZ)
+				);
+	}
+
+	/**
 	 * Determines if this box contains the specified point.
 	 * @param p The point to check for containment of.
 	 * @return A value indicating whether p is inside this box.
