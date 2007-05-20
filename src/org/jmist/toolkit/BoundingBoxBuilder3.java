@@ -62,23 +62,25 @@ public class BoundingBoxBuilder3 {
 	 * @param sphere The sphere to include in the bounding box.
 	 */
 	public void add(Sphere sphere) {
-		double r = sphere.getRadius();
-		Point3 c = sphere.getCenter();
+		if (!sphere.isEmpty()) {
+			double r = sphere.getRadius();
+			Point3 c = sphere.getCenter();
 
-		if (this.isEmpty()) {
-			minimumX = c.x() - r;
-			minimumY = c.y() - r;
-			minimumZ = c.z() - r;
-			maximumX = c.x() + r;
-			maximumY = c.y() + r;
-			maximumZ = c.z() + r;
-		} else {
-			minimumX = Math.min(c.x() - r, minimumX);
-			minimumY = Math.min(c.y() - r, minimumY);
-			minimumZ = Math.min(c.z() - r, minimumZ);
-			maximumX = Math.max(c.x() + r, maximumX);
-			maximumY = Math.max(c.y() + r, maximumY);
-			maximumZ = Math.max(c.z() + r, maximumZ);
+			if (this.isEmpty()) {
+				minimumX = c.x() - r;
+				minimumY = c.y() - r;
+				minimumZ = c.z() - r;
+				maximumX = c.x() + r;
+				maximumY = c.y() + r;
+				maximumZ = c.z() + r;
+			} else {
+				minimumX = Math.min(c.x() - r, minimumX);
+				minimumY = Math.min(c.y() - r, minimumY);
+				minimumZ = Math.min(c.z() - r, minimumZ);
+				maximumX = Math.max(c.x() + r, maximumX);
+				maximumY = Math.max(c.y() + r, maximumY);
+				maximumZ = Math.max(c.z() + r, maximumZ);
+			}
 		}
 	}
 
