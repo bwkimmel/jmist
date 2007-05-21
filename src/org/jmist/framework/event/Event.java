@@ -16,14 +16,14 @@ public class Event<T> implements IEvent<T> {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.event.IEvent#subscribe(org.jmist.framework.event.IEventHandler)
 	 */
-	public void subscribe(IEventHandler<T> handler) {
+	public void subscribe(IEventHandler<? super T> handler) {
 		observers.add(handler);
 	}
 
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.event.IEvent#unsubscribe(org.jmist.framework.event.IEventHandler)
 	 */
-	public void unsubscribe(IEventHandler<T> handler) {
+	public void unsubscribe(IEventHandler<? super T> handler) {
 		observers.remove(handler);
 	}
 
@@ -33,7 +33,7 @@ public class Event<T> implements IEvent<T> {
 	 * @param args Additional information pertaining to this event.
 	 */
 	public void raise(Object sender, T args) {
-		for (IEventHandler<T> observer : observers) {
+		for (IEventHandler<? super T> observer : observers) {
 			observer.notify(sender, args);
 		}
 	}
@@ -42,6 +42,6 @@ public class Event<T> implements IEvent<T> {
 	 * The collection of observers to be notified when the
 	 * event is raised.
 	 */
-	private Set<IEventHandler<T>> observers = new LinkedHashSet<IEventHandler<T>>();
+	private Set<IEventHandler<? super T>> observers = new LinkedHashSet<IEventHandler<? super T>>();
 
 }
