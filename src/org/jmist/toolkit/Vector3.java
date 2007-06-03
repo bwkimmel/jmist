@@ -126,6 +126,18 @@ public final class Vector3 {
 	}
 
 	/**
+	 * Computes this vector scaled by the reciprocal of
+	 * a constant factor.
+	 * Equivalent to {@code this.times(1.0 / c).}
+	 * @param c The factor to divide this vector by.
+	 * @return The vector scaled by 1.0 / c.
+	 * @see #times(double)
+	 */
+	public Vector3 divide(double c) {
+		return new Vector3(x / c, y / c, z / c);
+	}
+
+	/**
 	 * Computes the dot product between two vectors.
 	 * @param v The vector to compute the dot product of with this vector.
 	 * @return The dot product of this vector and v.
