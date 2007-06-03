@@ -137,6 +137,30 @@ public final class Box3 {
 	}
 
 	/**
+	 * Gets the length of the box along the x-axis.
+	 * @return The length of the box along the x-axis.
+	 */
+	public double getLengthX() {
+		return isEmpty() ? Double.NaN : maximumX - minimumX;
+	}
+
+	/**
+	 * Gets the length of the box along the y-axis.
+	 * @return The length of the box along the y-axis.
+	 */
+	public double getLengthY() {
+		return isEmpty() ? Double.NaN : maximumY - minimumY;
+	}
+
+	/**
+	 * Gets the length of the box along the z-axis.
+	 * @return The length of the box along the z-axis.
+	 */
+	public double getLengthZ() {
+		return isEmpty() ? Double.NaN : maximumZ - minimumZ;
+	}
+
+	/**
 	 * Determines if this box is empty.
 	 * @return A value indicating wither this box is empty.
 	 */
@@ -161,7 +185,7 @@ public final class Box3 {
 				(maximumX - minimumX) * (maximumX - minimumX) +
 				(maximumY - minimumY) * (maximumY - minimumY) +
 				(maximumZ - minimumZ) * (maximumZ - minimumZ)
-				);
+		);
 	}
 
 	/**

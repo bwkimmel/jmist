@@ -103,6 +103,22 @@ public final class Box2 {
 	}
 
 	/**
+	 * Gets the length of the box along the x-axis.
+	 * @return The length of the box along the x-axis.
+	 */
+	public double getLengthX() {
+		return isEmpty() ? Double.NaN : maximumX - minimumX;
+	}
+
+	/**
+	 * Gets the length of the box along the y-axis.
+	 * @return The length of the box along the y-axis.
+	 */
+	public double getLengthY() {
+		return isEmpty() ? Double.NaN : maximumY - minimumY;
+	}
+
+	/**
 	 * Determines if this box is empty.
 	 * @return A value indicating wither this box is empty.
 	 */
