@@ -109,6 +109,17 @@ public final class Interval {
 	}
 
 	/**
+	 * Determines whether this interval intersects with another.
+	 * Equivalent to {@code !this.intersect(I).isEmpty()}.
+	 * @param I The interval with which to check for an intersection
+	 * @return A value indicating whether the two intervals overlap.
+	 * @see {@link #intersect(Interval)}, {@link #isEmpty()}.
+	 */
+	public boolean intersects(Interval I) {
+		return Math.max(minimum, I.minimum) <= Math.min(maximum, I.maximum);
+	}
+
+	/**
 	 * Default constructor.
 	 */
 	private Interval() {
@@ -131,6 +142,16 @@ public final class Interval {
 	 * {@code Interval.EMPTY.contains(t)} will return false for all t.
 	 */
 	public static final Interval EMPTY = new Interval();
+
+	/**
+	 * The interval containing the non-negative real numbers: [0, infinity).
+	 */
+	public static final Interval POSITIVE = new Interval(0.0, Double.POSITIVE_INFINITY);
+
+	/**
+	 * The interval containing the non-positive real numbers: (-infinity, 0].
+	 */
+	public static final Interval NEGATIVE = new Interval(Double.NEGATIVE_INFINITY, 0.0);
 
 	/** The lower bound of this interval. */
 	private final double minimum;
