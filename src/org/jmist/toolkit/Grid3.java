@@ -148,9 +148,9 @@ public final class Grid3 {
 			bound.getMinimumX() + (double) cx * dx,
 			bound.getMinimumY() + (double) cy * dy,
 			bound.getMinimumZ() + (double) cz * dz,
-			bound.getMaximumX() + (double) (cx + 1) * dx,
-			bound.getMaximumY() + (double) (cy + 1) * dy,
-			bound.getMaximumZ() + (double) (cz + 1) * dz
+			bound.getMinimumX() + (double) (cx + 1) * dx,
+			bound.getMinimumY() + (double) (cy + 1) * dy,
+			bound.getMinimumZ() + (double) (cz + 1) * dz
 		);
 	}
 
