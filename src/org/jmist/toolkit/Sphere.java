@@ -48,8 +48,10 @@ public final class Sphere {
 
 	/**
 	 * Determines if this sphere contains the specified point.
+	 * Equivalent to {@code this.evaluate(p) <= 1.0}.
 	 * @param p The point to check for containment of.
 	 * @return A value indicating if p is within this sphere.
+	 * @see {@link #evaluate(Point3)}.
 	 */
 	public boolean contains(Point3 p) {
 		return center.distanceTo(p) <= radius;

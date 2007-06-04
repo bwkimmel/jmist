@@ -190,8 +190,10 @@ public final class Box3 {
 
 	/**
 	 * Determines if this box contains the specified point.
+	 * Equivalent to {@code this.evaluate(p) <= 1.0}.
 	 * @param p The point to check for containment of.
 	 * @return A value indicating whether p is inside this box.
+	 * @see {@link #evaluate(Point3)}.
 	 */
 	public boolean contains(Point3 p) {
 		return (minimumX <= p.x() && p.x() <= maximumX) && (minimumY <= p.y() && p.y() <= maximumY) && (minimumZ <= p.z() && p.z() <= maximumZ);

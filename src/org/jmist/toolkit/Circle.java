@@ -49,8 +49,10 @@ public final class Circle {
 
 	/**
 	 * Determines if this circle contains the specified point.
+	 * Equivalent to {@code this.evaluate(p) <= 1.0}.
 	 * @param p The point to check for containment of.
 	 * @return A value indicating if p is within this circle.
+	 * @see {@link #evaluate(Point2)}.
 	 */
 	public boolean contains(Point2 p) {
 		return center.distanceTo(p) <= radius;
