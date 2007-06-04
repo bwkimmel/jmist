@@ -72,7 +72,11 @@ public final class Grid3 {
 		 * @return The bounding box of this cell.
 		 */
 		public Box3 getBoundingBox() {
-			return cellBounds(this.cx, this.cy, this.cz);
+			if (bound == null) {
+				bound = cellBounds(this.cx, this.cy, this.cz);
+			}
+
+			return bound;
 		}
 
 		/**
@@ -90,6 +94,9 @@ public final class Grid3 {
 
 		/** The cell indices */
 		private final int cx, cy, cz;
+
+		/** The bounding box of this cell (only computed if requested). */
+		private Box3 bound;
 
 	}
 
