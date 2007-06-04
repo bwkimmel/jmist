@@ -272,7 +272,6 @@ public final class Box3 {
 	/**
 	 * Computes the intersection of this box with the given
 	 * ray.
-	 * NOT YET IMLPEMENTED.
 	 * @param ray The ray to compute the intersection of this
 	 * 		box with.
 	 * @return The interval in which the ray passes through
