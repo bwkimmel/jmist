@@ -214,6 +214,78 @@ public final class Box2 {
 	}
 
 	/**
+	 * Computes the intersection of this box with the given
+	 * ray.
+	 * @param ray The ray to compute the intersection of this
+	 * 		box with.
+	 * @return The interval in which the ray passes through
+	 * 		the box (i.e., this.contains(ray.pointAt(x)) if and
+	 * 		only if this.intersect(ray).contains(x)).
+	 * @see {@link #contains(Point2)}, {@link Ray2#pointAt(double)},
+	 * 		{@link Interval#contains(double)}.
+	 */
+	public Interval intersect(Ray2 ray) {
+
+		// Check for an empty box.
+		if (isEmpty()) {
+			return Interval.EMPTY;
+		}
+
+		// Check if the ray starts from within the box.
+		double[]	t = new double[2];
+		int			n = 0;
+
+		if (this.contains(ray.getOrigin())) {
+			t[n++] = 0.0;
+		}
+
+		assert(ray.getDirection().x() != 0.0 || ray.getDirection().y() != 0.0);
+
+		Point2		p;
+
+		// Check for intersection with each of the six sides of the box.
+		if (ray.getDirection().x() != 0.0) {
+			t[n] = (minimumX - ray.getOrigin().x()) / ray.getDirection().x();
+			if (t[n] > 0.0) {
+				p = ray.pointAt(t[n]);
+				if (minimumY < p.y() && p.y() < maximumY) {
+					if (++n == 2) return Interval.between(t[0], t[1]);
+				}
+			}
+
+			t[n] = (maximumX - ray.getOrigin().x()) / ray.getDirection().x();
+			if (t[n] > 0.0) {
+				p = ray.pointAt(t[n]);
+				if (minimumY < p.y() && p.y() < maximumY) {
+					if (++n == 2) return Interval.between(t[0], t[1]);
+				}
+			}
+		}
+
+		if (ray.getDirection().y() != 0.0) {
+			t[n] = (minimumY - ray.getOrigin().y()) / ray.getDirection().y();
+			if (t[n] > 0.0) {
+				p = ray.pointAt(t[n]);
+				if (minimumX < p.x() && p.x() < maximumX) {
+					if (++n == 2) return Interval.between(t[0], t[1]);
+				}
+			}
+
+			t[n] = (maximumY - ray.getOrigin().y()) / ray.getDirection().y();
+			if (t[n] > 0.0) {
+				p = ray.pointAt(t[n]);
+				if (minimumX < p.x() && p.x() < maximumX) {
+					if (++n == 2) return Interval.between(t[0], t[1]);
+				}
+			}
+		}
+
+		// If we didn't find two intersection points, then the
+		return Interval.EMPTY;
+
+	}
+
+	/**
 	 * Default constructor.
 	 */
 	private Box2() {
