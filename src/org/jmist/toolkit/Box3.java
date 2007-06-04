@@ -3,6 +3,8 @@
  */
 package org.jmist.toolkit;
 
+import org.jmist.util.MathUtil;
+
 /**
  * An axis-aligned three dimensional box.
  * This class is immutable.
@@ -190,10 +192,8 @@ public final class Box3 {
 
 	/**
 	 * Determines if this box contains the specified point.
-	 * Equivalent to {@code this.evaluate(p) <= 1.0}.
 	 * @param p The point to check for containment of.
 	 * @return A value indicating whether p is inside this box.
-	 * @see {@link #evaluate(Point3)}.
 	 */
 	public boolean contains(Point3 p) {
 		return (minimumX <= p.x() && p.x() <= maximumX) && (minimumY <= p.y() && p.y() <= maximumY) && (minimumZ <= p.z() && p.z() <= maximumZ);
@@ -450,41 +450,40 @@ public final class Box3 {
 	}
 
 	/**
-	 * Computes a value of a function f(p) satisfying
-	 * f(p) >= 0.0 for all p,
-	 * f(p) <= 1.0 whenever {@code this.contains(p)},
-	 * f(p) > 1.0 whenever {@code !this.contains(p)},
-	 * f(p) == |grad(f)(p)| == 1 whenever p is on the
-	 * surface of this box.
-	 * @param p The point to evaluate this box at.
-	 * @return A value satisfying the described criteria.
-	 * @see {@link #gradient(Point3)}, {@link #contains(Point3)}.
+	 * Determines whether the specified point is near the
+	 * boundary of the box.
+	 * @param p The point to consider.
+	 * @return A value indicating whether the specified point
+	 * 		is near the boundary of the box.
 	 */
-	public double evaluate(Point3 p) {
-		double	cx = (minimumX + maximumX) / 2.0;
-		double	cy = (minimumY + maximumY) / 2.0;
-		double	cz = (minimumZ + maximumZ) / 2.0;
-
-		double	rx = this.getLengthX() / 2.0;
-		double	ry = this.getLengthY() / 2.0;
-		double	rz = this.getLengthZ() / 2.0;
-
-		double	dx = (p.x() - cx) / rx;
-		double	dy = (p.y() - cy) / ry;
-		double	dz = (p.z() - cz) / rz;
-
-		return Math.max(dx * dx, Math.max(dy * dy, dz * dz));
+	public boolean nearBoundary(Point3 p) {
+		return ((MathUtil.equal(p.x(), minimumX) || MathUtil.equal(p.x(), maximumX)) && (minimumY <= p.y() && p.y() <= maximumY && minimumZ <= p.z() && p.z() <= maximumZ)) ||
+			((MathUtil.equal(p.y(), minimumY) || MathUtil.equal(p.y(), maximumY)) && (minimumX <= p.x() && p.x() <= maximumX && minimumZ <= p.z() && p.z() <= maximumZ)) ||
+			((MathUtil.equal(p.z(), minimumZ) || MathUtil.equal(p.z(), maximumZ)) && (minimumX <= p.x() && p.x() <= maximumX && minimumY <= p.y() && p.y() <= maximumY));
 	}
 
 	/**
-	 * Computes the gradient of {@link #evaluate(Point3)} at p.
-	 * This will be a unit normal whenever p is on the surface
-	 * of this box.
-	 * @param p The point at which to evaluate the gradient.
-	 * @return The gradient at p.
-	 * @see {@link #evaluate(Point3)}.
+	 * Determines whether the specified point is near the
+	 * boundary of the box, within a specified tolerance.
+	 * @param p The point to consider.
+	 * @param epsilon The tolerance.
+	 * @return A value indicating whether the specified point
+	 * 		is near the boundary of the box.
 	 */
-	public Vector3 gradient(Point3 p) {
+	public boolean nearBoundary(Point3 p, double epsilon) {
+		return ((MathUtil.equal(p.x(), minimumX, epsilon) || MathUtil.equal(p.x(), maximumX, epsilon)) && (minimumY <= p.y() && p.y() <= maximumY && minimumZ <= p.z() && p.z() <= maximumZ)) ||
+			((MathUtil.equal(p.y(), minimumY, epsilon) || MathUtil.equal(p.y(), maximumY, epsilon)) && (minimumX <= p.x() && p.x() <= maximumX && minimumZ <= p.z() && p.z() <= maximumZ)) ||
+			((MathUtil.equal(p.z(), minimumZ, epsilon) || MathUtil.equal(p.z(), maximumZ, epsilon)) && (minimumX <= p.x() && p.x() <= maximumX && minimumY <= p.y() && p.y() <= maximumY));
+	}
+
+	/**
+	 * Computes the normal at the specified point, assuming p
+	 * is on the surface of the box.  This method is guaranteed
+	 * to return a unit vector.
+	 * @param p The point at which to compute the normal.
+	 * @return The normal at the specified point.
+	 */
+	public Vector3 normalAt(Point3 p) {
 		double	cx = (minimumX + maximumX) / 2.0;
 		double	cy = (minimumY + maximumY) / 2.0;
 		double	cz = (minimumZ + maximumZ) / 2.0;
@@ -498,11 +497,11 @@ public final class Box3 {
 		double	dz = (p.z() - cz) / rz;
 
 		if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > Math.abs(dz)) {
-			return new Vector3(dx, 0.0, 0.0);
+			return new Vector3(Math.signum(dx), 0.0, 0.0);
 		} else if (Math.abs(dy) > Math.abs(dz)) {
-			return new Vector3(0.0, dy, 0.0);
+			return new Vector3(0.0, Math.signum(dy), 0.0);
 		} else { // Math.abs(dz) > Math.abs(dx) && Math.abs(dz) > Math.abs(dy)
-			return new Vector3(0.0, 0.0, dz);
+			return new Vector3(0.0, 0.0, Math.signum(dz));
 		}
 	}
 

@@ -3,6 +3,8 @@
  */
 package org.jmist.toolkit;
 
+import org.jmist.util.MathUtil;
+
 /**
  * A sphere in two dimensional space (the set of points at most a
  * constant distance from a fixed point).
@@ -48,10 +50,8 @@ public final class Sphere {
 
 	/**
 	 * Determines if this sphere contains the specified point.
-	 * Equivalent to {@code this.evaluate(p) <= 1.0}.
 	 * @param p The point to check for containment of.
 	 * @return A value indicating if p is within this sphere.
-	 * @see {@link #evaluate(Point3)}.
 	 */
 	public boolean contains(Point3 p) {
 		return center.distanceTo(p) <= radius;
@@ -204,30 +204,37 @@ public final class Sphere {
 	}
 
 	/**
-	 * Computes a value of a function f(p) satisfying
-	 * f(p) >= 0.0 for all p,
-	 * f(p) <= 1.0 whenever {@code this.contains(p)},
-	 * f(p) > 1.0 whenever {@code !this.contains(p)},
-	 * f(p) == |grad(f)(p)| == 1 whenever p is on the
-	 * surface of this sphere.
-	 * @param p The point to evaluate this sphere at.
-	 * @return A value satisfying the described criteria.
-	 * @see {@link #gradient(Point3)}, {@link #contains(Point3)}.
+	 * Determines whether the specified point is near the
+	 * boundary of the sphere.
+	 * @param p The point to consider.
+	 * @return A value indicating whether the specified point
+	 * 		is near the boundary of the sphere.
 	 */
-	public double evaluate(Point3 p) {
-		return center.squaredDistanceTo(p);
+	public boolean nearBoundary(Point3 p) {
+		return MathUtil.equal(center.squaredDistanceTo(p) / radius, radius);
 	}
 
 	/**
-	 * Computes the gradient of {@link #evaluate(Point3)} at p.
-	 * This will be a unit normal whenever p is on the surface
-	 * of this sphere.
-	 * @param p The point at which to evaluate the gradient.
-	 * @return The gradient at p.
-	 * @see {@link #evaluate(Point3)}.
+	 * Determines whether the specified point is near the
+	 * boundary of the sphere, within a specified tolerance.
+	 * @param p The point to consider.
+	 * @param epsilon The tolerance.
+	 * @return A value indicating whether the specified point
+	 * 		is near the boundary of the sphere.
 	 */
-	public Vector3 gradient(Point3 p) {
-		return center.vectorTo(p).divide(radius);
+	public boolean nearBoundary(Point3 p, double epsilon) {
+		return MathUtil.equal(center.squaredDistanceTo(p) / radius, radius, epsilon);
+	}
+
+	/**
+	 * Computes the normal at the specified point, assuming p
+	 * is on the surface of the sphere.  This method is guaranteed
+	 * to return a unit vector.
+	 * @param p The point at which to compute the normal.
+	 * @return The normal at the specified point.
+	 */
+	public Vector3 normalAt(Point3 p) {
+		return center.vectorTo(p).unit();
 	}
 
 	/**
