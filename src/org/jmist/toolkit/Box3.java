@@ -269,7 +269,6 @@ public final class Box3 {
 		);
 	}
 
-
 	/**
 	 * Determines if the specified ray intersects with this box.
 	 * Equivalent to {@code !this.intersects(ray).isEmpty()}.
