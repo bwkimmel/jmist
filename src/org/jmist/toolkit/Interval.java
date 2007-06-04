@@ -24,6 +24,17 @@ public final class Interval {
 	}
 
 	/**
+	 * Gets the interval between the specified values.
+	 * @param a The first value.
+	 * @param b The second value.
+	 * @return The interval [a, b], if a <= b. The interval [b, a], if
+	 * 		b < a.
+	 */
+	public static Interval between(double a, double b) {
+		return new Interval(Math.min(a, b), Math.max(a, b));
+	}
+
+	/**
 	 * Gets the lower bound of this interval.
 	 * @return The lower bound of this interval.
 	 */
