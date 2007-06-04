@@ -107,7 +107,7 @@ public final class Sphere {
 			}
 		}
 	}
-	
+
 	/**
 	 * Determines whether the specified ray intersects with
 	 * this sphere.  Equivalent to {@code !this.intersect(ray).isEmpty()}.
@@ -117,7 +117,7 @@ public final class Sphere {
 	 * @see {@link #intersect(Ray3)}, {@link Interval#isEmpty()}.
 	 */
 	public boolean intersects(Ray3 ray) {
-		
+
 		//
 		// Algorithm from:
 		//
@@ -130,19 +130,19 @@ public final class Sphere {
 		if (isEmpty()) {
 			return false;
 		}
-		
+
 		double		r2 = radius * radius;
 		Vector3		oc = ray.getOrigin().vectorTo(center);
 		double		L2oc = oc.dot(oc);
-		
+
 		if (L2oc < r2) return true;
-		
+
 		double		tca = oc.dot(ray.getDirection());
-		
+
 		if (tca < 0.0) return false;
-		
+
 		return ray.pointAt(tca).squaredDistanceTo(center) < r2;
-		
+
 	}
 
 	/**
@@ -157,7 +157,7 @@ public final class Sphere {
 	 * 		{@link Interval#contains(double)}.
 	 */
 	public Interval intersect(Ray3 ray) {
-		
+
 		//
 		// Algorithm from:
 		//
@@ -180,25 +180,52 @@ public final class Sphere {
 
 		// distance along ray to point on ray closest to center of sphere (equation (A10)).
 		double		tca = oc.dot(ray.getDirection());
-		
+
 		// if the ray starts outside the sphere and points away from the center of the
 		// sphwere, then the ray does not hit the sphere.
 		if (!startInside && tca < 0.0) {
 			return Interval.EMPTY;
 		}
-		
+
 		// compute half chord distance squared (equation (A13)).
 		double		t2hc = r2 - L2oc + (tca * tca);
-		
+
 		if (t2hc < 0.0) {
 			return Interval.EMPTY;
 		}
-		
+
 		double		thc = Math.sqrt(t2hc);
-		
+
 		// compute interval (equation (A14)).
 		return new Interval(startInside ? 0.0 : (tca - thc), tca + thc);
 
+	}
+
+	/**
+	 * Computes a value of a function f(p) satisfying
+	 * f(p) >= 0.0 for all p,
+	 * f(p) <= 1.0 whenever {@code this.contains(p)},
+	 * f(p) > 1.0 whenever {@code !this.contains(p)},
+	 * f(p) == |grad(f)(p)| == 1 whenever p is on the
+	 * surface of this sphere.
+	 * @param p The point to evaluate this sphere at.
+	 * @return A value satisfying the described criteria.
+	 * @see {@link #gradient(Point3)}, {@link #contains(Point3)}.
+	 */
+	public double evaluate(Point3 p) {
+		return center.squaredDistanceTo(p);
+	}
+
+	/**
+	 * Computes the gradient of {@link #evaluate(Point3)} at p.
+	 * This will be a unit normal whenever p is on the surface
+	 * of this sphere.
+	 * @param p The point at which to evaluate the gradient.
+	 * @return The gradient at p.
+	 * @see {@link #evaluate(Point3)}.
+	 */
+	public Vector3 gradient(Point3 p) {
+		return center.vectorTo(p).divide(radius);
 	}
 
 	/**

@@ -203,6 +203,33 @@ public final class Circle {
 	}
 
 	/**
+	 * Computes a value of a function f(p) satisfying
+	 * f(p) >= 0.0 for all p,
+	 * f(p) <= 1.0 whenever {@code this.contains(p)},
+	 * f(p) > 1.0 whenever {@code !this.contains(p)},
+	 * f(p) == |grad(f)(p)| == 1 whenever p is on the
+	 * surface of this circle.
+	 * @param p The point to evaluate this circle at.
+	 * @return A value satisfying the described criteria.
+	 * @see {@link #gradient(Point2)}, {@link #contains(Point2)}.
+	 */
+	public double evaluate(Point2 p) {
+		return center.squaredDistanceTo(p);
+	}
+
+	/**
+	 * Computes the gradient of {@link #evaluate(Point2)} at p.
+	 * This will be a unit normal whenever p is on the surface
+	 * of this circle.
+	 * @param p The point at which to evaluate the gradient.
+	 * @return The gradient at p.
+	 * @see {@link #evaluate(Point2)}.
+	 */
+	public Vector2 gradient(Point2 p) {
+		return center.vectorTo(p).divide(radius);
+	}
+
+	/**
 	 * Default constructor.
 	 */
 	private Circle() {

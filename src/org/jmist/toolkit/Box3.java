@@ -448,6 +448,63 @@ public final class Box3 {
 	}
 
 	/**
+	 * Computes a value of a function f(p) satisfying
+	 * f(p) >= 0.0 for all p,
+	 * f(p) <= 1.0 whenever {@code this.contains(p)},
+	 * f(p) > 1.0 whenever {@code !this.contains(p)},
+	 * f(p) == |grad(f)(p)| == 1 whenever p is on the
+	 * surface of this box.
+	 * @param p The point to evaluate this box at.
+	 * @return A value satisfying the described criteria.
+	 * @see {@link #gradient(Point3)}, {@link #contains(Point3)}.
+	 */
+	public double evaluate(Point3 p) {
+		double	cx = (minimumX + maximumX) / 2.0;
+		double	cy = (minimumY + maximumY) / 2.0;
+		double	cz = (minimumZ + maximumZ) / 2.0;
+
+		double	rx = this.getLengthX() / 2.0;
+		double	ry = this.getLengthY() / 2.0;
+		double	rz = this.getLengthZ() / 2.0;
+
+		double	dx = (p.x() - cx) / rx;
+		double	dy = (p.y() - cy) / ry;
+		double	dz = (p.z() - cz) / rz;
+
+		return Math.max(dx * dx, Math.max(dy * dy, dz * dz));
+	}
+
+	/**
+	 * Computes the gradient of {@link #evaluate(Point3)} at p.
+	 * This will be a unit normal whenever p is on the surface
+	 * of this box.
+	 * @param p The point at which to evaluate the gradient.
+	 * @return The gradient at p.
+	 * @see {@link #evaluate(Point3)}.
+	 */
+	public Vector3 gradient(Point3 p) {
+		double	cx = (minimumX + maximumX) / 2.0;
+		double	cy = (minimumY + maximumY) / 2.0;
+		double	cz = (minimumZ + maximumZ) / 2.0;
+
+		double	rx = this.getLengthX() / 2.0;
+		double	ry = this.getLengthY() / 2.0;
+		double	rz = this.getLengthZ() / 2.0;
+
+		double	dx = (p.x() - cx) / rx;
+		double	dy = (p.y() - cy) / ry;
+		double	dz = (p.z() - cz) / rz;
+
+		if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > Math.abs(dz)) {
+			return new Vector3(dx, 0.0, 0.0);
+		} else if (Math.abs(dy) > Math.abs(dz)) {
+			return new Vector3(0.0, dy, 0.0);
+		} else { // Math.abs(dz) > Math.abs(dx) && Math.abs(dz) > Math.abs(dy)
+			return new Vector3(0.0, 0.0, dz);
+		}
+	}
+
+	/**
 	 * Default constructor.
 	 */
 	private Box3() {
