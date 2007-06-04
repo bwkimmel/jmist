@@ -214,6 +214,75 @@ public final class Box2 {
 	}
 
 	/**
+	 * Determines if the specified ray intersects with this box.
+	 * Equivalent to {@code !this.intersects(ray).isEmpty()}.
+	 * @param ray The ray to test for an intersection with this
+	 * 		box.
+	 * @return A value indicating if the specified ray intersects
+	 * 		with this box.
+	 * @see {@link #intersect(Ray2)}, {@link Interval#isEmpty()}.
+	 */
+	public boolean intersects(Ray2 ray) {
+
+		// Check for an empty box.
+		if (isEmpty()) {
+			return false;
+		}
+
+		// Check if the ray starts from within the box.
+		if (this.contains(ray.getOrigin())) {
+			return true;
+		}
+
+		assert(ray.getDirection().x() != 0.0 || ray.getDirection().y() != 0.0);
+
+		double	t;
+		Point2	p;
+
+		// Check for intersection with each of the six sides of the box.
+		if (ray.getDirection().x() != 0.0) {
+			t = (minimumX - ray.getOrigin().x()) / ray.getDirection().x();
+			if (t > 0.0) {
+				p = ray.pointAt(t);
+				if (minimumY < p.y() && p.y() < maximumY) {
+					return true;
+				}
+			}
+
+			t = (maximumX - ray.getOrigin().x()) / ray.getDirection().x();
+			if (t > 0.0) {
+				p = ray.pointAt(t);
+				if (minimumY < p.y() && p.y() < maximumY) {
+					return true;
+				}
+			}
+		}
+
+		if (ray.getDirection().y() != 0.0) {
+			t = (minimumY - ray.getOrigin().y()) / ray.getDirection().y();
+			if (t > 0.0) {
+				p = ray.pointAt(t);
+				if (minimumX < p.x() && p.x() < maximumX) {
+					return true;
+				}
+			}
+
+			t = (maximumY - ray.getOrigin().y()) / ray.getDirection().y();
+			if (t > 0.0) {
+				p = ray.pointAt(t);
+				if (minimumX < p.x() && p.x() < maximumX) {
+					return true;
+				}
+			}
+		}
+
+		// If we didn't find any intersection points, then the
+		// ray does not intersect the box.
+		return false;
+
+	}
+
+	/**
 	 * Computes the intersection of this box with the given
 	 * ray.
 	 * @param ray The ray to compute the intersection of this
