@@ -4,7 +4,6 @@
 package org.jmist.toolkit;
 
 import org.jmist.util.MathUtil;
-import org.jmist.util.ReferenceArgument;
 
 /**
  * Provides utility methods for geometric optics.
@@ -129,21 +128,17 @@ public final class Optics {
 	 */
 	public static Vector3 refract(Vector3 in, Complex n1, Complex n2, Vector3 normal) {
 
-		ReferenceArgument<Boolean>	reftir = new ReferenceArgument<Boolean>();
-		ReferenceArgument<Double>	refnp = new ReferenceArgument<Double>();
 		double						ci = in.dot(normal);
-		double						ct = Optics.getct(ci, n1, n2, refnp, reftir);
+		RefractResult				rr = Optics.refractAngle(ci, n1, n2);
 
-		if (reftir.get()) { // total internal reflection.
+		if (rr.tir) { // total internal reflection.
 			return Optics.reflect(in, normal);
 		}
 
-		double						np = refnp.get();
-
 		// return the refracted vector, recall that I + ci * N already has
-		// the length sin(theta_i), so we need only divide by np to resize
+		// the length sin(theta_i), so we need only divide by nEff to resize
 		// to sin(theta'_t), see Born & Wolf, sec. 13.2, equation (9).
-		Vector3						out = in.divide(np).plus(normal.times(-ct + ci / np));
+		Vector3						out = in.divide(rr.nEff).plus(normal.times(-rr.cosT + ci / rr.nEff));
 
 		return out;
 
@@ -161,16 +156,14 @@ public final class Optics {
 	 */
 	public static double refract(double theta, Complex n1, Complex n2) {
 
-		ReferenceArgument<Boolean>	reftir = new ReferenceArgument<Boolean>();
-
 		double						ci = Math.cos(theta);
-		double						ct = Optics.getct(ci, n1, n2, null, reftir);
+		RefractResult				rr = Optics.refractAngle(ci, n1, n2);
 
-		if (reftir.get()) { // total internal reflection
+		if (rr.tir) { // total internal reflection
 			return Math.PI - theta;
 		}
 
-		return Math.acos(ct);
+		return Math.acos(rr.cosT);
 
 	}
 
@@ -531,6 +524,27 @@ public final class Optics {
 	}
 
 	/**
+	 * The structure returned from refractAngle.
+	 * @author bkimmel
+	 * @see {@link Optics#refractAngle(double, Complex, Complex)}.
+	 */
+	private static class RefractResult {
+
+		/** The cosine of the transmitted ray. */
+		public double cosT;
+
+		/** The effective real refractive index. */
+		public double nEff;
+
+		/**
+		 * A value indicating whether total internal
+		 * reflection has occurred.
+		 */
+		public boolean tir;
+
+	}
+
+	/**
 	 * Computes the cosine of the refracted angle for an interface between
 	 * two conductive media, the effective refractive index, and a value
 	 * indicating whether total internal reflection has occurred.
@@ -540,14 +554,15 @@ public final class Optics {
 	 * 		interface to which the normal points.
 	 * @param n2 The refractive index of the medium on the side of the
 	 * 		interface opposite from which the normal points.
-	 * @param refnp [out] The effective real refractive index.
-	 * @param reftir [out] A value indicating whether total internal
-	 * 		reflection has occurred.
-	 * @return The cosine of the angle between the refracted direction and
-	 * 		the anti-normal.
+	 * @return An object containing the cosine of the angle between the
+	 * 		refracted direction and the anti-normal (cosT), the effective
+	 * 		real refractive index (nEff), and a value indicating whether
+	 * 		total internal reflection has occurred (tir).
+	 * @see {@link Optics.RefractResult}.
 	 */
-	private static double getct(double ci, Complex n1, Complex n2, ReferenceArgument<Double> refnp, ReferenceArgument<Boolean> reftir) {
+	private static RefractResult refractAngle(double ci, Complex n1, Complex n2) {
 
+		RefractResult result;
 		Complex eta;
 
 		if (ci > 0.0) {
@@ -593,12 +608,12 @@ public final class Optics {
 		double np = Math.sqrt(si2 + K * K);
 
 		// cosine of theta'_t, the real angle of refraction.
-		double ct = K / np;
+		result = new RefractResult();
+		result.cosT = K / np;
+		result.nEff = np;
+		result.tir = (result.cosT < 0.0);
 
-		ReferenceArgument.set(refnp, np);
-		ReferenceArgument.set(reftir, ct < 0.0);
-
-		return ct;
+		return result;
 
 	}
 
