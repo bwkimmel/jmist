@@ -168,6 +168,22 @@ public final class Vector3 {
 	}
 
 	/**
+	 * Returns a new unit vector in the same direction as
+	 * the vector with the specified components.
+	 * Equivalent to {@code new Vector3(x, y, z).unit()}.
+	 * @param x The magnitude of the vector along the x-axis.
+	 * @param y The magnitude of the vector along the y-axis.
+	 * @param z The magnitude of the vector along the z-axis.
+	 * @return A unit vector in the same direction as the
+	 * 		vector with the indicated components.
+	 * @see {@link #unit()}.
+	 */
+	public static Vector3 unit(double x, double y, double z) {
+		double r = Math.sqrt(x * x + y * y + z * z);
+		return new Vector3(x / r, y / r, z / r);
+	}
+
+	/**
 	 * The zero vector (represents the vector between two identical points).
 	 */
 	public static final Vector3 ZERO = new Vector3(0.0, 0.0, 0.0);

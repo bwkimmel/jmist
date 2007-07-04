@@ -133,6 +133,21 @@ public final class Vector2 {
 	}
 
 	/**
+	 * Returns a new unit vector in the same direction as
+	 * the vector with the specified components.
+	 * Equivalent to {@code new Vector2(x, y).unit()}.
+	 * @param x The magnitude of the vector along the x-axis.
+	 * @param y The magnitude of the vector along the y-axis.
+	 * @return A unit vector in the same direction as the
+	 * 		vector with the indicated components.
+	 * @see {@link #unit()}.
+	 */
+	public static Vector2 unit(double x, double y) {
+		double r = Math.sqrt(x * x + y * y);
+		return new Vector2(x / r, y / r);
+	}
+
+	/**
 	 * The zero vector (represents the vector between two identical points).
 	 */
 	public static final Vector2 ZERO = new Vector2(0.0, 0.0);
