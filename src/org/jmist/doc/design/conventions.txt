@@ -1,0 +1,33 @@
+JMist Design and Coding Conventions
+
+Coding Conventions
+------------------
+
+ - Use standard Java naming conventions:
+ 	- Lower case package names (e.g., org.jmist.framework).
+ 	- Pascal casing on class names (e.g., PinholeCamera).
+ 	- Camel casing on method names (e.g, vectorFrom).
+ 	- Open braces to appear on same line as statement defining
+ 	  the block.  Close braces to appear on a near line, aligned
+ 	  with the opening statement.  Example:
+
+ 	  	if (condition) {
+ 	  		// ...
+ 	  	}
+
+ - Interfaces begin with a capital "I" followed by an
+   appropriate name, using pascal casing (e.g., IGeometry).
+ - Dimensionality to be indicated using an integer
+   suffix (e.g., Point3, IBounded2).
+
+
+Mathematics
+-----------
+
+All physical values to be represented using products of powers
+of SI base units (http://physics.nist.gov/cuu/Units/current.html).
+Angles are represented in radians, and solid angles in steradians.
+For instance, radiance is expressed in W.sr^-1.m^-2.
+
+NOTE: This means that wavelengths in jmist are represented in
+      meters, not nanometers.
