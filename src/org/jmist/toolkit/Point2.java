@@ -24,7 +24,8 @@ public final class Point2 {
 	 * Gets the distance from the origin along the x-axis.
 	 * Equivalent to {@code this.minus(Point2.ORIGIN).dot(Vector2.I);}
 	 * @return The distance from the origin along the x-axis.
-	 * @see getX, I, dot
+	 * @see {@link #getX()}, {@link Vector2#I},
+	 * 		{@link Vector2#dot(Vector2)}.
 	 */
 	public double x() {
 		return x;
@@ -34,7 +35,8 @@ public final class Point2 {
 	 * Gets the distance from the origin along the y-axis.
 	 * Equivalent to {@code this.minus(Point2.ORIGIN).dot(Vector2.J);}
 	 * @return The distance from the origin along the y-axis.
-	 * @see getY, J, dot
+	 * @see {@link #getY()}, {@link Vector2#J},
+	 * 		{@link Vector2#dot(Vector2)}.
 	 */
 	public double y() {
 		return y;
@@ -44,7 +46,8 @@ public final class Point2 {
 	 * Gets the distance from the origin along the x-axis.
 	 * Equivalent to {@code this.minus(Point2.ORIGIN).dot(Vector2.I);}
 	 * @return The distance from the origin along the x-axis.
-	 * @see x, I, dot
+	 * @see {@link #x()}, {@link Vector2#I},
+	 * 		{@link Vector2#dot(Vector2)}.
 	 */
 	public double getX() {
 		return x;
@@ -54,7 +57,8 @@ public final class Point2 {
 	 * Gets the distance from the origin along the y-axis.
 	 * Equivalent to {@code this.minus(Point2.ORIGIN).dot(Vector2.J);}
 	 * @return The distance from the origin along the y-axis.
-	 * @see y, J, dot
+	 * @see {@link #y()}, {@link Vector2#J},
+	 * 		{@link Vector2#dot(Vector2)}.
 	 */
 	public double getY() {
 		return y;
