@@ -26,7 +26,7 @@ public final class Vector3 {
 	 * Gets the distance from the origin along the x-axis.
 	 * Equivalent to {@code this.dot(Vector3.I);}
 	 * @return The distance from the origin along the x-axis.
-	 * @see getX, I, dot
+	 * @see {@link #getX()}, {@link #I}, {@link #dot(Vector3)}.
 	 */
 	public double x() {
 		return x;
@@ -36,7 +36,7 @@ public final class Vector3 {
 	 * Gets the distance from the origin along the y-axis.
 	 * Equivalent to {@code this.dot(Vector3.J);}
 	 * @return The distance from the origin along the y-axis.
-	 * @see getY, J, dot
+	 * @see {@link #getY()}, {@link #J}, {@link #dot(Vector3)}.
 	 */
 	public double y() {
 		return y;
@@ -46,7 +46,7 @@ public final class Vector3 {
 	 * Gets the distance from the origin along the z-axis.
 	 * Equivalent to {@code this.dot(Vector3.K);}
 	 * @return The distance from the origin along the z-axis.
-	 * @see getZ, K, dot
+	 * @see {@link #getZ()}, {@link #K}, {@link #dot(Vector3)}.
 	 */
 	public double z() {
 		return z;
@@ -56,7 +56,7 @@ public final class Vector3 {
 	 * Gets the distance from the origin along the x-axis.
 	 * Equivalent to {@code this.dot(Vector3.I);}
 	 * @return The distance from the origin along the x-axis.
-	 * @see x, I, dot
+	 * @see {@link #x()}, {@link #I}, {@link #dot(Vector3)}.
 	 */
 	public double getX() {
 		return x;
@@ -66,7 +66,7 @@ public final class Vector3 {
 	 * Gets the distance from the origin along the y-axis.
 	 * Equivalent to {@code this.dot(Vector3.J);}
 	 * @return The distance from the origin along the y-axis.
-	 * @see y, J, dot
+	 * @see {@link #y()}, {@link #J}, {@link #dot(Vector3)}.
 	 */
 	public double getY() {
 		return y;
@@ -76,7 +76,7 @@ public final class Vector3 {
 	 * Gets the distance from the origin along the z-axis.
 	 * Equivalent to {@code this.dot(Vector3.K);}
 	 * @return The distance from the origin along the z-axis.
-	 * @see z, K, dot
+	 * @see {@link #z()}, {@link #K}, {@link #dot(Vector3)}.
 	 */
 	public double getZ() {
 		return z;
@@ -131,7 +131,7 @@ public final class Vector3 {
 	 * Equivalent to {@code this.times(1.0 / c).}
 	 * @param c The factor to divide this vector by.
 	 * @return The vector scaled by 1.0 / c.
-	 * @see #times(double)
+	 * @see {@link #times(double)}.
 	 */
 	public Vector3 divide(double c) {
 		return new Vector3(x / c, y / c, z / c);
