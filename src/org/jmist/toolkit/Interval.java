@@ -80,7 +80,7 @@ public final class Interval {
 	 * Extends this interval to include the specified value.
 	 * Guarantees that {@code this.contains(t)} after this method is called.
 	 * @param t The value to include in this interval.
-	 * @see contains
+	 * @see {@link #contains(double)}.
 	 */
 	public Interval extendTo(double t) {
 		if (isEmpty()) {
