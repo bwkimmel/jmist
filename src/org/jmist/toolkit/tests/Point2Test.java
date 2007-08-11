@@ -134,5 +134,14 @@ public class Point2Test {
 		assertEquals(4.0, q.x());
 		assertEquals(-7.0, q.y());
 	}
+	
+	/**
+	 * Test method for {@link org.jmist.toolkit.Point2#ORIGIN}.
+	 */
+	@Test
+	public final void testOrigin() {
+		assertEquals(0.0, Point2.ORIGIN.x());
+		assertEquals(0.0, Point2.ORIGIN.y());
+	}
 
 }
