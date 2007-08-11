@@ -6,6 +6,8 @@ package org.jmist.toolkit.tests;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import org.jmist.toolkit.*;
+import org.jmist.util.*;
 
 /**
  * Tests for {@link org.jmist.toolkit.Point3}.
@@ -19,31 +21,11 @@ public class Point3Test {
 	 */
 	@Test
 	public final void testPoint3() {
-		fail("Not yet implemented"); // TODO
-	}
+		Point3 p = new Point3(1.0, 2.0, 3.0);
 
-	/**
-	 * Test method for {@link org.jmist.toolkit.Point3#x()}.
-	 */
-	@Test
-	public final void testX() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	/**
-	 * Test method for {@link org.jmist.toolkit.Point3#y()}.
-	 */
-	@Test
-	public final void testY() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	/**
-	 * Test method for {@link org.jmist.toolkit.Point3#z()}.
-	 */
-	@Test
-	public final void testZ() {
-		fail("Not yet implemented"); // TODO
+		assertEquals(1.0, p.x());
+		assertEquals(2.0, p.y());
+		assertEquals(3.0, p.z());
 	}
 
 	/**
@@ -51,7 +33,9 @@ public class Point3Test {
 	 */
 	@Test
 	public final void testGetX() {
-		fail("Not yet implemented"); // TODO
+		Point3 p = new Point3(1.0, 2.0, 3.0);
+
+		assertEquals(1.0, p.getX());
 	}
 
 	/**
@@ -59,7 +43,9 @@ public class Point3Test {
 	 */
 	@Test
 	public final void testGetY() {
-		fail("Not yet implemented"); // TODO
+		Point3 p = new Point3(1.0, 2.0, 3.0);
+
+		assertEquals(2.0, p.getY());
 	}
 
 	/**
@@ -67,7 +53,9 @@ public class Point3Test {
 	 */
 	@Test
 	public final void testGetZ() {
-		fail("Not yet implemented"); // TODO
+		Point3 p = new Point3(1.0, 2.0, 3.0);
+
+		assertEquals(3.0, p.getZ());
 	}
 
 	/**
@@ -75,7 +63,14 @@ public class Point3Test {
 	 */
 	@Test
 	public final void testSquaredDistanceTo() {
-		fail("Not yet implemented"); // TODO
+		Point3 p = new Point3(1.0, 2.0, 3.0);
+		Point3 q = new Point3(2.0, 4.0, 8.0);
+		double d = (1.0 * 1.0) + (2.0 * 2.0) + (5.0 * 5.0);
+
+		assertEquals(d, p.squaredDistanceTo(q), MathUtil.TINY_EPSILON);
+		assertEquals(d, q.squaredDistanceTo(p), MathUtil.TINY_EPSILON);
+
+		assertEquals(0.0, p.squaredDistanceTo(p));
 	}
 
 	/**
@@ -83,7 +78,14 @@ public class Point3Test {
 	 */
 	@Test
 	public final void testDistanceTo() {
-		fail("Not yet implemented"); // TODO
+		Point3 p = new Point3(1.0, 2.0, 3.0);
+		Point3 q = new Point3(2.0, 4.0, 8.0);
+		double d = Math.sqrt((1.0 * 1.0) + (2.0 * 2.0) + (5.0 * 5.0));
+
+		assertEquals(d, p.distanceTo(q), MathUtil.TINY_EPSILON);
+		assertEquals(d, q.distanceTo(p), MathUtil.TINY_EPSILON);
+
+		assertEquals(0.0, p.distanceTo(p));
 	}
 
 	/**
@@ -91,7 +93,23 @@ public class Point3Test {
 	 */
 	@Test
 	public final void testVectorTo() {
-		fail("Not yet implemented"); // TODO
+		Point3 p = new Point3(1.0, 2.0, 3.0);
+		Point3 q = new Point3(-1.0, -2.0, -3.0);
+
+		Vector3 pq = p.vectorTo(q);
+		Vector3 qp = q.vectorTo(p);
+
+		assertEquals(-2.0, pq.x());
+		assertEquals(-4.0, pq.y());
+		assertEquals(-6.0, pq.z());
+
+		assertEquals(2.0, qp.x());
+		assertEquals(4.0, qp.y());
+		assertEquals(6.0, qp.z());
+
+		Vector3 O = p.vectorTo(p);
+
+		assertEquals(0.0, O.length(), MathUtil.TINY_EPSILON);
 	}
 
 	/**
@@ -99,7 +117,23 @@ public class Point3Test {
 	 */
 	@Test
 	public final void testVectorFrom() {
-		fail("Not yet implemented"); // TODO
+		Point3 p = new Point3(1.0, 2.0, 3.0);
+		Point3 q = new Point3(-1.0, -2.0, -3.0);
+
+		Vector3 qp = p.vectorFrom(q);
+		Vector3 pq = q.vectorFrom(p);
+
+		assertEquals(-2.0, pq.x());
+		assertEquals(-4.0, pq.y());
+		assertEquals(-6.0, pq.z());
+
+		assertEquals(2.0, qp.x());
+		assertEquals(4.0, qp.y());
+		assertEquals(6.0, qp.z());
+
+		Vector3 O = p.vectorFrom(p);
+
+		assertEquals(0.0, O.length(), MathUtil.TINY_EPSILON);
 	}
 
 	/**
@@ -107,7 +141,18 @@ public class Point3Test {
 	 */
 	@Test
 	public final void testPlus() {
-		fail("Not yet implemented"); // TODO
+		Point3 p = new Point3(1.0, 2.0, 3.0);
+		Vector3 v = new Vector3(-1.0, 2.0, 4.0);
+
+		Point3 q = p.plus(v);
+
+		assertEquals(0.0, q.x());
+		assertEquals(4.0, q.y());
+		assertEquals(7.0, q.z());
+
+		q = p.plus(Vector3.ZERO);
+
+		assertEquals(0.0, p.distanceTo(q), MathUtil.TINY_EPSILON);
 	}
 
 	/**
@@ -115,7 +160,28 @@ public class Point3Test {
 	 */
 	@Test
 	public final void testMinus() {
-		fail("Not yet implemented"); // TODO
+		Point3 p = new Point3(1.0, 2.0, 3.0);
+		Vector3 v = new Vector3(-1.0, 2.0, 4.0);
+
+		Point3 q = p.minus(v);
+
+		assertEquals(2.0, q.x());
+		assertEquals(0.0, q.y());
+		assertEquals(-1.0, q.z());
+
+		q = p.minus(Vector3.ZERO);
+
+		assertEquals(0.0, p.distanceTo(q), MathUtil.TINY_EPSILON);
+	}
+
+	/**
+	 * Test method for {@link org.jmist.toolkit.Point3#ORIGIN}.
+	 */
+	@Test
+	public final void testOrigin() {
+		assertEquals(0.0, Point3.ORIGIN.x());
+		assertEquals(0.0, Point3.ORIGIN.y());
+		assertEquals(0.0, Point3.ORIGIN.z());
 	}
 
 }
