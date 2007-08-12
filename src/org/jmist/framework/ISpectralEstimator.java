@@ -3,6 +3,8 @@
  */
 package org.jmist.framework;
 
+import org.jmist.toolkit.*;
+
 /**
  * An estimator for a spectral response.  This is meant to
  * represent a spectral response that is not known explicitly,
@@ -26,9 +28,9 @@ public interface ISpectralEstimator {
 	 * 		for initializing the values of this array.  In
 	 * 		particular, the implementation of this method must
 	 * 		not assume that the elements have been set to zero
-	 * 		prior to invokation.
+	 * 		prior to invocation.
 	 * @param rnd A random number generator.
 	 */
-	void sample(double[] wavelengths, double[] responses);
+	void sample(Tuple wavelengths, double[] responses);
 
 }
