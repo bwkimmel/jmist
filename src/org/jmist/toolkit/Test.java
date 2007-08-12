@@ -2,6 +2,7 @@ package org.jmist.toolkit;
 
 import org.jmist.framework.event.*;
 import org.jmist.util.*;
+import org.jmist.packages.NRooksRandom;
 import org.jmist.toolkit.Grid3.Cell;
 
 import java.lang.ref.*;
@@ -132,6 +133,34 @@ public class Test {
 		observer.enableEventB();
 		subject.raiseEventB();
 
+		double[] array = new double[]{ 1.0, 2.0, 3.0 };
+		Tuple zzz = new Tuple(array);
+		array[1] = -2.0;
+
+		System.out.println("-------");
+		System.out.println(zzz.filter(new Tuple.Filter() { public boolean apply(double value) { return value < 2.5; } }));
+		System.out.println(zzz.map(new Tuple.Function() {
+
+			public double apply(double value) {
+				return value * value;
+			}} ));
+		System.out.println(zzz.reduce(Tuple.PRODUCT_OPERATOR));
+
+		System.out.println(zzz.reverse());
+		System.out.println(zzz.append(zzz.reverse()));
+		System.out.println(zzz.append(4.0));
+		System.out.println(zzz.append(new double[]{4.0, 5.0}));
+		System.out.println(zzz.permute(new int[]{2,1,2,1,0}));
+		System.out.println(zzz.right(2));
+		System.out.println(zzz.left(2));
+		System.out.println(zzz.append(zzz.reverse()).slice(2, 5));
+		System.out.println(Tuple.zeros(5));
+		System.out.println(Tuple.ones(7));
+		System.out.println(zzz.combine(Tuple.ones(3), Tuple.SUM_OPERATOR));
+				System.out.println("-------");
+		System.out.print("zzz[1]=");
+		System.out.println(zzz.at(1));
+
 		Grid3 grid = new Grid3(new Box3(0.0, 0.0, 0.0, 1.0, 1.0, 1.0), 4, 4, 4);
 		Ray3 ray = new Ray3(new Point3(-1.0, -1.5, -1.0), new Vector3(1.4, 2.1, 1.3).unit());
 
@@ -195,6 +224,57 @@ public class Test {
 			System.out.println("ray-circle intersection test passed.");
 		}
 
+		double[] arr = new double[2];
+
+		arr[0] = 1.0;
+		arr[1] = 2.0;
+
+		System.out.println("arr=[" + arr[0] + ", " + arr[1] + "]");
+		swapFirstTwoElements(arr);
+		System.out.println("arr=[" + arr[0] + ", " + arr[1] + "]");
+
+		System.out.println("------------------------");
+
+		Permutation Px = Permutation.getRandom(8);
+		Permutation Py = Permutation.getRandom(8);
+
+		int board[][] = new int[8][8];
+		int i,j;
+
+		for (i = 0; i < 8; i++) {
+			board[Px.at(i)][Py.at(i)] = i + 1;
+		}
+
+		for (i = 0; i < 8; i++) {
+			for (j = 0; j < 8; j++) {
+				if (board[j][i] > 0) {
+					System.out.printf("[%d]", board[j][i]);
+				} else {
+					System.out.print("[ ]");
+				}
+			}
+			System.out.println();
+		}
+
+		System.out.println("------------------------");
+		NRooksRandom rand = new NRooksRandom(10, 4);
+
+		for (i = 0; i < 10; i++) {
+			for (j = 0; j < 4; j++) {
+				if (j > 0) {
+					System.out.print(", ");
+				}
+				System.out.printf("%f", rand.next());
+			}
+			System.out.println();
+		}
+
+	}
+
+	public static void swapFirstTwoElements(double[] arr) {
+		double temp = arr[0];
+		arr[0] = arr[1];
+		arr[1] = temp;
 	}
 
 }
