@@ -11,8 +11,10 @@ import org.jmist.toolkit.*;
  */
 public interface IGeometry extends IBounded3, IVisibilityFunction3 {
 
-	IIntersection intersect(Ray3 ray, Interval I);
+	void intersect(Ray3 ray, Interval I, IIntersectionRecorder recorder);
 
 	ISurfacePoint generateRandomSurfacePoint();
+	
+	boolean isClosed();
 
 }
