@@ -406,6 +406,28 @@ public final class Box2 {
 	}
 
 	/**
+	 * Interpolates between the bounds of this box along the x-axis.
+	 * Equivalent to {@code this.getSpanX().interpolate(t)}.
+	 * @param t The point at which to interpolate.
+	 * @return The interpolated value.
+	 * @see {@link #getSpanX()}, {@link Interval#interpolate(double)}.
+	 */
+	public double interpolateX(double t) {
+		return this.minimumX + t * (this.maximumX - this.minimumX);
+	}
+
+	/**
+	 * Interpolates between the bounds of this box along the y-axis.
+	 * Equivalent to {@code this.getSpanY().interpolate(t)}.
+	 * @param t The point at which to interpolate.
+	 * @return The interpolated value.
+	 * @see {@link #getSpanY()}, {@link Interval#interpolate(double)}.
+	 */
+	public double interpolateY(double t) {
+		return this.minimumY + t * (this.maximumY - this.minimumY);
+	}
+
+	/**
 	 * Interpolates within the bounds of this box.  If (tx, ty) is
 	 * in [0, 1]^2, then the interpolated point will fall inside the
 	 * box, otherwise the interpolated point will fall outside the
@@ -416,10 +438,7 @@ public final class Box2 {
 	 * @see {@link #interpolate(Point2)}.
 	 */
 	public Point2 interpolate(double tx, double ty) {
-		return new Point2(
-				this.minimumX + tx * (this.maximumX - this.minimumX),
-				this.minimumY + ty * (this.maximumY - this.minimumY)
-		);
+		return new Point2(this.interpolateX(tx), this.interpolateY(ty));
 	}
 
 	/**
