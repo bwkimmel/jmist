@@ -9,20 +9,18 @@ import org.jmist.toolkit.*;
  * @author bkimmel
  *
  */
-public interface IPixelShader {
+public interface IPixelShader extends IPixelFactory {
 
 	/**
-	 * Computes the mean spectral radiance impinging
-	 * on the specified pixel.
+	 * Computes an estimate of the mean channel responses at
+	 * the specified pixel.
 	 * @param pixel The bounds of the pixel in normalized
 	 * 		device coordinates (must be bounded by
 	 * 		{@code Box2.UNIT}).
-	 * @param wavelength The wavelength (in meters) at which
-	 * 		to evaluate the mean spectral radiance.
-	 * @return The mean spectral radiance (in
-	 * 		W&middot;sr<sup>-1</sup>&middot;m<sup>-3</sup>).
+	 * @return An array of the mean responses for each
+	 * 		channel.
 	 * @see Box2#UNIT
 	 */
-	double shadePixel(Box2 pixel, double wavelength);
+	void shadePixel(Box2 bounds, Pixel pixel);
 
 }
