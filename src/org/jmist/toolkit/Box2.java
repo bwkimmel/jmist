@@ -406,6 +406,36 @@ public final class Box2 {
 	}
 
 	/**
+	 * Interpolates within the bounds of this box.  If (tx, ty) is
+	 * in [0, 1]^2, then the interpolated point will fall inside the
+	 * box, otherwise the interpolated point will fall outside the
+	 * box.  Equivalent to {@code this.interpolate(new Point2(tx, ty))}.
+	 * @param tx The point at which to interpolate along the x-axis.
+	 * @param ty The point at which to interpolate along the y-axis.
+	 * @return The interpolated point.
+	 * @see {@link #interpolate(Point2)}.
+	 */
+	public Point2 interpolate(double tx, double ty) {
+		return new Point2(
+				this.minimumX + tx * (this.maximumX - this.minimumX),
+				this.minimumY + ty * (this.maximumY - this.minimumY)
+		);
+	}
+
+	/**
+	 * Interpolates within the bounds of this box.  If {@code p} is
+	 * in [0, 1]^2, then the interpolated point will fall inside the
+	 * box, otherwise the interpolated point will fall outside the
+	 * box.  Equivalent to {@code this.interpolate(p.x(), p.y())}.
+	 * @param p The point at which to interpolate.
+	 * @return The interpolated point.
+	 * @see {@link #interpolate(double, double)}.
+	 */
+	public Point2 interpolate(Point2 p) {
+		return this.interpolate(p.x(), p.y());
+	}
+
+	/**
 	 * Default constructor.
 	 */
 	private Box2() {

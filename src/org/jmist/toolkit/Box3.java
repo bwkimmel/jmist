@@ -506,6 +506,38 @@ public final class Box3 {
 	}
 
 	/**
+	 * Interpolates within the bounds of this box.  If (tx, ty, tz) is
+	 * in [0, 1]^3, then the interpolated point will fall inside the
+	 * box, otherwise the interpolated point will fall outside the
+	 * box.  Equivalent to {@code this.interpolate(new Point3(tx, ty, tz))}.
+	 * @param tx The point at which to interpolate along the x-axis.
+	 * @param ty The point at which to interpolate along the y-axis.
+	 * @param tz The point at which to interpolate along the z-axis.
+	 * @return The interpolated point.
+	 * @see {@link #interpolate(Point3)}.
+	 */
+	public Point3 interpolate(double tx, double ty, double tz) {
+		return new Point3(
+				this.minimumX + tx * (this.maximumX - this.minimumX),
+				this.minimumY + ty * (this.maximumY - this.minimumY),
+				this.minimumZ + tz * (this.maximumZ - this.minimumZ)
+		);
+	}
+
+	/**
+	 * Interpolates within the bounds of this box.  If {@code p} is
+	 * in [0, 1]^3, then the interpolated point will fall inside the
+	 * box, otherwise the interpolated point will fall outside the
+	 * box.  Equivalent to {@code this.interpolate(p.x(), p.y(), p.z())}.
+	 * @param p The point at which to interpolate.
+	 * @return The interpolated point.
+	 * @see {@link #interpolate(double, double)}.
+	 */
+	public Point3 interpolate(Point3 p) {
+		return this.interpolate(p.x(), p.y(), p.z());
+	}
+
+	/**
 	 * Default constructor.
 	 */
 	private Box3() {

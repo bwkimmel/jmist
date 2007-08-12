@@ -131,6 +131,18 @@ public final class Interval {
 	}
 
 	/**
+	 * Interpolates between the endpoints of this interval.  If
+	 * {@code t} is in [0, 1], then the result will fall within
+	 * the interval, otherwise, the result will fall outside the
+	 * interval.
+	 * @param t The value at which to interpolate.
+	 * @return The interpolated point.
+	 */
+	public double interpolate(double t) {
+		return this.minimum + t * (this.maximum - this.minimum);
+	}
+
+	/**
 	 * Default constructor.
 	 */
 	private Interval() {
