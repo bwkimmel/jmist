@@ -11,8 +11,9 @@ import org.jmist.toolkit.Pixel;
 import org.jmist.toolkit.Ray3;
 
 /**
+ * A ray shader that shades a ray according to the distance to the
+ * nearest intersection along the ray.
  * @author bkimmel
- *
  */
 public final class DistanceRayShader implements IRayShader {
 
@@ -46,6 +47,7 @@ public final class DistanceRayShader implements IRayShader {
 		return null;
 	}
 
+	/** The ray caster to use. */
 	private final IRayCaster caster;
 
 }
