@@ -6,8 +6,9 @@ package org.jmist.framework;
 import org.jmist.toolkit.*;
 
 /**
+ * A function that determines if a line segment or ray intersects
+ * something.
  * @author bkimmel
- *
  */
 public interface IVisibilityFunction3 {
 
