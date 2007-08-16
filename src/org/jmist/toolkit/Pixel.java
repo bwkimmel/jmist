@@ -25,4 +25,8 @@ public final class Pixel {
 
 	}
 
+	public void setAt(int channel, double value) {
+
+	}
+
 }
