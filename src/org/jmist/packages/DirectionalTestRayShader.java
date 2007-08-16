@@ -5,6 +5,7 @@ package org.jmist.packages;
 
 import org.jmist.framework.IRayShader;
 import org.jmist.toolkit.Pixel;
+import org.jmist.toolkit.PixelFormat;
 import org.jmist.toolkit.Ray3;
 import org.jmist.toolkit.Vector3;
 
@@ -31,8 +32,7 @@ public final class DirectionalTestRayShader implements IRayShader {
 	 * @see org.jmist.framework.IPixelFactory#createPixel()
 	 */
 	public Pixel createPixel() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Pixel(PixelFormat.RGB);
 	}
 
 }

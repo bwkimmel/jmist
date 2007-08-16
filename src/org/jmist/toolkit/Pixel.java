@@ -9,7 +9,7 @@ package org.jmist.toolkit;
  */
 public final class Pixel {
 
-	public Pixel(PixelDescriptor descriptor) {
+	public Pixel(PixelFormat format) {
 		// TODO: implement constructor.
 	}
 
