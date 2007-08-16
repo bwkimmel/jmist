@@ -14,7 +14,7 @@ import org.jmist.toolkit.Point2;
  * on the image plane.
  * @author bkimmel
  */
-public final class SimpleCamera implements IImageShader {
+public final class CameraImageShader implements IImageShader {
 
 	/**
 	 * Initializes the lens and ray shader to use to shade points on
@@ -23,7 +23,7 @@ public final class SimpleCamera implements IImageShader {
 	 * 		points on the image plane.
 	 * @param rayShader The shader to use to shade rays.
 	 */
-	public SimpleCamera(ILens lens, IRayShader rayShader) {
+	public CameraImageShader(ILens lens, IRayShader rayShader) {
 		this.lens = lens;
 		this.rayShader = rayShader;
 	}
