@@ -11,7 +11,7 @@ import org.jmist.toolkit.Pixel;
  * @author bkimmel
  *
  */
-public final class SimplePixelShader extends CameraPixelShader {
+public final class SimplePixelShader extends ImageRasterizingPixelShader {
 
 	public SimplePixelShader(IImageShader camera) {
 		super(camera);

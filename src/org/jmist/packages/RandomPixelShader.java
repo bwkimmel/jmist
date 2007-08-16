@@ -10,11 +10,11 @@ import org.jmist.toolkit.Box2;
 import org.jmist.toolkit.Pixel;
 
 /**
- * A camera based pixel shader that shades a random point within the
+ * A rasterizing pixel shader that shades a random point within the
  * bounds of the pixel.
  * @author bkimmel
  */
-public final class RandomPixelShader extends CameraPixelShader implements
+public final class RandomPixelShader extends ImageRasterizingPixelShader implements
 		IPixelShader {
 
 	/**
