@@ -10,7 +10,7 @@ import org.jmist.toolkit.Pixel;
 import org.jmist.toolkit.Point2;
 
 /**
- * A camera that uses an ILens to shade rays corresponding to points
+ * An image shader that uses an ILens to shade rays corresponding to points
  * on the image plane.
  * @author bkimmel
  */
