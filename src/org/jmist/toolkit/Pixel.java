@@ -21,4 +21,8 @@ public final class Pixel {
 		// TODO: implement this method.
 	}
 
+	public void setAll(double value) {
+
+	}
+
 }
