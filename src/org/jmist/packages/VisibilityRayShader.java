@@ -29,9 +29,9 @@ public final class VisibilityRayShader implements IRayShader {
 	 */
 	public void shadeRay(Ray3 ray, Pixel pixel) {
 		if (this.visibilityFunction.visibility(ray, Interval.POSITIVE)) {
-			// TODO set pixel off
+			pixel.setAll(0.0);
 		} else {
-			// TODO set pixel on
+			pixel.setAll(1.0);
 		}
 	}
 
