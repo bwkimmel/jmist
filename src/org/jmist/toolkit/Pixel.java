@@ -9,6 +9,10 @@ package org.jmist.toolkit;
  */
 public final class Pixel {
 
+	public Pixel(PixelDescriptor descriptor) {
+		// TODO: implement constructor.
+	}
+
 	public void reset() {
 		// TODO: implement this method.
 	}
@@ -22,11 +26,11 @@ public final class Pixel {
 	}
 
 	public void setAll(double value) {
-
+		// TODO: implement this method.
 	}
 
 	public void setAt(int channel, double value) {
-
+		// TODO: implement this method.
 	}
 
 }
