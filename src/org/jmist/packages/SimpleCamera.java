@@ -3,7 +3,7 @@
  */
 package org.jmist.packages;
 
-import org.jmist.framework.ICamera;
+import org.jmist.framework.IImageShader;
 import org.jmist.framework.ILens;
 import org.jmist.framework.IRayShader;
 import org.jmist.toolkit.Pixel;
@@ -14,7 +14,7 @@ import org.jmist.toolkit.Point2;
  * on the image plane.
  * @author bkimmel
  */
-public final class SimpleCamera implements ICamera {
+public final class SimpleCamera implements IImageShader {
 
 	/**
 	 * Initializes the lens and ray shader to use to shade points on
@@ -29,7 +29,7 @@ public final class SimpleCamera implements ICamera {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.ICamera#shadeAt(org.jmist.toolkit.Point2, org.jmist.toolkit.Pixel)
+	 * @see org.jmist.framework.IImageShader#shadeAt(org.jmist.toolkit.Point2, org.jmist.toolkit.Pixel)
 	 */
 	public void shadeAt(Point2 p, Pixel pixel) {
 		this.rayShader.shadeRay(this.lens.rayAt(p), pixel);

@@ -3,7 +3,7 @@
  */
 package org.jmist.packages;
 
-import org.jmist.framework.ICamera;
+import org.jmist.framework.IImageShader;
 import org.jmist.toolkit.Box2;
 import org.jmist.toolkit.Pixel;
 
@@ -13,7 +13,7 @@ import org.jmist.toolkit.Pixel;
  */
 public final class SimplePixelShader extends CameraPixelShader {
 
-	public SimplePixelShader(ICamera camera) {
+	public SimplePixelShader(IImageShader camera) {
 		super(camera);
 	}
 

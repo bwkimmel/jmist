@@ -10,7 +10,7 @@ import org.jmist.toolkit.*;
  * plane.
  * @author bkimmel
  */
-public interface ICamera extends IPixelFactory {
+public interface IImageShader extends IPixelFactory {
 
 	/**
 	 * Obtains the camera colour channel responses at a

@@ -5,7 +5,7 @@ package org.jmist.packages;
 
 import org.jmist.toolkit.Pixel;
 import org.jmist.toolkit.Point2;
-import org.jmist.framework.ICamera;
+import org.jmist.framework.IImageShader;
 import org.jmist.framework.IPixelShader;
 
 /**
@@ -20,7 +20,7 @@ public abstract class CameraPixelShader implements IPixelShader {
 	 * Initializes the camera to use for this pixel shader.
 	 * @param camera The camera to use for this pixel shader.
 	 */
-	protected CameraPixelShader(ICamera camera) {
+	protected CameraPixelShader(IImageShader camera) {
 		this.camera = camera;
 	}
 	
@@ -42,6 +42,6 @@ public abstract class CameraPixelShader implements IPixelShader {
 	}
 	
 	/** The camera to use for shading points. */
-	private final ICamera camera;
+	private final IImageShader camera;
 	
 }

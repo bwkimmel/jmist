@@ -41,7 +41,7 @@ public final class PinholeLens implements ILens {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.ICamera#rayAt(org.jmist.toolkit.Point2)
+	 * @see org.jmist.framework.ILens#rayAt(org.jmist.toolkit.Point2)
 	 */
 	public Ray3 rayAt(Point2 p) {
 
