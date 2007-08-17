@@ -17,7 +17,6 @@ public final class NearestIntersectionRecorder implements IIntersectionRecorder 
 	 * @see org.jmist.framework.IIntersectionRecorder#needAllIntersections()
 	 */
 	public boolean needAllIntersections() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
