@@ -24,7 +24,7 @@ public final class Vector2 {
 	 * Gets the distance from the origin along the x-axis.
 	 * Equivalent to {@code this.dot(Vector2.I);}
 	 * @return The distance from the origin along the x-axis.
-	 * @see {@link #getX()}, {@link #I}, {@link #dot(Vector2)}.
+	 * @see {@link #I}, {@link #dot(Vector2)}.
 	 */
 	public double x() {
 		return x;
@@ -34,29 +34,9 @@ public final class Vector2 {
 	 * Gets the distance from the origin along the y-axis.
 	 * Equivalent to {@code this.dot(Vector2.J);}
 	 * @return The distance from the origin along the y-axis.
-	 * @see {@link #getY()}, {@link #J}, {@link #dot(Vector2)}.
+	 * @see {@link #J}, {@link #dot(Vector2)}.
 	 */
 	public double y() {
-		return y;
-	}
-
-	/**
-	 * Gets the distance from the origin along the x-axis.
-	 * Equivalent to {@code this.dot(Vector2.I);}
-	 * @return The distance from the origin along the x-axis.
-	 * @see {@link #x()}, {@link #I}, {@link #dot(Vector2)}.
-	 */
-	public double getX() {
-		return x;
-	}
-
-	/**
-	 * Gets the distance from the origin along the y-axis.
-	 * Equivalent to {@code this.dot(Vector2.J);}
-	 * @return The distance from the origin along the y-axis.
-	 * @see {@link #y()}, {@link #J}, {@link #dot(Vector2)}.
-	 */
-	public double getY() {
 		return y;
 	}
 

@@ -26,7 +26,7 @@ public final class Vector3 {
 	 * Gets the distance from the origin along the x-axis.
 	 * Equivalent to {@code this.dot(Vector3.I);}
 	 * @return The distance from the origin along the x-axis.
-	 * @see {@link #getX()}, {@link #I}, {@link #dot(Vector3)}.
+	 * @see {@link #I}, {@link #dot(Vector3)}.
 	 */
 	public double x() {
 		return x;
@@ -36,7 +36,7 @@ public final class Vector3 {
 	 * Gets the distance from the origin along the y-axis.
 	 * Equivalent to {@code this.dot(Vector3.J);}
 	 * @return The distance from the origin along the y-axis.
-	 * @see {@link #getY()}, {@link #J}, {@link #dot(Vector3)}.
+	 * @see {@link #J}, {@link #dot(Vector3)}.
 	 */
 	public double y() {
 		return y;
@@ -46,39 +46,9 @@ public final class Vector3 {
 	 * Gets the distance from the origin along the z-axis.
 	 * Equivalent to {@code this.dot(Vector3.K);}
 	 * @return The distance from the origin along the z-axis.
-	 * @see {@link #getZ()}, {@link #K}, {@link #dot(Vector3)}.
+	 * @see {@link #K}, {@link #dot(Vector3)}.
 	 */
 	public double z() {
-		return z;
-	}
-
-	/**
-	 * Gets the distance from the origin along the x-axis.
-	 * Equivalent to {@code this.dot(Vector3.I);}
-	 * @return The distance from the origin along the x-axis.
-	 * @see {@link #x()}, {@link #I}, {@link #dot(Vector3)}.
-	 */
-	public double getX() {
-		return x;
-	}
-
-	/**
-	 * Gets the distance from the origin along the y-axis.
-	 * Equivalent to {@code this.dot(Vector3.J);}
-	 * @return The distance from the origin along the y-axis.
-	 * @see {@link #y()}, {@link #J}, {@link #dot(Vector3)}.
-	 */
-	public double getY() {
-		return y;
-	}
-
-	/**
-	 * Gets the distance from the origin along the z-axis.
-	 * Equivalent to {@code this.dot(Vector3.K);}
-	 * @return The distance from the origin along the z-axis.
-	 * @see {@link #z()}, {@link #K}, {@link #dot(Vector3)}.
-	 */
-	public double getZ() {
 		return z;
 	}
 

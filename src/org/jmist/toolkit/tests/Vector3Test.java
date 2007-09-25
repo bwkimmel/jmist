@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.jmist.toolkit.tests;
 
@@ -42,30 +42,6 @@ public class Vector3Test {
 	 */
 	@Test
 	public final void testZ() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	/**
-	 * Test method for {@link org.jmist.toolkit.Vector3#getX()}.
-	 */
-	@Test
-	public final void testGetX() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	/**
-	 * Test method for {@link org.jmist.toolkit.Vector3#getY()}.
-	 */
-	@Test
-	public final void testGetY() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	/**
-	 * Test method for {@link org.jmist.toolkit.Vector3#getZ()}.
-	 */
-	@Test
-	public final void testGetZ() {
 		fail("Not yet implemented"); // TODO
 	}
 
