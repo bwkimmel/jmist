@@ -21,8 +21,6 @@ public interface IModelElement extends IVisibilityFunction3, IBounded3 {
 
 	ISurfacePoint generateRandomSurfacePoint();
 
-	void intersect
-
 	void addChild(IModelElement child) throws UnsupportedOperationException;
 	void removeChild(String name);
 	IModelElement findChild(String name);
