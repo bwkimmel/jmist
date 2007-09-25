@@ -25,6 +25,4 @@ public interface IIntersection extends ISurfacePoint {
 	 */
 	double rayParameter();
 
-	Point3 point();
-
 }
