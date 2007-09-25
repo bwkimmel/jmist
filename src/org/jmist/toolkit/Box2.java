@@ -21,10 +21,10 @@ public final class Box2 {
 		if (spanX.isEmpty() || spanY.isEmpty()) {
 			minimumX = minimumY = maximumX = maximumY = Double.NaN;
 		} else {
-			minimumX = spanX.getMinimum();
-			maximumX = spanX.getMaximum();
-			minimumY = spanY.getMinimum();
-			maximumY = spanY.getMaximum();
+			minimumX = spanX.minimum();
+			maximumX = spanX.maximum();
+			minimumY = spanY.minimum();
+			maximumY = spanY.maximum();
 		}
 	}
 
@@ -60,7 +60,7 @@ public final class Box2 {
 	 * Gets the lower bound of this box along the x-axis.
 	 * @return The lower bound of this box along the x-axis.
 	 */
-	public double getMinimumX() {
+	public double minimumX() {
 		return minimumX;
 	}
 
@@ -68,7 +68,7 @@ public final class Box2 {
 	 * Gets the lower bound of this box along the y-axis.
 	 * @return The lower bound of this box along the y-axis.
 	 */
-	public double getMinimumY() {
+	public double minimumY() {
 		return minimumY;
 	}
 
@@ -76,7 +76,7 @@ public final class Box2 {
 	 * Gets the upper bound of this box along the x-axis.
 	 * @return The upper bound of this box along the x-axis.
 	 */
-	public double getMaximumX() {
+	public double maximumX() {
 		return maximumX;
 	}
 
@@ -84,7 +84,7 @@ public final class Box2 {
 	 * Gets the upper bound of this box along the y-axis.
 	 * @return The upper bound of this box along the y-axis.
 	 */
-	public double getMaximumY() {
+	public double maximumY() {
 		return maximumY;
 	}
 
@@ -92,7 +92,7 @@ public final class Box2 {
 	 * Gets the extent of this box along the x-axis.
 	 * @return An interval representing the extent of this box along the x-axis.
 	 */
-	public Interval getSpanX() {
+	public Interval spanX() {
 		return isEmpty() ? Interval.EMPTY : new Interval(minimumX, maximumX);
 	}
 
@@ -100,7 +100,7 @@ public final class Box2 {
 	 * Gets the extent of this box along the y-axis.
 	 * @return An interval representing the extent of this box along the y-axis.
 	 */
-	public Interval getSpanY() {
+	public Interval spanY() {
 		return isEmpty() ? Interval.EMPTY : new Interval(minimumY, maximumY);
 	}
 
@@ -108,7 +108,7 @@ public final class Box2 {
 	 * Gets the length of the box along the x-axis.
 	 * @return The length of the box along the x-axis.
 	 */
-	public double getLengthX() {
+	public double lengthX() {
 		return isEmpty() ? Double.NaN : maximumX - minimumX;
 	}
 
@@ -116,7 +116,7 @@ public final class Box2 {
 	 * Gets the length of the box along the y-axis.
 	 * @return The length of the box along the y-axis.
 	 */
-	public double getLengthY() {
+	public double lengthY() {
 		return isEmpty() ? Double.NaN : maximumY - minimumY;
 	}
 
@@ -132,7 +132,7 @@ public final class Box2 {
 	 * Gets the point at the center of this box.
 	 * @return The point at the center of this box.
 	 */
-	public Point2 getCenter() {
+	public Point2 center() {
 		return new Point2((minimumX + maximumX) / 2.0, (minimumY + maximumY) / 2.0);
 	}
 
@@ -140,7 +140,7 @@ public final class Box2 {
 	 * Computes the length of the diagonal of this box.
 	 * @return The length of the diagonal of this box.
 	 */
-	public double getDiagonal() {
+	public double diagonal() {
 		return Math.sqrt(
 				(maximumX - minimumX) * (maximumX - minimumX) +
 				(maximumY - minimumY) * (maximumY - minimumY)
@@ -160,7 +160,7 @@ public final class Box2 {
 	 * Gets the area of the box.
 	 * @return The area of the box.
 	 */
-	public double getArea() {
+	public double area() {
 		return (maximumX - minimumX) * (maximumY - minimumY);
 	}
 
@@ -168,7 +168,7 @@ public final class Box2 {
 	 * Gets the length of the perimeter of the box.
 	 * @return The perimeter of the box.
 	 */
-	public double getPerimeter() {
+	public double perimeter() {
 		return 2.0 * ((maximumX - minimumX) + (maximumY - minimumY));
 	}
 
@@ -232,18 +232,18 @@ public final class Box2 {
 		}
 
 		// Check if the ray starts from within the box.
-		if (this.contains(ray.getOrigin())) {
+		if (this.contains(ray.origin())) {
 			return true;
 		}
 
-		assert(ray.getDirection().x() != 0.0 || ray.getDirection().y() != 0.0);
+		assert(ray.direction().x() != 0.0 || ray.direction().y() != 0.0);
 
 		double	t;
 		Point2	p;
 
 		// Check for intersection with each of the six sides of the box.
-		if (ray.getDirection().x() != 0.0) {
-			t = (minimumX - ray.getOrigin().x()) / ray.getDirection().x();
+		if (ray.direction().x() != 0.0) {
+			t = (minimumX - ray.origin().x()) / ray.direction().x();
 			if (t > 0.0) {
 				p = ray.pointAt(t);
 				if (minimumY < p.y() && p.y() < maximumY) {
@@ -251,7 +251,7 @@ public final class Box2 {
 				}
 			}
 
-			t = (maximumX - ray.getOrigin().x()) / ray.getDirection().x();
+			t = (maximumX - ray.origin().x()) / ray.direction().x();
 			if (t > 0.0) {
 				p = ray.pointAt(t);
 				if (minimumY < p.y() && p.y() < maximumY) {
@@ -260,8 +260,8 @@ public final class Box2 {
 			}
 		}
 
-		if (ray.getDirection().y() != 0.0) {
-			t = (minimumY - ray.getOrigin().y()) / ray.getDirection().y();
+		if (ray.direction().y() != 0.0) {
+			t = (minimumY - ray.origin().y()) / ray.direction().y();
 			if (t > 0.0) {
 				p = ray.pointAt(t);
 				if (minimumX < p.x() && p.x() < maximumX) {
@@ -269,7 +269,7 @@ public final class Box2 {
 				}
 			}
 
-			t = (maximumY - ray.getOrigin().y()) / ray.getDirection().y();
+			t = (maximumY - ray.origin().y()) / ray.direction().y();
 			if (t > 0.0) {
 				p = ray.pointAt(t);
 				if (minimumX < p.x() && p.x() < maximumX) {
@@ -306,17 +306,17 @@ public final class Box2 {
 		double[]	t = new double[2];
 		int			n = 0;
 
-		if (this.contains(ray.getOrigin())) {
+		if (this.contains(ray.origin())) {
 			t[n++] = 0.0;
 		}
 
-		assert(ray.getDirection().x() != 0.0 || ray.getDirection().y() != 0.0);
+		assert(ray.direction().x() != 0.0 || ray.direction().y() != 0.0);
 
 		Point2		p;
 
 		// Check for intersection with each of the six sides of the box.
-		if (ray.getDirection().x() != 0.0) {
-			t[n] = (minimumX - ray.getOrigin().x()) / ray.getDirection().x();
+		if (ray.direction().x() != 0.0) {
+			t[n] = (minimumX - ray.origin().x()) / ray.direction().x();
 			if (t[n] > 0.0) {
 				p = ray.pointAt(t[n]);
 				if (minimumY < p.y() && p.y() < maximumY) {
@@ -324,7 +324,7 @@ public final class Box2 {
 				}
 			}
 
-			t[n] = (maximumX - ray.getOrigin().x()) / ray.getDirection().x();
+			t[n] = (maximumX - ray.origin().x()) / ray.direction().x();
 			if (t[n] > 0.0) {
 				p = ray.pointAt(t[n]);
 				if (minimumY < p.y() && p.y() < maximumY) {
@@ -333,8 +333,8 @@ public final class Box2 {
 			}
 		}
 
-		if (ray.getDirection().y() != 0.0) {
-			t[n] = (minimumY - ray.getOrigin().y()) / ray.getDirection().y();
+		if (ray.direction().y() != 0.0) {
+			t[n] = (minimumY - ray.origin().y()) / ray.direction().y();
 			if (t[n] > 0.0) {
 				p = ray.pointAt(t[n]);
 				if (minimumX < p.x() && p.x() < maximumX) {
@@ -342,7 +342,7 @@ public final class Box2 {
 				}
 			}
 
-			t[n] = (maximumY - ray.getOrigin().y()) / ray.getDirection().y();
+			t[n] = (maximumY - ray.origin().y()) / ray.direction().y();
 			if (t[n] > 0.0) {
 				p = ray.pointAt(t[n]);
 				if (minimumX < p.x() && p.x() < maximumX) {
@@ -392,8 +392,8 @@ public final class Box2 {
 		double	cx = (minimumX + maximumX) / 2.0;
 		double	cy = (minimumY + maximumY) / 2.0;
 
-		double	rx = this.getLengthX() / 2.0;
-		double	ry = this.getLengthY() / 2.0;
+		double	rx = this.lengthX() / 2.0;
+		double	ry = this.lengthY() / 2.0;
 
 		double	dx = (p.x() - cx) / rx;
 		double	dy = (p.y() - cy) / ry;
@@ -410,7 +410,7 @@ public final class Box2 {
 	 * Equivalent to {@code this.getSpanX().interpolate(t)}.
 	 * @param t The point at which to interpolate.
 	 * @return The interpolated value.
-	 * @see {@link #getSpanX()}, {@link Interval#interpolate(double)}.
+	 * @see {@link #spanX()}, {@link Interval#interpolate(double)}.
 	 */
 	public double interpolateX(double t) {
 		return this.minimumX + t * (this.maximumX - this.minimumX);
@@ -421,7 +421,7 @@ public final class Box2 {
 	 * Equivalent to {@code this.getSpanY().interpolate(t)}.
 	 * @param t The point at which to interpolate.
 	 * @return The interpolated value.
-	 * @see {@link #getSpanY()}, {@link Interval#interpolate(double)}.
+	 * @see {@link #spanY()}, {@link Interval#interpolate(double)}.
 	 */
 	public double interpolateY(double t) {
 		return this.minimumY + t * (this.maximumY - this.minimumY);

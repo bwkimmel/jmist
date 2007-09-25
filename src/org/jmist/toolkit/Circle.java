@@ -29,7 +29,7 @@ public final class Circle {
 	 * Gets the center of the circle.
 	 * @return The center of the circle.
 	 */
-	public Point2 getCenter() {
+	public Point2 center() {
 		return center;
 	}
 
@@ -37,7 +37,7 @@ public final class Circle {
 	 * Gets the radius of the circle.
 	 * @return The radius of the circle.
 	 */
-	public double getRadius() {
+	public double radius() {
 		return radius;
 	}
 
@@ -62,7 +62,7 @@ public final class Circle {
 	 * Computes the area of the circle.
 	 * @return The area of the circle.
 	 */
-	public double getArea() {
+	public double area() {
 		return Math.PI * radius * radius;
 	}
 
@@ -70,7 +70,7 @@ public final class Circle {
 	 * Computes the diameter of the circle.
 	 * @return The diameter of the circle.
 	 */
-	public double getDiameter() {
+	public double diameter() {
 		return 2.0 * radius;
 	}
 
@@ -78,7 +78,7 @@ public final class Circle {
 	 * Computes the circumference of the circle.
 	 * @return The circumference of the circle.
 	 */
-	public double getCircumference() {
+	public double circumference() {
 		return 2.0 * Math.PI * radius;
 	}
 
@@ -135,12 +135,12 @@ public final class Circle {
 		}
 
 		double		r2 = radius * radius;
-		Vector2		oc = ray.getOrigin().vectorTo(center);
+		Vector2		oc = ray.origin().vectorTo(center);
 		double		L2oc = oc.dot(oc);
 
 		if (L2oc < r2) return true;
 
-		double		tca = oc.dot(ray.getDirection());
+		double		tca = oc.dot(ray.direction());
 
 		if (tca < 0.0) return false;
 
@@ -177,12 +177,12 @@ public final class Circle {
 
 		// Check if the ray starts from within the box.
 		double		r2 = radius * radius;
-		Vector2		oc = ray.getOrigin().vectorTo(center);
+		Vector2		oc = ray.origin().vectorTo(center);
 		double		L2oc = oc.dot(oc);
 		boolean		startInside = (L2oc < r2);
 
 		// distance along ray to point on ray closest to center of sphere (equation (A10)).
-		double		tca = oc.dot(ray.getDirection());
+		double		tca = oc.dot(ray.direction());
 
 		// if the ray starts outside the sphere and points away from the center of the
 		// sphwere, then the ray does not hit the sphere.

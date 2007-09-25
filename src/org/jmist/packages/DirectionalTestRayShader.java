@@ -20,7 +20,7 @@ public final class DirectionalTestRayShader implements IRayShader {
 	 */
 	public void shadeRay(Ray3 ray, Pixel pixel) {
 
-		Vector3 V = ray.getDirection().unit();
+		Vector3 V = ray.direction().unit();
 
 		pixel.setAt(0, (1.0 + V.x()) / 2.0);
 		pixel.setAt(1, (1.0 + V.y()) / 2.0);

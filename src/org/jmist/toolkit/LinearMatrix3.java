@@ -120,22 +120,11 @@ public final class LinearMatrix3 {
 	}
 
 	/**
-	 * Gets an element of the matrix.
-	 * @param row The row containing the element to get (0 <= row < 3).
-	 * @param col The column containing the element to get (0 <= col < 3).
-	 * @return The value of the element at the specified position.
-	 * @see #at(int, int)
-	 */
-	public double getElement(int row, int col) {
-		return a[row][col];
-	}
-
-	/**
 	 * Returns a scaling matrix.
 	 * @param c The factor by which to scale.
 	 * @return A scaling matrix.
 	 */
-	public static LinearMatrix3 getScaleMatrix(double c) {
+	public static LinearMatrix3 scaleMatrix(double c) {
 		return new LinearMatrix3(
 				c, 0.0, 0.0,
 				0.0, c, 0.0,
@@ -151,7 +140,7 @@ public final class LinearMatrix3 {
 	 * @param cz The factor by which to scale along the z-axis.
 	 * @return The stretch matrix.
 	 */
-	public static LinearMatrix3 getStretchMatrix(double cx, double cy, double cz) {
+	public static LinearMatrix3 stretchMatrix(double cx, double cy, double cz) {
 		return new LinearMatrix3(
 				cx, 0.0, 0.0,
 				0.0, cy, 0.0,
@@ -164,7 +153,7 @@ public final class LinearMatrix3 {
 	 * @param theta The angle to rotate by.
 	 * @return The rotation matrix.
 	 */
-	public static LinearMatrix3 getRotateXMatrix(double theta) {
+	public static LinearMatrix3 rotateXMatrix(double theta) {
 		return new LinearMatrix3(
 				1.0, 0.0, 0.0,
 				0.0, Math.cos(theta), -Math.sin(theta),
@@ -172,7 +161,7 @@ public final class LinearMatrix3 {
 		);
 	}
 
-	public static LinearMatrix3 getRotateYMatrix(double theta) {
+	public static LinearMatrix3 rotateYMatrix(double theta) {
 		return new LinearMatrix3(
 				Math.cos(theta), 0.0, Math.sin(theta),
 				0.0, 1.0, 0.0,
@@ -180,7 +169,7 @@ public final class LinearMatrix3 {
 		);
 	}
 
-	public static LinearMatrix3 getRotateZMatrix(double theta) {
+	public static LinearMatrix3 rotateZMatrix(double theta) {
 		return new LinearMatrix3(
 				Math.cos(theta), -Math.sin(theta), 0.0,
 				Math.sin(theta), Math.cos(theta), 0.0,

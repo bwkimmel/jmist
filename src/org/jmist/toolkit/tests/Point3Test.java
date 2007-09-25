@@ -29,36 +29,6 @@ public class Point3Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Point3#getX()}.
-	 */
-	@Test
-	public final void testGetX() {
-		Point3 p = new Point3(1.0, 2.0, 3.0);
-
-		assertEquals(1.0, p.getX());
-	}
-
-	/**
-	 * Test method for {@link org.jmist.toolkit.Point3#getY()}.
-	 */
-	@Test
-	public final void testGetY() {
-		Point3 p = new Point3(1.0, 2.0, 3.0);
-
-		assertEquals(2.0, p.getY());
-	}
-
-	/**
-	 * Test method for {@link org.jmist.toolkit.Point3#getZ()}.
-	 */
-	@Test
-	public final void testGetZ() {
-		Point3 p = new Point3(1.0, 2.0, 3.0);
-
-		assertEquals(3.0, p.getZ());
-	}
-
-	/**
 	 * Test method for {@link org.jmist.toolkit.Point3#squaredDistanceTo(org.jmist.toolkit.Point3)}.
 	 */
 	@Test

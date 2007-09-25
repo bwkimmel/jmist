@@ -15,12 +15,12 @@ public interface IBounded2 {
 	 * Gets a circle that bounds this object.
 	 * @return A bounding circle.
 	 */
-	Circle getBoundingCircle();
+	Circle boundingCircle();
 
 	/**
 	 * Gets a box that bounds this object.
 	 * @return A bounding box.
 	 */
-	Box2 getBoundingBox();
+	Box2 boundingBox();
 
 }

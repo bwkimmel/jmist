@@ -78,7 +78,7 @@ public class LinearMatrix3Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.LinearMatrix3#getScaleMatrix(double)}.
+	 * Test method for {@link org.jmist.toolkit.LinearMatrix3#scaleMatrix(double)}.
 	 */
 	@Test
 	public final void testGetScaleMatrix() {
@@ -86,7 +86,7 @@ public class LinearMatrix3Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.LinearMatrix3#getStretchMatrix(double, double, double)}.
+	 * Test method for {@link org.jmist.toolkit.LinearMatrix3#stretchMatrix(double, double, double)}.
 	 */
 	@Test
 	public final void testGetStretchMatrix() {
@@ -94,7 +94,7 @@ public class LinearMatrix3Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.LinearMatrix3#getRotateXMatrix(double)}.
+	 * Test method for {@link org.jmist.toolkit.LinearMatrix3#rotateXMatrix(double)}.
 	 */
 	@Test
 	public final void testGetRotateXMatrix() {
@@ -102,7 +102,7 @@ public class LinearMatrix3Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.LinearMatrix3#getRotateYMatrix(double)}.
+	 * Test method for {@link org.jmist.toolkit.LinearMatrix3#rotateYMatrix(double)}.
 	 */
 	@Test
 	public final void testGetRotateYMatrix() {
@@ -110,7 +110,7 @@ public class LinearMatrix3Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.LinearMatrix3#getRotateZMatrix(double)}.
+	 * Test method for {@link org.jmist.toolkit.LinearMatrix3#rotateZMatrix(double)}.
 	 */
 	@Test
 	public final void testGetRotateZMatrix() {

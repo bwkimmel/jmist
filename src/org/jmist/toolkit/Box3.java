@@ -23,12 +23,12 @@ public final class Box3 {
 			minimumX = minimumY = minimumZ = Double.NaN;
 			maximumX = maximumY = maximumZ = Double.NaN;
 		} else {
-			minimumX = spanX.getMinimum();
-			maximumX = spanX.getMaximum();
-			minimumY = spanY.getMinimum();
-			maximumY = spanY.getMaximum();
-			minimumZ = spanZ.getMinimum();
-			maximumZ = spanZ.getMaximum();
+			minimumX = spanX.minimum();
+			maximumX = spanX.maximum();
+			minimumY = spanY.minimum();
+			maximumY = spanY.maximum();
+			minimumZ = spanZ.minimum();
+			maximumZ = spanZ.maximum();
 		}
 	}
 
@@ -70,7 +70,7 @@ public final class Box3 {
 	 * Gets the lower bound of this box along the x-axis.
 	 * @return The lower bound of this box along the x-axis.
 	 */
-	public double getMinimumX() {
+	public double minimumX() {
 		return minimumX;
 	}
 
@@ -78,7 +78,7 @@ public final class Box3 {
 	 * Gets the lower bound of this box along the y-axis.
 	 * @return The lower bound of this box along the y-axis.
 	 */
-	public double getMinimumY() {
+	public double minimumY() {
 		return minimumY;
 	}
 
@@ -86,7 +86,7 @@ public final class Box3 {
 	 * Gets the lower bound of this box along the z-axis.
 	 * @return The lower bound of this box along the z-axis.
 	 */
-	public double getMinimumZ() {
+	public double minimumZ() {
 		return minimumZ;
 	}
 
@@ -94,7 +94,7 @@ public final class Box3 {
 	 * Gets the upper bound of this box along the x-axis.
 	 * @return The upper bound of this box along the x-axis.
 	 */
-	public double getMaximumX() {
+	public double maximumX() {
 		return maximumX;
 	}
 
@@ -102,7 +102,7 @@ public final class Box3 {
 	 * Gets the upper bound of this box along the y-axis.
 	 * @return The upper bound of this box along the y-axis.
 	 */
-	public double getMaximumY() {
+	public double maximumY() {
 		return maximumY;
 	}
 
@@ -110,7 +110,7 @@ public final class Box3 {
 	 * Gets the upper bound of this box along the z-axis.
 	 * @return The upper bound of this box along the z-axis.
 	 */
-	public double getMaximumZ() {
+	public double maximumZ() {
 		return maximumZ;
 	}
 
@@ -118,7 +118,7 @@ public final class Box3 {
 	 * Gets the extent of this box along the x-axis.
 	 * @return An interval representing the extent of this box along the x-axis.
 	 */
-	public Interval getSpanX() {
+	public Interval spanX() {
 		return isEmpty() ? Interval.EMPTY : new Interval(minimumX, maximumX);
 	}
 
@@ -126,7 +126,7 @@ public final class Box3 {
 	 * Gets the extent of this box along the y-axis.
 	 * @return An interval representing the extent of this box along the y-axis.
 	 */
-	public Interval getSpanY() {
+	public Interval spanY() {
 		return isEmpty() ? Interval.EMPTY : new Interval(minimumY, maximumY);
 	}
 
@@ -134,7 +134,7 @@ public final class Box3 {
 	 * Gets the extent of this box along the z-axis.
 	 * @return An interval representing the extent of this box along the z-axis.
 	 */
-	public Interval getSpanZ() {
+	public Interval spanZ() {
 		return isEmpty() ? Interval.EMPTY : new Interval(minimumZ, maximumZ);
 	}
 
@@ -142,7 +142,7 @@ public final class Box3 {
 	 * Gets the length of the box along the x-axis.
 	 * @return The length of the box along the x-axis.
 	 */
-	public double getLengthX() {
+	public double lengthX() {
 		return isEmpty() ? Double.NaN : maximumX - minimumX;
 	}
 
@@ -150,7 +150,7 @@ public final class Box3 {
 	 * Gets the length of the box along the y-axis.
 	 * @return The length of the box along the y-axis.
 	 */
-	public double getLengthY() {
+	public double lengthY() {
 		return isEmpty() ? Double.NaN : maximumY - minimumY;
 	}
 
@@ -158,7 +158,7 @@ public final class Box3 {
 	 * Gets the length of the box along the z-axis.
 	 * @return The length of the box along the z-axis.
 	 */
-	public double getLengthZ() {
+	public double lengthZ() {
 		return isEmpty() ? Double.NaN : maximumZ - minimumZ;
 	}
 
@@ -174,7 +174,7 @@ public final class Box3 {
 	 * Returns the point at the center of this box.
 	 * @return The point at the center of this box.
 	 */
-	public Point3 getCenter() {
+	public Point3 center() {
 		return new Point3((minimumX + maximumX) / 2.0, (minimumY + maximumY) / 2.0, (minimumZ + maximumZ) / 2.0);
 	}
 
@@ -182,7 +182,7 @@ public final class Box3 {
 	 * Computes the length of the diagonal of this box.
 	 * @return The length of the diagonal of this box.
 	 */
-	public double getDiagonal() {
+	public double diagonal() {
 		return Math.sqrt(
 				(maximumX - minimumX) * (maximumX - minimumX) +
 				(maximumY - minimumY) * (maximumY - minimumY) +
@@ -203,7 +203,7 @@ public final class Box3 {
 	 * Computes the volume of the box.
 	 * @return The volume of the box.
 	 */
-	public double getVolume() {
+	public double volume() {
 		return (maximumX - minimumX) * (maximumY - minimumY) * (maximumZ - minimumZ);
 	}
 
@@ -211,7 +211,7 @@ public final class Box3 {
 	 * Computes the surface area of the box.
 	 * @return The surface area of the box.
 	 */
-	public double getSurfaceArea() {
+	public double surfaceArea() {
 		return 2.0 * (((maximumX - minimumX) * (maximumY - minimumY)) +
 		              ((maximumY - minimumY) * (maximumZ - minimumZ)) +
 		              ((maximumZ - minimumZ) * (maximumX - minimumX)));
@@ -288,18 +288,18 @@ public final class Box3 {
 		}
 
 		// Check if the ray starts from within the box.
-		if (this.contains(ray.getOrigin())) {
+		if (this.contains(ray.origin())) {
 			return true;
 		}
 
-		assert(ray.getDirection().x() != 0.0 || ray.getDirection().y() != 0.0 || ray.getDirection().z() != 0.0);
+		assert(ray.direction().x() != 0.0 || ray.direction().y() != 0.0 || ray.direction().z() != 0.0);
 
 		double	t;
 		Point3	p;
 
 		// Check for intersection with each of the six sides of the box.
-		if (ray.getDirection().x() != 0.0) {
-			t = (minimumX - ray.getOrigin().x()) / ray.getDirection().x();
+		if (ray.direction().x() != 0.0) {
+			t = (minimumX - ray.origin().x()) / ray.direction().x();
 			if (t > 0.0) {
 				p = ray.pointAt(t);
 				if (minimumY < p.y() && p.y() < maximumY && minimumZ < p.z() && p.z() < maximumZ) {
@@ -307,7 +307,7 @@ public final class Box3 {
 				}
 			}
 
-			t = (maximumX - ray.getOrigin().x()) / ray.getDirection().x();
+			t = (maximumX - ray.origin().x()) / ray.direction().x();
 			if (t > 0.0) {
 				p = ray.pointAt(t);
 				if (minimumY < p.y() && p.y() < maximumY && minimumZ < p.z() && p.z() < maximumZ) {
@@ -316,8 +316,8 @@ public final class Box3 {
 			}
 		}
 
-		if (ray.getDirection().y() != 0.0) {
-			t = (minimumY - ray.getOrigin().y()) / ray.getDirection().y();
+		if (ray.direction().y() != 0.0) {
+			t = (minimumY - ray.origin().y()) / ray.direction().y();
 			if (t > 0.0) {
 				p = ray.pointAt(t);
 				if (minimumX < p.x() && p.x() < maximumX && minimumZ < p.z() && p.z() < maximumZ) {
@@ -325,7 +325,7 @@ public final class Box3 {
 				}
 			}
 
-			t = (maximumY - ray.getOrigin().y()) / ray.getDirection().y();
+			t = (maximumY - ray.origin().y()) / ray.direction().y();
 			if (t > 0.0) {
 				p = ray.pointAt(t);
 				if (minimumX < p.x() && p.x() < maximumX && minimumZ < p.z() && p.z() < maximumZ) {
@@ -334,8 +334,8 @@ public final class Box3 {
 			}
 		}
 
-		if (ray.getDirection().z() != 0.0) {
-			t = (minimumZ - ray.getOrigin().z()) / ray.getDirection().z();
+		if (ray.direction().z() != 0.0) {
+			t = (minimumZ - ray.origin().z()) / ray.direction().z();
 			if (t > 0.0) {
 				p = ray.pointAt(t);
 				if (minimumX < p.x() && p.x() < maximumX && minimumY < p.y() && p.y() < maximumY) {
@@ -343,7 +343,7 @@ public final class Box3 {
 				}
 			}
 
-			t = (maximumZ - ray.getOrigin().z()) / ray.getDirection().z();
+			t = (maximumZ - ray.origin().z()) / ray.direction().z();
 			if (t > 0.0) {
 				p = ray.pointAt(t);
 				if (minimumX < p.x() && p.x() < maximumX && minimumY < p.y() && p.y() < maximumY) {
@@ -380,17 +380,17 @@ public final class Box3 {
 		double[]	t = new double[2];
 		int			n = 0;
 
-		if (this.contains(ray.getOrigin())) {
+		if (this.contains(ray.origin())) {
 			t[n++] = 0.0;
 		}
 
-		assert(ray.getDirection().x() != 0.0 || ray.getDirection().y() != 0.0 || ray.getDirection().z() != 0.0);
+		assert(ray.direction().x() != 0.0 || ray.direction().y() != 0.0 || ray.direction().z() != 0.0);
 
 		Point3		p;
 
 		// Check for intersection with each of the six sides of the box.
-		if (ray.getDirection().x() != 0.0) {
-			t[n] = (minimumX - ray.getOrigin().x()) / ray.getDirection().x();
+		if (ray.direction().x() != 0.0) {
+			t[n] = (minimumX - ray.origin().x()) / ray.direction().x();
 			if (t[n] > 0.0) {
 				p = ray.pointAt(t[n]);
 				if (minimumY < p.y() && p.y() < maximumY && minimumZ < p.z() && p.z() < maximumZ) {
@@ -398,7 +398,7 @@ public final class Box3 {
 				}
 			}
 
-			t[n] = (maximumX - ray.getOrigin().x()) / ray.getDirection().x();
+			t[n] = (maximumX - ray.origin().x()) / ray.direction().x();
 			if (t[n] > 0.0) {
 				p = ray.pointAt(t[n]);
 				if (minimumY < p.y() && p.y() < maximumY && minimumZ < p.z() && p.z() < maximumZ) {
@@ -407,8 +407,8 @@ public final class Box3 {
 			}
 		}
 
-		if (ray.getDirection().y() != 0.0) {
-			t[n] = (minimumY - ray.getOrigin().y()) / ray.getDirection().y();
+		if (ray.direction().y() != 0.0) {
+			t[n] = (minimumY - ray.origin().y()) / ray.direction().y();
 			if (t[n] > 0.0) {
 				p = ray.pointAt(t[n]);
 				if (minimumX < p.x() && p.x() < maximumX && minimumZ < p.z() && p.z() < maximumZ) {
@@ -416,7 +416,7 @@ public final class Box3 {
 				}
 			}
 
-			t[n] = (maximumY - ray.getOrigin().y()) / ray.getDirection().y();
+			t[n] = (maximumY - ray.origin().y()) / ray.direction().y();
 			if (t[n] > 0.0) {
 				p = ray.pointAt(t[n]);
 				if (minimumX < p.x() && p.x() < maximumX && minimumZ < p.z() && p.z() < maximumZ) {
@@ -425,8 +425,8 @@ public final class Box3 {
 			}
 		}
 
-		if (ray.getDirection().z() != 0.0) {
-			t[n] = (minimumZ - ray.getOrigin().z()) / ray.getDirection().z();
+		if (ray.direction().z() != 0.0) {
+			t[n] = (minimumZ - ray.origin().z()) / ray.direction().z();
 			if (t[n] > 0.0) {
 				p = ray.pointAt(t[n]);
 				if (minimumX < p.x() && p.x() < maximumX && minimumY < p.y() && p.y() < maximumY) {
@@ -434,7 +434,7 @@ public final class Box3 {
 				}
 			}
 
-			t[n] = (maximumZ - ray.getOrigin().z()) / ray.getDirection().z();
+			t[n] = (maximumZ - ray.origin().z()) / ray.direction().z();
 			if (t[n] > 0.0) {
 				p = ray.pointAt(t[n]);
 				if (minimumX < p.x() && p.x() < maximumX && minimumY < p.y() && p.y() < maximumY) {
@@ -488,9 +488,9 @@ public final class Box3 {
 		double	cy = (minimumY + maximumY) / 2.0;
 		double	cz = (minimumZ + maximumZ) / 2.0;
 
-		double	rx = this.getLengthX() / 2.0;
-		double	ry = this.getLengthY() / 2.0;
-		double	rz = this.getLengthZ() / 2.0;
+		double	rx = this.lengthX() / 2.0;
+		double	ry = this.lengthY() / 2.0;
+		double	rz = this.lengthZ() / 2.0;
 
 		double	dx = (p.x() - cx) / rx;
 		double	dy = (p.y() - cy) / ry;
@@ -510,7 +510,7 @@ public final class Box3 {
 	 * Equivalent to {@code this.getSpanX().interpolate(t)}.
 	 * @param t The point at which to interpolate.
 	 * @return The interpolated value.
-	 * @see {@link #getSpanX()}, {@link Interval#interpolate(double)}.
+	 * @see {@link #spanX()}, {@link Interval#interpolate(double)}.
 	 */
 	public double interpolateX(double t) {
 		return this.minimumX + t * (this.maximumX - this.minimumX);
@@ -521,7 +521,7 @@ public final class Box3 {
 	 * Equivalent to {@code this.getSpanY().interpolate(t)}.
 	 * @param t The point at which to interpolate.
 	 * @return The interpolated value.
-	 * @see {@link #getSpanY()}, {@link Interval#interpolate(double)}.
+	 * @see {@link #spanY()}, {@link Interval#interpolate(double)}.
 	 */
 	public double interpolateY(double t) {
 		return this.minimumY + t * (this.maximumY - this.minimumY);
@@ -532,7 +532,7 @@ public final class Box3 {
 	 * Equivalent to {@code this.getSpanZ().interpolate(t)}.
 	 * @param t The point at which to interpolate.
 	 * @return The interpolated value.
-	 * @see {@link #getSpanZ()}, {@link Interval#interpolate(double)}.
+	 * @see {@link #spanZ()}, {@link Interval#interpolate(double)}.
 	 */
 	public double interpolateZ(double t) {
 		return this.minimumZ + t * (this.maximumZ - this.minimumZ);

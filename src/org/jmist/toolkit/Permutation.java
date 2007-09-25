@@ -67,7 +67,7 @@ public final class Permutation {
 		return p;
 	}
 	
-	public static Permutation getIdentity(int size) {
+	public static Permutation identity(int size) {
 		Permutation p = new Permutation(size);
 		
 		for (int i = 0; i < size; i++) {
@@ -77,8 +77,8 @@ public final class Permutation {
 		return p;
 	}
 	
-	public static Permutation getRandom(int size) {
-		Permutation p = Permutation.getIdentity(size);
+	public static Permutation random(int size) {
+		Permutation p = Permutation.identity(size);
 		Random rnd = new Random();
 		int j, temp;
 		

@@ -15,12 +15,12 @@ public interface IBounded3 {
 	 * Gets a sphere that bounds this object.
 	 * @return A bounding sphere.
 	 */
-	Sphere getBoundingSphere();
+	Sphere boundingSphere();
 
 	/**
 	 * Gets a box that bounds this object.
 	 * @return A bounding box.
 	 */
-	Box3 getBoundingBox();
+	Box3 boundingBox();
 
 }

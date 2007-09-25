@@ -164,17 +164,6 @@ public final class AffineMatrix3 {
 	}
 
 	/**
-	 * Gets an element of the matrix.
-	 * @param row The row containing the element to get (0 <= row < 3).
-	 * @param col The column containing the element to get (0 <= col < 4).
-	 * @return The value of the element at the specified position.
-	 * @see at
-	 */
-	public double getElement(int row, int col) {
-		return a[row][col];
-	}
-
-	/**
 	 * The identity matrix ({@code this * IDENTITY == this}).
 	 */
 	public static final AffineMatrix3 IDENTITY = new AffineMatrix3(1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);

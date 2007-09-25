@@ -22,7 +22,7 @@ public class CircleTest {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Circle#getCenter()}.
+	 * Test method for {@link org.jmist.toolkit.Circle#center()}.
 	 */
 	@Test
 	public final void testGetCenter() {
@@ -30,7 +30,7 @@ public class CircleTest {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Circle#getRadius()}.
+	 * Test method for {@link org.jmist.toolkit.Circle#radius()}.
 	 */
 	@Test
 	public final void testGetRadius() {
@@ -54,7 +54,7 @@ public class CircleTest {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Circle#getArea()}.
+	 * Test method for {@link org.jmist.toolkit.Circle#area()}.
 	 */
 	@Test
 	public final void testGetArea() {
@@ -62,7 +62,7 @@ public class CircleTest {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Circle#getDiameter()}.
+	 * Test method for {@link org.jmist.toolkit.Circle#diameter()}.
 	 */
 	@Test
 	public final void testGetDiameter() {
@@ -70,7 +70,7 @@ public class CircleTest {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Circle#getCircumference()}.
+	 * Test method for {@link org.jmist.toolkit.Circle#circumference()}.
 	 */
 	@Test
 	public final void testGetCircumference() {

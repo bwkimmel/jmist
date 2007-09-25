@@ -24,7 +24,7 @@ public final class Ray2 {
 	 * Gets the origin of this ray.
 	 * @return The origin of this ray.
 	 */
-	public Point2 getOrigin() {
+	public Point2 origin() {
 		return origin;
 	}
 
@@ -32,7 +32,7 @@ public final class Ray2 {
 	 * Gets the direction of this ray.
 	 * @return The direction of this ray.
 	 */
-	public Vector2 getDirection() {
+	public Vector2 direction() {
 		return direction;
 	}
 

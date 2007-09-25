@@ -63,8 +63,8 @@ public class BoundingBoxBuilder3 {
 	 */
 	public void add(Sphere sphere) {
 		if (!sphere.isEmpty()) {
-			double r = sphere.getRadius();
-			Point3 c = sphere.getCenter();
+			double r = sphere.radius();
+			Point3 c = sphere.center();
 
 			if (this.isEmpty()) {
 				minimumX = c.x() - r;
@@ -91,19 +91,19 @@ public class BoundingBoxBuilder3 {
 	public void add(Box3 box) {
 		if (!box.isEmpty()) {
 			if (this.isEmpty()) {
-				minimumX = box.getMinimumX();
-				minimumY = box.getMinimumY();
-				minimumZ = box.getMinimumZ();
-				maximumX = box.getMaximumX();
-				maximumY = box.getMaximumY();
-				maximumZ = box.getMaximumZ();
+				minimumX = box.minimumX();
+				minimumY = box.minimumY();
+				minimumZ = box.minimumZ();
+				maximumX = box.maximumX();
+				maximumY = box.maximumY();
+				maximumZ = box.maximumZ();
 			} else {
-				minimumX = Math.min(box.getMinimumX(), minimumX);
-				minimumY = Math.min(box.getMinimumX(), minimumY);
-				minimumZ = Math.min(box.getMinimumX(), minimumZ);
-				maximumX = Math.max(box.getMaximumX(), maximumX);
-				maximumY = Math.max(box.getMaximumX(), maximumY);
-				maximumZ = Math.max(box.getMaximumX(), maximumZ);
+				minimumX = Math.min(box.minimumX(), minimumX);
+				minimumY = Math.min(box.minimumX(), minimumY);
+				minimumZ = Math.min(box.minimumX(), minimumZ);
+				maximumX = Math.max(box.maximumX(), maximumX);
+				maximumY = Math.max(box.maximumX(), maximumY);
+				maximumZ = Math.max(box.maximumX(), maximumZ);
 			}
 		}
 	}

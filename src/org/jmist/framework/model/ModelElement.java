@@ -91,14 +91,14 @@ public abstract class ModelElement implements IModelElement {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.IBounded3#getBoundingBox()
 	 */
-	public Box3 getBoundingBox() {
+	public Box3 boundingBox() {
 		return Box3.EMPTY;
 	}
 
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.IBounded3#getBoundingSphere()
 	 */
-	public Sphere getBoundingSphere() {
+	public Sphere boundingSphere() {
 		return Sphere.EMPTY;
 	}
 

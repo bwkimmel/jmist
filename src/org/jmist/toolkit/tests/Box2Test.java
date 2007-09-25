@@ -38,7 +38,7 @@ public class Box2Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Box2#getMinimumX()}.
+	 * Test method for {@link org.jmist.toolkit.Box2#minimumX()}.
 	 */
 	@Test
 	public final void testGetMinimumX() {
@@ -46,7 +46,7 @@ public class Box2Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Box2#getMinimumY()}.
+	 * Test method for {@link org.jmist.toolkit.Box2#minimumY()}.
 	 */
 	@Test
 	public final void testGetMinimumY() {
@@ -54,7 +54,7 @@ public class Box2Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Box2#getMaximumX()}.
+	 * Test method for {@link org.jmist.toolkit.Box2#maximumX()}.
 	 */
 	@Test
 	public final void testGetMaximumX() {
@@ -62,7 +62,7 @@ public class Box2Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Box2#getMaximumY()}.
+	 * Test method for {@link org.jmist.toolkit.Box2#maximumY()}.
 	 */
 	@Test
 	public final void testGetMaximumY() {
@@ -70,7 +70,7 @@ public class Box2Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Box2#getSpanX()}.
+	 * Test method for {@link org.jmist.toolkit.Box2#spanX()}.
 	 */
 	@Test
 	public final void testGetSpanX() {
@@ -78,7 +78,7 @@ public class Box2Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Box2#getSpanY()}.
+	 * Test method for {@link org.jmist.toolkit.Box2#spanY()}.
 	 */
 	@Test
 	public final void testGetSpanY() {
@@ -86,7 +86,7 @@ public class Box2Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Box2#getLengthX()}.
+	 * Test method for {@link org.jmist.toolkit.Box2#lengthX()}.
 	 */
 	@Test
 	public final void testGetLengthX() {
@@ -94,7 +94,7 @@ public class Box2Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Box2#getLengthY()}.
+	 * Test method for {@link org.jmist.toolkit.Box2#lengthY()}.
 	 */
 	@Test
 	public final void testGetLengthY() {
@@ -110,7 +110,7 @@ public class Box2Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Box2#getCenter()}.
+	 * Test method for {@link org.jmist.toolkit.Box2#center()}.
 	 */
 	@Test
 	public final void testGetCenter() {
@@ -118,7 +118,7 @@ public class Box2Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Box2#getDiagonal()}.
+	 * Test method for {@link org.jmist.toolkit.Box2#diagonal()}.
 	 */
 	@Test
 	public final void testGetDiagonal() {
@@ -134,7 +134,7 @@ public class Box2Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Box2#getArea()}.
+	 * Test method for {@link org.jmist.toolkit.Box2#area()}.
 	 */
 	@Test
 	public final void testGetArea() {
@@ -142,7 +142,7 @@ public class Box2Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Box2#getPerimeter()}.
+	 * Test method for {@link org.jmist.toolkit.Box2#perimeter()}.
 	 */
 	@Test
 	public final void testGetPerimeter() {

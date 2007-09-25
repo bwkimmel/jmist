@@ -22,7 +22,7 @@ public class SphereTest {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Sphere#getCenter()}.
+	 * Test method for {@link org.jmist.toolkit.Sphere#center()}.
 	 */
 	@Test
 	public final void testGetCenter() {
@@ -30,7 +30,7 @@ public class SphereTest {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Sphere#getRadius()}.
+	 * Test method for {@link org.jmist.toolkit.Sphere#radius()}.
 	 */
 	@Test
 	public final void testGetRadius() {
@@ -54,7 +54,7 @@ public class SphereTest {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Sphere#getVolume()}.
+	 * Test method for {@link org.jmist.toolkit.Sphere#volume()}.
 	 */
 	@Test
 	public final void testGetVolume() {
@@ -62,7 +62,7 @@ public class SphereTest {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Sphere#getDiameter()}.
+	 * Test method for {@link org.jmist.toolkit.Sphere#diameter()}.
 	 */
 	@Test
 	public final void testGetDiameter() {
@@ -70,7 +70,7 @@ public class SphereTest {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Sphere#getSurfaceArea()}.
+	 * Test method for {@link org.jmist.toolkit.Sphere#surfaceArea()}.
 	 */
 	@Test
 	public final void testGetSurfaceArea() {

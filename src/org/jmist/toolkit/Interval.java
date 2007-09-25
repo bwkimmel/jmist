@@ -38,7 +38,7 @@ public final class Interval {
 	 * Gets the lower bound of this interval.
 	 * @return The lower bound of this interval.
 	 */
-	public double getMinimum() {
+	public double minimum() {
 		return minimum;
 	}
 
@@ -46,7 +46,7 @@ public final class Interval {
 	 * Gets the upper bound of this interval.
 	 * @return The upper bound of this interval.
 	 */
-	public double getMaximum() {
+	public double maximum() {
 		return maximum;
 	}
 
@@ -55,7 +55,7 @@ public final class Interval {
 	 * between the endpoints).
 	 * @return The length of the interval.
 	 */
-	public double getLength() {
+	public double length() {
 		return maximum - minimum;
 	}
 

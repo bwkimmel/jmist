@@ -38,7 +38,7 @@ public class Box3Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Box3#getMinimumX()}.
+	 * Test method for {@link org.jmist.toolkit.Box3#minimumX()}.
 	 */
 	@Test
 	public final void testGetMinimumX() {
@@ -46,7 +46,7 @@ public class Box3Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Box3#getMinimumY()}.
+	 * Test method for {@link org.jmist.toolkit.Box3#minimumY()}.
 	 */
 	@Test
 	public final void testGetMinimumY() {
@@ -54,7 +54,7 @@ public class Box3Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Box3#getMinimumZ()}.
+	 * Test method for {@link org.jmist.toolkit.Box3#minimumZ()}.
 	 */
 	@Test
 	public final void testGetMinimumZ() {
@@ -62,7 +62,7 @@ public class Box3Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Box3#getMaximumX()}.
+	 * Test method for {@link org.jmist.toolkit.Box3#maximumX()}.
 	 */
 	@Test
 	public final void testGetMaximumX() {
@@ -70,7 +70,7 @@ public class Box3Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Box3#getMaximumY()}.
+	 * Test method for {@link org.jmist.toolkit.Box3#maximumY()}.
 	 */
 	@Test
 	public final void testGetMaximumY() {
@@ -78,7 +78,7 @@ public class Box3Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Box3#getMaximumZ()}.
+	 * Test method for {@link org.jmist.toolkit.Box3#maximumZ()}.
 	 */
 	@Test
 	public final void testGetMaximumZ() {
@@ -86,7 +86,7 @@ public class Box3Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Box3#getSpanX()}.
+	 * Test method for {@link org.jmist.toolkit.Box3#spanX()}.
 	 */
 	@Test
 	public final void testGetSpanX() {
@@ -94,7 +94,7 @@ public class Box3Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Box3#getSpanY()}.
+	 * Test method for {@link org.jmist.toolkit.Box3#spanY()}.
 	 */
 	@Test
 	public final void testGetSpanY() {
@@ -102,7 +102,7 @@ public class Box3Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Box3#getSpanZ()}.
+	 * Test method for {@link org.jmist.toolkit.Box3#spanZ()}.
 	 */
 	@Test
 	public final void testGetSpanZ() {
@@ -110,7 +110,7 @@ public class Box3Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Box3#getLengthX()}.
+	 * Test method for {@link org.jmist.toolkit.Box3#lengthX()}.
 	 */
 	@Test
 	public final void testGetLengthX() {
@@ -118,7 +118,7 @@ public class Box3Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Box3#getLengthY()}.
+	 * Test method for {@link org.jmist.toolkit.Box3#lengthY()}.
 	 */
 	@Test
 	public final void testGetLengthY() {
@@ -126,7 +126,7 @@ public class Box3Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Box3#getLengthZ()}.
+	 * Test method for {@link org.jmist.toolkit.Box3#lengthZ()}.
 	 */
 	@Test
 	public final void testGetLengthZ() {
@@ -142,7 +142,7 @@ public class Box3Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Box3#getCenter()}.
+	 * Test method for {@link org.jmist.toolkit.Box3#center()}.
 	 */
 	@Test
 	public final void testGetCenter() {
@@ -150,7 +150,7 @@ public class Box3Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Box3#getDiagonal()}.
+	 * Test method for {@link org.jmist.toolkit.Box3#diagonal()}.
 	 */
 	@Test
 	public final void testGetDiagonal() {
@@ -166,7 +166,7 @@ public class Box3Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Box3#getVolume()}.
+	 * Test method for {@link org.jmist.toolkit.Box3#volume()}.
 	 */
 	@Test
 	public final void testGetVolume() {
@@ -174,7 +174,7 @@ public class Box3Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Box3#getSurfaceArea()}.
+	 * Test method for {@link org.jmist.toolkit.Box3#surfaceArea()}.
 	 */
 	@Test
 	public final void testGetSurfaceArea() {

@@ -43,28 +43,6 @@ public final class Point2 {
 	}
 
 	/**
-	 * Gets the distance from the origin along the x-axis.
-	 * Equivalent to {@code this.minus(Point2.ORIGIN).dot(Vector2.I);}
-	 * @return The distance from the origin along the x-axis.
-	 * @see {@link #x()}, {@link Vector2#I},
-	 * 		{@link Vector2#dot(Vector2)}.
-	 */
-	public double getX() {
-		return x;
-	}
-
-	/**
-	 * Gets the distance from the origin along the y-axis.
-	 * Equivalent to {@code this.minus(Point2.ORIGIN).dot(Vector2.J);}
-	 * @return The distance from the origin along the y-axis.
-	 * @see {@link #y()}, {@link Vector2#J},
-	 * 		{@link Vector2#dot(Vector2)}.
-	 */
-	public double getY() {
-		return y;
-	}
-
-	/**
 	 * Computes the square of the distance from this point to the
 	 * specified point.
 	 * @param p The point to compute the square of the distance to.

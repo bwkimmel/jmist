@@ -62,11 +62,11 @@ public class CompositeModelElement extends ModelElement {
 	 * @see org.jmist.framework.model.ModelElement#getBoundingBox()
 	 */
 	@Override
-	public Box3 getBoundingBox() {
+	public Box3 boundingBox() {
 		BoundingBoxBuilder3 builder = new BoundingBoxBuilder3();
 
 		for (IModelElement child : this.children()) {
-			builder.add(child.getBoundingBox());
+			builder.add(child.boundingBox());
 		}
 
 		return builder.getBoundingBox();
@@ -76,10 +76,10 @@ public class CompositeModelElement extends ModelElement {
 	 * @see org.jmist.framework.model.ModelElement#getBoundingSphere()
 	 */
 	@Override
-	public Sphere getBoundingSphere() {
+	public Sphere boundingSphere() {
 		// TODO Create a bounding sphere builder and use that instead.
-		Box3 boundingBox = this.getBoundingBox();
-		return new Sphere(boundingBox.getCenter(), boundingBox.getDiagonal() / 2.0);
+		Box3 boundingBox = this.boundingBox();
+		return new Sphere(boundingBox.center(), boundingBox.diagonal() / 2.0);
 	}
 
 	/* (non-Javadoc)

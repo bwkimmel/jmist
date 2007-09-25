@@ -11,17 +11,17 @@ import org.jmist.toolkit.*;
  */
 public interface ISurfacePoint {
 
-	Point3 getLocation();
-	Vector3 getNormal();
-	Vector3 getMicroNormal();
+	Point3 location();
+	Vector3 normal();
+	Vector3 microfacetNormal();
 
-	Vector3 getTangent();
+	Vector3 tangent();
 
-	IMaterial getMaterial();
+	IMaterial material();
 
-	IMedium getMediumAbove();
-	IMedium getMediumBelow();
+	IMedium mediumAbove();
+	IMedium mediumBelow();
 
-	Point2 getTextureCoordinates();
+	Point2 textureCoordinates();
 
 }

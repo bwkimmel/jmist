@@ -22,7 +22,7 @@ public class Ray2Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Ray2#getOrigin()}.
+	 * Test method for {@link org.jmist.toolkit.Ray2#origin()}.
 	 */
 	@Test
 	public final void testGetOrigin() {
@@ -30,7 +30,7 @@ public class Ray2Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Ray2#getDirection()}.
+	 * Test method for {@link org.jmist.toolkit.Ray2#direction()}.
 	 */
 	@Test
 	public final void testGetDirection() {

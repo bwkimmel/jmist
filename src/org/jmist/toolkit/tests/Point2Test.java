@@ -26,24 +26,6 @@ public class Point2Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Point2#getX()}.
-	 */
-	@Test
-	public final void testGetX() {
-		Point2 p = new Point2(3.0, 4.0);
-		assertEquals(3.0, p.getX());
-	}
-
-	/**
-	 * Test method for {@link org.jmist.toolkit.Point2#getY()}.
-	 */
-	@Test
-	public final void testGetY() {
-		Point2 p = new Point2(5.0, 6.0);
-		assertEquals(6.0, p.getY());
-	}
-
-	/**
 	 * Test method for {@link org.jmist.toolkit.Point2#squaredDistanceTo(org.jmist.toolkit.Point2)}.
 	 */
 	@Test

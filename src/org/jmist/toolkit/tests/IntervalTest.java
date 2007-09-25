@@ -30,7 +30,7 @@ public class IntervalTest {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Interval#getMinimum()}.
+	 * Test method for {@link org.jmist.toolkit.Interval#minimum()}.
 	 */
 	@Test
 	public final void testGetMinimum() {
@@ -38,7 +38,7 @@ public class IntervalTest {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Interval#getMaximum()}.
+	 * Test method for {@link org.jmist.toolkit.Interval#maximum()}.
 	 */
 	@Test
 	public final void testGetMaximum() {
@@ -46,7 +46,7 @@ public class IntervalTest {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Interval#getLength()}.
+	 * Test method for {@link org.jmist.toolkit.Interval#length()}.
 	 */
 	@Test
 	public final void testGetLength() {

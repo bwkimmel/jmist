@@ -25,16 +25,16 @@ public final class Grid3 {
 	 * 		Must be greater than zero.
 	 */
 	public Grid3(Box3 bound, int nx, int ny, int nz) {
-		assert(bound.getVolume() > 0.0);
+		assert(bound.volume() > 0.0);
 		assert(nx > 0 && ny > 0 && nz > 0);
 
 		this.bound = bound;
 		this.nx = nx;
 		this.ny = ny;
 		this.nz = nz;
-		this.dx = bound.getLengthX() / (double) nx;
-		this.dy = bound.getLengthY() / (double) ny;
-		this.dz = bound.getLengthZ() / (double) nz;
+		this.dx = bound.lengthX() / (double) nx;
+		this.dy = bound.lengthY() / (double) ny;
+		this.dz = bound.lengthZ() / (double) nz;
 	}
 
 	/**
@@ -152,12 +152,12 @@ public final class Grid3 {
 		assert(this.hasCellAt(cx, cy, cz));
 
 		return new Box3(
-			bound.getMinimumX() + (double) cx * dx,
-			bound.getMinimumY() + (double) cy * dy,
-			bound.getMinimumZ() + (double) cz * dz,
-			bound.getMinimumX() + (double) (cx + 1) * dx,
-			bound.getMinimumY() + (double) (cy + 1) * dy,
-			bound.getMinimumZ() + (double) (cz + 1) * dz
+			bound.minimumX() + (double) cx * dx,
+			bound.minimumY() + (double) cy * dy,
+			bound.minimumZ() + (double) cz * dz,
+			bound.minimumX() + (double) (cx + 1) * dx,
+			bound.minimumY() + (double) (cy + 1) * dy,
+			bound.minimumZ() + (double) (cz + 1) * dz
 		);
 	}
 
@@ -177,9 +177,9 @@ public final class Grid3 {
 	 */
 	public Cell cellAt(Point3 p) {
 		Cell cell = new Cell(
-			(int) Math.floor((p.x() - bound.getMinimumX()) / dx),
-			(int) Math.floor((p.y() - bound.getMinimumY()) / dy),
-			(int) Math.floor((p.z() - bound.getMinimumZ()) / dz)
+			(int) Math.floor((p.x() - bound.minimumX()) / dx),
+			(int) Math.floor((p.y() - bound.minimumY()) / dy),
+			(int) Math.floor((p.z() - bound.minimumZ()) / dz)
 		);
 
 		if (this.hasCellAt(cell.cx, cell.cy, cell.cz)) {
@@ -197,9 +197,9 @@ public final class Grid3 {
 	 */
 	public Cell nearestCell(Point3 p) {
 		return new Cell(
-			MathUtil.threshold((int) Math.floor((p.x() - bound.getMinimumX()) / dx), 0, nx - 1),
-			MathUtil.threshold((int) Math.floor((p.y() - bound.getMinimumY()) / dy), 0, ny - 1),
-			MathUtil.threshold((int) Math.floor((p.z() - bound.getMinimumZ()) / dz), 0, nz - 1)
+			MathUtil.threshold((int) Math.floor((p.x() - bound.minimumX()) / dx), 0, nx - 1),
+			MathUtil.threshold((int) Math.floor((p.y() - bound.minimumY()) / dy), 0, ny - 1),
+			MathUtil.threshold((int) Math.floor((p.z() - bound.minimumZ()) / dz), 0, nz - 1)
 		);
 	}
 
@@ -223,14 +223,14 @@ public final class Grid3 {
 			return false;
 		}
 
-		Interval	cellI = new Interval(I.getMinimum(), I.getMinimum());
-		Vector3		d = ray.getDirection();
-		Point3		p = ray.pointAt(I.getMinimum());
+		Interval	cellI = new Interval(I.minimum(), I.minimum());
+		Vector3		d = ray.direction();
+		Point3		p = ray.pointAt(I.minimum());
 		Cell		cell;
 		Cell		nextCell = this.nearestCell(p);
-		double		rx = p.x() - (bound.getMinimumX() + (double) nextCell.cx * dx);
-		double		ry = p.y() - (bound.getMinimumY() + (double) nextCell.cy * dy);
-		double		rz = p.z() - (bound.getMinimumZ() + (double) nextCell.cz * dz);
+		double		rx = p.x() - (bound.minimumX() + (double) nextCell.cx * dx);
+		double		ry = p.y() - (bound.minimumY() + (double) nextCell.cy * dy);
+		double		rz = p.z() - (bound.minimumZ() + (double) nextCell.cz * dz);
 
 		do {
 
@@ -262,9 +262,9 @@ public final class Grid3 {
 				nextCell = new Cell(cell.cx, cell.cy, cell.cz + (d.z() > 0.0 ? 1 : -1));
 			}
 
-			cellI = new Interval(cellI.getMaximum(), cellI.getMaximum() + t);
+			cellI = new Interval(cellI.maximum(), cellI.maximum() + t);
 
-			if (cellI.getMaximum() > I.getMaximum()) {
+			if (cellI.maximum() > I.maximum()) {
 				cellI = cellI.intersect(I);
 				visitor.visit(ray, cellI, cell);
 				break;

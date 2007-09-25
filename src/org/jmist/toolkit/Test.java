@@ -171,11 +171,11 @@ public class Test {
 			 */
 			public boolean visit(Ray3 ray, Interval I, Cell cell) {
 
-				System.out.println("I=[" + I.getMinimum() + ", " + I.getMaximum() + "]");
+				System.out.println("I=[" + I.minimum() + ", " + I.maximum() + "]");
 				System.out.println("cell=[" + cell.getX() + " " + cell.getY() + " " + cell.getZ() + "]");
 
-				Point3		p0 = ray.pointAt(I.getMinimum());
-				Point3		p1 = ray.pointAt(I.getMaximum());
+				Point3		p0 = ray.pointAt(I.minimum());
+				Point3		p1 = ray.pointAt(I.maximum());
 				Vector3		N0 = cell.getBoundingBox().normalAt(p0);
 				Vector3		N1 = cell.getBoundingBox().normalAt(p1);
 
@@ -207,8 +207,8 @@ public class Test {
 			Vector2		direction = target.vectorFrom(origin).unit();
 			Ray2		ray2 = new Ray2(origin, direction);
 			Interval	J = circle.intersect(ray2);
-			Point2		p0 = ray2.pointAt(J.getMinimum());
-			Point2		p1 = ray2.pointAt(J.getMaximum());
+			Point2		p0 = ray2.pointAt(J.minimum());
+			Point2		p1 = ray2.pointAt(J.maximum());
 
 			boolean		ok0 = circle.nearBoundary(p0) || circle.contains(p0);
 			boolean		ok1 = circle.nearBoundary(p1);
@@ -235,8 +235,8 @@ public class Test {
 
 		System.out.println("------------------------");
 
-		Permutation Px = Permutation.getRandom(8);
-		Permutation Py = Permutation.getRandom(8);
+		Permutation Px = Permutation.random(8);
+		Permutation Py = Permutation.random(8);
 
 		int board[][] = new int[8][8];
 		int i,j;
