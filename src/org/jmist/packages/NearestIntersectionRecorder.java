@@ -30,6 +30,15 @@ public final class NearestIntersectionRecorder implements IIntersectionRecorder 
 	}
 
 	/**
+	 * Determines if this intersection recorder is empty.
+	 * @return A value indicating if this intersection recorder is
+	 * 		empty.
+	 */
+	public boolean isEmpty() {
+		return (this.nearest == null);
+	}
+
+	/**
 	 * Gets the intersection with the smallest ray parameter that has
 	 * been recorded.
 	 * @return The nearest intersection that has been recorded.
