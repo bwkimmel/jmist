@@ -43,7 +43,7 @@ public final class NearestIntersectionRecorder implements IIntersectionRecorder 
 	 * been recorded.
 	 * @return The nearest intersection that has been recorded.
 	 */
-	public IIntersection getNearestIntersection() {
+	public IIntersection nearestIntersection() {
 		return this.nearest;
 	}
 
