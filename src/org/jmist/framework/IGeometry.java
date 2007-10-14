@@ -13,8 +13,8 @@ public interface IGeometry extends IBounded3, IVisibilityFunction3 {
 
 	void intersect(Ray3 ray, Interval I, IIntersectionRecorder recorder);
 
-	ISurfacePoint generateRandomSurfacePoint();
-	
+	IWeightedSurfacePoint generateRandomSurfacePoint();
+
 	boolean isClosed();
 
 }
