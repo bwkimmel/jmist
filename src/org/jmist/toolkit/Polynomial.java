@@ -18,14 +18,14 @@ public final class Polynomial {
 	 * 		exponent.
 	 */
 	public Polynomial(double... coeff) {
-		
+
 		for (int exponent = coeff.length - 1; exponent >= 0; exponent--) {
 			this.initializeCoefficient(exponent, coeff[exponent]);
 		}
 
 		this.initializeZero();
 		this.checkInvariant();
-		
+
 	}
 
 	/**
@@ -151,16 +151,29 @@ public final class Polynomial {
 
 		int				degree	= this.degree();
 		StringBuilder	result	= new StringBuilder();
+		double			coeff;
 
-		for (int exponent = 0; exponent <= degree; exponent++) {
+		if (degree >= 0) {
 
-			if (exponent > 0) {
-				result.append(" + ");
+			for (int exponent = 0; exponent <= degree; exponent++) {
+
+				coeff = this.coefficient(exponent);
+
+				if (exponent > 0) {
+					result.append(coeff >= 0.0 ? " + " : " - ");
+					result.append(Math.abs(coeff));
+				} else {
+					result.append(coeff);
+				}
+
+				result.append("x^");
+				result.append(exponent);
+
 			}
 
-			result.append(this.coefficient(exponent));
-			result.append("x^");
-			result.append(exponent);
+		} else { // degree < 0
+
+			result.append(0);
 
 		}
 
