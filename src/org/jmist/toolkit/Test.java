@@ -269,6 +269,17 @@ public class Test {
 			System.out.println();
 		}
 
+		System.out.println("------------------------");
+		Polynomial p = new Polynomial(3, 2, 1);
+		Polynomial q = new Polynomial(-4, 1, -1);
+		
+		Polynomial r = p.times(q);
+		System.out.printf("(%s)(%s) = (%s)\n", p.toString(), q.toString(), r.toString());
+		
+		r = p.plus(q);
+		System.out.printf("(%s) + (%s) = (%s)", p.toString(), q.toString(), r.toString());
+		
+		
 	}
 
 	public static void swapFirstTwoElements(double[] arr) {
