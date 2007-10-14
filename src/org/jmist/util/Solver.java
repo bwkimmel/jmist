@@ -32,6 +32,7 @@ public final class Solver {
 
 			default:
 				// TODO: handle higher order polynomials.
+				assert(false);
 				return new double[0];
 
 		}
