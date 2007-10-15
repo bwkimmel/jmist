@@ -143,7 +143,7 @@ public final class Solver {
 		double		delta_sq	= (c2 * c2 - 3.0 * c3 * c1) / (9.0 * c3 * c3);
 		double		h_sq 		= two_a * two_a * delta_sq * delta_sq * delta_sq;
 		double		dis			= yN * yN - h_sq;
-		double		eps			= Double.MIN_VALUE;
+		double		eps			= Double.longBitsToDouble(Double.doubleToRawLongBits(1.0) + 1) - 1.0;
 
 		if (dis >= eps) {
 
@@ -177,11 +177,12 @@ public final class Solver {
 		} else { // Math.abs(dis) <= eps
 
 			// three real roots (two or three equal):
-			double	delta		= Math.cbrt(yN / two_a);
+			double	delta3		= yN / two_a;
 
-			if (Math.abs(delta) < eps) {
+			if (Math.abs(delta3) < eps) {
 				return new double[]{ xN };
 			} else {
+				double delta	= Math.cbrt(delta3);
 				return new double[]{ xN + delta, xN - 2.0 * delta };
 			}
 
