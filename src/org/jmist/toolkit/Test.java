@@ -272,14 +272,37 @@ public class Test {
 		System.out.println("------------------------");
 		Polynomial p = new Polynomial(3, 2, 1);
 		Polynomial q = new Polynomial(-4, 1, -1);
-		
+
 		Polynomial r = p.times(q);
 		System.out.printf("(%s)(%s) = (%s)\n", p.toString(), q.toString(), r.toString());
-		
+
 		r = p.plus(q);
 		System.out.printf("(%s) + (%s) = (%s)", p.toString(), q.toString(), r.toString());
-		
-		
+
+		System.out.println("------------------------");
+
+		Polynomial[] roots = new Polynomial[3];
+		Polynomial[] poly = new Polynomial[3];
+
+		System.out.print("All roots:");
+		for (i = 0; i < roots.length; i++) {
+			roots[i] = new Polynomial(-rnd.nextDouble(), 1.0);
+			System.out.print(" ");
+			System.out.print(-roots[i].coefficient(0));
+			poly[i] = i > 0 ? poly[i - 1].times(roots[i]) : roots[i];
+		}
+		System.out.println();
+
+		for (i = 0; i < poly.length; i++) {
+			System.out.println(poly[i]);
+			System.out.print("roots:");
+			for (double root : poly[i].roots()) {
+				System.out.print(" ");
+				System.out.print(root);
+			}
+			System.out.println();
+		}
+
 	}
 
 	public static void swapFirstTwoElements(double[] arr) {
