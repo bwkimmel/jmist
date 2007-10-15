@@ -29,7 +29,7 @@ public final class Solver {
 
 			case 3:		/* quadratic */
 				return roots(c[0], c[1], c[2]);
-				
+
 			case 4:		/* cubic */
 				return roots(c[0], c[1], c[2], c[3]);
 
@@ -130,12 +130,12 @@ public final class Solver {
 		if (c3 == 0.0)
 			return roots(c0, c1, c2);
 
-		//
-		// The following uses the method from:
-		//
-		// Nickalls, R.W.D., "A new approach to solving the cubic:  Cardan's
-		// solution revealed", The Mathematical Gazette 77 (354-359), 1993.
-		//
+		/*
+		 * The following uses the method from:
+		 *
+		 * Nickalls, R.W.D., "A new approach to solving the cubic:  Cardan's
+		 * solution revealed", The Mathematical Gazette 77 (354-359), 1993.
+		 */
 
 		double		xN			= -c2 / (3.0 * c3);
 		double		yN			= c0 + xN * (c1 + xN * (c2 + c3 * xN));
