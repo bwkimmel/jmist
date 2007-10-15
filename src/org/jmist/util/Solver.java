@@ -29,6 +29,9 @@ public final class Solver {
 
 			case 3:		/* quadratic */
 				return roots(c[0], c[1], c[2]);
+				
+			case 4:		/* cubic */
+				return roots(c[0], c[1], c[2], c[3]);
 
 			default:
 				// TODO: handle higher order polynomials.
@@ -74,7 +77,7 @@ public final class Solver {
 		 * linear equation.  In this case, call the method to solve for
 		 * the roots of the linear equation.
 		 */
-		if (c2 == 0)
+		if (c2 == 0.0)
 			return roots(c0, c1);
 
 		/*
@@ -106,6 +109,81 @@ public final class Solver {
 			 * root: -c1 / (2.0 * c2).
 			 */
 			return new double[]{ -c1 / (2.0 * c2) };
+
+		}
+
+	}
+
+	/**
+	 * Computes the real roots of the cubic equation:
+	 * 0 = c0 + (c1 * x) + (c2 * x^2) + (c3 * x^3)
+	 * @param c0	the coefficient to x^0
+	 * @param c1	the coefficient to x^1
+	 * @param c2	the coefficient to x^2
+	 * @param c3	the coefficient to x^3
+	 * @return An array containing the real roots of the cubic
+	 * 		equation with the given coefficients.
+	 */
+	public static final double[] roots(double c0, double c1, double c2, double c3) {
+
+		// Make sure the cubic coefficient is non-zero.
+		if (c3 == 0.0)
+			return roots(c0, c1, c2);
+
+		//
+		// The following uses the method from:
+		//
+		// Nickalls, R.W.D., "A new approach to solving the cubic:  Cardan's
+		// solution revealed", The Mathematical Gazette 77 (354-359), 1993.
+		//
+
+		double		xN			= -c2 / (3.0 * c3);
+		double		yN			= c0 + xN * (c1 + xN * (c2 + c3 * xN));
+		double		two_a		= 2.0 * c3;
+		double		delta_sq	= (c2 * c2 - 3.0 * c3 * c1) / (9.0 * c3 * c3);
+		double		h_sq 		= two_a * two_a * delta_sq * delta_sq * delta_sq;
+		double		dis			= yN * yN - h_sq;
+		double		eps			= Double.MIN_VALUE;
+
+		if (dis >= eps) {
+
+			// one real root:
+			double	dis_sqrt	= Math.sqrt(dis);
+			double	r_p 		= yN - dis_sqrt;
+			double	r_q			= yN + dis_sqrt;
+			double	p			= -Math.signum(r_p) * Math.cbrt(Math.signum(r_p) * r_p / two_a);
+			double	q			= -Math.signum(r_q) * Math.cbrt(Math.signum(r_q) * r_q / two_a);
+
+			return new double[]{ xN + p + q };
+
+			// The two complex roots are:
+			// x(2) = xN + p * exp(2*pi*i/3) + q * exp(-2*pi*i/3);
+			// x(3) = conj(x(2));
+
+		} else if (dis < -eps) {
+
+			// three distinct real roots:
+			double	theta		= Math.acos(-yN / Math.sqrt(h_sq)) / 3.0;
+			double	delta		= Math.sqrt(delta_sq);
+			double	two_d		= 2.0 * delta;
+			double	twop3		= 2.0 * Math.PI / 3.0;
+
+			return new double[]{
+					xN + two_d*Math.cos(theta),
+					xN + two_d*Math.cos(twop3-theta),
+					xN + two_d*Math.cos(twop3+theta)
+			};
+
+		} else { // Math.abs(dis) <= eps
+
+			// three real roots (two or three equal):
+			double	delta		= Math.cbrt(yN / two_a);
+
+			if (Math.abs(delta) < eps) {
+				return new double[]{ xN };
+			} else {
+				return new double[]{ xN + delta, xN - 2.0 * delta };
+			}
 
 		}
 
