@@ -104,6 +104,58 @@ public final class MathUtil {
 	}
 
 	/**
+	 * Determines whether {@code x} falls within the open interval
+	 * {@code (minimum, maximum)}.
+	 * @param x The value to check.
+	 * @param minimum The lower bound of the interval to check against.
+	 * @param maximum The upper bound of the interval to check against.
+	 * @return A value indicating whether {@code x} is contained in the open
+	 * 		interval {@code (minimum, maximum)}.
+	 */
+	public static boolean inRangeOO(double x, double minimum, double maximum) {
+		return minimum < x && x < maximum;
+	}
+
+	/**
+	 * Determines whether {@code x} falls within the interval
+	 * {@code [minimum, maximum)}.
+	 * @param x The value to check.
+	 * @param minimum The lower bound of the interval to check against.
+	 * @param maximum The upper bound of the interval to check against.
+	 * @return A value indicating whether {@code x} is contained in the
+	 * 		interval {@code [minimum, maximum)}.
+	 */
+	public static boolean inRangeCO(double x, double minimum, double maximum) {
+		return minimum <= x && x < maximum;
+	}
+
+	/**
+	 * Determines whether {@code x} falls within the closed interval
+	 * {@code [minimum, maximum]}.
+	 * @param x The value to check.
+	 * @param minimum The lower bound of the interval to check against.
+	 * @param maximum The upper bound of the interval to check against.
+	 * @return A value indicating whether {@code x} is contained in the closed
+	 * 		interval {@code [minimum, maximum]}.
+	 */
+	public static boolean inRangeCC(double x, double minimum, double maximum) {
+		return minimum <= x && x <= maximum;
+	}
+
+	/**
+	 * Determines whether {@code x} falls within the interval
+	 * {@code (minimum, maximum]}.
+	 * @param x The value to check.
+	 * @param minimum The lower bound of the interval to check against.
+	 * @param maximum The upper bound of the interval to check against.
+	 * @return A value indicating whether {@code x} is contained in the
+	 * 		interval {@code (minimum, maximum]}.
+	 */
+	public static boolean inRangeOC(double x, double minimum, double maximum) {
+		return minimum < x && x <= maximum;
+	}
+
+	/**
 	 * A comparison threshold value to be used when a very high degree
 	 * of precision is expected.
 	 */
