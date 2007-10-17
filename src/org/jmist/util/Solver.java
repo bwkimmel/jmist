@@ -219,7 +219,6 @@ public final class Solver {
 		if (c4 == 0.0)
 			return roots(c0, c1, c2, c3);
 
-	    double[]	coeffs			= new double[4];
 	    double[]	result;
 	    double[]	s, t;
 	    double		z, u, v, sub;
@@ -259,12 +258,12 @@ public final class Solver {
 
 			/* solve the resolvent cubic ... */
 
-			coeffs[ 0 ] = 1.0/2 * r * p - 1.0/8 * q * q;
-			coeffs[ 1 ] = - r;
-			coeffs[ 2 ] = - 1.0/2 * p;
-			coeffs[ 3 ] = 1;
-
-			s = roots(coeffs);
+			s = roots(
+					1.0/2 * r * p - 1.0/8 * q * q,
+					-r,
+					-1.0/2 * p,
+					1
+			);
 
 			/* ... and take the one real solution ... */
 
@@ -289,17 +288,8 @@ public final class Solver {
 			else
 			    return new double[0];
 
-			coeffs[ 0 ] = z - u;
-			coeffs[ 1 ] = q < 0 ? -v : v;
-			coeffs[ 2 ] = 1;
-
-			s = roots(coeffs);
-
-			coeffs[ 0 ]= z + u;
-			coeffs[ 1 ] = q < 0 ? v : -v;
-			coeffs[ 2 ] = 1;
-
-			t = roots(coeffs);
+			s = roots(z - u, q < 0 ? -v : v, 1);
+			t = roots(z + u, q < 0 ? v : -v, 1);
 
 			result = new double[s.length + t.length];
 
