@@ -281,8 +281,8 @@ public class Test {
 
 		System.out.println("------------------------");
 
-		Polynomial[] roots = new Polynomial[3];
-		Polynomial[] poly = new Polynomial[3];
+		Polynomial[] roots = new Polynomial[4];
+		Polynomial[] poly = new Polynomial[4];
 
 		System.out.print("All roots:");
 		for (i = 0; i < roots.length; i++) {
