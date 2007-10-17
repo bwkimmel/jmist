@@ -212,6 +212,13 @@ public final class Solver {
 		 * Glassner, A., "Graphics Gems", Academic Press, 1995.  (Appendix 2)
 		 */
 
+		/*
+		 *  Before we do anything, make sure it's not really a cubic (or a
+		 *  polynomial of lesser degree).
+		 */
+		if (c4 == 0.0)
+			return roots(c0, c1, c2, c3);
+
 	    double[]	coeffs			= new double[4];
 	    double[]	result;
 	    double[]	s, t;
