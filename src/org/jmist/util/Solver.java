@@ -146,9 +146,20 @@ public final class Solver {
 		double		delta_sq	= (c2 * c2 - 3.0 * c3 * c1) / (9.0 * c3 * c3);
 		double		h_sq 		= two_a * two_a * delta_sq * delta_sq * delta_sq;
 		double		dis			= yN * yN - h_sq;
-		double		eps			= Double.longBitsToDouble(Double.doubleToRawLongBits(1.0) + 1) - 1.0;
 
-		if (dis >= eps) {
+		if (isZero(dis)) {
+
+			// three real roots (two or three equal):
+			double	delta3		= yN / two_a;
+
+			if (isZero(delta3)) {
+				return new double[]{ xN };
+			} else {
+				double delta	= Math.cbrt(delta3);
+				return new double[]{ xN + delta, xN - 2.0 * delta };
+			}
+
+		} else if (dis > 0.0) {
 
 			// one real root:
 			double	dis_sqrt	= Math.sqrt(dis);
@@ -163,7 +174,7 @@ public final class Solver {
 			// x(2) = xN + p * exp(2*pi*i/3) + q * exp(-2*pi*i/3);
 			// x(3) = conj(x(2));
 
-		} else if (dis < -eps) {
+		} else { // dis < 0.0
 
 			// three distinct real roots:
 			double	theta		= Math.acos(-yN / Math.sqrt(h_sq)) / 3.0;
@@ -176,18 +187,6 @@ public final class Solver {
 					xN + two_d*Math.cos(twop3-theta),
 					xN + two_d*Math.cos(twop3+theta)
 			};
-
-		} else { // Math.abs(dis) <= eps
-
-			// three real roots (two or three equal):
-			double	delta3		= yN / two_a;
-
-			if (Math.abs(delta3) < eps) {
-				return new double[]{ xN };
-			} else {
-				double delta	= Math.cbrt(delta3);
-				return new double[]{ xN + delta, xN - 2.0 * delta };
-			}
 
 		}
 
