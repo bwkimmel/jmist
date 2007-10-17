@@ -13,6 +13,7 @@ import org.jmist.toolkit.Point3;
 import org.jmist.toolkit.Ray3;
 import org.jmist.toolkit.Sphere;
 import org.jmist.toolkit.*;
+import org.jmist.util.MathUtil;
 
 /**
  * @author bkimmel
@@ -95,7 +96,7 @@ public final class CylinderGeometry extends GeometryBase implements IGeometry {
 		{
 			// for each solution, make sure the point lies between the base and the apex
 			p = ray.pointAt(x[0]);
-			if (inRangeOO(p.y(), this.base.y(), this.base.y() + this.height))
+			if (MathUtil.inRangeOO(p.y(), this.base.y(), this.base.y() + this.height))
 			{
 				GeometryIntersection	isect(this, ray, x[0], true, x[0] < x[1], CYLINDER_SURFACE_BODY);
 				isect.setPoint(p);
@@ -103,7 +104,7 @@ public final class CylinderGeometry extends GeometryBase implements IGeometry {
 			}
 
 			p = ray.pointAt(x[1]);
-			if (inRangeOO(p.y(), this.base.y(), this.base.y() + this.height))
+			if (MathUtil.inRangeOO(p.y(), this.base.y(), this.base.y() + this.height))
 			{
 				GeometryIntersection	isect(this, ray, x[1], true, x[0] > x[1], CYLINDER_SURFACE_BODY);
 				isect.setPoint(p);
