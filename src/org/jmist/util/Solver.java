@@ -319,11 +319,7 @@ public final class Solver {
 	 * @return A value that indicates whether {@code value} is near zero.
 	 */
 	private static boolean isZero(double value) {
-
-		final double eps = Double.longBitsToDouble(Double.doubleToRawLongBits(1.0) + 1) - 1.0;
-
-		return Math.abs(value) < eps;
-
+		return MathUtil.isZero(value, MathUtil.MACHINE_EPSILON);
 	}
 
 }
