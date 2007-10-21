@@ -125,6 +125,8 @@ public class ProgressDialog extends javax.swing.JDialog {
 	 */
 	private void setProgressBarValue(int value, int maximum) {
 
+		this.progressBar.setIndeterminate(false);
+
 		if (this.progressBar.getMaximum() != maximum) {
 			this.progressBar.setMaximum(maximum);
 		}
