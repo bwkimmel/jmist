@@ -164,7 +164,7 @@ public class ProgressDialog extends javax.swing.JDialog {
 	 * dialog.
 	 */
 	private void clearProgressText() {
-		if (this.progressText != "") {
+		if (!this.progressText.isEmpty()) {
 			this.progressText = "";
 			this.updateStatusLabel();
 		}
