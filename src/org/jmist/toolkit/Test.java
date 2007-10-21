@@ -351,7 +351,7 @@ public class Test {
 		System.out.println(Tuple.zeros(5));
 		System.out.println(Tuple.ones(7));
 		System.out.println(zzz.combine(Tuple.ones(3), Tuple.SUM_OPERATOR));
-				System.out.println("-------");
+		System.out.println("-------");
 		System.out.print("zzz[1]=");
 		System.out.println(zzz.at(1));
 	}
