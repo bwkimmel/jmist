@@ -8,6 +8,7 @@ import org.jmist.framework.ILens;
 import org.jmist.framework.IRayShader;
 import org.jmist.toolkit.Pixel;
 import org.jmist.toolkit.Point2;
+import org.jmist.toolkit.Ray3;
 
 /**
  * An image shader that uses an ILens to shade rays corresponding to points
@@ -32,7 +33,15 @@ public final class CameraImageShader implements IImageShader {
 	 * @see org.jmist.framework.IImageShader#shadeAt(org.jmist.toolkit.Point2, org.jmist.toolkit.Pixel)
 	 */
 	public void shadeAt(Point2 p, Pixel pixel) {
-		this.rayShader.shadeRay(this.lens.rayAt(p), pixel);
+		
+		Ray3 ray = this.lens.rayAt(p);
+		
+		if (ray != null) {
+			this.rayShader.shadeRay(ray, pixel);
+		} else {
+			pixel.setAll(0.0);
+		}
+		
 	}
 
 	/* (non-Javadoc)
