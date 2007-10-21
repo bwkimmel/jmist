@@ -2,9 +2,11 @@ package org.jmist.toolkit;
 
 import org.jmist.framework.event.*;
 import org.jmist.util.*;
-import org.jmist.packages.NRooksRandom;
+import org.jmist.packages.*;
+import org.jmist.framework.*;
 import org.jmist.toolkit.Grid3.Cell;
 
+import java.io.IOException;
 import java.lang.ref.*;
 
 public class Test {
@@ -100,18 +102,41 @@ public class Test {
 	 */
 	public static void main(String[] args) {
 
-		testLinearMatrix3Identity();
-		testReflect();
-		testWeakReference();
-		testObserver();
-		testTuple();
-		testGrid();
-		testRayCircleIntersection();
-		testSwap();
-		testPermutations();
-		testNRooks();
-		testPolynomial();
-		testRoots();
+//		testLinearMatrix3Identity();
+//		testReflect();
+//		testWeakReference();
+//		testObserver();
+//		testTuple();
+//		testGrid();
+//		testRayCircleIntersection();
+//		testSwap();
+//		testPermutations();
+//		testNRooks();
+//		testPolynomial();
+//		testRoots();
+
+		testShade();
+
+	}
+
+	public static void testShade() {
+
+		ILens lens = new FisheyeLens();
+		IRayShader rayShader = new DirectionalTestRayShader();
+		IImageShader imageShader = new CameraImageShader(lens, rayShader);
+		IPixelShader pixelShader = new SimplePixelShader(imageShader);
+		ImageRasterWriter rasterWriter = new ImageRasterWriter(512, 512);
+		IJob job = new RasterJob(pixelShader, rasterWriter);
+		IProgressMonitor monitor = new SwingProgressMonitor();
+
+		job.go(monitor);
+		
+		try {
+			rasterWriter.save("C:\\test.jpg", "jpg");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
