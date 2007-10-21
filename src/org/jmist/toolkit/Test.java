@@ -119,13 +119,13 @@ public class Test {
 
 	}
 
-	public static void testShade() {
+	private static void testShade() {
 
 		ILens lens = new FisheyeLens();
 		IRayShader rayShader = new DirectionalTestRayShader();
 		IImageShader imageShader = new CameraImageShader(lens, rayShader);
 		IPixelShader pixelShader = new SimplePixelShader(imageShader);
-		ImageRasterWriter rasterWriter = new ImageRasterWriter(512, 512);
+		ImageRasterWriter rasterWriter = new ImageRasterWriter(2048, 2048);
 		IJob job = new RasterJob(pixelShader, rasterWriter);
 		IProgressMonitor monitor = new DialogProgressMonitor();
 
