@@ -185,4 +185,7 @@ public class ProgressDialog extends javax.swing.JDialog {
 	/** The text describing the progress of the operation. */
 	private String progressText = "";
 
+	/** Serialization version. */
+	private static final long serialVersionUID = -8886817308462948089L;
+
 }
