@@ -5,6 +5,8 @@ package org.jmist.packages;
 
 import org.jmist.framework.IProgressMonitor;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 
 /**
@@ -12,6 +14,14 @@ import javax.swing.*;
  *
  */
 public final class SwingProgressMonitor implements IProgressMonitor {
+
+	public SwingProgressMonitor() {
+
+	}
+
+	public SwingProgressMonitor(String title) {
+		this.frame.setTitle(title);
+	}
 
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.IProgressMonitor#notifyCancelled()
@@ -36,12 +46,14 @@ public final class SwingProgressMonitor implements IProgressMonitor {
 
 		this.ensureInitialized();
 
+		this.progressBar.setIndeterminate(false);
+
 		if (this.progressBar.getMaximum() != maximum) {
 			this.progressBar.setMaximum(maximum);
 		}
 
 		this.progressBar.setValue(value);
-		return !this.cancelPending;
+		return !this.isCancelPending();
 
 	}
 
@@ -57,6 +69,29 @@ public final class SwingProgressMonitor implements IProgressMonitor {
 	 */
 	public void notifyStatusChanged(String status) {
 		this.ensureInitialized();
+		this.statusLabel.setText(status);
+	}
+
+	private void showWindow() {
+
+		JButton cancelButton = new JButton();
+
+		cancelButton.setText(CANCEL_BUTTON_TEXT);
+		cancelButton.addActionListener(
+				new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						setCancelPending();
+					}
+				}
+		);
+
+		this.progressBar.setIndeterminate(true);
+
+		this.frame.getContentPane().add(this.statusLabel);
+		this.frame.getContentPane().add(this.progressBar);
+		this.frame.getContentPane().add(cancelButton);
+		this.frame.pack();
+		this.frame.setVisible(true);
 
 	}
 
@@ -64,22 +99,34 @@ public final class SwingProgressMonitor implements IProgressMonitor {
 
 		if (!this.initialized) {
 
-			JFrame	frame	= new JFrame();
-
-			frame.setTitle("Progress");
-			frame.getContentPane().add(this.progressBar);
-
-			frame.pack();
-			frame.setVisible(true);
+			SwingUtilities.invokeLater(
+					new Runnable() {
+						public void run() {
+							showWindow();
+						}
+					}
+			);
 
 			this.initialized = true;
 
-		}
+		} // !this.initialized
 
 	}
 
-	private final JProgressBar progressBar = new JProgressBar();
-	private boolean cancelPending = false;
-	private boolean initialized = false;
+	private synchronized void setCancelPending() {
+		this.cancelPending = true;
+	}
+
+	private synchronized boolean isCancelPending() {
+		return this.cancelPending;
+	}
+
+	private static final String		CANCEL_BUTTON_TEXT	= "Cancel";
+
+	private final JFrame			frame				= new JFrame();
+	private final JLabel			statusLabel			= new JLabel();
+	private final JProgressBar		progressBar			= new JProgressBar();
+	private boolean					cancelPending		= false;
+	private boolean					initialized			= false;
 
 }
