@@ -127,10 +127,10 @@ public class Test {
 		IPixelShader pixelShader = new SimplePixelShader(imageShader);
 		ImageRasterWriter rasterWriter = new ImageRasterWriter(512, 512);
 		IJob job = new RasterJob(pixelShader, rasterWriter);
-		IProgressMonitor monitor = new SwingProgressMonitor();
+		IProgressMonitor monitor = new DialogProgressMonitor();
 
 		job.go(monitor);
-		
+
 		try {
 			rasterWriter.save("C:\\test.jpg", "jpg");
 		} catch (IOException e) {
