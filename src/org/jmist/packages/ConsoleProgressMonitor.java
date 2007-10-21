@@ -66,11 +66,11 @@ public final class ConsoleProgressMonitor implements IProgressMonitor {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IProgressMonitor#notifyStatusChanged(java.lang.String, java.lang.String)
+	 * @see org.jmist.framework.IProgressMonitor#notifyStatusChanged(java.lang.String)
 	 */
-	public void notifyStatusChanged(String key, String value) {
+	public void notifyStatusChanged(String status) {
 		this.out.println();
-		this.out.printf("%s ==> %s\n", key, value);
+		this.out.println(status);
 	}
 
 	/**

@@ -53,9 +53,9 @@ public final class SwingProgressMonitor implements IProgressMonitor {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IProgressMonitor#notifyStatusChanged(java.lang.String, java.lang.String)
+	 * @see org.jmist.framework.IProgressMonitor#notifyStatusChanged(java.lang.String)
 	 */
-	public void notifyStatusChanged(String key, String value) {
+	public void notifyStatusChanged(String status) {
 		this.ensureInitialized();
 
 	}

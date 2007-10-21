@@ -6,6 +6,6 @@ public interface IProgressMonitor {
 	boolean notifyProgress(double progress);
 	void notifyComplete();
 	void notifyCancelled();
-	void notifyStatusChanged(String key, String value);
+	void notifyStatusChanged(String status);
 
 }
