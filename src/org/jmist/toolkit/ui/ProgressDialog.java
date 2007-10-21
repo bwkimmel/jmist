@@ -32,6 +32,8 @@ public class ProgressDialog extends javax.swing.JDialog {
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		statusLabel.setText("Progress...");
 
+		progressBar.setIndeterminate(true);
+
 		cancelButton.setMnemonic('C');
 		cancelButton.setText("Cancel");
 		cancelButton.addActionListener(new java.awt.event.ActionListener() {

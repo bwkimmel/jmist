@@ -50,6 +50,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JProgressBar" name="progressBar">
+      <Properties>
+        <Property name="indeterminate" type="boolean" value="true"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="cancelButton">
       <Properties>
