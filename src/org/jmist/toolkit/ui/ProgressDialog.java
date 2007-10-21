@@ -4,7 +4,7 @@
  * Created on October 21, 2007, 3:34 PM
  */
 
-package org.jmist.packages.ui;
+package org.jmist.toolkit.ui;
 
 /**
  * A dialog for indicating the progress of an operation.
