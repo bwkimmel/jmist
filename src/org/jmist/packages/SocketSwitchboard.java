@@ -23,15 +23,6 @@ public final class SocketSwitchboard implements ISwitchboard {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.ISwitchboard#listen(long)
-	 */
-	@Override
-	public ICommunicator listen(long timeout) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
 	 * @see org.jmist.framework.ISwitchboard#listen()
 	 */
 	@Override
