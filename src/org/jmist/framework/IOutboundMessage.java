@@ -9,7 +9,7 @@ import java.io.OutputStream;
  * Represents a message to be sent to a remote location.
  * @author bkimmel
  */
-public interface IOutboundMessage {
+public interface IOutboundMessage extends IMessage {
 
 	/**
 	 * The stream to write the message to.
