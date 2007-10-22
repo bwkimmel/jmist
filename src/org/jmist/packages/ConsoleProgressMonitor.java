@@ -66,6 +66,16 @@ public final class ConsoleProgressMonitor implements IProgressMonitor {
 	}
 
 	/* (non-Javadoc)
+	 * @see org.jmist.framework.IProgressMonitor#notifyIndeterminantProgress()
+	 */
+	@Override
+	public boolean notifyIndeterminantProgress() {
+		this.printProgressBar(Double.NaN);
+		this.out.print("\r");
+		return true;
+	}
+
+	/* (non-Javadoc)
 	 * @see org.jmist.framework.IProgressMonitor#notifyStatusChanged(java.lang.String)
 	 */
 	public void notifyStatusChanged(String status) {
@@ -84,8 +94,18 @@ public final class ConsoleProgressMonitor implements IProgressMonitor {
 		this.out.print(PROGRESS_BAR_END_CHAR);
 
 		for (int i = 1; i <= this.length; i++) {
-			x = (double) i / this.length;
-			this.out.print(progress >= x ? PROGRESS_BAR_CHAR : PROGRESS_BACKGROUND_CHAR);
+
+			if (!Double.isNaN(progress)) {
+
+				x = (double) i / this.length;
+				this.out.print(progress >= x ? PROGRESS_BAR_CHAR : PROGRESS_BACKGROUND_CHAR);
+
+			} else { // Double.isNaN(progress)
+
+				this.out.print(PROGRESS_BAR_INDETERMINANT_CHAR);
+
+			}
+
 		}
 
 		this.out.print(PROGRESS_BAR_END_CHAR);
@@ -105,15 +125,18 @@ public final class ConsoleProgressMonitor implements IProgressMonitor {
 	private final int length;
 
 	/** The character to use for the progress bar. */
-	private static final char PROGRESS_BAR_CHAR				= '=';
+	private static final char PROGRESS_BAR_CHAR					= '=';
 
 	/** The character to use for the background of the progress bar. */
-	private static final char PROGRESS_BACKGROUND_CHAR		= ' ';
+	private static final char PROGRESS_BACKGROUND_CHAR			= ' ';
+
+	/** The character to use when the progress is unknown. */
+	private static final char PROGRESS_BAR_INDETERMINANT_CHAR	= '?';
 
 	/** The character to use to delimit the progress bar. */
-	private static final char PROGRESS_BAR_END_CHAR			= '|';
+	private static final char PROGRESS_BAR_END_CHAR				= '|';
 
 	/** The default length of the progress bar. */
-	private static final char DEFAULT_PROGRESS_BAR_LENGTH	= 40;
+	private static final char DEFAULT_PROGRESS_BAR_LENGTH		= 40;
 
 }

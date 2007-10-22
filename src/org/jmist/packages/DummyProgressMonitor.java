@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.jmist.packages;
 
@@ -41,6 +41,14 @@ public final class DummyProgressMonitor implements IProgressMonitor {
 	 */
 	@Override
 	public boolean notifyProgress(double progress) {
+		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.IProgressMonitor#notifyIndeterminantProgress()
+	 */
+	@Override
+	public boolean notifyIndeterminantProgress() {
 		return true;
 	}
 

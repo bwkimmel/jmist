@@ -118,6 +118,14 @@ public class ProgressDialog extends javax.swing.JDialog {
 	}
 
 	/**
+	 * Updates the progress bar to indeterminant mode.
+	 */
+	public void setProgressIndeterminant() {
+		this.progressBar.setIndeterminate(true);
+		this.clearProgressText();
+	}
+
+	/**
 	 * Updates the progress bar on this dialog.
 	 * @param value The number of parts of the operation that have been
 	 *	    completed.

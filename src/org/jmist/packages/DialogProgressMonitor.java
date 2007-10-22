@@ -62,6 +62,16 @@ public final class DialogProgressMonitor implements IProgressMonitor {
 	}
 
 	/* (non-Javadoc)
+	 * @see org.jmist.framework.IProgressMonitor#notifyIndeterminantProgress()
+	 */
+	@Override
+	public boolean notifyIndeterminantProgress() {
+		this.ensureInitialized();
+		this.progressDialog.setProgressIndeterminant();
+		return !this.progressDialog.isCancelPending();
+	}
+
+	/* (non-Javadoc)
 	 * @see org.jmist.framework.IProgressMonitor#notifyStatusChanged(java.lang.String)
 	 */
 	public void notifyStatusChanged(String status) {
