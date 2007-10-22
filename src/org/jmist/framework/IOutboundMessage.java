@@ -17,4 +17,10 @@ public interface IOutboundMessage extends IMessage {
 	 */
 	OutputStream contents();
 
+	/**
+	 * Sets the tag associated with this message.
+	 * @param value The tag associated with this message.
+	 */
+	void tag(int value);
+
 }

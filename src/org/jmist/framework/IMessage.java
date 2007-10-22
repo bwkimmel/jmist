@@ -16,10 +16,4 @@ public interface IMessage {
 	 */
 	int tag();
 
-	/**
-	 * Sets the tag associated with this message.
-	 * @param value The tag associated with this message.
-	 */
-	void tag(int value);
-
 }
