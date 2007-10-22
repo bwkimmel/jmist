@@ -6,10 +6,12 @@ package org.jmist.packages;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.nio.channels.SocketChannel;
 import java.nio.ByteBuffer;
 
 import org.jmist.framework.ICommunicator;
@@ -27,7 +29,7 @@ public final class SocketCommunicator implements ICommunicator {
 	 * @param socket The underlying socket to use.
 	 */
 	public SocketCommunicator(Socket socket) {
-		this.socket = socket;
+		this.channel = socket.getChannel();
 	}
 
 	/* (non-Javadoc)
@@ -43,7 +45,26 @@ public final class SocketCommunicator implements ICommunicator {
 	 */
 	@Override
 	public void flush() {
-		// TODO Auto-generated method stub
+
+		try {
+
+			// Put the channel in blocking mode.
+			this.channel.configureBlocking(true);
+
+			// Write all outstanding buffers in the send queue.
+			while (!this.sendq.isEmpty()) {
+				this.channel.write(this.sendq.poll());
+			}
+
+			// Return the channel to non-blocking mode.
+			this.channel.configureBlocking(false);
+
+		} catch (IOException e) {
+
+			// TODO do something other than just print out the exception.
+			System.err.println(e);
+
+		}
 
 	}
 
@@ -60,7 +81,7 @@ public final class SocketCommunicator implements ICommunicator {
 	 * @param message The message to be sent.
 	 */
 	private void queue(SocketOutboundMessage message) {
-		// TODO implement this method.
+		message.queue(sendq);
 	}
 
 	/* (non-Javadoc)
@@ -81,15 +102,15 @@ public final class SocketCommunicator implements ICommunicator {
 		try {
 
 			// Put the socket channel in blocking mode.
-			this.socket.getChannel().configureBlocking(true);
+			this.channel.configureBlocking(true);
 
 			// Read from the socket until we have a complete message.
-			while (this.msgq.isEmpty()) {
+			while (this.recvq.isEmpty()) {
 				this.readSocket();
 			}
 
 			// Put the socket channel back to non-blocking mode.
-			this.socket.getChannel().configureBlocking(false);
+			this.channel.configureBlocking(false);
 
 		} catch (IOException e) {
 
@@ -98,7 +119,7 @@ public final class SocketCommunicator implements ICommunicator {
 
 		}
 
-		return this.msgq.poll();
+		return this.recvq.poll();
 
 	}
 
@@ -120,7 +141,39 @@ public final class SocketCommunicator implements ICommunicator {
 
 		}
 
-		return this.msgq.peek();
+		return this.recvq.peek();
+
+	}
+
+	/**
+	 * Writes data waiting to be written to the socket.
+	 * @throws IOException If the socket threw an <code>IOException</code>.
+	 */
+	public void writeSocket() throws IOException {
+
+		ByteBuffer buffer;
+
+		// begin send loop.
+		while (!this.sendq.isEmpty()) {
+
+			// Get the buffer at the front of the queue.
+			buffer = this.sendq.peek();
+			assert(buffer != null);
+
+			// Write to the socket.
+			this.channel.write(buffer);
+
+			// If the entire buffer wasn't written, then the socket buffer
+			// is full, so we've written all we can.
+			if (buffer.hasRemaining())
+				break;
+
+			// The buffer has been written to the socket, so pop it off of the
+			// queue.
+			assert(!buffer.hasRemaining());
+			this.sendq.remove();
+
+		} // end send loop.
 
 	}
 
@@ -137,7 +190,7 @@ public final class SocketCommunicator implements ICommunicator {
 			// try to finish reading that.
 			if (this.headerBuffer.hasRemaining()) {
 
-				this.socket.getChannel().read(this.headerBuffer);
+				this.channel.read(this.headerBuffer);
 
 				// If the header was not completely read, then stop here.
 				if (this.headerBuffer.hasRemaining()) {
@@ -185,7 +238,7 @@ public final class SocketCommunicator implements ICommunicator {
 			// for the message, then try to finish reading that.
 			if (this.messageBuffer.hasRemaining()) {
 
-				this.socket.getChannel().read(this.messageBuffer);
+				this.channel.read(this.messageBuffer);
 
 				if (this.messageBuffer.hasRemaining()) {
 					break;
@@ -198,8 +251,8 @@ public final class SocketCommunicator implements ICommunicator {
 			this.messageBuffer.flip();
 
 			// Create a new inbound message and add it to the queue.
-			IInboundMessage message = new SocketInboundMessage(this.messageBuffer, this.socket.getInetAddress().getCanonicalHostName());
-			this.msgq.add(message);
+			IInboundMessage message = new SocketInboundMessage(this.messageBuffer, this.channel.socket().getInetAddress().getCanonicalHostName());
+			this.recvq.add(message);
 
 			// Prepare for the next message.
 			this.headerBuffer.clear();
@@ -299,15 +352,14 @@ public final class SocketCommunicator implements ICommunicator {
 	 * A message to be sent via a <code>SocketCommunicator</code>.
 	 * @author bkimmel
 	 */
-	public final class SocketOutboundMessage implements IOutboundMessage {
+	private final class SocketOutboundMessage implements IOutboundMessage {
 
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.IOutboundMessage#contents()
 		 */
 		@Override
 		public OutputStream contents() {
-			// TODO Auto-generated method stub
-			return null;
+			return this.contents;
 		}
 
 		/* (non-Javadoc)
@@ -326,6 +378,31 @@ public final class SocketCommunicator implements ICommunicator {
 			this.tag = value;
 		}
 
+		/**
+		 * Adds the message to the message buffer send queue.
+		 * @param sendq The queue to add the message buffers to.
+		 */
+		public void queue(Queue<ByteBuffer> sendq) {
+
+			byte[]		msg				= this.contents.toByteArray();
+			ByteBuffer	headerBuffer	= ByteBuffer.allocate(MESSAGE_HEADER_SIZE);
+			ByteBuffer	messageBuffer	= ByteBuffer.wrap(msg);
+
+			// Write the header.
+			headerBuffer.putInt(MESSAGE_MAGIC);
+			headerBuffer.putInt(MESSAGE_HEADER_SIZE);
+			headerBuffer.putInt(msg.length);
+			headerBuffer.putInt(this.tag);
+
+			// Queue the message.
+			sendq.add(headerBuffer);
+			sendq.add(messageBuffer);
+
+		}
+
+		/** The message stream. */
+		private final ByteArrayOutputStream contents = new ByteArrayOutputStream();
+
 		/** The message tag. */
 		private int tag = 0;
 
@@ -337,11 +414,14 @@ public final class SocketCommunicator implements ICommunicator {
 	/** The magic value identifying a stream of bytes as a mist message. */
 	private static final int MESSAGE_MAGIC					= 0x4D495354;
 
-	/** The underlying socket. */
-	private final Socket socket;
+	/** The underlying socket channel. */
+	private final SocketChannel channel;
 
 	/** The inbound message queue. */
-	private final Queue<IInboundMessage> msgq = new LinkedList<IInboundMessage>();
+	private final Queue<IInboundMessage> recvq = new LinkedList<IInboundMessage>();
+
+	/** The outbound message queue. */
+	private final Queue<ByteBuffer> sendq = new LinkedList<ByteBuffer>();
 
 	/** The header of the message currently being processed. */
 	private final ByteBuffer headerBuffer = ByteBuffer.allocate(MESSAGE_HEADER_SIZE);

@@ -4,6 +4,10 @@
 package org.jmist.packages;
 
 import java.net.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Queue;
 
 import org.jmist.framework.ICommunicator;
 import org.jmist.framework.ISwitchboard;
@@ -50,14 +54,36 @@ public final class SocketSwitchboard implements ISwitchboard {
 	}
 
 	private void serverOnConnectionOpened(SocketEventArgs args) {
-
+		SocketCommunicator comm = new SocketCommunicator(args.socket);
+		this.readyq.add(comm);
+		this.communicators.put(args.socket, comm);
 	}
 
 	private void serverOnConnectionClosed(SocketEventArgs args) {
+		this.communicators.remove(args.socket);
+	}
+
+	private void serverOnReadyReceive(SocketEventArgs args) {
+
+		SocketCommunicator comm = this.communicators.get(args.socket);
+		assert(comm != null);
+
+		if (comm.peek() != null)
+			this.readyq.add(comm);
 
 	}
 
-	private void serverOnReceive(SocketEventArgs args) {
+	private void serverOnReadySend(SocketEventArgs args) {
+
+		SocketCommunicator comm = this.communicators.get(args.socket);
+		assert(comm != null);
+
+		try {
+			comm.writeSocket();
+		} catch (java.io.IOException e) {
+			// TODO do something other than just print out the exception.
+			System.err.println(e);
+		}
 
 	}
 
@@ -88,15 +114,25 @@ public final class SocketSwitchboard implements ISwitchboard {
 			}
 		});
 
-		this.server.onReceive.subscribe(new IEventHandler<SocketEventArgs>() {
+		this.server.onReadyReceive.subscribe(new IEventHandler<SocketEventArgs>() {
 			public void notify(Object sender, SocketEventArgs args) {
-				serverOnReceive(args);
+				serverOnReadyReceive(args);
+			}
+		});
+
+		this.server.onReadySend.subscribe(new IEventHandler<SocketEventArgs>() {
+			public void notify(Object sender, SocketEventArgs args) {
+				serverOnReadySend(args);
 			}
 		});
 
 	}
 
 	private final SocketServer server = new SocketServer();
+
+	private final Map<Socket, SocketCommunicator> communicators = new HashMap<Socket, SocketCommunicator>();
+
+	private final Queue<SocketCommunicator> readyq = new LinkedList<SocketCommunicator>();
 
 	private static final int SERVER_PORT = 6478;
 
