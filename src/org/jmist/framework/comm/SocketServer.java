@@ -14,13 +14,14 @@ import org.jmist.framework.event.*;
  *
  */
 public class SocketServer {
-	
+
 	public final IEvent<EventArgs>			onInitialize			= new Event<EventArgs>();
 	public final IEvent<EventArgs>			onShutdown				= new Event<EventArgs>();
 	public final IEvent<SocketEventArgs>	onConnectionOpened		= new Event<SocketEventArgs>();
 	public final IEvent<SocketEventArgs>	onConnectionClosed		= new Event<SocketEventArgs>();
-	public final IEvent<SocketEventArgs>	onReceive				= new Event<SocketEventArgs>();
-	
+	public final IEvent<SocketEventArgs>	onReadyReceive			= new Event<SocketEventArgs>();
+	public final IEvent<SocketEventArgs>	onReadySend				= new Event<SocketEventArgs>();
+
 	public SocketServer() {
 		this.auto = true;
 	}
@@ -76,7 +77,7 @@ public class SocketServer {
 	protected void onInitialize() {
 		// no default behavior.
 	}
-	
+
 	private void raiseShutdown() {
 		this.onShutdown();
 		((Event<EventArgs>) this.onShutdown).raise(this, new EventArgs());
@@ -85,7 +86,7 @@ public class SocketServer {
 	protected void onShutdown() {
 		// no default behavior.
 	}
-	
+
 	private void raiseConnectionOpened(Socket socket) {
 		this.onConnectionOpened(socket);
 		((Event<SocketEventArgs>) this.onConnectionOpened).raise(this, new SocketEventArgs(socket));
@@ -99,21 +100,28 @@ public class SocketServer {
 		this.onConnectionOpened(socket);
 		((Event<SocketEventArgs>) this.onConnectionClosed).raise(this, new SocketEventArgs(socket));
 	}
-	
+
 	protected void onConnectionClosed(Socket socket) {
 		// no default behavior.
 	}
-	
-	private void raiseReceive(Socket socket) {
+
+	private void raiseReadyReceive(Socket socket) {
 		this.onConnectionOpened(socket);
-		((Event<SocketEventArgs>) this.onReceive).raise(this, new SocketEventArgs(socket));
+		((Event<SocketEventArgs>) this.onReadyReceive).raise(this, new SocketEventArgs(socket));
 	}
 
-	protected void onReceive(Socket socket) {
+	protected void onReadyReceive(Socket socket) {
 		// no default behavior.
 	}
 
+	private void raiseReadySend(Socket socket) {
+		this.onConnectionOpened(socket);
+		((Event<SocketEventArgs>) this.onReadySend).raise(this, new SocketEventArgs(socket));
+	}
 
+	protected void onReadySend(Socket socket) {
+		// no default behavior.
+	}
 
 	private final boolean auto;
 
