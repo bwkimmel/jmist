@@ -6,7 +6,7 @@ package org.jmist.framework.serialization;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
@@ -19,8 +19,107 @@ import java.util.prefs.Preferences;
 public final class MistClassLoader {
 
 	/**
-	 * Returns the single instance of <code>MistClassLoader</code>.
-	 * @return The single instance of <code>MistClassLoader</code>.
+	 * Removes all external sources for classes.
+	 */
+	public static void clearSources() {
+		getInstance();
+		urlSet.clear();
+	}
+
+	/**
+	 * Adds a new external source for classes.
+	 * @param url The URL to load classes from.
+	 * @throws MalformedURLException if the URL is invalid.
+	 */
+	public static void addSource(String url) throws MalformedURLException {
+		getInstance();
+		urlSet.add(new URL(url));
+	}
+
+	/**
+	 * Removes an external source for classes.
+	 * @param url The URL to remove.
+	 * @throws MalformedURLException if the URL is invalid.
+	 */
+	public static void removeSource(String url) throws MalformedURLException {
+		getInstance();
+		urlSet.remove(new URL(url));
+	}
+
+	/**
+	 * Causes the instance to be refreshed to include changes made to the
+	 * list of sources.
+	 */
+	public static void refresh() {
+		instance = null;
+	}
+
+	/**
+	 * Writes changes to the sources.
+	 */
+	public static void sync() {
+
+		Preferences		prefs		= Preferences.systemNodeForPackage(MistClassLoader.class).node(SOURCES_NODE);
+		int				index		= 0;
+
+		try {
+
+			// Clear existing sources.
+			prefs.clear();
+
+			for (URL url : urlSet) {
+				prefs.put(Integer.toString(index++), url.toString());
+			}
+
+			// Write the preferences to the backing store.
+			prefs.sync();
+
+		} catch (BackingStoreException e) {
+
+			System.err.println("Could not write sources.");
+			System.err.println(e);
+
+		}
+
+		// Cause the instance to be recreated next time getInstance is called.
+		refresh();
+
+	}
+
+	/**
+	 * Loads the set of external sources.
+	 * @throws BackingStoreException if this operation cannot be completed due
+	 * 		to a failure in the backing store, or inability to communicate with
+	 * 		it.
+	 */
+	private static void loadSources() throws BackingStoreException {
+
+		Preferences		prefs		= Preferences.systemNodeForPackage(MistClassLoader.class).node(SOURCES_NODE);
+		String[]		keys		= prefs.keys();
+
+		urlSet			= new LinkedHashSet<URL>();
+
+		for (String key : keys) {
+
+			String		urlSpec		= prefs.get(key, "");
+
+			if (urlSpec != "") {
+
+				try {
+					urlSet.add(new URL(urlSpec));
+				} catch (MalformedURLException e) {
+					System.err.println(e);
+				}
+
+			} // urlSpec != ""
+
+		} // key : keys
+
+	}
+
+	/**
+	 * Returns the single instance of a <code>ClassLoader</code>.
+	 * @return The single instance of a <code>ClassLoader</code>.
 	 */
 	public static ClassLoader getInstance() {
 
@@ -28,28 +127,10 @@ public final class MistClassLoader {
 
 			try {
 
-				Preferences		prefs		= Preferences.systemNodeForPackage(MistClassLoader.class).node("sources");
-				String[]		keys		= prefs.keys();
-				Set<URL>		urlSet		= new HashSet<URL>();
-				URL[]			urls;
+				if (urlSet == null)
+					loadSources();
 
-				for (String key : keys) {
-
-					String		urlSpec		= prefs.get(key, "");
-
-					if (urlSpec != "") {
-
-						try {
-							urlSet.add(new URL(urlSpec));
-						} catch (MalformedURLException e) {
-							System.err.println(e);
-						}
-
-					} // urlSpec != ""
-
-				} // key : keys
-
-				urls			= urlSet.toArray(new URL[0]);
+				URL[] urls		= urlSet.toArray(new URL[0]);
 				instance		= new URLClassLoader(urls);
 
 			} catch (BackingStoreException e) {
@@ -77,5 +158,11 @@ public final class MistClassLoader {
 
 	/** The single instance. */
 	private static ClassLoader instance = null;
+
+	/** The set of URLs at which to search for classes. */
+	private static Set<URL> urlSet = null;
+
+	/** The name of the preferences node containing the sources. */
+	private static final String SOURCES_NODE = "sources";
 
 }
