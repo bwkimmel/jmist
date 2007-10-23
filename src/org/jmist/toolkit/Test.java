@@ -1,6 +1,7 @@
 package org.jmist.toolkit;
 
 import org.jmist.framework.event.*;
+import org.jmist.framework.serialization.MistClassLoader;
 import org.jmist.util.*;
 import org.jmist.packages.*;
 import org.jmist.framework.*;
@@ -8,6 +9,7 @@ import org.jmist.toolkit.Grid3.Cell;
 
 import java.io.IOException;
 import java.lang.ref.*;
+import java.net.MalformedURLException;
 
 public class Test {
 
@@ -115,8 +117,24 @@ public class Test {
 //		testPolynomial();
 //		testRoots();
 
-		testShade();
+		//testShade();
+		
+		testClassLoader();
 
+	}
+	
+	private static void testClassLoader() {
+		try {
+			MistClassLoader.addSource("file:///c:/Documents%20and%20Settings/bkimmel/workspace/jmist/bin/");
+			MistClassLoader.sync();
+			
+			ClassLoader loader = MistClassLoader.getInstance();
+			
+			
+		} catch (MalformedURLException e) {
+			System.err.println(e);
+		}
+		
 	}
 
 	private static void testShade() {
