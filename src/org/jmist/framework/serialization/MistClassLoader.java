@@ -64,6 +64,7 @@ public final class MistClassLoader {
 		}
 
 		return instance;
+
 	}
 
 	/**
