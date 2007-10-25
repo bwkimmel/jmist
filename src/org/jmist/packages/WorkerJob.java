@@ -86,38 +86,42 @@ public final class WorkerJob implements IJob {
 		boolean taskWorkerIncluded = contents.readBoolean();
 
 		try {
-				
+
 			if (taskWorkerIncluded) {
-	
+
 				this.worker = (ITaskWorker) contents.readObject();
-	
+
 			} else if (this.jobId.compareTo(msgJobId) != 0) {
-	
+
 				IOutboundMessage taskRequest = comm.createOutboundMessage();
 				ObjectOutputStream taskRequestContents = new ObjectOutputStream(taskRequest.contents());
-	
+
 				taskRequest.tag(ParallelJobCommon.MESSAGE_TAG_REQUEST_TASK_WORKER);
 				taskRequestContents.writeObject(msgJobId);
 				taskRequestContents.flush();
-	
+
 				comm.send(taskRequest);
-	
+
 				IInboundMessage taskResponse = comm.receive();
 				assert(taskResponse.tag() == ParallelJobCommon.MESSAGE_TAG_PROVIDE_TASK_WORKER);
-	
+
 				ObjectInputStream taskResponseContents = new ObjectInputStream(taskResponse.contents());
 				UUID workerJobId = new UUID(taskResponseContents.readLong(), taskResponseContents.readLong());
-	
+
 				assert(workerJobId.compareTo(msgJobId) == 0);
-	
+
 				this.worker = (ITaskWorker) contents.readObject();
-	
+
 			}
 
 		} catch (ClassNotFoundException e) {
-			
+
+			System.err.println("Cannot create task worker.");
+			System.err.println(e);
+			return false;
+
 		}
-		
+
 		this.jobId = msgJobId;
 
 		IOutboundMessage reply = comm.createOutboundMessage();
@@ -132,6 +136,8 @@ public final class WorkerJob implements IJob {
 		replyContents.flush();
 
 		comm.send(reply);
+
+		return true;
 
 	}
 
