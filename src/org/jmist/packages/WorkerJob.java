@@ -80,46 +80,59 @@ public final class WorkerJob implements IJob {
 	private boolean processTask(IInboundMessage msg, ICommunicator comm, IProgressMonitor monitor) throws IOException {
 
 		MistObjectInputStream contents = new MistObjectInputStream(msg.contents());
-
 		UUID msgJobId = new UUID(contents.readLong(), contents.readLong());
 		int taskId = contents.readInt();
+		Object task;
 
 		try {
 
-			if (this.jobId.compareTo(msgJobId) != 0) {
-
-				IOutboundMessage taskRequest = comm.createOutboundMessage();
-				ObjectOutputStream taskRequestContents = new ObjectOutputStream(taskRequest.contents());
-
-				taskRequest.tag(ParallelJobCommon.MESSAGE_TAG_REQUEST_TASK_WORKER);
-				taskRequestContents.writeLong(msgJobId.getMostSignificantBits());
-				taskRequestContents.writeLong(msgJobId.getLeastSignificantBits());
-				taskRequestContents.flush();
-
-				comm.send(taskRequest);
-
-				IInboundMessage taskResponse = comm.receive();
-				assert(taskResponse.tag() == ParallelJobCommon.MESSAGE_TAG_PROVIDE_TASK_WORKER);
-
-				MistObjectInputStream taskResponseContents = new MistObjectInputStream(taskResponse.contents());
-				UUID workerJobId = new UUID(taskResponseContents.readLong(), taskResponseContents.readLong());
-
-				assert(workerJobId.compareTo(msgJobId) == 0);
-
-				this.worker = (ITaskWorker) contents.readObject();
-
-			}
+			task = contents.readObject();
 
 		} catch (ClassNotFoundException e) {
 
-			System.err.println("Cannot create task worker.");
+			System.err.println("Failed to deserialize task.");
 			System.err.println(e);
 			return false;
 
 		}
 
+		if (this.jobId.compareTo(msgJobId) != 0) {
+
+			IOutboundMessage taskRequest = comm.createOutboundMessage();
+			ObjectOutputStream taskRequestContents = new ObjectOutputStream(taskRequest.contents());
+
+			taskRequest.tag(ParallelJobCommon.MESSAGE_TAG_REQUEST_TASK_WORKER);
+			taskRequestContents.writeLong(msgJobId.getMostSignificantBits());
+			taskRequestContents.writeLong(msgJobId.getLeastSignificantBits());
+			taskRequestContents.flush();
+
+			comm.send(taskRequest);
+
+			IInboundMessage taskResponse = comm.receive();
+			assert(taskResponse.tag() == ParallelJobCommon.MESSAGE_TAG_PROVIDE_TASK_WORKER);
+
+			MistObjectInputStream taskResponseContents = new MistObjectInputStream(taskResponse.contents());
+			UUID workerJobId = new UUID(taskResponseContents.readLong(), taskResponseContents.readLong());
+
+			assert(workerJobId.compareTo(msgJobId) == 0);
+
+			try {
+
+				this.worker = (ITaskWorker) contents.readObject();
+
+			} catch (ClassNotFoundException e) {
+
+				System.err.println("Cannot create task worker.");
+				System.err.println(e);
+				return false;
+
+			}
+
+		}
+
 		this.jobId = msgJobId;
 
+		Object results = this.worker.performTask(task, monitor);
 		IOutboundMessage reply = comm.createOutboundMessage();
 		ObjectOutputStream replyContents = new ObjectOutputStream(reply.contents());
 
@@ -127,9 +140,7 @@ public final class WorkerJob implements IJob {
 		replyContents.writeLong(this.jobId.getMostSignificantBits());
 		replyContents.writeLong(this.jobId.getLeastSignificantBits());
 		replyContents.writeInt(taskId);
-
-		this.worker.performTask(contents, replyContents, monitor);
-
+		replyContents.writeObject(results);
 		replyContents.flush();
 
 		comm.send(reply);

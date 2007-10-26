@@ -15,12 +15,12 @@ public interface ITaskWorker extends Serializable {
 
 	/**
 	 * Process a task.
-	 * @param task The <code>InputStream</code> to read a description of the
-	 * 		task from.
-	 * @param results The <code>OutputStream</code> to write the results to.
+	 * @param task The <code>Object</code> describing the task to be performed.
 	 * @param monitor The <code>IProgressMonitor</code> to report progress of
 	 * 		the task to.
+	 * @return The <code>Object</code> describing the results obtained from
+	 * 		the execution of the task.
 	 */
-	void performTask(InputStream task, OutputStream results, IProgressMonitor monitor);
+	Object performTask(Object task, IProgressMonitor monitor);
 
 }
