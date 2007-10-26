@@ -68,10 +68,21 @@ public final class MasterJob extends ServerJob {
 			IOutboundMessage reply = comm.createOutboundMessage();
 			ObjectOutputStream contents = new ObjectOutputStream(reply.contents());
 
-			contents.writeLong(taskDesc.getJobId().getMostSignificantBits());
-			contents.writeLong(taskDesc.getJobId().getLeastSignificantBits());
-			contents.writeInt(taskDesc.getTaskId());
-			contents.writeObject(taskDesc.getTaskId());
+			if (taskDesc != null) {
+
+				reply.tag(ParallelJobCommon.MESSAGE_TAG_ASSIGN_TASK);
+				contents.writeLong(taskDesc.getJobId().getMostSignificantBits());
+				contents.writeLong(taskDesc.getJobId().getLeastSignificantBits());
+				contents.writeInt(taskDesc.getTaskId());
+				contents.writeObject(taskDesc.getTaskId());
+
+			} else { /* taskDesc == null */
+
+				reply.tag(ParallelJobCommon.MESSAGE_TAG_IDLE);
+				contents.writeLong(this.idleTime);
+
+			}
+
 			contents.flush();
 
 			comm.queue(reply);
@@ -96,6 +107,7 @@ public final class MasterJob extends ServerJob {
 			IOutboundMessage reply = comm.createOutboundMessage();
 			ObjectOutputStream replyContents = new ObjectOutputStream(reply.contents());
 
+			reply.tag(ParallelJobCommon.MESSAGE_TAG_PROVIDE_TASK_WORKER);
 			replyContents.writeLong(jobId.getMostSignificantBits());
 			replyContents.writeLong(jobId.getLeastSignificantBits());
 			replyContents.writeObject(worker);
@@ -175,6 +187,7 @@ public final class MasterJob extends ServerJob {
 
 			} finally {
 
+				reply.tag(ParallelJobCommon.MESSAGE_TAG_SUBMIT_JOB_ACK);
 				replyContents.flush();
 				comm.queue(reply);
 
@@ -190,5 +203,6 @@ public final class MasterJob extends ServerJob {
 	}
 
 	private final IJobMasterService service = new JobMasterService();
+	private long idleTime;
 
 }
