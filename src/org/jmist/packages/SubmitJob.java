@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import org.jmist.framework.ICommunicator;
 import org.jmist.framework.IDialer;
+import org.jmist.framework.IInboundMessage;
 import org.jmist.framework.IJob;
 import org.jmist.framework.IOutboundMessage;
 import org.jmist.framework.IParallelizableJob;
@@ -48,7 +49,7 @@ public final class SubmitJob implements IJob {
 
 			monitor.notifyStatusChanged("Submitted, waiting for confirmation...");
 
-			org.jmist.framework.IInboundMessage reply = comm.receive();
+			IInboundMessage reply = comm.receive();
 			DataInputStream replyContents = new DataInputStream(reply.contents());
 
 			UUID jobId = new UUID(replyContents.readLong(), replyContents.readLong());
