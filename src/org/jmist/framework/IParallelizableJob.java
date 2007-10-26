@@ -3,9 +3,6 @@
  */
 package org.jmist.framework;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-
 /**
  * Represents a job that can be split into smaller chunks.
  * @author bkimmel
