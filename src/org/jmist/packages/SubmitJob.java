@@ -30,7 +30,7 @@ public final class SubmitJob implements IJob {
 		try {
 
 			monitor.notifyIndeterminantProgress();
-			monitor.notifyStatusChanged("Connecting...");
+			monitor.notifyStatusChanged(String.format("Connecting to '%s'...", this.masterAddress));
 
 			ICommunicator comm = this.dialer.dial(this.masterAddress);
 
