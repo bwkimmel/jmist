@@ -83,15 +83,10 @@ public final class WorkerJob implements IJob {
 
 		UUID msgJobId = new UUID(contents.readLong(), contents.readLong());
 		int taskId = contents.readInt();
-		boolean taskWorkerIncluded = contents.readBoolean();
 
 		try {
 
-			if (taskWorkerIncluded) {
-
-				this.worker = (ITaskWorker) contents.readObject();
-
-			} else if (this.jobId.compareTo(msgJobId) != 0) {
+			if (this.jobId.compareTo(msgJobId) != 0) {
 
 				IOutboundMessage taskRequest = comm.createOutboundMessage();
 				ObjectOutputStream taskRequestContents = new ObjectOutputStream(taskRequest.contents());
