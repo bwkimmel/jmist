@@ -40,6 +40,7 @@ public final class SubmitJob implements IJob {
 			IOutboundMessage msg = comm.createOutboundMessage();
 			ObjectOutputStream contents = new ObjectOutputStream(msg.contents());
 
+			contents.writeInt(this.priority);
 			contents.writeObject(this.job);
 			contents.flush();
 
@@ -71,5 +72,6 @@ public final class SubmitJob implements IJob {
 	private IDialer dialer;
 	private String masterAddress;
 	private IParallelizableJob job;
+	private int priority = 0;
 
 }
