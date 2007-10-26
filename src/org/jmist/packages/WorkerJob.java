@@ -97,7 +97,8 @@ public final class WorkerJob implements IJob {
 				ObjectOutputStream taskRequestContents = new ObjectOutputStream(taskRequest.contents());
 
 				taskRequest.tag(ParallelJobCommon.MESSAGE_TAG_REQUEST_TASK_WORKER);
-				taskRequestContents.writeObject(msgJobId);
+				taskRequestContents.writeLong(msgJobId.getMostSignificantBits());
+				taskRequestContents.writeLong(msgJobId.getLeastSignificantBits());
 				taskRequestContents.flush();
 
 				comm.send(taskRequest);
