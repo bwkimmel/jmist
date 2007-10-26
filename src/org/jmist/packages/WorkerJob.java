@@ -129,8 +129,8 @@ public final class WorkerJob implements IJob {
 		ObjectOutputStream replyContents = new ObjectOutputStream(reply.contents());
 
 		reply.tag(ParallelJobCommon.MESSAGE_TAG_SUBMIT_TASK_RESULTS);
-		replyContents.writeObject(this.jobId.getMostSignificantBits());
-		replyContents.writeObject(this.jobId.getLeastSignificantBits());
+		replyContents.writeLong(this.jobId.getMostSignificantBits());
+		replyContents.writeLong(this.jobId.getLeastSignificantBits());
 		replyContents.writeInt(taskId);
 
 		this.worker.performTask(contents, replyContents, monitor);
