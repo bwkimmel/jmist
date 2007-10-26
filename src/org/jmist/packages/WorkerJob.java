@@ -6,7 +6,6 @@ package org.jmist.packages;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.UUID;
 
@@ -17,6 +16,7 @@ import org.jmist.framework.IJob;
 import org.jmist.framework.IOutboundMessage;
 import org.jmist.framework.IProgressMonitor;
 import org.jmist.framework.ITaskWorker;
+import org.jmist.framework.serialization.MistObjectInputStream;
 
 /**
  * A job that processes tasks for a parallelizable job.
@@ -79,7 +79,7 @@ public final class WorkerJob implements IJob {
 
 	private boolean processTask(IInboundMessage msg, ICommunicator comm, IProgressMonitor monitor) throws IOException {
 
-		ObjectInputStream contents = new ObjectInputStream(msg.contents());
+		MistObjectInputStream contents = new MistObjectInputStream(msg.contents());
 
 		UUID msgJobId = new UUID(contents.readLong(), contents.readLong());
 		int taskId = contents.readInt();
@@ -105,7 +105,7 @@ public final class WorkerJob implements IJob {
 				IInboundMessage taskResponse = comm.receive();
 				assert(taskResponse.tag() == ParallelJobCommon.MESSAGE_TAG_PROVIDE_TASK_WORKER);
 
-				ObjectInputStream taskResponseContents = new ObjectInputStream(taskResponse.contents());
+				MistObjectInputStream taskResponseContents = new MistObjectInputStream(taskResponse.contents());
 				UUID workerJobId = new UUID(taskResponseContents.readLong(), taskResponseContents.readLong());
 
 				assert(workerJobId.compareTo(msgJobId) == 0);
