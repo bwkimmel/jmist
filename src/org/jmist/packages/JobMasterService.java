@@ -105,6 +105,8 @@ public final class JobMasterService implements IJobMasterService {
 		this.jobLookup.put(sched.id, sched);
 		this.jobs.add(sched);
 
+		this.getNewTask(sched);
+
 		return sched.id;
 
 	}
