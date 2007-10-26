@@ -13,20 +13,19 @@ import java.io.OutputStream;
 public interface IParallelizableJob {
 
 	/**
-	 * Writes a description of the next task to the specified
-	 * output stream.
-	 * @param task The stream to write the task description to.
-	 * @return A value indicating whether a new task was obtained.
+	 * Gets the next task to be performed.
+	 * @return The <code>Object</code> describing the next task to be
+	 * 		performed, or <code>null</code> if there are no remaining
+	 * 		tasks.
 	 */
-	boolean getNextTask(OutputStream task);
+	Object getNextTask();
 
 	/**
-	 * Reads the results of a task from the specified input
-	 * stream.
-	 * @param results The input stream containing the results of
+	 * Submits the results of a task.
+	 * @param results The <code>Object</code> containing the results of
 	 * 		a task.
 	 */
-	void submitResults(InputStream results);
+	void submitResults(Object results);
 
 	/**
 	 * Gets the task worker to use to process the tasks of this
