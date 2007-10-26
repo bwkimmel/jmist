@@ -10,7 +10,6 @@ import java.util.Queue;
 import java.util.UUID;
 
 import org.jmist.framework.IJobMasterService;
-import org.jmist.framework.IOutboundMessage;
 import org.jmist.framework.IParallelizableJob;
 import org.jmist.framework.ITaskWorker;
 import org.jmist.framework.TaskDescription;
@@ -26,8 +25,10 @@ public final class JobMasterService implements IJobMasterService {
 	 */
 	@Override
 	public ITaskWorker getTaskWorker(UUID jobId) {
-		// TODO Auto-generated method stub
-		return null;
+
+		ScheduledJob sched = this.jobLookup.get(jobId);
+		return sched != null ? sched.worker : null;
+
 	}
 
 	/* (non-Javadoc)
@@ -35,8 +36,62 @@ public final class JobMasterService implements IJobMasterService {
 	 */
 	@Override
 	public TaskDescription requestTask() {
-		// TODO Auto-generated method stub
+
+		AssignedTask task = this.getNextTask();
+
+		if (task == null) {
+			return null;
+		}
+
+		this.getNewTask(task.sched);
+
+		return new TaskDescription(task.sched.id, task.id, task.info);
+
+	}
+
+	private AssignedTask getNextTask() {
+
+		ScheduledJob sched = this.getTopScheduledJob();
+
+		if (sched != null && sched.tasks != null) {
+			sched.tasks = sched.tasks.next;
+			return sched.tasks;
+		}
+
 		return null;
+
+	}
+
+	private ScheduledJob getTopScheduledJob() {
+
+		while (!this.jobs.isEmpty()) {
+
+			ScheduledJob sched = this.jobs.peek();
+
+			if (sched.tasks != null) {
+				return sched;
+			}
+
+			this.jobs.remove();
+			this.jobLookup.remove(sched.id);
+
+		}
+
+		return null;
+
+	}
+
+	private void getNewTask(ScheduledJob sched) {
+
+		Object info = sched.job.getNextTask();
+
+		if (info != null) {
+
+			AssignedTask task = sched.addTask(info);
+			this.taskLookup.put(task.id, task);
+
+		}
+
 	}
 
 	/* (non-Javadoc)
@@ -44,8 +99,13 @@ public final class JobMasterService implements IJobMasterService {
 	 */
 	@Override
 	public UUID submitJob(IParallelizableJob job, int priority) {
-		return null;
-		// TODO Auto-generated method stub
+
+		ScheduledJob sched = new ScheduledJob(job, priority);
+
+		this.jobLookup.put(sched.id, sched);
+		this.jobs.add(sched);
+
+		return sched.id;
 
 	}
 
@@ -54,17 +114,67 @@ public final class JobMasterService implements IJobMasterService {
 	 */
 	@Override
 	public void submitTaskResults(UUID jobId, int taskId, Object results) {
-		// TODO Auto-generated method stub
+
+		AssignedTask task = this.taskLookup.get(taskId);
+
+		if (task != null) {
+
+			if (jobId != task.sched.id) {
+
+				if (this.verbose) {
+					System.err.printf("Job ID mismatch (submitted: `%s', recorded: `%s') for task %d, ignoring.\n", jobId.toString(), task.sched.id.toString(), task.id);
+				}
+
+				return;
+
+			}
+
+			this.removeTask(task);
+
+			task.sched.job.submitResults(results);
+
+		} else if (this.verbose) {
+
+			System.err.printf("Task %d not found, ignoring.\n", taskId);
+
+		}
+
+	}
+
+	private void removeTask(AssignedTask task) {
+
+		ScheduledJob sched = task.sched;
+
+		this.taskLookup.remove(task.id);
+
+		if (sched.tasks == task) {
+			sched.tasks = task.previous;
+		}
+
+		if (sched.tasks == task) {
+			sched.tasks = null;
+		}
+
+		task.previous.next = task.next;
+		task.next.previous = task.previous;
 
 	}
 
 	private class AssignedTask {
 
-		public AssignedTask			next;
-		public AssignedTask			previous;
+		public AssignedTask			next		= null;
+		public AssignedTask			previous	= null;
 		public int					id;
-		public IOutboundMessage		info;
+		public Object				info;
 		public ScheduledJob			sched;
+
+		public AssignedTask(Object info, ScheduledJob sched) {
+
+			this.id			= nextTaskId++;
+			this.info		= info;
+			this.sched		= sched;
+
+		}
 
 	}
 
@@ -75,8 +185,38 @@ public final class JobMasterService implements IJobMasterService {
 		public int					priority;
 		public int					order;
 		public boolean				completed;
-		public IOutboundMessage		workerDef;
+		public ITaskWorker			worker;
 		public AssignedTask			tasks;
+
+		public ScheduledJob(IParallelizableJob job, int priority) {
+
+			this.job		= job;
+			this.id			= UUID.randomUUID();
+			this.priority	= priority;
+			this.order		= nextOrder++;
+			this.completed	= false;
+			this.worker		= job.worker();
+			this.tasks		= null;
+
+		}
+
+		public AssignedTask addTask(Object info) {
+
+			AssignedTask task	= new AssignedTask(info, this);
+
+			task.next			= this.tasks != null ? this.tasks.next : task;
+			task.previous		= this.tasks != null ? this.tasks : task;
+
+			if (this.tasks != null) {
+				this.tasks.next.previous	= task;
+				this.tasks.next				= task;
+			} else {
+				this.tasks					= task;
+			}
+
+			return task;
+
+		}
 
 		/* (non-Javadoc)
 		 * @see java.lang.Comparable#compareTo(java.lang.Object)
@@ -106,12 +246,12 @@ public final class JobMasterService implements IJobMasterService {
 
 	}
 
-
 	private final Queue<ScheduledJob> jobs = new PriorityQueue<ScheduledJob>();
 	private final Map<UUID, ScheduledJob> jobLookup = new HashMap<UUID, ScheduledJob>();
 	private final Map<Integer, AssignedTask> taskLookup = new HashMap<Integer, AssignedTask>();
 
-	private int nextOrder;
-	private long idleTime;
+	private int nextOrder = 0;
+	private int nextTaskId = 0;
+	private boolean verbose = true;
 
 }
