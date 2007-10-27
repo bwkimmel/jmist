@@ -22,7 +22,7 @@ public interface IParallelizableJob {
 	 * @param results The <code>Object</code> containing the results of
 	 * 		a task.
 	 */
-	void submitResults(Object results);
+	void submitTaskResults(Object results);
 
 	/**
 	 * Gets the task worker to use to process the tasks of this

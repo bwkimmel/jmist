@@ -45,7 +45,7 @@ public final class DummyParallelizableJob implements IParallelizableJob {
 	 * @see org.jmist.framework.IParallelizableJob#submitResults(java.lang.Object)
 	 */
 	@Override
-	public void submitResults(Object results) {
+	public void submitTaskResults(Object results) {
 
 		int task = (Integer) results;
 		System.out.printf("Received results for task %d.\n", task);

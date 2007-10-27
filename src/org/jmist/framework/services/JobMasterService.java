@@ -197,7 +197,7 @@ public final class JobMasterService implements IJobMasterService {
 				System.err.printf("Results from task %s/%d.\n", task.sched.id.toString(), task.id);
 			}
 
-			task.sched.job.submitResults(results);
+			task.sched.job.submitTaskResults(results);
 
 		} else if (this.verbose) { /* task == null */
 
