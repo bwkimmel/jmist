@@ -40,7 +40,7 @@ public final class JobMasterService implements IJobMasterService {
 	 * @see org.jmist.framework.IJobMasterService#getTaskWorker(java.util.UUID)
 	 */
 	@Override
-	public ITaskWorker getTaskWorker(UUID jobId) {
+	public synchronized ITaskWorker getTaskWorker(UUID jobId) {
 
 		ScheduledJob sched = this.jobLookup.get(jobId);
 		return sched != null ? sched.worker : null;
@@ -51,7 +51,7 @@ public final class JobMasterService implements IJobMasterService {
 	 * @see org.jmist.framework.IJobMasterService#requestTask()
 	 */
 	@Override
-	public TaskDescription requestTask() {
+	public synchronized TaskDescription requestTask() {
 
 		if (this.verbose) {
 			System.err.println("Received request for task.");
@@ -150,7 +150,7 @@ public final class JobMasterService implements IJobMasterService {
 	 * @see org.jmist.framework.IJobMasterService#submitJob(org.jmist.framework.IParallelizableJob, int)
 	 */
 	@Override
-	public UUID submitJob(IParallelizableJob job, int priority) {
+	public synchronized UUID submitJob(IParallelizableJob job, int priority) {
 
 		// Create the job and add it to the schedule.
 		ScheduledJob sched = new ScheduledJob(job, priority);
@@ -169,7 +169,7 @@ public final class JobMasterService implements IJobMasterService {
 	 * @see org.jmist.framework.IJobMasterService#submitTaskResults(java.util.UUID, int, java.lang.Object)
 	 */
 	@Override
-	public void submitTaskResults(UUID jobId, int taskId, Object results) {
+	public synchronized void submitTaskResults(UUID jobId, int taskId, Object results) {
 
 		// Find the task.
 		AssignedTask task = this.taskLookup.get(taskId);
