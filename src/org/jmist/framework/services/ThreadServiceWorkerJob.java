@@ -55,7 +55,7 @@ public final class ThreadServiceWorkerJob implements IJob {
 
 			while (monitor.notifyIndeterminantProgress()) {
 
-				this.executor.execute(new Worker(new DummyProgressMonitor()));
+				this.executor.execute(new Worker(monitor.createChildProgressMonitor()));
 
 			}
 
