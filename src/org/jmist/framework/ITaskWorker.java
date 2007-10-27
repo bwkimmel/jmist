@@ -3,8 +3,6 @@
  */
 package org.jmist.framework;
 
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.Serializable;
 
 /**
