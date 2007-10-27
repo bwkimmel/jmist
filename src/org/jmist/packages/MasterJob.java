@@ -165,8 +165,13 @@ public final class MasterJob extends ServerJob {
 
 				UUID jobId = this.service.submitJob(job, priority);
 
-				replyContents.writeLong(jobId.getMostSignificantBits());
-				replyContents.writeLong(jobId.getLeastSignificantBits());
+				if (jobId != null) {
+					replyContents.writeLong(jobId.getMostSignificantBits());
+					replyContents.writeLong(jobId.getLeastSignificantBits());
+				} else { /* jobId == null */
+					replyContents.writeLong(0);
+					replyContents.writeLong(0);
+				}
 
 			} catch (IOException e) {
 

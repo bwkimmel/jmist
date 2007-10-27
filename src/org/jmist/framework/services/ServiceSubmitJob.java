@@ -47,7 +47,7 @@ public final class ServiceSubmitJob implements IJob {
 			IJobMasterService service = (IJobMasterService) registry.lookup("IJobMasterService");
 			UUID jobId = service.submitJob(this.job, this.priority);
 
-			if (jobId.compareTo(new UUID(0, 0)) != 0) {
+			if (jobId != null) {
 
 				monitor.notifyStatusChanged(String.format("Submitted, ID=%s.", jobId.toString()));
 				monitor.notifyComplete();
