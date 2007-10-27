@@ -16,7 +16,7 @@ import org.jmist.framework.IProgressMonitor;
 import org.jmist.framework.ITaskWorker;
 
 /**
- * A job that submits a parallelizable job to a remote
+ * A job that processes tasks for a parallelizable job from a remote
  * <code>JobServiceMaster<code>.  This class may potentially use multiple
  * threads to process tasks.
  * @author bkimmel
