@@ -37,25 +37,28 @@ public class CompositeModelElement extends AbstractModelElement {
 	}
 
 	/* (non-Javadoc)
+	 * @see org.jmist.framework.model.ModelElement#removeChild(org.jmist.framework.model.ModelElement)
+	 */
+	@Override
+	public void removeChild(ModelElement child) {
+
+		Iterator<ModelElement> i = this.children.iterator();
+
+		while (i.hasNext()) {
+			if (i.next() == child) {
+				i.remove();
+				break;
+			}
+		}
+
+	}
+
+	/* (non-Javadoc)
 	 * @see org.jmist.framework.model.AbstractModelElement#children()
 	 */
 	@Override
 	public Iterable<ModelElement> children() {
 		return children;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.jmist.framework.model.AbstractModelElement#findChild(java.lang.String)
-	 */
-	@Override
-	public ModelElement findChild(String name) {
-		for (ModelElement child : this.children()) {
-			if (child.getName().equals(name)) {
-				return child;
-			}
-		}
-
-		return null;
 	}
 
 	/* (non-Javadoc)
@@ -80,19 +83,6 @@ public class CompositeModelElement extends AbstractModelElement {
 		// TODO Create a bounding sphere builder and use that instead.
 		Box3 boundingBox = this.boundingBox();
 		return new Sphere(boundingBox.center(), boundingBox.diagonal() / 2.0);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.jmist.framework.model.AbstractModelElement#removeChild(java.lang.String)
-	 */
-	@Override
-	public void removeChild(String name) {
-		for (Iterator<ModelElement> iter = children.iterator(); iter.hasNext();) {
-			if (iter.next().getName().equals(name)) {
-				iter.remove();
-				break;
-			}
-		}
 	}
 
 	/* (non-Javadoc)
