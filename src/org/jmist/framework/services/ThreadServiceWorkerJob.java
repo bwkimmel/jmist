@@ -30,6 +30,8 @@ public final class ThreadServiceWorkerJob implements IJob {
 	 * @param masterHost The URL of the master.
 	 * @param idleTime The time (in milliseconds) to idle when no task is
 	 * 		available.
+	 * @param executor The <code>Executor</code> to use to process tasks
+	 * 		(must not use an unbounded queue).
 	 */
 	public ThreadServiceWorkerJob(String masterHost, long idleTime, Executor executor) {
 		this.masterHost = masterHost;
