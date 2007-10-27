@@ -177,7 +177,7 @@ public final class JobMasterServer implements JobMasterService {
 		if (task != null) {
 
 			// We found the task, check that the job ID matches what we expect.
-			if (jobId != task.sched.id) {
+			if (jobId.compareTo(task.sched.id) != 0) {
 
 				// Job ID is incorrect.
 				if (this.verbose) {
