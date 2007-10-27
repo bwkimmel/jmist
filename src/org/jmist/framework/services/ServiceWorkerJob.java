@@ -13,10 +13,23 @@ import org.jmist.framework.ITaskWorker;
 import org.jmist.framework.TaskDescription;
 
 /**
+ * A job that submits a parallelizable job to a remote
+ * <code>JobServiceMaster<code>.
  * @author bkimmel
- *
  */
 public final class ServiceWorkerJob implements IJob {
+
+	/**
+	 * Initializes the address of the master and the amount of time to idle
+	 * when no task is available.
+	 * @param masterHost The URL of the master.
+	 * @param idleTime The time (in milliseconds) to idle when no task is
+	 * 		available.
+	 */
+	public ServiceWorkerJob(String masterHost, long idleTime) {
+		this.masterHost = masterHost;
+		this.idleTime = idleTime;
+	}
 
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.IJob#go(org.jmist.framework.IProgressMonitor)
@@ -86,7 +99,12 @@ public final class ServiceWorkerJob implements IJob {
 
 	}
 
-	private String masterHost;
-	private long idleTime;
+	/** The URL of the master. */
+	private final String masterHost;
+
+	/**
+	 * The amount of time (in milliseconds) to idle when no task is available.
+	 */
+	private final long idleTime;
 
 }
