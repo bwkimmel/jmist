@@ -8,7 +8,6 @@ import java.util.UUID;
 
 import org.jmist.framework.IParallelizableJob;
 import org.jmist.framework.ITaskWorker;
-import org.jmist.framework.TaskDescription;
 
 /**
  * A remote service for accepting <code>IParallelizableJob</code>s,

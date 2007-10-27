@@ -11,7 +11,6 @@ import java.util.UUID;
 
 import org.jmist.framework.IParallelizableJob;
 import org.jmist.framework.ITaskWorker;
-import org.jmist.framework.TaskDescription;
 
 /**
  * An implementation of <code>IJobMasterService</code>: a remote service for
