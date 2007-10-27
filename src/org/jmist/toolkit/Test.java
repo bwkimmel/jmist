@@ -1,15 +1,29 @@
 package org.jmist.toolkit;
 
-import org.jmist.framework.event.*;
-import org.jmist.framework.serialization.MistClassLoader;
-import org.jmist.util.*;
-import org.jmist.packages.*;
-import org.jmist.framework.*;
-import org.jmist.toolkit.Grid3.Cell;
-
 import java.io.IOException;
-import java.lang.ref.*;
+import java.lang.ref.Reference;
+import java.lang.ref.WeakReference;
 import java.net.MalformedURLException;
+
+import org.jmist.framework.ImageShader;
+import org.jmist.framework.Job;
+import org.jmist.framework.Lens;
+import org.jmist.framework.PixelShader;
+import org.jmist.framework.ProgressMonitor;
+import org.jmist.framework.RayShader;
+import org.jmist.framework.event.Event;
+import org.jmist.framework.event.EventObserver;
+import org.jmist.framework.event.EventSubject;
+import org.jmist.framework.serialization.MistClassLoader;
+import org.jmist.packages.CameraImageShader;
+import org.jmist.packages.DialogProgressMonitor;
+import org.jmist.packages.DirectionalTestRayShader;
+import org.jmist.packages.FisheyeLens;
+import org.jmist.packages.ImageRasterWriter;
+import org.jmist.packages.NRooksRandom;
+import org.jmist.packages.RasterJob;
+import org.jmist.packages.SimplePixelShader;
+import org.jmist.toolkit.Grid3.Cell;
 
 public class Test {
 
@@ -84,13 +98,13 @@ public class Test {
 		private TestSubject subject;
 		private Object lastEventAArg = new Integer(0);
 
-		private EventObserver eventBHandler = new EventObserver() {
+		private EventObserver<Object> eventBHandler = new EventObserver<Object>() {
 			public void notify(Object sender, Object args) {
 				System.out.println("event B raised");
 			}
 		};
 
-		private EventObserver eventAHandler = new EventObserver() {
+		private EventObserver<Object> eventAHandler = new EventObserver<Object>() {
 			public void notify(Object sender, Object arg) {
 				lastEventAArg = arg;
 				System.out.println("event A raised, arg = " + arg.toString());
@@ -118,25 +132,27 @@ public class Test {
 //		testRoots();
 
 		//testShade();
-		
+
 		testClassLoader();
 
 	}
-	
+
+	@SuppressWarnings("unused")
 	private static void testClassLoader() {
 		try {
 			MistClassLoader.addSource("file:///c:/Documents%20and%20Settings/bkimmel/workspace/jmist/bin/");
 			MistClassLoader.sync();
-			
+
 			ClassLoader loader = MistClassLoader.getInstance();
-			
-			
+
+
 		} catch (MalformedURLException e) {
 			System.err.println(e);
 		}
-		
+
 	}
 
+	@SuppressWarnings("unused")
 	private static void testShade() {
 
 		Lens lens = new FisheyeLens();
@@ -161,6 +177,7 @@ public class Test {
 	/**
 	 *
 	 */
+	@SuppressWarnings("unused")
 	private static void testRoots() {
 		Polynomial[] roots = new Polynomial[4];
 		Polynomial[] poly = new Polynomial[4];
@@ -190,6 +207,7 @@ public class Test {
 	/**
 	 *
 	 */
+	@SuppressWarnings("unused")
 	private static void testPolynomial() {
 		Polynomial p = new Polynomial(3, 2, 1);
 		Polynomial q = new Polynomial(-4, 1, -1);
@@ -206,6 +224,7 @@ public class Test {
 	/**
 	 *
 	 */
+	@SuppressWarnings("unused")
 	private static void testNRooks() {
 		NRooksRandom rand = new NRooksRandom(10, 4);
 		int i;
@@ -226,6 +245,7 @@ public class Test {
 	/**
 	 *
 	 */
+	@SuppressWarnings("unused")
 	private static void testPermutations() {
 		Permutation Px = Permutation.random(8);
 		Permutation Py = Permutation.random(8);
@@ -254,6 +274,7 @@ public class Test {
 	/**
 	 *
 	 */
+	@SuppressWarnings("unused")
 	private static void testSwap() {
 		double[] arr = new double[2];
 
@@ -270,6 +291,7 @@ public class Test {
 	/**
 	 * @return
 	 */
+	@SuppressWarnings("unused")
 	private static void testRayCircleIntersection() {
 		boolean passed = true;
 		java.util.Random rnd = new java.util.Random();
@@ -308,6 +330,7 @@ public class Test {
 	/**
 	 *
 	 */
+	@SuppressWarnings("unused")
 	private static void testGrid() {
 		Grid3 grid = new Grid3(new Box3(0.0, 0.0, 0.0, 1.0, 1.0, 1.0), 4, 4, 4);
 		Ray3 ray = new Ray3(new Point3(-1.0, -1.5, -1.0), new Vector3(1.4, 2.1, 1.3).unit());
@@ -344,6 +367,7 @@ public class Test {
 	/**
 	 *
 	 */
+	@SuppressWarnings("unused")
 	private static void testTuple() {
 		double[] array = new double[]{ 1.0, 2.0, 3.0 };
 		Tuple zzz = new Tuple(array);
@@ -377,6 +401,7 @@ public class Test {
 	/**
 	 *
 	 */
+	@SuppressWarnings("unused")
 	private static void testObserver() {
 		TestSubject subject = new TestSubject();
 		TestObserver observer = new TestObserver(subject);
@@ -399,6 +424,7 @@ public class Test {
 	/**
 	 *
 	 */
+	@SuppressWarnings("unused")
 	private static void testReflect() {
 		Vector3 I = new Vector3(1.0, 1.0, 1.0).unit();
 		Vector3 R = Optics.reflect(I, Vector3.J);
@@ -407,6 +433,7 @@ public class Test {
 	/**
 	 *
 	 */
+	@SuppressWarnings("unused")
 	private static void testWeakReference() {
 		Object x = new Integer(5);
 		Reference<Object> ref1 = new WeakReference<Object>(x);
@@ -418,6 +445,7 @@ public class Test {
 	/**
 	 *
 	 */
+	@SuppressWarnings("unused")
 	private static void testLinearMatrix3Identity() {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
