@@ -60,7 +60,10 @@ public final class ServiceWorkerJob implements IJob {
 						jobId = taskDesc.getJobId();
 					}
 
-					assert(worker != null);
+					if (worker == null) {
+						monitor.notifyStatusChanged("Could not obtain worker...");
+						continue;
+					}
 
 					monitor.notifyStatusChanged("Performing task...");
 					Object results = worker.performTask(taskDesc.getTask(), monitor);
