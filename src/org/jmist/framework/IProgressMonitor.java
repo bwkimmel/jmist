@@ -48,4 +48,11 @@ public interface IProgressMonitor {
 	 */
 	void notifyStatusChanged(String status);
 
+	/**
+	 * Creates an <code>IProgressMonitor</code> to monitor the progress of a
+	 * subtask.
+	 * @return A new child <code>IProgressMonitor</code>.
+	 */
+	IProgressMonitor createChildProgressMonitor();
+
 }

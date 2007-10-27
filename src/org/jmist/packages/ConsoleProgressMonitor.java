@@ -83,6 +83,14 @@ public final class ConsoleProgressMonitor implements IProgressMonitor {
 		this.out.println(status);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.IProgressMonitor#createChildProgressMonitor()
+	 */
+	@Override
+	public IProgressMonitor createChildProgressMonitor() {
+		return new DummyProgressMonitor();
+	}
+
 	/**
 	 * Writes the progress bar to the stream.
 	 * @param progress

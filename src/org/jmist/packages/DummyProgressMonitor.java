@@ -60,4 +60,15 @@ public final class DummyProgressMonitor implements IProgressMonitor {
 		// do nothing
 	}
 
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.IProgressMonitor#createChildProgressMonitor()
+	 */
+	@Override
+	public IProgressMonitor createChildProgressMonitor() {
+
+		/* Report progress to subtasks to the same monitor. */
+		return this;
+
+	}
+
 }

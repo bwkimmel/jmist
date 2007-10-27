@@ -79,6 +79,14 @@ public final class DialogProgressMonitor implements IProgressMonitor {
 		this.progressDialog.setStatusText(status);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.IProgressMonitor#createChildProgressMonitor()
+	 */
+	@Override
+	public IProgressMonitor createChildProgressMonitor() {
+		return new DummyProgressMonitor();
+	}
+
 	/**
 	 * Ensures that the progress dialog is visible.
 	 */
