@@ -86,6 +86,16 @@ public final class DummyParallelizableJob implements ParallelizableJob, Serializ
 			monitor.notifyStatusChanged(msg);
 			System.out.println(msg);
 
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				// nothing to do.
+			}
+
+			msg = String.format("Done task %d.", value);
+			monitor.notifyStatusChanged(msg);
+			System.out.println(msg);
+
 			return value;
 
 		}
