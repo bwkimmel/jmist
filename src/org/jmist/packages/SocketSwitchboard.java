@@ -9,37 +9,37 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 
-import org.jmist.framework.ICommunicator;
-import org.jmist.framework.ISwitchboard;
+import org.jmist.framework.Communicator;
+import org.jmist.framework.Switchboard;
 import org.jmist.framework.comm.SocketServer;
 import org.jmist.framework.comm.SocketEventArgs;
 import org.jmist.framework.event.EventArgs;
-import org.jmist.framework.event.IEventHandler;
+import org.jmist.framework.event.EventObserver;
 
 /**
  * @author bkimmel
  *
  */
-public final class SocketSwitchboard implements ISwitchboard {
+public final class SocketSwitchboard implements Switchboard {
 
 	public SocketSwitchboard() {
 		this.initialize();
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.ISwitchboard#listen()
+	 * @see org.jmist.framework.Switchboard#listen()
 	 */
 	@Override
-	public ICommunicator listen() {
+	public Communicator listen() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IDialer#dial(java.lang.String)
+	 * @see org.jmist.framework.Dialer#dial(java.lang.String)
 	 */
 	@Override
-	public ICommunicator dial(String to) {
+	public Communicator dial(String to) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -90,37 +90,37 @@ public final class SocketSwitchboard implements ISwitchboard {
 	private void initialize() {
 
 		// Wire up event handlers.
-		this.server.onInitialize.subscribe(new IEventHandler<EventArgs>() {
+		this.server.onInitialize.subscribe(new EventObserver<EventArgs>() {
 			public void notify(Object sender, EventArgs args) {
 				serverOnInitialize();
 			}
 		});
 
-		this.server.onShutdown.subscribe(new IEventHandler<EventArgs>() {
+		this.server.onShutdown.subscribe(new EventObserver<EventArgs>() {
 			public void notify(Object sender, EventArgs args) {
 				serverOnShutdown();
 			}
 		});
 
-		this.server.onConnectionOpened.subscribe(new IEventHandler<SocketEventArgs>() {
+		this.server.onConnectionOpened.subscribe(new EventObserver<SocketEventArgs>() {
 			public void notify(Object sender, SocketEventArgs args) {
 				serverOnConnectionOpened(args);
 			}
 		});
 
-		this.server.onConnectionClosed.subscribe(new IEventHandler<SocketEventArgs>() {
+		this.server.onConnectionClosed.subscribe(new EventObserver<SocketEventArgs>() {
 			public void notify(Object sender, SocketEventArgs args) {
 				serverOnConnectionClosed(args);
 			}
 		});
 
-		this.server.onReadyReceive.subscribe(new IEventHandler<SocketEventArgs>() {
+		this.server.onReadyReceive.subscribe(new EventObserver<SocketEventArgs>() {
 			public void notify(Object sender, SocketEventArgs args) {
 				serverOnReadyReceive(args);
 			}
 		});
 
-		this.server.onReadySend.subscribe(new IEventHandler<SocketEventArgs>() {
+		this.server.onReadySend.subscribe(new EventObserver<SocketEventArgs>() {
 			public void notify(Object sender, SocketEventArgs args) {
 				serverOnReadySend(args);
 			}

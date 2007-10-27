@@ -23,16 +23,16 @@ public class Test {
 			onEventB.raise(this, null);
 		}
 
-		public IEvent<Integer> onEventA() {
+		public Event<Integer> onEventA() {
 			return onEventA;
 		}
 
-		public IEvent<Object> onEventB() {
+		public Event<Object> onEventB() {
 			return onEventB;
 		}
 
-		private Event<Integer> onEventA = new Event<Integer>();
-		private Event<Object> onEventB = new Event<Object>();
+		private EventSubject<Integer> onEventA = new EventSubject<Integer>();
+		private EventSubject<Object> onEventB = new EventSubject<Object>();
 
 	}
 
@@ -84,13 +84,13 @@ public class Test {
 		private TestSubject subject;
 		private Object lastEventAArg = new Integer(0);
 
-		private IEventHandler eventBHandler = new IEventHandler() {
+		private EventObserver eventBHandler = new EventObserver() {
 			public void notify(Object sender, Object args) {
 				System.out.println("event B raised");
 			}
 		};
 
-		private IEventHandler eventAHandler = new IEventHandler() {
+		private EventObserver eventAHandler = new EventObserver() {
 			public void notify(Object sender, Object arg) {
 				lastEventAArg = arg;
 				System.out.println("event A raised, arg = " + arg.toString());
@@ -139,13 +139,13 @@ public class Test {
 
 	private static void testShade() {
 
-		ILens lens = new FisheyeLens();
-		IRayShader rayShader = new DirectionalTestRayShader();
-		IImageShader imageShader = new CameraImageShader(lens, rayShader);
-		IPixelShader pixelShader = new SimplePixelShader(imageShader);
+		Lens lens = new FisheyeLens();
+		RayShader rayShader = new DirectionalTestRayShader();
+		ImageShader imageShader = new CameraImageShader(lens, rayShader);
+		PixelShader pixelShader = new SimplePixelShader(imageShader);
 		ImageRasterWriter rasterWriter = new ImageRasterWriter(2048, 2048);
-		IJob job = new RasterJob(pixelShader, rasterWriter);
-		IProgressMonitor monitor = new DialogProgressMonitor();
+		Job job = new RasterJob(pixelShader, rasterWriter);
+		ProgressMonitor monitor = new DialogProgressMonitor();
 
 		job.go(monitor);
 
@@ -312,10 +312,10 @@ public class Test {
 		Grid3 grid = new Grid3(new Box3(0.0, 0.0, 0.0, 1.0, 1.0, 1.0), 4, 4, 4);
 		Ray3 ray = new Ray3(new Point3(-1.0, -1.5, -1.0), new Vector3(1.4, 2.1, 1.3).unit());
 
-		Grid3.IVisitor visitor = new Grid3.IVisitor() {
+		Grid3.Visitor visitor = new Grid3.Visitor() {
 
 			/* (non-Javadoc)
-			 * @see org.jmist.toolkit.Grid3.IVisitor#visit(org.jmist.toolkit.Ray3, org.jmist.toolkit.Interval, org.jmist.toolkit.Grid3.Cell)
+			 * @see org.jmist.toolkit.Grid3.Visitor#visit(org.jmist.toolkit.Ray3, org.jmist.toolkit.Interval, org.jmist.toolkit.Grid3.Cell)
 			 */
 			public boolean visit(Ray3 ray, Interval I, Cell cell) {
 

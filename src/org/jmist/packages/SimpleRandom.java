@@ -3,19 +3,18 @@
  */
 package org.jmist.packages;
 
-import java.util.Random;
-import org.jmist.framework.IRandom;
+import org.jmist.framework.Random;
 
 /**
- * Adapts java.util.Random to the org.jmist.framework.IRandom interface
+ * Adapts java.util.Random to the org.jmist.framework.Random interface
  * @author bkimmel
  * @see {@link java.util.Random}.
  */
-public class SimpleRandom implements IRandom {
+public class SimpleRandom implements Random {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.jmist.framework.IRandom#next()
+	 * @see org.jmist.framework.Random#next()
 	 */
 	public double next() {
 		return rnd.nextDouble();
@@ -23,13 +22,13 @@ public class SimpleRandom implements IRandom {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.jmist.framework.IRandom#reset()
+	 * @see org.jmist.framework.Random#reset()
 	 */
 	public void reset() {
 		// nothing to do.
 	}
 
 	/** The random number generator. */
-	private final Random rnd = new Random();
+	private final java.util.Random rnd = new java.util.Random();
 
 }

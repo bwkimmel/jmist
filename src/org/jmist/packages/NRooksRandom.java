@@ -3,13 +3,13 @@
  */
 package org.jmist.packages;
 
-import org.jmist.framework.IRandom;
+import org.jmist.framework.Random;
 
 /**
  * @author bkimmel
  *
  */
-public final class NRooksRandom implements IRandom {
+public final class NRooksRandom implements Random {
 
 	public NRooksRandom(int n, int dimensions) {
 		this.initialize(n, dimensions);
@@ -17,7 +17,7 @@ public final class NRooksRandom implements IRandom {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.jmist.framework.IRandom#next()
+	 * @see org.jmist.framework.Random#next()
 	 */
 	public double next() {
 		double result = sources[nextSourceIndex].next();
@@ -31,7 +31,7 @@ public final class NRooksRandom implements IRandom {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.jmist.framework.IRandom#reset()
+	 * @see org.jmist.framework.Random#reset()
 	 */
 	public void reset() {
 		for (int i = 0; i < this.sources.length; i++) {

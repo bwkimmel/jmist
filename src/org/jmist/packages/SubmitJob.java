@@ -8,36 +8,36 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.UUID;
 
-import org.jmist.framework.ICommunicator;
-import org.jmist.framework.IDialer;
-import org.jmist.framework.IInboundMessage;
-import org.jmist.framework.IJob;
-import org.jmist.framework.IOutboundMessage;
-import org.jmist.framework.IParallelizableJob;
-import org.jmist.framework.IProgressMonitor;
+import org.jmist.framework.Communicator;
+import org.jmist.framework.Dialer;
+import org.jmist.framework.InboundMessage;
+import org.jmist.framework.Job;
+import org.jmist.framework.OutboundMessage;
+import org.jmist.framework.ParallelizableJob;
+import org.jmist.framework.ProgressMonitor;
 
 /**
  * A job that submits a parallelizable job to a <code>MasterJob</code>.
  * @author bkimmel
  */
-public final class SubmitJob implements IJob {
+public final class SubmitJob implements Job {
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IJob#go(org.jmist.framework.IProgressMonitor)
+	 * @see org.jmist.framework.Job#go(org.jmist.framework.ProgressMonitor)
 	 */
 	@Override
-	public void go(IProgressMonitor monitor) {
+	public void go(ProgressMonitor monitor) {
 
 		try {
 
 			monitor.notifyIndeterminantProgress();
 			monitor.notifyStatusChanged(String.format("Connecting to '%s'...", this.masterAddress));
 
-			ICommunicator comm = this.dialer.dial(this.masterAddress);
+			Communicator comm = this.dialer.dial(this.masterAddress);
 
 			monitor.notifyStatusChanged("Connected");
 
-			IOutboundMessage msg = comm.createOutboundMessage();
+			OutboundMessage msg = comm.createOutboundMessage();
 			ObjectOutputStream contents = new ObjectOutputStream(msg.contents());
 
 			contents.writeInt(this.priority);
@@ -50,7 +50,7 @@ public final class SubmitJob implements IJob {
 
 			monitor.notifyStatusChanged("Submitted, waiting for confirmation...");
 
-			IInboundMessage reply = comm.receive();
+			InboundMessage reply = comm.receive();
 			DataInputStream replyContents = new DataInputStream(reply.contents());
 
 			UUID jobId = new UUID(replyContents.readLong(), replyContents.readLong());
@@ -69,9 +69,9 @@ public final class SubmitJob implements IJob {
 
 	}
 
-	private IDialer dialer;
+	private Dialer dialer;
 	private String masterAddress;
-	private IParallelizableJob job;
+	private ParallelizableJob job;
 	private int priority = 0;
 
 }

@@ -3,33 +3,33 @@
  */
 package org.jmist.framework.base;
 
-import org.jmist.framework.ICommunicator;
-import org.jmist.framework.IInboundMessage;
-import org.jmist.framework.IJob;
-import org.jmist.framework.IProgressMonitor;
-import org.jmist.framework.ISwitchboard;
+import org.jmist.framework.Communicator;
+import org.jmist.framework.InboundMessage;
+import org.jmist.framework.Job;
+import org.jmist.framework.ProgressMonitor;
+import org.jmist.framework.Switchboard;
 
 /**
  * @author bkimmel
  *
  */
-public abstract class ServerJob implements IJob {
+public abstract class ServerJob implements Job {
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IJob#go(org.jmist.framework.IProgressMonitor)
+	 * @see org.jmist.framework.Job#go(org.jmist.framework.ProgressMonitor)
 	 */
 	@Override
-	public final void go(IProgressMonitor monitor) {
+	public final void go(ProgressMonitor monitor) {
 
 		this.onInitialize(switchboard);
 
 		while (true) {
 
-			ICommunicator comm = switchboard.listen();
+			Communicator comm = switchboard.listen();
 
 			if (comm.peek() != null) {
 
-				IInboundMessage msg = comm.receive();
+				InboundMessage msg = comm.receive();
 
 				if (!this.onMessageReceived(msg, comm, this.monitor)) {
 
@@ -51,9 +51,9 @@ public abstract class ServerJob implements IJob {
 	 * 		message handling to.
 	 * @return A value that indicates whether the message was handled.
 	 */
-	protected abstract boolean onMessageReceived(IInboundMessage msg, ICommunicator comm, IProgressMonitor monitor);
+	protected abstract boolean onMessageReceived(InboundMessage msg, Communicator comm, ProgressMonitor monitor);
 
-	protected void onInitialize(ISwitchboard switchboard) {
+	protected void onInitialize(Switchboard switchboard) {
 		// no default behavior
 	}
 
@@ -61,7 +61,7 @@ public abstract class ServerJob implements IJob {
 		// no default behavior.
 	}
 
-	private ISwitchboard switchboard;
-	private IProgressMonitor monitor;
+	private Switchboard switchboard;
+	private ProgressMonitor monitor;
 
 }

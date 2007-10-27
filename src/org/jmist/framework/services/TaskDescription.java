@@ -6,9 +6,9 @@ package org.jmist.framework.services;
 import java.util.UUID;
 
 /**
- * A description of a task assigned by an <code>IJobMasterService</code>.
+ * A description of a task assigned by a <code>JobMasterService</code>.
  * @author bkimmel
- * @see {@link IJobMasterService#requestTask()}.
+ * @see {@link JobMasterService#requestTask()}.
  */
 public final class TaskDescription {
 
@@ -17,8 +17,8 @@ public final class TaskDescription {
 	 * @param jobId The <code>UUID</code> of the job that the task is for.
 	 * @param taskId The ID of the task to be performed.
 	 * @param task An <code>Object</code> describing the task to be performed.
-	 * 		This should be passed to <code>ITaskWorker.performTask</code>.
-	 * @see {@link org.jmist.framework.ITaskWorker#performTask(Object, org.jmist.framework.IProgressMonitor)}.
+	 * 		This should be passed to <code>TaskWorker.performTask</code>.
+	 * @see {@link org.jmist.framework.TaskWorker#performTask(Object, org.jmist.framework.ProgressMonitor)}.
 	 */
 	public TaskDescription(UUID jobId, int taskId, Object task) {
 		this.jobId = jobId;
@@ -28,26 +28,26 @@ public final class TaskDescription {
 
 	/**
 	 * Gets the <code>Object</code> describing the task to be performed.  This
-	 * should be passed to <code>ITaskWorker.performTask</code> for the
-	 * <code>ITaskWorker</code> corresponding to the job with the
-	 * <code>UUID</code> given by {@link #getJobId()}.  The <code>ITaskWorker</code>
-	 * may be obtained by calling {@link IJobMasterService#getTaskWorker(UUID)}.
+	 * should be passed to <code>TaskWorker.performTask</code> for the
+	 * <code>TaskWorker</code> corresponding to the job with the
+	 * <code>UUID</code> given by {@link #getJobId()}.  The <code>TaskWorker</code>
+	 * may be obtained by calling {@link JobMasterService#getTaskWorker(UUID)}.
 	 * @return The <code>Object</code> describing the task to be performed.
 	 * @see {@link #getJobId()},
-	 * 		{@link org.jmist.framework.ITaskWorker#performTask(Object, org.jmist.framework.IProgressMonitor)},
-	 * 		{@link IJobMasterService#getTaskWorker(UUID)}.
+	 * 		{@link org.jmist.framework.TaskWorker#performTask(Object, org.jmist.framework.ProgressMonitor)},
+	 * 		{@link JobMasterService#getTaskWorker(UUID)}.
 	 */
 	public Object getTask() {
 		return this.task;
 	}
 
 	/**
-	 * Gets the <code>UUID</code> of the job whose <code>ITaskWorker</code>
-	 * should perform this task.  Call {@link IJobMasterService#getTaskWorker(UUID)}
-	 * to get the <code>ITaskWorker</code> to use to perform this task.
+	 * Gets the <code>UUID</code> of the job whose <code>TaskWorker</code>
+	 * should perform this task.  Call {@link JobMasterService#getTaskWorker(UUID)}
+	 * to get the <code>TaskWorker</code> to use to perform this task.
 	 * @return The <code>UUID</code> of the job that this task is associated
 	 * 		with.
-	 * @see {@link IJobMasterService#getTaskWorker(UUID)}.
+	 * @see {@link JobMasterService#getTaskWorker(UUID)}.
 	 */
 	public UUID getJobId() {
 		return this.jobId;
@@ -55,10 +55,10 @@ public final class TaskDescription {
 
 	/**
 	 * The ID of the task to be performed.  This should be passed back to
-	 * <code>IJobMasterService.submitTaskResults</code> when submitting the
+	 * <code>JobMasterService.submitTaskResults</code> when submitting the
 	 * results of this task.
 	 * @return The ID of the task to be performed.
-	 * @see {@link IJobMasterService#submitTaskResults(UUID, int, Object)}.
+	 * @see {@link JobMasterService#submitTaskResults(UUID, int, Object)}.
 	 */
 	public int getTaskId() {
 		return this.taskId;

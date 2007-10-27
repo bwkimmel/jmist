@@ -7,16 +7,16 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.UUID;
 
-import org.jmist.framework.IJob;
-import org.jmist.framework.IProgressMonitor;
-import org.jmist.framework.ITaskWorker;
+import org.jmist.framework.Job;
+import org.jmist.framework.ProgressMonitor;
+import org.jmist.framework.TaskWorker;
 
 /**
  * A job that processes tasks for a parallelizable job from a remote
  * <code>JobServiceMaster<code>.
  * @author bkimmel
  */
-public final class ServiceWorkerJob implements IJob {
+public final class ServiceWorkerJob implements Job {
 
 	/**
 	 * Initializes the address of the master and the amount of time to idle
@@ -31,10 +31,10 @@ public final class ServiceWorkerJob implements IJob {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IJob#go(org.jmist.framework.IProgressMonitor)
+	 * @see org.jmist.framework.Job#go(org.jmist.framework.ProgressMonitor)
 	 */
 	@Override
-	public void go(IProgressMonitor monitor) {
+	public void go(ProgressMonitor monitor) {
 
 		try {
 
@@ -42,8 +42,8 @@ public final class ServiceWorkerJob implements IJob {
 			monitor.notifyStatusChanged("Looking up master...");
 
 			Registry registry = LocateRegistry.getRegistry(this.masterHost);
-			IJobMasterService service = (IJobMasterService) registry.lookup("IJobMasterService");
-			ITaskWorker worker = null;
+			JobMasterService service = (JobMasterService) registry.lookup("JobMasterService");
+			TaskWorker worker = null;
 			UUID jobId = null;
 
 			while (monitor.notifyIndeterminantProgress()) {

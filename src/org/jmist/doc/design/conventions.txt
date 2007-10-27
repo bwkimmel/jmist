@@ -17,10 +17,8 @@ Coding Conventions
  	  		// ...
  	  	}
 
- - Interfaces begin with a capital "I" followed by an
-   appropriate name, using pascal casing (e.g., IGeometry).
  - Dimensionality to be indicated using an integer
-   suffix (e.g., Point3, IBounded2).
+   suffix (e.g., Point3, Bounded2).
 
 
 Mathematics

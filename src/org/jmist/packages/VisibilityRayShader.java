@@ -3,8 +3,8 @@
  */
 package org.jmist.packages;
 
-import org.jmist.framework.IRayShader;
-import org.jmist.framework.IVisibilityFunction3;
+import org.jmist.framework.RayShader;
+import org.jmist.framework.VisibilityFunction3;
 import org.jmist.toolkit.Interval;
 import org.jmist.toolkit.Pixel;
 import org.jmist.toolkit.Ray3;
@@ -14,18 +14,18 @@ import org.jmist.toolkit.Ray3;
  * function.
  * @author bkimmel
  */
-public final class VisibilityRayShader implements IRayShader {
+public final class VisibilityRayShader implements RayShader {
 
 	/**
 	 * Initializes the visibility function to evaluate.
 	 * @param visibilityFunction The visibility function to evaluate.
 	 */
-	public VisibilityRayShader(IVisibilityFunction3 visibilityFunction) {
+	public VisibilityRayShader(VisibilityFunction3 visibilityFunction) {
 		this.visibilityFunction = visibilityFunction;
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IRayShader#shadeRay(org.jmist.toolkit.Ray3, org.jmist.toolkit.Pixel)
+	 * @see org.jmist.framework.RayShader#shadeRay(org.jmist.toolkit.Ray3, org.jmist.toolkit.Pixel)
 	 */
 	public void shadeRay(Ray3 ray, Pixel pixel) {
 		if (this.visibilityFunction.visibility(ray, Interval.POSITIVE)) {
@@ -36,7 +36,7 @@ public final class VisibilityRayShader implements IRayShader {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IPixelFactory#createPixel()
+	 * @see org.jmist.framework.PixelFactory#createPixel()
 	 */
 	public Pixel createPixel() {
 		// TODO Auto-generated method stub
@@ -44,6 +44,6 @@ public final class VisibilityRayShader implements IRayShader {
 	}
 
 	/** The visibility function to evaluate. */
-	private final IVisibilityFunction3 visibilityFunction;
+	private final VisibilityFunction3 visibilityFunction;
 
 }

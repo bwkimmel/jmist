@@ -15,12 +15,12 @@ import org.jmist.framework.event.*;
  */
 public class SocketServer {
 
-	public final IEvent<EventArgs>			onInitialize			= new Event<EventArgs>();
-	public final IEvent<EventArgs>			onShutdown				= new Event<EventArgs>();
-	public final IEvent<SocketEventArgs>	onConnectionOpened		= new Event<SocketEventArgs>();
-	public final IEvent<SocketEventArgs>	onConnectionClosed		= new Event<SocketEventArgs>();
-	public final IEvent<SocketEventArgs>	onReadyReceive			= new Event<SocketEventArgs>();
-	public final IEvent<SocketEventArgs>	onReadySend				= new Event<SocketEventArgs>();
+	public final Event<EventArgs>			onInitialize			= new EventSubject<EventArgs>();
+	public final Event<EventArgs>			onShutdown				= new EventSubject<EventArgs>();
+	public final Event<SocketEventArgs>	onConnectionOpened		= new EventSubject<SocketEventArgs>();
+	public final Event<SocketEventArgs>	onConnectionClosed		= new EventSubject<SocketEventArgs>();
+	public final Event<SocketEventArgs>	onReadyReceive			= new EventSubject<SocketEventArgs>();
+	public final Event<SocketEventArgs>	onReadySend				= new EventSubject<SocketEventArgs>();
 
 	public SocketServer() {
 		this.auto = true;
@@ -71,7 +71,7 @@ public class SocketServer {
 
 	private void raiseInitialize() {
 		this.onInitialize();
-		((Event<EventArgs>) this.onInitialize).raise(this, new EventArgs());
+		((EventSubject<EventArgs>) this.onInitialize).raise(this, new EventArgs());
 	}
 
 	protected void onInitialize() {
@@ -80,7 +80,7 @@ public class SocketServer {
 
 	private void raiseShutdown() {
 		this.onShutdown();
-		((Event<EventArgs>) this.onShutdown).raise(this, new EventArgs());
+		((EventSubject<EventArgs>) this.onShutdown).raise(this, new EventArgs());
 	}
 
 	protected void onShutdown() {
@@ -89,7 +89,7 @@ public class SocketServer {
 
 	private void raiseConnectionOpened(Socket socket) {
 		this.onConnectionOpened(socket);
-		((Event<SocketEventArgs>) this.onConnectionOpened).raise(this, new SocketEventArgs(socket));
+		((EventSubject<SocketEventArgs>) this.onConnectionOpened).raise(this, new SocketEventArgs(socket));
 	}
 
 	protected void onConnectionOpened(Socket socket) {
@@ -98,7 +98,7 @@ public class SocketServer {
 
 	private void raiseConnectionClosed(Socket socket) {
 		this.onConnectionOpened(socket);
-		((Event<SocketEventArgs>) this.onConnectionClosed).raise(this, new SocketEventArgs(socket));
+		((EventSubject<SocketEventArgs>) this.onConnectionClosed).raise(this, new SocketEventArgs(socket));
 	}
 
 	protected void onConnectionClosed(Socket socket) {
@@ -107,7 +107,7 @@ public class SocketServer {
 
 	private void raiseReadyReceive(Socket socket) {
 		this.onConnectionOpened(socket);
-		((Event<SocketEventArgs>) this.onReadyReceive).raise(this, new SocketEventArgs(socket));
+		((EventSubject<SocketEventArgs>) this.onReadyReceive).raise(this, new SocketEventArgs(socket));
 	}
 
 	protected void onReadyReceive(Socket socket) {
@@ -116,7 +116,7 @@ public class SocketServer {
 
 	private void raiseReadySend(Socket socket) {
 		this.onConnectionOpened(socket);
-		((Event<SocketEventArgs>) this.onReadySend).raise(this, new SocketEventArgs(socket));
+		((EventSubject<SocketEventArgs>) this.onReadySend).raise(this, new SocketEventArgs(socket));
 	}
 
 	protected void onReadySend(Socket socket) {

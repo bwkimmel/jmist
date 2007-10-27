@@ -14,15 +14,15 @@ import java.net.Socket;
 import java.nio.channels.SocketChannel;
 import java.nio.ByteBuffer;
 
-import org.jmist.framework.ICommunicator;
-import org.jmist.framework.IInboundMessage;
-import org.jmist.framework.IOutboundMessage;
+import org.jmist.framework.Communicator;
+import org.jmist.framework.InboundMessage;
+import org.jmist.framework.OutboundMessage;
 
 /**
- * An implementation of <code>ICommunicator</code> that uses sockets.
+ * An implementation of <code>Communicator</code> that uses sockets.
  * @author bkimmel
  */
-public final class SocketCommunicator implements ICommunicator {
+public final class SocketCommunicator implements Communicator {
 
 	/**
 	 * Initializes the underlying socket to use.
@@ -33,15 +33,15 @@ public final class SocketCommunicator implements ICommunicator {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.ISender#createOutboundMessage()
+	 * @see org.jmist.framework.Sender#createOutboundMessage()
 	 */
 	@Override
-	public IOutboundMessage createOutboundMessage() {
+	public OutboundMessage createOutboundMessage() {
 		return new SocketOutboundMessage();
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.ISender#flush()
+	 * @see org.jmist.framework.Sender#flush()
 	 */
 	@Override
 	public void flush() {
@@ -69,10 +69,10 @@ public final class SocketCommunicator implements ICommunicator {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.ISender#queue(org.jmist.framework.IOutboundMessage)
+	 * @see org.jmist.framework.Sender#queue(org.jmist.framework.OutboundMessage)
 	 */
 	@Override
-	public void queue(IOutboundMessage message) {
+	public void queue(OutboundMessage message) {
 		this.queue((SocketOutboundMessage) message);
 	}
 
@@ -85,19 +85,19 @@ public final class SocketCommunicator implements ICommunicator {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.ISender#send(org.jmist.framework.IOutboundMessage)
+	 * @see org.jmist.framework.Sender#send(org.jmist.framework.OutboundMessage)
 	 */
 	@Override
-	public void send(IOutboundMessage message) {
+	public void send(OutboundMessage message) {
 		this.queue(message);
 		this.flush();
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IReceiver#receive()
+	 * @see org.jmist.framework.Receiver#receive()
 	 */
 	@Override
-	public IInboundMessage receive() {
+	public InboundMessage receive() {
 
 		try {
 
@@ -124,10 +124,10 @@ public final class SocketCommunicator implements ICommunicator {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IReceiver#peek()
+	 * @see org.jmist.framework.Receiver#peek()
 	 */
 	@Override
-	public IInboundMessage peek() {
+	public InboundMessage peek() {
 
 		try {
 
@@ -251,7 +251,7 @@ public final class SocketCommunicator implements ICommunicator {
 			this.messageBuffer.flip();
 
 			// Create a new inbound message and add it to the queue.
-			IInboundMessage message = new SocketInboundMessage(this.messageBuffer, this.channel.socket().getInetAddress().getCanonicalHostName());
+			InboundMessage message = new SocketInboundMessage(this.messageBuffer, this.channel.socket().getInetAddress().getCanonicalHostName());
 			this.recvq.add(message);
 
 			// Prepare for the next message.
@@ -266,7 +266,7 @@ public final class SocketCommunicator implements ICommunicator {
 	 * A message that was received by a <code>SocketCommunicator</code>.
 	 * @author bkimmel
 	 */
-	private final class SocketInboundMessage implements IInboundMessage {
+	private final class SocketInboundMessage implements InboundMessage {
 
 		/**
 		 * Creates a new inbound message.
@@ -311,7 +311,7 @@ public final class SocketCommunicator implements ICommunicator {
 		}
 
 		/* (non-Javadoc)
-		 * @see org.jmist.framework.IInboundMessage#contents()
+		 * @see org.jmist.framework.InboundMessage#contents()
 		 */
 		@Override
 		public InputStream contents() {
@@ -319,7 +319,7 @@ public final class SocketCommunicator implements ICommunicator {
 		}
 
 		/* (non-Javadoc)
-		 * @see org.jmist.framework.IInboundMessage#from()
+		 * @see org.jmist.framework.InboundMessage#from()
 		 */
 		@Override
 		public String from() {
@@ -327,7 +327,7 @@ public final class SocketCommunicator implements ICommunicator {
 		}
 
 		/* (non-Javadoc)
-		 * @see org.jmist.framework.IMessage#tag()
+		 * @see org.jmist.framework.Message#tag()
 		 */
 		@Override
 		public int tag() {
@@ -352,10 +352,10 @@ public final class SocketCommunicator implements ICommunicator {
 	 * A message to be sent via a <code>SocketCommunicator</code>.
 	 * @author bkimmel
 	 */
-	private final class SocketOutboundMessage implements IOutboundMessage {
+	private final class SocketOutboundMessage implements OutboundMessage {
 
 		/* (non-Javadoc)
-		 * @see org.jmist.framework.IOutboundMessage#contents()
+		 * @see org.jmist.framework.OutboundMessage#contents()
 		 */
 		@Override
 		public OutputStream contents() {
@@ -363,7 +363,7 @@ public final class SocketCommunicator implements ICommunicator {
 		}
 
 		/* (non-Javadoc)
-		 * @see org.jmist.framework.IMessage#tag()
+		 * @see org.jmist.framework.Message#tag()
 		 */
 		@Override
 		public int tag() {
@@ -371,7 +371,7 @@ public final class SocketCommunicator implements ICommunicator {
 		}
 
 		/* (non-Javadoc)
-		 * @see org.jmist.framework.IOutboundMessage#tag(int)
+		 * @see org.jmist.framework.OutboundMessage#tag(int)
 		 */
 		@Override
 		public void tag(int value) {
@@ -418,7 +418,7 @@ public final class SocketCommunicator implements ICommunicator {
 	private final SocketChannel channel;
 
 	/** The inbound message queue. */
-	private final Queue<IInboundMessage> recvq = new LinkedList<IInboundMessage>();
+	private final Queue<InboundMessage> recvq = new LinkedList<InboundMessage>();
 
 	/** The outbound message queue. */
 	private final Queue<ByteBuffer> sendq = new LinkedList<ByteBuffer>();

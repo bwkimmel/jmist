@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.jmist.toolkit.tests;
 
@@ -62,7 +62,7 @@ public class Grid3Test {
 	}
 
 	/**
-	 * Test method for {@link org.jmist.toolkit.Grid3#intersect(org.jmist.toolkit.Ray3, org.jmist.toolkit.Interval, org.jmist.toolkit.Grid3.IVisitor)}.
+	 * Test method for {@link org.jmist.toolkit.Grid3#intersect(org.jmist.toolkit.Ray3, org.jmist.toolkit.Interval, org.jmist.toolkit.Grid3.Visitor)}.
 	 */
 	@Test
 	public final void testIntersect() {

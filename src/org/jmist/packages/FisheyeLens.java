@@ -3,7 +3,7 @@
  */
 package org.jmist.packages;
 
-import org.jmist.framework.ILens;
+import org.jmist.framework.Lens;
 import org.jmist.toolkit.Point2;
 import org.jmist.toolkit.Point3;
 import org.jmist.toolkit.Ray3;
@@ -13,10 +13,10 @@ import org.jmist.toolkit.Vector3;
  * A circular fisheye lens (http://en.wikipedia.org/wiki/Fisheye_lens).
  * @author bkimmel
  */
-public final class FisheyeLens implements ILens {
+public final class FisheyeLens implements Lens {
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.ILens#rayAt(org.jmist.toolkit.Point2)
+	 * @see org.jmist.framework.Lens#rayAt(org.jmist.toolkit.Point2)
 	 */
 	public Ray3 rayAt(Point2 p) {
 

@@ -3,7 +3,7 @@
  */
 package org.jmist.packages;
 
-import org.jmist.framework.IImageShader;
+import org.jmist.framework.ImageShader;
 import org.jmist.toolkit.Box2;
 import org.jmist.toolkit.Pixel;
 
@@ -13,12 +13,12 @@ import org.jmist.toolkit.Pixel;
  */
 public final class SimplePixelShader extends ImageRasterizingPixelShader {
 
-	public SimplePixelShader(IImageShader camera) {
+	public SimplePixelShader(ImageShader camera) {
 		super(camera);
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IPixelShader#shadePixel(org.jmist.toolkit.Box2, org.jmist.toolkit.Pixel)
+	 * @see org.jmist.framework.PixelShader#shadePixel(org.jmist.toolkit.Box2, org.jmist.toolkit.Pixel)
 	 */
 	public void shadePixel(Box2 bounds, Pixel pixel) {
 		this.shadeAt(bounds.center(), pixel);

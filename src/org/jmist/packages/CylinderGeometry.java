@@ -3,23 +3,24 @@
  */
 package org.jmist.packages;
 
-import org.jmist.framework.base.GeometryBase;
-import org.jmist.framework.IGeometry;
-import org.jmist.framework.IIntersectionRecorder;
-import org.jmist.framework.IWeightedSurfacePoint;
+import org.jmist.framework.Geometry;
+import org.jmist.framework.IntersectionRecorder;
+import org.jmist.framework.WeightedSurfacePoint;
+import org.jmist.framework.base.AbstractGeometry;
 import org.jmist.toolkit.Box3;
 import org.jmist.toolkit.Interval;
 import org.jmist.toolkit.Point3;
+import org.jmist.toolkit.Polynomial;
 import org.jmist.toolkit.Ray3;
 import org.jmist.toolkit.Sphere;
-import org.jmist.toolkit.*;
+import org.jmist.toolkit.Vector3;
 import org.jmist.util.MathUtil;
 
 /**
  * @author bkimmel
  *
  */
-public final class CylinderGeometry extends GeometryBase implements IGeometry {
+public final class CylinderGeometry extends AbstractGeometry implements Geometry {
 
 	/**
 	 * Initializes the dimensions of this cylinder.
@@ -34,17 +35,17 @@ public final class CylinderGeometry extends GeometryBase implements IGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IGeometry#generateRandomSurfacePoint()
+	 * @see org.jmist.framework.Geometry#generateRandomSurfacePoint()
 	 */
-	public IWeightedSurfacePoint generateRandomSurfacePoint() {
+	public WeightedSurfacePoint generateRandomSurfacePoint() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IGeometry#intersect(org.jmist.toolkit.Ray3, org.jmist.toolkit.Interval, org.jmist.framework.IIntersectionRecorder)
+	 * @see org.jmist.framework.Geometry#intersect(org.jmist.toolkit.Ray3, org.jmist.toolkit.Interval, org.jmist.framework.IntersectionRecorder)
 	 */
-	public void intersect(Ray3 ray, Interval I, IIntersectionRecorder recorder) {
+	public void intersect(Ray3 ray, Interval I, IntersectionRecorder recorder) {
 
 		Point3	p;
 		double	t;
@@ -116,14 +117,14 @@ public final class CylinderGeometry extends GeometryBase implements IGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IGeometry#isClosed()
+	 * @see org.jmist.framework.Geometry#isClosed()
 	 */
 	public boolean isClosed() {
 		return true;
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IBounded3#boundingBox()
+	 * @see org.jmist.framework.Bounded3#boundingBox()
 	 */
 	public Box3 boundingBox() {
 
@@ -139,7 +140,7 @@ public final class CylinderGeometry extends GeometryBase implements IGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IBounded3#boundingSphere()
+	 * @see org.jmist.framework.Bounded3#boundingSphere()
 	 */
 	public Sphere boundingSphere() {
 

@@ -3,9 +3,9 @@
  */
 package org.jmist.packages;
 
-import org.jmist.framework.IImageShader;
-import org.jmist.framework.IPixelShader;
-import org.jmist.framework.IRandom;
+import org.jmist.framework.ImageShader;
+import org.jmist.framework.PixelShader;
+import org.jmist.framework.Random;
 import org.jmist.toolkit.Box2;
 import org.jmist.toolkit.Pixel;
 
@@ -15,7 +15,7 @@ import org.jmist.toolkit.Pixel;
  * @author bkimmel
  */
 public final class RandomPixelShader extends ImageRasterizingPixelShader implements
-		IPixelShader {
+		PixelShader {
 
 	/**
 	 * Initializes the source of random numbers and the camera.
@@ -23,19 +23,19 @@ public final class RandomPixelShader extends ImageRasterizingPixelShader impleme
 	 * @param camera The camera to use to shade points on the image
 	 * 		plane.
 	 */
-	public RandomPixelShader(IRandom random, IImageShader camera) {
+	public RandomPixelShader(Random random, ImageShader camera) {
 		super(camera);
 		this.random = random;
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IPixelShader#shadePixel(org.jmist.toolkit.Box2, org.jmist.toolkit.Pixel)
+	 * @see org.jmist.framework.PixelShader#shadePixel(org.jmist.toolkit.Box2, org.jmist.toolkit.Pixel)
 	 */
 	public void shadePixel(Box2 bounds, Pixel pixel) {
 		this.shadeAt(bounds.interpolate(random.next(), random.next()), pixel);
 	}
 
 	/** The source of random numbers for this pixel shader. */
-	private final IRandom random;
+	private final Random random;
 
 }

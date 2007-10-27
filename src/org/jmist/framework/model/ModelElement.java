@@ -3,108 +3,48 @@
  */
 package org.jmist.framework.model;
 
-import org.jmist.framework.IIntersection;
-import org.jmist.framework.ISurfacePoint;
-import org.jmist.toolkit.Box3;
-import org.jmist.toolkit.Interval;
-import org.jmist.toolkit.Point3;
-import org.jmist.toolkit.Ray3;
-import org.jmist.toolkit.Sphere;
+import org.jmist.framework.Bounded3;
+import org.jmist.framework.Intersection;
+import org.jmist.framework.SurfacePoint;
+import org.jmist.framework.VisibilityFunction3;
+import org.jmist.toolkit.*;
 
 /**
- * Abstract base class for model elements.
  * @author bkimmel
+ *
  */
-public abstract class ModelElement implements IModelElement {
+public interface ModelElement extends VisibilityFunction3, Bounded3 {
+
+	boolean contains(Point3 p);
+
+	SurfacePoint generateRandomSurfacePoint();
+
+	
+
+	/*
+	 * The following methods maintain the list of children of this
+	 * model element.
+	 */
 
 	/**
-	 * Initializes the name of this model element.
-	 * @param name The name of this model element.
+	 * Adds a child model element.
+	 * @param child The child to add.
+	 * @throws UnsupportedOperationException If this model element is not
+	 * 		a composite model element.
 	 */
-	public ModelElement(String name) {
-		this.name = name;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.jmist.framework.model.IModelElement#addChild(org.jmist.framework.model.IModelElement)
-	 */
-	public void addChild(IModelElement child) throws UnsupportedOperationException {
-		throw new UnsupportedOperationException("Model element may not contain children.");
-	}
-
-	/* (non-Javadoc)
-	 * @see org.jmist.framework.model.IModelElement#children()
-	 */
-	public Iterable<IModelElement> children() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.jmist.framework.model.IModelElement#contains(org.jmist.toolkit.Point3)
-	 */
-	public boolean contains(Point3 p) {
-		return false;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.jmist.framework.model.IModelElement#findChild(java.lang.String)
-	 */
-	public IModelElement findChild(String name) {
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.jmist.framework.model.IModelElement#generateRandomSurfacePoint()
-	 */
-	public ISurfacePoint generateRandomSurfacePoint() {
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.jmist.framework.model.IModelElement#getName()
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.jmist.framework.model.IModelElement#removeChild(java.lang.String)
-	 */
-	public void removeChild(String name) {
-	}
-
-	/* (non-Javadoc)
-	 * @see org.jmist.framework.IVisibilityFunction3#visibility(org.jmist.toolkit.Ray3, org.jmist.toolkit.Interval)
-	 */
-	public boolean visibility(Ray3 ray, Interval I) {
-		return true;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.jmist.framework.IVisibilityFunction3#visibility(org.jmist.toolkit.Point3, org.jmist.toolkit.Point3)
-	 */
-	public boolean visibility(Point3 p, Point3 q) {
-		return visibility(new Ray3(p, p.vectorTo(q)), Interval.UNIT);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.jmist.framework.IBounded3#getBoundingBox()
-	 */
-	public Box3 boundingBox() {
-		return Box3.EMPTY;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.jmist.framework.IBounded3#getBoundingSphere()
-	 */
-	public Sphere boundingSphere() {
-		return Sphere.EMPTY;
-	}
+	void addChild(ModelElement child) throws UnsupportedOperationException;
 
 	/**
-	 * The name of this model element.
+	 * Removes a child model element.  This method has no effect if {@code child}
+	 * is not a child of this element.
+	 * @param child The child to remove.
 	 */
-	private final String name;
+	void removeChild(ModelElement child);
+
+	/**
+	 * Gets the collection of children of this model element.
+	 * @return The collection of children of this model element.
+	 */
+	Iterable<ModelElement> children();
 
 }

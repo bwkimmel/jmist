@@ -3,45 +3,24 @@
  */
 package org.jmist.framework.event;
 
-import java.util.Set;
-import java.util.LinkedHashSet;
-
 /**
- * Represents an event that can occur and maintains a list of subscribers
- * to be notified when the event is raised.
+ * Represents an event to which observers may subscribe to receive
+ * notifications when the event is raised.
  * @author bkimmel
  */
-public class Event<T> implements IEvent<T> {
-
-	/* (non-Javadoc)
-	 * @see org.jmist.framework.event.IEvent#subscribe(org.jmist.framework.event.IEventHandler)
-	 */
-	public void subscribe(IEventHandler<? super T> handler) {
-		observers.add(handler);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.jmist.framework.event.IEvent#unsubscribe(org.jmist.framework.event.IEventHandler)
-	 */
-	public void unsubscribe(IEventHandler<? super T> handler) {
-		observers.remove(handler);
-	}
+public interface Event<T> {
 
 	/**
-	 * Notifies observers that this event has occurred.
-	 * @param sender The object that is the subject of this event.
-	 * @param args Additional information pertaining to this event.
+	 * Registers an observer to be notified when this event is raised.
+	 * @param handler The observer to receive notifications.
 	 */
-	public void raise(Object sender, T args) {
-		for (IEventHandler<? super T> observer : observers) {
-			observer.notify(sender, args);
-		}
-	}
+	void subscribe(EventObserver<? super T> handler);
 
 	/**
-	 * The collection of observers to be notified when the
-	 * event is raised.
+	 * Removes an observer from the notification list, so that it will
+	 * no longer receive notifications when this event is raised.
+	 * @param handler The observer to remove from the notification list.
 	 */
-	private Set<IEventHandler<? super T>> observers = new LinkedHashSet<IEventHandler<? super T>>();
+	void unsubscribe(EventObserver<? super T> handler);
 
 }

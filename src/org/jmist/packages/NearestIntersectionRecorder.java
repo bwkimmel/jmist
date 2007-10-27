@@ -3,27 +3,27 @@
  */
 package org.jmist.packages;
 
-import org.jmist.framework.IIntersection;
-import org.jmist.framework.IIntersectionRecorder;
+import org.jmist.framework.Intersection;
+import org.jmist.framework.IntersectionRecorder;
 
 /**
  * An intersection recorder that only keeps the nearest intersection
  * recorded.
  * @author bkimmel
  */
-public final class NearestIntersectionRecorder implements IIntersectionRecorder {
+public final class NearestIntersectionRecorder implements IntersectionRecorder {
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IIntersectionRecorder#needAllIntersections()
+	 * @see org.jmist.framework.IntersectionRecorder#needAllIntersections()
 	 */
 	public boolean needAllIntersections() {
 		return false;
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IIntersectionRecorder#record(org.jmist.framework.IIntersection)
+	 * @see org.jmist.framework.IntersectionRecorder#record(org.jmist.framework.Intersection)
 	 */
-	public void record(IIntersection intersection) {
+	public void record(Intersection intersection) {
 		if (this.nearest == null || intersection.rayParameter() < this.nearest.rayParameter()) {
 			this.nearest = intersection;
 		}
@@ -43,11 +43,11 @@ public final class NearestIntersectionRecorder implements IIntersectionRecorder 
 	 * been recorded.
 	 * @return The nearest intersection that has been recorded.
 	 */
-	public IIntersection nearestIntersection() {
+	public Intersection nearestIntersection() {
 		return this.nearest;
 	}
 
 	/** The nearest intersection that has been recorded so far. */
-	private IIntersection nearest = null;
+	private Intersection nearest = null;
 
 }

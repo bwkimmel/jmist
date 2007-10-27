@@ -3,15 +3,15 @@
  */
 package org.jmist.packages;
 
-import org.jmist.framework.IObserver;
-import org.jmist.framework.ISpectralEstimator;
+import org.jmist.framework.Observer;
+import org.jmist.framework.SpectralEstimator;
 import org.jmist.toolkit.Tuple;
 
 /**
  * A fixed-wavelengths observer.
  * @author bkimmel
  */
-public final class FixedObserver implements IObserver {
+public final class FixedObserver implements Observer {
 
 	/**
 	 * Initializes the wavelength to sample.
@@ -38,15 +38,15 @@ public final class FixedObserver implements IObserver {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IObserver#acquire(org.jmist.framework.ISpectralEstimator, double[])
+	 * @see org.jmist.framework.Observer#acquire(org.jmist.framework.SpectralEstimator, double[])
 	 */
-	public void acquire(ISpectralEstimator estimator, double[] responses) {
+	public void acquire(SpectralEstimator estimator, double[] responses) {
 		assert(responses.length == wavelengths.size());
 		estimator.sample(wavelengths, responses);
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IObserver#getNumberOfComponents()
+	 * @see org.jmist.framework.Observer#getNumberOfComponents()
 	 */
 	public int getNumberOfComponents() {
 		return wavelengths.size();

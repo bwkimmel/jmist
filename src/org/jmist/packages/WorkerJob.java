@@ -9,28 +9,28 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.UUID;
 
-import org.jmist.framework.ICommunicator;
-import org.jmist.framework.IDialer;
-import org.jmist.framework.IInboundMessage;
-import org.jmist.framework.IJob;
-import org.jmist.framework.IOutboundMessage;
-import org.jmist.framework.IProgressMonitor;
-import org.jmist.framework.ITaskWorker;
+import org.jmist.framework.Communicator;
+import org.jmist.framework.Dialer;
+import org.jmist.framework.InboundMessage;
+import org.jmist.framework.Job;
+import org.jmist.framework.OutboundMessage;
+import org.jmist.framework.ProgressMonitor;
+import org.jmist.framework.TaskWorker;
 import org.jmist.framework.serialization.MistObjectInputStream;
 
 /**
  * A job that processes tasks for a parallelizable job.
  * @author bkimmel
  */
-public final class WorkerJob implements IJob {
+public final class WorkerJob implements Job {
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IJob#go(org.jmist.framework.IProgressMonitor)
+	 * @see org.jmist.framework.Job#go(org.jmist.framework.ProgressMonitor)
 	 */
 	@Override
-	public void go(IProgressMonitor monitor) {
+	public void go(ProgressMonitor monitor) {
 
-		ICommunicator comm = this.dialer.dial(this.masterAddress);
+		Communicator comm = this.dialer.dial(this.masterAddress);
 		boolean repeat = true;
 
 		try {
@@ -39,7 +39,7 @@ public final class WorkerJob implements IJob {
 			while (repeat) {
 
 				// Prepare a request for a task.
-				IOutboundMessage request = comm.createOutboundMessage();
+				OutboundMessage request = comm.createOutboundMessage();
 				DataOutputStream contents = new DataOutputStream(request.contents());
 
 				request.tag(ParallelJobCommon.MESSAGE_TAG_REQUEST_TASK);
@@ -51,7 +51,7 @@ public final class WorkerJob implements IJob {
 				comm.send(request);
 
 				// Wait for the reply.
-				IInboundMessage reply = comm.receive();
+				InboundMessage reply = comm.receive();
 
 				// Process the reply.
 				switch (reply.tag()) {
@@ -77,7 +77,7 @@ public final class WorkerJob implements IJob {
 
 	}
 
-	private boolean processTask(IInboundMessage msg, ICommunicator comm, IProgressMonitor monitor) throws IOException {
+	private boolean processTask(InboundMessage msg, Communicator comm, ProgressMonitor monitor) throws IOException {
 
 		MistObjectInputStream contents = new MistObjectInputStream(msg.contents());
 		UUID msgJobId = new UUID(contents.readLong(), contents.readLong());
@@ -98,7 +98,7 @@ public final class WorkerJob implements IJob {
 
 		if (this.jobId.compareTo(msgJobId) != 0) {
 
-			IOutboundMessage taskRequest = comm.createOutboundMessage();
+			OutboundMessage taskRequest = comm.createOutboundMessage();
 			ObjectOutputStream taskRequestContents = new ObjectOutputStream(taskRequest.contents());
 
 			taskRequest.tag(ParallelJobCommon.MESSAGE_TAG_REQUEST_TASK_WORKER);
@@ -108,7 +108,7 @@ public final class WorkerJob implements IJob {
 
 			comm.send(taskRequest);
 
-			IInboundMessage taskResponse = comm.receive();
+			InboundMessage taskResponse = comm.receive();
 			assert(taskResponse.tag() == ParallelJobCommon.MESSAGE_TAG_PROVIDE_TASK_WORKER);
 
 			MistObjectInputStream taskResponseContents = new MistObjectInputStream(taskResponse.contents());
@@ -118,7 +118,7 @@ public final class WorkerJob implements IJob {
 
 			try {
 
-				this.worker = (ITaskWorker) contents.readObject();
+				this.worker = (TaskWorker) contents.readObject();
 
 			} catch (ClassNotFoundException e) {
 
@@ -133,7 +133,7 @@ public final class WorkerJob implements IJob {
 		this.jobId = msgJobId;
 
 		Object results = this.worker.performTask(task, monitor);
-		IOutboundMessage reply = comm.createOutboundMessage();
+		OutboundMessage reply = comm.createOutboundMessage();
 		ObjectOutputStream replyContents = new ObjectOutputStream(reply.contents());
 
 		reply.tag(ParallelJobCommon.MESSAGE_TAG_SUBMIT_TASK_RESULTS);
@@ -149,7 +149,7 @@ public final class WorkerJob implements IJob {
 
 	}
 
-	private boolean processIdle(IInboundMessage msg, ICommunicator comm, IProgressMonitor monitor) throws IOException {
+	private boolean processIdle(InboundMessage msg, Communicator comm, ProgressMonitor monitor) throws IOException {
 
 		DataInputStream	contents = new DataInputStream(msg.contents());
 		long idleTime = contents.readLong();
@@ -170,9 +170,9 @@ public final class WorkerJob implements IJob {
 
 	}
 
-	private IDialer dialer;
+	private Dialer dialer;
 	private String masterAddress;
-	private ITaskWorker worker;
+	private TaskWorker worker;
 	private UUID jobId = new UUID(0, 0);
 
 }

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.jmist.framework.IIntersection;
+import org.jmist.framework.Intersection;
 import org.jmist.toolkit.BoundingBoxBuilder3;
 import org.jmist.toolkit.Box3;
 import org.jmist.toolkit.Interval;
@@ -18,7 +18,7 @@ import org.jmist.toolkit.Sphere;
  * @author bkimmel
  *
  */
-public class CompositeModelElement extends ModelElement {
+public class CompositeModelElement extends AbstractModelElement {
 
 	/**
 	 * Initializes the name of this model element.
@@ -29,27 +29,27 @@ public class CompositeModelElement extends ModelElement {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.model.ModelElement#addChild(org.jmist.framework.model.IModelElement)
+	 * @see org.jmist.framework.model.AbstractModelElement#addChild(org.jmist.framework.model.ModelElement)
 	 */
 	@Override
-	public void addChild(IModelElement child) throws UnsupportedOperationException {
+	public void addChild(ModelElement child) throws UnsupportedOperationException {
 		children.add(child);
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.model.ModelElement#children()
+	 * @see org.jmist.framework.model.AbstractModelElement#children()
 	 */
 	@Override
-	public Iterable<IModelElement> children() {
+	public Iterable<ModelElement> children() {
 		return children;
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.model.ModelElement#findChild(java.lang.String)
+	 * @see org.jmist.framework.model.AbstractModelElement#findChild(java.lang.String)
 	 */
 	@Override
-	public IModelElement findChild(String name) {
-		for (IModelElement child : this.children()) {
+	public ModelElement findChild(String name) {
+		for (ModelElement child : this.children()) {
 			if (child.getName().equals(name)) {
 				return child;
 			}
@@ -59,13 +59,13 @@ public class CompositeModelElement extends ModelElement {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.model.ModelElement#getBoundingBox()
+	 * @see org.jmist.framework.model.AbstractModelElement#getBoundingBox()
 	 */
 	@Override
 	public Box3 boundingBox() {
 		BoundingBoxBuilder3 builder = new BoundingBoxBuilder3();
 
-		for (IModelElement child : this.children()) {
+		for (ModelElement child : this.children()) {
 			builder.add(child.boundingBox());
 		}
 
@@ -73,7 +73,7 @@ public class CompositeModelElement extends ModelElement {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.model.ModelElement#getBoundingSphere()
+	 * @see org.jmist.framework.model.AbstractModelElement#getBoundingSphere()
 	 */
 	@Override
 	public Sphere boundingSphere() {
@@ -83,11 +83,11 @@ public class CompositeModelElement extends ModelElement {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.model.ModelElement#removeChild(java.lang.String)
+	 * @see org.jmist.framework.model.AbstractModelElement#removeChild(java.lang.String)
 	 */
 	@Override
 	public void removeChild(String name) {
-		for (Iterator<IModelElement> iter = children.iterator(); iter.hasNext();) {
+		for (Iterator<ModelElement> iter = children.iterator(); iter.hasNext();) {
 			if (iter.next().getName().equals(name)) {
 				iter.remove();
 				break;
@@ -96,11 +96,11 @@ public class CompositeModelElement extends ModelElement {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.model.ModelElement#visibility(org.jmist.toolkit.Ray3, org.jmist.toolkit.Interval)
+	 * @see org.jmist.framework.model.AbstractModelElement#visibility(org.jmist.toolkit.Ray3, org.jmist.toolkit.Interval)
 	 */
 	@Override
 	public boolean visibility(Ray3 ray, Interval I) {
-		for (IModelElement child : this.children()) {
+		for (ModelElement child : this.children()) {
 			if (!child.visibility(ray, I)) {
 				return false;
 			}
@@ -109,6 +109,6 @@ public class CompositeModelElement extends ModelElement {
 		return true;
 	}
 
-	private List<IModelElement> children = new ArrayList<IModelElement>();
+	private List<ModelElement> children = new ArrayList<ModelElement>();
 
 }

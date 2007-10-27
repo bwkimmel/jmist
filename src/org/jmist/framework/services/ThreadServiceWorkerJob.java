@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.Executor;
 
-import org.jmist.framework.IJob;
-import org.jmist.framework.IProgressMonitor;
-import org.jmist.framework.ITaskWorker;
+import org.jmist.framework.Job;
+import org.jmist.framework.ProgressMonitor;
+import org.jmist.framework.TaskWorker;
 
 /**
  * A job that processes tasks for a parallelizable job from a remote
@@ -21,7 +21,7 @@ import org.jmist.framework.ITaskWorker;
  * threads to process tasks.
  * @author bkimmel
  */
-public final class ThreadServiceWorkerJob implements IJob {
+public final class ThreadServiceWorkerJob implements Job {
 
 	/**
 	 * Initializes the address of the master and the amount of time to idle
@@ -39,10 +39,10 @@ public final class ThreadServiceWorkerJob implements IJob {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IJob#go(org.jmist.framework.IProgressMonitor)
+	 * @see org.jmist.framework.Job#go(org.jmist.framework.ProgressMonitor)
 	 */
 	@Override
-	public void go(IProgressMonitor monitor) {
+	public void go(ProgressMonitor monitor) {
 
 		try {
 
@@ -50,7 +50,7 @@ public final class ThreadServiceWorkerJob implements IJob {
 			monitor.notifyStatusChanged("Looking up master...");
 
 			Registry registry = LocateRegistry.getRegistry(this.masterHost);
-			this.service = (IJobMasterService) registry.lookup("IJobMasterService");
+			this.service = (JobMasterService) registry.lookup("JobMasterService");
 
 			while (monitor.notifyIndeterminantProgress()) {
 
@@ -76,29 +76,29 @@ public final class ThreadServiceWorkerJob implements IJob {
 	}
 
 	/**
-	 * An entry in the <code>ITaskWorker</code> cache.
+	 * An entry in the <code>TaskWorker</code> cache.
 	 * @author bkimmel
 	 */
 	private class WorkerCacheEntry {
 
 		/**
-		 * The <code>UUID</code> of the job that the <code>ITaskWorker</code>
+		 * The <code>UUID</code> of the job that the <code>TaskWorker</code>
 		 * processes tasks for.
 		 */
 		public final UUID			jobId;
 
 		/**
-		 * The cached <code>ITaskWorker</code>.
+		 * The cached <code>TaskWorker</code>.
 		 */
-		public final ITaskWorker	worker;
+		public final TaskWorker	worker;
 
 		/**
 		 * Initializes the cache entry.
 		 * @param jobId The <code>UUID</code> of the job that the
-		 * 		<code>ITaskWorker</code> processes tasks for.
-		 * @param worker The <code>ITaskWorker</code> to be cached.
+		 * 		<code>TaskWorker</code> processes tasks for.
+		 * @param worker The <code>TaskWorker</code> to be cached.
 		 */
-		public WorkerCacheEntry(UUID jobId, ITaskWorker worker) {
+		public WorkerCacheEntry(UUID jobId, TaskWorker worker) {
 			this.jobId = jobId;
 			this.worker = worker;
 		}
@@ -106,15 +106,15 @@ public final class ThreadServiceWorkerJob implements IJob {
 	}
 
 	/**
-	 * Searches for the <code>ITaskWorker</code> to use to process tasks for
+	 * Searches for the <code>TaskWorker</code> to use to process tasks for
 	 * the job with the specified <code>UUID</code> in the local cache.
 	 * @param jobId The <code>UUID</code> of the job whose
-	 * 		<code>ITaskWorker</code> to search for.
-	 * @return The <code>ITaskWorker</code> corresponding to the job with the
+	 * 		<code>TaskWorker</code> to search for.
+	 * @return The <code>TaskWorker</code> corresponding to the job with the
 	 * 		specified <code>UUID</code>, or <code>null</code> if the
-	 * 		<code>ITaskWorker</code> for that job is not in the cache.
+	 * 		<code>TaskWorker</code> for that job is not in the cache.
 	 */
-	private synchronized ITaskWorker getCachedTaskWorker(UUID jobId) {
+	private synchronized TaskWorker getCachedTaskWorker(UUID jobId) {
 
 		assert(jobId != null);
 
@@ -147,12 +147,12 @@ public final class ThreadServiceWorkerJob implements IJob {
 	}
 
 	/**
-	 * Ensures that the specified <code>ITaskWorker</code> is cached.
+	 * Ensures that the specified <code>TaskWorker</code> is cached.
 	 * @param jobId The <code>UUID</code> of the job whose tasks are to be
 	 * 		processed by <code>worker</code>.
-	 * @param worker The <code>ITaskWorker</code> to add to the cache.
+	 * @param worker The <code>TaskWorker</code> to add to the cache.
 	 */
-	private synchronized void addWorkerToCache(UUID jobId, ITaskWorker worker) {
+	private synchronized void addWorkerToCache(UUID jobId, TaskWorker worker) {
 
 		assert(jobId != null);
 		assert(worker != null);
@@ -183,14 +183,14 @@ public final class ThreadServiceWorkerJob implements IJob {
 	 * <code>UUID</code>.
 	 * @param jobId The <code>UUID</code> of the job to obtain the task worker
 	 * 		for.
-	 * @return The <code>ITaskWorker</code> to process tasks for the job with
+	 * @return The <code>TaskWorker</code> to process tasks for the job with
 	 * 		the specified <code>UUID</code>, or <code>null</code> if the job
 	 * 		is invalid or has already been completed.
 	 */
-	private ITaskWorker getTaskWorker(UUID jobId) {
+	private TaskWorker getTaskWorker(UUID jobId) {
 
 		/* First try to obtain the worker from the cache. */
-		ITaskWorker worker = this.getCachedTaskWorker(jobId);
+		TaskWorker worker = this.getCachedTaskWorker(jobId);
 
 		if (worker != null) {
 			return worker;
@@ -220,10 +220,10 @@ public final class ThreadServiceWorkerJob implements IJob {
 
 		/**
 		 * Initializes the progress monitor to report to.
-		 * @param monitor The <code>IProgressMonitor</code> to report
+		 * @param monitor The <code>ProgressMonitor</code> to report
 		 * 		the progress of the task to.
 		 */
-		public Worker(IProgressMonitor monitor) {
+		public Worker(ProgressMonitor monitor) {
 			this.monitor = monitor;
 		}
 
@@ -241,7 +241,7 @@ public final class ThreadServiceWorkerJob implements IJob {
 			if (taskDesc != null) {
 
 				this.monitor.notifyStatusChanged("Obtaining task worker...");
-				ITaskWorker worker = getTaskWorker(taskDesc.getJobId());
+				TaskWorker worker = getTaskWorker(taskDesc.getJobId());
 
 				if (worker == null) {
 					this.monitor.notifyStatusChanged("Could not obtain worker...");
@@ -272,9 +272,9 @@ public final class ThreadServiceWorkerJob implements IJob {
 		}
 
 		/**
-		 * The <code>IProgressMonitor</code> to report to.
+		 * The <code>ProgressMonitor</code> to report to.
 		 */
-		private final IProgressMonitor monitor;
+		private final ProgressMonitor monitor;
 
 	}
 
@@ -290,20 +290,20 @@ public final class ThreadServiceWorkerJob implements IJob {
 	private final Executor executor;
 
 	/**
-	 * The <code>IJobMasterService</code> to obtain tasks from and submit
+	 * The <code>JobMasterService</code> to obtain tasks from and submit
 	 * results to.
 	 */
-	private IJobMasterService service = null;
+	private JobMasterService service = null;
 
 	/**
-	 * A list of recently used <code>ITaskWorker</code>s and their associated
+	 * A list of recently used <code>TaskWorker</code>s and their associated
 	 * job's <code>UUID</code>s, in order from least recently used to most
 	 * recently used.
 	 */
 	private final List<WorkerCacheEntry> workerCache = new LinkedList<WorkerCacheEntry>();
 
 	/**
-	 * The maximum number of <code>ITaskWorker</code>s to retain in the cache.
+	 * The maximum number of <code>TaskWorker</code>s to retain in the cache.
 	 */
 	private final int maxCachedWorkers = 5;
 

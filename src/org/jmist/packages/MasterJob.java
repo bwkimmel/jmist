@@ -8,16 +8,16 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.UUID;
 
-import org.jmist.framework.ICommunicator;
-import org.jmist.framework.IInboundMessage;
-import org.jmist.framework.IOutboundMessage;
-import org.jmist.framework.IParallelizableJob;
-import org.jmist.framework.IProgressMonitor;
-import org.jmist.framework.ITaskWorker;
+import org.jmist.framework.Communicator;
+import org.jmist.framework.InboundMessage;
+import org.jmist.framework.OutboundMessage;
+import org.jmist.framework.ParallelizableJob;
+import org.jmist.framework.ProgressMonitor;
+import org.jmist.framework.TaskWorker;
 import org.jmist.framework.base.ServerJob;
 import org.jmist.framework.serialization.MistObjectInputStream;
-import org.jmist.framework.services.IJobMasterService;
 import org.jmist.framework.services.JobMasterService;
+import org.jmist.framework.services.JobMasterServer;
 import org.jmist.framework.services.TaskDescription;
 
 /**
@@ -28,11 +28,11 @@ import org.jmist.framework.services.TaskDescription;
 public final class MasterJob extends ServerJob {
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.base.NetworkJob#onMessageReceived(org.jmist.framework.IInboundMessage, org.jmist.framework.ICommunicator, org.jmist.framework.IProgressMonitor)
+	 * @see org.jmist.framework.base.NetworkJob#onMessageReceived(org.jmist.framework.InboundMessage, org.jmist.framework.Communicator, org.jmist.framework.ProgressMonitor)
 	 */
 	@Override
-	protected boolean onMessageReceived(IInboundMessage msg, ICommunicator comm,
-			IProgressMonitor monitor) {
+	protected boolean onMessageReceived(InboundMessage msg, Communicator comm,
+			ProgressMonitor monitor) {
 
 		switch (msg.tag()) {
 
@@ -61,12 +61,12 @@ public final class MasterJob extends ServerJob {
 
 	}
 
-	private void processRequestTask(IInboundMessage msg, ICommunicator comm, IProgressMonitor monitor) {
+	private void processRequestTask(InboundMessage msg, Communicator comm, ProgressMonitor monitor) {
 
 		try {
 
 			TaskDescription taskDesc = this.service.requestTask();
-			IOutboundMessage reply = comm.createOutboundMessage();
+			OutboundMessage reply = comm.createOutboundMessage();
 			ObjectOutputStream contents = new ObjectOutputStream(reply.contents());
 
 			if (taskDesc != null) {
@@ -97,15 +97,15 @@ public final class MasterJob extends ServerJob {
 
 	}
 
-	private void processRequestTaskWorker(IInboundMessage msg, ICommunicator comm, IProgressMonitor monitor) {
+	private void processRequestTaskWorker(InboundMessage msg, Communicator comm, ProgressMonitor monitor) {
 
 		try {
 
 			DataInputStream contents = new DataInputStream(msg.contents());
 			UUID jobId = new UUID(contents.readLong(), contents.readLong());
-			ITaskWorker worker = this.service.getTaskWorker(jobId);
+			TaskWorker worker = this.service.getTaskWorker(jobId);
 
-			IOutboundMessage reply = comm.createOutboundMessage();
+			OutboundMessage reply = comm.createOutboundMessage();
 			ObjectOutputStream replyContents = new ObjectOutputStream(reply.contents());
 
 			reply.tag(ParallelJobCommon.MESSAGE_TAG_PROVIDE_TASK_WORKER);
@@ -125,7 +125,7 @@ public final class MasterJob extends ServerJob {
 
 	}
 
-	private void processSubmitTaskResults(IInboundMessage msg, ICommunicator comm, IProgressMonitor monitor) {
+	private void processSubmitTaskResults(InboundMessage msg, Communicator comm, ProgressMonitor monitor) {
 
 		try {
 
@@ -150,18 +150,18 @@ public final class MasterJob extends ServerJob {
 
 	}
 
-	private void processSubmitJob(IInboundMessage msg, ICommunicator comm, IProgressMonitor monitor) {
+	private void processSubmitJob(InboundMessage msg, Communicator comm, ProgressMonitor monitor) {
 
 		try {
 
-			IOutboundMessage reply = comm.createOutboundMessage();
+			OutboundMessage reply = comm.createOutboundMessage();
 			ObjectOutputStream replyContents = new ObjectOutputStream(reply.contents());
 
 			try {
 
 				MistObjectInputStream contents = new MistObjectInputStream(msg.contents());
 				int priority = contents.readInt();
-				IParallelizableJob job = (IParallelizableJob) contents.readObject();
+				ParallelizableJob job = (ParallelizableJob) contents.readObject();
 
 				UUID jobId = this.service.submitJob(job, priority);
 
@@ -208,7 +208,7 @@ public final class MasterJob extends ServerJob {
 
 	}
 
-	private final IJobMasterService service = new JobMasterService();
+	private final JobMasterService service = new JobMasterServer();
 	private long idleTime;
 
 }

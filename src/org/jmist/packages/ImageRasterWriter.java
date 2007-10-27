@@ -3,7 +3,7 @@
  */
 package org.jmist.packages;
 
-import org.jmist.framework.IRasterWriter;
+import org.jmist.framework.RasterWriter;
 import org.jmist.toolkit.Pixel;
 
 import java.awt.image.BufferedImage;
@@ -15,7 +15,7 @@ import javax.imageio.ImageIO;
  * @author bkimmel
  *
  */
-public final class ImageRasterWriter implements IRasterWriter {
+public final class ImageRasterWriter implements RasterWriter {
 
 	/**
 	 * Initializes the dimensions of the raster image.
@@ -29,28 +29,28 @@ public final class ImageRasterWriter implements IRasterWriter {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IRasterWriter#done()
+	 * @see org.jmist.framework.RasterWriter#done()
 	 */
 	public boolean done() {
 		return this.y >= this.height;
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IRasterWriter#height()
+	 * @see org.jmist.framework.RasterWriter#height()
 	 */
 	public int height() {
 		return this.height;
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IRasterWriter#width()
+	 * @see org.jmist.framework.RasterWriter#width()
 	 */
 	public int width() {
 		return this.width;
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IRasterWriter#writePixel(org.jmist.toolkit.Pixel)
+	 * @see org.jmist.framework.RasterWriter#writePixel(org.jmist.toolkit.Pixel)
 	 */
 	public void writePixel(Pixel pixel) {
 
@@ -67,14 +67,14 @@ public final class ImageRasterWriter implements IRasterWriter {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IRasterWriter#x()
+	 * @see org.jmist.framework.RasterWriter#x()
 	 */
 	public int x() {
 		return this.x;
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IRasterWriter#y()
+	 * @see org.jmist.framework.RasterWriter#y()
 	 */
 	public int y() {
 		return this.y;

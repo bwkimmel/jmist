@@ -3,9 +3,9 @@
  */
 package org.jmist.packages;
 
-import org.jmist.framework.IIntersection;
-import org.jmist.framework.IRayCaster;
-import org.jmist.framework.IRayShader;
+import org.jmist.framework.Intersection;
+import org.jmist.framework.RayCaster;
+import org.jmist.framework.RayShader;
 import org.jmist.toolkit.Interval;
 import org.jmist.toolkit.Pixel;
 import org.jmist.toolkit.Ray3;
@@ -15,21 +15,21 @@ import org.jmist.toolkit.Ray3;
  * nearest intersection along the ray.
  * @author bkimmel
  */
-public final class DistanceRayShader implements IRayShader {
+public final class DistanceRayShader implements RayShader {
 
 	/**
 	 * Initializes the ray caster to use.
 	 * @param caster The ray caster to use.
 	 */
-	public DistanceRayShader(IRayCaster caster) {
+	public DistanceRayShader(RayCaster caster) {
 		this.caster = caster;
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IRayShader#shadeRay(org.jmist.toolkit.Ray3, org.jmist.toolkit.Pixel)
+	 * @see org.jmist.framework.RayShader#shadeRay(org.jmist.toolkit.Ray3, org.jmist.toolkit.Pixel)
 	 */
 	public void shadeRay(Ray3 ray, Pixel pixel) {
-		IIntersection intersection = this.caster.castRay(ray, Interval.POSITIVE);
+		Intersection intersection = this.caster.castRay(ray, Interval.POSITIVE);
 
 		// TODO finish implementing DistanceRayShader.shadeRay.
 		if (intersection != null) {
@@ -40,7 +40,7 @@ public final class DistanceRayShader implements IRayShader {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IPixelFactory#createPixel()
+	 * @see org.jmist.framework.PixelFactory#createPixel()
 	 */
 	public Pixel createPixel() {
 		// TODO Auto-generated method stub
@@ -48,6 +48,6 @@ public final class DistanceRayShader implements IRayShader {
 	}
 
 	/** The ray caster to use. */
-	private final IRayCaster caster;
+	private final RayCaster caster;
 
 }

@@ -3,7 +3,7 @@
  */
 package org.jmist.packages;
 
-import org.jmist.framework.IPixelShader;
+import org.jmist.framework.PixelShader;
 import org.jmist.toolkit.Box2;
 import org.jmist.toolkit.Pixel;
 
@@ -12,7 +12,7 @@ import org.jmist.toolkit.Pixel;
  * pixel shader.
  * @author bkimmel
  */
-public final class AveragingPixelShader implements IPixelShader {
+public final class AveragingPixelShader implements PixelShader {
 
 	/**
 	 * Initializes the inner pixel shader.
@@ -20,13 +20,13 @@ public final class AveragingPixelShader implements IPixelShader {
 	 * 		a pixel.
 	 * @param pixelShader The pixel shader average the results from.
 	 */
-	public AveragingPixelShader(int numSamples, IPixelShader pixelShader) {
+	public AveragingPixelShader(int numSamples, PixelShader pixelShader) {
 		this.numSamples = numSamples;
 		this.pixelShader = pixelShader;
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IPixelShader#shadePixel(org.jmist.toolkit.Box2, org.jmist.toolkit.Pixel)
+	 * @see org.jmist.framework.PixelShader#shadePixel(org.jmist.toolkit.Box2, org.jmist.toolkit.Pixel)
 	 */
 	public void shadePixel(Box2 bounds, Pixel pixel) {
 		Pixel sample = this.createPixel();
@@ -41,7 +41,7 @@ public final class AveragingPixelShader implements IPixelShader {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IPixelFactory#createPixel()
+	 * @see org.jmist.framework.PixelFactory#createPixel()
 	 */
 	public Pixel createPixel() {
 		return this.pixelShader.createPixel();
@@ -54,6 +54,6 @@ public final class AveragingPixelShader implements IPixelShader {
 	private final int numSamples;
 	
 	/** The pixel shader from which to average the results. */
-	private final IPixelShader pixelShader;
+	private final PixelShader pixelShader;
 
 }

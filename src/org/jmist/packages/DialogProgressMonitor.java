@@ -3,7 +3,7 @@
  */
 package org.jmist.packages;
 
-import org.jmist.framework.IProgressMonitor;
+import org.jmist.framework.ProgressMonitor;
 import org.jmist.toolkit.ui.ProgressDialog;
 
 /**
@@ -11,7 +11,7 @@ import org.jmist.toolkit.ui.ProgressDialog;
  * and status of the operation.
  * @author bkimmel
  */
-public final class DialogProgressMonitor implements IProgressMonitor {
+public final class DialogProgressMonitor implements ProgressMonitor {
 
 	/**
 	 * Creates a new progress monitor that displays the progress on a dialog.
@@ -30,21 +30,21 @@ public final class DialogProgressMonitor implements IProgressMonitor {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IProgressMonitor#notifyCancelled()
+	 * @see org.jmist.framework.ProgressMonitor#notifyCancelled()
 	 */
 	public void notifyCancelled() {
 		this.progressDialog.setVisible(false);
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IProgressMonitor#notifyComplete()
+	 * @see org.jmist.framework.ProgressMonitor#notifyComplete()
 	 */
 	public void notifyComplete() {
 		this.progressDialog.setVisible(false);
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IProgressMonitor#notifyProgress(int, int)
+	 * @see org.jmist.framework.ProgressMonitor#notifyProgress(int, int)
 	 */
 	public boolean notifyProgress(int value, int maximum) {
 		this.ensureInitialized();
@@ -53,7 +53,7 @@ public final class DialogProgressMonitor implements IProgressMonitor {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IProgressMonitor#notifyProgress(double)
+	 * @see org.jmist.framework.ProgressMonitor#notifyProgress(double)
 	 */
 	public boolean notifyProgress(double progress) {
 		this.ensureInitialized();
@@ -62,7 +62,7 @@ public final class DialogProgressMonitor implements IProgressMonitor {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IProgressMonitor#notifyIndeterminantProgress()
+	 * @see org.jmist.framework.ProgressMonitor#notifyIndeterminantProgress()
 	 */
 	@Override
 	public boolean notifyIndeterminantProgress() {
@@ -72,7 +72,7 @@ public final class DialogProgressMonitor implements IProgressMonitor {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IProgressMonitor#notifyStatusChanged(java.lang.String)
+	 * @see org.jmist.framework.ProgressMonitor#notifyStatusChanged(java.lang.String)
 	 */
 	public void notifyStatusChanged(String status) {
 		this.ensureInitialized();
@@ -80,10 +80,10 @@ public final class DialogProgressMonitor implements IProgressMonitor {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IProgressMonitor#createChildProgressMonitor()
+	 * @see org.jmist.framework.ProgressMonitor#createChildProgressMonitor()
 	 */
 	@Override
-	public IProgressMonitor createChildProgressMonitor() {
+	public ProgressMonitor createChildProgressMonitor() {
 		return new DummyProgressMonitor();
 	}
 

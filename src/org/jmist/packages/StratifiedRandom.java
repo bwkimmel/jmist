@@ -3,9 +3,7 @@
  */
 package org.jmist.packages;
 
-import java.util.Random;
-
-import org.jmist.framework.IRandom;
+import org.jmist.framework.Random;
 
 /**
  * A random number generator that stratifies the results into a
@@ -15,7 +13,7 @@ import org.jmist.framework.IRandom;
  * successive calls to {@link #next()}.
  * @author bkimmel
  */
-public final class StratifiedRandom implements IRandom {
+public final class StratifiedRandom implements Random {
 
 	/**
 	 * Default constructor.  Creates a random number generator equivalent to
@@ -40,7 +38,7 @@ public final class StratifiedRandom implements IRandom {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.jmist.framework.IRandom#next()
+	 * @see org.jmist.framework.Random#next()
 	 */
 	public double next() {
 
@@ -66,7 +64,7 @@ public final class StratifiedRandom implements IRandom {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.jmist.framework.IRandom#reset()
+	 * @see org.jmist.framework.Random#reset()
 	 */
 	public void reset() {
 		this.nextPartition = this.sequence.length - 1;
@@ -124,6 +122,6 @@ public final class StratifiedRandom implements IRandom {
 	/**
 	 * The underlying uniform random number generator.
 	 */
-	private final Random source = new Random();
+	private final java.util.Random source = new java.util.Random();
 
 }

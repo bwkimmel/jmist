@@ -7,36 +7,36 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.UUID;
 
-import org.jmist.framework.IJob;
-import org.jmist.framework.IParallelizableJob;
-import org.jmist.framework.IProgressMonitor;
+import org.jmist.framework.Job;
+import org.jmist.framework.ParallelizableJob;
+import org.jmist.framework.ProgressMonitor;
 
 /**
- * A job that submits an <code>IParallelizableJob</code> to submit to a remote
- * <code>JobMasterService</code>.
+ * A job that submits a <code>ParallelizableJob</code> to submit to a remote
+ * <code>JobMasterServer</code>.
  * @author bkimmel
  */
-public final class ServiceSubmitJob implements IJob {
+public final class ServiceSubmitJob implements Job {
 
 	/**
 	 * Initializes the job to submit, the priority to assign the job, and the
 	 * URL of the master to submit the job to.
-	 * @param job The <code>IParallelizableJob</code> to submit.
+	 * @param job The <code>ParallelizableJob</code> to submit.
 	 * @param priority The priority to assign the job.
-	 * @param masterHost The URL of the remote <code>JobMasterService</code> to
+	 * @param masterHost The URL of the remote <code>JobMasterServer</code> to
 	 * 		submit the job to.
 	 */
-	public ServiceSubmitJob(IParallelizableJob job, int priority, String masterHost) {
+	public ServiceSubmitJob(ParallelizableJob job, int priority, String masterHost) {
 		this.job = job;
 		this.priority = priority;
 		this.masterHost = masterHost;
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IJob#go(org.jmist.framework.IProgressMonitor)
+	 * @see org.jmist.framework.Job#go(org.jmist.framework.ProgressMonitor)
 	 */
 	@Override
-	public void go(IProgressMonitor monitor) {
+	public void go(ProgressMonitor monitor) {
 
 		try {
 
@@ -44,7 +44,7 @@ public final class ServiceSubmitJob implements IJob {
 			monitor.notifyStatusChanged("Submitting job...");
 
 			Registry registry = LocateRegistry.getRegistry(this.masterHost);
-			IJobMasterService service = (IJobMasterService) registry.lookup("IJobMasterService");
+			JobMasterService service = (JobMasterService) registry.lookup("JobMasterService");
 			UUID jobId = service.submitJob(this.job, this.priority);
 
 			if (jobId != null) {
@@ -72,13 +72,13 @@ public final class ServiceSubmitJob implements IJob {
 	}
 
 	/**
-	 * The URL of the remote <code>JobMasterService</code> to submit the job
+	 * The URL of the remote <code>JobMasterServer</code> to submit the job
 	 * to.
 	 */
 	private final String masterHost;
 
-	/** The <code>IParallelizableJob</code> to submit. */
-	private final IParallelizableJob job;
+	/** The <code>ParallelizableJob</code> to submit. */
+	private final ParallelizableJob job;
 
 	/** The priority to assign to the job. */
 	private final int priority;

@@ -3,10 +3,10 @@
  */
 package org.jmist.packages;
 
-import org.jmist.framework.IJob;
-import org.jmist.framework.IPixelShader;
-import org.jmist.framework.IProgressMonitor;
-import org.jmist.framework.IRasterWriter;
+import org.jmist.framework.Job;
+import org.jmist.framework.PixelShader;
+import org.jmist.framework.ProgressMonitor;
+import org.jmist.framework.RasterWriter;
 import org.jmist.toolkit.Box2;
 import org.jmist.toolkit.Pixel;
 
@@ -14,14 +14,14 @@ import org.jmist.toolkit.Pixel;
  * @author bkimmel
  *
  */
-public final class RasterJob implements IJob {
+public final class RasterJob implements Job {
 
-	public RasterJob(IPixelShader shader, IRasterWriter writer) {
+	public RasterJob(PixelShader shader, RasterWriter writer) {
 		this.shader = shader;
 		this.writer = writer;
 	}
 
-	public void go(IProgressMonitor monitor) {
+	public void go(ProgressMonitor monitor) {
 
 		int		px			= -1;		// previous x
 		int		py			= -1;		// previous y
@@ -71,7 +71,7 @@ public final class RasterJob implements IJob {
 
 	}
 
-	private final IPixelShader shader;
-	private final IRasterWriter writer;
+	private final PixelShader shader;
+	private final RasterWriter writer;
 
 }

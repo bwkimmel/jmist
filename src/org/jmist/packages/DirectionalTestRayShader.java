@@ -3,7 +3,7 @@
  */
 package org.jmist.packages;
 
-import org.jmist.framework.IRayShader;
+import org.jmist.framework.RayShader;
 import org.jmist.toolkit.Pixel;
 import org.jmist.toolkit.PixelFormat;
 import org.jmist.toolkit.Ray3;
@@ -13,10 +13,10 @@ import org.jmist.toolkit.Vector3;
  * A test ray shader that shades rays based on their direction.
  * @author bkimmel
  */
-public final class DirectionalTestRayShader implements IRayShader {
+public final class DirectionalTestRayShader implements RayShader {
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IRayShader#shadeRay(org.jmist.toolkit.Ray3, org.jmist.toolkit.Pixel)
+	 * @see org.jmist.framework.RayShader#shadeRay(org.jmist.toolkit.Ray3, org.jmist.toolkit.Pixel)
 	 */
 	public void shadeRay(Ray3 ray, Pixel pixel) {
 
@@ -29,7 +29,7 @@ public final class DirectionalTestRayShader implements IRayShader {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IPixelFactory#createPixel()
+	 * @see org.jmist.framework.PixelFactory#createPixel()
 	 */
 	public Pixel createPixel() {
 		return new Pixel(PixelFormat.RGB);

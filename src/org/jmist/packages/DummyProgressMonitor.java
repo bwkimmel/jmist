@@ -3,17 +3,17 @@
  */
 package org.jmist.packages;
 
-import org.jmist.framework.IProgressMonitor;
+import org.jmist.framework.ProgressMonitor;
 
 /**
  * A dummy progress monitor that does not report the progress to
  * anything.
  * @author bkimmel
  */
-public final class DummyProgressMonitor implements IProgressMonitor {
+public final class DummyProgressMonitor implements ProgressMonitor {
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IProgressMonitor#notifyCancelled()
+	 * @see org.jmist.framework.ProgressMonitor#notifyCancelled()
 	 */
 	@Override
 	public void notifyCancelled() {
@@ -21,7 +21,7 @@ public final class DummyProgressMonitor implements IProgressMonitor {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IProgressMonitor#notifyComplete()
+	 * @see org.jmist.framework.ProgressMonitor#notifyComplete()
 	 */
 	@Override
 	public void notifyComplete() {
@@ -29,7 +29,7 @@ public final class DummyProgressMonitor implements IProgressMonitor {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IProgressMonitor#notifyProgress(int, int)
+	 * @see org.jmist.framework.ProgressMonitor#notifyProgress(int, int)
 	 */
 	@Override
 	public boolean notifyProgress(int value, int maximum) {
@@ -37,7 +37,7 @@ public final class DummyProgressMonitor implements IProgressMonitor {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IProgressMonitor#notifyProgress(double)
+	 * @see org.jmist.framework.ProgressMonitor#notifyProgress(double)
 	 */
 	@Override
 	public boolean notifyProgress(double progress) {
@@ -45,7 +45,7 @@ public final class DummyProgressMonitor implements IProgressMonitor {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IProgressMonitor#notifyIndeterminantProgress()
+	 * @see org.jmist.framework.ProgressMonitor#notifyIndeterminantProgress()
 	 */
 	@Override
 	public boolean notifyIndeterminantProgress() {
@@ -53,7 +53,7 @@ public final class DummyProgressMonitor implements IProgressMonitor {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IProgressMonitor#notifyStatusChanged(java.lang.String)
+	 * @see org.jmist.framework.ProgressMonitor#notifyStatusChanged(java.lang.String)
 	 */
 	@Override
 	public void notifyStatusChanged(String status) {
@@ -61,10 +61,10 @@ public final class DummyProgressMonitor implements IProgressMonitor {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IProgressMonitor#createChildProgressMonitor()
+	 * @see org.jmist.framework.ProgressMonitor#createChildProgressMonitor()
 	 */
 	@Override
-	public IProgressMonitor createChildProgressMonitor() {
+	public ProgressMonitor createChildProgressMonitor() {
 
 		/* Report progress to subtasks to the same monitor. */
 		return this;

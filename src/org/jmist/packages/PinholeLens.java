@@ -3,7 +3,7 @@
  */
 package org.jmist.packages;
 
-import org.jmist.framework.ILens;
+import org.jmist.framework.Lens;
 import org.jmist.toolkit.Point2;
 import org.jmist.toolkit.Point3;
 import org.jmist.toolkit.Vector3;
@@ -18,7 +18,7 @@ import org.jmist.toolkit.Ray3;
  * are observed).
  * @author bkimmel
  */
-public final class PinholeLens implements ILens {
+public final class PinholeLens implements Lens {
 
 	/**
 	 * Initializes the pinhole camera from the specified
@@ -41,7 +41,7 @@ public final class PinholeLens implements ILens {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.ILens#rayAt(org.jmist.toolkit.Point2)
+	 * @see org.jmist.framework.Lens#rayAt(org.jmist.toolkit.Point2)
 	 */
 	public Ray3 rayAt(Point2 p) {
 

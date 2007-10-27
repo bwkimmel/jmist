@@ -5,8 +5,8 @@ package org.jmist.packages;
 
 import org.jmist.toolkit.Pixel;
 import org.jmist.toolkit.Point2;
-import org.jmist.framework.IImageShader;
-import org.jmist.framework.IPixelShader;
+import org.jmist.framework.ImageShader;
+import org.jmist.framework.PixelShader;
 
 /**
  * Represents a pixel shader that rasterizes an image represented by
@@ -14,13 +14,13 @@ import org.jmist.framework.IPixelShader;
  * will be anti-aliasing.
  * @author bkimmel
  */
-public abstract class ImageRasterizingPixelShader implements IPixelShader {
+public abstract class ImageRasterizingPixelShader implements PixelShader {
 
 	/**
 	 * Initializes the image shader to use for this pixel shader.
 	 * @param shader The image shader to use for this pixel shader.
 	 */
-	protected ImageRasterizingPixelShader(IImageShader shader) {
+	protected ImageRasterizingPixelShader(ImageShader shader) {
 		this.shader = shader;
 	}
 
@@ -34,13 +34,13 @@ public abstract class ImageRasterizingPixelShader implements IPixelShader {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IPixelFactory#createPixel()
+	 * @see org.jmist.framework.PixelFactory#createPixel()
 	 */
 	public Pixel createPixel() {
 		return this.shader.createPixel();
 	}
 
 	/** The image shader to use for shading points. */
-	private final IImageShader shader;
+	private final ImageShader shader;
 
 }

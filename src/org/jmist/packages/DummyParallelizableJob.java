@@ -3,15 +3,15 @@
  */
 package org.jmist.packages;
 
-import org.jmist.framework.IParallelizableJob;
-import org.jmist.framework.IProgressMonitor;
-import org.jmist.framework.ITaskWorker;
+import org.jmist.framework.ParallelizableJob;
+import org.jmist.framework.ProgressMonitor;
+import org.jmist.framework.TaskWorker;
 
 /**
  * A dummy parallelizable job to test remote method invocation.
  * @author bkimmel
  */
-public final class DummyParallelizableJob implements IParallelizableJob {
+public final class DummyParallelizableJob implements ParallelizableJob {
 
 	/**
 	 * Initializes the number of tasks to serve.
@@ -22,7 +22,7 @@ public final class DummyParallelizableJob implements IParallelizableJob {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IParallelizableJob#getNextTask()
+	 * @see org.jmist.framework.ParallelizableJob#getNextTask()
 	 */
 	@Override
 	public Object getNextTask() {
@@ -42,7 +42,7 @@ public final class DummyParallelizableJob implements IParallelizableJob {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IParallelizableJob#submitResults(java.lang.Object)
+	 * @see org.jmist.framework.ParallelizableJob#submitResults(java.lang.Object)
 	 */
 	@Override
 	public void submitTaskResults(Object results) {
@@ -53,10 +53,10 @@ public final class DummyParallelizableJob implements IParallelizableJob {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.IParallelizableJob#worker()
+	 * @see org.jmist.framework.ParallelizableJob#worker()
 	 */
 	@Override
-	public ITaskWorker worker() {
+	public TaskWorker worker() {
 		return this.worker;
 	}
 
@@ -69,14 +69,14 @@ public final class DummyParallelizableJob implements IParallelizableJob {
 	/**
 	 * The task worker to use to process tasks.
 	 */
-	private final ITaskWorker worker = new ITaskWorker() {
+	private final TaskWorker worker = new TaskWorker() {
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.jmist.framework.ITaskWorker#performTask(java.lang.Object, org.jmist.framework.IProgressMonitor)
+		 * @see org.jmist.framework.TaskWorker#performTask(java.lang.Object, org.jmist.framework.ProgressMonitor)
 		 */
 		@Override
-		public Object performTask(Object task, IProgressMonitor monitor) {
+		public Object performTask(Object task, ProgressMonitor monitor) {
 
 			int value = (Integer) task;
 			String msg = String.format("Processing task %d.", value);
