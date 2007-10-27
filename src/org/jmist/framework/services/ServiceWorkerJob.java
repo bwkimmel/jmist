@@ -26,12 +26,17 @@ public final class ServiceWorkerJob implements IJob {
 
 		try {
 
+			monitor.notifyIndeterminantProgress();
+			monitor.notifyStatusChanged("Looking up master...");
+
 			Registry registry = LocateRegistry.getRegistry(this.masterHost);
 			IJobMasterService service = (IJobMasterService) registry.lookup("IJobMasterService");
 			ITaskWorker worker = null;
 			UUID jobId = new UUID(0, 0);
 
-			while (true) {
+			while (monitor.notifyIndeterminantProgress()) {
+
+				monitor.notifyStatusChanged("Requesting task...");
 
 				TaskDescription taskDesc = service.requestTask();
 
@@ -44,11 +49,15 @@ public final class ServiceWorkerJob implements IJob {
 
 					assert(worker != null);
 
+					monitor.notifyStatusChanged("Performing task...");
 					Object results = worker.performTask(taskDesc.getTask(), monitor);
 
+					monitor.notifyStatusChanged("Submitting task results...");
 					service.submitTaskResults(jobId, taskDesc.getTaskId(), results);
 
 				} else { /* taskDesc == null */
+
+					monitor.notifyStatusChanged("Idling...");
 
 					try {
 						Thread.sleep(this.idleTime);
@@ -60,10 +69,18 @@ public final class ServiceWorkerJob implements IJob {
 
 			}
 
+			monitor.notifyStatusChanged("Cancelled.");
+
 		} catch (Exception e) {
+
+			monitor.notifyStatusChanged("Exception: " + e.toString());
 
 			System.err.println("Client exception: " + e.toString());
 			e.printStackTrace();
+
+		} finally {
+
+			monitor.notifyCancelled();
 
 		}
 
