@@ -3,6 +3,7 @@
  */
 package org.jmist.framework.services;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
@@ -10,7 +11,7 @@ import java.util.UUID;
  * @author bkimmel
  * @see {@link JobMasterService#requestTask()}.
  */
-public final class TaskDescription {
+public final class TaskDescription implements Serializable {
 
 	/**
 	 * Initializes the task description.
@@ -72,5 +73,10 @@ public final class TaskDescription {
 
 	/** The <code>Object</code> describing the task to be performed. */
 	private final Object task;
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 295569474645825592L;
 
 }
