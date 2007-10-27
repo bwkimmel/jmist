@@ -48,6 +48,9 @@ public final class ServiceSubmitJob implements IJob {
 			System.err.println("Client exception: " + e.toString());
 			e.printStackTrace();
 
+			monitor.notifyStatusChanged(String.format("Failed to submit job: %s.", e.toString()));
+			monitor.notifyCancelled();
+
 		}
 
 	}
