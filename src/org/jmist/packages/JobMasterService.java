@@ -37,6 +37,10 @@ public final class JobMasterService implements IJobMasterService {
 	@Override
 	public TaskDescription requestTask() {
 
+		if (this.verbose) {
+			System.err.println("Received request for task.");
+		}
+
 		AssignedTask task = this.getNextTask();
 
 		if (task == null) {
@@ -44,6 +48,10 @@ public final class JobMasterService implements IJobMasterService {
 		}
 
 		this.getNewTask(task.sched);
+
+		if (this.verbose) {
+			System.err.printf("Assigning task %s/%d.\n", task.sched.id.toString(), task.id);
+		}
 
 		return new TaskDescription(task.sched.id, task.id, task.info);
 
@@ -132,6 +140,10 @@ public final class JobMasterService implements IJobMasterService {
 			}
 
 			this.removeTask(task);
+
+			if (this.verbose) {
+				System.err.printf("Results from task %s/%d.\n", task.sched.id.toString(), task.id);
+			}
 
 			task.sched.job.submitResults(results);
 
