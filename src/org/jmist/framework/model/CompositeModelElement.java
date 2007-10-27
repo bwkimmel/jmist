@@ -3,11 +3,10 @@
  */
 package org.jmist.framework.model;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
-import org.jmist.framework.Intersection;
 import org.jmist.toolkit.BoundingBoxBuilder3;
 import org.jmist.toolkit.Box3;
 import org.jmist.toolkit.Interval;

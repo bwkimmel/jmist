@@ -4,10 +4,9 @@
 package org.jmist.framework.model;
 
 import org.jmist.framework.Bounded3;
-import org.jmist.framework.Intersection;
 import org.jmist.framework.SurfacePoint;
 import org.jmist.framework.VisibilityFunction3;
-import org.jmist.toolkit.*;
+import org.jmist.toolkit.Point3;
 
 /**
  * @author bkimmel
@@ -19,7 +18,7 @@ public interface ModelElement extends VisibilityFunction3, Bounded3 {
 
 	SurfacePoint generateRandomSurfacePoint();
 
-	
+
 
 	/*
 	 * The following methods maintain the list of children of this

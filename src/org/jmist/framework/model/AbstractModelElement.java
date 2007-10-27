@@ -3,7 +3,6 @@
  */
 package org.jmist.framework.model;
 
-import org.jmist.framework.Intersection;
 import org.jmist.framework.SurfacePoint;
 import org.jmist.toolkit.Box3;
 import org.jmist.toolkit.Interval;
