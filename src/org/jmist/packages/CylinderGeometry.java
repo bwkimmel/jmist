@@ -60,9 +60,9 @@ public final class CylinderGeometry extends AbstractGeometry implements Geometry
 
 			if (this.base.squaredDistanceTo(p) < this.radius * this.radius)
 			{
-				GeometryIntersection	x(this, ray, t, true, ray.direction().y() > 0.0, CYLINDER_SURFACE_BASE);
-				x.setPoint(p);
-				recorder.record(x);
+//				GeometryIntersection	x(this, ray, t, true, ray.direction().y() > 0.0, CYLINDER_SURFACE_BASE);
+//				x.setPoint(p);
+//				recorder.record(x);
 			}
 		}
 
@@ -76,9 +76,9 @@ public final class CylinderGeometry extends AbstractGeometry implements Geometry
 
 			if (r < this.radius * this.radius)
 			{
-				GeometryIntersection	x(this, ray, t, true, ray.direction().y() < 0.0, CYLINDER_SURFACE_TOP);
-				x.setPoint(p);
-				recorder.record(x);
+//				GeometryIntersection	x(this, ray, t, true, ray.direction().y() < 0.0, CYLINDER_SURFACE_TOP);
+//				x.setPoint(p);
+//				recorder.record(x);
 			}
 		}
 
@@ -99,17 +99,17 @@ public final class CylinderGeometry extends AbstractGeometry implements Geometry
 			p = ray.pointAt(x[0]);
 			if (MathUtil.inRangeOO(p.y(), this.base.y(), this.base.y() + this.height))
 			{
-				GeometryIntersection	isect(this, ray, x[0], true, x[0] < x[1], CYLINDER_SURFACE_BODY);
-				isect.setPoint(p);
-				recorder.record(isect);
+//				GeometryIntersection	isect(this, ray, x[0], true, x[0] < x[1], CYLINDER_SURFACE_BODY);
+//				isect.setPoint(p);
+//				recorder.record(isect);
 			}
 
 			p = ray.pointAt(x[1]);
 			if (MathUtil.inRangeOO(p.y(), this.base.y(), this.base.y() + this.height))
 			{
-				GeometryIntersection	isect(this, ray, x[1], true, x[0] > x[1], CYLINDER_SURFACE_BODY);
-				isect.setPoint(p);
-				recorder.record(isect);
+//				GeometryIntersection	isect(this, ray, x[1], true, x[0] > x[1], CYLINDER_SURFACE_BODY);
+//				isect.setPoint(p);
+//				recorder.record(isect);
 			}
 		}
 
