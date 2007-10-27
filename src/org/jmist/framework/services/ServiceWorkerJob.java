@@ -55,6 +55,7 @@ public final class ServiceWorkerJob implements IJob {
 				if (taskDesc != null) {
 
 					if (jobId == null || jobId.compareTo(taskDesc.getJobId()) != 0) {
+						monitor.notifyStatusChanged("Obtaining task worker...");
 						worker = service.getTaskWorker(taskDesc.getJobId());
 						jobId = taskDesc.getJobId();
 					}
