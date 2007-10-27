@@ -10,7 +10,6 @@ import java.util.UUID;
 
 import org.jmist.framework.ICommunicator;
 import org.jmist.framework.IInboundMessage;
-import org.jmist.framework.IJobMasterService;
 import org.jmist.framework.IOutboundMessage;
 import org.jmist.framework.IParallelizableJob;
 import org.jmist.framework.IProgressMonitor;
@@ -18,6 +17,8 @@ import org.jmist.framework.ITaskWorker;
 import org.jmist.framework.TaskDescription;
 import org.jmist.framework.base.ServerJob;
 import org.jmist.framework.serialization.MistObjectInputStream;
+import org.jmist.framework.services.IJobMasterService;
+import org.jmist.framework.services.JobMasterService;
 
 /**
  * A job that processes manages the distribution of tasks for parallelizable

@@ -1,14 +1,13 @@
 /**
  *
  */
-package org.jmist.packages;
+package org.jmist.framework.services;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.UUID;
 
 import org.jmist.framework.IJob;
-import org.jmist.framework.IJobMasterService;
 import org.jmist.framework.IProgressMonitor;
 import org.jmist.framework.ITaskWorker;
 import org.jmist.framework.TaskDescription;

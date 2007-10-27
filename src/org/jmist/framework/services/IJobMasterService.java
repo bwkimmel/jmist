@@ -1,10 +1,14 @@
 /**
  *
  */
-package org.jmist.framework;
+package org.jmist.framework.services;
 
 import java.rmi.Remote;
 import java.util.UUID;
+
+import org.jmist.framework.IParallelizableJob;
+import org.jmist.framework.ITaskWorker;
+import org.jmist.framework.TaskDescription;
 
 /**
  * @author bkimmel

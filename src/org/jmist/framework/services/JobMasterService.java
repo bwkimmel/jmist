@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.jmist.packages;
+package org.jmist.framework.services;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +9,6 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.UUID;
 
-import org.jmist.framework.IJobMasterService;
 import org.jmist.framework.IParallelizableJob;
 import org.jmist.framework.ITaskWorker;
 import org.jmist.framework.TaskDescription;
