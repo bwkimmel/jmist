@@ -4,10 +4,14 @@ import java.io.IOException;
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
 import java.net.MalformedURLException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 
 import org.jmist.framework.ImageShader;
 import org.jmist.framework.Job;
 import org.jmist.framework.Lens;
+import org.jmist.framework.ParallelizableJob;
 import org.jmist.framework.PixelShader;
 import org.jmist.framework.ProgressMonitor;
 import org.jmist.framework.RayShader;
@@ -15,9 +19,15 @@ import org.jmist.framework.event.Event;
 import org.jmist.framework.event.EventObserver;
 import org.jmist.framework.event.EventSubject;
 import org.jmist.framework.serialization.MistClassLoader;
+import org.jmist.framework.services.JobMasterServer;
+import org.jmist.framework.services.JobMasterService;
+import org.jmist.framework.services.ServiceSubmitJob;
+import org.jmist.framework.services.ServiceWorkerJob;
 import org.jmist.packages.CameraImageShader;
+import org.jmist.packages.ConsoleProgressMonitor;
 import org.jmist.packages.DialogProgressMonitor;
 import org.jmist.packages.DirectionalTestRayShader;
+import org.jmist.packages.DummyParallelizableJob;
 import org.jmist.packages.FisheyeLens;
 import org.jmist.packages.ImageRasterWriter;
 import org.jmist.packages.NRooksRandom;
@@ -133,7 +143,45 @@ public class Test {
 
 		//testShade();
 
-		testClassLoader();
+//		testClassLoader();
+
+		testJobMasterServer();
+		//testJobMasterServiceClient();
+	}
+
+	@SuppressWarnings("unused")
+	private static void testJobMasterServer() {
+
+		try {
+
+			JobMasterServer server = new JobMasterServer();
+			JobMasterService stub = (JobMasterService) UnicastRemoteObject.exportObject(server, 0);
+
+			Registry registry = LocateRegistry.getRegistry();
+			registry.bind("JobMasterService", stub);
+
+			System.err.println("Server ready");
+
+		} catch (Exception e) {
+
+			System.err.println("Server exception: " + e.toString());
+			e.printStackTrace();
+
+		}
+
+	}
+
+	@SuppressWarnings("unused")
+	private static void testJobMasterServiceClient() {
+
+		String host = "spock.eandb.net";
+		ProgressMonitor monitor = new ConsoleProgressMonitor();
+		ParallelizableJob job = new DummyParallelizableJob(100);
+		Job submitJob = new ServiceSubmitJob(job, 0, host);
+		Job workerJob = new ServiceWorkerJob(host, 10000);
+
+		submitJob.go(monitor);
+		workerJob.go(monitor);
 
 	}
 
