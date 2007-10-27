@@ -25,6 +25,7 @@ public final class ServiceSubmitJob implements IJob {
 
 		try {
 
+			monitor.notifyIndeterminantProgress();
 			monitor.notifyStatusChanged("Submitting job...");
 
 			Registry registry = LocateRegistry.getRegistry(this.masterHost);
