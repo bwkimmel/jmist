@@ -14,7 +14,6 @@ import java.util.concurrent.Executor;
 import org.jmist.framework.IJob;
 import org.jmist.framework.IProgressMonitor;
 import org.jmist.framework.ITaskWorker;
-import org.jmist.packages.DummyProgressMonitor;
 
 /**
  * A job that submits a parallelizable job to a remote
