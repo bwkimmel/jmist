@@ -3,6 +3,7 @@
  */
 package org.jmist.framework.services;
 
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Iterator;
@@ -186,8 +187,9 @@ public final class ThreadServiceWorkerJob implements Job {
 	 * @return The <code>TaskWorker</code> to process tasks for the job with
 	 * 		the specified <code>UUID</code>, or <code>null</code> if the job
 	 * 		is invalid or has already been completed.
+	 * @throws RemoteException
 	 */
-	private TaskWorker getTaskWorker(UUID jobId) {
+	private TaskWorker getTaskWorker(UUID jobId) throws RemoteException {
 
 		/* First try to obtain the worker from the cache. */
 		TaskWorker worker = this.getCachedTaskWorker(jobId);
@@ -233,41 +235,53 @@ public final class ThreadServiceWorkerJob implements Job {
 		@Override
 		public void run() {
 
-			this.monitor.notifyIndeterminantProgress();
-			this.monitor.notifyStatusChanged("Requesting task...");
+			try {
 
-			TaskDescription taskDesc = service.requestTask();
+				this.monitor.notifyIndeterminantProgress();
+				this.monitor.notifyStatusChanged("Requesting task...");
 
-			if (taskDesc != null) {
+				TaskDescription taskDesc = service.requestTask();
 
-				this.monitor.notifyStatusChanged("Obtaining task worker...");
-				TaskWorker worker = getTaskWorker(taskDesc.getJobId());
+				if (taskDesc != null) {
 
-				if (worker == null) {
-					this.monitor.notifyStatusChanged("Could not obtain worker...");
-					this.monitor.notifyCancelled();
-					return;
+					this.monitor.notifyStatusChanged("Obtaining task worker...");
+					TaskWorker worker = getTaskWorker(taskDesc.getJobId());
+
+					if (worker == null) {
+						this.monitor.notifyStatusChanged("Could not obtain worker...");
+						this.monitor.notifyCancelled();
+						return;
+					}
+
+					this.monitor.notifyStatusChanged("Performing task...");
+					Object results = worker.performTask(taskDesc.getTask(), monitor);
+
+					this.monitor.notifyStatusChanged("Submitting task results...");
+					service.submitTaskResults(taskDesc.getJobId(), taskDesc.getTaskId(), results);
+
+				} else { /* taskDesc == null */
+
+					this.monitor.notifyStatusChanged("Idling...");
+
+					try {
+						Thread.sleep(idleTime);
+					} catch (InterruptedException e) {
+						// continue.
+					}
+
 				}
 
-				this.monitor.notifyStatusChanged("Performing task...");
-				Object results = worker.performTask(taskDesc.getTask(), monitor);
+				this.monitor.notifyComplete();
 
-				this.monitor.notifyStatusChanged("Submitting task results...");
-				service.submitTaskResults(taskDesc.getJobId(), taskDesc.getTaskId(), results);
+			} catch (RemoteException e) {
 
-			} else { /* taskDesc == null */
+				this.monitor.notifyStatusChanged("Failed to communicate with master.");
+				this.monitor.notifyCancelled();
 
-				this.monitor.notifyStatusChanged("Idling...");
-
-				try {
-					Thread.sleep(idleTime);
-				} catch (InterruptedException e) {
-					// continue.
-				}
+				System.err.println("Remote exception: " + e.toString());
+				e.printStackTrace();
 
 			}
-
-			this.monitor.notifyComplete();
 
 		}
 

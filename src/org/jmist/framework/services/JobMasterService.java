@@ -4,6 +4,7 @@
 package org.jmist.framework.services;
 
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 import java.util.UUID;
 
 import org.jmist.framework.ParallelizableJob;
@@ -25,14 +26,14 @@ public interface JobMasterService extends Remote {
 	 * 		with the specified <code>UUID</code>, or <code>null</code> if that
 	 * 		job is no longer available.
 	 */
-	TaskWorker	getTaskWorker(UUID jobId);
+	TaskWorker getTaskWorker(UUID jobId) throws RemoteException;
 
 	/**
 	 * Gets a task to perform.
 	 * @return A <code>TaskDescription</code> describing the task to be
 	 * 		performed.
 	 */
-	TaskDescription requestTask();
+	TaskDescription requestTask() throws RemoteException;
 
 	/**
 	 * Submits the results of a task.
@@ -41,7 +42,7 @@ public interface JobMasterService extends Remote {
 	 * @param taskId The ID of the task that was performed.
 	 * @param results The results of the task.
 	 */
-	void submitTaskResults(UUID jobId, int taskId, Object results);
+	void submitTaskResults(UUID jobId, int taskId, Object results) throws RemoteException;
 
 	/**
 	 * Submits a new job to be processed.
@@ -50,6 +51,6 @@ public interface JobMasterService extends Remote {
 	 * @return The <code>UUID</code> assigned to the job, or <code>null</code>
 	 * 		if the job was not accepted.
 	 */
-	UUID submitJob(ParallelizableJob job, int priority);
+	UUID submitJob(ParallelizableJob job, int priority) throws RemoteException;
 
 }
