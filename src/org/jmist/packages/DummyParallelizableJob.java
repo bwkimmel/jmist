@@ -3,6 +3,8 @@
  */
 package org.jmist.packages;
 
+import java.io.Serializable;
+
 import org.jmist.framework.ParallelizableJob;
 import org.jmist.framework.ProgressMonitor;
 import org.jmist.framework.TaskWorker;
@@ -11,7 +13,7 @@ import org.jmist.framework.TaskWorker;
  * A dummy parallelizable job to test remote method invocation.
  * @author bkimmel
  */
-public final class DummyParallelizableJob implements ParallelizableJob {
+public final class DummyParallelizableJob implements ParallelizableJob, Serializable {
 
 	/**
 	 * Initializes the number of tasks to serve.
@@ -92,5 +94,10 @@ public final class DummyParallelizableJob implements ParallelizableJob {
 		private static final long serialVersionUID = -4687914341839279922L;
 
 	};
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 4328712633325360415L;
 
 }
