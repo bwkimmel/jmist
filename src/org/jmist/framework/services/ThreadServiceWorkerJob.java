@@ -55,6 +55,7 @@ public final class ThreadServiceWorkerJob implements Job {
 
 			while (monitor.notifyIndeterminantProgress()) {
 
+				monitor.notifyStatusChanged("Queueing worker process...");
 				this.executor.execute(new Worker(monitor.createChildProgressMonitor()));
 
 			}
