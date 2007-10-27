@@ -44,7 +44,7 @@ public final class ServiceWorkerJob implements IJob {
 			Registry registry = LocateRegistry.getRegistry(this.masterHost);
 			IJobMasterService service = (IJobMasterService) registry.lookup("IJobMasterService");
 			ITaskWorker worker = null;
-			UUID jobId = new UUID(0, 0);
+			UUID jobId = null;
 
 			while (monitor.notifyIndeterminantProgress()) {
 
@@ -54,7 +54,7 @@ public final class ServiceWorkerJob implements IJob {
 
 				if (taskDesc != null) {
 
-					if (jobId != taskDesc.getJobId()) {
+					if (jobId == null || jobId.compareTo(taskDesc.getJobId()) != 0) {
 						worker = service.getTaskWorker(taskDesc.getJobId());
 						jobId = taskDesc.getJobId();
 					}
