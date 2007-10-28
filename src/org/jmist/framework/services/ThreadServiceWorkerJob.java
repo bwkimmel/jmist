@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.Executor;
+import java.util.concurrent.Semaphore;
 
 import org.jmist.framework.Job;
 import org.jmist.framework.ProgressMonitor;
@@ -30,13 +31,19 @@ public final class ThreadServiceWorkerJob implements Job {
 	 * @param masterHost The URL of the master.
 	 * @param idleTime The time (in milliseconds) to idle when no task is
 	 * 		available.
-	 * @param executor The <code>Executor</code> to use to process tasks
-	 * 		(must not use an unbounded queue).
+	 * @param maxConcurrentWorkers The maximum number of concurrent worker
+	 * 		threads to allow.
+	 * @param executor The <code>Executor</code> to use to process tasks.
 	 */
-	public ThreadServiceWorkerJob(String masterHost, long idleTime, Executor executor) {
+	public ThreadServiceWorkerJob(String masterHost, long idleTime, int maxConcurrentWorkers, Executor executor) {
+
+		assert(maxConcurrentWorkers > 0);
+
 		this.masterHost = masterHost;
 		this.idleTime = idleTime;
 		this.executor = executor;
+		this.workerSlot = new Semaphore(maxConcurrentWorkers, true);
+
 	}
 
 	/* (non-Javadoc)
@@ -54,6 +61,8 @@ public final class ThreadServiceWorkerJob implements Job {
 			this.service = (JobMasterService) registry.lookup("JobMasterService");
 
 			while (monitor.notifyIndeterminantProgress()) {
+
+				this.workerSlot.acquire();
 
 				monitor.notifyStatusChanged("Queueing worker process...");
 				this.executor.execute(new Worker(monitor.createChildProgressMonitor()));
@@ -282,6 +291,10 @@ public final class ThreadServiceWorkerJob implements Job {
 				System.err.println("Remote exception: " + e.toString());
 				e.printStackTrace();
 
+			} finally {
+
+				workerSlot.release();
+
 			}
 
 		}
@@ -303,6 +316,8 @@ public final class ThreadServiceWorkerJob implements Job {
 
 	/** The <code>Executor</code> to use to process tasks. */
 	private final Executor executor;
+
+	private final Semaphore workerSlot;
 
 	/**
 	 * The <code>JobMasterService</code> to obtain tasks from and submit
