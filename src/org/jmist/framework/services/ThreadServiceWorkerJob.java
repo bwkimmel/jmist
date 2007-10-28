@@ -415,6 +415,10 @@ public final class ThreadServiceWorkerJob implements Job {
 	/** The <code>Executor</code> to use to process tasks. */
 	private final Executor executor;
 
+	/**
+	 * The <code>Semaphore</code> to use to throttle <code>Worker</code>
+	 * threads.
+	 */
 	private final Semaphore workerSlot;
 
 	/**
