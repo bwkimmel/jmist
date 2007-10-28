@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.jmist.framework.Job;
 import org.jmist.framework.ProgressMonitor;
@@ -90,91 +93,161 @@ public final class ThreadServiceWorkerJob implements Job {
 	 * An entry in the <code>TaskWorker</code> cache.
 	 * @author bkimmel
 	 */
-	private class WorkerCacheEntry {
-
-		/**
-		 * The <code>UUID</code> of the job that the <code>TaskWorker</code>
-		 * processes tasks for.
-		 */
-		public final UUID jobId;
-
-		/**
-		 * The cached <code>TaskWorker</code>.
-		 */
-		public final TaskWorker	worker;
+	private static class WorkerCacheEntry {
 
 		/**
 		 * Initializes the cache entry.
 		 * @param jobId The <code>UUID</code> of the job that the
 		 * 		<code>TaskWorker</code> processes tasks for.
-		 * @param worker The <code>TaskWorker</code> to be cached.
 		 */
-		public WorkerCacheEntry(UUID jobId, TaskWorker worker) {
+		public WorkerCacheEntry(UUID jobId) {
 			this.jobId = jobId;
-			this.worker = worker;
+			this.writeLock = this.lock.writeLock();
 		}
+
+		/**
+		 * Returns a value indicating if this <code>WorkerCacheEntry</code>
+		 * is to be used for the job with the specified <code>UUID</code>.
+		 * @param jobId The job's <code>UUID</code> to test.
+		 * @return A value indicating if this <code>WorkerCacheEntry</code>
+		 * 		applies to the specified job.
+		 */
+		public boolean matches(UUID jobId) {
+			return this.jobId.equals(jobId);
+		}
+
+		/**
+		 * Sets the <code>TaskWorker</code> to use.
+		 * @param worker The <code>TaskWorker</code> to use for matching
+		 * 		jobs.
+		 */
+		public synchronized void setWorker(TaskWorker worker) {
+
+			/* If this method has already been called, then the write lock will
+			 * have been unlocked and removed, so obtain a new write lock.
+			 */
+			if (this.writeLock == null) {
+				this.writeLock = this.lock.writeLock();
+			}
+
+			/* Set the worker. */
+			this.worker = worker;
+
+			/* Release and discard the lock. */
+			this.writeLock.unlock();
+			this.writeLock = null;
+
+		}
+
+		/**
+		 * Gets the <code>TaskWorker</code> to use to process tasks for the
+		 * matching job.  This method will wait for <code>setWorker</code>
+		 * to be called if it has not yet been called.
+		 * @return The <code>TaskWorker</code> to use to process tasks for
+		 * 		the matching job.
+		 * @see {@link #setWorker(TaskWorker)}.
+		 */
+		public TaskWorker getWorker() {
+
+			Lock lock = this.lock.readLock();
+			TaskWorker worker = this.worker;
+			lock.unlock();
+
+			return worker;
+
+		}
+
+		/**
+		 * The <code>UUID</code> of the job that the <code>TaskWorker</code>
+		 * processes tasks for.
+		 */
+		private final UUID jobId;
+
+		/**
+		 * The cached <code>TaskWorker</code>.
+		 */
+		private TaskWorker worker;
+
+		/**
+		 * The <code>ReadWriteLock</code> to use before reading from or writing
+		 * to the <code>worker</code> field.
+		 */
+		private final ReadWriteLock lock = new ReentrantReadWriteLock();
+
+		/**
+		 * The <code>Lock</code> held for writing to the <code>worker</code>
+		 * field.
+		 */
+		private Lock writeLock = null;
 
 	}
 
 	/**
-	 * Searches for the <code>TaskWorker</code> to use to process tasks for
-	 * the job with the specified <code>UUID</code> in the local cache.
+	 * Searches for the <code>WorkerCacheEntry</code> matching the job with the
+	 * specified <code>UUID</code>.
 	 * @param jobId The <code>UUID</code> of the job whose
-	 * 		<code>TaskWorker</code> to search for.
-	 * @return The <code>TaskWorker</code> corresponding to the job with the
-	 * 		specified <code>UUID</code>, or <code>null</code> if the
-	 * 		<code>TaskWorker</code> for that job is not in the cache.
+	 * 		<code>WorkerCacheEntry</code> to search for.
+	 * @return The <code>WorkerCacheEntry</code> corresponding to the job with
+	 * 		the specified <code>UUID</code>, or <code>null</code> if the
+	 * 		no such entry exists.
 	 */
-	private synchronized TaskWorker getCachedTaskWorker(UUID jobId) {
+	private WorkerCacheEntry getCacheEntry(UUID jobId) {
 
 		assert(jobId != null);
 
-		Iterator<WorkerCacheEntry> i = this.workerCache.iterator();
+		synchronized (this.workerCache) {
 
-		/* Search for the worker for the specified job. */
-		while (i.hasNext()) {
+			Iterator<WorkerCacheEntry> i = this.workerCache.iterator();
 
-			WorkerCacheEntry entry = i.next();
+			/* Search for the worker for the specified job. */
+			while (i.hasNext()) {
 
-			if (entry.jobId.compareTo(jobId) == 0) {
+				WorkerCacheEntry entry = i.next();
 
-				/* Remove the entry and re-insert it at the end of the list.
-				 * This will ensure that when an item is removed from the list,
-				 * the item that is removed will always be the least recently
-				 * used.
-				 */
-				i.remove();
-				this.workerCache.add(entry);
+				if (entry.matches(jobId)) {
 
-				return entry.worker;
+					/* Remove the entry and re-insert it at the end of the list.
+					 * This will ensure that when an item is removed from the list,
+					 * the item that is removed will always be the least recently
+					 * used.
+					 */
+					i.remove();
+					this.workerCache.add(entry);
+
+					return entry;
+
+				}
 
 			}
 
-		}
+			/* cache miss */
+			return null;
 
-		/* cache miss */
-		return null;
+		}
 
 	}
 
 	/**
-	 * Ensures that the specified <code>TaskWorker</code> is cached.
-	 * @param jobId The <code>UUID</code> of the job whose tasks are to be
-	 * 		processed by <code>worker</code>.
-	 * @param worker The <code>TaskWorker</code> to add to the cache.
+	 * Removes the specified entry from the task worker cache.
+	 * @param entry The <code>WorkerCacheEntry</code> to remove.
 	 */
-	private synchronized void addWorkerToCache(UUID jobId, TaskWorker worker) {
+	private void removeCacheEntry(WorkerCacheEntry entry) {
 
-		assert(jobId != null);
-		assert(worker != null);
+		assert(entry != null);
 
-		/* First check to see if the worker for the specified job is already in
-		 * the cache.
-		 */
-		if (this.getCachedTaskWorker(jobId) == null) {
+		synchronized (this.workerCache) {
+			this.workerCache.remove(entry);
+		}
 
-			/* Add the worker to the cache. */
-			this.workerCache.add(new WorkerCacheEntry(jobId, worker));
+	}
+
+	/**
+	 * Removes least recently used entries from the task worker cache until
+	 * there are at most <code>this.maxCachedWorkers</code> entries.
+	 */
+	private void removeOldCacheEntries() {
+
+		synchronized (this.workerCache) {
 
 			/* If the cache has exceeded capacity, then remove the least
 			 * recently used entry.
@@ -201,26 +274,51 @@ public final class ThreadServiceWorkerJob implements Job {
 	 */
 	private TaskWorker getTaskWorker(UUID jobId) throws RemoteException {
 
-		/* First try to obtain the worker from the cache. */
-		TaskWorker worker = this.getCachedTaskWorker(jobId);
+		WorkerCacheEntry entry = null;
+		boolean hit;
 
-		if (worker != null) {
+		synchronized (this.workerCache) {
+
+			/* First try to get the worker from the cache. */
+			entry = this.getCacheEntry(jobId);
+			hit = (entry != null);
+
+			/* If there was no matching cache entry, then add a new entry to
+			 * the cache.
+			 */
+			if (!hit) {
+				entry = new WorkerCacheEntry(jobId);
+				this.workerCache.add(entry);
+			}
+
+		}
+
+		if (hit) {
+
+			/* We found a cache entry, so get the worker from that entry. */
+			return entry.getWorker();
+
+		} else { /* cache miss */
+
+			/* The task worker was not in the cache, so use the service to
+			 * obtain the task worker.
+			 */
+			TaskWorker worker = this.service.getTaskWorker(jobId);
+			entry.setWorker(worker);
+
+			/* If we couldn't get a worker from the service, then don't keep
+			 * the cache entry.
+			 */
+			if (worker == null) {
+				this.removeCacheEntry(entry);
+			}
+
+			/* Clean up the cache. */
+			this.removeOldCacheEntries();
+
 			return worker;
+
 		}
-
-		/* If the task worker was not in the cache, then use the service to
-		 * obtain the task worker.
-		 */
-		worker = this.service.getTaskWorker(jobId);
-
-		/* If we were able to get the worker from the service, add it to the
-		 * cache so that we don't have to call the service next time.
-		 */
-		if (worker != null) {
-			this.addWorkerToCache(jobId, worker);
-		}
-
-		return worker;
 
 	}
 
