@@ -96,7 +96,7 @@ public final class ThreadServiceWorkerJob implements Job {
 		 * The <code>UUID</code> of the job that the <code>TaskWorker</code>
 		 * processes tasks for.
 		 */
-		public final UUID			jobId;
+		public final UUID jobId;
 
 		/**
 		 * The cached <code>TaskWorker</code>.
