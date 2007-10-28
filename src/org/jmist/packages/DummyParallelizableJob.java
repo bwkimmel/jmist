@@ -16,11 +16,12 @@ import org.jmist.framework.TaskWorker;
 public final class DummyParallelizableJob implements ParallelizableJob, Serializable {
 
 	/**
-	 * Initializes the number of tasks to serve.
+	 * Initializes the number of tasks to serve and the amount of time to
+	 * delay to simulate the processing of a task.
 	 * @param tasks The number of tasks to serve.
 	 * @param minSleepTime The minimum time (in milliseconds) to sleep to
 	 * 		simulate the processing of a task.
-	 * @param maxSleepTime The maximum time (in milliseconds0 to sleep to
+	 * @param maxSleepTime The maximum time (in milliseconds) to sleep to
 	 * 		simulate the processing of a task.
 	 */
 	public DummyParallelizableJob(int tasks, int minSleepTime, int maxSleepTime) {
