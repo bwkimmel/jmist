@@ -102,7 +102,7 @@ public final class ThreadServiceWorkerJob implements Job {
 		 */
 		public WorkerCacheEntry(UUID jobId) {
 			this.jobId = jobId;
-			this.writeLock = this.lock.writeLock();
+			this.workerGuard.writeLock().lock();
 		}
 
 		/**
@@ -117,25 +117,18 @@ public final class ThreadServiceWorkerJob implements Job {
 		}
 
 		/**
-		 * Sets the <code>TaskWorker</code> to use.
+		 * Sets the <code>TaskWorker</code> to use.  This method may only be
+		 * called once.
 		 * @param worker The <code>TaskWorker</code> to use for matching
 		 * 		jobs.
 		 */
 		public synchronized void setWorker(TaskWorker worker) {
 
-			/* If this method has already been called, then the write lock will
-			 * have been unlocked and removed, so obtain a new write lock.
-			 */
-			if (this.writeLock == null) {
-				this.writeLock = this.lock.writeLock();
-			}
-
 			/* Set the worker. */
 			this.worker = worker;
 
-			/* Release and discard the lock. */
-			this.writeLock.unlock();
-			this.writeLock = null;
+			/* Release the lock. */
+			this.workerGuard.writeLock().unlock();
 
 		}
 
@@ -149,9 +142,9 @@ public final class ThreadServiceWorkerJob implements Job {
 		 */
 		public TaskWorker getWorker() {
 
-			Lock lock = this.lock.readLock();
+			this.workerGuard.readLock().lock();
 			TaskWorker worker = this.worker;
-			lock.unlock();
+			this.workerGuard.readLock().unlock();
 
 			return worker;
 
@@ -172,13 +165,7 @@ public final class ThreadServiceWorkerJob implements Job {
 		 * The <code>ReadWriteLock</code> to use before reading from or writing
 		 * to the <code>worker</code> field.
 		 */
-		private final ReadWriteLock lock = new ReentrantReadWriteLock();
-
-		/**
-		 * The <code>Lock</code> held for writing to the <code>worker</code>
-		 * field.
-		 */
-		private Lock writeLock = null;
+		private final ReadWriteLock workerGuard = new ReentrantReadWriteLock();
 
 	}
 
