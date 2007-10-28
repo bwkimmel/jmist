@@ -52,13 +52,14 @@ public final class DummyParallelizableJob implements ParallelizableJob, Serializ
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.ParallelizableJob#submitResults(java.lang.Object)
+	 * @see org.jmist.framework.ParallelizableJob#submitResults(java.lang.Object, java.lang.Object)
 	 */
 	@Override
-	public void submitTaskResults(Object results) {
+	public void submitTaskResults(Object task, Object results) {
 
-		int task = (Integer) results;
-		System.out.printf("Received results for task %d.\n", task);
+		int taskValue = (Integer) task;
+		int resultValue = (Integer) results;
+		System.out.printf("Received results for task %d: %d.\n", taskValue, resultValue);
 
 	}
 
