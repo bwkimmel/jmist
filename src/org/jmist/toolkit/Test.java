@@ -10,6 +10,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -178,15 +179,45 @@ public class Test {
 
 	}
 
+	private static class FuckYouQueue<E> extends SynchronousQueue<E> {
+
+		@Override
+		public boolean offer(E o, long timeout, TimeUnit unit)
+				throws InterruptedException {
+			// TODO Auto-generated method stub
+			super.put(o);
+			return true;
+		}
+
+		@Override
+		public boolean offer(E o) {
+			// TODO Auto-generated method stub
+			while (true) {
+				try {
+					super.put(o);
+					return true;
+				} catch (InterruptedException e) {
+
+				}
+			}
+		}
+
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = -5350468566114609080L;
+
+	}
+
 	@SuppressWarnings("unused")
 	private static void testJobMasterServiceClient() {
 
 		String host = "bkimmel.eandb.net";
 		ProgressMonitor monitor = new ConsoleProgressMonitor();
 		ParallelizableJob job = new DummyParallelizableJob(100, 5000, 10000);
-		Executor threadPool = new ThreadPoolExecutor(1, 1, 0, TimeUnit.SECONDS, new SynchronousQueue<Runnable>(), new ThreadPoolExecutor.CallerRunsPolicy());
+		Executor threadPool = Executors.newFixedThreadPool(2);
 		Job submitJob = new ServiceSubmitJob(job, 0, host);
-		Job workerJob = new ThreadServiceWorkerJob(host, 10000, threadPool);
+		Job workerJob = new ThreadServiceWorkerJob(host, 10000, 2, threadPool);
 
 		submitJob.go(monitor);
 		workerJob.go(monitor);
