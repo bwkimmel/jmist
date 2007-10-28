@@ -18,9 +18,16 @@ public final class DummyParallelizableJob implements ParallelizableJob, Serializ
 	/**
 	 * Initializes the number of tasks to serve.
 	 * @param tasks The number of tasks to serve.
+	 * @param minSleepTime The minimum time (in milliseconds) to sleep to
+	 * 		simulate the processing of a task.
+	 * @param maxSleepTime The maximum time (in milliseconds0 to sleep to
+	 * 		simulate the processing of a task.
 	 */
-	public DummyParallelizableJob(int tasks) {
+	public DummyParallelizableJob(int tasks, int minSleepTime, int maxSleepTime) {
 		this.tasks = tasks;
+		this.minSleepTime = minSleepTime;
+		this.maxSleepTime = maxSleepTime;
+		assert(minSleepTime <= maxSleepTime);
 	}
 
 	/* (non-Javadoc)
@@ -62,6 +69,23 @@ public final class DummyParallelizableJob implements ParallelizableJob, Serializ
 		return this.worker;
 	}
 
+	/**
+	 * A random number generator.
+	 */
+	private static final java.util.Random random = new java.util.Random();
+
+	/**
+	 * The minimum time (in milliseconds) to sleep to simulate the processing
+	 * of a task.
+	 */
+	private final int minSleepTime;
+
+	/**
+	 * The maximum time (in milliseconds) to sleep to simulate the processing
+	 * of a task.
+	 */
+	private final int maxSleepTime;
+
 	/** The number of tasks to serve. */
 	private final int tasks;
 
@@ -86,8 +110,10 @@ public final class DummyParallelizableJob implements ParallelizableJob, Serializ
 			monitor.notifyStatusChanged(msg);
 			System.out.println(msg);
 
+			int sleepTime = minSleepTime + random.nextInt(maxSleepTime - minSleepTime + 1);
+
 			try {
-				Thread.sleep(5000);
+				Thread.sleep(sleepTime);
 			} catch (InterruptedException e) {
 				// nothing to do.
 			}

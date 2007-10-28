@@ -7,6 +7,12 @@ import java.net.MalformedURLException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import org.jmist.framework.ImageShader;
 import org.jmist.framework.Job;
@@ -23,6 +29,7 @@ import org.jmist.framework.services.JobMasterServer;
 import org.jmist.framework.services.JobMasterService;
 import org.jmist.framework.services.ServiceSubmitJob;
 import org.jmist.framework.services.ServiceWorkerJob;
+import org.jmist.framework.services.ThreadServiceWorkerJob;
 import org.jmist.packages.CameraImageShader;
 import org.jmist.packages.ConsoleProgressMonitor;
 import org.jmist.packages.DialogProgressMonitor;
@@ -145,8 +152,8 @@ public class Test {
 
 //		testClassLoader();
 
-		testJobMasterServer();
-		//testJobMasterServiceClient();
+		//testJobMasterServer();
+		testJobMasterServiceClient();
 	}
 
 	@SuppressWarnings("unused")
@@ -174,11 +181,12 @@ public class Test {
 	@SuppressWarnings("unused")
 	private static void testJobMasterServiceClient() {
 
-		String host = "spock.eandb.net";
+		String host = "bkimmel.eandb.net";
 		ProgressMonitor monitor = new ConsoleProgressMonitor();
-		ParallelizableJob job = new DummyParallelizableJob(100);
+		ParallelizableJob job = new DummyParallelizableJob(100, 5000, 10000);
+		Executor threadPool = new ThreadPoolExecutor(1, 1, 0, TimeUnit.SECONDS, new SynchronousQueue<Runnable>(), new ThreadPoolExecutor.CallerRunsPolicy());
 		Job submitJob = new ServiceSubmitJob(job, 0, host);
-		Job workerJob = new ServiceWorkerJob(host, 10000);
+		Job workerJob = new ThreadServiceWorkerJob(host, 10000, threadPool);
 
 		submitJob.go(monitor);
 		workerJob.go(monitor);
