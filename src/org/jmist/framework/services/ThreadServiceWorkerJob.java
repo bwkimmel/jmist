@@ -57,6 +57,8 @@ public final class ThreadServiceWorkerJob implements Job {
 
 		try {
 
+			int workerIndex = 0;
+
 			monitor.notifyIndeterminantProgress();
 			monitor.notifyStatusChanged("Looking up master...");
 
@@ -67,8 +69,10 @@ public final class ThreadServiceWorkerJob implements Job {
 
 				this.workerSlot.acquire();
 
+				String workerTitle = String.format("Worker (%d)", ++workerIndex);
+
 				monitor.notifyStatusChanged("Queueing worker process...");
-				this.executor.execute(new Worker(monitor.createChildProgressMonitor()));
+				this.executor.execute(new Worker(monitor.createChildProgressMonitor(workerTitle)));
 
 			}
 

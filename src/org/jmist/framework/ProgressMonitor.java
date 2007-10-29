@@ -51,8 +51,9 @@ public interface ProgressMonitor {
 	/**
 	 * Creates a <code>ProgressMonitor</code> to monitor the progress of a
 	 * subtask.
+	 * @param title The title of the new progress monitor.
 	 * @return A new child <code>ProgressMonitor</code>.
 	 */
-	ProgressMonitor createChildProgressMonitor();
+	ProgressMonitor createChildProgressMonitor(String title);
 
 }

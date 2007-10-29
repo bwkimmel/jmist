@@ -25,9 +25,9 @@ public final class IndicatorProgressMonitor implements ProgressMonitor {
 	 * @see org.jmist.framework.ProgressMonitor#createChildProgressMonitor()
 	 */
 	@Override
-	public ProgressMonitor createChildProgressMonitor() {
+	public ProgressMonitor createChildProgressMonitor(String title) {
 
-		ProgressIndicator childIndicator = this.indicator.addChildIndicator("");
+		ProgressIndicator childIndicator = this.indicator.addChildIndicator(title);
 		return (childIndicator != null ? new IndicatorProgressMonitor(childIndicator) : new DummyProgressMonitor());
 
 	}

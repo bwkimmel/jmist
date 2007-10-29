@@ -87,7 +87,7 @@ public final class ConsoleProgressMonitor implements ProgressMonitor {
 	 * @see org.jmist.framework.ProgressMonitor#createChildProgressMonitor()
 	 */
 	@Override
-	public ProgressMonitor createChildProgressMonitor() {
+	public ProgressMonitor createChildProgressMonitor(String title) {
 		return new DummyProgressMonitor();
 	}
 

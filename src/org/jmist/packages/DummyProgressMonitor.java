@@ -64,7 +64,7 @@ public final class DummyProgressMonitor implements ProgressMonitor {
 	 * @see org.jmist.framework.ProgressMonitor#createChildProgressMonitor()
 	 */
 	@Override
-	public ProgressMonitor createChildProgressMonitor() {
+	public ProgressMonitor createChildProgressMonitor(String title) {
 
 		/* Report progress to subtasks to the same monitor. */
 		return this;
