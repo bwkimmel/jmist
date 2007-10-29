@@ -213,11 +213,15 @@ public class Test {
 	private static void testJobMasterServiceClient() {
 
 		String host = "bkimmel.eandb.net";
-		ProgressMonitor monitor = new ConsoleProgressMonitor();
+		JDialog dialog = new JDialog();
+		ProgressTreePanel monitor = new ProgressTreePanel();
 		ParallelizableJob job = new DummyParallelizableJob(100, 5000, 10000);
 		Executor threadPool = Executors.newFixedThreadPool(2);
 		Job submitJob = new ServiceSubmitJob(job, 0, host);
 		Job workerJob = new ThreadServiceWorkerJob(host, 10000, 2, threadPool);
+
+		dialog.add(monitor);
+		dialog.setVisible(true);
 
 		submitJob.go(monitor);
 		workerJob.go(monitor);
