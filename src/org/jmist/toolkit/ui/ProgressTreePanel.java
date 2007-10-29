@@ -19,7 +19,8 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
 /**
- *
+ * A <code>JPanel</code> that allows the user to navigate a tree of progress
+ * indicators.
  * @author  bkimmel
  */
 public class ProgressTreePanel extends javax.swing.JPanel {
@@ -63,7 +64,7 @@ public class ProgressTreePanel extends javax.swing.JPanel {
 		});
 
 		childrenTable.setModel(getTableModel());
-		childrenTable.getColumn("Progress").setCellRenderer(new ProgressTableCellRenderer());
+		childrenTable.getColumn("Progress").setCellRenderer(ProgressTableCellRenderer.getInstance());
 		childrenTable.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
 				childrenTableMouseClicked(evt);
@@ -131,6 +132,11 @@ public class ProgressTreePanel extends javax.swing.JPanel {
 		);
 	}// </editor-fold>//GEN-END:initComponents
 
+	/**
+	 * Fires when the user clicks on the table showing the current node's
+	 * child progress indicators.
+	 * @param evt The event arguments.
+	 */
 	private void childrenTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_childrenTableMouseClicked
 
 		if (evt.getButton() == java.awt.event.MouseEvent.BUTTON1 && evt.getClickCount() == 2) {
@@ -146,15 +152,30 @@ public class ProgressTreePanel extends javax.swing.JPanel {
 
 	}//GEN-LAST:event_childrenTableMouseClicked
 
+	/**
+	 * Fires when the user clicks on the button to switch to the root
+	 * <code>ProgressIndicator</code>.
+	 * @param evt The event arguments.
+	 */
 	private void rootButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rootButtonActionPerformed
 		this.moveToRoot();
 	}//GEN-LAST:event_rootButtonActionPerformed
 
+	/**
+	 * Fires when the user clicks on the button to switch to the parent
+	 * <code>ProgressIndicator</code>.
+	 * @param evt The event arguments.
+	 */
 	private void parentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_parentButtonActionPerformed
 		this.moveToParent();
 	}//GEN-LAST:event_parentButtonActionPerformed
 
-	private class ProgressTableCellRenderer implements TableCellRenderer {
+	/**
+	 * A <code>TableCellRenderer</code> for rendering progress bars in a table
+	 * cell.
+	 * @author bkimmel
+	 */
+	private static class ProgressTableCellRenderer implements TableCellRenderer {
 
 		/* (non-Javadoc)
 		 * @see javax.swing.table.TableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
@@ -167,18 +188,61 @@ public class ProgressTreePanel extends javax.swing.JPanel {
 
 		}
 
+		/**
+		 * Creates a new <code>ProgressTableCellRenderer</code>.  This
+		 * constructor is private because this class is a singleton.
+		 */
+		private ProgressTableCellRenderer() {
+			// nothing to do.
+		}
+
+		/**
+		 * Gets the single instance of <code>ProgressTableCellRenderer</code>.
+		 * @return The single instance of <code>ProgressTableCellRenderer</code>.
+		 */
+		public static ProgressTableCellRenderer getInstance() {
+
+			if (instance == null) {
+				instance = new ProgressTableCellRenderer();
+			}
+
+			return instance;
+
+		}
+
+		/**
+		 * The single instance of <code>ProgressTableCellRenderer</code>.
+		 */
+		private static ProgressTableCellRenderer instance = null;
+
 	}
 
+	/**
+	 * Gets the <code>JPanel</code> displaying the current
+	 * <code>ProgressIndicator</code>.
+	 * @return The <code>JPanel</code> displaying the current
+	 * 		<code>ProgressIndicator</code>.
+	 */
 	private JPanel getTopNodeComponent() {
 		return (JPanel) this.top.getComponent();
 	}
 
+	/**
+	 * Gets the <code>TableModel</code> for the current
+	 * <code>ProgressIndicator</code>s children.
+	 * @return The <code>TableModel</code> for the current
+	 * 		<code>ProgressIndicator</code>s children.
+	 */
 	private TableModel getTableModel() {
 		return this.top;
 	}
 
+	/**
+	 * Redisplays the contents of this <code>ProgressTreePanel</code>.
+	 */
 	private void refresh() {
 
+		/* Update the top level progress indicator. */
 		JComponent progressNodeComponent = this.getTopNodeComponent();
 
 		this.progressNodePanel.removeAll();
@@ -194,14 +258,24 @@ public class ProgressTreePanel extends javax.swing.JPanel {
 			.addComponent(progressNodeComponent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 		);
 
+		/* Update the child table. */
 		this.childrenTable.setModel(this.getTableModel());
+		this.childrenTable.getColumn("Progress").setCellRenderer(ProgressTableCellRenderer.getInstance());
 
 	}
 
+	/**
+	 * Gets the progress indicator at the root of the tree.
+	 * @return The <code>ProgressIndicator</code> at the root of the tree.
+	 */
 	public ProgressIndicator getRootProgressIndicator() {
 		return this.getRootNode();
 	}
 
+	/**
+	 * Gets the root <code>ProgressNode</code>.
+	 * @return The root <code>ProgressNode</code>.
+	 */
 	private ProgressNode getRootNode() {
 
 		ProgressNode node = this.top;
@@ -214,15 +288,28 @@ public class ProgressTreePanel extends javax.swing.JPanel {
 
 	}
 
+	/**
+	 * Sets the specified <code>ProgressNode</code> as the active node.  This
+	 * will put that node at the top of the <code>JPanel</code> and the table
+	 * will be populated with it's children.
+	 * @param node The <code>ProgressNode</code> to make the active node.
+	 */
 	private void moveToNode(ProgressNode node) {
 		this.top = node;
 		this.refresh();
 	}
 
+	/**
+	 * Makes the root node active.
+	 */
 	private void moveToRoot() {
 		this.moveToNode(this.getRootNode());
 	}
 
+	/**
+	 * Makes the active nodes parent node the active node.  This method assumes
+	 * that the current node is not the root node.
+	 */
 	private void moveToParent() {
 
 		ProgressNode parent = this.top.getParent();
@@ -232,20 +319,128 @@ public class ProgressTreePanel extends javax.swing.JPanel {
 
 	}
 
+	/**
+	 * Makes one of the active node's children the active node.
+	 * @param index The index of the child to make active.
+	 */
 	private void moveToChild(int index) {
 		this.moveToNode(this.top.getChild(index));
 	}
 
+	/**
+	 * The <code>ProgressIndicator</code> used by <code>ProgressTreePanel</code>
+	 * and the <code>TableModel</code> used by <code>childrenTable</code>.
+	 * @author bkimmel
+	 */
 	private static final class ProgressNode extends AbstractTableModel implements ProgressIndicator {
 
+		/**
+		 * Creates the root <code>ProgressNode</code>.
+		 * @param title The title of the node.
+		 */
 		public ProgressNode(String title) {
 			this.title = title;
 			this.parent = null;
 		}
 
+		/**
+		 * Creates a child <code>ProgressNode</code>.
+		 * @param title The title of the node.
+		 * @param parent The parent <code>ProgressNode</code>.
+		 */
 		private ProgressNode(String title, ProgressNode parent) {
 			this.title = title;
 			this.parent = parent;
+		}
+
+		/* (non-Javadoc)
+		 * @see org.jmist.toolkit.ui.ProgressIndicator#removeChild(org.jmist.toolkit.ui.ProgressIndicator)
+		 */
+		@Override
+		public void removeChild(ProgressIndicator child) {
+
+			for (int index = 0; index < this.children.size(); index++) {
+				if (this.children.get(index) == child) {
+					this.removeChildAt(index);
+					break;
+				}
+			}
+
+		}
+
+		/* (non-Javadoc)
+		 * @see org.jmist.toolkit.ui.ProgressIndicator#isCancelPending()
+		 */
+		@Override
+		public boolean isCancelPending() {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		/* (non-Javadoc)
+		 * @see org.jmist.toolkit.ui.ProgressIndicator#setProgress(double)
+		 */
+		@Override
+		public void setProgress(double progress) {
+			this.progressBar.setStringPainted(false);
+			this.setProgressBarValue((int) Math.floor(progress * 100.0), 100);
+		}
+
+		/* (non-Javadoc)
+		 * @see org.jmist.toolkit.ui.ProgressIndicator#setProgress(int, int)
+		 */
+		@Override
+		public void setProgress(int value, int maximum) {
+			this.progressBar.setString(String.format("(%d/%d)", value, maximum));
+			this.progressBar.setStringPainted(true);
+			this.setProgressBarValue(value, maximum);
+		}
+
+		/**
+		 * Updates the progress bar.
+		 * @param value The value of the progress bar.
+		 * @param maximum The maximum value of the progress bar.
+		 */
+		private void setProgressBarValue(int value, int maximum) {
+
+			this.progressBar.setIndeterminate(false);
+
+			if (this.progressBar.getMaximum() != maximum) {
+				this.progressBar.setMaximum(maximum);
+			}
+
+			this.progressBar.setValue(value);
+			this.fireColumnChanged(PROGRESS_COLUMN);
+
+		}
+
+		/* (non-Javadoc)
+		 * @see org.jmist.toolkit.ui.ProgressIndicator#setProgressIndeterminant()
+		 */
+		@Override
+		public void setProgressIndeterminant() {
+
+			this.progressBar.setIndeterminate(true);
+			this.fireColumnChanged(PROGRESS_COLUMN);
+
+		}
+
+		/* (non-Javadoc)
+		 * @see org.jmist.toolkit.ui.ProgressIndicator#setStatusText(java.lang.String)
+		 */
+		@Override
+		public void setStatusText(String statusText) {
+
+			this.status = statusText;
+
+			if (this.statusLabel != null) {
+				this.statusLabel.setText(this.status);
+			}
+
+			if (this.parent != null) {
+				this.fireColumnChanged(STATUS_COLUMN);
+			}
+
 		}
 
 		/* (non-Javadoc)
@@ -260,18 +455,36 @@ public class ProgressTreePanel extends javax.swing.JPanel {
 			return node;
 		}
 
+		/**
+		 * Gets this node's parent node.
+		 * @return The parent of this <code>ProgressNode</code>.
+		 */
 		public ProgressNode getParent() {
 			return this.parent;
 		}
 
+		/**
+		 * Gets the number of children of this <code>ProgressNode</code>.
+		 * @return The number of children of this <code>ProgressNode</code>.
+		 */
 		public int getNumChildren() {
 			return this.children.size();
 		}
 
+		/**
+		 * Gets a child of this <code>ProgressNode</code>.
+		 * @param index The index into the list of children of the child to
+		 * 		get.
+		 * @return The child <code>ProgressNode</code> at the specified index.
+		 */
 		public ProgressNode getChild(int index) {
 			return this.children.get(index);
 		}
 
+		/**
+		 * Removes the child at the specified index.
+		 * @param index The index of the <code>ProgressNode</code> to remove.
+		 */
 		public void removeChildAt(int index) {
 
 			assert(0 <= index && index < this.children.size());
@@ -281,6 +494,11 @@ public class ProgressTreePanel extends javax.swing.JPanel {
 
 		}
 
+		/**
+		 * Fires an event on the parent <code>ProgressNode</code> notifying
+		 * its listeners that the specified column has changed.
+		 * @param column The index of the column that changed.
+		 */
 		private void fireColumnChanged(int column) {
 			if (this.parent != null) {
 				// TODO indicate which cell changed.
@@ -288,15 +506,23 @@ public class ProgressTreePanel extends javax.swing.JPanel {
 			}
 		}
 
+		/**
+		 * Gets the stand-alone <code>JComponent</code> to display when this
+		 * <code>ProgressNode</code> is the active node.
+		 * @return The stand-alone <code>JComponent</code> to display when this
+		 * 		<code>ProgressNode</code> is the active node.
+		 */
 		public JComponent getComponent() {
 
 			if (this.panel == null) {
 
+				javax.swing.JLabel titleLabel;
+
 				this.panel = new javax.swing.JPanel();
 				this.statusLabel = new javax.swing.JLabel();
-				this.titleLabel = new javax.swing.JLabel();
+				titleLabel = new javax.swing.JLabel();
 
-				this.titleLabel.setText(this.title);
+				titleLabel.setText(this.title);
 				this.statusLabel.setText(this.status);
 
 				javax.swing.JPanel progressBarPanel = new javax.swing.JPanel();
@@ -402,96 +628,63 @@ public class ProgressTreePanel extends javax.swing.JPanel {
 			return COLUMN_NAME[column];
 		}
 
+		/** The parent <code>ProgressNode</code> of this node. */
 		private final ProgressNode			parent;
+
+		/**
+		 * The <code>List</code> of children of this <code>ProgressNode</code>.
+		 */
 		private final List<ProgressNode>	children			= new ArrayList<ProgressNode>();
 
+		/**
+		 * The progress bar that displays the progress for this
+		 * <code>ProgressIndicator</code>.
+		 */
 		private final JProgressBar			progressBar			= new JProgressBar();
 
+		/** The title of this <code>ProgressIndicator</code>. */
 		private final String				title;
+
+		/** The status text of this <code>ProgressIndicator</code>. */
 		private String						status				= "";
 
+		/**
+		 * The stand-alone <code>JPanel</code> to use to display when this
+		 * <code>ProgressNode</code> is active.
+		 */
 		private javax.swing.JPanel			panel				= null;
-		private javax.swing.JLabel			statusLabel			= null;
-		private javax.swing.JLabel			titleLabel			= null;
 
+		/**
+		 * A <code>JLabel</code> displaying this <code>ProgressNode</code>'s
+		 * status text.
+		 */
+		private javax.swing.JLabel			statusLabel			= null;
+
+		/** The number of columns in this <code>TableModel</code>. */
 		private static final int			NUM_COLUMNS			= 4;
+
+		/** The index of the column displaying the number of children. */
 		private static final int			CHILDREN_COLUMN		= 0;
+
+		/** The index of the column displaying the title. */
 		private static final int			TITLE_COLUMN		= 1;
+
+		/** The index of the column displaying the progress bar. */
 		private static final int			PROGRESS_COLUMN		= 2;
+
+		/** The index of the column displaying the status text. */
 		private static final int			STATUS_COLUMN		= 3;
 
+		/** The classes of the columns. */
 		private static final Class<?>[]		COLUMN_CLASS		= { Integer.class, String.class, JProgressBar.class, String.class };
+
+		/** The names of the columns. */
 		private static final String[]		COLUMN_NAME			= { "Children", "Title", "Progress", "Status" };
 
-		@Override
-		public void removeChild(ProgressIndicator child) {
-
-			for (int index = 0; index < this.children.size(); index++) {
-				if (this.children.get(index) == child) {
-					this.removeChildAt(index);
-					break;
-				}
-			}
-
-		}
-
-		/* (non-Javadoc)
-		 * @see org.jmist.toolkit.ui.ProgressIndicator#isCancelPending()
+		/**
+		 * Serialization version ID.
 		 */
-		@Override
-		public boolean isCancelPending() {
-			// TODO Auto-generated method stub
-			return false;
-		}
-
-		@Override
-		public void setProgress(double progress) {
-			this.progressBar.setStringPainted(false);
-			this.setProgressBarValue((int) Math.floor(progress * 100.0), 100);
-		}
-
-		@Override
-		public void setProgress(int value, int maximum) {
-			this.progressBar.setString(String.format("(%d/%d)", value, maximum));
-			this.progressBar.setStringPainted(true);
-			this.setProgressBarValue(value, maximum);
-		}
-
-		private void setProgressBarValue(int value, int maximum) {
-
-			this.progressBar.setIndeterminate(false);
-
-			if (this.progressBar.getMaximum() != maximum) {
-				this.progressBar.setMaximum(maximum);
-			}
-
-			this.progressBar.setValue(value);
-			this.fireColumnChanged(PROGRESS_COLUMN);
-
-		}
-
-		@Override
-		public void setProgressIndeterminant() {
-
-			this.progressBar.setIndeterminate(true);
-			this.fireColumnChanged(PROGRESS_COLUMN);
-
-		}
-
-		@Override
-		public void setStatusText(String statusText) {
-
-			this.status = statusText;
-
-			if (this.statusLabel != null) {
-				this.statusLabel.setText(this.status);
-			}
-
-			if (this.parent != null) {
-				this.fireColumnChanged(STATUS_COLUMN);
-			}
-
-		}
+		private static final long serialVersionUID = 4409494195911210222L;
 
 	}
 
