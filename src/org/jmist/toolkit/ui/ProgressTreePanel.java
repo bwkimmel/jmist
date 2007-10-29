@@ -29,6 +29,7 @@ public class ProgressTreePanel extends javax.swing.JPanel {
 	public ProgressTreePanel() {
 		this.top = new ProgressNode("");
 		initComponents();
+		this.refresh();
 	}
 
 	/**
@@ -38,6 +39,7 @@ public class ProgressTreePanel extends javax.swing.JPanel {
 	public ProgressTreePanel(String title) {
 		this.top = new ProgressNode(title);
 		initComponents();
+		this.refresh();
 	}
 
 	/** This method is called from within the constructor to
@@ -517,53 +519,53 @@ public class ProgressTreePanel extends javax.swing.JPanel {
 		 */
 		public JComponent getComponent() {
 
-			if (this.panel == null) {
+			javax.swing.JPanel progressNodePanel;
+			javax.swing.JLabel titleLabel;
 
-				javax.swing.JLabel titleLabel;
+			progressNodePanel = new javax.swing.JPanel();
+			titleLabel = new javax.swing.JLabel();
 
-				this.panel = new javax.swing.JPanel();
+			if (this.statusLabel == null) {
 				this.statusLabel = new javax.swing.JLabel();
-				titleLabel = new javax.swing.JLabel();
-
-				titleLabel.setText(this.title);
-				this.statusLabel.setText(this.status);
-
-				javax.swing.JPanel progressBarPanel = new javax.swing.JPanel();
-
-				javax.swing.GroupLayout progressBarPanelLayout = new javax.swing.GroupLayout(progressBarPanel);
-				progressBarPanel.setLayout(progressBarPanelLayout);
-				progressBarPanelLayout.setHorizontalGroup(
-					progressBarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-					.addGap(0, 408, Short.MAX_VALUE)
-					.addComponent(this.progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
-				);
-				progressBarPanelLayout.setVerticalGroup(
-					progressBarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-					.addGap(0, 19, Short.MAX_VALUE)
-					.addComponent(this.progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-				);
-
-				javax.swing.GroupLayout progressNodePanelLayout = new javax.swing.GroupLayout(this.panel);
-				this.panel.setLayout(progressNodePanelLayout);
-				progressNodePanelLayout.setHorizontalGroup(
-					progressNodePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-					.addComponent(statusLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
-					.addComponent(titleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
-					.addComponent(progressBarPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-				);
-				progressNodePanelLayout.setVerticalGroup(
-					progressNodePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-					.addGroup(progressNodePanelLayout.createSequentialGroup()
-						.addComponent(titleLabel)
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(statusLabel)
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(progressBarPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-				);
-
 			}
 
-			return this.panel;
+			titleLabel.setText(this.title);
+			this.statusLabel.setText(this.status);
+
+			javax.swing.JPanel progressBarPanel = new javax.swing.JPanel();
+
+			javax.swing.GroupLayout progressBarPanelLayout = new javax.swing.GroupLayout(progressBarPanel);
+			progressBarPanel.setLayout(progressBarPanelLayout);
+			progressBarPanelLayout.setHorizontalGroup(
+				progressBarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGap(0, 408, Short.MAX_VALUE)
+				.addComponent(this.progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
+			);
+			progressBarPanelLayout.setVerticalGroup(
+				progressBarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGap(0, 19, Short.MAX_VALUE)
+				.addComponent(this.progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+			);
+
+			javax.swing.GroupLayout progressNodePanelLayout = new javax.swing.GroupLayout(progressNodePanel);
+			progressNodePanel.setLayout(progressNodePanelLayout);
+			progressNodePanelLayout.setHorizontalGroup(
+				progressNodePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addComponent(statusLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
+				.addComponent(titleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
+				.addComponent(progressBarPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+			);
+			progressNodePanelLayout.setVerticalGroup(
+				progressNodePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(progressNodePanelLayout.createSequentialGroup()
+					.addComponent(titleLabel)
+					.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+					.addComponent(statusLabel)
+					.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+					.addComponent(progressBarPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+			);
+
+			return progressNodePanel;
 
 		}
 
@@ -650,12 +652,6 @@ public class ProgressTreePanel extends javax.swing.JPanel {
 
 		/** The status text of this <code>ProgressIndicator</code>. */
 		private String						status				= "";
-
-		/**
-		 * The stand-alone <code>JPanel</code> to use to display when this
-		 * <code>ProgressNode</code> is active.
-		 */
-		private javax.swing.JPanel			panel				= null;
 
 		/**
 		 * A <code>JLabel</code> displaying this <code>ProgressNode</code>'s
