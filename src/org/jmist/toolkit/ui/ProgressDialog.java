@@ -10,7 +10,7 @@ package org.jmist.toolkit.ui;
  * A dialog for indicating the progress of an operation.
  * @author  bkimmel
  */
-public class ProgressDialog extends javax.swing.JDialog {
+public class ProgressDialog extends javax.swing.JDialog implements ProgressIndicator {
 
 	/** Creates new form ProgressDialog */
 	public ProgressDialog(java.awt.Frame parent, boolean modal) {
@@ -90,35 +90,31 @@ public class ProgressDialog extends javax.swing.JDialog {
 		this.cancelPending = true;
 	}
 
-	/**
-	 * Indicates if the cancel button was clicked.
+	/* (non-Javadoc)
+	 * @see org.jmist.toolkit.ui.ProgressIndicator#isCancelPending()
 	 */
 	public synchronized boolean isCancelPending() {
 		return this.cancelPending;
 	}
 
-	/**
-	 * Sets the value of the progress bar.
-	 * @param progress The fraction of the operation that has been completed.
+	/* (non-Javadoc)
+	 * @see org.jmist.toolkit.ui.ProgressIndicator#setProgress(double)
 	 */
 	public void setProgress(double progress) {
 		this.setProgressBarValue((int) Math.floor(100.0 * progress), 100);
 		this.clearProgressText();
 	}
 
-	/**
-	 * Sets the value of the progress bar.
-	 * @param value The number of parts of the operation that have been
-	 *	    completed.
-	 * @param maximum The number of parts that compose the operation.
+	/* (non-Javadoc)
+	 * @see org.jmist.toolkit.ui.ProgressIndicator#setProgress(int, int)
 	 */
 	public void setProgress(int value, int maximum) {
 		this.setProgressBarValue(value, maximum);
 		this.setProgressText(value, maximum);
 	}
 
-	/**
-	 * Updates the progress bar to indeterminant mode.
+	/* (non-Javadoc)
+	 * @see org.jmist.toolkit.ui.ProgressIndicator#setProgressIndeterminant()
 	 */
 	public void setProgressIndeterminant() {
 		this.progressBar.setIndeterminate(true);
@@ -143,11 +139,10 @@ public class ProgressDialog extends javax.swing.JDialog {
 
 	}
 
-	/**
-	 * Sets the status of the operation.
-	 * @param statusText A <code>String</code> describing the status of the
-	 *	    operation.
+	/* (non-Javadoc)
+	 * @see org.jmist.toolkit.ui.ProgressIndicator#setStatusText(java.lang.String)
 	 */
+	@Override
 	public void setStatusText(String statusText) {
 		this.statusText = statusText;
 		this.updateStatusLabel();
@@ -180,6 +175,22 @@ public class ProgressDialog extends javax.swing.JDialog {
 			this.progressText = "";
 			this.updateStatusLabel();
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jmist.toolkit.ui.ProgressIndicator#addChild(java.lang.String)
+	 */
+	@Override
+	public ProgressIndicator addChild(String title) {
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jmist.toolkit.ui.ProgressIndicator#removeChild(org.jmist.toolkit.ui.ProgressIndicator)
+	 */
+	@Override
+	public void removeChild(ProgressIndicator child) {
+		/* nothing to do */
 	}
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
