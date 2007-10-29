@@ -57,6 +57,7 @@ public class ProgressTreePanel extends javax.swing.JPanel {
 		rootButton = new javax.swing.JButton();
 
 		parentButton.setText("<<");
+		parentButton.setEnabled(false);
 		parentButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				parentButtonActionPerformed(evt);
@@ -261,6 +262,8 @@ public class ProgressTreePanel extends javax.swing.JPanel {
 		/* Update the child table. */
 		this.childrenTable.setModel(this.getTableModel());
 		this.childrenTable.getColumn("Progress").setCellRenderer(ProgressTableCellRenderer.getInstance());
+
+		this.parentButton.setEnabled(this.top.getParent() != null);
 
 	}
 
