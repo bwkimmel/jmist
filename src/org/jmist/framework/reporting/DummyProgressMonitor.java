@@ -1,13 +1,11 @@
 /**
  *
  */
-package org.jmist.packages;
-
-import org.jmist.framework.reporting.ProgressMonitor;
+package org.jmist.framework.reporting;
 
 /**
  * A dummy progress monitor that does not report the progress to
- * anything.
+ * anything.  This class is a singleton.
  * @author bkimmel
  */
 public final class DummyProgressMonitor implements ProgressMonitor {
@@ -61,6 +59,15 @@ public final class DummyProgressMonitor implements ProgressMonitor {
 	}
 
 	/* (non-Javadoc)
+	 * @see org.jmist.framework.reporting.ProgressMonitor#isCancelPending()
+	 */
+	@Override
+	public boolean isCancelPending() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/* (non-Javadoc)
 	 * @see org.jmist.framework.ProgressMonitor#createChildProgressMonitor()
 	 */
 	@Override
@@ -70,5 +77,30 @@ public final class DummyProgressMonitor implements ProgressMonitor {
 		return this;
 
 	}
+
+	/**
+	 * Creates a new <code>DummyProgressMonitor</code>.  This constructor is
+	 * private because this class is a singleton.
+	 */
+	private DummyProgressMonitor() {
+		// nothing to do.
+	}
+
+	/**
+	 * Gets the single instance of <code>DummyProgressMonitor</code>.
+	 * @return The single instance of <code>DummyProgressMonitor</code>.
+	 */
+	public static DummyProgressMonitor getInstance() {
+
+		if (instance == null) {
+			instance = new DummyProgressMonitor();
+		}
+
+		return instance;
+
+	}
+
+	/** The single instance of <code>DummyProgressMonitor</code>. */
+	private static DummyProgressMonitor instance = null;
 
 }

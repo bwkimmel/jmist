@@ -27,8 +27,7 @@ import org.jmist.framework.event.Event;
 import org.jmist.framework.event.EventObserver;
 import org.jmist.framework.event.EventSubject;
 import org.jmist.framework.reporting.ConsoleProgressMonitor;
-import org.jmist.framework.reporting.DialogProgressMonitor;
-import org.jmist.framework.reporting.ProgressIndicator;
+import org.jmist.framework.reporting.ProgressDialog;
 import org.jmist.framework.reporting.ProgressMonitor;
 import org.jmist.framework.reporting.ProgressTreePanel;
 import org.jmist.framework.serialization.MistClassLoader;
@@ -167,13 +166,12 @@ public class Test {
 
 		JDialog dialog = new JDialog();
 		ProgressTreePanel progressTree = new ProgressTreePanel("Working...");
-		ProgressIndicator progressIndicator = progressTree.getRootProgressIndicator();
 		dialog.add(progressTree);
 
-		ProgressIndicator child = progressIndicator.addChildIndicator("Test");
+		ProgressMonitor child = progressTree.createChildProgressMonitor("Test");
 
-		child.setStatusText("Booya");
-		child.setProgressIndeterminant();
+		child.notifyStatusChanged("Booya");
+		child.notifyIndeterminantProgress();
 
 		dialog.setVisible(true);
 
@@ -250,7 +248,7 @@ public class Test {
 		PixelShader pixelShader = new SimplePixelShader(imageShader);
 		ImageRasterWriter rasterWriter = new ImageRasterWriter(2048, 2048);
 		Job job = new RasterJob(pixelShader, rasterWriter);
-		ProgressMonitor monitor = new DialogProgressMonitor();
+		ProgressMonitor monitor = new ProgressDialog();
 
 		job.go(monitor);
 

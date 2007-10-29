@@ -10,7 +10,13 @@ package org.jmist.framework.reporting;
  * A dialog for indicating the progress of an operation.
  * @author  bkimmel
  */
-public class ProgressDialog extends javax.swing.JDialog implements ProgressIndicator {
+public class ProgressDialog extends javax.swing.JDialog implements ProgressMonitor {
+
+	/** Creates a new <code>ProgressDialog</code>. */
+	public ProgressDialog() {
+		super((java.awt.Frame) null, false);
+		initComponents();
+	}
 
 	/** Creates new form ProgressDialog */
 	public ProgressDialog(java.awt.Frame parent, boolean modal) {
@@ -98,27 +104,36 @@ public class ProgressDialog extends javax.swing.JDialog implements ProgressIndic
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.toolkit.ui.ProgressIndicator#setProgress(double)
+	 * @see org.jmist.framework.reporting.ProgressMonitor#notifyProgress(double)
 	 */
-	public void setProgress(double progress) {
+	@Override
+	public boolean notifyProgress(double progress) {
+		this.ensureVisible();
 		this.setProgressBarValue((int) Math.floor(100.0 * progress), 100);
 		this.clearProgressText();
+		return !this.isCancelPending();
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.toolkit.ui.ProgressIndicator#setProgress(int, int)
+	 * @see org.jmist.framework.reporting.ProgressMonitor#notifyProgress(int, int)
 	 */
-	public void setProgress(int value, int maximum) {
+	@Override
+	public boolean notifyProgress(int value, int maximum) {
+		this.ensureVisible();
 		this.setProgressBarValue(value, maximum);
 		this.setProgressText(value, maximum);
+		return !this.isCancelPending();
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.toolkit.ui.ProgressIndicator#setProgressIndeterminant()
+	 * @see org.jmist.framework.reporting.ProgressMonitor#notifyIndeterminantProgress()
 	 */
-	public void setProgressIndeterminant() {
+	@Override
+	public boolean notifyIndeterminantProgress() {
+		this.ensureVisible();
 		this.progressBar.setIndeterminate(true);
 		this.clearProgressText();
+		return !this.isCancelPending();
 	}
 
 	/**
@@ -140,11 +155,12 @@ public class ProgressDialog extends javax.swing.JDialog implements ProgressIndic
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.toolkit.ui.ProgressIndicator#setStatusText(java.lang.String)
+	 * @see org.jmist.framework.reporting.ProgressMonitor#notifyStatusChanged(java.lang.String)
 	 */
 	@Override
-	public void setStatusText(String statusText) {
-		this.statusText = statusText;
+	public void notifyStatusChanged(String status) {
+		this.ensureVisible();
+		this.statusText = status;
 		this.updateStatusLabel();
 	}
 
@@ -178,27 +194,36 @@ public class ProgressDialog extends javax.swing.JDialog implements ProgressIndic
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.toolkit.ui.ProgressIndicator#addChild(java.lang.String)
+	 * @see org.jmist.framework.reporting.ProgressMonitor#notifyCancelled()
 	 */
 	@Override
-	public ProgressIndicator addChildIndicator(String title) {
-		return null;
+	public void notifyCancelled() {
+		this.setVisible(false);
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.toolkit.ui.ProgressIndicator#removeChild(org.jmist.toolkit.ui.ProgressIndicator)
+	 * @see org.jmist.framework.reporting.ProgressMonitor#notifyComplete()
 	 */
 	@Override
-	public void removeChildIndicator(ProgressIndicator child) {
-		/* nothing to do */
+	public void notifyComplete() {
+		this.setVisible(false);
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.toolkit.ui.ProgressIndicator#getParentIndicator()
+	 * @see org.jmist.framework.reporting.ProgressMonitor#createChildProgressMonitor(java.lang.String)
 	 */
 	@Override
-	public ProgressIndicator getParentIndicator() {
-		return null;
+	public ProgressMonitor createChildProgressMonitor(String title) {
+		return DummyProgressMonitor.getInstance();
+	}
+
+	/**
+	 * Ensures that this <code>ProgressDialog</code> is visible.
+	 */
+	private void ensureVisible() {
+		if (!this.isVisible()) {
+			this.setVisible(true);
+		}
 	}
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables

@@ -8,6 +8,7 @@ package org.jmist.framework.reporting;
 
 import java.awt.Component;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -23,7 +24,7 @@ import javax.swing.table.TableModel;
  * indicators.
  * @author  bkimmel
  */
-public class ProgressTreePanel extends javax.swing.JPanel {
+public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMonitor {
 
 	/** Creates new form ProgressTreePanel */
 	public ProgressTreePanel() {
@@ -265,16 +266,8 @@ public class ProgressTreePanel extends javax.swing.JPanel {
 		this.childrenTable.setModel(this.getTableModel());
 		this.childrenTable.getColumn("Progress").setCellRenderer(ProgressTableCellRenderer.getInstance());
 
-		this.parentButton.setEnabled(this.top.getParentIndicator() != null);
+		this.parentButton.setEnabled(this.top.getParent() != null);
 
-	}
-
-	/**
-	 * Gets the progress indicator at the root of the tree.
-	 * @return The <code>ProgressIndicator</code> at the root of the tree.
-	 */
-	public ProgressIndicator getRootProgressIndicator() {
-		return this.getRootNode();
 	}
 
 	/**
@@ -285,8 +278,8 @@ public class ProgressTreePanel extends javax.swing.JPanel {
 
 		ProgressNode node = this.top;
 
-		while (node.getParentIndicator() != null) {
-			node = node.getParentIndicator();
+		while (node.getParent() != null) {
+			node = node.getParent();
 		}
 
 		return node;
@@ -317,7 +310,7 @@ public class ProgressTreePanel extends javax.swing.JPanel {
 	 */
 	private void moveToParent() {
 
-		ProgressNode parent = this.top.getParentIndicator();
+		ProgressNode parent = this.top.getParent();
 		assert(parent != null);
 
 		this.moveToNode(parent);
@@ -337,7 +330,7 @@ public class ProgressTreePanel extends javax.swing.JPanel {
 	 * and the <code>TableModel</code> used by <code>childrenTable</code>.
 	 * @author bkimmel
 	 */
-	private static final class ProgressNode extends AbstractTableModel implements ProgressIndicator {
+	private static final class ProgressNode extends AbstractTableModel implements ProgressMonitor {
 
 		/**
 		 * Creates the root <code>ProgressNode</code>.
@@ -359,22 +352,7 @@ public class ProgressTreePanel extends javax.swing.JPanel {
 		}
 
 		/* (non-Javadoc)
-		 * @see org.jmist.toolkit.ui.ProgressIndicator#removeChild(org.jmist.toolkit.ui.ProgressIndicator)
-		 */
-		@Override
-		public void removeChildIndicator(ProgressIndicator child) {
-
-			for (int index = 0; index < this.children.size(); index++) {
-				if (this.children.get(index) == child) {
-					this.removeChildAt(index);
-					break;
-				}
-			}
-
-		}
-
-		/* (non-Javadoc)
-		 * @see org.jmist.toolkit.ui.ProgressIndicator#isCancelPending()
+		 * @see org.jmist.framework.reporting.ProgressMonitor#isCancelPending()
 		 */
 		@Override
 		public boolean isCancelPending() {
@@ -383,22 +361,24 @@ public class ProgressTreePanel extends javax.swing.JPanel {
 		}
 
 		/* (non-Javadoc)
-		 * @see org.jmist.toolkit.ui.ProgressIndicator#setProgress(double)
+		 * @see org.jmist.framework.reporting.ProgressMonitor#notifyProgress(double)
 		 */
 		@Override
-		public void setProgress(double progress) {
+		public boolean notifyProgress(double progress) {
 			this.progressBar.setStringPainted(false);
 			this.setProgressBarValue((int) Math.floor(progress * 100.0), 100);
+			return !this.isCancelPending();
 		}
 
 		/* (non-Javadoc)
-		 * @see org.jmist.toolkit.ui.ProgressIndicator#setProgress(int, int)
+		 * @see org.jmist.framework.reporting.ProgressMonitor#notifyProgress(int, int)
 		 */
 		@Override
-		public void setProgress(int value, int maximum) {
+		public boolean notifyProgress(int value, int maximum) {
 			this.progressBar.setString(String.format("(%d/%d)", value, maximum));
 			this.progressBar.setStringPainted(true);
 			this.setProgressBarValue(value, maximum);
+			return !this.isCancelPending();
 		}
 
 		/**
@@ -420,23 +400,22 @@ public class ProgressTreePanel extends javax.swing.JPanel {
 		}
 
 		/* (non-Javadoc)
-		 * @see org.jmist.toolkit.ui.ProgressIndicator#setProgressIndeterminant()
+		 * @see org.jmist.framework.reporting.ProgressMonitor#notifyIndeterminantProgress()
 		 */
 		@Override
-		public void setProgressIndeterminant() {
-
+		public boolean notifyIndeterminantProgress() {
 			this.progressBar.setIndeterminate(true);
 			this.fireColumnChanged(PROGRESS_COLUMN);
-
+			return !this.isCancelPending();
 		}
 
 		/* (non-Javadoc)
-		 * @see org.jmist.toolkit.ui.ProgressIndicator#setStatusText(java.lang.String)
+		 * @see org.jmist.framework.reporting.ProgressMonitor#notifyStatusChanged(java.lang.String)
 		 */
 		@Override
-		public void setStatusText(String statusText) {
+		public void notifyStatusChanged(String status) {
 
-			this.status = statusText;
+			this.status = status;
 
 			if (this.statusLabel != null) {
 				this.statusLabel.setText(this.status);
@@ -449,10 +428,36 @@ public class ProgressTreePanel extends javax.swing.JPanel {
 		}
 
 		/* (non-Javadoc)
-		 * @see org.jmist.toolkit.ui.ProgressIndicator#addChild(java.lang.String)
+		 * @see org.jmist.framework.reporting.ProgressMonitor#notifyCancelled()
 		 */
 		@Override
-		public ProgressNode addChildIndicator(String title) {
+		public void notifyCancelled() {
+			this.removeFromParent();
+		}
+
+		/* (non-Javadoc)
+		 * @see org.jmist.framework.reporting.ProgressMonitor#notifyComplete()
+		 */
+		@Override
+		public void notifyComplete() {
+			this.removeFromParent();
+		}
+
+		/**
+		 * Removes this <code>ProgressNode</code> from its parent if this node
+		 * is not the root node.
+		 */
+		private void removeFromParent() {
+			if (this.parent != null) {
+				this.parent.removeChild(this);
+			}
+		}
+
+		/* (non-Javadoc)
+		 * @see org.jmist.framework.reporting.ProgressMonitor#createChildProgressMonitor(java.lang.String)
+		 */
+		@Override
+		public ProgressNode createChildProgressMonitor(String title) {
 			ProgressNode node = new ProgressNode(title, this);
 			int index = this.children.size();
 			this.children.add(node);
@@ -460,10 +465,11 @@ public class ProgressTreePanel extends javax.swing.JPanel {
 			return node;
 		}
 
-		/* (non-Javadoc)
-		 * @see org.jmist.toolkit.ui.ProgressIndicator#getParent()
+		/**
+		 * Gets this <code>ProgressNode</code>'s parent.
+		 * @return The parent of this <code>ProgressNode</code>.
 		 */
-		public ProgressNode getParentIndicator() {
+		public ProgressNode getParent() {
 			return this.parent;
 		}
 
@@ -495,6 +501,23 @@ public class ProgressTreePanel extends javax.swing.JPanel {
 
 			this.children.remove(index);
 			this.fireTableRowsDeleted(index, index);
+
+		}
+
+		/**
+		 * Removes the specified child from this <code>ProgressNode</code>.
+		 * @param child The child <code>ProgressNode</code> to remove.
+		 */
+		public void removeChild(ProgressNode child) {
+
+			Iterator<ProgressNode> i = this.children.iterator();
+
+			while (i.hasNext()) {
+				if (i.next() == child) {
+					i.remove();
+					break;
+				}
+			}
 
 		}
 
@@ -684,6 +707,70 @@ public class ProgressTreePanel extends javax.swing.JPanel {
 		 */
 		private static final long serialVersionUID = 4409494195911210222L;
 
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.reporting.ProgressMonitor#createChildProgressMonitor(java.lang.String)
+	 */
+	@Override
+	public ProgressMonitor createChildProgressMonitor(String title) {
+		return this.getRootNode().createChildProgressMonitor(title);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.reporting.ProgressMonitor#isCancelPending()
+	 */
+	@Override
+	public boolean isCancelPending() {
+		return this.getRootNode().isCancelPending();
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.reporting.ProgressMonitor#notifyCancelled()
+	 */
+	@Override
+	public void notifyCancelled() {
+		this.getRootNode().notifyCancelled();
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.reporting.ProgressMonitor#notifyComplete()
+	 */
+	@Override
+	public void notifyComplete() {
+		this.getRootNode().notifyComplete();
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.reporting.ProgressMonitor#notifyIndeterminantProgress()
+	 */
+	@Override
+	public boolean notifyIndeterminantProgress() {
+		return this.getRootNode().notifyIndeterminantProgress();
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.reporting.ProgressMonitor#notifyProgress(int, int)
+	 */
+	@Override
+	public boolean notifyProgress(int value, int maximum) {
+		return this.getRootNode().notifyProgress(value, maximum);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.reporting.ProgressMonitor#notifyProgress(double)
+	 */
+	@Override
+	public boolean notifyProgress(double progress) {
+		return this.getRootNode().notifyProgress(progress);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.reporting.ProgressMonitor#notifyStatusChanged(java.lang.String)
+	 */
+	@Override
+	public void notifyStatusChanged(String status) {
+		this.getRootNode().notifyStatusChanged(status);
 	}
 
 	/**

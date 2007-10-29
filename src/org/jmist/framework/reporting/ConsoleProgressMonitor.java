@@ -3,7 +3,6 @@
  */
 package org.jmist.framework.reporting;
 
-import org.jmist.packages.DummyProgressMonitor;
 
 import java.io.PrintStream;
 
@@ -84,11 +83,19 @@ public final class ConsoleProgressMonitor implements ProgressMonitor {
 	}
 
 	/* (non-Javadoc)
+	 * @see org.jmist.framework.reporting.ProgressMonitor#isCancelPending()
+	 */
+	@Override
+	public boolean isCancelPending() {
+		return false;
+	}
+
+	/* (non-Javadoc)
 	 * @see org.jmist.framework.ProgressMonitor#createChildProgressMonitor()
 	 */
 	@Override
 	public ProgressMonitor createChildProgressMonitor(String title) {
-		return new DummyProgressMonitor();
+		return DummyProgressMonitor.getInstance();
 	}
 
 	/**

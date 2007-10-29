@@ -49,6 +49,13 @@ public interface ProgressMonitor {
 	void notifyStatusChanged(String status);
 
 	/**
+	 * Indicates if this progress monitor is requesting that the operation be
+	 * cancelled.
+	 * @return A value indicating if cancellation of the operation is pending.
+	 */
+	boolean isCancelPending();
+
+	/**
 	 * Creates a <code>ProgressMonitor</code> to monitor the progress of a
 	 * subtask.
 	 * @param title The title of the new progress monitor.
