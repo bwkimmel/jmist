@@ -15,6 +15,8 @@ import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import javax.swing.JDialog;
+
 import org.jmist.framework.ImageShader;
 import org.jmist.framework.Job;
 import org.jmist.framework.Lens;
@@ -42,6 +44,8 @@ import org.jmist.packages.NRooksRandom;
 import org.jmist.packages.RasterJob;
 import org.jmist.packages.SimplePixelShader;
 import org.jmist.toolkit.Grid3.Cell;
+import org.jmist.toolkit.ui.ProgressIndicator;
+import org.jmist.toolkit.ui.ProgressTreePanel;
 
 public class Test {
 
@@ -154,58 +158,56 @@ public class Test {
 //		testClassLoader();
 
 		//testJobMasterServer();
-		testJobMasterServiceClient();
+		//testJobMasterServiceClient();
+		testProgressTree();
+	}
+
+	@SuppressWarnings("unused")
+	private static void testProgressTree() {
+
+		JDialog dialog = new JDialog();
+		ProgressTreePanel progressTree = new ProgressTreePanel("Working...");
+		ProgressIndicator progressIndicator = progressTree.getRootProgressIndicator();
+		dialog.add(progressTree);
+
+		ProgressIndicator child = progressIndicator.addChild("Test");
+
+		child.setStatusText("Booya");
+		child.setProgressIndeterminant();
+
+		dialog.setVisible(true);
+
 	}
 
 	@SuppressWarnings("unused")
 	private static void testJobMasterServer() {
 
 		try {
+			System.err.println("[0]");
+
+	        if (System.getSecurityManager() == null) {
+				System.err.println("[0.1]");
+	            System.setSecurityManager(new SecurityManager());
+	        }
 
 			JobMasterServer server = new JobMasterServer();
+			System.err.println("[1]");
 			JobMasterService stub = (JobMasterService) UnicastRemoteObject.exportObject(server, 0);
+			System.err.println("[2]");
 
 			Registry registry = LocateRegistry.getRegistry();
+			System.err.println("[3]");
 			registry.bind("JobMasterService", stub);
+			System.err.println("[4]");
 
 			System.err.println("Server ready");
 
 		} catch (Exception e) {
 
-			System.err.println("Server exception: " + e.toString());
+			System.err.println("Server exception:");
 			e.printStackTrace();
 
 		}
-
-	}
-
-	private static class FuckYouQueue<E> extends SynchronousQueue<E> {
-
-		@Override
-		public boolean offer(E o, long timeout, TimeUnit unit)
-				throws InterruptedException {
-			// TODO Auto-generated method stub
-			super.put(o);
-			return true;
-		}
-
-		@Override
-		public boolean offer(E o) {
-			// TODO Auto-generated method stub
-			while (true) {
-				try {
-					super.put(o);
-					return true;
-				} catch (InterruptedException e) {
-
-				}
-			}
-		}
-
-		/**
-		 *
-		 */
-		private static final long serialVersionUID = -5350468566114609080L;
 
 	}
 
