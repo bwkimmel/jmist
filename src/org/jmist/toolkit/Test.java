@@ -170,7 +170,7 @@ public class Test {
 		ProgressIndicator progressIndicator = progressTree.getRootProgressIndicator();
 		dialog.add(progressTree);
 
-		ProgressIndicator child = progressIndicator.addChild("Test");
+		ProgressIndicator child = progressIndicator.addChildIndicator("Test");
 
 		child.setStatusText("Booya");
 		child.setProgressIndeterminant();
