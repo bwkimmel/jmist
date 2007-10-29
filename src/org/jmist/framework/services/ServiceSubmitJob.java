@@ -9,7 +9,7 @@ import java.util.UUID;
 
 import org.jmist.framework.Job;
 import org.jmist.framework.ParallelizableJob;
-import org.jmist.framework.ProgressMonitor;
+import org.jmist.framework.reporting.ProgressMonitor;
 
 /**
  * A job that submits a <code>ParallelizableJob</code> to submit to a remote

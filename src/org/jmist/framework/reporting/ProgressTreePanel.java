@@ -4,7 +4,7 @@
  * Created on October 28, 2007, 1:16 AM
  */
 
-package org.jmist.toolkit.ui;
+package org.jmist.framework.reporting;
 
 import java.awt.Component;
 import java.util.ArrayList;

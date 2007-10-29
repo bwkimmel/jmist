@@ -22,11 +22,15 @@ import org.jmist.framework.Job;
 import org.jmist.framework.Lens;
 import org.jmist.framework.ParallelizableJob;
 import org.jmist.framework.PixelShader;
-import org.jmist.framework.ProgressMonitor;
 import org.jmist.framework.RayShader;
 import org.jmist.framework.event.Event;
 import org.jmist.framework.event.EventObserver;
 import org.jmist.framework.event.EventSubject;
+import org.jmist.framework.reporting.ConsoleProgressMonitor;
+import org.jmist.framework.reporting.DialogProgressMonitor;
+import org.jmist.framework.reporting.ProgressIndicator;
+import org.jmist.framework.reporting.ProgressMonitor;
+import org.jmist.framework.reporting.ProgressTreePanel;
 import org.jmist.framework.serialization.MistClassLoader;
 import org.jmist.framework.services.JobMasterServer;
 import org.jmist.framework.services.JobMasterService;
@@ -34,8 +38,6 @@ import org.jmist.framework.services.ServiceSubmitJob;
 import org.jmist.framework.services.ServiceWorkerJob;
 import org.jmist.framework.services.ThreadServiceWorkerJob;
 import org.jmist.packages.CameraImageShader;
-import org.jmist.packages.ConsoleProgressMonitor;
-import org.jmist.packages.DialogProgressMonitor;
 import org.jmist.packages.DirectionalTestRayShader;
 import org.jmist.packages.DummyParallelizableJob;
 import org.jmist.packages.FisheyeLens;
@@ -44,8 +46,6 @@ import org.jmist.packages.NRooksRandom;
 import org.jmist.packages.RasterJob;
 import org.jmist.packages.SimplePixelShader;
 import org.jmist.toolkit.Grid3.Cell;
-import org.jmist.toolkit.ui.ProgressIndicator;
-import org.jmist.toolkit.ui.ProgressTreePanel;
 
 public class Test {
 

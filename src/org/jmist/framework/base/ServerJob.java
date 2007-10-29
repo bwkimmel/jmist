@@ -6,8 +6,8 @@ package org.jmist.framework.base;
 import org.jmist.framework.Communicator;
 import org.jmist.framework.InboundMessage;
 import org.jmist.framework.Job;
-import org.jmist.framework.ProgressMonitor;
 import org.jmist.framework.Switchboard;
+import org.jmist.framework.reporting.ProgressMonitor;
 
 /**
  * @author bkimmel

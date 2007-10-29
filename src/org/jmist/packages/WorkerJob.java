@@ -14,8 +14,8 @@ import org.jmist.framework.Dialer;
 import org.jmist.framework.InboundMessage;
 import org.jmist.framework.Job;
 import org.jmist.framework.OutboundMessage;
-import org.jmist.framework.ProgressMonitor;
 import org.jmist.framework.TaskWorker;
+import org.jmist.framework.reporting.ProgressMonitor;
 import org.jmist.framework.serialization.MistObjectInputStream;
 
 /**

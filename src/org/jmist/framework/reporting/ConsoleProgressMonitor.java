@@ -1,9 +1,9 @@
 /**
  *
  */
-package org.jmist.packages;
+package org.jmist.framework.reporting;
 
-import org.jmist.framework.ProgressMonitor;
+import org.jmist.packages.DummyProgressMonitor;
 
 import java.io.PrintStream;
 

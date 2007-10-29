@@ -1,10 +1,9 @@
 /**
  *
  */
-package org.jmist.packages;
+package org.jmist.framework.reporting;
 
-import org.jmist.framework.ProgressMonitor;
-import org.jmist.toolkit.ui.ProgressIndicator;
+import org.jmist.packages.DummyProgressMonitor;
 
 /**
  * A <code>ProgressMonitor</code> that uses a <code>ProgressIndicator</code> to

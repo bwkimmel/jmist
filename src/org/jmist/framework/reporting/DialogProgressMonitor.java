@@ -1,10 +1,9 @@
 /**
  *
  */
-package org.jmist.packages;
+package org.jmist.framework.reporting;
 
-import org.jmist.framework.ProgressMonitor;
-import org.jmist.toolkit.ui.ProgressDialog;
+import org.jmist.packages.DummyProgressMonitor;
 
 /**
  * A progress monitor that uses a progress dialog to indicate that progress

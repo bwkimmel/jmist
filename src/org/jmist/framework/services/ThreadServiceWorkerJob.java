@@ -16,8 +16,8 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.jmist.framework.Job;
-import org.jmist.framework.ProgressMonitor;
 import org.jmist.framework.TaskWorker;
+import org.jmist.framework.reporting.ProgressMonitor;
 
 /**
  * A job that processes tasks for a parallelizable job from a remote

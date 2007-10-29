@@ -6,8 +6,8 @@ package org.jmist.packages;
 import java.io.Serializable;
 
 import org.jmist.framework.ParallelizableJob;
-import org.jmist.framework.ProgressMonitor;
 import org.jmist.framework.TaskWorker;
+import org.jmist.framework.reporting.ProgressMonitor;
 
 /**
  * A dummy parallelizable job to test remote method invocation.

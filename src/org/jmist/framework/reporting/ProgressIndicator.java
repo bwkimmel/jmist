@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.jmist.toolkit.ui;
+package org.jmist.framework.reporting;
 
 /**
  * Something that reports progress on a long running operation.

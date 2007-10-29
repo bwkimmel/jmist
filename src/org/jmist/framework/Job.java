@@ -3,6 +3,8 @@
  */
 package org.jmist.framework;
 
+import org.jmist.framework.reporting.ProgressMonitor;
+
 /**
  * Represents a job.
  * @author bkimmel

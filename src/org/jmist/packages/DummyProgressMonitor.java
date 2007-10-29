@@ -3,7 +3,7 @@
  */
 package org.jmist.packages;
 
-import org.jmist.framework.ProgressMonitor;
+import org.jmist.framework.reporting.ProgressMonitor;
 
 /**
  * A dummy progress monitor that does not report the progress to

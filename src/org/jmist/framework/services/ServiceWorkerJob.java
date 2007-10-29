@@ -8,8 +8,8 @@ import java.rmi.registry.Registry;
 import java.util.UUID;
 
 import org.jmist.framework.Job;
-import org.jmist.framework.ProgressMonitor;
 import org.jmist.framework.TaskWorker;
+import org.jmist.framework.reporting.ProgressMonitor;
 
 /**
  * A job that processes tasks for a parallelizable job from a remote

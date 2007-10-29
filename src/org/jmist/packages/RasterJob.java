@@ -5,8 +5,8 @@ package org.jmist.packages;
 
 import org.jmist.framework.Job;
 import org.jmist.framework.PixelShader;
-import org.jmist.framework.ProgressMonitor;
 import org.jmist.framework.RasterWriter;
+import org.jmist.framework.reporting.ProgressMonitor;
 import org.jmist.toolkit.Box2;
 import org.jmist.toolkit.Pixel;
 

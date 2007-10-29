@@ -5,6 +5,8 @@ package org.jmist.framework;
 
 import java.io.Serializable;
 
+import org.jmist.framework.reporting.ProgressMonitor;
+
 /**
  * Processes a task that is part of a parallelizable job.
  * @author bkimmel

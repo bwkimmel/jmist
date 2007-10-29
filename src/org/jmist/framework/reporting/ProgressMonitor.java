@@ -1,4 +1,4 @@
-package org.jmist.framework;
+package org.jmist.framework.reporting;
 
 /**
  * Receives progress updates from a long running job, and potentially requests
