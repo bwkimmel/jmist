@@ -158,7 +158,7 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 
 	/**
 	 * Fires when the user clicks on the button to switch to the root
-	 * <code>ProgressIndicator</code>.
+	 * <code>ProgressMonitor</code>.
 	 * @param evt The event arguments.
 	 */
 	private void rootButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rootButtonActionPerformed
@@ -167,7 +167,7 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 
 	/**
 	 * Fires when the user clicks on the button to switch to the parent
-	 * <code>ProgressIndicator</code>.
+	 * <code>ProgressMonitor</code>.
 	 * @param evt The event arguments.
 	 */
 	private void parentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_parentButtonActionPerformed
@@ -223,9 +223,9 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 
 	/**
 	 * Gets the <code>JPanel</code> displaying the current
-	 * <code>ProgressIndicator</code>.
+	 * <code>ProgressMonitor</code>.
 	 * @return The <code>JPanel</code> displaying the current
-	 * 		<code>ProgressIndicator</code>.
+	 * 		<code>ProgressMonitor</code>.
 	 */
 	private JPanel getTopNodeComponent() {
 		return (JPanel) this.top.getComponent();
@@ -233,9 +233,9 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 
 	/**
 	 * Gets the <code>TableModel</code> for the current
-	 * <code>ProgressIndicator</code>s children.
+	 * <code>ProgressMonitor</code>s children.
 	 * @return The <code>TableModel</code> for the current
-	 * 		<code>ProgressIndicator</code>s children.
+	 * 		<code>ProgressMonitor</code>s children.
 	 */
 	private TableModel getTableModel() {
 		return this.top;
@@ -326,7 +326,7 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 	}
 
 	/**
-	 * The <code>ProgressIndicator</code> used by <code>ProgressTreePanel</code>
+	 * The <code>ProgressMonitor</code> used by <code>ProgressTreePanel</code>
 	 * and the <code>TableModel</code> used by <code>childrenTable</code>.
 	 * @author bkimmel
 	 */
@@ -665,14 +665,14 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 
 		/**
 		 * The progress bar that displays the progress for this
-		 * <code>ProgressIndicator</code>.
+		 * <code>ProgressMonitor</code>.
 		 */
 		private final JProgressBar			progressBar			= new JProgressBar();
 
-		/** The title of this <code>ProgressIndicator</code>. */
+		/** The title of this <code>ProgressMonitor</code>. */
 		private final String				title;
 
-		/** The status text of this <code>ProgressIndicator</code>. */
+		/** The status text of this <code>ProgressMonitor</code>. */
 		private String						status				= "";
 
 		/**

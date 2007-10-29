@@ -97,8 +97,9 @@ public class ProgressDialog extends javax.swing.JDialog implements ProgressMonit
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.toolkit.ui.ProgressIndicator#isCancelPending()
+	 * @see org.jmist.framework.reporting.ProgressMonitor#isCancelPending()
 	 */
+	@Override
 	public synchronized boolean isCancelPending() {
 		return this.cancelPending;
 	}
