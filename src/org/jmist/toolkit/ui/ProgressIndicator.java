@@ -16,13 +16,22 @@ public interface ProgressIndicator {
 	 * @return The new <code>ProgressIndicator</code>, or <code>null</code> if
 	 * 		the operation is not supported.
 	 */
-	ProgressIndicator addChild(String title);
+	ProgressIndicator addChildIndicator(String title);
 
 	/**
 	 * Removes a child progress indicator.
 	 * @param child The child <code>ProgressIndicator</code> to remove.
 	 */
-	void removeChild(ProgressIndicator child);
+	void removeChildIndicator(ProgressIndicator child);
+
+	/**
+	 * Gets the parent <code>ProgressIndicator</code> of this
+	 * <code>ProgressIndicator</code>.
+	 * @return The parent of this <code>ProgressIndicator</code>, or
+	 * 		<code>null</code> if this is a root level
+	 * 		<code>ProgressIndicator</code>.
+	 */
+	ProgressIndicator getParentIndicator();
 
 	/**
 	 * Sets the status of the operation.

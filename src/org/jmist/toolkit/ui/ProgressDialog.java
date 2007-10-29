@@ -181,7 +181,7 @@ public class ProgressDialog extends javax.swing.JDialog implements ProgressIndic
 	 * @see org.jmist.toolkit.ui.ProgressIndicator#addChild(java.lang.String)
 	 */
 	@Override
-	public ProgressIndicator addChild(String title) {
+	public ProgressIndicator addChildIndicator(String title) {
 		return null;
 	}
 
@@ -189,8 +189,16 @@ public class ProgressDialog extends javax.swing.JDialog implements ProgressIndic
 	 * @see org.jmist.toolkit.ui.ProgressIndicator#removeChild(org.jmist.toolkit.ui.ProgressIndicator)
 	 */
 	@Override
-	public void removeChild(ProgressIndicator child) {
+	public void removeChildIndicator(ProgressIndicator child) {
 		/* nothing to do */
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jmist.toolkit.ui.ProgressIndicator#getParentIndicator()
+	 */
+	@Override
+	public ProgressIndicator getParentIndicator() {
+		return null;
 	}
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables

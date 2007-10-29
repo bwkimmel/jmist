@@ -265,7 +265,7 @@ public class ProgressTreePanel extends javax.swing.JPanel {
 		this.childrenTable.setModel(this.getTableModel());
 		this.childrenTable.getColumn("Progress").setCellRenderer(ProgressTableCellRenderer.getInstance());
 
-		this.parentButton.setEnabled(this.top.getParent() != null);
+		this.parentButton.setEnabled(this.top.getParentIndicator() != null);
 
 	}
 
@@ -285,8 +285,8 @@ public class ProgressTreePanel extends javax.swing.JPanel {
 
 		ProgressNode node = this.top;
 
-		while (node.getParent() != null) {
-			node = node.getParent();
+		while (node.getParentIndicator() != null) {
+			node = node.getParentIndicator();
 		}
 
 		return node;
@@ -317,7 +317,7 @@ public class ProgressTreePanel extends javax.swing.JPanel {
 	 */
 	private void moveToParent() {
 
-		ProgressNode parent = this.top.getParent();
+		ProgressNode parent = this.top.getParentIndicator();
 		assert(parent != null);
 
 		this.moveToNode(parent);
@@ -362,7 +362,7 @@ public class ProgressTreePanel extends javax.swing.JPanel {
 		 * @see org.jmist.toolkit.ui.ProgressIndicator#removeChild(org.jmist.toolkit.ui.ProgressIndicator)
 		 */
 		@Override
-		public void removeChild(ProgressIndicator child) {
+		public void removeChildIndicator(ProgressIndicator child) {
 
 			for (int index = 0; index < this.children.size(); index++) {
 				if (this.children.get(index) == child) {
@@ -452,7 +452,7 @@ public class ProgressTreePanel extends javax.swing.JPanel {
 		 * @see org.jmist.toolkit.ui.ProgressIndicator#addChild(java.lang.String)
 		 */
 		@Override
-		public ProgressNode addChild(String title) {
+		public ProgressNode addChildIndicator(String title) {
 			ProgressNode node = new ProgressNode(title, this);
 			int index = this.children.size();
 			this.children.add(node);
@@ -460,11 +460,10 @@ public class ProgressTreePanel extends javax.swing.JPanel {
 			return node;
 		}
 
-		/**
-		 * Gets this node's parent node.
-		 * @return The parent of this <code>ProgressNode</code>.
+		/* (non-Javadoc)
+		 * @see org.jmist.toolkit.ui.ProgressIndicator#getParent()
 		 */
-		public ProgressNode getParent() {
+		public ProgressNode getParentIndicator() {
 			return this.parent;
 		}
 
