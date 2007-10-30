@@ -7,7 +7,7 @@ package org.jmist.framework;
  * Represents a job that can be split into smaller chunks.
  * @author bkimmel
  */
-public interface ParallelizableJob {
+public interface ParallelizableJob extends Job {
 
 	/**
 	 * Gets the next task to be performed.

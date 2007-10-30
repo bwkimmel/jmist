@@ -5,7 +5,7 @@ package org.jmist.packages;
 
 import java.io.Serializable;
 
-import org.jmist.framework.ParallelizableJob;
+import org.jmist.framework.AbstractParallelizableJob;
 import org.jmist.framework.TaskWorker;
 import org.jmist.framework.reporting.ProgressMonitor;
 
@@ -13,7 +13,8 @@ import org.jmist.framework.reporting.ProgressMonitor;
  * A dummy parallelizable job to test remote method invocation.
  * @author bkimmel
  */
-public final class DummyParallelizableJob implements ParallelizableJob, Serializable {
+public final class DummyParallelizableJob extends AbstractParallelizableJob
+		implements Serializable {
 
 	/**
 	 * Initializes the number of tasks to serve and the amount of time to

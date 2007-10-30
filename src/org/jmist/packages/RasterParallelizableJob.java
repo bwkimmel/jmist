@@ -3,7 +3,7 @@
  */
 package org.jmist.packages;
 
-import org.jmist.framework.ParallelizableJob;
+import org.jmist.framework.AbstractParallelizableJob;
 import org.jmist.framework.PixelShader;
 import org.jmist.framework.Raster;
 import org.jmist.framework.TaskWorker;
@@ -15,7 +15,7 @@ import org.jmist.toolkit.Pixel;
  * @author bkimmel
  *
  */
-public final class RasterParallelizableJob implements ParallelizableJob {
+public final class RasterParallelizableJob extends AbstractParallelizableJob {
 
 	/**
 	 * Creates a new <code>RasterParallelizableJob</code>.  This job will
