@@ -127,16 +127,19 @@ public final class RasterParallelizableJob extends AbstractParallelizableJob {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.ParallelizableJob#submitTaskResults(java.lang.Object, java.lang.Object)
+	 * @see org.jmist.framework.ParallelizableJob#submitTaskResults(java.lang.Object, java.lang.Object, org.jmist.framework.reporting.ProgressMonitor)
 	 */
 	@Override
-	public void submitTaskResults(Object task, Object results) {
+	public void submitTaskResults(Object task, Object results, ProgressMonitor monitor) {
 
 		Cell		cell		= (Cell) task;
 		Pixel[]		pixels		= (Pixel[]) results;
 
 		/* Write the submitted results to the raster. */
 		this.raster.setPixels(cell.xmin, cell.ymin, cell.xmax, cell.ymax, pixels);
+
+		/* Update the progress monitor. */
+		monitor.notifyProgress(++this.tasksComplete, this.rows * this.cols);
 
 	}
 
@@ -294,5 +297,8 @@ public final class RasterParallelizableJob extends AbstractParallelizableJob {
 
 	/** The row index of the next task to return. */
 	private int nextRow = 0;
+
+	/** The number of tasks that have been completed. */
+	private int tasksComplete = 0;
 
 }

@@ -53,14 +53,16 @@ public final class DummyParallelizableJob extends AbstractParallelizableJob
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.ParallelizableJob#submitResults(java.lang.Object, java.lang.Object)
+	 * @see org.jmist.framework.ParallelizableJob#submitResults(java.lang.Object, java.lang.Object, org.jmist.framework.reporting.ProgressMonitor)
 	 */
 	@Override
-	public void submitTaskResults(Object task, Object results) {
+	public void submitTaskResults(Object task, Object results, ProgressMonitor monitor) {
 
 		int taskValue = (Integer) task;
 		int resultValue = (Integer) results;
 		System.out.printf("Received results for task %d: %d.\n", taskValue, resultValue);
+
+		monitor.notifyProgress(++this.numResultsReceived, this.tasks);
 
 	}
 
@@ -94,6 +96,9 @@ public final class DummyParallelizableJob extends AbstractParallelizableJob
 
 	/** The index of the next task to serve. */
 	private int nextTask = 0;
+
+	/** The number of results that have been received. */
+	private int numResultsReceived = 0;
 
 	/**
 	 * The task worker to use to process tasks.

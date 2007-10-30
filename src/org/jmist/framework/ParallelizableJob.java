@@ -3,6 +3,8 @@
  */
 package org.jmist.framework;
 
+import org.jmist.framework.reporting.ProgressMonitor;
+
 /**
  * Represents a job that can be split into smaller chunks.
  * @author bkimmel
@@ -24,9 +26,11 @@ public interface ParallelizableJob extends Job {
 	 * 		previous call to {@link #getNextTask()}.
 	 * @param results The <code>Object</code> containing the results of
 	 * 		a task.
+	 * @param monitor The <code>ProgressMonitor</code> to update with the
+	 * 		progress of this <code>Job</code>.
 	 * @see {@link #getNextTask()}.
 	 */
-	void submitTaskResults(Object task, Object results);
+	void submitTaskResults(Object task, Object results, ProgressMonitor monitor);
 
 	/**
 	 * Gets the task worker to use to process the tasks of this

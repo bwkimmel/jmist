@@ -11,6 +11,8 @@ import java.util.UUID;
 
 import org.jmist.framework.ParallelizableJob;
 import org.jmist.framework.TaskWorker;
+import org.jmist.framework.reporting.DummyProgressMonitor;
+import org.jmist.framework.reporting.ProgressMonitor;
 
 /**
  * An implementation of <code>JobMasterService</code>: a remote service for
@@ -24,6 +26,7 @@ public final class JobMasterServer implements JobMasterService {
 	 * Initializes the service.
 	 */
 	public JobMasterServer() {
+		this.monitor = DummyProgressMonitor.getInstance();
 		this.verbose = true;
 	}
 
@@ -33,6 +36,7 @@ public final class JobMasterServer implements JobMasterService {
 	 * 		to <code>System.err</code>.
 	 */
 	public JobMasterServer(boolean verbose) {
+		this.monitor = DummyProgressMonitor.getInstance();
 		this.verbose = verbose;
 	}
 
@@ -153,7 +157,7 @@ public final class JobMasterServer implements JobMasterService {
 	public synchronized UUID submitJob(ParallelizableJob job, int priority) {
 
 		// Create the job and add it to the schedule.
-		ScheduledJob sched = new ScheduledJob(job, priority);
+		ScheduledJob sched = new ScheduledJob(job, priority, this.monitor);
 
 		this.jobLookup.put(sched.id, sched);
 		this.jobs.add(sched);
@@ -197,7 +201,7 @@ public final class JobMasterServer implements JobMasterService {
 				System.err.printf("Results from task %s/%d.\n", task.sched.id.toString(), task.id);
 			}
 
-			task.sched.job.submitTaskResults(task.info, results);
+			task.sched.job.submitTaskResults(task.info, results, task.sched.monitor);
 
 		} else if (this.verbose) { /* task == null */
 
@@ -327,11 +331,20 @@ public final class JobMasterServer implements JobMasterService {
 		public AssignedTask			tasks;
 
 		/**
+		 * The <code>ProgressMonitor</code> to use to monitor the progress of
+		 * the <code>Job</code>.
+		 */
+		public ProgressMonitor		monitor;
+
+		/**
 		 * Initializes the scheduled job.
 		 * @param job The <code>ParallelizableJob</code> to be processed.
 		 * @param priority The priority to assign to the job.
+		 * @param The <code>ProgressMonitor</code> from which to create a child
+		 * 		monitor to use to monitor the progress of the
+		 * 		<code>ParallelizableJob</code>.
 		 */
-		public ScheduledJob(ParallelizableJob job, int priority) {
+		public ScheduledJob(ParallelizableJob job, int priority, ProgressMonitor monitor) {
 
 			this.job		= job;
 			this.id			= UUID.randomUUID();
@@ -339,6 +352,7 @@ public final class JobMasterServer implements JobMasterService {
 			this.order		= nextOrder++;
 			this.worker		= job.worker();
 			this.tasks		= null;
+			this.monitor	= monitor.createChildProgressMonitor(this.id.toString());
 
 		}
 
@@ -397,6 +411,14 @@ public final class JobMasterServer implements JobMasterService {
 		}
 
 	}
+
+	/**
+	 * The master <code>ProgressMonitor</code> to use to monitor the progress
+	 * of this <code>JobMasterServer</code>.  This <code>ProgressMonitor</code>
+	 * will be used to create child <code>ProgressMonitor</code>s to monitor
+	 * the progress of individual <code>ParallelizableJob</code>s.
+	 */
+	private final ProgressMonitor monitor;
 
 	/**
 	 * A <code>PriorityQueue</code> of the jobs submitted to this
