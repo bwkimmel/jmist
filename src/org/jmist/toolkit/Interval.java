@@ -97,7 +97,7 @@ public final class Interval {
 	/**
 	 * Expands this interval by the specified amount.
 	 * @param amount The amount to expand this interval by.
-	 * @returns The expanded interval.
+	 * @return The expanded interval.
 	 */
 	public Interval expand(double amount) {
 		double newMinimum = minimum - amount;
