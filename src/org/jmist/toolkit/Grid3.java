@@ -133,7 +133,8 @@ public final class Grid3 {
 	 * @param cx The index along the x-axis.
 	 * @param cy The index along the y-axis.
 	 * @param cz The index along the
-	 * @return
+	 * @return A value indicating whether this grid has a cell at the specified
+	 * 		indices.
 	 */
 	public boolean hasCellAt(int cx, int cy, int cz) {
 		return 0 <= cx && cx < nx && 0 <= cy && cy < ny && 0 <= cz && cz < nz;
