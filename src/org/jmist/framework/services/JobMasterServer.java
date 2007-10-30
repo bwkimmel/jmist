@@ -40,6 +40,30 @@ public final class JobMasterServer implements JobMasterService {
 		this.verbose = verbose;
 	}
 
+	/**
+	 * Initializes the service.
+	 * @param monitor The master <code>ProgressMonitor</code> from which to
+	 * 		create child monitors to monitor the progress of individual
+	 * 		<code>ParallelizableJob</code>s.
+	 */
+	public JobMasterServer(ProgressMonitor monitor) {
+		this.monitor = monitor;
+		this.verbose = true;
+	}
+
+	/**
+	 * Initializes the service.
+	 * @param monitor The master <code>ProgressMonitor</code> from which to
+	 * 		create child monitors to monitor the progress of individual
+	 * 		<code>ParallelizableJob</code>s.
+	 * @param verbose A value indicating whether to write debugging output
+	 * 		to <code>System.err</code>.
+	 */
+	public JobMasterServer(ProgressMonitor monitor, boolean verbose) {
+		this.monitor = monitor;
+		this.verbose = verbose;
+	}
+
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.JobMasterService#getTaskWorker(java.util.UUID)
 	 */
