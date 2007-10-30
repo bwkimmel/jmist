@@ -21,6 +21,8 @@ import org.jmist.framework.RayShader;
 import org.jmist.framework.event.Event;
 import org.jmist.framework.event.EventObserver;
 import org.jmist.framework.event.EventSubject;
+import org.jmist.framework.reporting.CompositeProgressMonitor;
+import org.jmist.framework.reporting.ConsoleProgressMonitor;
 import org.jmist.framework.reporting.ProgressDialog;
 import org.jmist.framework.reporting.ProgressMonitor;
 import org.jmist.framework.reporting.ProgressTreePanel;
@@ -144,14 +146,28 @@ public class Test {
 //		testNRooks();
 //		testPolynomial();
 //		testRoots();
-
 		//testShade();
 
 //		testClassLoader();
 
 		//testJobMasterServer();
 		//testJobMasterServiceClient();
-		testProgressTree();
+		//testProgressTree();
+		
+		testParallelizableJobAsJob();
+	}
+	
+	@SuppressWarnings("unused")
+	private static void testParallelizableJobAsJob() {
+		
+		Job job = new DummyParallelizableJob(100, 500, 800);
+		job.go(
+				new CompositeProgressMonitor()
+					.addProgressMonitor(new ProgressDialog())
+					.addProgressMonitor(new ProgressDialog())
+					.addProgressMonitor(new ConsoleProgressMonitor())
+		);
+		
 	}
 
 	@SuppressWarnings("unused")
@@ -183,9 +199,16 @@ public class Test {
 
 	        JDialog dialog = new JDialog();
 	        ProgressTreePanel monitor = new ProgressTreePanel("JobMasterServer");
+	        JDialog dialog2 = new JDialog();
+	        ProgressTreePanel monitor2 = new ProgressTreePanel("JobMasterServer2");
 	        dialog.add(monitor);
+	        dialog2.add(monitor2);
 
-			JobMasterServer server = new JobMasterServer(monitor, true);
+	        CompositeProgressMonitor mon = new CompositeProgressMonitor();
+	        mon.addProgressMonitor(monitor);
+	        mon.addProgressMonitor(monitor2);
+
+			JobMasterServer server = new JobMasterServer(mon, true);
 			System.err.println("[1]");
 			JobMasterService stub = (JobMasterService) UnicastRemoteObject.exportObject(server, 0);
 			System.err.println("[2]");
@@ -198,6 +221,8 @@ public class Test {
 			System.err.println("Server ready");
 			dialog.setTitle("JobMasterServer");
 			dialog.setVisible(true);
+			dialog2.setTitle("JobMasterServer2");
+			dialog2.setVisible(true);
 
 		} catch (Exception e) {
 
@@ -211,7 +236,7 @@ public class Test {
 	@SuppressWarnings("unused")
 	private static void testJobMasterServiceClient() {
 
-		String host = "bkimmel.eandb.net";
+		String host = "localhost";
 		JDialog dialog = new JDialog();
 		ProgressTreePanel monitor = new ProgressTreePanel();
 		ParallelizableJob job = new DummyParallelizableJob(100, 5000, 10000);
