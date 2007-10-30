@@ -27,15 +27,6 @@ public final class CompositeProgressMonitor implements ProgressMonitor {
 		this.monitors.add(monitor);
 	}
 
-	/**
-	 * Removes a <code>ProgressMonitor</code> from the collection.
-	 * @param monitor The <code>ProgressMonitor</code> to remove from the
-	 * 		collection.
-	 */
-	public void removeProgressMonitor(ProgressMonitor monitor) {
-		this.monitors.remove(monitor);
-	}
-
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.reporting.ProgressMonitor#createChildProgressMonitor(java.lang.String)
 	 */
