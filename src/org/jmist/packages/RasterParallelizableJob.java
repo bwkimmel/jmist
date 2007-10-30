@@ -12,8 +12,8 @@ import org.jmist.toolkit.Box2;
 import org.jmist.toolkit.Pixel;
 
 /**
+ * A <code>ParallelizableJob</code> that renders a <code>Raster</code> image.
  * @author bkimmel
- *
  */
 public final class RasterParallelizableJob extends AbstractParallelizableJob {
 
