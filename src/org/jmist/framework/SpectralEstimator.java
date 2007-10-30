@@ -29,7 +29,6 @@ public interface SpectralEstimator {
 	 * 		particular, the implementation of this method must
 	 * 		not assume that the elements have been set to zero
 	 * 		prior to invocation.
-	 * @param rnd A random number generator.
 	 */
 	void sample(Tuple wavelengths, double[] responses);
 
