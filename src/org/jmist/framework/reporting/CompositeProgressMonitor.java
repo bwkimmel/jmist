@@ -22,9 +22,12 @@ public final class CompositeProgressMonitor implements ProgressMonitor {
 	 * Adds a <code>ProgressMonitor</code> to the collection.
 	 * @param monitor The <code>ProgressMonitor</code> to add to the
 	 * 		collection.
+	 * @return This <code>CompositeProgressMonitor</code> is returns so that
+	 * 		calls to this method may be chained.
 	 */
-	public void addProgressMonitor(ProgressMonitor monitor) {
+	public CompositeProgressMonitor addProgressMonitor(ProgressMonitor monitor) {
 		this.monitors.add(monitor);
+		return this;
 	}
 
 	/* (non-Javadoc)
