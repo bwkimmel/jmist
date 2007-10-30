@@ -414,20 +414,20 @@ public final class JobMasterServer implements JobMasterService {
 
 			// First compare priorities.
 			if (this.priority > arg0.priority) {
-				return 1;
+				return -1;
 			}
 
 			if (this.priority < arg0.priority) {
-				return -1;
+				return 1;
 			}
 
 			// The priorities are equal, so the first job submitted wins.
 			if (this.order > arg0.order) {
-				return -1;
+				return 1;
 			}
 
 			if (this.order < arg0.order) {
-				return 1;
+				return -1;
 			}
 
 			return 0;
