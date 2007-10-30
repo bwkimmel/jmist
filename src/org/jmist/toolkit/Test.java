@@ -181,7 +181,11 @@ public class Test {
 	            System.setSecurityManager(new SecurityManager());
 	        }
 
-			JobMasterServer server = new JobMasterServer();
+	        JDialog dialog = new JDialog();
+	        ProgressTreePanel monitor = new ProgressTreePanel("JobMasterServer");
+	        dialog.add(monitor);
+
+			JobMasterServer server = new JobMasterServer(monitor, true);
 			System.err.println("[1]");
 			JobMasterService stub = (JobMasterService) UnicastRemoteObject.exportObject(server, 0);
 			System.err.println("[2]");
@@ -192,6 +196,8 @@ public class Test {
 			System.err.println("[4]");
 
 			System.err.println("Server ready");
+			dialog.setTitle("JobMasterServer");
+			dialog.setVisible(true);
 
 		} catch (Exception e) {
 
