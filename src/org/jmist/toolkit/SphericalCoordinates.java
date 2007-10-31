@@ -3,6 +3,8 @@
  */
 package org.jmist.toolkit;
 
+import org.jmist.util.MathUtil;
+
 /**
  * Three dimensional vector represented using spherical coordinates.  This
  * class is immutable.
@@ -90,6 +92,93 @@ public final class SphericalCoordinates {
 	 */
 	public SphericalCoordinates opposite() {
 		return new SphericalCoordinates(this.polar, this.azimuthal, -this.radius);
+	}
+
+	/**
+	 * Determines if this vector is in canonical form.  Two equivalent
+	 * <code>SphericalCoordinates</code> (i.e., pointing in the same direction
+	 * and having the same radius) will have equal values for both angles and
+	 * the radius when converted to canonical form.  For example, the following
+	 * spherical coordinates:
+	 * <code>
+	 * 		<br>
+	 * 		<br>(Math.PI / 6, Math.PI / 2, 1.0)
+	 * 		<br>(-5 * Math.PI / 6, Math.PI / 2, -1.0)
+	 * 		<br><br>
+	 * </code>
+	 * represent the same vector.  The first of those vectors is in canonical
+	 * form.  The second is not.  A <code>SphericalCoordinates</code> vector is
+	 * considered to be in canonical form if <code>0 &lt;= polar &lt;= PI</code>,
+	 * <code>-PI &lt;= azimuthal &lt; PI</code>, and <code>radius &gt;= 0</code>.
+	 * @return A value indicating if this vector is in canonical form.
+	 */
+	public boolean isCanonical() {
+		return (0.0 <= this.polar && this.polar <= Math.PI
+				&& -Math.PI <= this.azimuthal && this.azimuthal < Math.PI
+				&& this.radius >= 0.0);
+	}
+
+	/**
+	 * Computes the canonical form of this vector.  Two equivalent
+	 * <code>SphericalCoordinates</code> (i.e., pointing in the same direction
+	 * and having the same radius) will have equal values for both angles and
+	 * the radius when converted to canonical form.  For example, the following
+	 * spherical coordinates:
+	 * <code>
+	 * 		<br>
+	 * 		<br>(Math.PI / 6, Math.PI / 2, 1.0)
+	 * 		<br>(-5 * Math.PI / 6, Math.PI / 2, -1.0)
+	 * 		<br><br>
+	 * </code>
+	 * represent the same vector.  The first of those vectors is in canonical
+	 * form.  The second is not.  A <code>SphericalCoordinates</code> vector is
+	 * considered to be in canonical form if <code>0 &lt;= polar &lt;= PI</code>,
+	 * <code>-PI &lt;= azimuthal &lt; PI</code>, and <code>radius &gt;= 0</code>.
+	 * @return The canonical <code>SphericalCoordinates</code> representation
+	 * 		of this vector.
+	 */
+	public SphericalCoordinates canonical() {
+
+		/* If the vector is already in canonical form, don't create a new
+		 * one.
+		 */
+		if (this.isCanonical()) {
+			return this;
+		}
+
+		double newPolar = this.polar;
+		double newAzimuthal = this.azimuthal;
+
+		/* If the radius is negative, compensate by adding PI to the polar
+		 * angle.
+		 */
+		if (this.radius < 0.0) {
+			newPolar += Math.PI;
+		}
+
+		/* Canonicalize the polar angle. */
+		newPolar = canonicalize(newPolar);
+
+		/* If the polar angle is negative (i.e., between -PI and zero), then
+		 * compensate by adding PI to the azimuthal angle.
+		 */
+		if (newPolar < 0.0) {
+			newAzimuthal += Math.PI;
+			newPolar = -newPolar;
+		}
+
+		return new SphericalCoordinates(newPolar, newAzimuthal, Math.abs(this.radius));
+
+	}
+
+	/**
+	 * Canonicalizes an angle (i.e., computes the equivalent angle satisfying
+	 * <code>-PI &lt;= theta &lt; PI</code>.
+	 * @param theta The angle to compute the canonical form of.
+	 * @return The equivalent angle in the canonical range.
+	 */
+	public static double canonicalize(double theta) {
+		return theta - (2.0 * Math.PI) * Math.floor(theta / (2.0 * Math.PI)) - Math.PI;
 	}
 
 	/**
