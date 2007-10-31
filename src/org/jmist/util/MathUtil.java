@@ -182,7 +182,7 @@ public final class MathUtil {
 	/**
 	 * The difference between 1.0 and the next highest representable value.
 	 */
-	public static final double MACHINE_EPSILON	= Math.nextUp(1.0) - 1.0;
+	public static final double MACHINE_EPSILON	= Math.ulp(1.0);
 
 	/**
 	 * This class contains only static utility methods and static constants,
