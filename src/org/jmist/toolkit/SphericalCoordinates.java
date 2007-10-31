@@ -167,6 +167,9 @@ public final class SphericalCoordinates {
 			newPolar = -newPolar;
 		}
 
+		/* Canonicalize the azimuthal angle. */
+		newAzimuthal = canonicalize(newAzimuthal);
+
 		return new SphericalCoordinates(newPolar, newAzimuthal, Math.abs(this.radius));
 
 	}
