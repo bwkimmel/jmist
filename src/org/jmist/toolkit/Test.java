@@ -26,7 +26,6 @@ import org.jmist.framework.reporting.ConsoleProgressMonitor;
 import org.jmist.framework.reporting.ProgressDialog;
 import org.jmist.framework.reporting.ProgressMonitor;
 import org.jmist.framework.reporting.ProgressTreePanel;
-import org.jmist.framework.serialization.MistClassLoader;
 import org.jmist.framework.services.JobMasterServer;
 import org.jmist.framework.services.JobMasterService;
 import org.jmist.framework.services.ServiceSubmitJob;
@@ -148,18 +147,16 @@ public class Test {
 //		testRoots();
 		//testShade();
 
-//		testClassLoader();
-
 		//testJobMasterServer();
 		//testJobMasterServiceClient();
 		//testProgressTree();
-		
+
 		testParallelizableJobAsJob();
 	}
-	
+
 	@SuppressWarnings("unused")
 	private static void testParallelizableJobAsJob() {
-		
+
 		Job job = new DummyParallelizableJob(100, 500, 800);
 		job.go(
 				new CompositeProgressMonitor()
@@ -167,7 +164,7 @@ public class Test {
 					.addProgressMonitor(new ProgressDialog())
 					.addProgressMonitor(new ConsoleProgressMonitor())
 		);
-		
+
 	}
 
 	@SuppressWarnings("unused")
@@ -249,21 +246,6 @@ public class Test {
 
 		submitJob.go(monitor);
 		workerJob.go(monitor);
-
-	}
-
-	@SuppressWarnings("unused")
-	private static void testClassLoader() {
-		try {
-			MistClassLoader.addSource("file:///c:/Documents%20and%20Settings/bkimmel/workspace/jmist/bin/");
-			MistClassLoader.sync();
-
-			ClassLoader loader = MistClassLoader.getInstance();
-
-
-		} catch (MalformedURLException e) {
-			System.err.println(e);
-		}
 
 	}
 
