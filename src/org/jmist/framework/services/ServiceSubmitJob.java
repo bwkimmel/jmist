@@ -36,7 +36,7 @@ public final class ServiceSubmitJob implements Job {
 	 * @see org.jmist.framework.Job#go(org.jmist.framework.ProgressMonitor)
 	 */
 	@Override
-	public void go(ProgressMonitor monitor) {
+	public boolean go(ProgressMonitor monitor) {
 
 		try {
 
@@ -51,11 +51,13 @@ public final class ServiceSubmitJob implements Job {
 
 				monitor.notifyStatusChanged(String.format("Submitted, ID=%s.", jobId.toString()));
 				monitor.notifyComplete();
+				return true;
 
 			} else {
 
 				monitor.notifyStatusChanged("Failed to submit job.");
 				monitor.notifyCancelled();
+				return false;
 
 			}
 
@@ -66,6 +68,7 @@ public final class ServiceSubmitJob implements Job {
 
 			monitor.notifyStatusChanged(String.format("Failed to submit job: %s.", e.toString()));
 			monitor.notifyCancelled();
+			return false;
 
 		}
 

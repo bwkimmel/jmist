@@ -15,7 +15,8 @@ public interface Job {
 	 * Runs the job.
 	 * @param monitor The <code>ProgressMonitor</code> to report the progress
 	 * 		of the job to.
+	 * @return A value indicating if the job was completed.
 	 */
-	void go(ProgressMonitor monitor);
+	boolean go(ProgressMonitor monitor);
 
 }

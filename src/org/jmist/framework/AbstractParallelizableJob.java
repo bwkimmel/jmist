@@ -16,7 +16,7 @@ public abstract class AbstractParallelizableJob implements ParallelizableJob {
 	 * @see org.jmist.framework.Job#go(org.jmist.framework.reporting.ProgressMonitor)
 	 */
 	@Override
-	public void go(ProgressMonitor monitor) {
+	public boolean go(ProgressMonitor monitor) {
 
 		/* Get the task worker. */
 		TaskWorker worker = this.worker();
@@ -34,7 +34,7 @@ public abstract class AbstractParallelizableJob implements ParallelizableJob {
 			/* If there is no next task, then we're done. */
 			if (task == null) {
 				monitor.notifyComplete();
-				return;
+				return true;
 			}
 
 			/* Perform the task. */
@@ -52,6 +52,7 @@ public abstract class AbstractParallelizableJob implements ParallelizableJob {
 
 		/* If we get to this point, then the job was cancelled. */
 		monitor.notifyCancelled();
+		return false;
 
 	}
 

@@ -21,7 +21,7 @@ public final class RasterJob implements Job {
 		this.writer = writer;
 	}
 
-	public void go(ProgressMonitor monitor) {
+	public boolean go(ProgressMonitor monitor) {
 
 		int		px			= -1;		// previous x
 		int		py			= -1;		// previous y
@@ -37,7 +37,7 @@ public final class RasterJob implements Job {
 
 		if (!monitor.notifyProgress(writer.y(), writer.height())) {
 			monitor.notifyCancelled();
-			return;
+			return false;
 		}
 
 		while (!writer.done()) {
@@ -55,7 +55,7 @@ public final class RasterJob implements Job {
 
 				if (!monitor.notifyProgress(y, writer.height())) {
 					monitor.notifyCancelled();
-					return;
+					return false;
 				}
 			}
 
@@ -68,6 +68,7 @@ public final class RasterJob implements Job {
 
 		monitor.notifyProgress(writer.height(), writer.height());
 		monitor.notifyComplete();
+		return true;
 
 	}
 

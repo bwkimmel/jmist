@@ -34,7 +34,7 @@ public final class ServiceWorkerJob implements Job {
 	 * @see org.jmist.framework.Job#go(org.jmist.framework.ProgressMonitor)
 	 */
 	@Override
-	public void go(ProgressMonitor monitor) {
+	public boolean go(ProgressMonitor monitor) {
 
 		try {
 
@@ -99,6 +99,8 @@ public final class ServiceWorkerJob implements Job {
 			monitor.notifyCancelled();
 
 		}
+
+		return false;
 
 	}
 
