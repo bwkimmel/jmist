@@ -156,6 +156,16 @@ public final class MathUtil {
 	}
 
 	/**
+	 * Returns the value of the integer of highest magnitude (farthest from
+	 * zero) whose absolute value is at most that of <code>x</code>.
+	 * @param x The value to truncate.
+	 * @return The integer portion of <code>x</code>.
+	 */
+	public static double truncate(double x) {
+		return x > 0.0 ? Math.floor(x) : Math.ceil(x);
+	}
+
+	/**
 	 * A comparison threshold value to be used when a very high degree
 	 * of precision is expected.
 	 */
