@@ -17,9 +17,6 @@ import org.jmist.framework.Lens;
 import org.jmist.framework.ParallelizableJob;
 import org.jmist.framework.PixelShader;
 import org.jmist.framework.RayShader;
-import org.jmist.framework.event.Event;
-import org.jmist.framework.event.EventObserver;
-import org.jmist.framework.event.EventSubject;
 import org.jmist.framework.reporting.CompositeProgressMonitor;
 import org.jmist.framework.reporting.ConsoleProgressMonitor;
 import org.jmist.framework.reporting.ProgressDialog;
@@ -40,92 +37,6 @@ import org.jmist.packages.SimplePixelShader;
 import org.jmist.toolkit.Grid3.Cell;
 
 public class Test {
-
-	static class TestSubject {
-
-		public void raiseEventA(int arg) {
-			onEventA.raise(this, arg);
-		}
-
-		public void raiseEventB() {
-			onEventB.raise(this, null);
-		}
-
-		public Event<Integer> onEventA() {
-			return onEventA;
-		}
-
-		public Event<Object> onEventB() {
-			return onEventB;
-		}
-
-		private EventSubject<Integer> onEventA = new EventSubject<Integer>();
-		private EventSubject<Object> onEventB = new EventSubject<Object>();
-
-	}
-
-	static class TestObserver {
-
-		public TestObserver(TestSubject subject) {
-
-			this.subject = subject;
-
-			enableEventA();
-			enableEventB();
-
-		}
-
-		public void enableEventA() {
-			subject.onEventA().subscribe(eventAHandler);
-		}
-
-		public void disableEventA() {
-			subject.onEventA().unsubscribe(eventAHandler);
-		}
-
-		public void enableEventB() {
-			subject.onEventB().subscribe(eventBHandler);
-		}
-
-		public void disableEventB() {
-			subject.onEventB().unsubscribe(eventBHandler);
-		}
-
-		/* (non-Javadoc)
-		 * @see java.lang.Object#finalize()
-		 */
-		@Override
-		protected void finalize() throws Throwable {
-			// TODO Auto-generated method stub
-			try {
-				disableEventA();
-				disableEventB();
-			} finally {
-				super.finalize();
-			}
-		}
-
-		public void print() {
-			System.out.println("last event A arg = " + lastEventAArg.toString());
-		}
-
-		private TestSubject subject;
-		private Object lastEventAArg = new Integer(0);
-
-		private EventObserver<Object> eventBHandler = new EventObserver<Object>() {
-			public void notify(Object sender, Object args) {
-				System.out.println("event B raised");
-			}
-		};
-
-		private EventObserver<Object> eventAHandler = new EventObserver<Object>() {
-			public void notify(Object sender, Object arg) {
-				lastEventAArg = arg;
-				System.out.println("event A raised, arg = " + arg.toString());
-			}
-		};
-
-	}
 
 	/**
 	 * @param args
@@ -492,29 +403,6 @@ public class Test {
 		System.out.println("-------");
 		System.out.print("zzz[1]=");
 		System.out.println(zzz.at(1));
-	}
-
-	/**
-	 *
-	 */
-	@SuppressWarnings("unused")
-	private static void testObserver() {
-		TestSubject subject = new TestSubject();
-		TestObserver observer = new TestObserver(subject);
-
-		subject.raiseEventA(5);
-		observer.print();
-		observer.disableEventA();
-		subject.raiseEventA(4);
-		observer.print();
-		observer.enableEventA();
-		subject.raiseEventA(3);
-		observer.print();
-		subject.raiseEventB();
-		observer.disableEventB();
-		subject.raiseEventB();
-		observer.enableEventB();
-		subject.raiseEventB();
 	}
 
 	/**
