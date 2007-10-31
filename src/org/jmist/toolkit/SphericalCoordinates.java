@@ -3,8 +3,6 @@
  */
 package org.jmist.toolkit;
 
-import org.jmist.util.MathUtil;
-
 /**
  * Three dimensional vector represented using spherical coordinates.  This
  * class is immutable.
