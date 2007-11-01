@@ -12,11 +12,15 @@ import org.jmist.toolkit.Vector3;
  */
 public interface CollectorSphere {
 
+	CollectorSphere clone();
+
 	void reset();
 	void record(Vector3 v);
 	void record(SphericalCoordinates v);
 
 	long hits(int sensor);
+
+	void merge(CollectorSphere other) throws IllegalArgumentException;
 
 	int sensors();
 

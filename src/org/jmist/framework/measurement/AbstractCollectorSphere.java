@@ -12,6 +12,12 @@ import org.jmist.toolkit.Vector3;
  */
 public abstract class AbstractCollectorSphere implements CollectorSphere {
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 */
+	@Override
+	public abstract CollectorSphere clone();
+
 	/**
 	 * Initializes an <code>AbstractCollectorSphere</code>.
 	 * @param sensors The number of sensors in this
@@ -81,6 +87,32 @@ public abstract class AbstractCollectorSphere implements CollectorSphere {
 	@Override
 	public int sensors() {
 		return this.hits.length;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.measurement.CollectorSphere#merge(org.jmist.framework.measurement.CollectorSphere)
+	 */
+	@Override
+	public void merge(CollectorSphere other) throws IllegalArgumentException {
+
+		if (this.getClass().equals(other.getClass())) {
+
+			AbstractCollectorSphere toMerge = (AbstractCollectorSphere) other;
+
+			if (this.hits.length == toMerge.hits.length) {
+
+				for (int i = 0; i < this.hits.length; i++) {
+					this.hits[i] += toMerge.hits[i];
+				}
+
+				return;
+
+			}
+
+		}
+
+		throw new IllegalArgumentException("Incompatible CollectorSpheres");
+
 	}
 
 	/**
