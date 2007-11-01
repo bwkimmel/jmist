@@ -59,22 +59,22 @@ public final class Photometer {
 		this.castPhotons(1);
 	}
 
-	public void castPhotons(int n) {
+	public void castPhotons(long n) {
 		// TODO implement this method.
 
 	}
 
-	public void castPhotons(int n, ProgressMonitor monitor) {
+	public void castPhotons(long n, ProgressMonitor monitor) {
 		this.castPhotons(n, monitor, DEFAULT_PROGRESS_INTERVAL);
 	}
 
-	public void castPhotons(int n, ProgressMonitor monitor, int progressInterval) {
+	public void castPhotons(long n, ProgressMonitor monitor, long progressInterval) {
 		// TODO implement this method.
 
 	}
 
 	private final CollectorSphere collectorSphere;
 
-	private static final int DEFAULT_PROGRESS_INTERVAL = 1000;
+	private static final long DEFAULT_PROGRESS_INTERVAL = 1000;
 
 }
