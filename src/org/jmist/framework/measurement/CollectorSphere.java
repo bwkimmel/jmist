@@ -16,8 +16,7 @@ public interface CollectorSphere {
 	void record(Vector3 v);
 	void record(SphericalCoordinates v);
 
-	int hits(int sensor);
-	int[] hits();
+	long hits(int sensor);
 
 	int sensors();
 

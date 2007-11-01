@@ -18,23 +18,23 @@ public abstract class AbstractCollectorSphere implements CollectorSphere {
 	 * 		<code>CollectorSphere</code>.
 	 */
 	protected AbstractCollectorSphere(int sensors) {
-		hits = new int[sensors];
+		this.hits = new long[sensors];
+	}
+
+	/**
+	 * Creates a copy of another <code>AbstractCollectorSphere</code>.
+	 * @param other The <code>AbstractCollectorSphere</code> to copy.
+	 */
+	protected AbstractCollectorSphere(AbstractCollectorSphere other) {
+		this.hits = other.hits.clone();
 	}
 
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.measurement.CollectorSphere#hits(int)
 	 */
 	@Override
-	public int hits(int sensor) {
+	public long hits(int sensor) {
 		return this.hits[sensor];
-	}
-
-	/* (non-Javadoc)
-	 * @see org.jmist.framework.measurement.CollectorSphere#hits()
-	 */
-	@Override
-	public int[] hits() {
-		return this.hits.clone();
 	}
 
 	/* (non-Javadoc)
@@ -92,7 +92,7 @@ public abstract class AbstractCollectorSphere implements CollectorSphere {
 	}
 
 	/** An array containing the number of hits to each sensor. */
-	private final int[] hits;
+	private final long[] hits;
 
 	/**
 	 * A value indicating whether one of the overloads of
