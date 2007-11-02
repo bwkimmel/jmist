@@ -34,6 +34,19 @@ public interface Spectrum {
 	 */
 	double[] sample(Tuple wavelengths, double[] results) throws IllegalArgumentException;
 
+	/**
+	 * Multiplies the provided samples by a sample of the spectrum at the
+	 * specified wavelengths.  Equivalent to multiplying <code>samples</code>
+	 * by <code>this.sample(wavelengths, null)</code> component-wise.
+	 * @param wavelengths The <code>Tuple</code> of wavelengths at which to
+	 * 		sample this <code>Spectrum</code>.
+	 * @param samples The array of samples to modulate (must not be
+	 * 		<code>null</code> and must have <code>samples.length ==
+	 * 		wavelengths.size()</code>.
+	 * @throws IllegalArgumentException if <code>samples</code> is
+	 * 		<code>null</code> or if the length of <code>samples</code> does
+	 * 		not match that of <code>wavelengths</code>.
+	 */
 	void modulate(Tuple wavelengths, double[] samples) throws IllegalArgumentException;
 
 	/**
