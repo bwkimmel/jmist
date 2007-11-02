@@ -3,7 +3,11 @@
  */
 package org.jmist.packages;
 
+import java.io.IOException;
+import java.io.PrintStream;
 import java.io.Serializable;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import org.jmist.framework.AbstractParallelizableJob;
 import org.jmist.framework.TaskWorker;
@@ -63,6 +67,30 @@ public final class DummyParallelizableJob extends AbstractParallelizableJob
 		System.out.printf("Received results for task %d: %d.\n", taskValue, resultValue);
 
 		monitor.notifyProgress(++this.numResultsReceived, this.tasks);
+
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.ParallelizableJob#isComplete()
+	 */
+	@Override
+	public boolean isComplete() {
+		return this.numResultsReceived >= this.tasks;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.ParallelizableJob#writeJobResults(java.util.zip.ZipOutputStream)
+	 */
+	@Override
+	public void writeJobResults(ZipOutputStream stream) throws IOException {
+
+		stream.putNextEntry(new ZipEntry("results.txt"));
+
+		PrintStream results = new PrintStream(stream);
+		results.printf("DummyParallelizableJob complete (%d tasks).\n", this.tasks);
+		results.flush();
+
+		stream.closeEntry();
 
 	}
 

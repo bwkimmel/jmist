@@ -3,6 +3,9 @@
  */
 package org.jmist.framework;
 
+import java.io.IOException;
+import java.util.zip.ZipOutputStream;
+
 import org.jmist.framework.reporting.ProgressMonitor;
 
 /**
@@ -31,6 +34,19 @@ public interface ParallelizableJob extends Job {
 	 * @see {@link #getNextTask()}.
 	 */
 	void submitTaskResults(Object task, Object results, ProgressMonitor monitor);
+
+	/**
+	 * Gets a value that indicates if this job is complete (i.e., if results
+	 * for all tasks have been submitted).
+	 * @return A value indicating if this job is complete.
+	 */
+	boolean isComplete();
+
+	/**
+	 * Writes the results of this job.
+	 * @param stream The <code>ZipOutputStream</code> to write the results to.
+	 */
+	void writeJobResults(ZipOutputStream stream) throws IOException;
 
 	/**
 	 * Gets the task worker to use to process the tasks of this

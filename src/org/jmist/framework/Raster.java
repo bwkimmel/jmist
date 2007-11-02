@@ -3,6 +3,8 @@
  */
 package org.jmist.framework;
 
+import java.io.OutputStream;
+
 import org.jmist.toolkit.Pixel;
 
 /**
@@ -21,5 +23,7 @@ public interface Raster {
 
 	int width();
 	int height();
+
+	void write(OutputStream stream);
 
 }

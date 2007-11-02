@@ -1,5 +1,6 @@
 package org.jmist.toolkit;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
@@ -8,6 +9,8 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import javax.swing.JDialog;
 
@@ -61,7 +64,32 @@ public class Test {
 		//testJobMasterServiceClient();
 		//testProgressTree();
 
-		testParallelizableJobAsJob();
+		//testParallelizableJobAsJob();
+		
+		testZip();
+	}
+	
+	@SuppressWarnings("unused")
+	private static void testZip() {
+		
+		try {
+			FileOutputStream fos = new FileOutputStream("C:/test2.zip");
+			ZipOutputStream zip = new ZipOutputStream(fos);
+//			zip.putNextEntry(new ZipEntry("test/blah.dat"));
+//			zip.write(new byte[5]);
+//			zip.putNextEntry(new ZipEntry("blah.dat2"));
+//			zip.write(new byte[5]);
+//			zip.closeEntry();
+			
+			zip.finish();
+			
+			zip.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 	@SuppressWarnings("unused")

@@ -3,6 +3,10 @@
  */
 package org.jmist.packages;
 
+import java.io.IOException;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
 import org.jmist.framework.AbstractParallelizableJob;
 import org.jmist.framework.PixelShader;
 import org.jmist.framework.Raster;
@@ -141,6 +145,24 @@ public final class RasterParallelizableJob extends AbstractParallelizableJob {
 		/* Update the progress monitor. */
 		monitor.notifyProgress(++this.tasksComplete, this.rows * this.cols);
 
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.ParallelizableJob#isComplete()
+	 */
+	@Override
+	public boolean isComplete() {
+		return this.tasksComplete >= (this.rows * this.cols);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.ParallelizableJob#writeJobResults(java.util.zip.ZipOutputStream)
+	 */
+	@Override
+	public void writeJobResults(ZipOutputStream stream) throws IOException {
+		stream.putNextEntry(new ZipEntry("raster.img"));
+		this.raster.write(stream);
+		stream.closeEntry();
 	}
 
 	/* (non-Javadoc)

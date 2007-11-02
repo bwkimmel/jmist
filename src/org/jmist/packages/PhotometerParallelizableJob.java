@@ -3,6 +3,11 @@
  */
 package org.jmist.packages;
 
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
 import org.jmist.framework.AbstractParallelizableJob;
 import org.jmist.framework.Material;
 import org.jmist.framework.TaskWorker;
@@ -43,7 +48,7 @@ public final class PhotometerParallelizableJob extends
 	@Override
 	public Object getNextTask() {
 
-		if (this.outstandingSamplesPerMeasurement < this.samplesPerMeasurement) {
+		if (!this.isComplete()) {
 
 			PhotometerTask task = this.getPhotometerTask(this.nextMeasurementIndex);
 
@@ -90,6 +95,93 @@ public final class PhotometerParallelizableJob extends
 		CollectorSphere		collector	= (CollectorSphere) results;
 
 		this.results[info.measurementIndex].merge(collector);
+
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.ParallelizableJob#isComplete()
+	 */
+	@Override
+	public boolean isComplete() {
+		return this.outstandingSamplesPerMeasurement >= this.samplesPerMeasurement;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.ParallelizableJob#writeJobResults(java.util.zip.ZipOutputStream)
+	 */
+	@Override
+	public void writeJobResults(ZipOutputStream stream) throws IOException {
+
+		stream.putNextEntry(new ZipEntry("photometer.csv"));
+
+		PrintStream out = new PrintStream(stream);
+
+		this.writeColumnHeadings(out);
+
+		for (int incidentAngleIndex = 0, n = 0; incidentAngleIndex < this.incidentAngles.length; incidentAngleIndex++) {
+
+			SphericalCoordinates			incidentAngle			= this.incidentAngles[incidentAngleIndex];
+
+			for (int wavelengthIndex = 0; wavelengthIndex < this.wavelengths.length; wavelengthIndex++, n++) {
+
+				double						wavelength				= this.wavelengths[wavelengthIndex];
+				CollectorSphere				collector				= this.results[n];
+
+				for (int sensor = 0; sensor < collector.sensors(); sensor++) {
+
+					SphericalCoordinates	exitantAngle			= collector.getSensorCenter(sensor);
+					double					solidAngle				= collector.getSensorSolidAngle(sensor);
+					double					projectedSolidAngle		= collector.getSensorProjectedSolidAngle(sensor);
+					long					hits					= collector.hits(sensor);
+					double					reflectance				= (double) hits / (double) this.outstandingSamplesPerMeasurement;
+
+					out.printf(
+							"%f,%f,%f,%d,%f,%f,%f,%f,%d,%d,%f,%f,%f",
+							incidentAngle.polar(),
+							incidentAngle.azimuthal(),
+							wavelength,
+							sensor,
+							exitantAngle.polar(),
+							exitantAngle.azimuthal(),
+							solidAngle,
+							projectedSolidAngle,
+							this.outstandingSamplesPerMeasurement,
+							hits,
+							reflectance,
+							reflectance / projectedSolidAngle,
+							reflectance / solidAngle
+					);
+
+				}
+
+			}
+
+		}
+
+		stream.closeEntry();
+
+	}
+
+	/**
+	 * Writes the CSV column headings to the result stream.
+	 * @param out The <code>PrintStream</code> to write the column headings to.
+	 */
+	private void writeColumnHeadings(PrintStream out) {
+
+		out.print("\"Incident Polar (radians)\", ");
+		out.print("\"Incident Azimuthal (radians)\", ");
+		out.print("\"Wavelength (m)\", ");
+		out.print("\"Sensor\", ");
+		out.print("\"Exitant Polar (radians)\", ");
+		out.print("\"Exitant Azimuthal (radians)\", ");
+		out.print("\"Solid Angle (sr)\", ");
+		out.print("\"Projected Solid Angle (sr)\", ");
+		out.print("\"Samples\", ");
+		out.print("\"Hits\", ");
+		out.print("\"Reflectance\", ");
+		out.print("\"BSDF\", ");
+		out.print("\"SPF\"");
+		out.println();
 
 	}
 
