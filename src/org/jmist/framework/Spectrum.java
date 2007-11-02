@@ -34,6 +34,8 @@ public interface Spectrum {
 	 */
 	double[] sample(Tuple wavelengths, double[] results) throws IllegalArgumentException;
 
+	void modulate(Tuple wavelengths, double[] samples) throws IllegalArgumentException;
+
 	/**
 	 * A <code>Spectrum</code> that evaluates to zero at every wavelength.
 	 */
@@ -70,6 +72,19 @@ public interface Spectrum {
 
 				throw new IllegalArgumentException("results.length != wavelengths.size()");
 
+			}
+
+		}
+
+		/* (non-Javadoc)
+		 * @see org.jmist.framework.Spectrum#modulate(org.jmist.toolkit.Tuple, double[])
+		 */
+		@Override
+		public void modulate(Tuple wavelengths, double[] samples)
+				throws IllegalArgumentException {
+
+			for (int i = 0; i < samples.length; i++) {
+				samples[i] = 0.0;
 			}
 
 		}

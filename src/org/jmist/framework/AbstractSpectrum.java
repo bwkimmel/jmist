@@ -42,4 +42,25 @@ public abstract class AbstractSpectrum implements Spectrum {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.Spectrum#modulate(org.jmist.toolkit.Tuple, double[])
+	 */
+	@Override
+	public void modulate(Tuple wavelengths, double[] samples)
+			throws IllegalArgumentException {
+
+		/* Make sure the samples to modulate were provided and that the
+		 * number of samples matches the number of wavelengths.
+		 */
+		if (samples == null || samples.length != wavelengths.size()) {
+			throw new IllegalArgumentException("samples == null || samples.length != wavelengths.size()");
+		}
+
+		/* Sample the spectrum to determine the factor for each wavelength. */
+		for (int i = 0; i < samples.length; i++) {
+			samples[i] *= this.sample(wavelengths.at(i));
+		}
+
+	}
+
 }
