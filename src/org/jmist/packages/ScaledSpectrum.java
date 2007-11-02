@@ -50,6 +50,21 @@ public final class ScaledSpectrum extends AbstractSpectrum {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.AbstractSpectrum#modulate(org.jmist.toolkit.Tuple, double[])
+	 */
+	@Override
+	public void modulate(Tuple wavelengths, double[] samples)
+			throws IllegalArgumentException {
+
+		this.inner.modulate(wavelengths, samples);
+
+		for (int i = 0; i < samples.length; i++) {
+			samples[i] *= factor;
+		}
+
+	}
+
 	/** The factor by which to multiply the decorated <code>Spectrum</code>. */
 	private final double factor;
 

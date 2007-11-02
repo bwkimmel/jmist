@@ -39,15 +39,21 @@ public final class ProductSpectrum extends AbstractSpectrum {
 			throws IllegalArgumentException {
 
 		results = this.a.sample(wavelengths, results);
-		double[] factors = this.b.sample(wavelengths, null);
-
-		assert(results.length == factors.length);
-
-		for (int i = 0; i < results.length; i++) {
-			results[i] *= factors[i];
-		}
+		this.b.modulate(wavelengths, results);
 
 		return results;
+
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.AbstractSpectrum#modulate(org.jmist.toolkit.Tuple, double[])
+	 */
+	@Override
+	public void modulate(Tuple wavelengths, double[] samples)
+			throws IllegalArgumentException {
+
+		this.a.modulate(wavelengths, samples);
+		this.b.modulate(wavelengths, samples);
 
 	}
 

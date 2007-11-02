@@ -39,15 +39,7 @@ public interface Spectrum {
 	/**
 	 * A <code>Spectrum</code> that evaluates to zero at every wavelength.
 	 */
-	public static final Spectrum ZERO = new Spectrum() {
-
-		/* (non-Javadoc)
-		 * @see org.jmist.framework.Spectrum#sample(double)
-		 */
-		@Override
-		public double sample(double wavelength) {
-			return 0.0;
-		}
+	public static final Spectrum ZERO = new ConstantSpectrum(0.0) {
 
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.Spectrum#sample(org.jmist.toolkit.Tuple, double[])
@@ -57,22 +49,10 @@ public interface Spectrum {
 				throws IllegalArgumentException {
 
 			if (results == null) {
-
 				return new double[wavelengths.size()];
-
-			} else if (results.length == wavelengths.size()) {
-
-				for (int i = 0; i < results.length; i++) {
-					results[i] = 0.0;
-				}
-
-				return results;
-
-			} else {
-
-				throw new IllegalArgumentException("results.length != wavelengths.size()");
-
 			}
+
+			return super.sample(wavelengths, results);
 
 		}
 
@@ -83,9 +63,7 @@ public interface Spectrum {
 		public void modulate(Tuple wavelengths, double[] samples)
 				throws IllegalArgumentException {
 
-			for (int i = 0; i < samples.length; i++) {
-				samples[i] = 0.0;
-			}
+			this.sample(wavelengths, samples);
 
 		}
 
@@ -95,7 +73,17 @@ public interface Spectrum {
 	 * A <code>Spectrum</code> whose value is <code>1.0</code>
 	 * at all wavelengths.
 	 */
-	public static final Spectrum ONE = new ConstantSpectrum(1.0);
+	public static final Spectrum ONE = new ConstantSpectrum(1.0) {
+
+		/* (non-Javadoc)
+		 * @see org.jmist.framework.AbstractSpectrum#modulate(org.jmist.toolkit.Tuple, double[])
+		 */
+		@Override
+		public void modulate(Tuple wavelengths, double[] samples) {
+			/* nothing to do */
+		}
+
+	};
 
 	/**
 	 * A <code>Spectrum</code> whose value is <code>POSITIVE_INFINITY</code>

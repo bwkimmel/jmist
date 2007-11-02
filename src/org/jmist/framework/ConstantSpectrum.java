@@ -9,7 +9,7 @@ package org.jmist.framework;
  * class is immutable.
  * @author bkimmel
  */
-public final class ConstantSpectrum extends AbstractSpectrum {
+public class ConstantSpectrum extends AbstractSpectrum {
 
 	/**
 	 * Creates a new <code>ConstantSpectrum</code>.
