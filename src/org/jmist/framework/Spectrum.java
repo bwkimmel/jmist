@@ -3,6 +3,8 @@
  */
 package org.jmist.framework;
 
+import org.jmist.toolkit.Tuple;
+
 /**
  * @author bkimmel
  *
@@ -18,5 +20,78 @@ public interface Spectrum {
 	 * 		by the concrete class).
 	 */
 	double sample(double wavelength);
-	
+
+	/**
+	 * Samples the spectrum at the specified wavelengths.
+	 * @param wavelengths The <code>Tuple</code> of wavelengths (in meters) at
+	 * 		which to sample this <code>Spectrum</code>.
+	 * @param results An optional array to write the results to (may be null,
+	 * 		in which case one will be created).  If not null, the length of the
+	 * 		array must be equal to that of <code>wavelengths</code>.
+	 * @return An array containing the results of the sample.
+	 * @throws IllegalArgumentException if {@code results.length !=
+	 * 		wavelengths.size()}.
+	 */
+	double[] sample(Tuple wavelengths, double[] results) throws IllegalArgumentException;
+
+	/**
+	 * A <code>Spectrum</code> that evaluates to zero at every wavelength.
+	 */
+	public static final Spectrum ZERO = new Spectrum() {
+
+		/* (non-Javadoc)
+		 * @see org.jmist.framework.Spectrum#sample(double)
+		 */
+		@Override
+		public double sample(double wavelength) {
+			return 0.0;
+		}
+
+		/* (non-Javadoc)
+		 * @see org.jmist.framework.Spectrum#sample(org.jmist.toolkit.Tuple, double[])
+		 */
+		@Override
+		public double[] sample(Tuple wavelengths, double[] results)
+				throws IllegalArgumentException {
+
+			if (results == null) {
+
+				return new double[wavelengths.size()];
+
+			} else if (results.length == wavelengths.size()) {
+
+				for (int i = 0; i < results.length; i++) {
+					results[i] = 0.0;
+				}
+
+				return results;
+
+			} else {
+
+				throw new IllegalArgumentException("results.length != wavelengths.size()");
+
+			}
+
+		}
+
+	};
+
+	/**
+	 * A <code>Spectrum</code> whose value is <code>1.0</code>
+	 * at all wavelengths.
+	 */
+	public static final Spectrum ONE = new ConstantSpectrum(1.0);
+
+	/**
+	 * A <code>Spectrum</code> whose value is <code>POSITIVE_INFINITY</code>
+	 * at all wavelengths.
+	 */
+	public static final Spectrum POSITIVE_INFINITY = new ConstantSpectrum(Double.POSITIVE_INFINITY);
+
+	/**
+	 * A <code>Spectrum</code> whose value is <code>NEGATIVE_INFINITY</code>
+	 * at all wavelengths.
+	 */
+	public static final Spectrum NEGATIVE_INFINITY = new ConstantSpectrum(Double.NEGATIVE_INFINITY);
+
 }
