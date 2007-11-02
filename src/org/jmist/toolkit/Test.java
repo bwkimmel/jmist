@@ -1,7 +1,6 @@
 package org.jmist.toolkit;
 
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
 import java.rmi.registry.LocateRegistry;
@@ -9,17 +8,12 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import javax.swing.JDialog;
 
-import org.jmist.framework.ImageShader;
 import org.jmist.framework.Job;
-import org.jmist.framework.Lens;
 import org.jmist.framework.ParallelizableJob;
-import org.jmist.framework.PixelShader;
-import org.jmist.framework.RayShader;
 import org.jmist.framework.reporting.CompositeProgressMonitor;
 import org.jmist.framework.reporting.ConsoleProgressMonitor;
 import org.jmist.framework.reporting.ProgressDialog;
@@ -29,14 +23,8 @@ import org.jmist.framework.services.JobMasterServer;
 import org.jmist.framework.services.JobMasterService;
 import org.jmist.framework.services.ServiceSubmitJob;
 import org.jmist.framework.services.ThreadServiceWorkerJob;
-import org.jmist.packages.CameraImageShader;
-import org.jmist.packages.DirectionalTestRayShader;
 import org.jmist.packages.DummyParallelizableJob;
-import org.jmist.packages.FisheyeLens;
-import org.jmist.packages.ImageRasterWriter;
 import org.jmist.packages.NRooksRandom;
-import org.jmist.packages.RasterJob;
-import org.jmist.packages.SimplePixelShader;
 import org.jmist.toolkit.Grid3.Cell;
 
 public class Test {
@@ -65,13 +53,13 @@ public class Test {
 		//testProgressTree();
 
 		//testParallelizableJobAsJob();
-		
+
 		testZip();
 	}
-	
+
 	@SuppressWarnings("unused")
 	private static void testZip() {
-		
+
 		try {
 			FileOutputStream fos = new FileOutputStream("C:/test2.zip");
 			ZipOutputStream zip = new ZipOutputStream(fos);
@@ -80,16 +68,16 @@ public class Test {
 //			zip.putNextEntry(new ZipEntry("blah.dat2"));
 //			zip.write(new byte[5]);
 //			zip.closeEntry();
-			
+
 			zip.finish();
-			
+
 			zip.close();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
+
+
 	}
 
 	@SuppressWarnings("unused")
@@ -190,22 +178,22 @@ public class Test {
 	@SuppressWarnings("unused")
 	private static void testShade() {
 
-		Lens lens = new FisheyeLens();
-		RayShader rayShader = new DirectionalTestRayShader();
-		ImageShader imageShader = new CameraImageShader(lens, rayShader);
-		PixelShader pixelShader = new SimplePixelShader(imageShader);
-		ImageRasterWriter rasterWriter = new ImageRasterWriter(2048, 2048);
-		Job job = new RasterJob(pixelShader, rasterWriter);
-		ProgressMonitor monitor = new ProgressDialog();
-
-		job.go(monitor);
-
-		try {
-			rasterWriter.save("C:\\test.jpg", "jpg");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		Lens lens = new FisheyeLens();
+//		RayShader rayShader = new DirectionalTestRayShader();
+//		ImageShader imageShader = new CameraImageShader(lens, rayShader);
+//		PixelShader pixelShader = new SimplePixelShader(imageShader);
+//		ImageRasterWriter rasterWriter = new ImageRasterWriter(2048, 2048);
+//		Job job = new RasterJob(pixelShader, rasterWriter);
+//		ProgressMonitor monitor = new ProgressDialog();
+//
+//		job.go(monitor);
+//
+//		try {
+//			rasterWriter.save("C:\\test.jpg", "jpg");
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 
 	}
 
