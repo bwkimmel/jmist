@@ -92,7 +92,12 @@ public interface Spectrum {
 		 * @see org.jmist.framework.AbstractSpectrum#modulate(org.jmist.toolkit.Tuple, double[])
 		 */
 		@Override
-		public void modulate(Tuple wavelengths, double[] samples) {
+		public void modulate(Tuple wavelengths, double[] samples) throws IllegalArgumentException {
+
+			if (samples == null || samples.length != wavelengths.size()) {
+				throw new IllegalArgumentException("samples == null || samples.length != wavelengths.size()");
+			}
+
 			/* nothing to do */
 		}
 
