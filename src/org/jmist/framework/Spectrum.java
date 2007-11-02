@@ -99,6 +99,7 @@ public interface Spectrum {
 			}
 
 			/* nothing to do */
+			
 		}
 
 	};
