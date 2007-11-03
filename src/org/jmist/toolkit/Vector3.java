@@ -154,6 +154,22 @@ public final class Vector3 {
 	}
 
 	/**
+	 * Returns an arbitrary <code>Vector3</code> that is perpendicular to this
+	 * <code>Vector3</code> (i.e., it is guaranteed that
+	 * {@code this.dot(this.perp()) == 0.0}.
+	 * @return An arbitrary <code>Vector3</code> perpendicular to this one.
+	 */
+	public Vector3 perp() {
+		if (x < y && x < z) {
+			return new Vector3(0, -z, y);
+		} else if (y < z) {
+			return new Vector3(z, 0, -x);
+		} else {
+			return new Vector3(-y, x, 0);
+		}
+	}
+
+	/**
 	 * The zero vector (represents the vector between two identical points).
 	 */
 	public static final Vector3 ZERO = new Vector3(0.0, 0.0, 0.0);
