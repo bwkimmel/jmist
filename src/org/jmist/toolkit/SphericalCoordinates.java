@@ -144,31 +144,7 @@ public final class SphericalCoordinates {
 			return this;
 		}
 
-		double newPolar = this.polar;
-		double newAzimuthal = this.azimuthal;
-
-		/* If the radius is negative, compensate by adding PI to the polar
-		 * angle.
-		 */
-		if (this.radius < 0.0) {
-			newPolar += Math.PI;
-		}
-
-		/* Canonicalize the polar angle. */
-		newPolar = canonicalize(newPolar);
-
-		/* If the polar angle is negative (i.e., between -PI and zero), then
-		 * compensate by adding PI to the azimuthal angle.
-		 */
-		if (newPolar < 0.0) {
-			newAzimuthal += Math.PI;
-			newPolar = -newPolar;
-		}
-
-		/* Canonicalize the azimuthal angle. */
-		newAzimuthal = canonicalize(newAzimuthal);
-
-		return new SphericalCoordinates(newPolar, newAzimuthal, Math.abs(this.radius));
+		return SphericalCoordinates.canonical(this.polar, this.azimuthal, this.radius);
 
 	}
 
@@ -266,6 +242,78 @@ public final class SphericalCoordinates {
 				Math.atan2(y, x),
 				r
 		);
+
+	}
+
+	/**
+	 * Computes the canonical form of the vector with the given polar and
+	 * azimuthal angles and unit radius.  Two equivalent
+	 * <code>SphericalCoordinates</code> (i.e., pointing in the same direction
+	 * and having the same radius) will have equal values for both angles and
+	 * the radius when converted to canonical form.  For example, the following
+	 * spherical coordinates:
+	 * <code>
+	 * 		<br>
+	 * 		<br>(Math.PI / 6, Math.PI / 2, 1.0)
+	 * 		<br>(-5 * Math.PI / 6, Math.PI / 2, -1.0)
+	 * 		<br><br>
+	 * </code>
+	 * represent the same vector.  The first of those vectors is in canonical
+	 * form.  The second is not.  A <code>SphericalCoordinates</code> vector is
+	 * considered to be in canonical form if <code>0 &lt;= polar &lt;= PI</code>,
+	 * <code>-PI &lt;= azimuthal &lt; PI</code>, and <code>radius &gt;= 0</code>.
+	 * @return The canonical <code>SphericalCoordinates</code> representation
+	 * 		of this vector.
+	 */
+	public static SphericalCoordinates canonical(double polar, double azimuthal) {
+		return canonical(polar, azimuthal, 1.0);
+	}
+
+	/**
+	 * Computes the canonical form of the vector with the given polar and
+	 * azimuthal angles and the given radius.  Two equivalent
+	 * <code>SphericalCoordinates</code> (i.e., pointing in the same direction
+	 * and having the same radius) will have equal values for both angles and
+	 * the radius when converted to canonical form.  For example, the following
+	 * spherical coordinates:
+	 * <code>
+	 * 		<br>
+	 * 		<br>(Math.PI / 6, Math.PI / 2, 1.0)
+	 * 		<br>(-5 * Math.PI / 6, Math.PI / 2, -1.0)
+	 * 		<br><br>
+	 * </code>
+	 * represent the same vector.  The first of those vectors is in canonical
+	 * form.  The second is not.  A <code>SphericalCoordinates</code> vector is
+	 * considered to be in canonical form if <code>0 &lt;= polar &lt;= PI</code>,
+	 * <code>-PI &lt;= azimuthal &lt; PI</code>, and <code>radius &gt;= 0</code>.
+	 * @return The canonical <code>SphericalCoordinates</code> representation
+	 * 		of this vector.
+	 */
+	public static SphericalCoordinates canonical(double polar, double azimuthal, double radius) {
+
+		/* If the radius is negative, compensate by adding PI to the polar
+		 * angle.
+		 */
+		if (radius < 0.0) {
+			radius = -radius;
+			polar += Math.PI;
+		}
+
+		/* Canonicalize the polar angle. */
+		polar = canonicalize(polar);
+
+		/* If the polar angle is negative (i.e., between -PI and zero), then
+		 * compensate by adding PI to the azimuthal angle.
+		 */
+		if (polar < 0.0) {
+			azimuthal += Math.PI;
+			polar = -polar;
+		}
+
+		/* Canonicalize the azimuthal angle. */
+		azimuthal = canonicalize(azimuthal);
+
+		return new SphericalCoordinates(polar, azimuthal, radius);
 
 	}
 
