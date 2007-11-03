@@ -268,6 +268,20 @@ public final class SphericalCoordinates {
 		);
 
 	}
+
+	/**
+	 * The <code>SphericalCoordinates</code> for the normal direction (i.e.,
+	 * the polar and azimuthal angles are both zero, the radius is 1.0).
+	 */
+	public static final SphericalCoordinates NORMAL = new SphericalCoordinates(0, 0, 1);
+
+	/**
+	 * The <code>SphericalCoordinates</code> for the direction opposite to the
+	 * normal direction (i.e., the polar angle is PI, the azimuthal angle is
+	 * zero, and the radius is 1.0).
+	 */
+	public static final SphericalCoordinates ANTINORMAL = new SphericalCoordinates(Math.PI, 0, 1);
+
 	/** The angle (in radians) between the vector and the positive z-axis. */
 	private final double polar;
 
