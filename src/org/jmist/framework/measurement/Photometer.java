@@ -9,6 +9,7 @@ import org.jmist.framework.Medium;
 import org.jmist.framework.ScatterRecord;
 import org.jmist.framework.reporting.DummyProgressMonitor;
 import org.jmist.framework.reporting.ProgressMonitor;
+import org.jmist.toolkit.Basis3;
 import org.jmist.toolkit.Point2;
 import org.jmist.toolkit.Point3;
 import org.jmist.toolkit.SphericalCoordinates;
@@ -164,6 +165,16 @@ public final class Photometer {
 		@Override
 		public Vector3 incident() {
 			return in;
+		}
+
+		@Override
+		public Basis3 basis() {
+			return Basis3.STANDARD;
+		}
+
+		@Override
+		public Basis3 microfacetBasis() {
+			return Basis3.STANDARD;
 		}
 
 	};
