@@ -5,6 +5,7 @@ package org.jmist.packages;
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.io.Serializable;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -21,7 +22,7 @@ import org.jmist.toolkit.SphericalCoordinates;
  *
  */
 public final class PhotometerParallelizableJob extends
-		AbstractParallelizableJob {
+		AbstractParallelizableJob implements Serializable {
 
 	public PhotometerParallelizableJob(Material specimen,
 			SphericalCoordinates[] incidentAngles, double[] wavelengths,
@@ -269,5 +270,10 @@ public final class PhotometerParallelizableJob extends
 	private final CollectorSphere[] results;
 	private int nextMeasurementIndex = 0;
 	private long outstandingSamplesPerMeasurement = 0;
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 5640925441217948685L;
 
 }
