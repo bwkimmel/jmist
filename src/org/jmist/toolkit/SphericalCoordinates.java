@@ -155,7 +155,7 @@ public final class SphericalCoordinates {
 	 * @return The equivalent angle in the canonical range.
 	 */
 	public static double canonicalize(double theta) {
-		return theta - (2.0 * Math.PI) * Math.floor(theta / (2.0 * Math.PI)) - Math.PI;
+		return theta - (2.0 * Math.PI) * Math.floor((theta + Math.PI) / (2.0 * Math.PI));
 	}
 
 	/**
