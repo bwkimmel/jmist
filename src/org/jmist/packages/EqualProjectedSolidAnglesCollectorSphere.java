@@ -3,6 +3,8 @@
  */
 package org.jmist.packages;
 
+import java.io.Serializable;
+
 import org.jmist.framework.measurement.AbstractCollectorSphere;
 import org.jmist.framework.measurement.CollectorSphere;
 import org.jmist.toolkit.SphericalCoordinates;
@@ -13,7 +15,7 @@ import org.jmist.toolkit.Vector3;
  *
  */
 public final class EqualProjectedSolidAnglesCollectorSphere extends
-		AbstractCollectorSphere {
+		AbstractCollectorSphere implements Serializable {
 
 	public EqualProjectedSolidAnglesCollectorSphere(int sensors) {
 		super(sensors);
@@ -76,5 +78,10 @@ public final class EqualProjectedSolidAnglesCollectorSphere extends
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -6563158829889305695L;
 
 }

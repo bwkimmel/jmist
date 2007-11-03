@@ -3,6 +3,8 @@
  */
 package org.jmist.framework.measurement;
 
+import java.io.Serializable;
+
 import org.jmist.toolkit.SphericalCoordinates;
 import org.jmist.toolkit.Vector3;
 
@@ -10,7 +12,8 @@ import org.jmist.toolkit.Vector3;
  * A default implementation of <code>CollectorSphere</code>.
  * @author bkimmel
  */
-public abstract class AbstractCollectorSphere implements CollectorSphere {
+public abstract class AbstractCollectorSphere implements CollectorSphere,
+		Serializable {
 
 	/**
 	 * Creates a new <code>AbstractCollectorSphere</code>.

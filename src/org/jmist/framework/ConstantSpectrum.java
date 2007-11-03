@@ -3,13 +3,15 @@
  */
 package org.jmist.framework;
 
+import java.io.Serializable;
+
 
 /**
  * A <code>Spectrum</code> that has the same value at all wavelengths.  This
  * class is immutable.
  * @author bkimmel
  */
-public class ConstantSpectrum extends AbstractSpectrum {
+public class ConstantSpectrum extends AbstractSpectrum implements Serializable {
 
 	/**
 	 * Creates a new <code>ConstantSpectrum</code>.
@@ -29,5 +31,10 @@ public class ConstantSpectrum extends AbstractSpectrum {
 
 	/** The value of this <code>Spectrum</code> at all wavelengths. */
 	private final double value;
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 8993721217448172058L;
 
 }

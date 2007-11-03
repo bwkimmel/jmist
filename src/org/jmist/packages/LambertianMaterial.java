@@ -3,6 +3,8 @@
  */
 package org.jmist.packages;
 
+import java.io.Serializable;
+
 import org.jmist.framework.Intersection;
 import org.jmist.framework.OpaqueMaterial;
 import org.jmist.framework.ScatterRecord;
@@ -19,7 +21,8 @@ import org.jmist.toolkit.Vector3;
  * the upper hemisphere.
  * @author bkimmel
  */
-public final class LambertianMaterial extends OpaqueMaterial {
+public final class LambertianMaterial extends OpaqueMaterial implements
+		Serializable {
 
 	/**
 	 * Creates a new <code>LambertianMaterial</code> that does not emit light.
@@ -116,5 +119,10 @@ public final class LambertianMaterial extends OpaqueMaterial {
 
 	/** The emittance <code>Spectrum</code> of this <code>Material</code>. */
 	private final Spectrum emittance;
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 485410070543495668L;
 
 }

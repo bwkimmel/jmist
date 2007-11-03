@@ -3,6 +3,8 @@
  */
 package org.jmist.packages;
 
+import java.io.Serializable;
+
 import org.jmist.framework.measurement.AbstractCollectorSphere;
 import org.jmist.framework.measurement.CollectorSphere;
 import org.jmist.toolkit.SphericalCoordinates;
@@ -15,7 +17,7 @@ import org.jmist.util.MathUtil;
  * @author bkimmel
  */
 public final class EqualSolidAnglesCollectorSphere extends
-		AbstractCollectorSphere {
+		AbstractCollectorSphere implements Serializable {
 
 	/**
 	 * Creates a new <code>EqualSolidAnglesCollectorSphere</code>.
@@ -263,5 +265,10 @@ public final class EqualSolidAnglesCollectorSphere extends
 
 	/** A value indicating whether the lower hemisphere is measured. */
 	private final boolean lower;
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 6947672588017728172L;
 
 }

@@ -194,7 +194,7 @@ public final class PhotometerParallelizableJob extends
 		return this.worker;
 	}
 
-	private static class PhotometerTask {
+	private static class PhotometerTask implements Serializable {
 
 		public final SphericalCoordinates	incident;
 		public final double					wavelength;
@@ -208,9 +208,14 @@ public final class PhotometerParallelizableJob extends
 			this.measurementIndex	= measurementIndex;
 		}
 
+		/**
+		 * Serialization version ID.
+		 */
+		private static final long serialVersionUID = 3363497232661744930L;
+
 	}
 
-	private static class PhotometerTaskWorker implements TaskWorker {
+	private static class PhotometerTaskWorker implements TaskWorker, Serializable {
 
 		/**
 		 * Creates a new <code>PhotometerTaskWorker</code>.
