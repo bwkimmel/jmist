@@ -3,13 +3,14 @@
  */
 package org.jmist.toolkit;
 
+import java.io.Serializable;
 import java.util.BitSet;
 
 /**
  * An immutable array of double precision values.
  * @author bkimmel
  */
-public final class Tuple {
+public final class Tuple implements Serializable {
 
 	/**
 	 * Creates an empty Tuple.
@@ -553,5 +554,10 @@ public final class Tuple {
 	 * The elements of the Tuple.
 	 */
 	private final double[] values;
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 5809622978157652345L;
 
 }

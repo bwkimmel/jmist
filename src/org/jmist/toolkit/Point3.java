@@ -3,12 +3,14 @@
  */
 package org.jmist.toolkit;
 
+import java.io.Serializable;
+
 /**
  * A location in three dimensional space.
  * This class is immutable.
  * @author brad
  */
-public final class Point3 {
+public final class Point3 implements Serializable {
 
 	/**
 	 * Initializes the components for the point.
@@ -121,4 +123,10 @@ public final class Point3 {
 	 * The distances from the origin along each axis.
 	 */
 	private final double x, y, z;
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 15329079129798899L;
+
 }

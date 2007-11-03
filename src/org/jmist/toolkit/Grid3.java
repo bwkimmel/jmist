@@ -3,6 +3,8 @@
  */
 package org.jmist.toolkit;
 
+import java.io.Serializable;
+
 import org.jmist.util.MathUtil;
 
 /**
@@ -10,7 +12,7 @@ import org.jmist.util.MathUtil;
  * the three axes.  Used for ray tracing with spacial subdivision.
  * @author bkimmel
  */
-public final class Grid3 {
+public final class Grid3 implements Serializable {
 
 	/**
 	 * Initializes the bounds of the grid and the number of cells
@@ -287,5 +289,10 @@ public final class Grid3 {
 
 	/** The dimensions of the cells along each axis. */
 	private final double	dx, dy, dz;
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -2612737653304419826L;
 
 }

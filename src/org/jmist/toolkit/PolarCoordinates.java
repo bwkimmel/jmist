@@ -3,12 +3,14 @@
  */
 package org.jmist.toolkit;
 
+import java.io.Serializable;
+
 /**
  * Two dimensional vector represented using polar coordinates.  This class is
  * immutable.
  * @author bkimmel
  */
-public final class PolarCoordinates {
+public final class PolarCoordinates implements Serializable {
 
 	/**
 	 * Creates a new unit <code>PolarCoordinates</code>.
@@ -180,5 +182,10 @@ public final class PolarCoordinates {
 
 	/** The length of this vector. */
 	private final double radius;
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 138383004537725636L;
 
 }

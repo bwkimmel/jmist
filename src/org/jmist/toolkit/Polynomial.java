@@ -3,13 +3,15 @@
  */
 package org.jmist.toolkit;
 
+import java.io.Serializable;
+
 import org.jmist.util.Solver;
 
 /**
  * Represents a polynomial.
  * @author bkimmel
  */
-public final class Polynomial {
+public final class Polynomial implements Serializable {
 
 	/**
 	 * Initializes the polynomial with the specified coefficients, provided in
@@ -236,5 +238,10 @@ public final class Polynomial {
 	 * The coefficients of this polynomial.
 	 */
 	private double[] coeff;
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -9117582867339363081L;
 
 }

@@ -3,6 +3,8 @@
  */
 package org.jmist.toolkit;
 
+import java.io.Serializable;
+
 import org.jmist.util.MathUtil;
 
 /**
@@ -10,7 +12,7 @@ import org.jmist.util.MathUtil;
  * constant distance from a fixed point).
  * @author brad
  */
-public final class Sphere {
+public final class Sphere implements Serializable {
 
 	/**
 	 * Initializes the center and radius of the sphere.
@@ -283,5 +285,10 @@ public final class Sphere {
 
 	/** The radius of the sphere. */
 	private final double radius;
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -7300424778393465269L;
 
 }

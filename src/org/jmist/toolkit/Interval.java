@@ -3,12 +3,14 @@
  */
 package org.jmist.toolkit;
 
+import java.io.Serializable;
+
 /**
  * An closed interval [a, b] on the real number line.
  * This class is immutable.
  * @author brad
  */
-public final class Interval {
+public final class Interval implements Serializable {
 
 	/**
 	 * Initializes the endpoints of the interval.
@@ -181,5 +183,10 @@ public final class Interval {
 
 	/** The upper bound of this interval. */
 	private final double maximum;
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -4034510279908046892L;
 
 }

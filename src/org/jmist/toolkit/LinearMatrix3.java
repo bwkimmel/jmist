@@ -3,6 +3,8 @@
  */
 package org.jmist.toolkit;
 
+import java.io.Serializable;
+
 /**
  * A 4x4 matrix of the form
  * <table>
@@ -15,7 +17,7 @@ package org.jmist.toolkit;
  * This class is immutable.
  * @author brad
  */
-public final class LinearMatrix3 {
+public final class LinearMatrix3 implements Serializable {
 
 	/**
 	 * Initializes the matrix from its elements.
@@ -189,5 +191,10 @@ public final class LinearMatrix3 {
 
 	/** The elements of the matrix. */
 	private final double[][] a = new double[3][3];
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -2238797743118681949L;
 
 }

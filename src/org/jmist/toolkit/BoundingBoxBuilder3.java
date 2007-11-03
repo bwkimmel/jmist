@@ -3,11 +3,13 @@
  */
 package org.jmist.toolkit;
 
+import java.io.Serializable;
+
 /**
  * Builds a box that contains the elements added to it.
  * @author bkimmel
  */
-public class BoundingBoxBuilder3 {
+public class BoundingBoxBuilder3 implements Serializable {
 
 	/**
 	 * Default constructor.
@@ -121,5 +123,10 @@ public class BoundingBoxBuilder3 {
 
 	private double minimumX, minimumY, minimumZ;
 	private double maximumX, maximumY, maximumZ;
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 351994557507294139L;
 
 }

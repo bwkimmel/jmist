@@ -3,12 +3,14 @@
  */
 package org.jmist.toolkit;
 
+import java.io.Serializable;
+
 /**
  * Three dimensional vector represented using spherical coordinates.  This
  * class is immutable.
  * @author bkimmel
  */
-public final class SphericalCoordinates {
+public final class SphericalCoordinates implements Serializable {
 
 	/**
 	 * Creates a new unit <code>SphericalCoordinates</code>.
@@ -341,5 +343,10 @@ public final class SphericalCoordinates {
 
 	/** The length of this vector. */
 	private final double radius;
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -4978227486578315932L;
 
 }

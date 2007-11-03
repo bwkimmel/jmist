@@ -3,12 +3,14 @@
  */
 package org.jmist.toolkit;
 
+import java.io.Serializable;
+
 /**
  * A ray (half-line) in two dimensional space.
  * This class is immutable.
  * @author brad
  */
-public final class Ray2 {
+public final class Ray2 implements Serializable {
 
 	/**
 	 * Initializes the origin and direction of the ray.
@@ -50,5 +52,10 @@ public final class Ray2 {
 
 	/** The direction of the ray. */
 	private final Vector2 direction;
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 3350510125101588443L;
 
 }

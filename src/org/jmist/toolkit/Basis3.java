@@ -3,11 +3,13 @@
  */
 package org.jmist.toolkit;
 
+import java.io.Serializable;
+
 /**
  * An orthonormal basis in three dimensional space.
  * @author bkimmel
  */
-public final class Basis3 {
+public final class Basis3 implements Serializable {
 
 	/**
 	 * Creates a new <code>Basis3</code>.  This constructor assumes that the
@@ -291,5 +293,10 @@ public final class Basis3 {
 
 	/** The normal <code>Vector3</code>. */
 	private final Vector3 w;
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 6204667205376195095L;
 
 }

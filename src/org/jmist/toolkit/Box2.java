@@ -3,6 +3,8 @@
  */
 package org.jmist.toolkit;
 
+import java.io.Serializable;
+
 import org.jmist.util.MathUtil;
 
 /**
@@ -10,7 +12,7 @@ import org.jmist.util.MathUtil;
  * This class is immutable.
  * @author brad
  */
-public final class Box2 {
+public final class Box2 implements Serializable {
 
 	/**
 	 * Initializes the extents of the box along the x and y axes.
@@ -506,5 +508,10 @@ public final class Box2 {
 
 	/** The upper bound along the y-axis. */
 	private double maximumY;
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 2385108773960788026L;
 
 }

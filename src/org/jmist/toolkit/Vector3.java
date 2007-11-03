@@ -3,12 +3,14 @@
  */
 package org.jmist.toolkit;
 
+import java.io.Serializable;
+
 /**
  * The difference between two points in three dimensional space.
  * This class is immutable.
  * @author brad
  */
-public final class Vector3 {
+public final class Vector3 implements Serializable {
 
 	/**
 	 * Initializes the components for the vector.
@@ -193,5 +195,10 @@ public final class Vector3 {
 	 * The lengths of the vector along each axis.
 	 */
 	private final double x, y, z;
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 6028310806663933497L;
 
 }

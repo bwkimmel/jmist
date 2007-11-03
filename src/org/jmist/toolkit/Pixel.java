@@ -3,11 +3,13 @@
  */
 package org.jmist.toolkit;
 
+import java.io.Serializable;
+
 /**
  * @author bkimmel
  * TODO: implement this class.
  */
-public final class Pixel {
+public final class Pixel implements Serializable {
 
 	public Pixel(PixelFormat format) {
 		// TODO: implement constructor.
@@ -32,5 +34,10 @@ public final class Pixel {
 	public void setAt(int channel, double value) {
 		// TODO: implement this method.
 	}
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 3638825019387195115L;
 
 }

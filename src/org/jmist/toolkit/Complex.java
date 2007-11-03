@@ -3,12 +3,14 @@
  */
 package org.jmist.toolkit;
 
+import java.io.Serializable;
+
 /**
  * A complex number.
  * This class is immutable.
  * @author brad
  */
-public final class Complex {
+public final class Complex implements Serializable {
 
 	/**
 	 * Initializes a number on the real line.
@@ -269,5 +271,10 @@ public final class Complex {
 
 	/** The imaginary part of this complex number. */
 	private final double im;
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -5588907469158256485L;
 
 }

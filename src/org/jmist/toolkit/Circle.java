@@ -3,6 +3,8 @@
  */
 package org.jmist.toolkit;
 
+import java.io.Serializable;
+
 import org.jmist.util.MathUtil;
 
 /**
@@ -11,7 +13,7 @@ import org.jmist.util.MathUtil;
  * This class is immutable.
  * @author brad
  */
-public final class Circle {
+public final class Circle implements Serializable {
 
 	/**
 	 * Initializes the center and radius of the circle.
@@ -284,5 +286,10 @@ public final class Circle {
 
 	/** The radius of the circle. */
 	private final double radius;
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -2497313773493949063L;
 
 }
