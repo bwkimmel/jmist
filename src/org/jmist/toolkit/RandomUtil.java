@@ -1,9 +1,8 @@
 /**
  *
  */
-package org.jmist.packages;
+package org.jmist.toolkit;
 
-import org.jmist.toolkit.SphericalCoordinates;
 
 /**
  * @author bkimmel
