@@ -11,11 +11,11 @@ import org.jmist.toolkit.Ray3;
  */
 public class ScatterRecord {
 
-	public ScatterRecord(Ray3 scatteredRay, double[] weights, boolean transmitted, boolean diffuse) {
+	public ScatterRecord(Ray3 scatteredRay, double[] weights, boolean diffuse, boolean transmitted) {
 		this.scatteredRay = scatteredRay;
 		this.weights = weights;
-		this.transmitted = transmitted;
 		this.diffuse = diffuse;
+		this.transmitted = transmitted;
 	}
 
 	public Ray3 scatteredRay() {
@@ -26,17 +26,17 @@ public class ScatterRecord {
 		return this.weights[index];
 	}
 
-	public boolean transmitted() {
-		return this.transmitted;
-	}
-
 	public boolean diffuse() {
 		return this.diffuse;
 	}
 
+	public boolean transmitted() {
+		return this.transmitted;
+	}
+
 	private final Ray3 scatteredRay;
 	private final double[] weights;
-	private final boolean transmitted;
 	private final boolean diffuse;
+	private final boolean transmitted;
 
 }
