@@ -29,18 +29,18 @@ public abstract class AbstractMaterial implements Material {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.Material#scatter(org.jmist.framework.SurfacePoint, org.jmist.toolkit.Vector3, org.jmist.toolkit.Tuple)
+	 * @see org.jmist.framework.Material#scatter(org.jmist.framework.Intersection, org.jmist.toolkit.Tuple)
 	 */
 	@Override
-	public ScatterRecord scatter(SurfacePoint x, Vector3 in, Tuple wavelengths) {
+	public ScatterRecord scatter(Intersection x, Tuple wavelengths) {
 		return null;
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.Material#scattering(org.jmist.framework.SurfacePoint, org.jmist.toolkit.Vector3, org.jmist.toolkit.Vector3)
+	 * @see org.jmist.framework.Material#scattering(org.jmist.framework.Intersection, org.jmist.toolkit.Vector3)
 	 */
 	@Override
-	public Spectrum scattering(SurfacePoint x, Vector3 in, Vector3 out) {
+	public Spectrum scattering(Intersection x, Vector3 out) {
 		return Spectrum.ZERO;
 	}
 

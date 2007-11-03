@@ -12,10 +12,10 @@ import org.jmist.toolkit.Vector3;
  */
 public interface Material extends Medium {
 
-	Spectrum scattering(SurfacePoint x, Vector3 in, Vector3 out);
+	Spectrum scattering(Intersection x, Vector3 out);
 	Spectrum emission(SurfacePoint x, Vector3 out);
 
-	ScatterRecord scatter(SurfacePoint x, Vector3 in, Tuple wavelengths);
+	ScatterRecord scatter(Intersection x, Tuple wavelengths);
 	ScatterRecord emit(SurfacePoint x, Tuple wavelengths);
 
 }

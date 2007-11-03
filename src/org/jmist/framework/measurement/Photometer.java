@@ -3,10 +3,10 @@
  */
 package org.jmist.framework.measurement;
 
+import org.jmist.framework.Intersection;
 import org.jmist.framework.Material;
 import org.jmist.framework.Medium;
 import org.jmist.framework.ScatterRecord;
-import org.jmist.framework.SurfacePoint;
 import org.jmist.framework.reporting.DummyProgressMonitor;
 import org.jmist.framework.reporting.ProgressMonitor;
 import org.jmist.toolkit.Point2;
@@ -36,6 +36,7 @@ public final class Photometer {
 	public void setIncidentAngle(SphericalCoordinates incident) {
 		this.incident = incident;
 		this.in = incident.unit().opposite().toCartesian();
+		this.front = (in.z() < 0.0);
 	}
 
 	public void setWavelength(double wavelength) {
@@ -71,39 +72,39 @@ public final class Photometer {
 	}
 
 	public void castPhotons(long n, ProgressMonitor monitor, long progressInterval) {
-		
+
 		long untilCallback = progressInterval;
-		
+
 		if (!monitor.notifyProgress(0.0)) {
 			monitor.notifyCancelled();
 			return;
 		}
-		
+
 		for (int i = 0; i < n; i++) {
-			
+
 			if (--untilCallback <= 0) {
-				
+
 				double progress = (double) i / (double) n;
-				
+
 				if (!monitor.notifyProgress(progress)) {
 					monitor.notifyCancelled();
 					return;
 				}
-				
+
 				untilCallback = progressInterval;
-				
+
 			}
-			
-			ScatterRecord rec = this.specimen.scatter(this.x, this.in, this.wavelengths);
-			
+
+			ScatterRecord rec = this.specimen.scatter(this.x, this.wavelengths);
+
 			if (random.nextDouble() < rec.weightAt(0)) {
 				this.collectorSphere.record(rec.scatteredRay().direction());
 			}
-			
+
 		}
 
 		monitor.notifyComplete();
-		
+
 	}
 
 	private final CollectorSphere collectorSphere;
@@ -111,8 +112,9 @@ public final class Photometer {
 	private SphericalCoordinates incident;
 	private Vector3 in;
 	private Tuple wavelengths;
-	
-	private final SurfacePoint x = new SurfacePoint() {
+	private boolean front;
+
+	private final Intersection x = new Intersection() {
 
 		@Override
 		public Point3 location() {
@@ -148,7 +150,22 @@ public final class Photometer {
 		public Point2 textureCoordinates() {
 			return Point2.ORIGIN;
 		}
-		
+
+		@Override
+		public double distance() {
+			return 1.0;
+		}
+
+		@Override
+		public boolean front() {
+			return front;
+		}
+
+		@Override
+		public Vector3 incident() {
+			return in;
+		}
+
 	};
 
 	private static final java.util.Random random = new java.util.Random();
