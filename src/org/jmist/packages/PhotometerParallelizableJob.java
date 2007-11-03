@@ -136,7 +136,7 @@ public final class PhotometerParallelizableJob extends
 					double					reflectance				= (double) hits / (double) this.outstandingSamplesPerMeasurement;
 
 					out.printf(
-							"%f,%f,%f,%d,%f,%f,%f,%f,%d,%d,%f,%f,%f\n",
+							"%f,%f,%e,%d,%f,%f,%f,%f,%d,%d,%f,%e,%e\n",
 							incidentAngle.polar(),
 							incidentAngle.azimuthal(),
 							wavelength,
