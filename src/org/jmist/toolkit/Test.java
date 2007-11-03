@@ -59,22 +59,22 @@ public class Test {
 		//testShade();
 
 		//testJobMasterServer();
-		//testJobMasterServiceClient();
+		testJobMasterServiceClient();
 		//testProgressTree();
 
 		//testParallelizableJobAsJob();
 
 		//testZip();
 		//testMath();
-		testLambertianMaterial();
+		//testLambertianMaterial();
 
 	}
-	
+
 	@SuppressWarnings("unused")
 	private static void testMath() {
-	
+
 		System.out.println(Math.acos(-1.0));
-		
+
 	}
 
 	@SuppressWarnings("unused")
@@ -83,13 +83,7 @@ public class Test {
 //				SphericalCoordinates[] incidentAngles, double[] wavelengths,
 //				long samplesPerMeasurement, long samplesPerTask, CollectorSphere prototype) {
 //
-		Spectrum reflectance = new ConstantSpectrum(0.75);
-		Material specimen = new LambertianMaterial(reflectance);
-		CollectorSphere collector = new EqualSolidAnglesCollectorSphere(30, 30, true, false);
-		SphericalCoordinates[] incidentAngles = { SphericalCoordinates.NORMAL };
-		double[] wavelengths = { 5e-7 /* 500nm */ };
-
-		ParallelizableJob job = new PhotometerParallelizableJob(specimen, incidentAngles, wavelengths, 10000000, 1000000, collector);
+		ParallelizableJob job = getMeasurementJob();
 
 
 		JDialog dialog = new JDialog();
@@ -112,6 +106,20 @@ public class Test {
 			}
 		}
 
+	}
+
+	/**
+	 * @return
+	 */
+	private static ParallelizableJob getMeasurementJob() {
+		Spectrum reflectance = new ConstantSpectrum(0.75);
+		Material specimen = new LambertianMaterial(reflectance);
+		CollectorSphere collector = new EqualSolidAnglesCollectorSphere(30, 30, true, false);
+		SphericalCoordinates[] incidentAngles = { SphericalCoordinates.NORMAL };
+		double[] wavelengths = { 5e-7 /* 500nm */ };
+
+		ParallelizableJob job = new PhotometerParallelizableJob(specimen, incidentAngles, wavelengths, 10000000, 1000000, collector);
+		return job;
 	}
 
 	@SuppressWarnings("unused")
@@ -219,12 +227,13 @@ public class Test {
 		String host = "localhost";
 		JDialog dialog = new JDialog();
 		ProgressTreePanel monitor = new ProgressTreePanel();
-		ParallelizableJob job = new DummyParallelizableJob(100, 5000, 10000);
+		ParallelizableJob job = getMeasurementJob(); //new DummyParallelizableJob(100, 5000, 10000);
 		Executor threadPool = Executors.newFixedThreadPool(2);
 		Job submitJob = new ServiceSubmitJob(job, 0, host);
 		Job workerJob = new ThreadServiceWorkerJob(host, 10000, 2, threadPool);
 
-		dialog.add(monitor);
+		dialog.add(monitor);		
+		dialog.setBounds(0, 0, 400, 300);
 		dialog.setVisible(true);
 
 		submitJob.go(monitor);
