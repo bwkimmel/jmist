@@ -78,27 +78,15 @@ public abstract class AbstractCollectorSphere implements CollectorSphere {
 	 */
 	@Override
 	public void record(Vector3 v) {
-
-		assert(!this.recording);
-
-		this.recording = true;
-		this.record(SphericalCoordinates.fromCartesian(v));
-		this.recording = false;
-
+		this.record(this.getSensor(v));
 	}
 
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.measurement.CollectorSphere#record(org.jmist.toolkit.SphericalCoordinates)
 	 */
 	@Override
-	public void record(SphericalCoordinates v) {
-
-		assert(!this.recording);
-
-		this.recording = true;
-		this.record(v.toCartesian());
-		this.recording = false;
-
+	public final void record(SphericalCoordinates v) {
+		this.record(this.getSensor(v));
 	}
 
 	/* (non-Javadoc)
@@ -149,20 +137,33 @@ public abstract class AbstractCollectorSphere implements CollectorSphere {
 	 * Records a hit to the specified sensor.
 	 * @param sensor The index of a sensor to record a hit to.
 	 */
-	protected final void record(int sensor) {
-		this.hits[sensor]++;
+	private final void record(int sensor) {
+		if (sensor != MISS) {
+			this.hits[sensor]++;
+		}
 	}
+
+	/**
+	 * Gets the sensor that the specified vector (expressed in
+	 * <code>SphericalCoordinates</code>) strikes.
+	 * @param v The vector (expressed in <code>SphericalCoordinates</code>).
+	 * @return The sensor that the specified vector strikes, or
+	 * 		<code>AbstractCollectorSphere.MISS</code> if no sensor is struck.
+	 */
+	protected abstract int getSensor(SphericalCoordinates v);
+
+	/**
+	 * Gets the sensor that the specified <code>Vector3</code> strikes.
+	 * @param v The <code>Vector3</code>.
+	 * @return The sensor that the specified vector strikes, or
+	 * 		<code>AbstractCollectorSphere.MISS</code> if no sensor is struck.
+	 */
+	protected abstract int getSensor(Vector3 v);
+
+	/** A value indicating that the vector does not hit any sensor. */
+	protected static final int MISS = -1;
 
 	/** An array containing the number of hits to each sensor. */
 	private long[] hits;
-
-	/**
-	 * A value indicating whether one of the overloads of
-	 * <code>AbstractCollectorSphere.record</code> is currently on the call
-	 * stack.  This exists to prevent an infinite loop that would occur if
-	 * neither overload is overridden in a derived class, as each method
-	 * provides default behavior by calling the other.
-	 */
-	private transient boolean recording = false;
 
 }

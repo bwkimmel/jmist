@@ -6,6 +6,7 @@ package org.jmist.packages;
 import org.jmist.framework.measurement.AbstractCollectorSphere;
 import org.jmist.framework.measurement.CollectorSphere;
 import org.jmist.toolkit.SphericalCoordinates;
+import org.jmist.toolkit.Vector3;
 
 /**
  * @author bkimmel
@@ -56,11 +57,21 @@ public final class EqualPolarAnglesCollectorSphere extends
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.measurement.AbstractCollectorSphere#record(org.jmist.toolkit.SphericalCoordinates)
+	 * @see org.jmist.framework.measurement.AbstractCollectorSphere#getSensor(org.jmist.toolkit.SphericalCoordinates)
 	 */
 	@Override
-	public void record(SphericalCoordinates v) {
-		// TODO implement this method.
+	protected int getSensor(SphericalCoordinates v) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.measurement.AbstractCollectorSphere#getSensor(org.jmist.toolkit.Vector3)
+	 */
+	@Override
+	protected int getSensor(Vector3 v) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

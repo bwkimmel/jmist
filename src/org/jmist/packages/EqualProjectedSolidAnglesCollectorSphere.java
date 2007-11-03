@@ -6,6 +6,7 @@ package org.jmist.packages;
 import org.jmist.framework.measurement.AbstractCollectorSphere;
 import org.jmist.framework.measurement.CollectorSphere;
 import org.jmist.toolkit.SphericalCoordinates;
+import org.jmist.toolkit.Vector3;
 
 /**
  * @author bkimmel
@@ -54,6 +55,24 @@ public final class EqualProjectedSolidAnglesCollectorSphere extends
 	 */
 	@Override
 	public double getSensorSolidAngle(int sensor) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.measurement.AbstractCollectorSphere#getSensor(org.jmist.toolkit.SphericalCoordinates)
+	 */
+	@Override
+	protected int getSensor(SphericalCoordinates v) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.measurement.AbstractCollectorSphere#getSensor(org.jmist.toolkit.Vector3)
+	 */
+	@Override
+	protected int getSensor(Vector3 v) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

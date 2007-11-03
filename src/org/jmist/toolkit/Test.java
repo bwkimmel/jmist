@@ -1,5 +1,6 @@
 package org.jmist.toolkit;
 
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
@@ -12,8 +13,13 @@ import java.util.zip.ZipOutputStream;
 
 import javax.swing.JDialog;
 
+import org.jmist.framework.ConstantSpectrum;
 import org.jmist.framework.Job;
+import org.jmist.framework.Material;
 import org.jmist.framework.ParallelizableJob;
+import org.jmist.framework.Spectrum;
+import org.jmist.framework.measurement.CollectorSphere;
+import org.jmist.framework.measurement.Photometer;
 import org.jmist.framework.reporting.CompositeProgressMonitor;
 import org.jmist.framework.reporting.ConsoleProgressMonitor;
 import org.jmist.framework.reporting.ProgressDialog;
@@ -24,7 +30,11 @@ import org.jmist.framework.services.JobMasterService;
 import org.jmist.framework.services.ServiceSubmitJob;
 import org.jmist.framework.services.ThreadServiceWorkerJob;
 import org.jmist.packages.DummyParallelizableJob;
+import org.jmist.packages.EqualSolidAnglesCollectorSphere;
+import org.jmist.packages.LambertianMaterial;
 import org.jmist.packages.NRooksRandom;
+import org.jmist.packages.PhotometerParallelizableJob;
+import org.jmist.packages.SpectrophotometerCollectorSphere;
 import org.jmist.toolkit.Grid3.Cell;
 
 public class Test {
@@ -54,7 +64,54 @@ public class Test {
 
 		//testParallelizableJobAsJob();
 
-		testZip();
+		//testZip();
+		//testMath();
+		testLambertianMaterial();
+
+	}
+	
+	@SuppressWarnings("unused")
+	private static void testMath() {
+	
+		System.out.println(Math.acos(-1.0));
+		
+	}
+
+	@SuppressWarnings("unused")
+	private static void testLambertianMaterial() {
+//		public PhotometerParallelizableJob(Material specimen,
+//				SphericalCoordinates[] incidentAngles, double[] wavelengths,
+//				long samplesPerMeasurement, long samplesPerTask, CollectorSphere prototype) {
+//
+		Spectrum reflectance = new ConstantSpectrum(0.75);
+		Material specimen = new LambertianMaterial(reflectance);
+		CollectorSphere collector = new EqualSolidAnglesCollectorSphere(30, 30, true, false);
+		SphericalCoordinates[] incidentAngles = { SphericalCoordinates.NORMAL };
+		double[] wavelengths = { 5e-7 /* 500nm */ };
+
+		ParallelizableJob job = new PhotometerParallelizableJob(specimen, incidentAngles, wavelengths, 10000000, 1000000, collector);
+
+
+		JDialog dialog = new JDialog();
+		ProgressTreePanel progressTree = new ProgressTreePanel("Working...");
+		dialog.add(progressTree);
+
+		dialog.setVisible(true);
+
+		job.go(progressTree);
+
+		if (job.isComplete()) {
+			try {
+				FileOutputStream fos = new FileOutputStream("C:/results.zip");
+				ZipOutputStream zip = new ZipOutputStream(fos);
+
+				job.writeJobResults(zip);
+				zip.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
 	}
 
 	@SuppressWarnings("unused")

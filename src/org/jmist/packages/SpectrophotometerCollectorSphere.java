@@ -17,27 +17,19 @@ public final class SpectrophotometerCollectorSphere extends
 		AbstractCollectorSphere {
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.measurement.AbstractCollectorSphere#record(org.jmist.toolkit.SphericalCoordinates)
+	 * @see org.jmist.framework.measurement.AbstractCollectorSphere#getSensor(org.jmist.toolkit.SphericalCoordinates)
 	 */
 	@Override
-	public void record(SphericalCoordinates v) {
-		if (v.polar() < (Math.PI / 2.0)) {
-			this.record(UPPER_HEMISPHERE);
-		} else {
-			this.record(LOWER_HEMISPHERE);
-		}
+	protected int getSensor(SphericalCoordinates v) {
+		return (v.polar() < (Math.PI / 2.0)) ? UPPER_HEMISPHERE : LOWER_HEMISPHERE;
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.measurement.AbstractCollectorSphere#record(org.jmist.toolkit.Vector3)
+	 * @see org.jmist.framework.measurement.AbstractCollectorSphere#getSensor(org.jmist.toolkit.Vector3)
 	 */
 	@Override
-	public void record(Vector3 v) {
-		if (v.z() > 0.0) {
-			this.record(UPPER_HEMISPHERE);
-		} else {
-			this.record(LOWER_HEMISPHERE);
-		}
+	protected int getSensor(Vector3 v) {
+		return (v.z() > 0.0) ? UPPER_HEMISPHERE : LOWER_HEMISPHERE;
 	}
 
 	/**
