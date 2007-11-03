@@ -136,7 +136,7 @@ public final class PhotometerParallelizableJob extends
 					double					reflectance				= (double) hits / (double) this.outstandingSamplesPerMeasurement;
 
 					out.printf(
-							"%f,%f,%f,%d,%f,%f,%f,%f,%d,%d,%f,%f,%f",
+							"%f,%f,%f,%d,%f,%f,%f,%f,%d,%d,%f,%f,%f\n",
 							incidentAngle.polar(),
 							incidentAngle.azimuthal(),
 							wavelength,
@@ -168,18 +168,18 @@ public final class PhotometerParallelizableJob extends
 	 */
 	private void writeColumnHeadings(PrintStream out) {
 
-		out.print("\"Incident Polar (radians)\", ");
-		out.print("\"Incident Azimuthal (radians)\", ");
-		out.print("\"Wavelength (m)\", ");
-		out.print("\"Sensor\", ");
-		out.print("\"Exitant Polar (radians)\", ");
-		out.print("\"Exitant Azimuthal (radians)\", ");
-		out.print("\"Solid Angle (sr)\", ");
-		out.print("\"Projected Solid Angle (sr)\", ");
-		out.print("\"Samples\", ");
-		out.print("\"Hits\", ");
-		out.print("\"Reflectance\", ");
-		out.print("\"BSDF\", ");
+		out.print("\"Incident Polar (radians)\",");
+		out.print("\"Incident Azimuthal (radians)\",");
+		out.print("\"Wavelength (m)\",");
+		out.print("\"Sensor\",");
+		out.print("\"Exitant Polar (radians)\",");
+		out.print("\"Exitant Azimuthal (radians)\",");
+		out.print("\"Solid Angle (sr)\",");
+		out.print("\"Projected Solid Angle (sr)\",");
+		out.print("\"Samples\",");
+		out.print("\"Hits\",");
+		out.print("\"Reflectance\",");
+		out.print("\"BSDF\",");
 		out.print("\"SPF\"");
 		out.println();
 
