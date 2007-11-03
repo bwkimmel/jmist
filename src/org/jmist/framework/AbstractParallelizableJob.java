@@ -28,9 +28,7 @@ public abstract class AbstractParallelizableJob implements ParallelizableJob {
 		/* Main loop. */
 		while (!monitor.isCancelPending()) {
 
-			/* Get the next task and create a progress monitor to monitor it. */
-			String				taskDesc		= String.format("Task %d", ++taskNumber);
-			ProgressMonitor		taskMonitor		= monitor.createChildProgressMonitor(taskDesc);
+			/* Get the next task. */
 			Object				task			= this.getNextTask();
 
 			/* If there is no next task, then we're done. */
@@ -38,6 +36,10 @@ public abstract class AbstractParallelizableJob implements ParallelizableJob {
 				monitor.notifyComplete();
 				return true;
 			}
+
+			/* Create a progress monitor to monitor the task. */
+			String				taskDesc		= String.format("Task %d", ++taskNumber);
+			ProgressMonitor		taskMonitor		= monitor.createChildProgressMonitor(taskDesc);
 
 			/* Perform the task. */
 			Object				results			= worker.performTask(task, taskMonitor);
