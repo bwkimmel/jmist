@@ -12,19 +12,24 @@ import org.jmist.toolkit.Vector3;
  */
 public abstract class AbstractCollectorSphere implements CollectorSphere {
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#clone()
+	/**
+	 * Creates a new <code>AbstractCollectorSphere</code>.
+	 * {@link #initialize(int)} must be called before the new
+	 * <code>CollectorSphere</code> may be used.
 	 */
-	@Override
-	public abstract CollectorSphere clone();
+	protected AbstractCollectorSphere() {
+		this.hits = null;
+	}
 
 	/**
-	 * Initializes an <code>AbstractCollectorSphere</code>.
+	 * Initializes an <code>AbstractCollectorSphere</code>.  This constructor
+	 * implicitly calls {@link #initialize(int)}.
 	 * @param sensors The number of sensors in this
 	 * 		<code>CollectorSphere</code>.
+	 * @see #initialize(int)
 	 */
 	protected AbstractCollectorSphere(int sensors) {
-		this.hits = new long[sensors];
+		this.initialize(sensors);
 	}
 
 	/**
@@ -34,6 +39,31 @@ public abstract class AbstractCollectorSphere implements CollectorSphere {
 	protected AbstractCollectorSphere(AbstractCollectorSphere other) {
 		this.hits = other.hits.clone();
 	}
+
+	/**
+	 * Initializes this <code>AbstractCollectorSphere</code>.  This method must
+	 * be called before this <code>CollectorSphere</code> may be used.  This
+	 * method may only be called once per instance.
+	 * @param sensors The number of sensors in this
+	 * 		<code>CollectorSphere</code>.
+	 * @throws IllegalStateException if this method has already been called on
+	 * 		this instance.
+	 */
+	private void initialize(int sensors) throws IllegalStateException {
+
+		if (this.hits != null) {
+			throw new IllegalStateException("AbstractCollectorSphere already initialized.");
+		}
+
+		this.hits = new long[sensors];
+
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 */
+	@Override
+	public abstract CollectorSphere clone();
 
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.measurement.CollectorSphere#hits(int)
@@ -124,7 +154,7 @@ public abstract class AbstractCollectorSphere implements CollectorSphere {
 	}
 
 	/** An array containing the number of hits to each sensor. */
-	private final long[] hits;
+	private long[] hits;
 
 	/**
 	 * A value indicating whether one of the overloads of
