@@ -24,7 +24,7 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
 	 * @see org.jmist.framework.IntersectionRecorder#record(org.jmist.framework.Intersection)
 	 */
 	public void record(Intersection intersection) {
-		if (this.nearest == null || intersection.rayParameter() < this.nearest.rayParameter()) {
+		if (this.nearest == null || intersection.distance() < this.nearest.distance()) {
 			this.nearest = intersection;
 		}
 	}
