@@ -80,6 +80,11 @@ public interface Spectrum {
 
 		}
 
+		/**
+		 * Serialization version ID.
+		 */
+		private static final long serialVersionUID = -5831651385031349750L;
+
 	};
 
 	/**
@@ -99,8 +104,13 @@ public interface Spectrum {
 			}
 
 			/* nothing to do */
-			
+
 		}
+
+		/**
+		 * Serialization version ID.
+		 */
+		private static final long serialVersionUID = -6865514731221019215L;
 
 	};
 
