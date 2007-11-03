@@ -19,8 +19,7 @@ public interface SurfacePoint {
 
 	Material material();
 
-	Medium mediumAbove();
-	Medium mediumBelow();
+	Medium ambientMedium();
 
 	Point2 textureCoordinates();
 
