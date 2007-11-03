@@ -203,6 +203,28 @@ public final class SphericalCoordinates {
 	}
 
 	/**
+	 * Converts this vector to cartesian coordinates relative to the specified
+	 * <code>Basis3</code>.
+	 * @param basis The <code>Basis3</code> to express this
+	 * 		<code>SphericalCoordinates</code> relative to.
+	 * @return The <code>Vector3</code> representing the same vector as this
+	 * 		vector relative to the specified <code>Basis3</code>.
+	 */
+	public Vector3 toCartesian(Basis3 basis) {
+
+		double sp = Math.sin(this.polar);
+		double sa = Math.sin(this.azimuthal);
+		double cp = Math.cos(this.polar);
+		double ca = Math.cos(this.azimuthal);
+
+		// FIXME this is grossly inefficient.
+		return basis.u().times(this.radius * sp * ca)
+				.plus(basis.v().times(this.radius * sp * sa))
+				.plus(basis.w().times(this.radius * cp));
+
+	}
+
+	/**
 	 * Converts a vector from cartesian coordinates to
 	 * <code>SphericalCoordinates</code>.
 	 * @param v The <code>Vector3</code> to convert to
@@ -222,6 +244,30 @@ public final class SphericalCoordinates {
 
 	}
 
+	/**
+	 * Converts a vector from cartesian coordinates to
+	 * <code>SphericalCoordinates</code>.
+	 * @param v The <code>Vector3</code> to convert to
+	 * 		<code>SphericalCoordinates</code>.
+	 * @param basis The <code>Basis3</code> in which <code>v</code> is
+	 * 		expressed.
+	 * @return The vector in <code>SphericalCoordinates</code> representing the
+	 * 		same vector as <code>v</code>.
+	 */
+	public static SphericalCoordinates fromCartesian(Vector3 v, Basis3 basis) {
+
+		double x = basis.u().dot(v);
+		double y = basis.v().dot(v);
+		double z = basis.w().dot(v);
+		double r = v.length();
+
+		return new SphericalCoordinates(
+				Math.acos(z / r),
+				Math.atan2(y, x),
+				r
+		);
+
+	}
 	/** The angle (in radians) between the vector and the positive z-axis. */
 	private final double polar;
 
