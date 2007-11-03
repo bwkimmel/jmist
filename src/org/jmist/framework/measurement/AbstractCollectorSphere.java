@@ -49,7 +49,7 @@ public abstract class AbstractCollectorSphere implements CollectorSphere {
 	 * @throws IllegalStateException if this method has already been called on
 	 * 		this instance.
 	 */
-	private void initialize(int sensors) throws IllegalStateException {
+	protected void initialize(int sensors) throws IllegalStateException {
 
 		if (this.hits != null) {
 			throw new IllegalStateException("AbstractCollectorSphere already initialized.");
