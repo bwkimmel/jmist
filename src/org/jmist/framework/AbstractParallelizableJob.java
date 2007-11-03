@@ -19,7 +19,8 @@ public abstract class AbstractParallelizableJob implements ParallelizableJob {
 	public boolean go(ProgressMonitor monitor) {
 
 		/* Get the task worker. */
-		TaskWorker worker = this.worker();
+		TaskWorker		worker			= this.worker();
+		int			 	taskNumber		= 0;
 
 		/* Check to see if the process has been cancelled. */
 		monitor.notifyIndeterminantProgress();
@@ -28,7 +29,8 @@ public abstract class AbstractParallelizableJob implements ParallelizableJob {
 		while (!monitor.isCancelPending()) {
 
 			/* Get the next task and create a progress monitor to monitor it. */
-			ProgressMonitor		taskMonitor		= monitor.createChildProgressMonitor("Task");
+			String				taskDesc		= String.format("Task %d", ++taskNumber);
+			ProgressMonitor		taskMonitor		= monitor.createChildProgressMonitor(taskDesc);
 			Object				task			= this.getNextTask();
 
 			/* If there is no next task, then we're done. */
