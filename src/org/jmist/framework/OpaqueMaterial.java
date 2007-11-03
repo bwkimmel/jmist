@@ -10,7 +10,7 @@ import org.jmist.toolkit.Ray3;
  * @author bkimmel
  *
  */
-public abstract class OpaqueMaterial implements Material {
+public abstract class OpaqueMaterial extends AbstractMaterial {
 
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Medium#extinctionIndex(org.jmist.toolkit.Point3)
