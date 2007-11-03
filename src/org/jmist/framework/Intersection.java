@@ -12,17 +12,24 @@ import org.jmist.toolkit.*;
 public interface Intersection extends SurfacePoint {
 
 	/**
-	 * Gets the ray that was used to obtain the intersection.
-	 * @return The ray that was used to obtain the intersection.
+	 * Gets the incident direction.
+	 * @return The incident direction.
 	 */
-	Ray3 ray();
+	Vector3 incident();
 
 	/**
 	 * Gets the distance from the ray origin to the intersection
-	 * point, divided by the length of the ray direction.
-	 * @return The distance from the ray origin to the intersection
-	 * 		divided by the length of the ray direction.
+	 * point.
+	 * @return The distance from the ray origin to the intersection.
 	 */
-	double rayParameter();
+	double distance();
+
+	/**
+	 * Indicates whether the incident ray approaches the interface from the
+	 * front (the side toward which the normal points).
+	 * @return A value indicating whether the ray approaches the interface
+	 * 		from the front.
+	 */
+	boolean front();
 
 }
