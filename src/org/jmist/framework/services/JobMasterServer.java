@@ -284,6 +284,13 @@ public final class JobMasterServer implements JobMasterService {
 	 */
 	private void getNewTask(ScheduledJob sched) {
 
+		// There should only be one outstanding idle task at any given time.
+		if (sched.job instanceof IdleJob) {
+			while (sched.tasks != null) {
+				this.removeTask(sched.tasks);
+			}
+		}
+
 		// Get the next task.
 		Object info = sched.job.getNextTask();
 
