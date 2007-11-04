@@ -74,12 +74,7 @@ public final class ServiceWorkerJob implements Job {
 				} else { /* taskDesc == null */
 
 					monitor.notifyStatusChanged("Idling...");
-
-					try {
-						Thread.sleep(this.idleTime);
-					} catch (InterruptedException e) {
-						// continue.
-					}
+					this.idle();
 
 				}
 
@@ -94,6 +89,8 @@ public final class ServiceWorkerJob implements Job {
 			System.err.println("Client exception: " + e.toString());
 			e.printStackTrace();
 
+			this.idle();
+
 		} finally {
 
 			monitor.notifyCancelled();
@@ -102,6 +99,17 @@ public final class ServiceWorkerJob implements Job {
 
 		return false;
 
+	}
+
+	/**
+	 *
+	 */
+	private void idle() {
+		try {
+			Thread.sleep(this.idleTime);
+		} catch (InterruptedException e) {
+			// continue.
+		}
 	}
 
 	/** The URL of the master. */

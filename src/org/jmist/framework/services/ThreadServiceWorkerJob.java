@@ -362,12 +362,7 @@ public final class ThreadServiceWorkerJob implements Job {
 				} else { /* taskDesc == null */
 
 					this.monitor.notifyStatusChanged("Idling...");
-
-					try {
-						Thread.sleep(idleTime);
-					} catch (InterruptedException e) {
-						// continue.
-					}
+					this.idle();
 
 				}
 
@@ -376,6 +371,8 @@ public final class ThreadServiceWorkerJob implements Job {
 			} catch (RemoteException e) {
 
 				this.monitor.notifyStatusChanged("Failed to communicate with master.");
+				this.idle();
+
 				this.monitor.notifyCancelled();
 
 				System.err.println("Remote exception: " + e.toString());
@@ -387,6 +384,17 @@ public final class ThreadServiceWorkerJob implements Job {
 
 			}
 
+		}
+
+		/**
+		 * Idles for a period of time before finishing the task.
+		 */
+		private void idle() {
+			try {
+				Thread.sleep(idleTime);
+			} catch (InterruptedException e) {
+				// continue.
+			}
 		}
 
 		/**
