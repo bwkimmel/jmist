@@ -354,33 +354,43 @@ public final class ThreadServiceWorkerJob implements Job {
 				this.monitor.notifyIndeterminantProgress();
 				this.monitor.notifyStatusChanged("Requesting task...");
 
-				TaskDescription taskDesc = service.requestTask();
+				if (service != null) {
 
-				if (taskDesc != null) {
+					TaskDescription taskDesc = service.requestTask();
 
-					this.monitor.notifyStatusChanged("Obtaining task worker...");
-					TaskWorker worker = getTaskWorker(taskDesc.getJobId());
+					if (taskDesc != null) {
 
-					if (worker == null) {
-						this.monitor.notifyStatusChanged("Could not obtain worker...");
-						this.monitor.notifyCancelled();
+						this.monitor.notifyStatusChanged("Obtaining task worker...");
+						TaskWorker worker = getTaskWorker(taskDesc.getJobId());
+
+						if (worker == null) {
+							this.monitor.notifyStatusChanged("Could not obtain worker...");
+							this.monitor.notifyCancelled();
+							return;
+						}
+
+						this.monitor.notifyStatusChanged("Performing task...");
+						Object results = worker.performTask(taskDesc.getTask(), monitor);
+
+						this.monitor.notifyStatusChanged("Submitting task results...");
+						service.submitTaskResults(taskDesc.getJobId(), taskDesc.getTaskId(), results);
+
+						this.monitor.notifyComplete();
 						return;
+
+					} else {
+
+						this.monitor.notifyStatusChanged("Idling...");
+						this.idle();
+
 					}
 
-					this.monitor.notifyStatusChanged("Performing task...");
-					Object results = worker.performTask(taskDesc.getTask(), monitor);
+				} else {
 
-					this.monitor.notifyStatusChanged("Submitting task results...");
-					service.submitTaskResults(taskDesc.getJobId(), taskDesc.getTaskId(), results);
-
-				} else { /* taskDesc == null */
-
-					this.monitor.notifyStatusChanged("Idling...");
-					this.idle();
+					this.monitor.notifyStatusChanged("No service");
+					this.waitForService();
 
 				}
-
-				this.monitor.notifyComplete();
 
 			} catch (RemoteException e) {
 
@@ -388,14 +398,7 @@ public final class ThreadServiceWorkerJob implements Job {
 				e.printStackTrace();
 
 				this.monitor.notifyStatusChanged("Failed to communicate with master.");
-
-				/* Try to reconnect.  If it succeeds, then end this task
-				 * immediately so another can start.  Otherwise, idle for some
-				 * time before trying again.
-				 */
-				if (!initializeService()) {
-					this.idle();
-				}
+				this.waitForService();
 
 				this.monitor.notifyCancelled();
 
@@ -405,6 +408,16 @@ public final class ThreadServiceWorkerJob implements Job {
 
 			}
 
+		}
+
+		/**
+		 * Blocks until a successful attempt is made to reconnect to the
+		 * service.  This method will idle for some time between attempts.
+		 */
+		private void waitForService() {
+			while (!initializeService()) {
+				this.idle();
+			}
 		}
 
 		/**
