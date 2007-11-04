@@ -1,9 +1,8 @@
 /**
  *
  */
-package org.jmist.framework.base;
+package org.jmist.framework;
 
-import org.jmist.framework.Geometry;
 import org.jmist.toolkit.Interval;
 import org.jmist.toolkit.Point3;
 import org.jmist.toolkit.Ray3;

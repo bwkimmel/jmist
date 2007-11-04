@@ -3,10 +3,10 @@
  */
 package org.jmist.packages;
 
+import org.jmist.framework.AbstractGeometry;
 import org.jmist.framework.Geometry;
 import org.jmist.framework.IntersectionRecorder;
 import org.jmist.framework.WeightedSurfacePoint;
-import org.jmist.framework.base.AbstractGeometry;
 import org.jmist.toolkit.Box3;
 import org.jmist.toolkit.Interval;
 import org.jmist.toolkit.Point3;
