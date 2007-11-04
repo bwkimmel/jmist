@@ -35,6 +35,7 @@ public final class JobMasterServer implements JobMasterService {
 	 * 		directory).
 	 */
 	public JobMasterServer(File outputDirectory) {
+
 		if (!outputDirectory.isDirectory()) {
 			throw new IllegalArgumentException("outputDirectory must be a directory.");
 		}
@@ -42,6 +43,10 @@ public final class JobMasterServer implements JobMasterService {
 		this.monitor = DummyProgressMonitor.getInstance();
 		this.verbose = true;
 		this.outputDirectory = outputDirectory;
+		this.idle = new IdleJob();
+
+		this.submitJob(this.idle, Integer.MIN_VALUE);
+
 	}
 
 	/**
@@ -52,6 +57,7 @@ public final class JobMasterServer implements JobMasterService {
 	 * 		to <code>System.err</code>.
 	 */
 	public JobMasterServer(File outputDirectory, boolean verbose) {
+
 		if (!outputDirectory.isDirectory()) {
 			throw new IllegalArgumentException("outputDirectory must be a directory.");
 		}
@@ -59,6 +65,10 @@ public final class JobMasterServer implements JobMasterService {
 		this.monitor = DummyProgressMonitor.getInstance();
 		this.verbose = verbose;
 		this.outputDirectory = outputDirectory;
+		this.idle = new IdleJob();
+
+		this.submitJob(this.idle, Integer.MIN_VALUE);
+
 	}
 
 	/**
@@ -70,6 +80,7 @@ public final class JobMasterServer implements JobMasterService {
 	 * 		<code>ParallelizableJob</code>s.
 	 */
 	public JobMasterServer(File outputDirectory, ProgressMonitor monitor) {
+
 		if (!outputDirectory.isDirectory()) {
 			throw new IllegalArgumentException("outputDirectory must be a directory.");
 		}
@@ -77,6 +88,10 @@ public final class JobMasterServer implements JobMasterService {
 		this.monitor = monitor;
 		this.verbose = true;
 		this.outputDirectory = outputDirectory;
+		this.idle = new IdleJob();
+
+		this.submitJob(this.idle, Integer.MIN_VALUE);
+
 	}
 
 	/**
@@ -90,6 +105,7 @@ public final class JobMasterServer implements JobMasterService {
 	 * 		to <code>System.err</code>.
 	 */
 	public JobMasterServer(File outputDirectory, ProgressMonitor monitor, boolean verbose) {
+
 		if (!outputDirectory.isDirectory()) {
 			throw new IllegalArgumentException("outputDirectory must be a directory.");
 		}
@@ -97,6 +113,18 @@ public final class JobMasterServer implements JobMasterService {
 		this.monitor = monitor;
 		this.verbose = verbose;
 		this.outputDirectory = outputDirectory;
+		this.idle = new IdleJob();
+
+		this.submitJob(this.idle, Integer.MIN_VALUE);
+
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.services.JobMasterService#setIdleTime(int)
+	 */
+	@Override
+	public void setIdleTime(int idleSeconds) throws IllegalArgumentException {
+		this.idle.setIdleTime(idleSeconds);
 	}
 
 	/* (non-Javadoc)
@@ -516,6 +544,12 @@ public final class JobMasterServer implements JobMasterService {
 	 * the progress of individual <code>ParallelizableJob</code>s.
 	 */
 	private final ProgressMonitor monitor;
+
+	/**
+	 * The <code>ParallelizableJob</code> that serves tasks when there is
+	 * nothing else to do.
+	 */
+	private final IdleJob idle;
 
 	/**
 	 * A <code>PriorityQueue</code> of the jobs submitted to this

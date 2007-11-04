@@ -53,4 +53,12 @@ public interface JobMasterService extends Remote {
 	 */
 	UUID submitJob(ParallelizableJob job, int priority) throws RemoteException;
 
+	/**
+	 * Sets the amount of time (in seconds) that workers should idle when there
+	 * are no tasks to be performed.
+	 * @param idleSeconds The amount of time (in seconds) that workers should
+	 * 		idle when there are no tasks to be performed.
+	 */
+	void setIdleTime(int idleSeconds) throws IllegalArgumentException, RemoteException;
+
 }
