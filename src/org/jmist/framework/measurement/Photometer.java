@@ -98,7 +98,7 @@ public final class Photometer {
 
 			ScatterRecord rec = this.specimen.scatter(this.x, this.wavelengths);
 
-			if (random.nextDouble() < rec.weightAt(0)) {
+			if (rec != null && random.nextDouble() < rec.weightAt(0)) {
 				this.collectorSphere.record(rec.scatteredRay().direction());
 			}
 
