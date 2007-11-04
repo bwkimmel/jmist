@@ -7,6 +7,7 @@ import org.jmist.framework.Intersection;
 import org.jmist.framework.Material;
 import org.jmist.framework.Medium;
 import org.jmist.framework.ScatterRecord;
+import org.jmist.framework.Spectrum;
 import org.jmist.framework.reporting.DummyProgressMonitor;
 import org.jmist.framework.reporting.ProgressMonitor;
 import org.jmist.toolkit.Basis3;
@@ -175,6 +176,11 @@ public final class Photometer {
 		@Override
 		public Basis3 microfacetBasis() {
 			return Basis3.STANDARD;
+		}
+
+		@Override
+		public void illuminate(Vector3 from, Spectrum irradiance) {
+			/* nothing to do. */
 		}
 
 	};
