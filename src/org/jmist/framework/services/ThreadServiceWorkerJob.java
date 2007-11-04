@@ -415,7 +415,7 @@ public final class ThreadServiceWorkerJob implements Job {
 		 * service.  This method will idle for some time between attempts.
 		 */
 		private void waitForService() {
-			synchronized (service) {
+			synchronized (registry) {
 				while (!initializeService()) {
 					this.idle();
 				}
