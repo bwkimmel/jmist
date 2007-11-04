@@ -7,6 +7,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,10 +19,13 @@ import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import javax.swing.JDialog;
+
 import org.jmist.framework.ParallelizableJob;
 import org.jmist.framework.TaskWorker;
 import org.jmist.framework.reporting.DummyProgressMonitor;
 import org.jmist.framework.reporting.ProgressMonitor;
+import org.jmist.framework.reporting.ProgressTreePanel;
 
 /**
  * An implementation of <code>JobMasterService</code>: a remote service for
@@ -116,6 +122,59 @@ public final class JobMasterServer implements JobMasterService {
 		this.idle = new IdleJob();
 
 		this.submitJob(this.idle, Integer.MIN_VALUE);
+
+	}
+
+	/**
+	 *
+	 * @param args
+	 */
+	public static void main(String[] args) {
+
+		try {
+
+			System.err.print("Initializing security manager...");
+	        if (System.getSecurityManager() == null) {
+	            System.setSecurityManager(new SecurityManager());
+	        }
+	        System.err.println("OK");
+
+	        System.err.print("Initializing progress monitor...");
+	        JDialog dialog = new JDialog();
+	        ProgressTreePanel monitor = new ProgressTreePanel("JobMasterServer");
+	        dialog.add(monitor);
+	        dialog.setBounds(100, 100, 500, 350);
+	        System.err.println("OK");
+
+	        System.err.print("Initializing server...");
+	        File outputDirectory = new File("C:/jobs/");
+			JobMasterServer server = new JobMasterServer(outputDirectory, monitor, true);
+			System.err.println("OK");
+
+			System.err.print("Exporting service stub...");
+			JobMasterService stub = (JobMasterService) UnicastRemoteObject.exportObject(server, 0);
+			System.err.println("OK");
+
+			System.err.print("Binding service...");
+			Registry registry = LocateRegistry.getRegistry();
+			registry.bind("JobMasterService", stub);
+			System.err.println("OK");
+
+			System.err.println("Server ready");
+
+			dialog.setTitle("JobMasterServer");
+			dialog.setModal(true);
+			dialog.setVisible(true);
+
+			registry.unbind("JobMasterService");
+			System.exit(0);
+
+		} catch (Exception e) {
+
+			System.err.println("Server exception:");
+			e.printStackTrace();
+
+		}
 
 	}
 
