@@ -21,10 +21,10 @@ import org.jmist.toolkit.SphericalCoordinates;
  * @author bkimmel
  *
  */
-public final class PhotometerParallelizableJob extends
+public final class PhotometerJob extends
 		AbstractParallelizableJob implements Serializable {
 
-	public PhotometerParallelizableJob(Material specimen,
+	public PhotometerJob(Material specimen,
 			SphericalCoordinates[] incidentAngles, double[] wavelengths,
 			long samplesPerMeasurement, long samplesPerTask, CollectorSphere prototype) {
 

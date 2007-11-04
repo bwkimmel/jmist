@@ -33,7 +33,7 @@ import org.jmist.packages.DummyParallelizableJob;
 import org.jmist.packages.EqualSolidAnglesCollectorSphere;
 import org.jmist.packages.LambertianMaterial;
 import org.jmist.packages.NRooksRandom;
-import org.jmist.packages.PhotometerParallelizableJob;
+import org.jmist.packages.PhotometerJob;
 import org.jmist.toolkit.Grid3.Cell;
 
 public class Test {
@@ -78,7 +78,7 @@ public class Test {
 
 	@SuppressWarnings("unused")
 	private static void testLambertianMaterial() {
-//		public PhotometerParallelizableJob(Material specimen,
+//		public PhotometerJob(Material specimen,
 //				SphericalCoordinates[] incidentAngles, double[] wavelengths,
 //				long samplesPerMeasurement, long samplesPerTask, CollectorSphere prototype) {
 //
@@ -117,7 +117,7 @@ public class Test {
 		SphericalCoordinates[] incidentAngles = { SphericalCoordinates.NORMAL };
 		double[] wavelengths = { 5e-7 /* 500nm */ };
 
-		ParallelizableJob job = new PhotometerParallelizableJob(specimen, incidentAngles, wavelengths, 100000000, 1000000, collector);
+		ParallelizableJob job = new PhotometerJob(specimen, incidentAngles, wavelengths, 100000000, 1000000, collector);
 		return job;
 	}
 

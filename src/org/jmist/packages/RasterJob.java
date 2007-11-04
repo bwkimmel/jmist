@@ -19,10 +19,10 @@ import org.jmist.toolkit.Pixel;
  * A <code>ParallelizableJob</code> that renders a <code>Raster</code> image.
  * @author bkimmel
  */
-public final class RasterParallelizableJob extends AbstractParallelizableJob {
+public final class RasterJob extends AbstractParallelizableJob {
 
 	/**
-	 * Creates a new <code>RasterParallelizableJob</code>.  This job will
+	 * Creates a new <code>RasterJob</code>.  This job will
 	 * divide the image into <code>rows * cols</code> tasks to render roughly
 	 * equally sized chunks of the image.
 	 * @param shader The <code>PixelShader</code> to use to compute the values
@@ -31,7 +31,7 @@ public final class RasterParallelizableJob extends AbstractParallelizableJob {
 	 * @param cols The number of columns to divide the image into.
 	 * @param rows The number of rows to divide the image into.
 	 */
-	public RasterParallelizableJob(PixelShader shader, Raster raster, int cols, int rows) {
+	public RasterJob(PixelShader shader, Raster raster, int cols, int rows) {
 		this.worker = new RasterTaskWorker(shader, raster.width(), raster.height());
 		this.raster = raster;
 		this.cols = cols;
