@@ -51,6 +51,14 @@ public final class Vector2 implements Serializable {
 	}
 
 	/**
+	 * Computes the square of the magnitude of this vector.
+	 * @return The square of the magnitude of this vector.
+	 */
+	public double squaredLength() {
+		return dot(this);
+	}
+
+	/**
 	 * Returns the opposite of this vector.
 	 * @return The opposite of this vector.
 	 */
