@@ -376,7 +376,6 @@ public final class ThreadServiceWorkerJob implements Job {
 						service.submitTaskResults(taskDesc.getJobId(), taskDesc.getTaskId(), results);
 
 						this.monitor.notifyComplete();
-						return;
 
 					} else {
 
