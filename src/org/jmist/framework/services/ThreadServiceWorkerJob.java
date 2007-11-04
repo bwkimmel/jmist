@@ -375,8 +375,6 @@ public final class ThreadServiceWorkerJob implements Job {
 						this.monitor.notifyStatusChanged("Submitting task results...");
 						service.submitTaskResults(taskDesc.getJobId(), taskDesc.getTaskId(), results);
 
-						this.monitor.notifyComplete();
-
 					} else {
 
 						this.monitor.notifyStatusChanged("Idling...");
@@ -384,10 +382,13 @@ public final class ThreadServiceWorkerJob implements Job {
 
 					}
 
+					this.monitor.notifyComplete();
+
 				} else {
 
 					this.monitor.notifyStatusChanged("No service");
 					this.waitForService();
+					this.monitor.notifyCancelled();
 
 				}
 
