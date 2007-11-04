@@ -126,8 +126,9 @@ public final class JobMasterServer implements JobMasterService {
 	}
 
 	/**
-	 *
-	 * @param args
+	 * Starts an instance of <code>JobMasterServer</code> and binds it to the
+	 * registry.
+	 * @param args Command line arguments.
 	 */
 	public static void main(String[] args) {
 
