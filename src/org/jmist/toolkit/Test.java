@@ -1,5 +1,6 @@
 package org.jmist.toolkit;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.lang.ref.Reference;
@@ -187,16 +188,11 @@ public class Test {
 
 	        JDialog dialog = new JDialog();
 	        ProgressTreePanel monitor = new ProgressTreePanel("JobMasterServer");
-	        JDialog dialog2 = new JDialog();
-	        ProgressTreePanel monitor2 = new ProgressTreePanel("JobMasterServer2");
 	        dialog.add(monitor);
-	        dialog2.add(monitor2);
+	        dialog.setBounds(100, 100, 500, 350);
 
-	        CompositeProgressMonitor mon = new CompositeProgressMonitor();
-	        mon.addProgressMonitor(monitor);
-	        mon.addProgressMonitor(monitor2);
-
-			JobMasterServer server = new JobMasterServer(mon, true);
+	        File outputDirectory = new File("C:/jobs/");
+			JobMasterServer server = new JobMasterServer(outputDirectory, monitor, true);
 			System.err.println("[1]");
 			JobMasterService stub = (JobMasterService) UnicastRemoteObject.exportObject(server, 0);
 			System.err.println("[2]");
@@ -209,8 +205,6 @@ public class Test {
 			System.err.println("Server ready");
 			dialog.setTitle("JobMasterServer");
 			dialog.setVisible(true);
-			dialog2.setTitle("JobMasterServer2");
-			dialog2.setVisible(true);
 
 		} catch (Exception e) {
 
@@ -232,7 +226,7 @@ public class Test {
 		Job submitJob = new ServiceSubmitJob(job, 0, host);
 		Job workerJob = new ThreadServiceWorkerJob(host, 10000, 2, threadPool);
 
-		dialog.add(monitor);		
+		dialog.add(monitor);
 		dialog.setBounds(0, 0, 400, 300);
 		dialog.setVisible(true);
 

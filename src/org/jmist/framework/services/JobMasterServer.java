@@ -3,11 +3,18 @@
  */
 package org.jmist.framework.services;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.UUID;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import org.jmist.framework.ParallelizableJob;
 import org.jmist.framework.TaskWorker;
@@ -24,44 +31,72 @@ public final class JobMasterServer implements JobMasterService {
 
 	/**
 	 * Initializes the service.
+	 * @param outputDirectory The directory to write job results to (must be a
+	 * 		directory).
 	 */
-	public JobMasterServer() {
+	public JobMasterServer(File outputDirectory) {
+		if (!outputDirectory.isDirectory()) {
+			throw new IllegalArgumentException("outputDirectory must be a directory.");
+		}
+
 		this.monitor = DummyProgressMonitor.getInstance();
 		this.verbose = true;
+		this.outputDirectory = outputDirectory;
 	}
 
 	/**
 	 * Initializes the service.
+	 * @param outputDirectory The directory to write job results to (must be a
+	 * 		directory).
 	 * @param verbose A value indicating whether to write debugging output
 	 * 		to <code>System.err</code>.
 	 */
-	public JobMasterServer(boolean verbose) {
+	public JobMasterServer(File outputDirectory, boolean verbose) {
+		if (!outputDirectory.isDirectory()) {
+			throw new IllegalArgumentException("outputDirectory must be a directory.");
+		}
+
 		this.monitor = DummyProgressMonitor.getInstance();
 		this.verbose = verbose;
+		this.outputDirectory = outputDirectory;
 	}
 
 	/**
 	 * Initializes the service.
+	 * @param outputDirectory The directory to write job results to (must be a
+	 * 		directory).
 	 * @param monitor The master <code>ProgressMonitor</code> from which to
 	 * 		create child monitors to monitor the progress of individual
 	 * 		<code>ParallelizableJob</code>s.
 	 */
-	public JobMasterServer(ProgressMonitor monitor) {
+	public JobMasterServer(File outputDirectory, ProgressMonitor monitor) {
+		if (!outputDirectory.isDirectory()) {
+			throw new IllegalArgumentException("outputDirectory must be a directory.");
+		}
+
 		this.monitor = monitor;
 		this.verbose = true;
+		this.outputDirectory = outputDirectory;
 	}
 
 	/**
 	 * Initializes the service.
+	 * @param outputDirectory The directory to write job results to (must be a
+	 * 		directory).
 	 * @param monitor The master <code>ProgressMonitor</code> from which to
 	 * 		create child monitors to monitor the progress of individual
 	 * 		<code>ParallelizableJob</code>s.
 	 * @param verbose A value indicating whether to write debugging output
 	 * 		to <code>System.err</code>.
 	 */
-	public JobMasterServer(ProgressMonitor monitor, boolean verbose) {
+	public JobMasterServer(File outputDirectory, ProgressMonitor monitor, boolean verbose) {
+		if (!outputDirectory.isDirectory()) {
+			throw new IllegalArgumentException("outputDirectory must be a directory.");
+		}
+
 		this.monitor = monitor;
 		this.verbose = verbose;
+		this.outputDirectory = outputDirectory;
 	}
 
 	/* (non-Javadoc)
@@ -227,6 +262,10 @@ public final class JobMasterServer implements JobMasterService {
 
 			task.sched.job.submitTaskResults(task.info, results, task.sched.monitor);
 
+			if (task.sched.job.isComplete()) {
+				this.writeJobResults(task.sched);
+			}
+
 		} else if (this.verbose) { /* task == null */
 
 			/* The task was not found: either the task id was invalid, or that
@@ -234,6 +273,40 @@ public final class JobMasterServer implements JobMasterService {
 			 */
 			System.err.printf("Task %d not found, ignoring.\n", taskId);
 
+		}
+
+	}
+
+	/**
+	 * Writes the results of a <code>ScheduledJob</code> to the output
+	 * directory.
+	 * @param sched The <code>ScheduledJob</code> to write results for.
+	 */
+	private void writeJobResults(ScheduledJob sched) {
+
+		assert(sched.job.isComplete());
+
+		try {
+
+			String				filename		= String.format("%s.zip", sched.id.toString());
+			File				outputFile		= new File(this.outputDirectory, filename);
+			OutputStream		out				= new FileOutputStream(outputFile);
+			ZipOutputStream		zip				= new ZipOutputStream(out);
+
+			zip.putNextEntry(new ZipEntry("job.log"));
+
+			PrintStream			log				= new PrintStream(zip);
+			log.printf("%tc: Job %s completed.", new Date(), sched.id.toString());
+			log.println();
+			log.flush();
+
+			zip.closeEntry();
+
+			sched.job.writeJobResults(zip);
+			zip.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}
@@ -476,5 +549,10 @@ public final class JobMasterServer implements JobMasterService {
 	 * <code>System.err</code>.
 	 */
 	private final boolean verbose;
+
+	/**
+	 * The directory to write results to.
+	 */
+	private final File outputDirectory;
 
 }
