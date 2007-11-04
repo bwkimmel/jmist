@@ -61,8 +61,8 @@ public final class ThreadServiceWorkerJob implements Job {
 			monitor.notifyIndeterminantProgress();
 			monitor.notifyStatusChanged("Looking up master...");
 
-			Registry registry = LocateRegistry.getRegistry(this.masterHost);
-			this.service = (JobMasterService) registry.lookup("JobMasterService");
+			this.registry = LocateRegistry.getRegistry(this.masterHost);
+			this.initializeService();
 
 			while (monitor.notifyIndeterminantProgress()) {
 
@@ -92,6 +92,20 @@ public final class ThreadServiceWorkerJob implements Job {
 
 		return false;
 
+	}
+
+	/**
+	 * Attempt to initialize a connection to the master service.
+	 * @return A value indicating whether the operation succeeded.
+	 */
+	private boolean initializeService() {
+		try {
+			this.service = (JobMasterService) this.registry.lookup("JobMasterService");
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	/**
@@ -370,13 +384,20 @@ public final class ThreadServiceWorkerJob implements Job {
 
 			} catch (RemoteException e) {
 
-				this.monitor.notifyStatusChanged("Failed to communicate with master.");
-				this.idle();
-
-				this.monitor.notifyCancelled();
-
 				System.err.println("Remote exception: " + e.toString());
 				e.printStackTrace();
+
+				this.monitor.notifyStatusChanged("Failed to communicate with master.");
+
+				/* Try to reconnect.  If it succeeds, then end this task
+				 * immediately so another can start.  Otherwise, idle for some
+				 * time before trying again.
+				 */
+				if (!initializeService()) {
+					this.idle();
+				}
+
+				this.monitor.notifyCancelled();
 
 			} finally {
 
@@ -420,6 +441,11 @@ public final class ThreadServiceWorkerJob implements Job {
 	 * threads.
 	 */
 	private final Semaphore workerSlot;
+
+	/**
+	 * The <code>Registry</code> to obtain the service from.
+	 */
+	private Registry registry = null;
 
 	/**
 	 * The <code>JobMasterService</code> to obtain tasks from and submit
