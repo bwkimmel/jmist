@@ -34,6 +34,10 @@ public final class PhotometerParallelizableJob extends
 		this.samplesPerMeasurement		= samplesPerMeasurement;
 		this.samplesPerTask				= samplesPerTask;
 		this.results					= new CollectorSphere[wavelengths.length * incidentAngles.length];
+		this.totalTasks					= wavelengths.length
+												* incidentAngles.length
+												* ((int) (samplesPerMeasurement / samplesPerTask) + ((samplesPerMeasurement % samplesPerTask) > 0 ? 1
+														: 0));
 
 		for (int i = 0; i < this.results.length; i++) {
 			this.results[i] = prototype.clone();
@@ -96,6 +100,8 @@ public final class PhotometerParallelizableJob extends
 		CollectorSphere		collector	= (CollectorSphere) results;
 
 		this.results[info.measurementIndex].merge(collector);
+
+		monitor.notifyProgress(++this.tasksReturned, this.totalTasks);
 
 	}
 
@@ -275,6 +281,8 @@ public final class PhotometerParallelizableJob extends
 	private final CollectorSphere[] results;
 	private int nextMeasurementIndex = 0;
 	private long outstandingSamplesPerMeasurement = 0;
+	private final int totalTasks;
+	private int tasksReturned = 0;
 
 	/**
 	 * Serialization version ID.
