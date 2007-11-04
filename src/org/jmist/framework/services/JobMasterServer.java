@@ -537,7 +537,9 @@ public final class JobMasterServer implements JobMasterService {
 			this.order		= nextOrder++;
 			this.worker		= job.worker();
 			this.tasks		= null;
-			this.monitor	= monitor.createChildProgressMonitor(this.id.toString());
+
+			String title	= String.format("%s (%s)", this.job.getClass().getSimpleName(), this.id.toString());
+			this.monitor	= monitor.createChildProgressMonitor(title);
 
 		}
 
