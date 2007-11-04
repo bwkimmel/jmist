@@ -4,6 +4,7 @@
 package org.jmist.packages;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -19,7 +20,8 @@ import org.jmist.toolkit.Pixel;
  * A <code>ParallelizableJob</code> that renders a <code>Raster</code> image.
  * @author bkimmel
  */
-public final class RasterJob extends AbstractParallelizableJob {
+public final class RasterJob extends AbstractParallelizableJob implements
+		Serializable {
 
 	/**
 	 * Creates a new <code>RasterJob</code>.  This job will
@@ -322,5 +324,10 @@ public final class RasterJob extends AbstractParallelizableJob {
 
 	/** The number of tasks that have been completed. */
 	private int tasksComplete = 0;
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 9173731839475893020L;
 
 }
