@@ -24,6 +24,7 @@ import org.jmist.framework.reporting.ConsoleProgressMonitor;
 import org.jmist.framework.reporting.ProgressDialog;
 import org.jmist.framework.reporting.ProgressMonitor;
 import org.jmist.framework.reporting.ProgressTreePanel;
+import org.jmist.framework.services.BackgroundThreadFactory;
 import org.jmist.framework.services.JobMasterServer;
 import org.jmist.framework.services.JobMasterService;
 import org.jmist.framework.services.ServiceSubmitJob;
@@ -219,7 +220,7 @@ public class Test {
 		JDialog dialog = new JDialog();
 		ProgressTreePanel monitor = new ProgressTreePanel();
 		ParallelizableJob job = getMeasurementJob(); //new DummyParallelizableJob(100, 5000, 10000);
-		Executor threadPool = Executors.newFixedThreadPool(2);
+		Executor threadPool = Executors.newFixedThreadPool(2, new BackgroundThreadFactory());
 		Job submitJob = new ServiceSubmitJob(job, 0, host);
 		Job workerJob = new ThreadServiceWorkerJob(host, 10000, 2, threadPool);
 
