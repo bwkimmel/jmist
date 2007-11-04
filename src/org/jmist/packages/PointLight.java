@@ -39,11 +39,11 @@ public final class PointLight implements Light, Serializable {
 
 		if (!this.shadows || vf.visibility(x.location(), this.location)) {
 
-			Vector3		from		= x.location().vectorTo(this.location);
-			double		dSquared	= from.squaredLength();
-			double		factor		= 1.0 / (4.0 * Math.PI * dSquared);
+			Vector3		from			= x.location().vectorTo(this.location);
+			double		dSquared		= from.squaredLength();
+			double		attenuation		= 1.0 / (4.0 * Math.PI * dSquared);
 
-			x.illuminate(from.unit(), new ScaledSpectrum(factor, emission));
+			x.illuminate(from.unit(), new ScaledSpectrum(attenuation, emission));
 
 		}
 
