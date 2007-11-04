@@ -1,7 +1,6 @@
 package org.jmist.toolkit;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
@@ -20,7 +19,6 @@ import org.jmist.framework.Material;
 import org.jmist.framework.ParallelizableJob;
 import org.jmist.framework.Spectrum;
 import org.jmist.framework.measurement.CollectorSphere;
-import org.jmist.framework.measurement.Photometer;
 import org.jmist.framework.reporting.CompositeProgressMonitor;
 import org.jmist.framework.reporting.ConsoleProgressMonitor;
 import org.jmist.framework.reporting.ProgressDialog;
@@ -35,7 +33,6 @@ import org.jmist.packages.EqualSolidAnglesCollectorSphere;
 import org.jmist.packages.LambertianMaterial;
 import org.jmist.packages.NRooksRandom;
 import org.jmist.packages.PhotometerParallelizableJob;
-import org.jmist.packages.SpectrophotometerCollectorSphere;
 import org.jmist.toolkit.Grid3.Cell;
 
 public class Test {
