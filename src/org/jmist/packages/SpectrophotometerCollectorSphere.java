@@ -86,4 +86,9 @@ public final class SpectrophotometerCollectorSphere extends
 	/** The sensor ID for the lower hemisphere sensor. */
 	private static final int LOWER_HEMISPHERE = 1;
 
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -6289494553073934175L;
+
 }
