@@ -119,7 +119,7 @@ public class Test {
 		SphericalCoordinates[] incidentAngles = { SphericalCoordinates.NORMAL };
 		double[] wavelengths = { 5e-7 /* 500nm */ };
 
-		ParallelizableJob job = new PhotometerParallelizableJob(specimen, incidentAngles, wavelengths, 10000000, 1000000, collector);
+		ParallelizableJob job = new PhotometerParallelizableJob(specimen, incidentAngles, wavelengths, 100000000, 1000000, collector);
 		return job;
 	}
 
