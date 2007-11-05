@@ -166,6 +166,34 @@ public final class AffineMatrix3 implements Serializable {
 	}
 
 	/**
+	 * Transforms the specified <code>Vector3</code> according to the
+	 * transformation representing by this <code>AffineMatrix3</code>.
+	 * @param v The <code>Vector3</code> to transform.
+	 * @return The transformed <code>Vector3</code>.
+	 */
+	public Vector3 times(Vector3 v) {
+		return new Vector3(
+				a[0][0] * v.x() + a[0][1] * v.y() + a[0][2] * v.z(),
+				a[1][0] * v.x() + a[1][1] * v.y() + a[1][2] * v.z(),
+				a[2][0] * v.x() + a[2][1] * v.y() + a[2][2] * v.z()
+		);
+	}
+
+	/**
+	 * Transforms the specified <code>Point3</code> according to the
+	 * transformation representing by this <code>AffineMatrix3</code>.
+	 * @param p The <code>Point3</code> to transform.
+	 * @return The transformed <code>Point3</code>.
+	 */
+	public Point3 times(Point3 p) {
+		return new Point3(
+				a[0][0] * p.x() + a[0][1] * p.y() + a[0][2] * p.z() + a[0][3],
+				a[1][0] * p.x() + a[1][1] * p.y() + a[1][2] * p.z() + a[1][3],
+				a[2][0] * p.x() + a[2][1] * p.y() + a[2][2] * p.z() + a[2][3]
+		);
+	}
+
+	/**
 	 * Creates a new <code>AffineMatrix3</code> representing a translation.
 	 * @param v The <code>Vector3</code> to translate along.
 	 * @return A translation matrix.

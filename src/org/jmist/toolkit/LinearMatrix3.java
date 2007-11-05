@@ -122,6 +122,20 @@ public final class LinearMatrix3 implements Serializable {
 	}
 
 	/**
+	 * Transforms the specified <code>Vector3</code> according to the
+	 * transformation representing by this <code>LinearMatrix3</code>.
+	 * @param v The <code>Vector3</code> to transform.
+	 * @return The transformed <code>Vector3</code>.
+	 */
+	public Vector3 times(Vector3 v) {
+		return new Vector3(
+				a[0][0] * v.x() + a[0][1] * v.y() + a[0][2] * v.z(),
+				a[1][0] * v.x() + a[1][1] * v.y() + a[1][2] * v.z(),
+				a[2][0] * v.x() + a[2][1] * v.y() + a[2][2] * v.z()
+		);
+	}
+
+	/**
 	 * Returns a scaling matrix.
 	 * @param c The factor by which to scale.
 	 * @return A scaling matrix.
