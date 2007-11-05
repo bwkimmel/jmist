@@ -13,8 +13,8 @@ public interface Geometry extends Bounded3, VisibilityFunction3 {
 
 	void intersect(Ray3 ray, Interval I, IntersectionRecorder recorder);
 
-	WeightedSurfacePoint generateRandomSurfacePoint();
-
+//	WeightedSurfacePoint generateRandomSurfacePoint();
+//
 	boolean isClosed();
 
 }

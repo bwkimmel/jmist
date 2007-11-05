@@ -229,7 +229,7 @@ public class Test {
 		dialog.setVisible(true);
 
 		submitJob.go(monitor);
-		workerJob.go(monitor);
+		//workerJob.go(monitor);
 
 	}
 

@@ -183,6 +183,11 @@ public final class Photometer {
 			/* nothing to do. */
 		}
 
+		@Override
+		public boolean closed() {
+			return false;
+		}
+
 	};
 
 	private static final java.util.Random random = new java.util.Random();

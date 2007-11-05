@@ -3,12 +3,17 @@
  */
 package org.jmist.packages;
 
+import java.io.Serializable;
+
 import org.jmist.framework.AbstractGeometry;
 import org.jmist.framework.Geometry;
+import org.jmist.framework.Intersection;
 import org.jmist.framework.IntersectionRecorder;
 import org.jmist.framework.WeightedSurfacePoint;
+import org.jmist.toolkit.Basis3;
 import org.jmist.toolkit.Box3;
 import org.jmist.toolkit.Interval;
+import org.jmist.toolkit.Point2;
 import org.jmist.toolkit.Point3;
 import org.jmist.toolkit.Polynomial;
 import org.jmist.toolkit.Ray3;
@@ -20,7 +25,8 @@ import org.jmist.util.MathUtil;
  * @author bkimmel
  *
  */
-public final class CylinderGeometry extends AbstractGeometry implements Geometry {
+public final class CylinderGeometry extends AbstractGeometry implements
+		Geometry, Serializable {
 
 	/**
 	 * Initializes the dimensions of this cylinder.
@@ -60,9 +66,10 @@ public final class CylinderGeometry extends AbstractGeometry implements Geometry
 
 			if (this.base.squaredDistanceTo(p) < this.radius * this.radius)
 			{
-//				GeometryIntersection	x(this, ray, t, true, ray.direction().y() > 0.0, CYLINDER_SURFACE_BASE);
-//				x.setPoint(p);
-//				recorder.record(x);
+				Intersection x = super.newIntersection(ray, t, (ray.direction().y() > 0.0), CYLINDER_SURFACE_BASE)
+					.setLocation(p);
+
+				recorder.record(x);
 			}
 		}
 
@@ -76,9 +83,10 @@ public final class CylinderGeometry extends AbstractGeometry implements Geometry
 
 			if (r < this.radius * this.radius)
 			{
-//				GeometryIntersection	x(this, ray, t, true, ray.direction().y() < 0.0, CYLINDER_SURFACE_TOP);
-//				x.setPoint(p);
-//				recorder.record(x);
+				Intersection x = super.newIntersection(ray, t, (ray.direction().y() < 0.0), CYLINDER_SURFACE_TOP)
+					.setLocation(p);
+
+				recorder.record(x);
 			}
 		}
 
@@ -99,20 +107,21 @@ public final class CylinderGeometry extends AbstractGeometry implements Geometry
 			p = ray.pointAt(x[0]);
 			if (MathUtil.inRangeOO(p.y(), this.base.y(), this.base.y() + this.height))
 			{
-//				GeometryIntersection	isect(this, ray, x[0], true, x[0] < x[1], CYLINDER_SURFACE_BODY);
-//				isect.setPoint(p);
-//				recorder.record(isect);
+				Intersection isect = super.newIntersection(ray, x[0], (x[0] < x[1]), CYLINDER_SURFACE_BODY)
+					.setLocation(p);
+
+				recorder.record(isect);
 			}
 
 			p = ray.pointAt(x[1]);
 			if (MathUtil.inRangeOO(p.y(), this.base.y(), this.base.y() + this.height))
 			{
-//				GeometryIntersection	isect(this, ray, x[1], true, x[0] > x[1], CYLINDER_SURFACE_BODY);
-//				isect.setPoint(p);
-//				recorder.record(isect);
+				Intersection isect = super.newIntersection(ray, x[1], (x[0] > x[1]), CYLINDER_SURFACE_BODY)
+					.setLocation(p);
+
+				recorder.record(isect);
 			}
 		}
-
 
 	}
 
@@ -152,6 +161,50 @@ public final class CylinderGeometry extends AbstractGeometry implements Geometry
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.AbstractGeometry#getBasis(org.jmist.framework.AbstractGeometry.GeometryIntersection)
+	 */
+	@Override
+	protected Basis3 getBasis(GeometryIntersection x) {
+		// TODO Auto-generated method stub
+		return super.getBasis(x);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.AbstractGeometry#getNormal(org.jmist.framework.AbstractGeometry.GeometryIntersection)
+	 */
+	@Override
+	protected Vector3 getNormal(GeometryIntersection x) {
+
+		switch (x.surfaceId()) {
+
+		case CYLINDER_SURFACE_BASE:
+			return Vector3.J.opposite();
+
+		case CYLINDER_SURFACE_TOP:
+			return Vector3.J;
+
+		case CYLINDER_SURFACE_BODY:
+			Point3 p = x.location();
+			return new Vector3(p.x() - this.base.x(), 0.0, p.y()
+					- this.base.y());
+
+		default:
+			throw new IllegalArgumentException("Invalid surface ID.");
+
+		}
+
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.AbstractGeometry#getTextureCoordinates(org.jmist.framework.AbstractGeometry.GeometryIntersection)
+	 */
+	@Override
+	protected Point2 getTextureCoordinates(GeometryIntersection x) {
+		// TODO Auto-generated method stub
+		return super.getTextureCoordinates(x);
+	}
+
 	/** The point at the base of the cylinder */
 	private final Point3 base;
 
@@ -160,5 +213,19 @@ public final class CylinderGeometry extends AbstractGeometry implements Geometry
 
 	/** The height of the cylinder */
 	private final double height;
+
+	/** The surface ID for the base of the cylinder. */
+	private static final int CYLINDER_SURFACE_BASE = 0;
+
+	/** The surface ID for the top of the cylinder. */
+	private static final int CYLINDER_SURFACE_TOP = 1;
+
+	/** The surface ID for the body of the cylinder. */
+	private static final int CYLINDER_SURFACE_BODY = 2;
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 1128440316229322913L;
 
 }

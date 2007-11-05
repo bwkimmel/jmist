@@ -25,6 +25,8 @@ public interface SurfacePoint {
 
 	Point2 textureCoordinates();
 
+	boolean closed();
+
 	void illuminate(Vector3 from, Spectrum irradiance);
 
 }
