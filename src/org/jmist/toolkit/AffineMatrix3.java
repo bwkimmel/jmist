@@ -166,6 +166,19 @@ public final class AffineMatrix3 implements Serializable {
 	}
 
 	/**
+	 * Creates a new <code>AffineMatrix3</code> representing a translation.
+	 * @param v The <code>Vector3</code> to translate along.
+	 * @return A translation matrix.
+	 */
+	public static AffineMatrix3 translateMatrix(Vector3 v) {
+		return new AffineMatrix3(
+				1.0, 0.0, 0.0, v.x(),
+				0.0, 1.0, 0.0, v.y(),
+				0.0, 0.0, 1.0, v.z()
+		);
+	}
+
+	/**
 	 * The identity matrix ({@code this * IDENTITY == this}).
 	 */
 	public static final AffineMatrix3 IDENTITY = new AffineMatrix3(1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
