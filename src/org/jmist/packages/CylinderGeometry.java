@@ -22,8 +22,8 @@ import org.jmist.toolkit.Vector3;
 import org.jmist.util.MathUtil;
 
 /**
+ * A cylinder aligned along the y-axis.
  * @author bkimmel
- *
  */
 public final class CylinderGeometry extends AbstractGeometry implements
 		Geometry, Serializable {
@@ -166,8 +166,13 @@ public final class CylinderGeometry extends AbstractGeometry implements
 	 */
 	@Override
 	protected Basis3 getBasis(GeometryIntersection x) {
-		// TODO Auto-generated method stub
-		return super.getBasis(x);
+
+		Vector3 n = this.getNormal(x);
+		Vector3 r = this.base.vectorTo(x.location());
+		Vector3 u = new Vector3(-r.z(), 0.0, r.x());
+
+		return Basis3.fromWU(n, u, Basis3.Orientation.RIGHT_HANDED);
+
 	}
 
 	/* (non-Javadoc)
@@ -201,8 +206,33 @@ public final class CylinderGeometry extends AbstractGeometry implements
 	 */
 	@Override
 	protected Point2 getTextureCoordinates(GeometryIntersection x) {
-		// TODO Auto-generated method stub
-		return super.getTextureCoordinates(x);
+
+		Vector3		r		= this.base.vectorTo(x.location());
+		double		tx		= (Math.PI + Math.atan2(r.z(), r.x())) / (2.0 * Math.PI);
+		double		ty;
+
+		switch (x.surfaceId()) {
+
+		case CYLINDER_SURFACE_BASE:
+			ty = Math.sqrt(r.x() * r.x() + r.z() * r.z()) / (4.0 * this.radius);
+			break;
+
+		case CYLINDER_SURFACE_TOP:
+			ty = 1.0 - Math.sqrt(r.x() * r.x() + r.z() * r.z())
+					/ (4.0 * this.radius);
+			break;
+
+		case CYLINDER_SURFACE_BODY:
+			ty = 0.25 + (r.y() / (2.0 * this.height));
+			break;
+
+		default:
+			throw new IllegalArgumentException("Invalid surface ID.");
+
+		}
+
+		return new Point2(tx, ty);
+
 	}
 
 	/** The point at the base of the cylinder */
