@@ -137,17 +137,7 @@ public abstract class AbstractGeometry implements Geometry {
 		 */
 		@Override
 		public Basis3 microfacetBasis() {
-			if (this.microfacetBasis == null) {
-				this.setMicrofacetBasis(this.geometry.getMicrofacetBasis(this));
-			}
-
-			return this.microfacetBasis;
-		}
-
-		public GeometryIntersection setMicrofacetBasis(Basis3 microfacetBasis) {
-			this.microfacetBasis = microfacetBasis;
-			this.microfacetNormal = microfacetBasis.w();
-			return this;
+			return this.basis();
 		}
 
 		/* (non-Javadoc)
@@ -155,16 +145,7 @@ public abstract class AbstractGeometry implements Geometry {
 		 */
 		@Override
 		public Vector3 microfacetNormal() {
-			if (this.microfacetNormal == null) {
-				this.setMicrofacetNormal(this.geometry.getMicrofacetNormal(this));
-			}
-
-			return this.microfacetNormal;
-		}
-
-		public GeometryIntersection setMicrofacetNormal(Vector3 microfacetNormal) {
-			this.microfacetNormal = microfacetNormal;
-			return this;
+			return this.normal();
 		}
 
 		/* (non-Javadoc)
@@ -225,9 +206,7 @@ public abstract class AbstractGeometry implements Geometry {
 		private Point3				location				= null;
 		private Basis3				basis					= null;
 		private Material			material				= null;
-		private Basis3				microfacetBasis			= null;
 		private Vector3				normal					= null;
-		private Vector3				microfacetNormal		= null;
 		private Point2				textureCoordinates		= null;
 
 	}
@@ -248,14 +227,6 @@ public abstract class AbstractGeometry implements Geometry {
 	}
 
 	protected Basis3 getBasis(GeometryIntersection x) {
-		throw new UnsupportedOperationException();
-	}
-
-	protected Basis3 getMicrofacetBasis(GeometryIntersection x) {
-		throw new UnsupportedOperationException();
-	}
-
-	protected Vector3 getMicrofacetNormal(GeometryIntersection x) {
 		throw new UnsupportedOperationException();
 	}
 
