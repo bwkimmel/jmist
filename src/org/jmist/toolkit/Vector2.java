@@ -138,6 +138,14 @@ public final class Vector2 implements Serializable {
 	}
 
 	/**
+	 * Returns a <code>Vector2</code> perpendicular to this one.
+	 * @return A <code>Vector2</code> perpendicular to this one.
+	 */
+	public Vector2 perp() {
+		return new Vector2(-y, x);
+	}
+
+	/**
 	 * The zero vector (represents the vector between two identical points).
 	 */
 	public static final Vector2 ZERO = new Vector2(0.0, 0.0);
