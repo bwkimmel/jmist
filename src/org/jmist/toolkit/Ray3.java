@@ -47,6 +47,20 @@ public final class Ray3 implements Serializable {
 		return origin.plus(direction.times(t));
 	}
 
+	/**
+	 * Transforms this <code>Ray3</code> according to the specified
+	 * transformation matrix.
+	 * @param T The <code>AffineMatrix3</code> representing the transformation
+	 * 		to apply.
+	 * @return The transformed <code>Ray3</code>.
+	 */
+	public Ray3 transform(AffineMatrix3 T) {
+		return new Ray3(
+				T.times(origin),
+				T.times(direction)
+		);
+	}
+
 	/** The origin of the ray. */
 	private final Point3 origin;
 
