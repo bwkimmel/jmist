@@ -163,6 +163,11 @@ public final class LinearMatrix3 implements Serializable {
 		);
 	}
 
+	/**
+	 * Returns a matrix for rotating about the y-axis.
+	 * @param theta The angle to rotate by.
+	 * @return The rotation matrix.
+	 */
 	public static LinearMatrix3 rotateYMatrix(double theta) {
 		return new LinearMatrix3(
 				Math.cos(theta), 0.0, Math.sin(theta),
@@ -171,6 +176,11 @@ public final class LinearMatrix3 implements Serializable {
 		);
 	}
 
+	/**
+	 * Returns a matrix for rotating about the z-axis.
+	 * @param theta The angle to rotate by.
+	 * @return The rotation matrix.
+	 */
 	public static LinearMatrix3 rotateZMatrix(double theta) {
 		return new LinearMatrix3(
 				Math.cos(theta), -Math.sin(theta), 0.0,
