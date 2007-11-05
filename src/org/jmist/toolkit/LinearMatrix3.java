@@ -151,6 +151,56 @@ public final class LinearMatrix3 implements Serializable {
 	}
 
 	/**
+	 * Returns a matrix for stretching along the x-axis.
+	 * @param cx The factor by which to scale along the x-axis.
+	 * @return The stretch matrix.
+	 */
+	public static LinearMatrix3 stretchXMatrix(double cx) {
+		return new LinearMatrix3(
+				cx , 0.0, 0.0,
+				0.0, 1.0, 0.0,
+				0.0, 0.0, 1.0
+		);
+	}
+
+	/**
+	 * Returns a matrix for stretching along the y-axis.
+	 * @param cy The factor by which to scale along the y-axis.
+	 * @return The stretch matrix.
+	 */
+	public static LinearMatrix3 stretchYMatrix(double cy) {
+		return new LinearMatrix3(
+				1.0, 0.0, 0.0,
+				0.0, cy , 0.0,
+				0.0, 0.0, 1.0
+		);
+	}
+
+	/**
+	 * Returns a matrix for stretching along the z-axis.
+	 * @param cz The factor by which to scale along the z-axis.
+	 * @return The stretch matrix.
+	 */
+	public static LinearMatrix3 stretchZMatrix(double cz) {
+		return new LinearMatrix3(
+				1.0, 0.0, 0.0,
+				0.0, 1.0, 0.0,
+				0.0, 0.0, cz
+		);
+	}
+
+	/**
+	 * Returns a matrix for stretching along an arbitrary axis.
+	 * @param axis The axis to stretch along.
+	 * @param c The factor to stretch by.
+	 * @return The stretch matrix.
+	 */
+	public static LinearMatrix3 stretchMatrix(Vector3 axis, double c) {
+		// TODO implement this method.
+		throw new UnsupportedOperationException("not yet implemented");
+	}
+
+	/**
 	 * Returns a matrix for rotating about the x-axis.
 	 * @param theta The angle to rotate by.
 	 * @return The rotation matrix.
@@ -187,6 +237,17 @@ public final class LinearMatrix3 implements Serializable {
 				Math.sin(theta), Math.cos(theta), 0.0,
 				0.0, 0.0, 1.0
 		);
+	}
+
+	/**
+	 * Returns a matrix for rotating about an arbitrary axis.
+	 * @param axis The axis to rotate around.
+	 * @param theta The angle to rotate by.
+	 * @return The rotation matrix.
+	 */
+	public static LinearMatrix3 rotateMatrix(Vector3 axis, double theta) {
+		// TODO implement this method.
+		throw new UnsupportedOperationException("not yet implemented");
 	}
 
 	/**
