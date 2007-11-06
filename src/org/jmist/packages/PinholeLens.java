@@ -49,7 +49,7 @@ public final class PinholeLens extends TransformableLens {
 			Point3.ORIGIN,
 			Vector3.unit(
 				width * (p.x() - 0.5),
-				height * (0.5 - p.x()),
+				height * (0.5 - p.y()),
 				-1.0
 			)
 		);
