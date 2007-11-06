@@ -51,6 +51,26 @@ public final class Polynomial implements Serializable {
 	}
 
 	/**
+	 * Evaluates this <code>Polynomial</code> at the specified domain value.
+	 * @param x The domain value at which to evaluate this
+	 * 		<code>Polynomial</code>.
+	 * @return The value of this <code>Polynomial</code> at <code>x</code>.
+	 */
+	public double at(double x) {
+
+		double value = 0.0;
+		double power = 1.0;
+
+		for (int i = 0; i < this.coeff.length; i++) {
+			value += this.coeff[i] * power;
+			power *= x;
+		}
+
+		return value;
+
+	}
+
+	/**
 	 * Adds this polynomial to another.
 	 * @param other The polynomial to add this polynomial to.
 	 * @return The sum of the two polynomials.
