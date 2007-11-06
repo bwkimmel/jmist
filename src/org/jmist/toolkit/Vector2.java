@@ -161,6 +161,16 @@ public final class Vector2 implements Serializable {
 	public static final Vector2 J = new Vector2(0.0, 1.0);
 
 	/**
+	 * The unit vector along the negative x-axis.
+	 */
+	public static final Vector2 NEGATIVE_I = new Vector2(-1.0, 0.0);
+
+	/**
+	 * The unit vector along the negative y-axis.
+	 */
+	public static final Vector2 NEGATIVE_J = new Vector2(0.0, -1.0);
+
+	/**
 	 * The lengths of the vector along each axis.
 	 */
 	private final double x, y;

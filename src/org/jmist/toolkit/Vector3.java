@@ -200,6 +200,21 @@ public final class Vector3 implements Serializable {
 	public static final Vector3 K = new Vector3(0.0, 0.0, 1.0);
 
 	/**
+	 * The unit vector along the negative x-axis.
+	 */
+	public static final Vector3 NEGATIVE_I = new Vector3(-1.0, 0.0, 0.0);
+
+	/**
+	 * The unit vector along the negative y-axis.
+	 */
+	public static final Vector3 NEGATIVE_J = new Vector3(0.0, -1.0, 0.0);
+
+	/**
+	 * The unit vector along the negative z-axis.
+	 */
+	public static final Vector3 NEGATIVE_K = new Vector3(0.0, 0.0, -1.0);
+
+	/**
 	 * The lengths of the vector along each axis.
 	 */
 	private final double x, y, z;
