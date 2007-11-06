@@ -178,6 +178,54 @@ public final class MathUtil {
 	}
 
 	/**
+	 * Performs a bilinear interpolation between four values.
+	 * @param _00 The value at <code>(t, u) = (0, 0)</code>.
+	 * @param _10 The value at <code>(t, u) = (1, 0)</code>.
+	 * @param _01 The value at <code>(t, u) = (0, 1)</code>.
+	 * @param _11 The value at <code>(t, u) = (1, 1)</code>.
+	 * @param t The first value at which to interpolate.
+	 * @param u The second value at which to interpolate.
+	 * @return The interpolated value at <code>(t, u)</code>.
+	 */
+	public static double bilinearInterpolate(double _00, double _10,
+			double _01, double _11, double t, double u) {
+
+		return interpolate(
+				interpolate(_00, _10, t),
+				interpolate(_01, _11, t),
+				u
+		);
+
+	}
+
+	/**
+	 * Performs a trilinear interpolation between eight values.
+	 * @param _000 The value at <code>(t, u, v) = (0, 0, 0)</code>.
+	 * @param _100 The value at <code>(t, u, v) = (1, 0, 0)</code>.
+	 * @param _010 The value at <code>(t, u, v) = (0, 1, 0)</code>.
+	 * @param _110 The value at <code>(t, u, v) = (1, 1, 0)</code>.
+	 * @param _001 The value at <code>(t, u, v) = (0, 0, 1)</code>.
+	 * @param _101 The value at <code>(t, u, v) = (1, 0, 1)</code>.
+	 * @param _011 The value at <code>(t, u, v) = (0, 1, 1)</code>.
+	 * @param _111 The value at <code>(t, u, v) = (1, 1, 1)</code>.
+	 * @param t The first value at which to interpolate.
+	 * @param u The second value at which to interpolate.
+	 * @param v The third value at which to interpolate.
+	 * @return The interpolated value at <code>(t, u, v)</code>.
+	 */
+	public static double trilinearInterpolate(double _000, double _100,
+			double _010, double _110, double _001, double _101, double _011,
+			double _111, double t, double u, double v) {
+
+		return interpolate(
+				bilinearInterpolate(_000, _001, _010, _011, u, v),
+				bilinearInterpolate(_100, _101, _110, _111, u, v),
+				t
+		);
+
+	}
+
+	/**
 	 * A comparison threshold value to be used when a very high degree
 	 * of precision is expected.
 	 */
