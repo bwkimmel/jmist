@@ -39,7 +39,9 @@ public abstract class TransformableLens extends AbstractAffineTransformable3
 	 * the specified point on the image plane.  This method must return the
 	 * ray in view coordinate space:  The center of the image plane
 	 * (corresponding to the point (0.5, 0.5)) should map to a ray originating
-	 * at the origin looking along the negative z-axis.
+	 * at the origin looking along the negative z-axis.  The positive y-axis
+	 * should be the up direction and the positive x-axis should be to the
+	 * right.
 	 * @param p The point on the image plane in normalized device coordinates
 	 * 		(must fall within {@code Box2.UNIT}).
 	 * @return The ray to cast for ray shading.
