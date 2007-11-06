@@ -166,6 +166,18 @@ public final class MathUtil {
 	}
 
 	/**
+	 * Interpolates between two end points.
+	 * @param a The end point at <code>t = 0</code>.
+	 * @param b The end point at <code>t = 1</code>.
+	 * @param t The value at which to interpolate.
+	 * @return The value that is the fraction <code>t</code> of the way from
+	 * 		<code>a</code> to <code>b</code>: <code>(1-t)a + tb</code>.
+	 */
+	public static double interpolate(double a, double b, double t) {
+		return a + t * (b - a);
+	}
+
+	/**
 	 * A comparison threshold value to be used when a very high degree
 	 * of precision is expected.
 	 */
