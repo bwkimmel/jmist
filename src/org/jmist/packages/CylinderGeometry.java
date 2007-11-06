@@ -192,7 +192,7 @@ public final class CylinderGeometry extends AbstractGeometry implements
 		case CYLINDER_SURFACE_BODY:
 			Point3 p = x.location();
 			return new Vector3(p.x() - this.base.x(), 0.0, p.y()
-					- this.base.y());
+					- this.base.y()).unit();
 
 		default:
 			throw new IllegalArgumentException("Invalid surface ID.");
