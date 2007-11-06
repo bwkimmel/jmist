@@ -71,8 +71,16 @@ public class Test {
 		//testZip();
 		//testMath();
 		//testLambertianMaterial();
-		testLens();
-
+		//testLens();
+		testPolynomial2();
+	}
+	
+	@SuppressWarnings("unused")
+	private static void testPolynomial2() {
+		
+		Polynomial f = new Polynomial(1, -2, 3);
+		System.out.printf("f(t)=%s\nf(3)=%f\n", f.toString("t"), f.at(3));
+		
 	}
 
 	private static void printPoint3(Point3 p) {
