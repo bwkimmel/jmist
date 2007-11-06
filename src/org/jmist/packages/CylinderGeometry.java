@@ -95,9 +95,9 @@ public final class CylinderGeometry extends AbstractGeometry implements
 		Vector3		dir		= ray.direction();
 
 		Polynomial	f		= new Polynomial(
-								dir.x() * dir.x() + dir.z() * dir.z(),
+								orig.x() * orig.x() + orig.z() * orig.z() - this.radius * this.radius,
 								2.0 * (orig.x() * dir.x() + orig.z() * dir.z()),
-								orig.x() * orig.x() + orig.z() * orig.z() - this.radius * this.radius
+								dir.x() * dir.x() + dir.z() * dir.z()
 							);
 		double[]	x		= f.roots();
 
