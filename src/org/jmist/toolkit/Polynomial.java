@@ -170,6 +170,23 @@ public final class Polynomial implements Serializable {
 	 */
 	@Override
 	public String toString() {
+		return this.toString("x");
+	}
+
+	/**
+	 * Generates a string representation of this <code>Polynomial</code>, with
+	 * the specified variable name as the unknown quantity.  It is the
+	 * responsibility of the caller to place parentheses around the variable if
+	 * necessary (for example <code>this.toString("xy")</code> would generate
+	 * something like "1.0xy^0 - 2.0xy^1 + 3.0xy^2", when "1.0(xy)^0
+	 * - 2.0(xy)^1 + 3.0(xy)^2" is what was intended;
+	 * <code>this.toString("(xy)")</code> would achieve this).
+	 * @param variableName The name of the unknown quantity.
+	 * @return The <code>String</code> representation of this
+	 * 		<code>Polynomial</code> with <code>variableName</code> for the
+	 * 		unknown quantity.
+	 */
+	public String toString(String variableName) {
 
 		int				degree	= this.degree();
 		StringBuilder	result	= new StringBuilder();
@@ -188,7 +205,8 @@ public final class Polynomial implements Serializable {
 					result.append(coeff);
 				}
 
-				result.append("x^");
+				result.append(variableName);
+				result.append("^");
 				result.append(exponent);
 
 			}
