@@ -5,6 +5,8 @@ package org.jmist.toolkit;
 
 import java.io.Serializable;
 
+import org.jmist.util.MathUtil;
+
 /**
  * A location in two dimensional space.
  * This class is immutable.
@@ -99,6 +101,35 @@ public final class Point2 implements Serializable {
 	 */
 	public Point2 minus(Vector2 v) {
 		return new Point2(x - v.x(), y - v.y());
+	}
+
+	/**
+	 * Interpolates between two <code>Point2</code>s.
+	 * @param p The <code>Point2</code> at <code>t = 0</code>.
+	 * @param q The <code>Point2</code> at <code>t = 1</code>.
+	 * @param t The value at which to interpolate.
+	 * @return The <code>Point2</code> that is the fraction <code>t</code> of
+	 * 		the way from <code>p</code> to <code>q</code>:
+	 * 		<code>p + t(q - p)</code>.
+	 */
+	public static Point2 interpolate(Point2 p, Point2 q, double t) {
+		return new Point2(
+				MathUtil.interpolate(p.x, q.x, t),
+				MathUtil.interpolate(p.y, q.y, t)
+		);
+	}
+
+	/**
+	 * Finds the midpoint of the line segment joining two <code>Point2</code>s.
+	 * Equivalent to <code>Point2.interpolate(p, q, 0.5)</code>.
+	 * @param p The first <code>Point2</code>.
+	 * @param q The second <code>Point2</code>.
+	 * @return The <code>Point2</code> half-way between <code>p</code> and
+	 * 		<code>q</code>.
+	 * @see #interpolate(Point2, Point2, double)
+	 */
+	public static Point2 midpoint(Point2 p, Point2 q) {
+		return Point2.interpolate(p, q, 0.5);
 	}
 
 	/**

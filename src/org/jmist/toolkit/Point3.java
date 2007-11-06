@@ -5,6 +5,8 @@ package org.jmist.toolkit;
 
 import java.io.Serializable;
 
+import org.jmist.util.MathUtil;
+
 /**
  * A location in three dimensional space.
  * This class is immutable.
@@ -112,6 +114,36 @@ public final class Point3 implements Serializable {
 	 */
 	public Point3 minus(Vector3 v) {
 		return new Point3(x - v.x(), y - v.y(), z - v.z());
+	}
+
+	/**
+	 * Interpolates between two <code>Point3</code>s.
+	 * @param p The <code>Point3</code> at <code>t = 0</code>.
+	 * @param q The <code>Point3</code> at <code>t = 1</code>.
+	 * @param t The value at which to interpolate.
+	 * @return The <code>Point3</code> that is the fraction <code>t</code> of
+	 * 		the way from <code>p</code> to <code>q</code>:
+	 * 		<code>p + t(q - p)</code>.
+	 */
+	public static Point3 interpolate(Point3 p, Point3 q, double t) {
+		return new Point3(
+				MathUtil.interpolate(p.x, q.x, t),
+				MathUtil.interpolate(p.y, q.y, t),
+				MathUtil.interpolate(p.z, q.z, t)
+		);
+	}
+
+	/**
+	 * Finds the midpoint of the line segment joining two <code>Point3</code>s.
+	 * Equivalent to <code>Point3.interpolate(p, q, 0.5)</code>.
+	 * @param p The first <code>Point3</code>.
+	 * @param q The second <code>Point3</code>.
+	 * @return The <code>Point3</code> half-way between <code>p</code> and
+	 * 		<code>q</code>.
+	 * @see #interpolate(Point3, Point3, double)
+	 */
+	public static Point3 midpoint(Point3 p, Point3 q) {
+		return Point3.interpolate(p, q, 0.5);
 	}
 
 	/**
