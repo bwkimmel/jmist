@@ -14,6 +14,7 @@ import java.util.zip.ZipOutputStream;
 import javax.swing.JDialog;
 
 import org.jmist.framework.ConstantSpectrum;
+import org.jmist.framework.Geometry;
 import org.jmist.framework.Job;
 import org.jmist.framework.Material;
 import org.jmist.framework.ParallelizableJob;
@@ -29,11 +30,15 @@ import org.jmist.framework.services.JobMasterServer;
 import org.jmist.framework.services.JobMasterService;
 import org.jmist.framework.services.ServiceSubmitJob;
 import org.jmist.framework.services.ThreadServiceWorkerJob;
+import org.jmist.packages.CylinderGeometry;
 import org.jmist.packages.DummyParallelizableJob;
 import org.jmist.packages.EqualSolidAnglesCollectorSphere;
 import org.jmist.packages.LambertianMaterial;
 import org.jmist.packages.NRooksRandom;
+import org.jmist.packages.NearestIntersectionRecorder;
 import org.jmist.packages.PhotometerJob;
+import org.jmist.packages.PinholeLens;
+import org.jmist.packages.TransformableLens;
 import org.jmist.toolkit.Grid3.Cell;
 
 public class Test {
@@ -58,7 +63,7 @@ public class Test {
 		//testShade();
 
 		//testJobMasterServer();
-		testJobMasterServiceClient();
+		//testJobMasterServiceClient();
 		//testProgressTree();
 
 		//testParallelizableJobAsJob();
@@ -66,6 +71,53 @@ public class Test {
 		//testZip();
 		//testMath();
 		//testLambertianMaterial();
+		testLens();
+
+	}
+
+	private static void printPoint3(Point3 p) {
+		System.out.printf("[Point3: %f %f %f]", p.x(), p.y(), p.z());
+	}
+
+	private static void printVector3(Vector3 v) {
+		System.out.printf("[Vector3: %f %f %f]", v.x(), v.y(), v.z());
+	}
+
+	private static void printRay3(Ray3 ray) {
+		System.out.print("[Ray3: ");
+		printPoint3(ray.origin());
+		System.out.print(" ");
+		printVector3(ray.direction());
+		System.out.print("]");
+	}
+
+	@SuppressWarnings("unused")
+	private static void testLens() {
+
+		TransformableLens lens = new PinholeLens(Math.PI / 3, 1.0);
+
+		lens.rotateX(Math.toRadians(10.0));
+		lens.rotateY(Math.toRadians(5.0));
+		lens.translate(Vector3.K);
+
+		Ray3 ray = lens.rayAt(new Point2(0.5, 0.5));
+		printRay3(ray);
+		System.out.println();
+
+		NearestIntersectionRecorder recorder = new NearestIntersectionRecorder();
+
+		Geometry geometry = new CylinderGeometry(new Point3(0, -1, 0), 0.25, 2);
+
+		geometry.intersect(ray, Interval.POSITIVE, recorder);
+
+		if (!recorder.isEmpty()) {
+			printPoint3(recorder.nearestIntersection().location());
+			System.out.println();
+			printVector3(recorder.nearestIntersection().normal());
+		} else {
+			System.out.print("No intersection");
+		}
+		System.out.println();
 
 	}
 
