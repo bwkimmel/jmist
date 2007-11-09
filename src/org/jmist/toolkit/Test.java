@@ -15,6 +15,7 @@ import javax.swing.JDialog;
 
 import org.jmist.framework.ConstantSpectrum;
 import org.jmist.framework.Geometry;
+import org.jmist.framework.Intersection;
 import org.jmist.framework.Job;
 import org.jmist.framework.Material;
 import org.jmist.framework.ParallelizableJob;
@@ -33,12 +34,15 @@ import org.jmist.framework.services.ThreadServiceWorkerJob;
 import org.jmist.packages.CylinderGeometry;
 import org.jmist.packages.DummyParallelizableJob;
 import org.jmist.packages.EqualSolidAnglesCollectorSphere;
+import org.jmist.packages.IntersectionGeometry;
 import org.jmist.packages.LambertianMaterial;
 import org.jmist.packages.NRooksRandom;
 import org.jmist.packages.NearestIntersectionRecorder;
 import org.jmist.packages.PhotometerJob;
 import org.jmist.packages.PinholeLens;
+import org.jmist.packages.SubtractionGeometry;
 import org.jmist.packages.TransformableLens;
+import org.jmist.packages.UnionGeometry;
 import org.jmist.toolkit.Grid3.Cell;
 
 public class Test {
@@ -71,8 +75,10 @@ public class Test {
 		//testZip();
 		//testMath();
 		//testLambertianMaterial();
-		testLens();
+		//testLens();
 		//testPolynomial2();
+		testCsg();
+
 	}
 
 	@SuppressWarnings("unused")
@@ -97,6 +103,37 @@ public class Test {
 		System.out.print(" ");
 		printVector3(ray.direction());
 		System.out.print("]");
+	}
+
+	@SuppressWarnings("unused")
+	private static void testCsg() {
+
+		TransformableLens lens = new PinholeLens(Math.PI / 3, 1.0);
+
+		//lens.rotateX(Math.toRadians(40.0));
+		//lens.rotateY(Math.toRadians(25.0));
+		lens.translate(Vector3.K);
+
+		Ray3 ray = lens.rayAt(new Point2(0.5, 0.5));
+		printRay3(ray);
+		System.out.println();
+
+		Geometry geometry = new SubtractionGeometry()
+			.addGeometry(new CylinderGeometry(new Point3(0, -1, -0.1), 0.5, 2))
+			.addGeometry(new CylinderGeometry(new Point3(0, -1, 0.1), 0.5, 2))
+			.addGeometry(new CylinderGeometry(new Point3(0, -1, 0.6), 0.5, 2));
+
+		Intersection x = NearestIntersectionRecorder.computeNearestIntersection(ray, geometry);
+
+		if (x != null) {
+			printPoint3(x.location());
+			System.out.println();
+			printVector3(x.normal());
+		} else {
+			System.out.print("No intersection");
+		}
+		System.out.println();
+
 	}
 
 	@SuppressWarnings("unused")
