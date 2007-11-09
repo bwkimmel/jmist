@@ -3,9 +3,11 @@
  */
 package org.jmist.packages;
 
+import org.jmist.framework.Geometry;
 import org.jmist.framework.Intersection;
 import org.jmist.framework.IntersectionRecorder;
 import org.jmist.toolkit.Interval;
+import org.jmist.toolkit.Ray3;
 
 /**
  * An intersection recorder that only keeps the nearest intersection
@@ -76,6 +78,21 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
 	 */
 	public Intersection nearestIntersection() {
 		return this.nearest;
+	}
+
+	/**
+	 * Computes the nearest intersection of a <code>Ray3</code> with a
+	 * <code>Geometry</code>.
+	 * @param ray The <code>Ray3</code> to intersect with.
+	 * @param geometry The <code>Geometry</code> to test for an intersection
+	 * 		with.
+	 * @return The nearest <code>Intersection</code>, or <code>null</code> if
+	 * 		none exists.
+	 */
+	public static Intersection computeNearestIntersection(Ray3 ray, Geometry geometry) {
+		NearestIntersectionRecorder recorder = new NearestIntersectionRecorder();
+		geometry.intersect(ray, recorder);
+		return recorder.nearestIntersection();
 	}
 
 	/** The nearest intersection that has been recorded so far. */
