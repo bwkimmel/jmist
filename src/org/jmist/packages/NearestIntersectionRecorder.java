@@ -14,6 +14,24 @@ import org.jmist.toolkit.Interval;
  */
 public final class NearestIntersectionRecorder implements IntersectionRecorder {
 
+	/**
+	 * Creates a new <code>NearestIntersectionRecorder</code> that records
+	 * <code>Intersection</code>s with a positive distance.
+	 */
+	public NearestIntersectionRecorder() {
+		this.interval = Interval.POSITIVE;
+	}
+
+	/**
+	 * Creates a new <code>NearestIntersectionRecorder</code> that records
+	 * <code>Intersection</code>s within the specified <code>Interval</code>.
+	 * @param interval The <code>Interval</code> within which to accept
+	 * 		<code>Intersection</code>s.
+	 */
+	public NearestIntersectionRecorder(Interval interval) {
+		this.interval = interval;
+	}
+
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.IntersectionRecorder#needAllIntersections()
 	 */
@@ -27,7 +45,7 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
 	 */
 	@Override
 	public Interval interval() {
-		return Interval.POSITIVE;
+		return this.interval;
 	}
 
 	/* (non-Javadoc)
@@ -62,5 +80,11 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
 
 	/** The nearest intersection that has been recorded so far. */
 	private Intersection nearest = null;
+
+	/**
+	 * The <code>Interval</code> within which to accept
+	 * <code>Intersection</code>s.
+	 */
+	private final Interval interval;
 
 }
