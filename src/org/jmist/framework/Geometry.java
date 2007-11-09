@@ -11,7 +11,7 @@ import org.jmist.toolkit.*;
  */
 public interface Geometry extends Bounded3, VisibilityFunction3 {
 
-	void intersect(Ray3 ray, Interval I, IntersectionRecorder recorder);
+	void intersect(Ray3 ray, IntersectionRecorder recorder);
 
 //	WeightedSurfacePoint generateRandomSurfacePoint();
 //

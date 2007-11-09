@@ -51,10 +51,11 @@ public final class CylinderGeometry extends AbstractGeometry implements
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Geometry#intersect(org.jmist.toolkit.Ray3, org.jmist.toolkit.Interval, org.jmist.framework.IntersectionRecorder)
 	 */
-	public void intersect(Ray3 ray, Interval I, IntersectionRecorder recorder) {
+	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 
-		Point3	p;
-		double	t;
+		Interval	I		= recorder.interval();
+		Point3		p;
+		double		t;
 
 		// first check for intersection of ray with the caps on the ends of the cylinder
 

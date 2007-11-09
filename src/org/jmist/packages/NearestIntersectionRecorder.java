@@ -5,6 +5,7 @@ package org.jmist.packages;
 
 import org.jmist.framework.Intersection;
 import org.jmist.framework.IntersectionRecorder;
+import org.jmist.toolkit.Interval;
 
 /**
  * An intersection recorder that only keeps the nearest intersection
@@ -16,16 +17,28 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.IntersectionRecorder#needAllIntersections()
 	 */
+	@Override
 	public boolean needAllIntersections() {
 		return false;
 	}
 
 	/* (non-Javadoc)
+	 * @see org.jmist.framework.IntersectionRecorder#interval()
+	 */
+	@Override
+	public Interval interval() {
+		return Interval.POSITIVE;
+	}
+
+	/* (non-Javadoc)
 	 * @see org.jmist.framework.IntersectionRecorder#record(org.jmist.framework.Intersection)
 	 */
+	@Override
 	public void record(Intersection intersection) {
-		if (this.nearest == null || intersection.distance() < this.nearest.distance()) {
-			this.nearest = intersection;
+		if (this.interval().contains(intersection.distance())) {
+			if (this.nearest == null || intersection.distance() < this.nearest.distance()) {
+				this.nearest = intersection;
+			}
 		}
 	}
 

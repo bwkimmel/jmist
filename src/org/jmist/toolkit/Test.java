@@ -71,16 +71,16 @@ public class Test {
 		//testZip();
 		//testMath();
 		//testLambertianMaterial();
-		//testLens();
-		testPolynomial2();
+		testLens();
+		//testPolynomial2();
 	}
-	
+
 	@SuppressWarnings("unused")
 	private static void testPolynomial2() {
-		
+
 		Polynomial f = new Polynomial(1, -2, 3);
 		System.out.printf("f(t)=%s\nf(3)=%f\n", f.toString("t"), f.at(3));
-		
+
 	}
 
 	private static void printPoint3(Point3 p) {
@@ -104,8 +104,8 @@ public class Test {
 
 		TransformableLens lens = new PinholeLens(Math.PI / 3, 1.0);
 
-		lens.rotateX(Math.toRadians(10.0));
-		lens.rotateY(Math.toRadians(5.0));
+		lens.rotateX(Math.toRadians(40.0));
+		lens.rotateY(Math.toRadians(25.0));
 		lens.translate(Vector3.K);
 
 		Ray3 ray = lens.rayAt(new Point2(0.5, 0.5));
@@ -116,7 +116,7 @@ public class Test {
 
 		Geometry geometry = new CylinderGeometry(new Point3(0, -1, 0), 0.25, 2);
 
-		geometry.intersect(ray, Interval.POSITIVE, recorder);
+		geometry.intersect(ray, recorder);
 
 		if (!recorder.isEmpty()) {
 			printPoint3(recorder.nearestIntersection().location());

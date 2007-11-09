@@ -245,7 +245,7 @@ public abstract class AbstractGeometry implements Geometry {
 
 		NearestIntersectionRecorder recorder = new NearestIntersectionRecorder();
 
-		this.intersect(ray, I, recorder);
+		this.intersect(ray, recorder);
 
 		return recorder.isEmpty() || !I.contains(recorder.nearestIntersection().distance());
 
