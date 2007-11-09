@@ -243,7 +243,7 @@ public abstract class AbstractGeometry implements Geometry {
 	 */
 	public boolean visibility(Ray3 ray, Interval I) {
 
-		NearestIntersectionRecorder recorder = new NearestIntersectionRecorder();
+		NearestIntersectionRecorder recorder = new NearestIntersectionRecorder(I);
 
 		this.intersect(ray, recorder);
 
