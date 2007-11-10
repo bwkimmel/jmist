@@ -240,6 +240,29 @@ public final class Sphere implements Serializable {
 	}
 
 	/**
+	 * Computes the smallest <code>Sphere</code> containing each of the given
+	 * points.
+	 * @param points The collection of points for which to compute the smallest
+	 * 		<code>Sphere</code> containing those points.
+	 * @return The smallest <code>Sphere</code> containing the given points.
+	 */
+	public static Sphere smallestContaining(Iterable<Point3> points) {
+
+		Point3 center = Point3.centroid(points);
+		double radius = 0.0;
+
+		for (Point3 p : points) {
+			double distance = center.distanceTo(p);
+			if (distance > radius) {
+				radius = distance;
+			}
+		}
+
+		return new Sphere(center, radius);
+
+	}
+
+	/**
 	 * Default constructor.
 	 */
 	private Sphere() {

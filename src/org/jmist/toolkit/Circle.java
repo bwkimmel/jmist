@@ -241,6 +241,29 @@ public final class Circle implements Serializable {
 	}
 
 	/**
+	 * Computes the smallest <code>Circle</code> containing each of the given
+	 * points.
+	 * @param points The collection of points for which to compute the smallest
+	 * 		<code>Circle</code> containing those points.
+	 * @return The smallest <code>Circle</code> containing the given points.
+	 */
+	public static Circle smallestContaining(Iterable<Point2> points) {
+
+		Point2 center = Point2.centroid(points);
+		double radius = 0.0;
+
+		for (Point2 p : points) {
+			double distance = center.distanceTo(p);
+			if (distance > radius) {
+				radius = distance;
+			}
+		}
+
+		return new Circle(center, radius);
+
+	}
+
+	/**
 	 * Default constructor.
 	 */
 	private Circle() {
