@@ -210,6 +210,30 @@ public final class Point3 implements Serializable {
 	}
 
 	/**
+	 * Computes the centroid of several points.
+	 * @param points The collection of <code>Point3</code>s for which to
+	 * 		computes the centroid.
+	 * @return The centroid of the given collection of points.
+	 */
+	public static Point3 centroid(Iterable<Point3> points) {
+
+		double x = 0.0;
+		double y = 0.0;
+		double z = 0.0;
+		int n = 0;
+
+		for (Point3 p : points) {
+			x += p.x;
+			y += p.y;
+			z += p.z;
+			n++;
+		}
+
+		return new Point3(x / (double) n, y / (double) n, z / (double) n);
+
+	}
+
+	/**
 	 * The origin of three dimensional space.
 	 */
 	public static final Point3 ORIGIN = new Point3(0.0, 0.0, 0.0);
