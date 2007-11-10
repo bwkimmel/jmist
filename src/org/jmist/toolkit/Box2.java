@@ -457,6 +457,67 @@ public final class Box2 implements Serializable {
 	}
 
 	/**
+	 * Computes the smallest <code>Box2</code> containing the specified box.
+	 * @param a The first <code>Box2</code>.
+	 * @param b The second <code>Box2</code>.
+	 * @return The smallest <code>Box2</code> containing <code>a</code> and
+	 * 		<code>b</code>.
+	 */
+	public static Box2 smallestContaining(Box2 a, Box2 b) {
+
+		if (a.isEmpty()) {
+			return b;
+		}
+		if (b.isEmpty()) {
+			return a;
+		}
+
+		return Box2.getInstance(
+				Math.min(a.minimumX, b.minimumX),
+				Math.min(a.minimumY, b.minimumY),
+				Math.max(a.maximumX, b.maximumX),
+				Math.max(a.maximumY, b.maximumY)
+		);
+
+	}
+
+	/**
+	 * Computes the smallest <code>Box2</code> that contains all of the given
+	 * boxes.
+	 * @param boxes The collection of <code>Box2</code>s for which to find the
+	 * 		smallest containing <code>Box2</code>.
+	 * @return The smallest <code>Box2</code> that contains all of the given
+	 * 		boxes.
+	 */
+	public static Box2 smallestContaining(Iterable<Box2> boxes) {
+
+		double minimumX = Double.POSITIVE_INFINITY;
+		double minimumY = Double.POSITIVE_INFINITY;
+		double maximumX = Double.NEGATIVE_INFINITY;
+		double maximumY = Double.NEGATIVE_INFINITY;
+
+		for (Box2 box : boxes) {
+			if (!box.isEmpty()) {
+				if (box.minimumX < minimumX) {
+					minimumX = box.minimumX;
+				}
+				if (box.minimumY < minimumY) {
+					minimumY = box.minimumY;
+				}
+				if (box.maximumX > maximumX) {
+					maximumX = box.maximumX;
+				}
+				if (box.maximumY > maximumY) {
+					maximumY = box.maximumY;
+				}
+			}
+		}
+
+		return Box2.getInstance(minimumX, minimumY, maximumX, maximumY);
+
+	}
+
+	/**
 	 * Default constructor.
 	 */
 	private Box2() {

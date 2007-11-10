@@ -573,6 +573,77 @@ public final class Box3 implements Serializable {
 	}
 
 	/**
+	 * Computes the smallest <code>Box3</code> containing the specified box.
+	 * @param a The first <code>Box3</code>.
+	 * @param b The second <code>Box3</code>.
+	 * @return The smallest <code>Box3</code> containing <code>a</code> and
+	 * 		<code>b</code>.
+	 */
+	public static Box3 smallestContaining(Box3 a, Box3 b) {
+
+		if (a.isEmpty()) {
+			return b;
+		}
+		if (b.isEmpty()) {
+			return a;
+		}
+
+		return Box3.getInstance(
+				Math.min(a.minimumX, b.minimumX),
+				Math.min(a.minimumY, b.minimumY),
+				Math.min(a.minimumZ, b.minimumZ),
+				Math.max(a.maximumX, b.maximumX),
+				Math.max(a.maximumY, b.maximumY),
+				Math.max(a.maximumZ, b.maximumZ)
+		);
+
+	}
+
+	/**
+	 * Computes the smallest <code>Box3</code> that contains all of the given
+	 * boxes.
+	 * @param boxes The collection of <code>Box3</code>s for which to find the
+	 * 		smallest containing <code>Box3</code>.
+	 * @return The smallest <code>Box3</code> that contains all of the given
+	 * 		boxes.
+	 */
+	public static Box3 smallestContaining(Iterable<Box3> boxes) {
+
+		double minimumX = Double.POSITIVE_INFINITY;
+		double minimumY = Double.POSITIVE_INFINITY;
+		double minimumZ = Double.POSITIVE_INFINITY;
+		double maximumX = Double.NEGATIVE_INFINITY;
+		double maximumY = Double.NEGATIVE_INFINITY;
+		double maximumZ = Double.NEGATIVE_INFINITY;
+
+		for (Box3 box : boxes) {
+			if (!box.isEmpty()) {
+				if (box.minimumX < minimumX) {
+					minimumX = box.minimumX;
+				}
+				if (box.minimumY < minimumY) {
+					minimumY = box.minimumY;
+				}
+				if (box.minimumZ < minimumZ) {
+					minimumZ = box.minimumZ;
+				}
+				if (box.maximumX > maximumX) {
+					maximumX = box.maximumX;
+				}
+				if (box.maximumY > maximumY) {
+					maximumY = box.maximumY;
+				}
+				if (box.maximumZ > maximumZ) {
+					maximumZ = box.maximumZ;
+				}
+			}
+		}
+
+		return Box3.getInstance(minimumX, minimumY, minimumZ, maximumX, maximumY, maximumZ);
+
+	}
+
+	/**
 	 * Default constructor.
 	 */
 	private Box3() {
