@@ -21,8 +21,17 @@ public final class ScaledSpectrum extends AbstractSpectrum {
 	 * 		factor.
 	 */
 	public ScaledSpectrum(double factor, Spectrum inner) {
+
+		/* Combine successive ScaledSpectrum instances into one. */
+		while (inner instanceof ScaledSpectrum) {
+			ScaledSpectrum spectrum = (ScaledSpectrum) inner;
+			factor *= spectrum.factor;
+			inner = spectrum.inner;
+		}
+
 		this.factor = factor;
 		this.inner = inner;
+
 	}
 
 	/* (non-Javadoc)
