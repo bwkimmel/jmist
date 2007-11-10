@@ -3,9 +3,7 @@
  */
 package org.jmist.packages;
 
-import java.util.ArrayList;
 import java.util.BitSet;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.SortedSet;
@@ -29,18 +27,7 @@ import org.jmist.toolkit.Vector3;
  * boolean expression.
  * @author bkimmel
  */
-public abstract class ConstructiveSolidGeometry implements Geometry {
-
-	/**
-	 * Adds a child <code>Geometry</code>.
-	 * @param geometry The child <code>Geometry</code> to add.
-	 * @return A reference to this <code>ConstructiveSolidGeometry</code> so
-	 * 		that calls to this method may be chained.
-	 */
-	public ConstructiveSolidGeometry addGeometry(Geometry geometry) {
-		this.args.add(geometry);
-		return this;
-	}
+public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Geometry#intersect(org.jmist.toolkit.Ray3, org.jmist.framework.IntersectionRecorder)
@@ -56,7 +43,7 @@ public abstract class ConstructiveSolidGeometry implements Geometry {
 		/* Compute the ray-geometry intersections for each child geometry in
 		 * turn.
 		 */
-		for (Geometry geometry : this.args) {
+		for (Geometry geometry : this.children()) {
 
 			/* Ignore open geometries. */
 			if (geometry.isClosed()) {
@@ -81,39 +68,6 @@ public abstract class ConstructiveSolidGeometry implements Geometry {
 	@Override
 	public boolean isClosed() {
 		return true;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.jmist.framework.VisibilityFunction3#visibility(org.jmist.toolkit.Ray3, org.jmist.toolkit.Interval)
-	 */
-	@Override
-	public boolean visibility(Ray3 ray, Interval I) {
-
-		/* Compute the visibility function in terms of the intersect method. */
-		NearestIntersectionRecorder recorder = new NearestIntersectionRecorder(I);
-
-		this.intersect(ray, recorder);
-
-		return recorder.isEmpty() || !I.contains(recorder.nearestIntersection().distance());
-
-	}
-
-	/* (non-Javadoc)
-	 * @see org.jmist.framework.VisibilityFunction3#visibility(org.jmist.toolkit.Point3, org.jmist.toolkit.Point3)
-	 */
-	@Override
-	public boolean visibility(Point3 p, Point3 q) {
-
-		/*
-		 * Determine the visibility in terms of the other overloaded
-		 * method.
-		 */
-		Vector3		d		= p.vectorTo(q);
-		Ray3		ray		= new Ray3(p, d.unit());
-		Interval	I		= new Interval(0.0, d.length());
-
-		return this.visibility(ray, I);
-
 	}
 
 	/**
@@ -439,11 +393,5 @@ public abstract class ConstructiveSolidGeometry implements Geometry {
 				});
 
 	}
-
-	/**
-	 * The component geometries that make up this
-	 * <code>ConstructiveSolidGeometry</code>.
-	 */
-	private final Collection<Geometry> args = new ArrayList<Geometry>();
 
 }

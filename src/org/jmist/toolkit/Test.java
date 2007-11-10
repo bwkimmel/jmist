@@ -119,9 +119,9 @@ public class Test {
 		System.out.println();
 
 		Geometry geometry = new SubtractionGeometry()
-			.addGeometry(new CylinderGeometry(new Point3(0, -1, -0.1), 0.5, 2))
-			.addGeometry(new CylinderGeometry(new Point3(0, -1, 0.1), 0.5, 2))
-			.addGeometry(new CylinderGeometry(new Point3(0, -1, 0.6), 0.5, 2));
+			.addChild(new CylinderGeometry(new Point3(0, -1, -0.1), 0.5, 2))
+			.addChild(new CylinderGeometry(new Point3(0, -1, 0.1), 0.5, 2))
+			.addChild(new CylinderGeometry(new Point3(0, -1, 0.6), 0.5, 2));
 
 		Intersection x = NearestIntersectionRecorder.computeNearestIntersection(ray, geometry);
 
