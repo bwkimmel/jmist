@@ -661,6 +661,47 @@ public final class Box3 implements Serializable {
 	}
 
 	/**
+	 * Computes the intersection of several boxes.
+	 * @param boxes The collection of boxes to compute the intersection of.
+	 * @return The intersection of the given boxes.
+	 */
+	public static Box3 intersection(Iterable<Box3> boxes) {
+
+		double minimumX = Double.NEGATIVE_INFINITY;
+		double minimumY = Double.NEGATIVE_INFINITY;
+		double minimumZ = Double.NEGATIVE_INFINITY;
+		double maximumX = Double.POSITIVE_INFINITY;
+		double maximumY = Double.POSITIVE_INFINITY;
+		double maximumZ = Double.POSITIVE_INFINITY;
+
+		for (Box3 box : boxes) {
+			if (!box.isEmpty()) {
+				if (box.minimumX > minimumX) {
+					minimumX = box.minimumX;
+				}
+				if (box.minimumY > minimumY) {
+					minimumY = box.minimumY;
+				}
+				if (box.minimumZ > minimumZ) {
+					minimumZ = box.minimumZ;
+				}
+				if (box.maximumX < maximumX) {
+					maximumX = box.maximumX;
+				}
+				if (box.maximumY < maximumY) {
+					maximumY = box.maximumY;
+				}
+				if (box.maximumZ < maximumZ) {
+					maximumZ = box.maximumZ;
+				}
+			}
+		}
+
+		return Box3.getInstance(minimumX, minimumY, minimumZ, maximumX, maximumY, maximumZ);
+
+	}
+
+	/**
 	 * Default constructor.
 	 */
 	private Box3() {

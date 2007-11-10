@@ -534,6 +534,39 @@ public final class Box2 implements Serializable {
 	}
 
 	/**
+	 * Computes the intersection of several boxes.
+	 * @param boxes The collection of boxes to compute the intersection of.
+	 * @return The intersection of the given boxes.
+	 */
+	public static Box2 intersection(Iterable<Box2> boxes) {
+
+		double minimumX = Double.NEGATIVE_INFINITY;
+		double minimumY = Double.NEGATIVE_INFINITY;
+		double maximumX = Double.POSITIVE_INFINITY;
+		double maximumY = Double.POSITIVE_INFINITY;
+
+		for (Box2 box : boxes) {
+			if (!box.isEmpty()) {
+				if (box.minimumX > minimumX) {
+					minimumX = box.minimumX;
+				}
+				if (box.minimumY > minimumY) {
+					minimumY = box.minimumY;
+				}
+				if (box.maximumX < maximumX) {
+					maximumX = box.maximumX;
+				}
+				if (box.maximumY < maximumY) {
+					maximumY = box.maximumY;
+				}
+			}
+		}
+
+		return Box2.getInstance(minimumX, minimumY, maximumX, maximumY);
+
+	}
+
+	/**
 	 * Default constructor.
 	 */
 	private Box2() {
