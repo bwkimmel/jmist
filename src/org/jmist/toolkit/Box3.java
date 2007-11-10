@@ -573,6 +573,23 @@ public final class Box3 implements Serializable {
 	}
 
 	/**
+	 * The <code>Point3</code> at one of the eight corners of this
+	 * <code>Box3</code>.
+	 * @param index The index of the corner to return (must be non-negative and
+	 * 		less than eight).
+	 * @return The <code>Point3</code> at one of the eight corners of this
+	 * 		<code>Box3</code>.
+	 */
+	public Point3 corner(int index) {
+		assert(0 <= index && index < 8);
+		return new Point3(
+				(index & 0x1) == 0 ? this.minimumX : this.maximumX,
+				(index & 0x2) == 0 ? this.minimumY : this.maximumY,
+				(index & 0x4) == 0 ? this.minimumZ : this.maximumZ
+		);
+	}
+
+	/**
 	 * Computes the smallest <code>Box3</code> containing the specified box.
 	 * @param a The first <code>Box3</code>.
 	 * @param b The second <code>Box3</code>.

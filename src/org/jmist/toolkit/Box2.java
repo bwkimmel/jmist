@@ -457,6 +457,22 @@ public final class Box2 implements Serializable {
 	}
 
 	/**
+	 * The <code>Point2</code> at one of the four corners of this
+	 * <code>Box2</code>.
+	 * @param index The index of the corner to return (must be non-negative and
+	 * 		less than four).
+	 * @return The <code>Point2</code> at one of the four corners of this
+	 * 		<code>Box2</code>.
+	 */
+	public Point2 corner(int index) {
+		assert(0 <= index && index < 4);
+		return new Point2(
+				(index & 0x1) == 0 ? this.minimumX : this.maximumX,
+				(index & 0x2) == 0 ? this.minimumY : this.maximumY
+		);
+	}
+
+	/**
 	 * Computes the smallest <code>Box2</code> containing the specified box.
 	 * @param a The first <code>Box2</code>.
 	 * @param b The second <code>Box2</code>.
