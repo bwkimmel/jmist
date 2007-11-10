@@ -3,8 +3,11 @@
  */
 package org.jmist.packages;
 
+import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.Collection;
 
+import org.jmist.framework.Geometry;
 import org.jmist.toolkit.Box3;
 import org.jmist.toolkit.Sphere;
 
@@ -28,8 +31,15 @@ public final class IntersectionGeometry extends ConstructiveSolidGeometry {
 	 */
 	@Override
 	public Box3 boundingBox() {
-		// TODO Auto-generated method stub
-		return null;
+
+		Collection<Box3> boxes = new ArrayList<Box3>();
+
+		for (Geometry geometry : this.children()) {
+			boxes.add(geometry.boundingBox());
+		}
+
+		return Box3.intersection(boxes);
+
 	}
 
 	/* (non-Javadoc)
@@ -37,8 +47,8 @@ public final class IntersectionGeometry extends ConstructiveSolidGeometry {
 	 */
 	@Override
 	public Sphere boundingSphere() {
-		// TODO Auto-generated method stub
-		return null;
+		Box3 boundingBox = this.boundingBox();
+		return new Sphere(boundingBox.center(), boundingBox.diagonal() / 2.0);
 	}
 
 }

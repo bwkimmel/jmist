@@ -28,8 +28,9 @@ public final class SubtractionGeometry extends ConstructiveSolidGeometry {
 	 */
 	@Override
 	public Box3 boundingBox() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.children().isEmpty()
+				? Box3.EMPTY
+				: this.children().get(0).boundingBox();
 	}
 
 	/* (non-Javadoc)
@@ -37,8 +38,9 @@ public final class SubtractionGeometry extends ConstructiveSolidGeometry {
 	 */
 	@Override
 	public Sphere boundingSphere() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.children().isEmpty()
+				? Sphere.EMPTY
+				: this.children().get(0).boundingSphere();
 	}
 
 }
