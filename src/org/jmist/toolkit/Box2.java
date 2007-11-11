@@ -473,6 +473,40 @@ public final class Box2 implements Serializable {
 	}
 
 	/**
+	 * Computes the smallest <code>Box2</code> that contains all of the given
+	 * points.
+	 * @param points The collection of <code>Point2</code>s for which to find the
+	 * 		smallest containing <code>Box2</code>.
+	 * @return The smallest <code>Box2</code> that contains all of the given
+	 * 		points.
+	 */
+	public static Box2 smallestContainingPoints(Iterable<Point2> points) {
+
+		double minimumX = Double.POSITIVE_INFINITY;
+		double minimumY = Double.POSITIVE_INFINITY;
+		double maximumX = Double.NEGATIVE_INFINITY;
+		double maximumY = Double.NEGATIVE_INFINITY;
+
+		for (Point2 p : points) {
+			if (p.x() < minimumX) {
+				minimumX = p.x();
+			}
+			if (p.y() < minimumY) {
+				minimumY = p.y();
+			}
+			if (p.x() > maximumX) {
+				maximumX = p.x();
+			}
+			if (p.y() > maximumY) {
+				maximumY = p.y();
+			}
+		}
+
+		return Box2.getInstance(minimumX, minimumY, maximumX, maximumY);
+
+	}
+
+	/**
 	 * Computes the smallest <code>Box2</code> containing the specified box.
 	 * @param a The first <code>Box2</code>.
 	 * @param b The second <code>Box2</code>.
