@@ -3,15 +3,37 @@
  */
 package org.jmist.packages;
 
-import org.jmist.framework.AbstractSpectrum;
 import org.jmist.framework.Spectrum;
 import org.jmist.toolkit.Tuple;
 
 /**
- * A <code>Spectrum</code> that is the product of two other spectra.
+ * A <code>Spectrum</code> that is the product of other spectra.
  * @author bkimmel
  */
-public final class ProductSpectrum extends AbstractSpectrum {
+public final class ProductSpectrum extends CompositeSpectrum {
+
+	/* (non-Javadoc)
+	 * @see org.jmist.packages.CompositeSpectrum#addChild(org.jmist.framework.Spectrum)
+	 */
+	@Override
+	public ProductSpectrum addChild(Spectrum child) {
+		if (child instanceof ProductSpectrum) {
+			ProductSpectrum product = (ProductSpectrum) child;
+			for (Spectrum grandChild : product.children()) {
+				this.addChild(grandChild);
+			}
+		} else {
+			super.addChild(child);
+		}
+		return this;
+	}
+
+	/**
+	 * Creates a new <code>ProductSpectrum</code>.
+	 */
+	public ProductSpectrum() {
+		/* do nothing */
+	}
 
 	/**
 	 * Creates a new <code>ProductSpectrum</code>.
@@ -19,8 +41,7 @@ public final class ProductSpectrum extends AbstractSpectrum {
 	 * @param b The second <code>Spectrum</code>.
 	 */
 	public ProductSpectrum(Spectrum a, Spectrum b) {
-		this.a = a;
-		this.b = b;
+		this.addChild(a).addChild(b);
 	}
 
 	/* (non-Javadoc)
@@ -28,7 +49,15 @@ public final class ProductSpectrum extends AbstractSpectrum {
 	 */
 	@Override
 	public double sample(double wavelength) {
-		return this.a.sample(wavelength) * this.b.sample(wavelength);
+
+		double product = 1.0;
+
+		for (Spectrum child : this.children()) {
+			product *= child.sample(wavelength);
+		}
+
+		return product;
+
 	}
 
 	/* (non-Javadoc)
@@ -38,8 +67,11 @@ public final class ProductSpectrum extends AbstractSpectrum {
 	public double[] sample(Tuple wavelengths, double[] results)
 			throws IllegalArgumentException {
 
-		results = this.a.sample(wavelengths, results);
-		this.b.modulate(wavelengths, results);
+		results = Spectrum.ONE.sample(wavelengths, results);
+
+		for (Spectrum child : this.children()) {
+			child.modulate(wavelengths, results);
+		}
 
 		return results;
 
@@ -52,15 +84,10 @@ public final class ProductSpectrum extends AbstractSpectrum {
 	public void modulate(Tuple wavelengths, double[] samples)
 			throws IllegalArgumentException {
 
-		this.a.modulate(wavelengths, samples);
-		this.b.modulate(wavelengths, samples);
+		for (Spectrum child : this.children()) {
+			child.modulate(wavelengths, samples);
+		}
 
 	}
-
-	/** The first <code>Spectrum</code>. */
-	private final Spectrum a;
-
-	/** The second <code>Spectrum</code>. */
-	private final Spectrum b;
 
 }
