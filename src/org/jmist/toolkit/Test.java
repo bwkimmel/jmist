@@ -17,6 +17,7 @@ import org.jmist.framework.ConstantSpectrum;
 import org.jmist.framework.Geometry;
 import org.jmist.framework.Intersection;
 import org.jmist.framework.Job;
+import org.jmist.framework.Light;
 import org.jmist.framework.Material;
 import org.jmist.framework.ParallelizableJob;
 import org.jmist.framework.Spectrum;
@@ -31,6 +32,8 @@ import org.jmist.framework.services.JobMasterServer;
 import org.jmist.framework.services.JobMasterService;
 import org.jmist.framework.services.ServiceSubmitJob;
 import org.jmist.framework.services.ThreadServiceWorkerJob;
+import org.jmist.packages.BasisSpectrumFactory;
+import org.jmist.packages.BlackbodySpectrum;
 import org.jmist.packages.CylinderGeometry;
 import org.jmist.packages.DummyParallelizableJob;
 import org.jmist.packages.EqualSolidAnglesCollectorSphere;
@@ -40,7 +43,9 @@ import org.jmist.packages.NRooksRandom;
 import org.jmist.packages.NearestIntersectionRecorder;
 import org.jmist.packages.PhotometerJob;
 import org.jmist.packages.PinholeLens;
+import org.jmist.packages.PointLight;
 import org.jmist.packages.SubtractionGeometry;
+import org.jmist.packages.SumSpectrum;
 import org.jmist.packages.TransformableLens;
 import org.jmist.packages.UnionGeometry;
 import org.jmist.toolkit.Grid3.Cell;
@@ -77,7 +82,26 @@ public class Test {
 		//testLambertianMaterial();
 		//testLens();
 		//testPolynomial2();
-		testCsg();
+		//testCsg();
+		testSpectrum();
+
+	}
+
+	@SuppressWarnings("unused")
+	private static void testSpectrum() {
+
+		BasisSpectrumFactory factory = new BasisSpectrumFactory()
+			.addBasisSpectrum(new BlackbodySpectrum(5500))
+			.addBasisSpectrum(new BlackbodySpectrum(7000))
+			.addBasisSpectrum(new SumSpectrum()
+				.addChild(new BlackbodySpectrum(4500))
+				.addChild(new BlackbodySpectrum(6500))
+			)
+			.addBasisSpectrum(Spectrum.ONE);
+
+		Spectrum spectrum = factory.create(0.5, 0.75, 0.2);
+
+		double value = spectrum.sample(550e-9);
 
 	}
 
@@ -123,7 +147,18 @@ public class Test {
 			.addChild(new CylinderGeometry(new Point3(0, -1, 0.1), 0.5, 2))
 			.addChild(new CylinderGeometry(new Point3(0, -1, 0.6), 0.5, 2));
 
+		Light light = new PointLight(new Point3(1, 1, 1), new ConstantSpectrum(1e3), true);
+
 		Intersection x = NearestIntersectionRecorder.computeNearestIntersection(ray, geometry);
+
+		light.illuminate(x, geometry);
+
+		//ScatterRecord scatter = x.material().scatter(x, new Tuple(550));
+
+
+		//Shader shader = new DirectIlluminationShader(geometry, light);
+
+
 
 		if (x != null) {
 			printPoint3(x.location());
