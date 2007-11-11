@@ -5,6 +5,8 @@ package org.jmist.framework;
 
 import org.jmist.toolkit.AffineMatrix3;
 import org.jmist.toolkit.LinearMatrix3;
+import org.jmist.toolkit.Point3;
+import org.jmist.toolkit.Ray3;
 import org.jmist.toolkit.Vector3;
 
 /**
@@ -12,8 +14,7 @@ import org.jmist.toolkit.Vector3;
  * <code>AffineTransformable3</code>.
  * @author bkimmel
  */
-public abstract class AbstractAffineTransformable3 implements
-		AffineTransformable3 {
+public class AffineTransformation3 implements AffineTransformable3 {
 
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.AffineTransformable3#transform(org.jmist.toolkit.AffineMatrix3)
@@ -124,6 +125,59 @@ public abstract class AbstractAffineTransformable3 implements
 	}
 
 	/**
+	 * Applies this <code>AffineTransformation3</code> to another object that
+	 * is affine transformable.
+	 * @param to The <code>AffineTransformable3</code> object to apply this
+	 * 		transformation to.
+	 */
+	public void apply(AffineTransformable3 to) {
+		if (this.matrix != null) {
+			to.transform(this.matrix);
+		}
+	}
+
+	/**
+	 * Applies this <code>AffineTransformation3</code> to a
+	 * <code>AffineMatrix3</code>.
+	 * @param matrix The <code>AffineMatrix3</code> object to apply this
+	 * 		transformation to.
+	 * @return The transformed <code>AffineMatrix3</code>.
+	 */
+	public AffineMatrix3 apply(AffineMatrix3 matrix) {
+		return this.matrix != null ? this.matrix.times(matrix) : matrix;
+	}
+
+	/**
+	 * Applies this <code>AffineTransformation3</code> to a
+	 * <code>Point3</code>.
+	 * @param p The <code>Point3</code> object to apply this transformation to.
+	 * @return The transformed <code>Point3</code>.
+	 */
+	public Point3 apply(Point3 p) {
+		return this.matrix != null ? this.matrix.times(p) : p;
+	}
+
+	/**
+	 * Applies this <code>AffineTransformation3</code> to a
+	 * <code>Vector3</code>.
+	 * @param v The <code>Vector3</code> object to apply this transformation
+	 * 		to.
+	 * @return The transformed <code>Vector3</code>.
+	 */
+	public Vector3 apply(Vector3 v) {
+		return this.matrix != null ? this.matrix.times(v) : v;
+	}
+
+	/**
+	 * Applies this <code>AffineTransformation3</code> to a <code>Ray3</code>.
+	 * @param ray The <code>Ray3</code> object to apply this transformation to.
+	 * @return The transformed <code>Ray3</code>.
+	 */
+	public Ray3 apply(Ray3 ray) {
+		return this.matrix != null ? ray.transform(this.matrix) : ray;
+	}
+
+	/**
 	 * Gets the cumulative transformation matrix.
 	 * @return The cumulative transformation matrix.
 	 */
@@ -142,7 +196,7 @@ public abstract class AbstractAffineTransformable3 implements
 	/**
 	 * Resets the transformation to the identity transformation.
 	 */
-	protected void resetTransformation() {
+	public void reset() {
 		this.matrix = null;
 	}
 
