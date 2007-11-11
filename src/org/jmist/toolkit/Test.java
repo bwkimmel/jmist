@@ -46,6 +46,7 @@ import org.jmist.packages.PinholeLens;
 import org.jmist.packages.PointLight;
 import org.jmist.packages.SubtractionGeometry;
 import org.jmist.packages.SumSpectrum;
+import org.jmist.packages.TransformableGeometry;
 import org.jmist.packages.TransformableLens;
 import org.jmist.packages.UnionGeometry;
 import org.jmist.toolkit.Grid3.Cell;
@@ -83,10 +84,46 @@ public class Test {
 		//testLens();
 		//testPolynomial2();
 		//testCsg();
-		testSpectrum();
+		//testSpectrum();
+		testTransformableGeometry();
 
 	}
+	@SuppressWarnings("unused")
+	private static void testTransformableGeometry() {
 
+		TransformableLens lens = new PinholeLens(Math.PI / 3, 1.0);
+		TransformableGeometry geometry = new TransformableGeometry(
+				new CylinderGeometry(
+						new Point3(0, -1, 0), 
+						0.25, 
+						2
+				)
+		);
+		
+		//lens.rotateX(Math.toRadians(40.0));
+		//lens.rotateY(Math.toRadians(25.0));
+		lens.translate(Vector3.K);
+		geometry.translate(Vector3.NEGATIVE_K);
+		geometry.translate(new Vector3(0.1, 0, 0));
+
+		Ray3 ray = lens.rayAt(new Point2(0.5, 0.5));
+		printRay3(ray);
+		System.out.println();
+
+		Intersection x = NearestIntersectionRecorder.computeNearestIntersection(ray, geometry);
+
+		if (x != null) {
+			printPoint3(x.location());
+			System.out.println();
+			printVector3(x.normal());
+		} else {
+			System.out.print("No intersection");
+		}
+		System.out.println();	
+		
+		
+	}
+	
 	@SuppressWarnings("unused")
 	private static void testSpectrum() {
 
