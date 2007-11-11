@@ -18,7 +18,7 @@ public final class BlackbodySpectrum extends AbstractSpectrum {
 	 * @param temperature The temperature of the black body to simulate (in
 	 * 		Kelvin).
 	 */
-	private BlackbodySpectrum(double temperature) {
+	public BlackbodySpectrum(double temperature) {
 		super();
 		this.temperature = temperature;
 	}
