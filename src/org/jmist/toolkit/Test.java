@@ -94,12 +94,12 @@ public class Test {
 		TransformableLens lens = new PinholeLens(Math.PI / 3, 1.0);
 		TransformableGeometry geometry = new TransformableGeometry(
 				new CylinderGeometry(
-						new Point3(0, -1, 0), 
-						0.25, 
+						new Point3(0, -1, 0),
+						0.25,
 						2
 				)
 		);
-		
+
 		//lens.rotateX(Math.toRadians(40.0));
 		//lens.rotateY(Math.toRadians(25.0));
 		lens.translate(Vector3.K);
@@ -119,11 +119,10 @@ public class Test {
 		} else {
 			System.out.print("No intersection");
 		}
-		System.out.println();	
-		
-		
+		System.out.println();
+
 	}
-	
+
 	@SuppressWarnings("unused")
 	private static void testSpectrum() {
 
