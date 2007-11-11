@@ -160,15 +160,6 @@ public class InvertibleAffineTransformation3 extends AffineTransformation3 {
 	}
 
 	/**
-	 * Applies the specified forward transformation matrix to the current
-	 * transformation.
-	 * @param T The <code>AffineMatrix3</code> to apply.
-	 */
-	private void applyForwardTransformation(AffineMatrix3 T) {
-		super.transform(T);
-	}
-
-	/**
 	 * Gets the inverse transformation matrix.
 	 * @return The <code>AffineMatrix3</code> representing the inverse of this
 	 * 		transformation.
@@ -185,7 +176,7 @@ public class InvertibleAffineTransformation3 extends AffineTransformation3 {
 	 */
 	public void apply(InvertibleAffineTransformation3 trans) {
 		if (this.isTransformed()) {
-			trans.applyForwardTransformation(super.getTransformationMatrix());
+			trans.applyTransformation(super.getTransformationMatrix());
 			trans.applyInverseTransformation(this.inverse);
 		}
 	}
@@ -209,7 +200,7 @@ public class InvertibleAffineTransformation3 extends AffineTransformation3 {
 	 */
 	public void applyInverse(InvertibleAffineTransformation3 trans) {
 		if (this.isTransformed()) {
-			trans.applyForwardTransformation(this.inverse);
+			trans.applyTransformation(this.inverse);
 			trans.applyInverseTransformation(super.getTransformationMatrix());
 		}
 	}

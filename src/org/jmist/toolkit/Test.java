@@ -104,7 +104,7 @@ public class Test {
 		//lens.rotateY(Math.toRadians(25.0));
 		lens.translate(Vector3.K);
 		geometry.translate(Vector3.NEGATIVE_K);
-		geometry.translate(new Vector3(0.1, 0, 0));
+		geometry.translate(new Vector3(0.2, 0, 0));
 
 		Ray3 ray = lens.rayAt(new Point2(0.5, 0.5));
 		printRay3(ray);

@@ -21,11 +21,7 @@ public class AffineTransformation3 implements AffineTransformable3 {
 	 */
 	@Override
 	public void transform(AffineMatrix3 T) {
-		if (this.matrix == null) {
-			this.matrix = T;
-		} else {
-			this.matrix = T.times(this.matrix);
-		}
+		this.applyTransformation(T);
 	}
 
 	/* (non-Javadoc)
@@ -33,7 +29,7 @@ public class AffineTransformation3 implements AffineTransformable3 {
 	 */
 	@Override
 	public void transform(LinearMatrix3 T) {
-		this.transform(new AffineMatrix3(T));
+		this.applyTransformation(T);
 	}
 
 	/* (non-Javadoc)
@@ -41,7 +37,7 @@ public class AffineTransformation3 implements AffineTransformable3 {
 	 */
 	@Override
 	public void rotate(Vector3 axis, double angle) {
-		this.transform(LinearMatrix3.rotateMatrix(axis, angle));
+		this.applyTransformation(LinearMatrix3.rotateMatrix(axis, angle));
 	}
 
 	/* (non-Javadoc)
@@ -49,7 +45,7 @@ public class AffineTransformation3 implements AffineTransformable3 {
 	 */
 	@Override
 	public void rotateX(double angle) {
-		this.transform(LinearMatrix3.rotateXMatrix(angle));
+		this.applyTransformation(LinearMatrix3.rotateXMatrix(angle));
 	}
 
 	/* (non-Javadoc)
@@ -57,7 +53,7 @@ public class AffineTransformation3 implements AffineTransformable3 {
 	 */
 	@Override
 	public void rotateY(double angle) {
-		this.transform(LinearMatrix3.rotateYMatrix(angle));
+		this.applyTransformation(LinearMatrix3.rotateYMatrix(angle));
 	}
 
 	/* (non-Javadoc)
@@ -65,7 +61,7 @@ public class AffineTransformation3 implements AffineTransformable3 {
 	 */
 	@Override
 	public void rotateZ(double angle) {
-		this.transform(LinearMatrix3.rotateZMatrix(angle));
+		this.applyTransformation(LinearMatrix3.rotateZMatrix(angle));
 	}
 
 	/* (non-Javadoc)
@@ -73,7 +69,7 @@ public class AffineTransformation3 implements AffineTransformable3 {
 	 */
 	@Override
 	public void translate(Vector3 v) {
-		this.transform(AffineMatrix3.translateMatrix(v));
+		this.applyTransformation(AffineMatrix3.translateMatrix(v));
 	}
 
 	/* (non-Javadoc)
@@ -81,7 +77,7 @@ public class AffineTransformation3 implements AffineTransformable3 {
 	 */
 	@Override
 	public void scale(double c) {
-		this.transform(LinearMatrix3.scaleMatrix(c));
+		this.applyTransformation(LinearMatrix3.scaleMatrix(c));
 	}
 
 	/* (non-Javadoc)
@@ -89,7 +85,7 @@ public class AffineTransformation3 implements AffineTransformable3 {
 	 */
 	@Override
 	public void stretch(Vector3 axis, double c) {
-		this.transform(LinearMatrix3.stretchMatrix(axis, c));
+		this.applyTransformation(LinearMatrix3.stretchMatrix(axis, c));
 	}
 
 	/* (non-Javadoc)
@@ -97,7 +93,7 @@ public class AffineTransformation3 implements AffineTransformable3 {
 	 */
 	@Override
 	public void stretch(double cx, double cy, double cz) {
-		this.transform(LinearMatrix3.stretchMatrix(cx, cy, cz));
+		this.applyTransformation(LinearMatrix3.stretchMatrix(cx, cy, cz));
 	}
 
 	/* (non-Javadoc)
@@ -105,7 +101,7 @@ public class AffineTransformation3 implements AffineTransformable3 {
 	 */
 	@Override
 	public void stretchX(double cx) {
-		this.transform(LinearMatrix3.stretchXMatrix(cx));
+		this.applyTransformation(LinearMatrix3.stretchXMatrix(cx));
 	}
 
 	/* (non-Javadoc)
@@ -113,7 +109,7 @@ public class AffineTransformation3 implements AffineTransformable3 {
 	 */
 	@Override
 	public void stretchY(double cy) {
-		this.transform(LinearMatrix3.stretchYMatrix(cy));
+		this.applyTransformation(LinearMatrix3.stretchYMatrix(cy));
 	}
 
 	/* (non-Javadoc)
@@ -121,7 +117,7 @@ public class AffineTransformation3 implements AffineTransformable3 {
 	 */
 	@Override
 	public void stretchZ(double cz) {
-		this.transform(LinearMatrix3.stretchZMatrix(cz));
+		this.applyTransformation(LinearMatrix3.stretchZMatrix(cz));
 	}
 
 	/**
@@ -175,6 +171,30 @@ public class AffineTransformation3 implements AffineTransformable3 {
 	 */
 	public Ray3 apply(Ray3 ray) {
 		return this.matrix != null ? ray.transform(this.matrix) : ray;
+	}
+
+	/**
+	 * Applies the transformation represented by the specified
+	 * <code>AffineMatrix3</code> to this <code>AffineTransformation3</code>.
+	 * @param T The <code>AffineMatrix3</code> representing the transformation
+	 * 		to be applied.
+	 */
+	protected final void applyTransformation(AffineMatrix3 T) {
+		if (this.matrix == null) {
+			this.matrix = T;
+		} else {
+			this.matrix = T.times(this.matrix);
+		}
+	}
+
+	/**
+	 * Applies the transformation represented by the specified
+	 * <code>LinearMatrix3</code> to this <code>AffineTransformation3</code>.
+	 * @param T The <code>LinearMatrix3</code> representing the transformation
+	 * 		to be applied.
+	 */
+	protected final void applyTransformation(LinearMatrix3 T) {
+		this.applyTransformation(new AffineMatrix3(T));
 	}
 
 	/**
