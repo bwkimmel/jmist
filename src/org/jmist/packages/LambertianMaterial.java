@@ -73,7 +73,7 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 
 		if (x.normal().dot(ray.direction()) > 0.0) {
 			double[] weights = this.emittance.sample(wavelengths, null);
-			return new ScatterResult(ray, weights, true, false);
+			return ScatterResult.reflectDiffuse(ray, wavelengths, weights);
 		}
 
 		return null;
@@ -91,7 +91,7 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 
 		if (ray.direction().dot(x.normal()) > 0.0) {
 			double[] weights = this.reflectance.sample(wavelengths, null);
-			return new ScatterResult(ray, weights, true, false);
+			return ScatterResult.reflectDiffuse(ray, wavelengths, weights);
 		}
 
 		return null;
