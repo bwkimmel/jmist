@@ -51,10 +51,6 @@ public class ScatterResult {
 		return new ScatterResult(transmittedRay, wavelength, weight, false);
 	}
 
-	public boolean absorbed() {
-		return (this.scatteredRay == null);
-	}
-
 	public Ray3 scatteredRay() {
 		return this.scatteredRay;
 	}
