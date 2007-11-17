@@ -189,7 +189,7 @@ public class Test {
 
 		light.illuminate(x, geometry);
 
-		//ScatterRecord scatter = x.material().scatter(x, new Tuple(550));
+		//ScatterResult scatter = x.material().scatter(x, new Tuple(550));
 
 
 		//Shader shader = new DirectIlluminationShader(geometry, light);

@@ -9,9 +9,9 @@ import org.jmist.toolkit.Ray3;
  * @author bkimmel
  *
  */
-public class ScatterRecord {
+public class ScatterResult {
 
-	public ScatterRecord(Ray3 scatteredRay, double[] weights, boolean diffuse, boolean transmitted) {
+	public ScatterResult(Ray3 scatteredRay, double[] weights, boolean diffuse, boolean transmitted) {
 		this.scatteredRay = scatteredRay;
 		this.weights = weights;
 		this.diffuse = diffuse;

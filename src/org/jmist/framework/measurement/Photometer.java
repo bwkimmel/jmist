@@ -6,7 +6,7 @@ package org.jmist.framework.measurement;
 import org.jmist.framework.Intersection;
 import org.jmist.framework.Material;
 import org.jmist.framework.Medium;
-import org.jmist.framework.ScatterRecord;
+import org.jmist.framework.ScatterResult;
 import org.jmist.framework.Spectrum;
 import org.jmist.framework.reporting.DummyProgressMonitor;
 import org.jmist.framework.reporting.ProgressMonitor;
@@ -97,7 +97,7 @@ public final class Photometer {
 
 			}
 
-			ScatterRecord rec = this.specimen.scatter(this.x, this.wavelengths);
+			ScatterResult rec = this.specimen.scatter(this.x, this.wavelengths);
 
 			if (rec != null && random.nextDouble() < rec.weightAt(0)) {
 				this.collectorSphere.record(rec.scatteredRay().direction());

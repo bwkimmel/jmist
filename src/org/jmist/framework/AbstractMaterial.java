@@ -24,7 +24,7 @@ public abstract class AbstractMaterial implements Material {
 	 * @see org.jmist.framework.Material#emit(org.jmist.framework.SurfacePoint, org.jmist.toolkit.Tuple)
 	 */
 	@Override
-	public ScatterRecord emit(SurfacePoint x, Tuple wavelengths) {
+	public ScatterResult emit(SurfacePoint x, Tuple wavelengths) {
 		return null;
 	}
 
@@ -32,7 +32,7 @@ public abstract class AbstractMaterial implements Material {
 	 * @see org.jmist.framework.Material#scatter(org.jmist.framework.Intersection, org.jmist.toolkit.Tuple)
 	 */
 	@Override
-	public ScatterRecord scatter(Intersection x, Tuple wavelengths) {
+	public ScatterResult scatter(Intersection x, Tuple wavelengths) {
 		return null;
 	}
 

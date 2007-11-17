@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 import org.jmist.framework.Intersection;
 import org.jmist.framework.OpaqueMaterial;
-import org.jmist.framework.ScatterRecord;
+import org.jmist.framework.ScatterResult;
 import org.jmist.framework.Spectrum;
 import org.jmist.framework.SurfacePoint;
 import org.jmist.toolkit.RandomUtil;
@@ -62,7 +62,7 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 	 * @see org.jmist.framework.Material#emit(org.jmist.framework.SurfacePoint, org.jmist.toolkit.Tuple)
 	 */
 	@Override
-	public ScatterRecord emit(SurfacePoint x, Tuple wavelengths) {
+	public ScatterResult emit(SurfacePoint x, Tuple wavelengths) {
 
 		if (this.emittance == null) {
 			return null;
@@ -73,7 +73,7 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 
 		if (x.normal().dot(ray.direction()) > 0.0) {
 			double[] weights = this.emittance.sample(wavelengths, null);
-			return new ScatterRecord(ray, weights, true, false);
+			return new ScatterResult(ray, weights, true, false);
 		}
 
 		return null;
@@ -84,14 +84,14 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 	 * @see org.jmist.framework.AbstractMaterial#scatter(org.jmist.framework.Intersection, org.jmist.toolkit.Tuple)
 	 */
 	@Override
-	public ScatterRecord scatter(Intersection x, Tuple wavelengths) {
+	public ScatterResult scatter(Intersection x, Tuple wavelengths) {
 
 		SphericalCoordinates out = RandomUtil.diffuse();
 		Ray3 ray = new Ray3(x.location(), out.toCartesian(x.microfacetBasis()));
 
 		if (ray.direction().dot(x.normal()) > 0.0) {
 			double[] weights = this.reflectance.sample(wavelengths, null);
-			return new ScatterRecord(ray, weights, true, false);
+			return new ScatterResult(ray, weights, true, false);
 		}
 
 		return null;
