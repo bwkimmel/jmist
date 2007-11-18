@@ -44,7 +44,7 @@ public final class PathShader implements RayShader {
 
 		Tuple		wavelengths		= this.observer.sample();
 		int			n				= wavelengths.size();
-		double[]	importance		= MathUtil.setAll(new double[n], 1.0);
+		double[]	importance		= ArrayUtil.setAll(new double[n], 1.0);
 		double[]	sample			= null;
 		double[]	result			= new double[n];
 		double		opacity			= 0.0;
@@ -71,7 +71,7 @@ public final class PathShader implements RayShader {
 			}
 
 			ray = material.scatter(x, wavelengths, importance);
-			MathUtil.scale(importance, 1.0 / this.alpha);
+			ArrayUtil.scale(importance, 1.0 / this.alpha);
 
 		}
 
