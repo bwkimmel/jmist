@@ -31,5 +31,13 @@ public final class ArrayUtil {
 		return ArrayUtil.reset(array);
 
 	}
+	
+	/**
+	 * Default constructor.  This constructor is private because this class
+	 * cannot be instantiated.
+	 */
+	private ArrayUtil() {
+		/* do nothing */
+	}
 
 }
