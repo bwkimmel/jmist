@@ -146,12 +146,18 @@ public final class MathUtil {
 	 * equal.
 	 * @param accumulator The array of <code>double</code>s to add the
 	 * 		elements of <code>summand</code> to (the elements of this array
-	 * 		will be modified).
+	 * 		will be modified).  This may be <code>null</code>, in which case a
+	 * 		new array will be created of the same length of
+	 * 		<code>summand</code> and will be initialized to zeros before adding
+	 * 		the values of <code>summand</code>.
 	 * @param summand The array of <code>double</code>s to add to each
 	 * 		corresponding element of <code>accumulator</code>.
 	 * @return A reference to <code>accumulator</code>.
 	 */
 	public static double[] add(double[] accumulator, double[] summand) {
+		if (accumulator == null) {
+			return summand.clone();
+		}
 		assert(accumulator.length == summand.length);
 		for (int i = 0; i < accumulator.length; i++) {
 			accumulator[i] += summand[i];
@@ -165,12 +171,17 @@ public final class MathUtil {
 	 * must be equal.
 	 * @param accumulator The array of <code>double</code>s to subtract the
 	 * 		elements of <code>values</code> from (the elements of this array
-	 * 		will be modified).
+	 * 		will be modified).  This may be <code>null</code>, in which case a
+	 * 		new array will be created and initialized to zeros before
+	 * 		subtracting the values from <code>values</code>.
 	 * @param values The array of <code>double</code>s to subtract from each
 	 * 		corresponding element of <code>accumulator</code>.
 	 * @return A reference to <code>accumulator</code>.
 	 */
 	public static double[] subtract(double[] accumulator, double[] values) {
+		if (accumulator == null) {
+			accumulator = new double[values.length];
+		}
 		assert(accumulator.length == values.length);
 		for (int i = 0; i < accumulator.length; i++) {
 			accumulator[i] -= values[i];
@@ -184,11 +195,17 @@ public final class MathUtil {
 	 * of <code>accumulator</code> and <code>modulator</code> must be equal.
 	 * @param accumulator The array of <code>double</code>s that is to have its
 	 * 		elements scaled (the elements of this array will be modified).
+	 * 		This may be <code>null</code>, in which case a new array will be
+	 * 		created and initialized to ones before multiplying by the values of
+	 * 		<code>modulator</code>.
 	 * @param modulator The array of <code>double</code>s by which to multiply
 	 * 		each corresponding element of <code>accumulator</code>.
 	 * @return A reference to <code>accumulator</code>.
 	 */
 	public static double[] modulate(double[] accumulator, double[] modulator) {
+		if (accumulator == null) {
+			return modulator.clone();
+		}
 		assert(accumulator.length == modulator.length);
 		for (int i = 0; i < accumulator.length; i++) {
 			accumulator[i] *= modulator[i];
