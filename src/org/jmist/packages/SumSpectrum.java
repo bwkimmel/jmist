@@ -5,6 +5,7 @@ package org.jmist.packages;
 
 import org.jmist.framework.Spectrum;
 import org.jmist.toolkit.Tuple;
+import org.jmist.util.MathUtil;
 
 /**
  * A <code>Spectrum</code> that is the sum of other spectra.
@@ -52,10 +53,7 @@ public final class SumSpectrum extends CompositeSpectrum {
 			throws IllegalArgumentException {
 
 		double[] sum = this.sample(wavelengths, null);
-
-		for (int i = 0; i < samples.length; i++) {
-			samples[i] *= sum[i];
-		}
+		MathUtil.modulate(samples, sum);
 
 	}
 
@@ -69,22 +67,18 @@ public final class SumSpectrum extends CompositeSpectrum {
 		if (results == null) {
 			results = new double[wavelengths.size()];
 		} else if (results.length == wavelengths.size()) {
-			for (int i = 0; i < results.length; i++) {
-				results[i] = 0.0;
-			}
+			MathUtil.setAll(results, 0.0);
 		} else {
 			throw new IllegalArgumentException("results.length != wavelengths.size()");
 		}
 
 		if (!this.children().isEmpty()) {
 
-			double[] summands = new double[results.length];
+			double[] summands = null;
 
 			for (Spectrum child : this.children()) {
 				summands = child.sample(wavelengths, summands);
-				for (int i = 0; i < results.length; i++) {
-					results[i] += summands[i];
-				}
+				MathUtil.add(results, summands);
 			}
 
 		}
