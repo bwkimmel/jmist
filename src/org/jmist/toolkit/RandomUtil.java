@@ -3,6 +3,8 @@
  */
 package org.jmist.toolkit;
 
+import org.jmist.util.MathUtil;
+
 
 /**
  * @author bkimmel
@@ -64,6 +66,29 @@ public final class RandomUtil {
 				2.0 * Math.PI * xi2,
 				radius
 		);
+
+	}
+
+	public static boolean bernoulli(double probability) {
+		return Math.random() < probability;
+	}
+
+	public static boolean coin() {
+		return bernoulli(0.5);
+	}
+
+	public static int categorical(double[] weights) {
+
+		double	x		= Math.random() / MathUtil.sum(weights);
+		double	mark	= 0.0;
+
+		for (int i = 0; i < weights.length; i++) {
+			if (x < (mark += weights[i])) {
+				return i;
+			}
+		}
+
+		return weights.length - 1;
 
 	}
 
