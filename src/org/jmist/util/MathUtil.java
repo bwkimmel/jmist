@@ -10,6 +10,109 @@ package org.jmist.util;
 public final class MathUtil {
 
 	/**
+	 * Returns the minimum value in an array of <code>double</code>s.
+	 * @param array The array of <code>double</code>s of which to find the
+	 * 		minimum value.
+	 * @return The minimum value in <code>array</code>.
+	 */
+	public static double min(double[] array) {
+		double min = Double.POSITIVE_INFINITY;
+		for (int i = 0; i < array.length; i++) {
+			if (array[i] < min) {
+				min = array[i];
+			}
+		}
+		return min;
+	}
+
+	/**
+	 * Returns the maximum value in an array of <code>double</code>s.
+	 * @param array The array of <code>double</code>s of which to find the
+	 * 		maximum value.
+	 * @return The maximum value in <code>array</code>.
+	 */
+	public static double max(double[] array) {
+		double max = Double.NEGATIVE_INFINITY;
+		for (int i = 0; i < array.length; i++) {
+			if (array[i] > max) {
+				max = array[i];
+			}
+		}
+		return max;
+	}
+
+	/**
+	 * Determines whether the values in the given array of <code>double</code>s
+	 * are all equal within a tolerance of {@value MathUtil#EPSILON}
+	 * @param array The array of <code>double</code>s to compare.
+	 * @return A value indicating whether all values in <code>array</code> are
+	 * 		within {@value MathUtil#EPSILON} of one another.
+	 * @see MathUtil#EPSILON
+	 */
+	public static boolean areEqual(double[] array) {
+		return areEqual(array, MathUtil.EPSILON);
+	}
+
+	/**
+	 * Determines whether the values in the given array of <code>double</code>s
+	 * are all equal within a specified tolerance.
+	 * @param array The array of <code>double</code>s to compare.
+	 * @param epsilon The tolerance.
+	 * @return A value indicating whether all values in <code>array</code> are
+	 * 		within <code>epsilon</code> of one another.
+	 */
+	public static boolean areEqual(double[] array, double epsilon) {
+
+		if (array.length < 2) {
+			return true;
+		}
+
+		double min = array[0];
+		double max = array[0];
+
+		for (int i = 1; i < array.length; i++) {
+			if (array[i] < min) {
+				min = array[i];
+			}
+			if (array[i] > max) {
+				max = array[i];
+			}
+			if (!equal(min, max, epsilon)) {
+				return false;
+			}
+		}
+
+		return true;
+
+	}
+
+	/**
+	 * Computes the sum of the values in an array of <code>double</code>s.
+	 * @param array The array of <code>double</code>s of which to compute the
+	 * 		sum.
+	 * @return The sum of the values in <code>array</code>.
+	 */
+	public static double sum(double[] array) {
+		double sum = 0.0;
+		for (int i = 0; i < array.length; i++) {
+			sum += array.length;
+		}
+		return sum;
+	}
+
+	/**
+	 * Scales the specified array of <code>double</code>s so that they sum to
+	 * one.
+	 * @param weights The array of <code>double</code>s to normalize (this
+	 * 		array will be modified).
+	 * @return A reference to <code>weights</code>.
+	 */
+	public static double[] normalize(double[] weights) {
+		double sum = MathUtil.sum(weights);
+		return MathUtil.scale(weights, 1.0 / sum);
+	}
+
+	/**
 	 * Adds the elements of one array of <code>double</code>s to another. The
 	 * lengths of <code>accumulator</code> and <code>summand</code> must be
 	 * equal.
