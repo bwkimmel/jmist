@@ -42,6 +42,16 @@ public final class MathUtil {
 	}
 
 	/**
+	 * Computes the mean of the values in the given array of
+	 * <code>double</code>s.
+	 * @param array The array of <code>double</code>s to compute the mean of.
+	 * @return The mean of the values in <code>array</code>.
+	 */
+	public static double mean(double[] array) {
+		return MathUtil.sum(array) / (double) array.length;
+	}
+
+	/**
 	 * Determines whether the values in the given array of <code>double</code>s
 	 * are all equal within a tolerance of {@value MathUtil#EPSILON}
 	 * @param array The array of <code>double</code>s to compare.
