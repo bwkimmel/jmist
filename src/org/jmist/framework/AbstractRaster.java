@@ -10,13 +10,13 @@ import java.util.Iterator;
  * An abstract <code>Raster</code> that provides default implementations of the
  * <code>setPixels</code> methods.
  * @see {@link Raster#setPixels(int, int, int, int, Iterable)},
- * 		{@link Raster#setPixels(int, int, int, int, Pixel[])}.
+ * 		{@link Raster#setPixels(int, int, int, int, double[][])}.
  * @author bkimmel
  */
 public abstract class AbstractRaster implements Raster {
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.Raster#setPixels(int, int, int, int, org.jmist.toolkit.Pixel[])
+	 * @see org.jmist.framework.Raster#setPixels(int, int, int, int, double[][])
 	 */
 	@Override
 	public void setPixels(int x0, int y0, int x1, int y1, double[][] pixels) {
