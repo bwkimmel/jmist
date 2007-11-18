@@ -7,7 +7,6 @@ import org.jmist.framework.PixelSpectrumFactory;
 import org.jmist.framework.Raster;
 import org.jmist.framework.Spectrum;
 import org.jmist.framework.Texture2;
-import org.jmist.toolkit.Pixel;
 import org.jmist.toolkit.Point2;
 import org.jmist.util.MathUtil;
 
@@ -36,11 +35,11 @@ public final class RasterTexture2 implements Texture2 {
 	@Override
 	public Spectrum evaluate(Point2 p) {
 
-		int		w		= raster.width();
-		int		h		= raster.height();
-		int		x		= MathUtil.threshold((int) Math.floor(p.x() * (double) w), 0, w - 1);
-		int		y		= MathUtil.threshold((int) Math.floor(p.y() * (double) h), 0, h - 1);
-		Pixel	pixel	= this.raster.getPixel(x, y);
+		int			w		= raster.width();
+		int			h		= raster.height();
+		int			x		= MathUtil.threshold((int) Math.floor(p.x() * (double) w), 0, w - 1);
+		int			y		= MathUtil.threshold((int) Math.floor(p.y() * (double) h), 0, h - 1);
+		double[]	pixel	= this.raster.getPixel(x, y);
 
 		return this.factory.createSpectrum(pixel);
 

@@ -6,9 +6,9 @@ package org.jmist.packages;
 import org.jmist.framework.ImageShader;
 import org.jmist.framework.Lens;
 import org.jmist.framework.RayShader;
-import org.jmist.toolkit.Pixel;
 import org.jmist.toolkit.Point2;
 import org.jmist.toolkit.Ray3;
+import org.jmist.util.ArrayUtil;
 
 /**
  * An image shader that uses a Lens to shade rays corresponding to points
@@ -30,25 +30,18 @@ public final class CameraImageShader implements ImageShader {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.ImageShader#shadeAt(org.jmist.toolkit.Point2, org.jmist.toolkit.Pixel)
+	 * @see org.jmist.framework.ImageShader#shadeAt(org.jmist.toolkit.Point2, double[])
 	 */
-	public void shadeAt(Point2 p, Pixel pixel) {
+	public double[] shadeAt(Point2 p, double[] pixel) {
 
 		Ray3 ray = this.lens.rayAt(p);
 
 		if (ray != null) {
-			this.rayShader.shadeRay(ray, pixel);
+			return this.rayShader.shadeRay(ray, pixel);
 		} else {
-			pixel.setAll(0.0);
+			return ArrayUtil.reset(pixel);
 		}
 
-	}
-
-	/* (non-Javadoc)
-	 * @see org.jmist.framework.PixelFactory#createPixel()
-	 */
-	public Pixel createPixel() {
-		return this.rayShader.createPixel();
 	}
 
 	/**

@@ -14,7 +14,6 @@ import org.jmist.framework.Raster;
 import org.jmist.framework.TaskWorker;
 import org.jmist.framework.reporting.ProgressMonitor;
 import org.jmist.toolkit.Box2;
-import org.jmist.toolkit.Pixel;
 
 /**
  * A <code>ParallelizableJob</code> that renders a <code>Raster</code> image.
@@ -138,8 +137,8 @@ public final class RasterJob extends AbstractParallelizableJob implements
 	@Override
 	public void submitTaskResults(Object task, Object results, ProgressMonitor monitor) {
 
-		Cell		cell		= (Cell) task;
-		Pixel[]		pixels		= (Pixel[]) results;
+		Cell		cell	= (Cell) task;
+		double[][]	pixels	= (double[][]) results;
 
 		/* Write the submitted results to the raster. */
 		this.raster.setPixels(cell.xmin, cell.ymin, cell.xmax, cell.ymax, pixels);
@@ -248,7 +247,7 @@ public final class RasterJob extends AbstractParallelizableJob implements
 		public Object performTask(Object task, ProgressMonitor monitor) {
 
 			Cell			cell				= (Cell) task;
-			Pixel[]			pixels				= new Pixel[cell.size()];
+			double[][]		pixels				= new double[cell.size()][];
 			Box2			bounds;
 			double			x0, y0, x1, y1;
 			double			w					= this.width;
@@ -269,7 +268,7 @@ public final class RasterJob extends AbstractParallelizableJob implements
 
 					bounds	= new Box2(x0, y0, x1, y1);
 
-					this.shader.shadePixel(bounds, pixels[n]);
+					pixels[n] = this.shader.shadePixel(bounds, pixels[n]);
 
 				}
 

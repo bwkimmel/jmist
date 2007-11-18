@@ -9,10 +9,10 @@ import org.jmist.framework.Material;
 import org.jmist.framework.Observer;
 import org.jmist.framework.RayShader;
 import org.jmist.framework.Spectrum;
-import org.jmist.toolkit.Pixel;
 import org.jmist.toolkit.RandomUtil;
 import org.jmist.toolkit.Ray3;
 import org.jmist.toolkit.Tuple;
+import org.jmist.util.ArrayUtil;
 import org.jmist.util.MathUtil;
 
 /**
@@ -37,10 +37,10 @@ public final class PathShader implements RayShader {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.RayShader#shadeRay(org.jmist.toolkit.Ray3, org.jmist.toolkit.Pixel)
+	 * @see org.jmist.framework.RayShader#shadeRay(org.jmist.toolkit.Ray3, double[])
 	 */
 	@Override
-	public void shadeRay(Ray3 ray, Pixel pixel) {
+	public double[] shadeRay(Ray3 ray, double[] pixel) {
 
 		Tuple		wavelengths		= this.observer.sample();
 		int			n				= wavelengths.size();
@@ -75,17 +75,13 @@ public final class PathShader implements RayShader {
 
 		}
 
-		/* pixel.set(result, opacity); */
+		pixel = ArrayUtil.initialize(pixel, result.length + 1);
 
-	}
+		pixel[0] = opacity;
+		MathUtil.setRange(pixel, 1, result);
 
-	/* (non-Javadoc)
-	 * @see org.jmist.framework.PixelFactory#createPixel()
-	 */
-	@Override
-	public Pixel createPixel() {
-		// TODO Auto-generated method stub
-		return null;
+		return pixel;
+
 	}
 
 	private final double alpha;

@@ -1,11 +1,12 @@
 /**
- * 
+ *
  */
 package org.jmist.packages;
 
 import org.jmist.framework.PixelShader;
 import org.jmist.toolkit.Box2;
-import org.jmist.toolkit.Pixel;
+import org.jmist.util.ArrayUtil;
+import org.jmist.util.MathUtil;
 
 /**
  * A pixel shader decorator that averages the results of another
@@ -21,38 +22,35 @@ public final class AveragingPixelShader implements PixelShader {
 	 * @param pixelShader The pixel shader average the results from.
 	 */
 	public AveragingPixelShader(int numSamples, PixelShader pixelShader) {
+		if (numSamples <= 0) {
+			throw new IllegalArgumentException("numSamples <= 0");
+		}
 		this.numSamples = numSamples;
 		this.pixelShader = pixelShader;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.PixelShader#shadePixel(org.jmist.toolkit.Box2, org.jmist.toolkit.Pixel)
 	 */
-	public void shadePixel(Box2 bounds, Pixel pixel) {
-		Pixel sample = this.createPixel();
+	public double[] shadePixel(Box2 bounds, double[] pixel) {
+		double[] sample = null;
 
-		pixel.reset();
+		ArrayUtil.reset(pixel);
+
 		for (int i = 0; i < this.numSamples; i++) {
-			this.pixelShader.shadePixel(bounds, sample);
-			pixel.add(sample);
+			sample = this.pixelShader.shadePixel(bounds, sample);
+			pixel = MathUtil.add(pixel, sample);
 		}
-		
-		pixel.scale(1.0 / (double) this.numSamples);
+
+		return MathUtil.scale(pixel, 1.0 / (double) this.numSamples);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.jmist.framework.PixelFactory#createPixel()
-	 */
-	public Pixel createPixel() {
-		return this.pixelShader.createPixel();
-	}
-	
 	/**
 	 * The number of samples to average from the decorated pixel
 	 * shader.
 	 */
 	private final int numSamples;
-	
+
 	/** The pixel shader from which to average the results. */
 	private final PixelShader pixelShader;
 

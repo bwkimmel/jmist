@@ -5,7 +5,7 @@ package org.jmist.packages;
 
 import org.jmist.framework.PixelShader;
 import org.jmist.toolkit.Box2;
-import org.jmist.toolkit.Pixel;
+import org.jmist.util.MathUtil;
 
 /**
  * A pixel shader decorator that averages stratified samples from the
@@ -28,14 +28,13 @@ public final class StratifyingPixelShader implements PixelShader {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.PixelShader#shadePixel(org.jmist.toolkit.Box2, org.jmist.toolkit.Pixel)
+	 * @see org.jmist.framework.PixelShader#shadePixel(org.jmist.toolkit.Box2, double[])
 	 */
-	public void shadePixel(Box2 bounds, Pixel pixel) {
+	public double[] shadePixel(Box2 bounds, double[] pixel) {
 		double x0, x1, y0, y1;
-		Pixel sample = this.createPixel();
+		double[] sample = null;
 		Box2 subpixel;
 
-		pixel.reset();
 		for (int i = 0; i < this.rows; i++) {
 			x0 = bounds.interpolateX((double) i / (double) this.rows);
 			x1 = bounds.interpolateX((double) (i + 1) / (double) this.rows);
@@ -45,19 +44,12 @@ public final class StratifyingPixelShader implements PixelShader {
 				y1 = bounds.interpolateY((double) (j + 1) / (double) this.columns);
 
 				subpixel = new Box2(x0, y0, x1, y1);
-				this.pixelShader.shadePixel(subpixel, sample);
-				pixel.add(sample);
+				sample = this.pixelShader.shadePixel(subpixel, sample);
+				pixel = MathUtil.add(pixel, sample);
 			}
 		}
 
-		pixel.scale(1.0 / (double) (this.rows * this.columns));
-	}
-
-	/* (non-Javadoc)
-	 * @see org.jmist.framework.PixelFactory#createPixel()
-	 */
-	public Pixel createPixel() {
-		return this.pixelShader.createPixel();
+		return MathUtil.scale(pixel, 1.0 / (double) (this.rows * this.columns));
 	}
 
 	/** The number of columns to divide each pixel into. */

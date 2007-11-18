@@ -3,8 +3,6 @@
  */
 package org.jmist.framework;
 
-import org.jmist.toolkit.Pixel;
-
 /**
  * A factory that creates extrapolated spectra from pixel representations.
  * @author bkimmel
@@ -16,6 +14,6 @@ public interface PixelSpectrumFactory {
 	 * @param pixel The <code>Pixel</code> to extrapolate.
 	 * @return The extrapolated <code>Spectrum</code>.
 	 */
-	Spectrum createSpectrum(Pixel pixel);
+	Spectrum createSpectrum(double[] pixel);
 
 }

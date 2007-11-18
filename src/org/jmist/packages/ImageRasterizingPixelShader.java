@@ -3,7 +3,6 @@
  */
 package org.jmist.packages;
 
-import org.jmist.toolkit.Pixel;
 import org.jmist.toolkit.Point2;
 import org.jmist.framework.ImageShader;
 import org.jmist.framework.PixelShader;
@@ -28,16 +27,10 @@ public abstract class ImageRasterizingPixelShader implements PixelShader {
 	 * Shades the specified pixel using this shader's image shader.
 	 * @param p The point on the image plane to shade.
 	 * @param pixel The pixel to write the shading to.
+	 * @return The shaded pixel.
 	 */
-	protected void shadeAt(Point2 p, Pixel pixel) {
-		this.shader.shadeAt(p, pixel);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.jmist.framework.PixelFactory#createPixel()
-	 */
-	public Pixel createPixel() {
-		return this.shader.createPixel();
+	protected double[] shadeAt(Point2 p, double[] pixel) {
+		return this.shader.shadeAt(p, pixel);
 	}
 
 	/** The image shader to use for shading points. */

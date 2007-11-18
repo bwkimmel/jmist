@@ -7,8 +7,8 @@ import org.jmist.framework.Intersection;
 import org.jmist.framework.RayCaster;
 import org.jmist.framework.RayShader;
 import org.jmist.toolkit.Interval;
-import org.jmist.toolkit.Pixel;
 import org.jmist.toolkit.Ray3;
+import org.jmist.util.ArrayUtil;
 
 /**
  * A ray shader that shades a ray according to the distance to the
@@ -26,25 +26,19 @@ public final class DistanceRayShader implements RayShader {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.RayShader#shadeRay(org.jmist.toolkit.Ray3, org.jmist.toolkit.Pixel)
+	 * @see org.jmist.framework.RayShader#shadeRay(org.jmist.toolkit.Ray3, double[])
 	 */
-	public void shadeRay(Ray3 ray, Pixel pixel) {
-		Intersection intersection = this.caster.castRay(ray, Interval.POSITIVE);
+	public double[] shadeRay(Ray3 ray, double[] pixel) {
+		Intersection x = this.caster.castRay(ray, Interval.POSITIVE);
 
-		// TODO finish implementing DistanceRayShader.shadeRay.
-		if (intersection != null) {
-			//intersection.getRayParameter();
-		} else {
-			//0.0;
+		pixel = ArrayUtil.initialize(pixel, 2);
+
+		if (x != null) {
+			pixel[0] = x.distance();
+			pixel[1] = 1.0;
 		}
-	}
 
-	/* (non-Javadoc)
-	 * @see org.jmist.framework.PixelFactory#createPixel()
-	 */
-	public Pixel createPixel() {
-		// TODO Auto-generated method stub
-		return null;
+		return pixel;
 	}
 
 	/** The ray caster to use. */

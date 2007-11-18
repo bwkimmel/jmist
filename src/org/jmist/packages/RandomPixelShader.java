@@ -7,7 +7,6 @@ import org.jmist.framework.ImageShader;
 import org.jmist.framework.PixelShader;
 import org.jmist.framework.Random;
 import org.jmist.toolkit.Box2;
-import org.jmist.toolkit.Pixel;
 
 /**
  * A rasterizing pixel shader that shades a random point within the
@@ -29,10 +28,10 @@ public final class RandomPixelShader extends ImageRasterizingPixelShader impleme
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.PixelShader#shadePixel(org.jmist.toolkit.Box2, org.jmist.toolkit.Pixel)
+	 * @see org.jmist.framework.PixelShader#shadePixel(org.jmist.toolkit.Box2, double[])
 	 */
-	public void shadePixel(Box2 bounds, Pixel pixel) {
-		this.shadeAt(bounds.interpolate(random.next(), random.next()), pixel);
+	public double[] shadePixel(Box2 bounds, double[] pixel) {
+		return this.shadeAt(bounds.interpolate(random.next(), random.next()), pixel);
 	}
 
 	/** The source of random numbers for this pixel shader. */
