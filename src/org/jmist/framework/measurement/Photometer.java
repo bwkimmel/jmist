@@ -6,13 +6,13 @@ package org.jmist.framework.measurement;
 import org.jmist.framework.Intersection;
 import org.jmist.framework.Material;
 import org.jmist.framework.Medium;
-import org.jmist.framework.ScatterResult;
 import org.jmist.framework.Spectrum;
 import org.jmist.framework.reporting.DummyProgressMonitor;
 import org.jmist.framework.reporting.ProgressMonitor;
 import org.jmist.toolkit.Basis3;
 import org.jmist.toolkit.Point2;
 import org.jmist.toolkit.Point3;
+import org.jmist.toolkit.Ray3;
 import org.jmist.toolkit.SphericalCoordinates;
 import org.jmist.toolkit.Tuple;
 import org.jmist.toolkit.Vector3;
@@ -97,10 +97,11 @@ public final class Photometer {
 
 			}
 
-			ScatterResult rec = this.specimen.scatter(this.x, this.wavelengths);
+			double[] reflectance = new double[] { 1.0 };
+			Ray3 scatteredRay = this.specimen.scatter(this.x, this.wavelengths, reflectance);
 
-			if (rec != null && random.nextDouble() < rec.weightAt(0)) {
-				this.collectorSphere.record(rec.scatteredRay().direction());
+			if (scatteredRay != null && random.nextDouble() < reflectance[0]) {
+				this.collectorSphere.record(scatteredRay.direction());
 			}
 
 		}

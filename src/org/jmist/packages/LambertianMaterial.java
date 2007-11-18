@@ -7,7 +7,6 @@ import java.io.Serializable;
 
 import org.jmist.framework.Intersection;
 import org.jmist.framework.OpaqueMaterial;
-import org.jmist.framework.ScatterResult;
 import org.jmist.framework.Spectrum;
 import org.jmist.framework.SurfacePoint;
 import org.jmist.toolkit.RandomUtil;
@@ -59,10 +58,10 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.Material#emit(org.jmist.framework.SurfacePoint, org.jmist.toolkit.Tuple)
+	 * @see org.jmist.framework.AbstractMaterial#emit(org.jmist.framework.SurfacePoint, org.jmist.toolkit.Tuple, double[])
 	 */
 	@Override
-	public ScatterResult emit(SurfacePoint x, Tuple wavelengths) {
+	public Ray3 emit(SurfacePoint x, Tuple wavelengths, double[] radiance) {
 
 		if (this.emittance == null) {
 			return null;
@@ -72,8 +71,8 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 		Ray3 ray = new Ray3(x.location(), out.toCartesian(x.microfacetBasis()));
 
 		if (x.normal().dot(ray.direction()) > 0.0) {
-			double[] weights = this.emittance.sample(wavelengths, null);
-			return ScatterResult.diffuse(ray, wavelengths, weights);
+			this.emittance.sample(wavelengths, radiance);
+			return ray;
 		}
 
 		return null;
@@ -81,17 +80,17 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.AbstractMaterial#scatter(org.jmist.framework.Intersection, org.jmist.toolkit.Tuple)
+	 * @see org.jmist.framework.AbstractMaterial#scatter(org.jmist.framework.Intersection, org.jmist.toolkit.Tuple, double[])
 	 */
 	@Override
-	public ScatterResult scatter(Intersection x, Tuple wavelengths) {
+	public Ray3 scatter(Intersection x, Tuple wavelengths, double[] radiance) {
 
 		SphericalCoordinates out = RandomUtil.diffuse();
 		Ray3 ray = new Ray3(x.location(), out.toCartesian(x.microfacetBasis()));
 
 		if (ray.direction().dot(x.normal()) > 0.0) {
-			double[] weights = this.reflectance.sample(wavelengths, null);
-			return ScatterResult.diffuse(ray, wavelengths, weights);
+			this.reflectance.modulate(wavelengths, radiance);
+			return ray;
 		}
 
 		return null;

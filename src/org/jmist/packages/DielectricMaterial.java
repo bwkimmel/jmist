@@ -5,7 +5,6 @@ package org.jmist.packages;
 
 import org.jmist.framework.AbstractMaterial;
 import org.jmist.framework.Intersection;
-import org.jmist.framework.ScatterResult;
 import org.jmist.framework.Spectrum;
 import org.jmist.toolkit.Optics;
 import org.jmist.toolkit.Point3;
@@ -57,7 +56,7 @@ public class DielectricMaterial extends AbstractMaterial {
 	 * @see org.jmist.framework.AbstractMaterial#scatter(org.jmist.framework.Intersection, org.jmist.toolkit.Tuple)
 	 */
 	@Override
-	public ScatterResult scatter(Intersection x, Tuple wavelengths) {
+	public Ray3 scatter(Intersection x, Tuple wavelengths, double[] radiance) {
 
 		Point3		p			= x.location();
 		double[]	n1			= x.ambientMedium().refractiveIndex(p).sample(wavelengths, null);
@@ -69,7 +68,7 @@ public class DielectricMaterial extends AbstractMaterial {
 
 		R[key] = Optics.reflectance(in, n1[key], n2[key], normal);
 
-		boolean		reflect		= rnd.nextDouble() < R[key];
+		boolean		reflect		= Math.random() < R[key];
 		Vector3		out			= reflect
 										? Optics.reflect(in, normal)
 										: Optics.refract(in, n1[key], n2[key], normal);
@@ -93,7 +92,12 @@ public class DielectricMaterial extends AbstractMaterial {
 
 			for (int i = 1; i < n2.length; i++) {
 				if (n1[i] != n1[i - 1] || n2[i] != n2[i - 1]) {
-					return ScatterResult.specular(new Ray3(p, out), wavelengths.at(key), 1.0);
+					for (int j = 0; j < radiance.length; j++) {
+						if (j != key) {
+							radiance[j] = 0.0;
+						}
+					}
+					return new Ray3(p, out);
 				}
 			}
 
@@ -106,9 +110,69 @@ public class DielectricMaterial extends AbstractMaterial {
 		}
 
 		R[key] = 1.0;
-		return ScatterResult.specular(new Ray3(p, out), wavelengths, R);
+		for (int j = 0; j < radiance.length; j++) {
+			radiance[j] *= R[j];
+		}
+		return new Ray3(p, out);
 
 	}
+
+//	/* (non-Javadoc)
+//	 * @see org.jmist.framework.AbstractMaterial#scatter(org.jmist.framework.Intersection, org.jmist.toolkit.Tuple)
+//	 */
+//	@Override
+//	public ScatterResult scatter(Intersection x, Tuple wavelengths) {
+//
+//		Point3		p			= x.location();
+//		double[]	n1			= x.ambientMedium().refractiveIndex(p).sample(wavelengths, null);
+//		double[]	n2			= this.refractiveIndex.sample(wavelengths, null);
+//		double[]	R			= new double[n2.length];
+//		Vector3		in			= x.incident();
+//		Vector3		normal		= x.microfacetNormal();
+//		int			key			= rnd.nextInt(n2.length);
+//
+//		R[key] = Optics.reflectance(in, n1[key], n2[key], normal);
+//
+//		boolean		reflect		= rnd.nextDouble() < R[key];
+//		Vector3		out			= reflect
+//										? Optics.reflect(in, normal)
+//										: Optics.refract(in, n1[key], n2[key], normal);
+//
+//		boolean		fromSide	= x.normal().dot(in) < 0.0;
+//		boolean		toSide		= x.normal().dot(out) >= 0.0;
+//
+//		if (reflect ^ (fromSide == toSide)) {
+//			return null;
+//		}
+//
+//		if (reflect) {
+//
+//			for (int i = 0; i < n2.length; i++) {
+//				if (i != key) {
+//					R[i] = Optics.reflectance(in, n1[key], n2[key], normal) / R[key];
+//				}
+//			}
+//
+//		} else { /* !reflect */
+//
+//			for (int i = 1; i < n2.length; i++) {
+//				if (n1[i] != n1[i - 1] || n2[i] != n2[i - 1]) {
+//					return ScatterResult.specular(new Ray3(p, out), wavelengths.at(key), 1.0);
+//				}
+//			}
+//
+//			for (int i = 0; i < n2.length; i++) {
+//				if (i != key) {
+//					R[i] = (1.0 - Optics.reflectance(in, n1[i], n2[i], normal)) / (1.0 - R[key]);
+//				}
+//			}
+//
+//		}
+//
+//		R[key] = 1.0;
+//		return ScatterResult.specular(new Ray3(p, out), wavelengths, R);
+//
+//	}
 
 	/** The refractive index <code>Spectrum</code> of this dielectric. */
 	private final Spectrum refractiveIndex;
