@@ -5,7 +5,6 @@ package org.jmist.packages;
 
 import org.jmist.framework.Spectrum;
 import org.jmist.toolkit.Tuple;
-import org.jmist.util.ArrayUtil;
 import org.jmist.util.MathUtil;
 
 /**
@@ -68,7 +67,7 @@ public final class SumSpectrum extends CompositeSpectrum {
 		if (results == null) {
 			results = new double[wavelengths.size()];
 		} else if (results.length == wavelengths.size()) {
-			ArrayUtil.setAll(results, 0.0);
+			MathUtil.setAll(results, 0.0);
 		} else {
 			throw new IllegalArgumentException("results.length != wavelengths.size()");
 		}

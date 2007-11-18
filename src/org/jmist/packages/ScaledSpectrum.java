@@ -6,7 +6,7 @@ package org.jmist.packages;
 import org.jmist.framework.AbstractSpectrum;
 import org.jmist.framework.Spectrum;
 import org.jmist.toolkit.Tuple;
-import org.jmist.util.ArrayUtil;
+import org.jmist.util.MathUtil;
 
 /**
  * A <code>Spectrum</code> that differs from another by a constant factor.
@@ -51,7 +51,7 @@ public final class ScaledSpectrum extends AbstractSpectrum {
 			throws IllegalArgumentException {
 
 		results = this.inner.sample(wavelengths, results);
-		return ArrayUtil.scale(results, this.factor);
+		return MathUtil.scale(results, this.factor);
 
 	}
 
@@ -63,7 +63,7 @@ public final class ScaledSpectrum extends AbstractSpectrum {
 			throws IllegalArgumentException {
 
 		this.inner.modulate(wavelengths, samples);
-		ArrayUtil.scale(samples, this.factor);
+		MathUtil.scale(samples, this.factor);
 
 	}
 

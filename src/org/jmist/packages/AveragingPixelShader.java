@@ -42,7 +42,7 @@ public final class AveragingPixelShader implements PixelShader {
 			pixel = MathUtil.add(pixel, sample);
 		}
 
-		return ArrayUtil.scale(pixel, 1.0 / (double) this.numSamples);
+		return MathUtil.scale(pixel, 1.0 / (double) this.numSamples);
 	}
 
 	/**

@@ -5,7 +5,6 @@ package org.jmist.packages;
 
 import org.jmist.framework.PixelShader;
 import org.jmist.toolkit.Box2;
-import org.jmist.util.ArrayUtil;
 import org.jmist.util.MathUtil;
 
 /**
@@ -50,7 +49,7 @@ public final class StratifyingPixelShader implements PixelShader {
 			}
 		}
 
-		return ArrayUtil.scale(pixel, 1.0 / (double) (this.rows * this.columns));
+		return MathUtil.scale(pixel, 1.0 / (double) (this.rows * this.columns));
 	}
 
 	/** The number of columns to divide each pixel into. */
