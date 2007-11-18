@@ -10,6 +10,94 @@ package org.jmist.util;
 public final class MathUtil {
 
 	/**
+	 * Adds the elements of one array of <code>double</code>s to another. The
+	 * lengths of <code>accumulator</code> and <code>summand</code> must be
+	 * equal.
+	 * @param accumulator The array of <code>double</code>s to add the
+	 * 		elements of <code>summand</code> to (the elements of this array
+	 * 		will be modified).
+	 * @param summand The array of <code>double</code>s to add to each
+	 * 		corresponding element of <code>accumulator</code>.
+	 * @return A reference to <code>accumulator</code>.
+	 */
+	public static double[] add(double[] accumulator, double[] summand) {
+		assert(accumulator.length == summand.length);
+		for (int i = 0; i < accumulator.length; i++) {
+			accumulator[i] += summand[i];
+		}
+		return accumulator;
+	}
+
+	/**
+	 * Subtracts the elements of one array of <code>double</code>s from
+	 * another. The lengths of <code>accumulator</code> and <code>values</code>
+	 * must be equal.
+	 * @param accumulator The array of <code>double</code>s to subtract the
+	 * 		elements of <code>values</code> from (the elements of this array
+	 * 		will be modified).
+	 * @param values The array of <code>double</code>s to subtract from each
+	 * 		corresponding element of <code>accumulator</code>.
+	 * @return A reference to <code>accumulator</code>.
+	 */
+	public static double[] subtract(double[] accumulator, double[] values) {
+		assert(accumulator.length == values.length);
+		for (int i = 0; i < accumulator.length; i++) {
+			accumulator[i] -= values[i];
+		}
+		return accumulator;
+	}
+
+	/**
+	 * Multiplies all the elements in an array of <code>double</code>s by the
+	 * elements of an equally sized array of <code>double</code>s.  The lengths
+	 * of <code>accumulator</code> and <code>modulator</code> must be equal.
+	 * @param accumulator The array of <code>double</code>s that is to have its
+	 * 		elements scaled (the elements of this array will be modified).
+	 * @param modulator The array of <code>double</code>s by which to multiply
+	 * 		each corresponding element of <code>accumulator</code>.
+	 * @return A reference to <code>accumulator</code>.
+	 */
+	public static double[] modulate(double[] accumulator, double[] modulator) {
+		assert(accumulator.length == modulator.length);
+		for (int i = 0; i < accumulator.length; i++) {
+			accumulator[i] *= modulator[i];
+		}
+		return accumulator;
+	}
+
+	/**
+	 * Sets all of the values in the specified array of <code>double</code>s to
+	 * the same value.
+	 * @param array The array of <code>double</code>s the elements of which are
+	 * 		to be set (the elements of this array will be modified).
+	 * @param value The value to set each element of <code>array</code> to.
+	 * @return A reference to <code>array</code>.
+	 */
+	public static double[] setAll(double[] array, double value) {
+		for (int i = 0; i < array.length; i++) {
+			array[i] = value;
+		}
+		return array;
+	}
+
+	/**
+	 * Multiplies all of the values in the specified array of
+	 * <code>double</code>s by the same value.
+	 * @param array The array of <code>double</code>s the elements of which are
+	 * 		to be multiplied by a constant factor (the elements of this array
+	 * 		will be modified).
+	 * @param factor The value by which to multiply each element of
+	 * 		<code>array</code>.
+	 * @return A reference to <code>array</code>.
+	 */
+	public static double[] scale(double[] array, double factor) {
+		for (int i = 0; i < array.length; i++) {
+			array[i] *= factor;
+		}
+		return array;
+	}
+
+	/**
 	 * Returns x if it is within the specified range, or the closest
 	 * value within the specified range if x is outside the range.
 	 * @param x The value to threshold.
