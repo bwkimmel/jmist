@@ -93,6 +93,32 @@ public final class ArrayUtil {
 	}
 
 	/**
+	 * Copies a range of values from one array into another array.
+	 * @param target The array of <code>double</code>s to receive the values.
+	 * @param targetStart The index into <code>target</code> at which to start
+	 * 		copying values into (this array will be modified).
+	 * @param source The array of <code>double</code>s from which to copy.
+	 * @param sourceStart The index into <code>source</code> at which to start
+	 * 		copying values.
+	 * @param length The number of values to copy from <code>source</code> to
+	 * 		<code>target</code>.
+	 * @return A reference to <code>target</code>.
+	 */
+	public static double[] setRange(double[] target, int targetStart,
+			double[] source, int sourceStart, int length) {
+
+		assert(target.length <= targetStart + length);
+		assert(source.length <= sourceStart + length);
+
+		for (int i = sourceStart, j = targetStart, n = 0; n < length; i++, j++, n++) {
+			target[j] = source[i];
+		}
+
+		return target;
+
+	}
+
+	/**
 	 * Sets all of the values in the specified array of <code>double</code>s to
 	 * the same value.
 	 * @param array The array of <code>double</code>s the elements of which are
