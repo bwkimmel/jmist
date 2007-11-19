@@ -3,6 +3,8 @@
  */
 package org.jmist.util;
 
+import java.util.Arrays;
+
 /**
  * Static utility methods for working with arrays.
  * @author bkimmel
@@ -17,9 +19,7 @@ public final class ArrayUtil {
 	 */
 	public static double[] reset(double[] array) {
 		if (array != null) {
-			for (int i = 0; i < array.length; i++) {
-				array[i] = 0.0;
-			}
+			Arrays.fill(array, 0.0);
 		}
 		return array;
 	}
@@ -101,9 +101,7 @@ public final class ArrayUtil {
 	 * @return A reference to <code>array</code>.
 	 */
 	public static double[] setAll(double[] array, double value) {
-		for (int i = 0; i < array.length; i++) {
-			array[i] = value;
-		}
+		Arrays.fill(array, value);
 		return array;
 	}
 
