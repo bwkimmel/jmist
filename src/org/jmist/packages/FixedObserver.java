@@ -4,8 +4,8 @@
 package org.jmist.packages;
 
 import org.jmist.framework.Observer;
-import org.jmist.framework.SpectralEstimator;
 import org.jmist.toolkit.Tuple;
+import org.jmist.util.ArrayUtil;
 
 /**
  * A fixed-wavelengths observer.
@@ -38,11 +38,12 @@ public final class FixedObserver implements Observer {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.Observer#acquire(org.jmist.framework.SpectralEstimator, double[])
+	 * @see org.jmist.framework.Observer#sample()
 	 */
-	public void acquire(SpectralEstimator estimator, double[] responses) {
-		assert(responses.length == wavelengths.size());
-		estimator.sample(wavelengths, responses);
+	@Override
+	public Sample sample() {
+		double[] weights = ArrayUtil.setAll(new double[this.wavelengths.size()], 1.0);
+		return new Sample(this.wavelengths, weights);
 	}
 
 	/* (non-Javadoc)

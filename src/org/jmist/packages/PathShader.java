@@ -42,12 +42,13 @@ public final class PathShader implements RayShader {
 	@Override
 	public double[] shadeRay(Ray3 ray, double[] pixel) {
 
-		Tuple		wavelengths		= this.observer.sample();
-		int			n				= wavelengths.size();
-		double[]	importance		= ArrayUtil.setAll(new double[n], 1.0);
-		double[]	sample			= null;
-		double[]	result			= new double[n];
-		double		opacity			= 0.0;
+		Observer.Sample	sample			= this.observer.sample();
+		Tuple			wavelengths		= sample.wavelengths;
+		int				n				= wavelengths.size();
+		double[]		importance		= sample.weights;
+		double[]		values			= null;
+		double[]		result			= new double[n];
+		double			opacity			= 0.0;
 
 		while (ray != null) {
 
@@ -62,9 +63,9 @@ public final class PathShader implements RayShader {
 			Material material = x.material();
 			Spectrum emission = material.emission(x, ray.direction().opposite());
 
-			sample = emission.sample(wavelengths, sample);
-			MathUtil.modulate(sample, importance);
-			MathUtil.add(result, sample);
+			values = emission.sample(wavelengths, values);
+			MathUtil.modulate(values, importance);
+			MathUtil.add(result, values);
 
 			if (!RandomUtil.bernoulli(this.alpha)) {
 				break;
