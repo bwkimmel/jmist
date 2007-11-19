@@ -4,8 +4,8 @@
 package org.jmist.util;
 
 /**
+ * Static mathematical utility methods.
  * @author bkimmel
- *
  */
 public final class MathUtil {
 
