@@ -8,6 +8,7 @@ import org.jmist.framework.Intersection;
 import org.jmist.framework.Spectrum;
 import org.jmist.toolkit.Optics;
 import org.jmist.toolkit.Point3;
+import org.jmist.toolkit.RandomUtil;
 import org.jmist.toolkit.Ray3;
 import org.jmist.toolkit.Tuple;
 import org.jmist.toolkit.Vector3;
@@ -65,7 +66,7 @@ public class DielectricMaterial extends AbstractMaterial {
 		double[]	R			= new double[n2.length];
 		Vector3		in			= x.incident();
 		Vector3		normal		= x.microfacetNormal();
-		int			key			= rnd.nextInt(n2.length);
+		int			key			= RandomUtil.categorical(radiance);
 
 		R[key] = Optics.reflectance(in, n1[key], n2[key], normal);
 
@@ -175,8 +176,5 @@ public class DielectricMaterial extends AbstractMaterial {
 
 	/** The refractive index <code>Spectrum</code> of this dielectric. */
 	private final Spectrum refractiveIndex;
-
-	/** A <code>Random</code> number generator. */
-	private static final java.util.Random rnd = new java.util.Random();
 
 }
