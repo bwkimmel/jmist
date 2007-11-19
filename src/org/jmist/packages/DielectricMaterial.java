@@ -11,6 +11,7 @@ import org.jmist.toolkit.Point3;
 import org.jmist.toolkit.Ray3;
 import org.jmist.toolkit.Tuple;
 import org.jmist.toolkit.Vector3;
+import org.jmist.util.MathUtil;
 
 /**
  * A dielectric <code>Material</code> that refracts but does not absorb
@@ -110,9 +111,7 @@ public class DielectricMaterial extends AbstractMaterial {
 		}
 
 		R[key] = 1.0;
-		for (int j = 0; j < radiance.length; j++) {
-			radiance[j] *= R[j];
-		}
+		MathUtil.modulate(radiance, R);
 		return new Ray3(p, out);
 
 	}
