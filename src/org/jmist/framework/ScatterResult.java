@@ -35,20 +35,20 @@ public class ScatterResult {
 
 	}
 
-	public static ScatterResult diffuse(Ray3 transmittedRay, Tuple wavelengths, double[] weights) {
-		return new ScatterResult(transmittedRay, wavelengths, weights, true);
+	public static ScatterResult diffuse(Ray3 scatteredRay, Tuple wavelengths, double[] weights) {
+		return new ScatterResult(scatteredRay, wavelengths, weights, true);
 	}
 
-	public static ScatterResult specular(Ray3 transmittedRay, Tuple wavelengths, double[] weights) {
-		return new ScatterResult(transmittedRay, wavelengths, weights, false);
+	public static ScatterResult specular(Ray3 scatteredRay, Tuple wavelengths, double[] weights) {
+		return new ScatterResult(scatteredRay, wavelengths, weights, false);
 	}
 
-	public static ScatterResult diffuse(Ray3 transmittedRay, double wavelength, double weight) {
-		return new ScatterResult(transmittedRay, wavelength, weight, true);
+	public static ScatterResult diffuse(Ray3 scatteredRay, double wavelength, double weight) {
+		return new ScatterResult(scatteredRay, wavelength, weight, true);
 	}
 
-	public static ScatterResult specular(Ray3 transmittedRay, double wavelength, double weight) {
-		return new ScatterResult(transmittedRay, wavelength, weight, false);
+	public static ScatterResult specular(Ray3 scatteredRay, double wavelength, double weight) {
+		return new ScatterResult(scatteredRay, wavelength, weight, false);
 	}
 
 	public Ray3 scatteredRay() {
