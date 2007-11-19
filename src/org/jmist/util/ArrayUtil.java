@@ -49,6 +49,32 @@ public final class ArrayUtil {
 	}
 
 	/**
+	 * Returns an array of <code>double</code>s, all equal to the specified
+	 * value, of the specified length.
+	 * @param array The array of <code>double</code>s to zero and return.  If
+	 * 		<code>null</code>, a new array will be created.  Otherwise, all
+	 * 		elements will be set to zero and this array will be returned.
+	 * @param length The length of the array to return.
+	 * @param value The value to initialize each element of the array to.
+	 * @return An array of the specified length that is all zeros.
+	 * @throws IllegalArgumentException if <code>array</code> is not
+	 * 		<code>null</code> and <code>array.length != length</code>.
+	 */
+	public static double[] initialize(double[] array, int length, double value) {
+
+		if (array == null) {
+			array = new double[length];
+		} else if (array.length != length) {
+			throw new IllegalArgumentException(String.format(
+					"Invalid array length: expected %d but got %d.", length,
+					array.length));
+		}
+
+		return ArrayUtil.setAll(array, value);
+
+	}
+
+	/**
 	 * Populates a contiguous range within an array of <code>double</code>s
 	 * with the values from another array of <code>double</code>s.
 	 * @param array The array of <code>double</code>s to populate.
