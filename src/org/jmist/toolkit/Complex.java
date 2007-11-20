@@ -42,6 +42,32 @@ public final class Complex implements Serializable {
 	}
 
 	/**
+	 * Creates an array of <code>Complex</code> numbers with the specified real
+	 * and imaginary parts.
+	 * @param re The real parts.
+	 * @param im The imaginary parts (must be the same length as
+	 * 		<code>re</code>.
+	 * @return An array of the <code>Complex</code> numbers
+	 * 		<code>(re[i], im[i])</code>, for each <code>i</code>.
+	 * @throws IllegalArgumentException if <code>re.length != im.length</code>.
+	 */
+	public static Complex[] array(double[] re, double[] im) {
+
+		if (re.length != im.length) {
+			throw new IllegalArgumentException("re.length != im.length");
+		}
+
+		Complex[] result = new Complex[re.length];
+
+		for (int i = 0; i < result.length; i++) {
+			result[i] = new Complex(re[i], im[i]);
+		}
+
+		return result;
+
+	}
+
+	/**
 	 * Gets the real part of the complex number.
 	 * @return The real part.
 	 */
