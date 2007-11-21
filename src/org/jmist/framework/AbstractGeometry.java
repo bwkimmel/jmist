@@ -29,14 +29,16 @@ public abstract class AbstractGeometry implements Geometry {
 		 * @param distance
 		 * @param front
 		 * @param surfaceId
+		 * @param material
 		 */
 		private GeometryIntersection(AbstractGeometry geometry, Ray3 ray,
-				double distance, boolean front, int surfaceId) {
+				double distance, boolean front, int surfaceId, Material material) {
 			this.geometry = geometry;
 			this.ray = ray;
 			this.distance = distance;
 			this.front = front;
 			this.surfaceId = surfaceId;
+			this.material = material;
 		}
 
 		public int surfaceId() {
@@ -212,17 +214,17 @@ public abstract class AbstractGeometry implements Geometry {
 	}
 
 	protected final GeometryIntersection newIntersection(Ray3 ray,
-			double distance, boolean front, int surfaceId) {
+			double distance, boolean front, int surfaceId, Material material) {
 
 		return new GeometryIntersection(this, ray, distance,
-				front, surfaceId);
+				front, surfaceId, material);
 
 	}
 
 	protected final GeometryIntersection newIntersection(Ray3 ray,
-			double distance, boolean front) {
+			double distance, boolean front, Material material) {
 
-		return this.newIntersection(ray, distance, front, 0);
+		return this.newIntersection(ray, distance, front, 0, material);
 
 	}
 

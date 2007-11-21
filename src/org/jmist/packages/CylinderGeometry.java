@@ -5,10 +5,10 @@ package org.jmist.packages;
 
 import java.io.Serializable;
 
-import org.jmist.framework.AbstractGeometry;
 import org.jmist.framework.Geometry;
 import org.jmist.framework.Intersection;
 import org.jmist.framework.IntersectionRecorder;
+import org.jmist.framework.SingleMaterialGeometry;
 import org.jmist.framework.WeightedSurfacePoint;
 import org.jmist.toolkit.Basis3;
 import org.jmist.toolkit.Box3;
@@ -23,9 +23,10 @@ import org.jmist.util.MathUtil;
 
 /**
  * A cylinder aligned along the y-axis.
+ *
  * @author bkimmel
  */
-public final class CylinderGeometry extends AbstractGeometry implements
+public final class CylinderGeometry extends SingleMaterialGeometry implements
 		Geometry, Serializable {
 
 	/**
