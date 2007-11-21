@@ -8,6 +8,7 @@ import org.jmist.framework.Intersection;
 import org.jmist.framework.IntersectionRecorder;
 import org.jmist.toolkit.Interval;
 import org.jmist.toolkit.Ray3;
+import org.jmist.util.MathUtil;
 
 /**
  * An intersection recorder that only keeps the nearest intersection
@@ -18,10 +19,19 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
 
 	/**
 	 * Creates a new <code>NearestIntersectionRecorder</code> that records
-	 * <code>Intersection</code>s with a positive distance.
+	 * <code>Intersection</code>s with a non-negligible positive distance.
 	 */
 	public NearestIntersectionRecorder() {
-		this.interval = Interval.POSITIVE;
+		this.interval = new Interval(MathUtil.EPSILON, Double.POSITIVE_INFINITY);
+	}
+
+	/**
+	 * Creates a new <code>NearestIntersectionRecorder</code> that records
+	 * <code>Intersection</code>s with a distance greater than that specified.
+	 * @param epsilon The minimum distance to accept.
+	 */
+	public NearestIntersectionRecorder(double epsilon) {
+		this.interval = new Interval(epsilon, Double.POSITIVE_INFINITY);
 	}
 
 	/**
