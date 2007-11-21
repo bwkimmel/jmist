@@ -4,8 +4,8 @@
 package org.jmist.packages;
 
 import org.jmist.framework.Observer;
+import org.jmist.framework.SpectralEstimator;
 import org.jmist.toolkit.Tuple;
-import org.jmist.util.ArrayUtil;
 
 /**
  * A fixed-wavelengths observer.
@@ -17,7 +17,7 @@ public final class FixedObserver implements Observer {
 	 * Initializes the wavelength to sample.
 	 * @param wavelength The wavelength to sample (in meters).
 	 */
-	FixedObserver(double wavelength) {
+	public FixedObserver(double wavelength) {
 		this.wavelengths = new Tuple(wavelength);
 	}
 
@@ -25,7 +25,7 @@ public final class FixedObserver implements Observer {
 	 * Initializes the wavelengths to sample.
 	 * @param wavelengths The wavelengths to sample (in meters).
 	 */
-	FixedObserver(double[] wavelengths) {
+	public FixedObserver(double[] wavelengths) {
 		this.wavelengths = new Tuple(wavelengths);
 	}
 
@@ -33,17 +33,16 @@ public final class FixedObserver implements Observer {
 	 * Initializes the wavelengths to sample.
 	 * @param wavelengths The wavelengths to sample (in meters).
 	 */
-	FixedObserver(Tuple wavelengths) {
+	public FixedObserver(Tuple wavelengths) {
 		this.wavelengths = wavelengths;
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.Observer#sample()
+	 * @see org.jmist.framework.Observer#acquire(org.jmist.framework.SpectralEstimator, double[])
 	 */
 	@Override
-	public Sample sample() {
-		double[] weights = ArrayUtil.setAll(new double[this.wavelengths.size()], 1.0);
-		return new Sample(this.wavelengths, weights);
+	public double[] acquire(SpectralEstimator estimator, double[] observation) {
+		return estimator.sample(this.wavelengths, observation);
 	}
 
 	/* (non-Javadoc)

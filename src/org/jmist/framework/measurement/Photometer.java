@@ -6,16 +6,18 @@ package org.jmist.framework.measurement;
 import org.jmist.framework.Intersection;
 import org.jmist.framework.Material;
 import org.jmist.framework.Medium;
+import org.jmist.framework.ScatterResult;
 import org.jmist.framework.Spectrum;
 import org.jmist.framework.reporting.DummyProgressMonitor;
 import org.jmist.framework.reporting.ProgressMonitor;
+import org.jmist.packages.RandomScatterRecorder;
 import org.jmist.toolkit.Basis3;
 import org.jmist.toolkit.Point2;
 import org.jmist.toolkit.Point3;
-import org.jmist.toolkit.Ray3;
 import org.jmist.toolkit.SphericalCoordinates;
 import org.jmist.toolkit.Tuple;
 import org.jmist.toolkit.Vector3;
+import org.jmist.util.MathUtil;
 
 /**
  * @author bkimmel
@@ -97,11 +99,15 @@ public final class Photometer {
 
 			}
 
-			double[] reflectance = new double[] { 1.0 };
-			Ray3 scatteredRay = this.specimen.scatter(this.x, this.wavelengths, reflectance);
+			RandomScatterRecorder scattering = new RandomScatterRecorder();
 
-			if (scatteredRay != null && random.nextDouble() < reflectance[0]) {
-				this.collectorSphere.record(scatteredRay.direction());
+			this.specimen.scatter(this.x, this.wavelengths, scattering);
+
+			ScatterResult sr = scattering.getScatterResult();
+
+			if (sr != null) {
+				assert(MathUtil.equal(sr.weightAt(0), 1.0));
+				this.collectorSphere.record(sr.scatteredRay().direction());
 			}
 
 		}
@@ -190,8 +196,6 @@ public final class Photometer {
 		}
 
 	};
-
-	private static final java.util.Random random = new java.util.Random();
 
 	private static final long DEFAULT_PROGRESS_INTERVAL = 1000;
 

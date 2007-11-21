@@ -3,7 +3,6 @@
  */
 package org.jmist.framework;
 
-import org.jmist.toolkit.Ray3;
 import org.jmist.toolkit.Tuple;
 import org.jmist.toolkit.Vector3;
 
@@ -22,19 +21,17 @@ public abstract class AbstractMaterial implements Material {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.Material#emit(org.jmist.framework.SurfacePoint, org.jmist.toolkit.Tuple, double[])
+	 * @see org.jmist.framework.Material#emit(org.jmist.framework.SurfacePoint, org.jmist.toolkit.Tuple, org.jmist.framework.ScatterRecorder)
 	 */
 	@Override
-	public Ray3 emit(SurfacePoint x, Tuple wavelengths, double[] radiance) {
-		return null;
+	public void emit(SurfacePoint x, Tuple wavelengths, ScatterRecorder recorder) {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.Material#scatter(org.jmist.framework.Intersection, org.jmist.toolkit.Tuple, double[])
+	 * @see org.jmist.framework.Material#scatter(org.jmist.framework.Intersection, org.jmist.toolkit.Tuple, org.jmist.framework.ScatterRecorder)
 	 */
 	@Override
-	public Ray3 scatter(Intersection x, Tuple wavelengths, double[] radiance) {
-		return null;
+	public void scatter(Intersection x, Tuple wavelengths, ScatterRecorder recorder) {
 	}
 
 	/* (non-Javadoc)

@@ -8,6 +8,8 @@ import org.jmist.framework.Intersection;
 import org.jmist.framework.Material;
 import org.jmist.framework.Observer;
 import org.jmist.framework.RayShader;
+import org.jmist.framework.ScatterResult;
+import org.jmist.framework.SpectralEstimator;
 import org.jmist.framework.Spectrum;
 import org.jmist.toolkit.RandomUtil;
 import org.jmist.toolkit.Ray3;
@@ -26,14 +28,9 @@ public final class PathShader implements RayShader {
 	 * @param geometry
 	 * @param observer
 	 */
-	public PathShader(Geometry geometry, Observer observer, double meanDepth) {
-
-		assert(meanDepth >= 1.0);
-
+	public PathShader(Geometry geometry, Observer observer) {
 		this.geometry = geometry;
 		this.observer = observer;
-		this.alpha = 1.0 - (1.0 / meanDepth);
-
 	}
 
 	/* (non-Javadoc)
@@ -41,51 +38,83 @@ public final class PathShader implements RayShader {
 	 */
 	@Override
 	public double[] shadeRay(Ray3 ray, double[] pixel) {
+		return this.observer.acquire(new PathEstimator(ray), pixel);
+	}
 
-		Observer.Sample	sample			= this.observer.sample();
-		Tuple			wavelengths		= sample.wavelengths;
-		int				n				= wavelengths.size();
-		double[]		importance		= sample.weights;
-		double[]		values			= null;
-		double[]		result			= new double[n];
-		double			opacity			= 0.0;
+	private final class PathEstimator implements SpectralEstimator {
 
-		while (ray != null) {
-
-			Intersection x = NearestIntersectionRecorder.computeNearestIntersection(ray, this.geometry);
-
-			if (x == null) {
-				break;
-			}
-
-			opacity = 1.0;
-
-			Material material = x.material();
-			Spectrum emission = material.emission(x, ray.direction().opposite());
-
-			values = emission.sample(wavelengths, values);
-			MathUtil.modulate(values, importance);
-			MathUtil.add(result, values);
-
-			if (!RandomUtil.bernoulli(this.alpha)) {
-				break;
-			}
-
-			ray = material.scatter(x, wavelengths, importance);
-			MathUtil.scale(importance, 1.0 / this.alpha);
-
+		public PathEstimator(Ray3 ray) {
+			this.ray = ray;
 		}
 
-		pixel = ArrayUtil.initialize(pixel, result.length + 1);
+		/* (non-Javadoc)
+		 * @see org.jmist.framework.SpectralEstimator#sample(org.jmist.toolkit.Tuple, double[])
+		 */
+		@Override
+		public double[] sample(Tuple wavelengths, double[] responses) {
+			return PathShader.this.sample(this.ray, wavelengths, responses);
+		}
 
-		pixel[0] = opacity;
-		ArrayUtil.setRange(pixel, 1, result);
-
-		return pixel;
+		private final Ray3 ray;
 
 	}
 
-	private final double alpha;
+	private double[] sample(Ray3 ray, Tuple wavelengths, double[] responses) {
+		double[] importance = ArrayUtil.setAll(new double[wavelengths.size()], 1.0);
+		return this.sample(ray, wavelengths, new RandomScatterRecorder(), null, importance, null);
+	}
+
+	private double[] sample(Ray3 ray, Tuple wavelengths,
+			RandomScatterRecorder scattering, double[] sample,
+			double[] importance, double[] responses) {
+
+		Intersection x = NearestIntersectionRecorder.computeNearestIntersection(ray, this.geometry);
+
+		if (x == null) {
+			return responses;
+		}
+
+		Material material = x.material();
+		Spectrum emission = material.emission(x, ray.direction().opposite());
+
+		sample = emission.sample(wavelengths, sample);
+		sample = MathUtil.modulate(sample, importance);
+		responses = MathUtil.add(responses, sample);
+
+		scattering.reset(RandomUtil.categorical(importance));
+		material.scatter(x, wavelengths, scattering);
+
+		ScatterResult sr = scattering.getScatterResult();
+
+		if (sr == null) {
+			return responses;
+		}
+
+		if (importance.length > 1 && sr.dispersed()) {
+
+			int index = sr.dispersionIndex();
+
+			double[] dispersedImportance = MathUtil.scale(sr.weights(),
+					importance[index]);
+			double[] dispersedResponses = this
+					.sample(sr.scatteredRay(), sr.wavelengths(), scattering,
+							null, dispersedImportance, null);
+
+			assert(dispersedResponses.length == 1);
+			responses[index] += dispersedResponses[0];
+
+			return responses;
+
+		} else {
+
+			MathUtil.modulate(importance, sr.weights());
+			return this.sample(sr.scatteredRay(), sr.wavelengths(), scattering,
+					sample, importance, responses);
+
+		}
+
+	}
+
 	private final Geometry geometry;
 	private final Observer observer;
 

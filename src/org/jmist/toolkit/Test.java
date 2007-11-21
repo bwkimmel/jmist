@@ -1,7 +1,11 @@
 package org.jmist.toolkit;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
 import java.rmi.registry.LocateRegistry;
@@ -11,15 +15,21 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.zip.ZipOutputStream;
 
+import javax.imageio.ImageIO;
 import javax.swing.JDialog;
 
+import org.jmist.framework.AbstractGeometry;
 import org.jmist.framework.ConstantSpectrum;
 import org.jmist.framework.Geometry;
+import org.jmist.framework.ImageShader;
 import org.jmist.framework.Intersection;
 import org.jmist.framework.Job;
 import org.jmist.framework.Light;
 import org.jmist.framework.Material;
+import org.jmist.framework.Observer;
 import org.jmist.framework.ParallelizableJob;
+import org.jmist.framework.PixelShader;
+import org.jmist.framework.RayShader;
 import org.jmist.framework.Spectrum;
 import org.jmist.framework.measurement.CollectorSphere;
 import org.jmist.framework.reporting.CompositeProgressMonitor;
@@ -34,16 +44,25 @@ import org.jmist.framework.services.ServiceSubmitJob;
 import org.jmist.framework.services.ThreadServiceWorkerJob;
 import org.jmist.packages.BasisSpectrumFactory;
 import org.jmist.packages.BlackbodySpectrum;
+import org.jmist.packages.CameraImageShader;
+import org.jmist.packages.CompositeGeometry;
 import org.jmist.packages.CylinderGeometry;
 import org.jmist.packages.DummyParallelizableJob;
 import org.jmist.packages.EqualSolidAnglesCollectorSphere;
+import org.jmist.packages.FixedObserver;
+import org.jmist.packages.InsideOutGeometry;
 import org.jmist.packages.IntersectionGeometry;
 import org.jmist.packages.LambertianMaterial;
 import org.jmist.packages.NRooksRandom;
 import org.jmist.packages.NearestIntersectionRecorder;
+import org.jmist.packages.PathShader;
 import org.jmist.packages.PhotometerJob;
 import org.jmist.packages.PinholeLens;
 import org.jmist.packages.PointLight;
+import org.jmist.packages.RandomScatterRecorder;
+import org.jmist.packages.RasterJob;
+import org.jmist.packages.ScaledSpectrum;
+import org.jmist.packages.SimplePixelShader;
 import org.jmist.packages.SubtractionGeometry;
 import org.jmist.packages.SumSpectrum;
 import org.jmist.packages.TransformableGeometry;
@@ -85,9 +104,55 @@ public class Test {
 		//testPolynomial2();
 		//testCsg();
 		//testSpectrum();
-		testTransformableGeometry();
+		//testTransformableGeometry();
+
+		testRender();
 
 	}
+
+	@SuppressWarnings("unused")
+	private static void testRender() {
+
+		Spectrum emission = new ScaledSpectrum(1e-11, new BlackbodySpectrum(4500)); // new ConstantSpectrum(1e3);
+		Spectrum reflectance = new ConstantSpectrum(1.0);
+
+		Material matte = new LambertianMaterial(reflectance, null);
+		Material emissive = new LambertianMaterial(null, emission);
+
+		TransformableLens lens = new PinholeLens(Math.PI / 3, 1.0);
+		CylinderGeometry cylinder = new CylinderGeometry(new Point3(0, -1, 0), 0.25, 2, matte);
+		CylinderGeometry light = new CylinderGeometry(new Point3(0, -10, 0), 10, 20, emissive);
+		CompositeGeometry geometry = new TransformableGeometry()
+				.addChild(cylinder)	/* inner cylinder */
+				.addChild(new InsideOutGeometry(light));
+
+
+		lens.translate(new Vector3(0, 0, 3));
+
+		Observer observer = new FixedObserver(new double[]{ 700e-9, 550e-9, 400e-9 });
+
+		RayShader shader = new PathShader(geometry, observer);
+		ImageShader camera = new CameraImageShader(lens, shader);
+		PixelShader pixelShader = new SimplePixelShader(camera);
+		BufferedImage image = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
+
+
+		ParallelizableJob job = new RasterJob(pixelShader, image.getRaster(), "bmp", 50, 50);
+		ProgressMonitor monitor = new ProgressDialog();
+		job.go(monitor);
+
+		try {
+			OutputStream out = new FileOutputStream("C:/image.zip");
+			ZipOutputStream zip = new ZipOutputStream(out);
+
+			job.writeJobResults(zip);
+			zip.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
 	@SuppressWarnings("unused")
 	private static void testTransformableGeometry() {
 
@@ -96,7 +161,8 @@ public class Test {
 				new CylinderGeometry(
 						new Point3(0, -1, 0),
 						0.25,
-						2
+						2,
+						null
 				)
 		);
 
@@ -179,9 +245,9 @@ public class Test {
 		System.out.println();
 
 		Geometry geometry = new SubtractionGeometry()
-			.addChild(new CylinderGeometry(new Point3(0, -1, -0.1), 0.5, 2))
-			.addChild(new CylinderGeometry(new Point3(0, -1, 0.1), 0.5, 2))
-			.addChild(new CylinderGeometry(new Point3(0, -1, 0.6), 0.5, 2));
+			.addChild(new CylinderGeometry(new Point3(0, -1, -0.1), 0.5, 2, null))
+			.addChild(new CylinderGeometry(new Point3(0, -1, 0.1), 0.5, 2, null))
+			.addChild(new CylinderGeometry(new Point3(0, -1, 0.6), 0.5, 2, null));
 
 		Light light = new PointLight(new Point3(1, 1, 1), new ConstantSpectrum(1e3), true);
 
@@ -222,7 +288,7 @@ public class Test {
 
 		NearestIntersectionRecorder recorder = new NearestIntersectionRecorder();
 
-		Geometry geometry = new CylinderGeometry(new Point3(0, -1, 0), 0.25, 2);
+		Geometry geometry = new CylinderGeometry(new Point3(0, -1, 0), 0.25, 2, null);
 
 		geometry.intersect(ray, recorder);
 

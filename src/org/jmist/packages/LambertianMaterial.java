@@ -7,6 +7,8 @@ import java.io.Serializable;
 
 import org.jmist.framework.Intersection;
 import org.jmist.framework.OpaqueMaterial;
+import org.jmist.framework.ScatterRecorder;
+import org.jmist.framework.ScatterResult;
 import org.jmist.framework.Spectrum;
 import org.jmist.framework.SurfacePoint;
 import org.jmist.toolkit.RandomUtil;
@@ -58,42 +60,42 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.AbstractMaterial#emit(org.jmist.framework.SurfacePoint, org.jmist.toolkit.Tuple, double[])
+	 * @see org.jmist.framework.AbstractMaterial#emit(org.jmist.framework.SurfacePoint, org.jmist.toolkit.Tuple, org.jmist.framework.ScatterRecorder)
 	 */
 	@Override
-	public Ray3 emit(SurfacePoint x, Tuple wavelengths, double[] radiance) {
+	public void emit(SurfacePoint x, Tuple wavelengths, ScatterRecorder recorder) {
 
-		if (this.emittance == null) {
-			return null;
+		if (this.emittance != null) {
+
+			SphericalCoordinates out = RandomUtil.uniformOnUpperHemisphere();
+			Ray3 ray = new Ray3(x.location(), out.toCartesian(x.microfacetBasis()));
+
+			if (x.normal().dot(ray.direction()) > 0.0) {
+				double[] radiance = this.emittance.sample(wavelengths, null);
+				recorder.record(ScatterResult.diffuse(ray, wavelengths, radiance));
+			}
+
 		}
-
-		SphericalCoordinates out = RandomUtil.uniformOnUpperHemisphere();
-		Ray3 ray = new Ray3(x.location(), out.toCartesian(x.microfacetBasis()));
-
-		if (x.normal().dot(ray.direction()) > 0.0) {
-			this.emittance.sample(wavelengths, radiance);
-			return ray;
-		}
-
-		return null;
 
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.AbstractMaterial#scatter(org.jmist.framework.Intersection, org.jmist.toolkit.Tuple, double[])
+	 * @see org.jmist.framework.AbstractMaterial#scatter(org.jmist.framework.Intersection, org.jmist.toolkit.Tuple, org.jmist.framework.ScatterRecorder)
 	 */
 	@Override
-	public Ray3 scatter(Intersection x, Tuple wavelengths, double[] radiance) {
+	public void scatter(Intersection x, Tuple wavelengths, ScatterRecorder recorder) {
 
-		SphericalCoordinates out = RandomUtil.diffuse();
-		Ray3 ray = new Ray3(x.location(), out.toCartesian(x.microfacetBasis()));
+		if (this.reflectance != null) {
 
-		if (ray.direction().dot(x.normal()) > 0.0) {
-			this.reflectance.modulate(wavelengths, radiance);
-			return ray;
+			SphericalCoordinates out = RandomUtil.diffuse();
+			Ray3 ray = new Ray3(x.location(), out.toCartesian(x.microfacetBasis()));
+
+			if (ray.direction().dot(x.normal()) > 0.0) {
+				double[] weights = this.reflectance.sample(wavelengths, null);
+				recorder.record(ScatterResult.diffuse(ray, wavelengths, weights));
+			}
+
 		}
-
-		return null;
 
 	}
 
@@ -105,7 +107,7 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 
 		boolean toFront = (x.normal().dot(out) > 0.0);
 
-		if (x.front() == toFront) {
+		if (this.reflectance != null && x.front() == toFront) {
 			return this.reflectance;
 		} else {
 			return Spectrum.ZERO;

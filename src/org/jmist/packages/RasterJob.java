@@ -3,14 +3,26 @@
  */
 package org.jmist.packages;
 
+import java.awt.Rectangle;
+import java.awt.image.DataBuffer;
+import java.awt.image.DataBufferDouble;
+import java.awt.image.PixelInterleavedSampleModel;
+import java.awt.image.Raster;
+import java.awt.image.SampleModel;
+import java.awt.image.WritableRaster;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import javax.imageio.IIOImage;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.MemoryCacheImageOutputStream;
+
 import org.jmist.framework.AbstractParallelizableJob;
 import org.jmist.framework.PixelShader;
-import org.jmist.framework.Raster;
 import org.jmist.framework.TaskWorker;
 import org.jmist.framework.reporting.ProgressMonitor;
 import org.jmist.toolkit.Box2;
@@ -22,6 +34,8 @@ import org.jmist.toolkit.Box2;
 public final class RasterJob extends AbstractParallelizableJob implements
 		Serializable {
 
+	private String formatName;
+
 	/**
 	 * Creates a new <code>RasterJob</code>.  This job will
 	 * divide the image into <code>rows * cols</code> tasks to render roughly
@@ -32,11 +46,12 @@ public final class RasterJob extends AbstractParallelizableJob implements
 	 * @param cols The number of columns to divide the image into.
 	 * @param rows The number of rows to divide the image into.
 	 */
-	public RasterJob(PixelShader shader, Raster raster, int cols, int rows) {
-		this.worker = new RasterTaskWorker(shader, raster.width(), raster.height());
+	public RasterJob(PixelShader shader, WritableRaster raster, String formatName, int cols, int rows) {
+		this.worker = new RasterTaskWorker(shader, raster.getWidth(), raster.getHeight());
 		this.raster = raster;
 		this.cols = cols;
 		this.rows = rows;
+		this.formatName = formatName;
 	}
 
 	/* (non-Javadoc)
@@ -48,7 +63,7 @@ public final class RasterJob extends AbstractParallelizableJob implements
 		if (this.nextRow < this.rows) {
 
 			/* Get the next cell. */
-			Cell cell = this.getCell(this.nextCol++, this.nextRow);
+			Rectangle cell = this.getCell(this.nextCol++, this.nextRow);
 
 			/* If we're done this row, move on to the next row. */
 			if (this.nextCol >= this.cols) {
@@ -68,14 +83,12 @@ public final class RasterJob extends AbstractParallelizableJob implements
 	}
 
 	/**
-	 * Gets the limits of the <code>Cell</code> at the specified row and
-	 * column.
+	 * Gets the bounds of the cell at the specified row and column.
 	 * @param col The column index.
 	 * @param row The row index.
-	 * @return The <code>Cell</code> limits.
-	 * @see {@link Cell}.
+	 * @return The cell bounds.
 	 */
-	private Cell getCell(int col, int row) {
+	private Rectangle getCell(int col, int row) {
 
 		/* Figure out how big the cells should be:
 		 *    - Make them as large as possible without exceeding the size
@@ -90,8 +103,8 @@ public final class RasterJob extends AbstractParallelizableJob implements
 		assert(0 <= col && col < this.cols);
 		assert(0 <= row && row < this.rows);
 
-		int w = this.raster.width();
-		int h = this.raster.height();
+		int w = this.raster.getWidth();
+		int h = this.raster.getHeight();
 
 		/* First figure out the base dimensions of the cells and the number
 		 * of remaining pixels in each dimension that need to be allocated.
@@ -127,7 +140,7 @@ public final class RasterJob extends AbstractParallelizableJob implements
 		assert(0 <= xmin && xmin <= xmax && xmax < w);
 		assert(0 <= ymin && ymin <= ymax && ymax < h);
 
-		return new Cell(xmin, ymin, xmax, ymax);
+		return new Rectangle(xmin, ymin, xmax - xmin + 1, ymax - ymin + 1);
 
 	}
 
@@ -137,11 +150,11 @@ public final class RasterJob extends AbstractParallelizableJob implements
 	@Override
 	public void submitTaskResults(Object task, Object results, ProgressMonitor monitor) {
 
-		Cell		cell	= (Cell) task;
-		double[][]	pixels	= (double[][]) results;
+		Rectangle	cell	= (Rectangle) task;
+		double[]	pixels	= (double[]) results;
 
 		/* Write the submitted results to the raster. */
-		this.raster.setPixels(cell.xmin, cell.ymin, cell.xmax, cell.ymax, pixels);
+		this.raster.setPixels(cell.x, cell.y, cell.width, cell.height, pixels);
 
 		/* Update the progress monitor. */
 		monitor.notifyProgress(++this.tasksComplete, this.rows * this.cols);
@@ -161,9 +174,22 @@ public final class RasterJob extends AbstractParallelizableJob implements
 	 */
 	@Override
 	public void writeJobResults(ZipOutputStream stream) throws IOException {
-		stream.putNextEntry(new ZipEntry("raster.img"));
-		this.raster.write(stream);
+
+		Iterator<ImageWriter> writers = ImageIO.getImageWritersByFormatName(this.formatName);
+		ImageWriter writer = writers.next();
+		String[] suffix = writer.getOriginatingProvider().getFileSuffixes();
+
+		assert(suffix != null && suffix.length > 0);
+
+		stream.putNextEntry(new ZipEntry("raster." + suffix[0]));
+		MemoryCacheImageOutputStream ios = new MemoryCacheImageOutputStream(stream);
+		writer.setOutput(ios);
+		writer.write(null, new IIOImage(this.raster, null, null), null);
+		ios.flush();
+		ios.close();
+
 		stream.closeEntry();
+
 	}
 
 	/* (non-Javadoc)
@@ -172,52 +198,6 @@ public final class RasterJob extends AbstractParallelizableJob implements
 	@Override
 	public TaskWorker worker() {
 		return this.worker;
-	}
-
-	/**
-	 * Indicates the pixel locations of a rectangular subset of a
-	 * <code>Raster</code> to be rendered by a <code>RasterTaskWorker</code>.
-	 * @see {@link org.jmist.framework.Raster}, {@link RasterTaskWorker}.
-	 * @author bkimmel
-	 */
-	private static final class Cell {
-
-		/** Left-most x-coordinate of the image to render. */
-		public final int xmin;
-
-		/** Top-most y-coordinate of the image to render. */
-		public final int ymin;
-
-		/** Right-most x-coordinate of the image to render. */
-		public final int xmax;
-
-		/** Bottom-most y-coordinate of the image to render. */
-		public final int ymax;
-
-		/**
-		 * Creates a new <code>Cell</code>.
-		 * @param xmin Left-most x-coordinate of the image to render.
-		 * @param ymin Top-most y-coordinate of the image to render.
-		 * @param xmax Right-most x-coordinate of the image to render.
-		 * @param ymax Bottom-most y-coordinate of the image to render.
-		 */
-		public Cell(int xmin, int ymin, int xmax, int ymax) {
-			this.xmin = xmin;
-			this.ymin = ymin;
-			this.xmax = xmax;
-			this.ymax = ymax;
-		}
-
-		/**
-		 * Gets the number of pixels that fall within the limits of this
-		 * <code>Cell</code>.
-		 * @return The number of pixels that fall within the limits of this
-		 * 		<code>Cell</code>.
-		 */
-		public int size() {
-			return (xmax - xmin + 1) * (ymax - ymin + 1);
-		}
-
 	}
 
 	/**
@@ -246,29 +226,39 @@ public final class RasterJob extends AbstractParallelizableJob implements
 		@Override
 		public Object performTask(Object task, ProgressMonitor monitor) {
 
-			Cell			cell				= (Cell) task;
-			double[][]		pixels				= new double[cell.size()][];
+			Rectangle		cell				= (Rectangle) task;
+			int				numPixels			= cell.width * cell.height;
+			double[]		pixels				= null;
+			double[]		pixel				= null;
 			Box2			bounds;
 			double			x0, y0, x1, y1;
 			double			w					= this.width;
 			double			h					= this.height;
+			WritableRaster	image				= null;
 
-			for (int n = 0, y = cell.ymin; y <= cell.ymax; y++) {
+			for (int n = 0, y = cell.y; y < cell.y + cell.height; y++) {
 
-				if (!monitor.notifyProgress(n, pixels.length))
+				if (!monitor.notifyProgress(n, numPixels))
 					return null;
 
 				y0			= (double) y / h;
 				y1			= (double) (y + 1) / h;
 
-				for (int x = cell.xmin; x <= cell.xmax; x++, n++) {
+				for (int x = cell.x; x < cell.x + cell.width; x++, n++) {
 
 					x0		= (double) x / w;
 					x1		= (double) (x + 1) / w;
 
 					bounds	= new Box2(x0, y0, x1, y1);
 
-					pixels[n] = this.shader.shadePixel(bounds, pixels[n]);
+					pixel = this.shader.shadePixel(bounds, pixel);
+
+					if (pixels == null) {
+						pixels = new double[numPixels * pixel.length];
+						image = createCellWritableRaster(cell, pixel.length, pixels);
+					}
+
+					image.setPixel(x, y, pixel);
 
 				}
 
@@ -278,6 +268,29 @@ public final class RasterJob extends AbstractParallelizableJob implements
 			monitor.notifyComplete();
 
 			return pixels;
+
+		}
+
+		/**
+		 * Creates a <code>WritableRaster</code> for writing to a cell.
+		 * @param cell The <code>Rectangle</code> describing the bounds of the
+		 * 		cell for which to create the <code>WritableRaster</code>.
+		 * @param bands The number of bands in the <code>WritableRaster</code>.
+		 * @param buffer The array of <code>double</code>s to hold the pixel
+		 * 		data.
+		 * @return The new <code>WritableRaster</code>.
+		 */
+		private static WritableRaster createCellWritableRaster(Rectangle cell, int bands, double[] buffer) {
+
+			int[] offsets = new int[bands];
+			for (int i = 0; i < bands; i++) {
+				offsets[i] = i;
+			}
+
+			SampleModel		sm		= new PixelInterleavedSampleModel(DataBuffer.TYPE_DOUBLE, cell.width, cell.height, bands, cell.width * bands, offsets);
+			DataBuffer		db		= new DataBufferDouble(buffer, buffer.length);
+
+			return Raster.createWritableRaster(sm, db, cell.getLocation());
 
 		}
 
@@ -306,8 +319,8 @@ public final class RasterJob extends AbstractParallelizableJob implements
 	 */
 	private final TaskWorker worker;
 
-	/** The <code>Raster</code> image to render to. */
-	private final Raster raster;
+	/** The <code>WritableRaster</code> image to render to. */
+	private final WritableRaster raster;
 
 	/** The number of columns to divide the <code>Raster</code> image into. */
 	private final int cols;
