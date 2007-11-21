@@ -8,6 +8,7 @@ import java.io.Serializable;
 import org.jmist.framework.Geometry;
 import org.jmist.framework.Intersection;
 import org.jmist.framework.IntersectionRecorder;
+import org.jmist.framework.Material;
 import org.jmist.framework.SingleMaterialGeometry;
 import org.jmist.framework.WeightedSurfacePoint;
 import org.jmist.toolkit.Basis3;
@@ -34,8 +35,11 @@ public final class CylinderGeometry extends SingleMaterialGeometry implements
 	 * @param base		the center of the base of the cylinder
 	 * @param radius	the radius of the cylinder
 	 * @param height	the height of the cylinder
+	 * @param material	the <code>Material</code> to apply to this
+	 * 					<code>CylinderGeometry</code>.
 	 */
-	public CylinderGeometry(Point3 base, double radius, double height) {
+	public CylinderGeometry(Point3 base, double radius, double height, Material material) {
+		super(material);
 		this.base = base;
 		this.radius = radius;
 		this.height = height;

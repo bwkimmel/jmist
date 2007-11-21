@@ -12,12 +12,12 @@ import org.jmist.toolkit.Ray3;
 public abstract class SingleMaterialGeometry extends AbstractGeometry {
 
 	/**
-	 * Applies the specified <code>Material</code> to this
+	 * Initializes the <code>Material</code> to apply to this
 	 * <code>Geometry</code>.
 	 * @param material The <code>Material</code> to apply to this
 	 * 		<code>Geometry</code>.
 	 */
-	public void setMaterial(Material material) {
+	protected SingleMaterialGeometry(Material material) {
 		this.material = material;
 	}
 
@@ -59,6 +59,6 @@ public abstract class SingleMaterialGeometry extends AbstractGeometry {
 	}
 
 	/** The <code>Material</code> to apply to this <code>Geometry</code> */
-	private Material material = null;
+	private final Material material;
 
 }
