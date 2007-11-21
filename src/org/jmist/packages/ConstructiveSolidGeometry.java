@@ -11,14 +11,10 @@ import java.util.TreeSet;
 
 import org.jmist.framework.Geometry;
 import org.jmist.framework.Intersection;
+import org.jmist.framework.IntersectionDecorator;
 import org.jmist.framework.IntersectionRecorder;
-import org.jmist.framework.Material;
-import org.jmist.framework.Medium;
-import org.jmist.framework.Spectrum;
 import org.jmist.toolkit.Basis3;
 import org.jmist.toolkit.Interval;
-import org.jmist.toolkit.Point2;
-import org.jmist.toolkit.Point3;
 import org.jmist.toolkit.Ray3;
 import org.jmist.toolkit.Vector3;
 
@@ -92,7 +88,7 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 	private final class CsgIntersectionRecorder implements IntersectionRecorder {
 
 		/* (non-Javadoc)
-		 * @see org.jmist.framework.IntersectionRecorder#needAllIntersections()
+		 * @see org.jmist.framework.IntersectionRecorderDecorator#needAllIntersections()
 		 */
 		@Override
 		public boolean needAllIntersections() {
@@ -100,7 +96,7 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 		}
 
 		/* (non-Javadoc)
-		 * @see org.jmist.framework.IntersectionRecorder#interval()
+		 * @see org.jmist.framework.IntersectionRecorderDecorator#interval()
 		 */
 		@Override
 		public Interval interval() {
@@ -108,7 +104,7 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 		}
 
 		/* (non-Javadoc)
-		 * @see org.jmist.framework.IntersectionRecorder#record(org.jmist.framework.Intersection)
+		 * @see org.jmist.framework.IntersectionRecorderDecorator#record(org.jmist.framework.Intersection)
 		 */
 		@Override
 		public void record(Intersection intersection) {
@@ -192,7 +188,7 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 		 * property and negates the basis and normal.
 		 * @author bkimmel
 		 */
-		private final class CsgIntersection implements Intersection {
+		private final class CsgIntersection extends IntersectionDecorator {
 
 			/**
 			 * Creates a new <code>CsgIntersection</code>.
@@ -200,20 +196,12 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 			 * @param inner
 			 */
 			public CsgIntersection(int argumentIndex, Intersection inner) {
+				super(inner);
 				this.argumentIndex = argumentIndex;
-				this.inner = inner;
 			}
 
 			/* (non-Javadoc)
-			 * @see org.jmist.framework.Intersection#distance()
-			 */
-			@Override
-			public double distance() {
-				return this.inner.distance();
-			}
-
-			/* (non-Javadoc)
-			 * @see org.jmist.framework.Intersection#front()
+			 * @see org.jmist.framework.IntersectionDecorator#front()
 			 */
 			@Override
 			public boolean front() {
@@ -221,23 +209,7 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 			}
 
 			/* (non-Javadoc)
-			 * @see org.jmist.framework.Intersection#incident()
-			 */
-			@Override
-			public Vector3 incident() {
-				return this.inner.incident();
-			}
-
-			/* (non-Javadoc)
-			 * @see org.jmist.framework.SurfacePoint#ambientMedium()
-			 */
-			@Override
-			public Medium ambientMedium() {
-				return this.inner.ambientMedium();
-			}
-
-			/* (non-Javadoc)
-			 * @see org.jmist.framework.SurfacePoint#basis()
+			 * @see org.jmist.framework.IntersectionDecorator#basis()
 			 */
 			@Override
 			public Basis3 basis() {
@@ -246,7 +218,7 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 			}
 
 			/* (non-Javadoc)
-			 * @see org.jmist.framework.SurfacePoint#closed()
+			 * @see org.jmist.framework.IntersectionDecorator#closed()
 			 */
 			@Override
 			public boolean closed() {
@@ -254,32 +226,7 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 			}
 
 			/* (non-Javadoc)
-			 * @see org.jmist.framework.SurfacePoint#illuminate(org.jmist.toolkit.Vector3, org.jmist.framework.Spectrum)
-			 */
-			@Override
-			public void illuminate(Vector3 from, Spectrum irradiance) {
-				// TODO Auto-generated method stub
-
-			}
-
-			/* (non-Javadoc)
-			 * @see org.jmist.framework.SurfacePoint#location()
-			 */
-			@Override
-			public Point3 location() {
-				return this.inner.location();
-			}
-
-			/* (non-Javadoc)
-			 * @see org.jmist.framework.SurfacePoint#material()
-			 */
-			@Override
-			public Material material() {
-				return this.inner.material();
-			}
-
-			/* (non-Javadoc)
-			 * @see org.jmist.framework.SurfacePoint#microfacetBasis()
+			 * @see org.jmist.framework.IntersectionDecorator#microfacetBasis()
 			 */
 			@Override
 			public Basis3 microfacetBasis() {
@@ -288,7 +235,7 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 			}
 
 			/* (non-Javadoc)
-			 * @see org.jmist.framework.SurfacePoint#microfacetNormal()
+			 * @see org.jmist.framework.IntersectionDecorator#microfacetNormal()
 			 */
 			@Override
 			public Vector3 microfacetNormal() {
@@ -297,7 +244,7 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 			}
 
 			/* (non-Javadoc)
-			 * @see org.jmist.framework.SurfacePoint#normal()
+			 * @see org.jmist.framework.IntersectionDecorator#normal()
 			 */
 			@Override
 			public Vector3 normal() {
@@ -306,19 +253,11 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 			}
 
 			/* (non-Javadoc)
-			 * @see org.jmist.framework.SurfacePoint#tangent()
+			 * @see org.jmist.framework.IntersectionDecorator#tangent()
 			 */
 			@Override
 			public Vector3 tangent() {
 				return this.inner.tangent();
-			}
-
-			/* (non-Javadoc)
-			 * @see org.jmist.framework.SurfacePoint#textureCoordinates()
-			 */
-			@Override
-			public Point2 textureCoordinates() {
-				return this.inner.textureCoordinates();
 			}
 
 			/**
@@ -363,12 +302,6 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 			 * <code>Intersection</code> came from.
 			 */
 			private final int argumentIndex;
-
-			/**
-			 * The <code>Intersection</code> that was recorded by the component
-			 * geometry.
-			 */
-			private final Intersection inner;
 
 		}
 

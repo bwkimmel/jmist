@@ -9,17 +9,14 @@ import java.util.List;
 import org.jmist.framework.AffineTransformable3;
 import org.jmist.framework.Geometry;
 import org.jmist.framework.Intersection;
+import org.jmist.framework.IntersectionDecorator;
+import org.jmist.framework.IntersectionRecorderDecorator;
 import org.jmist.framework.IntersectionRecorder;
 import org.jmist.framework.InvertibleAffineTransformation3;
-import org.jmist.framework.Material;
-import org.jmist.framework.Medium;
-import org.jmist.framework.Spectrum;
 import org.jmist.toolkit.AffineMatrix3;
 import org.jmist.toolkit.Basis3;
 import org.jmist.toolkit.Box3;
-import org.jmist.toolkit.Interval;
 import org.jmist.toolkit.LinearMatrix3;
-import org.jmist.toolkit.Point2;
 import org.jmist.toolkit.Point3;
 import org.jmist.toolkit.Ray3;
 import org.jmist.toolkit.Sphere;
@@ -119,7 +116,8 @@ public final class TransformableGeometry extends CompositeGeometry implements
 	 * <code>TransformableGeometry</code>.
 	 * @author bkimmel
 	 */
-	private final class TransformedIntersectionRecorder implements IntersectionRecorder {
+	private final class TransformedIntersectionRecorder extends
+			IntersectionRecorderDecorator {
 
 		/**
 		 * Creates a new <code>TransformedIntersectionRecorder</code>.
@@ -127,35 +125,16 @@ public final class TransformableGeometry extends CompositeGeometry implements
 		 * 		intersections to.
 		 */
 		public TransformedIntersectionRecorder(IntersectionRecorder inner) {
-			this.inner = inner;
+			super(inner);
 		}
 
-		/* (non-Javadoc)
-		 * @see org.jmist.framework.IntersectionRecorder#interval()
-		 */
-		@Override
-		public Interval interval() {
-			return this.inner.interval();
-		}
-
-		/* (non-Javadoc)
-		 * @see org.jmist.framework.IntersectionRecorder#needAllIntersections()
-		 */
-		@Override
-		public boolean needAllIntersections() {
-			return this.inner.needAllIntersections();
-		}
-
-		/* (non-Javadoc)
-		 * @see org.jmist.framework.IntersectionRecorder#record(org.jmist.framework.Intersection)
+		/*
+		 *
 		 */
 		@Override
 		public void record(Intersection intersection) {
 			this.inner.record(new TransformedIntersection(intersection));
 		}
-
-		/** The <code>IntersectionRecorder</code> to record intersections to. */
-		private final IntersectionRecorder inner;
 
 	}
 
@@ -164,7 +143,7 @@ public final class TransformableGeometry extends CompositeGeometry implements
 	 * transformation applied to this <code>TransformableGeometry</code>.
 	 * @author bkimmel
 	 */
-	private final class TransformedIntersection implements Intersection {
+	private final class TransformedIntersection extends IntersectionDecorator {
 
 		/**
 		 * Creates a new <code>TransformedIntersection</code>.
@@ -172,47 +151,23 @@ public final class TransformableGeometry extends CompositeGeometry implements
 		 * 		space.
 		 */
 		public TransformedIntersection(Intersection local) {
-			this.local = local;
+			super(local);
 		}
 
 		/* (non-Javadoc)
-		 * @see org.jmist.framework.Intersection#distance()
-		 */
-		@Override
-		public double distance() {
-			return this.local.distance();
-		}
-
-		/* (non-Javadoc)
-		 * @see org.jmist.framework.Intersection#front()
-		 */
-		@Override
-		public boolean front() {
-			return this.local.front();
-		}
-
-		/* (non-Javadoc)
-		 * @see org.jmist.framework.Intersection#incident()
+		 * @see org.jmist.framework.IntersectionDecorator#incident()
 		 */
 		@Override
 		public Vector3 incident() {
-			return model.apply(this.local.incident());
+			return model.apply(this.inner.incident());
 		}
 
 		/* (non-Javadoc)
-		 * @see org.jmist.framework.SurfacePoint#ambientMedium()
-		 */
-		@Override
-		public Medium ambientMedium() {
-			return this.local.ambientMedium();
-		}
-
-		/* (non-Javadoc)
-		 * @see org.jmist.framework.SurfacePoint#basis()
+		 * @see org.jmist.framework.IntersectionDecorator#basis()
 		 */
 		@Override
 		public Basis3 basis() {
-			Basis3 localBasis = this.local.basis();
+			Basis3 localBasis = this.inner.basis();
 			return Basis3.fromUV(
 					model.apply(localBasis.u()),
 					model.apply(localBasis.v()),
@@ -221,44 +176,19 @@ public final class TransformableGeometry extends CompositeGeometry implements
 		}
 
 		/* (non-Javadoc)
-		 * @see org.jmist.framework.SurfacePoint#closed()
-		 */
-		@Override
-		public boolean closed() {
-			return this.local.closed();
-		}
-
-		/* (non-Javadoc)
-		 * @see org.jmist.framework.SurfacePoint#illuminate(org.jmist.toolkit.Vector3, org.jmist.framework.Spectrum)
-		 */
-		@Override
-		public void illuminate(Vector3 from, Spectrum irradiance) {
-			// TODO Auto-generated method stub
-
-		}
-
-		/* (non-Javadoc)
-		 * @see org.jmist.framework.SurfacePoint#location()
+		 * @see org.jmist.framework.IntersectionDecorator#location()
 		 */
 		@Override
 		public Point3 location() {
-			return model.apply(this.local.location());
+			return model.apply(this.inner.location());
 		}
 
 		/* (non-Javadoc)
-		 * @see org.jmist.framework.SurfacePoint#material()
-		 */
-		@Override
-		public Material material() {
-			return this.local.material();
-		}
-
-		/* (non-Javadoc)
-		 * @see org.jmist.framework.SurfacePoint#microfacetBasis()
+		 * @see org.jmist.framework.IntersectionDecorator#microfacetBasis()
 		 */
 		@Override
 		public Basis3 microfacetBasis() {
-			Basis3 localMicrofacetBasis = this.local.microfacetBasis();
+			Basis3 localMicrofacetBasis = this.inner.microfacetBasis();
 			return Basis3.fromUV(
 					model.apply(localMicrofacetBasis.u()),
 					model.apply(localMicrofacetBasis.v()),
@@ -267,7 +197,7 @@ public final class TransformableGeometry extends CompositeGeometry implements
 		}
 
 		/* (non-Javadoc)
-		 * @see org.jmist.framework.SurfacePoint#microfacetNormal()
+		 * @see org.jmist.framework.IntersectionDecorator#microfacetNormal()
 		 */
 		@Override
 		public Vector3 microfacetNormal() {
@@ -276,7 +206,7 @@ public final class TransformableGeometry extends CompositeGeometry implements
 		}
 
 		/* (non-Javadoc)
-		 * @see org.jmist.framework.SurfacePoint#normal()
+		 * @see org.jmist.framework.IntersectionDecorator#normal()
 		 */
 		@Override
 		public Vector3 normal() {
@@ -285,23 +215,12 @@ public final class TransformableGeometry extends CompositeGeometry implements
 		}
 
 		/* (non-Javadoc)
-		 * @see org.jmist.framework.SurfacePoint#tangent()
+		 * @see org.jmist.framework.IntersectionDecorator#tangent()
 		 */
 		@Override
 		public Vector3 tangent() {
-			return model.apply(this.local.tangent());
+			return model.apply(this.inner.tangent());
 		}
-
-		/* (non-Javadoc)
-		 * @see org.jmist.framework.SurfacePoint#textureCoordinates()
-		 */
-		@Override
-		public Point2 textureCoordinates() {
-			return this.local.textureCoordinates();
-		}
-
-		/** The local <code>Intersection</code>. */
-		private final Intersection local;
 
 	}
 

@@ -6,15 +6,11 @@ package org.jmist.packages;
 import org.jmist.framework.AbstractGeometry;
 import org.jmist.framework.Geometry;
 import org.jmist.framework.Intersection;
+import org.jmist.framework.IntersectionDecorator;
+import org.jmist.framework.IntersectionRecorderDecorator;
 import org.jmist.framework.IntersectionRecorder;
-import org.jmist.framework.Material;
-import org.jmist.framework.Medium;
-import org.jmist.framework.Spectrum;
 import org.jmist.toolkit.Basis3;
 import org.jmist.toolkit.Box3;
-import org.jmist.toolkit.Interval;
-import org.jmist.toolkit.Point2;
-import org.jmist.toolkit.Point3;
 import org.jmist.toolkit.Ray3;
 import org.jmist.toolkit.Sphere;
 import org.jmist.toolkit.Vector3;
@@ -73,34 +69,19 @@ public final class InsideOutGeometry extends AbstractGeometry {
 	 * <code>Intersection</code>s recorded to it.
 	 * @author bkimmel
 	 */
-	private static final class InsideOutIntersectionRecorder implements IntersectionRecorder {
+	private static final class InsideOutIntersectionRecorder extends
+			IntersectionRecorderDecorator {
 
 		/**
 		 * Creates a new <code>InsideOutIntersectionRecorder</code>.
 		 * @param inner The <code>IntersectionRecorder</code> to decorate.
 		 */
 		public InsideOutIntersectionRecorder(IntersectionRecorder inner) {
-			this.inner = inner;
+			super(inner);
 		}
 
 		/* (non-Javadoc)
-		 * @see org.jmist.framework.IntersectionRecorder#interval()
-		 */
-		@Override
-		public Interval interval() {
-			return this.inner.interval();
-		}
-
-		/* (non-Javadoc)
-		 * @see org.jmist.framework.IntersectionRecorder#needAllIntersections()
-		 */
-		@Override
-		public boolean needAllIntersections() {
-			return this.inner.needAllIntersections();
-		}
-
-		/* (non-Javadoc)
-		 * @see org.jmist.framework.IntersectionRecorder#record(org.jmist.framework.Intersection)
+		 * @see org.jmist.framework.IntersectionRecorderDecorator#record(org.jmist.framework.Intersection)
 		 */
 		@Override
 		public void record(Intersection intersection) {
@@ -113,26 +94,18 @@ public final class InsideOutGeometry extends AbstractGeometry {
 		 * the decorated <code>Intersection</code>.
 		 * @author bkimmel
 		 */
-		private static final class InsideOutIntersection implements Intersection {
+		private static final class InsideOutIntersection extends IntersectionDecorator {
 
 			/**
 			 * Creates a new <code>InsideOutIntersection</code>.
 			 * @param inner The decorated <code>Intersection</code>.
 			 */
 			public InsideOutIntersection(Intersection inner) {
-				this.inner = inner;
+				super(inner);
 			}
 
 			/* (non-Javadoc)
-			 * @see org.jmist.framework.Intersection#distance()
-			 */
-			@Override
-			public double distance() {
-				return this.inner.distance();
-			}
-
-			/* (non-Javadoc)
-			 * @see org.jmist.framework.Intersection#front()
+			 * @see org.jmist.framework.IntersectionDecorator#front()
 			 */
 			@Override
 			public boolean front() {
@@ -140,23 +113,7 @@ public final class InsideOutGeometry extends AbstractGeometry {
 			}
 
 			/* (non-Javadoc)
-			 * @see org.jmist.framework.Intersection#incident()
-			 */
-			@Override
-			public Vector3 incident() {
-				return this.inner.incident();
-			}
-
-			/* (non-Javadoc)
-			 * @see org.jmist.framework.SurfacePoint#ambientMedium()
-			 */
-			@Override
-			public Medium ambientMedium() {
-				return this.inner.ambientMedium();
-			}
-
-			/* (non-Javadoc)
-			 * @see org.jmist.framework.SurfacePoint#basis()
+			 * @see org.jmist.framework.IntersectionDecorator#basis()
 			 */
 			@Override
 			public Basis3 basis() {
@@ -164,40 +121,7 @@ public final class InsideOutGeometry extends AbstractGeometry {
 			}
 
 			/* (non-Javadoc)
-			 * @see org.jmist.framework.SurfacePoint#closed()
-			 */
-			@Override
-			public boolean closed() {
-				return this.inner.closed();
-			}
-
-			/* (non-Javadoc)
-			 * @see org.jmist.framework.SurfacePoint#illuminate(org.jmist.toolkit.Vector3, org.jmist.framework.Spectrum)
-			 */
-			@Override
-			public void illuminate(Vector3 from, Spectrum irradiance) {
-				// TODO Auto-generated method stub
-
-			}
-
-			/* (non-Javadoc)
-			 * @see org.jmist.framework.SurfacePoint#location()
-			 */
-			@Override
-			public Point3 location() {
-				return this.inner.location();
-			}
-
-			/* (non-Javadoc)
-			 * @see org.jmist.framework.SurfacePoint#material()
-			 */
-			@Override
-			public Material material() {
-				return this.inner.material();
-			}
-
-			/* (non-Javadoc)
-			 * @see org.jmist.framework.SurfacePoint#microfacetBasis()
+			 * @see org.jmist.framework.IntersectionDecorator#microfacetBasis()
 			 */
 			@Override
 			public Basis3 microfacetBasis() {
@@ -205,7 +129,7 @@ public final class InsideOutGeometry extends AbstractGeometry {
 			}
 
 			/* (non-Javadoc)
-			 * @see org.jmist.framework.SurfacePoint#microfacetNormal()
+			 * @see org.jmist.framework.IntersectionDecorator#microfacetNormal()
 			 */
 			@Override
 			public Vector3 microfacetNormal() {
@@ -213,7 +137,7 @@ public final class InsideOutGeometry extends AbstractGeometry {
 			}
 
 			/* (non-Javadoc)
-			 * @see org.jmist.framework.SurfacePoint#normal()
+			 * @see org.jmist.framework.IntersectionDecorator#normal()
 			 */
 			@Override
 			public Vector3 normal() {
@@ -221,28 +145,14 @@ public final class InsideOutGeometry extends AbstractGeometry {
 			}
 
 			/* (non-Javadoc)
-			 * @see org.jmist.framework.SurfacePoint#tangent()
+			 * @see org.jmist.framework.IntersectionDecorator#tangent()
 			 */
 			@Override
 			public Vector3 tangent() {
 				return this.inner.tangent().opposite();
 			}
 
-			/* (non-Javadoc)
-			 * @see org.jmist.framework.SurfacePoint#textureCoordinates()
-			 */
-			@Override
-			public Point2 textureCoordinates() {
-				return this.inner.textureCoordinates();
-			}
-
-			/** The decorated <code>Intersection</code>. */
-			private final Intersection inner;
-
 		}
-
-		/** The decorated <code>IntersectionRecorder</code>. */
-		private final IntersectionRecorder inner;
 
 	}
 
