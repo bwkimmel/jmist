@@ -132,6 +132,46 @@ public final class ArrayUtil {
 	}
 
 	/**
+	 * Fills an array with values uniformly within a specified range.
+	 * @param array The array to populate.
+	 * @param first The value to assign to the first element of
+	 * 		<code>array</code>.
+	 * @param last The value to assign to the last element of the
+	 * 		<code>array</code>.
+	 * @return A reference to <code>array</code>, populated with the values
+	 * 		<code>array[i] == first + (i / (array.length - 1)) * last</code>,
+	 * 		for <code>0 &lt;= i &lt; array.length</code>.
+	 */
+	public static double[] fillRange(double[] array, double first, double last) {
+
+		if (array == null) {
+			throw new IllegalArgumentException("array is null");
+		}
+
+		for (int i = 0; i < array.length; i++) {
+			double t = i / (double) (array.length - 1);
+			array[i] = first + t * (last - first);
+		}
+
+		return array;
+
+	}
+
+	/**
+	 * Creates a new array populated with values spaced uniformly in the
+	 * specified range.
+	 * @param first The value to assign to the first element of the array.
+	 * @param last The value to assign to the last element of the array.
+	 * @param length The length of the array.
+	 * @return An array of the given length, populated with the values
+	 * 		<code>array[i] == first + (i / (length - 1)) * last</code>, for
+	 * 		<code>0 &lt;= i &lt; length</code>.
+	 */
+	public static double[] range(double first, double last, int length) {
+		return ArrayUtil.fillRange(new double[length], first, last);
+	}
+
+	/**
 	 * Default constructor.  This constructor is private because this class
 	 * cannot be instantiated.
 	 */
