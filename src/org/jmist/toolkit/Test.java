@@ -1,7 +1,14 @@
 package org.jmist.toolkit;
 
 import java.awt.Image;
+import java.awt.Transparency;
+import java.awt.color.ColorSpace;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.ComponentColorModel;
+import java.awt.image.DataBuffer;
+import java.awt.image.Raster;
+import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,6 +18,7 @@ import java.lang.ref.WeakReference;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Arrays;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.zip.ZipOutputStream;
@@ -29,6 +37,7 @@ import org.jmist.framework.Material;
 import org.jmist.framework.Observer;
 import org.jmist.framework.ParallelizableJob;
 import org.jmist.framework.PixelShader;
+import org.jmist.framework.ProbabilityDensityFunction;
 import org.jmist.framework.RayShader;
 import org.jmist.framework.Spectrum;
 import org.jmist.framework.measurement.CollectorSphere;
@@ -42,6 +51,7 @@ import org.jmist.framework.services.JobMasterServer;
 import org.jmist.framework.services.JobMasterService;
 import org.jmist.framework.services.ServiceSubmitJob;
 import org.jmist.framework.services.ThreadServiceWorkerJob;
+import org.jmist.packages.AveragingPixelShader;
 import org.jmist.packages.BasisSpectrumFactory;
 import org.jmist.packages.BlackbodySpectrum;
 import org.jmist.packages.CameraImageShader;
@@ -57,12 +67,14 @@ import org.jmist.packages.NRooksRandom;
 import org.jmist.packages.NearestIntersectionRecorder;
 import org.jmist.packages.PathShader;
 import org.jmist.packages.PhotometerJob;
+import org.jmist.packages.PiecewiseLinearProbabilityDensityFunction;
 import org.jmist.packages.PinholeLens;
 import org.jmist.packages.PointLight;
 import org.jmist.packages.RandomScatterRecorder;
 import org.jmist.packages.RasterJob;
 import org.jmist.packages.ScaledSpectrum;
 import org.jmist.packages.SimplePixelShader;
+import org.jmist.packages.StandardObserver;
 import org.jmist.packages.SubtractionGeometry;
 import org.jmist.packages.SumSpectrum;
 import org.jmist.packages.TransformableGeometry;
@@ -107,13 +119,36 @@ public class Test {
 		//testTransformableGeometry();
 
 		testRender();
+		//testPLPDF();
+
+	}
+
+	@SuppressWarnings("unused")
+	private static void testPLPDF() {
+		ProbabilityDensityFunction pdf = new PiecewiseLinearProbabilityDensityFunction(
+				new double[]{ 0, 33, 66, 100 },
+				new double[]{ 0, 1, 1, 0 }
+		);
+
+		double[] samples = pdf.sample(new double[100000]);
+		Arrays.sort(samples);
+
+		int i = 0;
+		int c;
+		for (int x = 5; x < 101; x += 5) {
+			c = 0;
+			while (i < samples.length && samples[i] < (double) x) {
+				c++; i++;
+			}
+			System.out.println(c);
+		}
 
 	}
 
 	@SuppressWarnings("unused")
 	private static void testRender() {
 
-		Spectrum emission = new ScaledSpectrum(1e-11, new BlackbodySpectrum(4500)); // new ConstantSpectrum(1e3);
+		Spectrum emission = new ScaledSpectrum(1e-13, new BlackbodySpectrum(5500)); // new ConstantSpectrum(1e3);
 		Spectrum reflectance = new ConstantSpectrum(1.0);
 
 		Material matte = new LambertianMaterial(reflectance, null);
@@ -129,12 +164,14 @@ public class Test {
 
 		lens.translate(new Vector3(0, 0, 3));
 
-		Observer observer = new FixedObserver(new double[]{ 700e-9, 550e-9, 400e-9 });
+		Observer observer = StandardObserver.getInstance(StandardObserver.Type.CIE_2_DEGREE);
 
 		RayShader shader = new PathShader(geometry, observer);
 		ImageShader camera = new CameraImageShader(lens, shader);
-		PixelShader pixelShader = new SimplePixelShader(camera);
-		BufferedImage image = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
+		PixelShader pixelShader = new AveragingPixelShader(1, new SimplePixelShader(camera));
+		ColorModel cm = new ComponentColorModel(ColorSpace.getInstance(ColorSpace.CS_CIEXYZ), false, false, Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
+		WritableRaster raster = Raster.createInterleavedRaster(DataBuffer.TYPE_BYTE, 500, 500, 3, null);
+		BufferedImage image = new BufferedImage(cm, raster, false, null); //new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
 
 
 		ParallelizableJob job = new RasterJob(pixelShader, image.getRaster(), "bmp", 50, 50);
