@@ -10,17 +10,17 @@ import org.jmist.toolkit.Vector3;
 
 /**
  * A <code>Lens</code> that projects the world on to the image plane
- * orthogonally.
+ * ortographically.
  * @author bkimmel
  */
-public final class OrthogonalLens extends TransformableLens {
+public final class OrthographicLens extends TransformableLens {
 
 	/**
-	 * Creates a new <code>OrthogonalLens</code>.
+	 * Creates a new <code>OrthographicLens</code>.
 	 * @param width The extent of the image plane along the x-axis.
 	 * @param height The extent of the image plane along the y-axis.
 	 */
-	public OrthogonalLens(double width, double height) {
+	public OrthographicLens(double width, double height) {
 		this.width = width;
 		this.height = height;
 	}
