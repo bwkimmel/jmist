@@ -3,6 +3,8 @@
  */
 package org.jmist.util;
 
+import java.util.Arrays;
+
 /**
  * Static mathematical utility methods.
  * @author bkimmel
@@ -378,6 +380,49 @@ public final class MathUtil {
 	 */
 	public static double interpolate(double a, double b, double t) {
 		return a + t * (b - a);
+	}
+
+	/**
+	 * Interpolates between two points on a line.
+	 * @param x0 The x-coordinate of the first point.
+	 * @param y0 The y-coordinate of the first point.
+	 * @param x1 The x-coordinate of the second point.
+	 * @param y1 The y-coordinate of the second point.
+	 * @param x The x-coordinate at which to interpolate.
+	 * @return The y-coordinate corresponding to <code>x</code>.
+	 */
+	public static double interpolate(double x0, double y0, double x1, double y1, double x) {
+		double t = (x - x0) / (x1 - x0);
+		return interpolate(y0, y1, t);
+	}
+
+	/**
+	 * Interpolates a piecewise linear curve.
+	 * @param x An array of x-coordinates (this must be sorted in ascending
+	 * 		order).
+	 * @param y An array of the y-coordinates (must be of the same length as
+	 * 		<code>x</code>).
+	 * @param x0 The x-coordinate at which to interpolate.
+	 * @return The y-coordinate corresponding to <code>x0</code>.
+	 */
+	public static double interpolate(double[] x, double[] y, double x0) {
+
+		if (x0 < x[0] || x0 >= x[x.length - 1]) {
+			return 0.0;
+		}
+
+		int index = Arrays.binarySearch(x, x0);
+		if (index < 0) {
+			index = -(index + 1);
+		}
+		while (index < x.length - 1 && !(x0 < x[index + 1])) {
+			index++;
+		}
+
+		assert(index < x.length - 1);
+
+		return interpolate(x[index], y[index], x[index + 1], y[index + 1], x0);
+
 	}
 
 	/**
