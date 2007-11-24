@@ -3,6 +3,8 @@
  */
 package org.jmist.packages.geometry.primitive;
 
+import java.util.Arrays;
+
 import org.jmist.framework.IntersectionRecorder;
 import org.jmist.framework.Material;
 import org.jmist.framework.SingleMaterialGeometry;
@@ -62,26 +64,9 @@ public final class TorusGeometry extends SingleMaterialGeometry {
 
 		if (x.length > 1)
 		{
-
-			// sort roots
-			for (int i = 1; i < x.length; i++)
-			{
-				if (x[i] < x[i - 1])
-				{
-					double	temp = x[i];
-					int		j;
-
-					for (j = i - 2; j >= 0; j--)
-						if (x[i] > x[j]) break;
-
-					x[i] = x[++j];
-					x[j] = temp;
-				}
-			}
-
+			Arrays.sort(x);
 			for (int i = 0; i < x.length; i++)
 				super.newIntersection(ray, x[i], i % 2 == 0);
-
 		}
 
 	}
