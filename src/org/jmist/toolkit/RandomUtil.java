@@ -69,6 +69,26 @@ public final class RandomUtil {
 
 	}
 
+	public static PolarCoordinates uniformOnDisc() {
+		return uniformOnDisc(1.0, random.nextDouble(), random.nextDouble());
+	}
+
+	public static PolarCoordinates uniformOnDisc(double radius) {
+		return uniformOnDisc(radius, random.nextDouble(), random.nextDouble());
+	}
+
+	public static PolarCoordinates uniformOnDisc(double radius, double xi1, double xi2) {
+
+		assert(0.0 <= xi1 && xi1 <= 1.0);
+		assert(0.0 <= xi2 && xi2 <= 1.0);
+
+		return new PolarCoordinates(
+				2.0 * Math.PI * xi1,
+				radius * Math.sqrt(xi2)
+		);
+
+	}
+
 	public static boolean bernoulli(double probability) {
 		return Math.random() < probability;
 	}
