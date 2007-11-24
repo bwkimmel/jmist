@@ -27,6 +27,4 @@ public interface SurfacePoint {
 
 	boolean closed();
 
-	void illuminate(Vector3 from, Spectrum irradiance);
-
 }

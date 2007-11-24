@@ -186,11 +186,6 @@ public final class Photometer {
 		}
 
 		@Override
-		public void illuminate(Vector3 from, Spectrum irradiance) {
-			/* nothing to do. */
-		}
-
-		@Override
 		public boolean closed() {
 			return false;
 		}

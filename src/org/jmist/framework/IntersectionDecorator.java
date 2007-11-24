@@ -75,14 +75,6 @@ public abstract class IntersectionDecorator implements Intersection {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.SurfacePoint#illuminate(org.jmist.toolkit.Vector3, org.jmist.framework.Spectrum)
-	 */
-	@Override
-	public void illuminate(Vector3 from, Spectrum irradiance) {
-		this.inner.illuminate(from, irradiance);
-	}
-
-	/* (non-Javadoc)
 	 * @see org.jmist.framework.SurfacePoint#location()
 	 */
 	@Override

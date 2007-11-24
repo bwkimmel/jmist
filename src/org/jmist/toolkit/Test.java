@@ -148,30 +148,31 @@ public class Test {
 	@SuppressWarnings("unused")
 	private static void testRender() {
 
-		Spectrum emission = new ScaledSpectrum(1e-13, new BlackbodySpectrum(5500)); // new ConstantSpectrum(1e3);
+		Spectrum emission = new ScaledSpectrum(1e-11, new BlackbodySpectrum(5500)); // new ConstantSpectrum(1e3);
 		Spectrum reflectance = new ConstantSpectrum(1.0);
 
 		Material matte = new LambertianMaterial(reflectance, null);
 		Material emissive = new LambertianMaterial(null, emission);
 
 		TransformableLens lens = new PinholeLens(Math.PI / 3, 1.0);
-		CylinderGeometry cylinder = new CylinderGeometry(new Point3(0, -1, 0), 0.25, 2, matte);
+		Geometry object = new CylinderGeometry(new Point3(0, -1, 0), 0.25, 2, matte);
 		CylinderGeometry light = new CylinderGeometry(new Point3(0, -10, 0), 10, 20, emissive);
 		CompositeGeometry geometry = new TransformableGeometry()
-				.addChild(cylinder)	/* inner cylinder */
+				.addChild(object)	/* inner cylinder */
 				.addChild(new InsideOutGeometry(light));
 
 
 		lens.translate(new Vector3(0, 0, 3));
 
-		Observer observer = StandardObserver.getInstance(StandardObserver.Type.CIE_2_DEGREE);
+		Observer observer = new FixedObserver(550e-9); //StandardObserver.getInstance(StandardObserver.Type.CIE_2_DEGREE);
 
 		RayShader shader = new PathShader(geometry, observer);
 		ImageShader camera = new CameraImageShader(lens, shader);
 		PixelShader pixelShader = new AveragingPixelShader(1, new SimplePixelShader(camera));
-		ColorModel cm = new ComponentColorModel(ColorSpace.getInstance(ColorSpace.CS_CIEXYZ), false, false, Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
-		WritableRaster raster = Raster.createInterleavedRaster(DataBuffer.TYPE_BYTE, 500, 500, 3, null);
-		BufferedImage image = new BufferedImage(cm, raster, false, null); //new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
+		//ColorModel cm = new ComponentColorModel(ColorSpace.getInstance(ColorSpace.CS_CIEXYZ), false, false, Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
+		//WritableRaster raster = Raster.createInterleavedRaster(DataBuffer.TYPE_BYTE, 500, 500, 3, null);
+		//BufferedImage image = new BufferedImage(cm, raster, false, null);
+		BufferedImage image = new BufferedImage(500, 500, BufferedImage.TYPE_BYTE_GRAY);
 
 
 		ParallelizableJob job = new RasterJob(pixelShader, image.getRaster(), "bmp", 50, 50);
@@ -290,7 +291,7 @@ public class Test {
 
 		Intersection x = NearestIntersectionRecorder.computeNearestIntersection(ray, geometry);
 
-		light.illuminate(x, geometry);
+		//light.illuminate(x, geometry);
 
 		//ScatterResult scatter = x.material().scatter(x, new Tuple(550));
 

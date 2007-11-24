@@ -3,6 +3,7 @@
  */
 package org.jmist.packages;
 
+import org.jmist.framework.Illuminable;
 import org.jmist.framework.Light;
 import org.jmist.framework.Spectrum;
 import org.jmist.framework.SurfacePoint;
@@ -32,10 +33,10 @@ public final class DirectionalLight implements Light {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.Light#illuminate(org.jmist.framework.SurfacePoint, org.jmist.framework.VisibilityFunction3)
+	 * @see org.jmist.framework.Light#illuminate(org.jmist.framework.SurfacePoint, org.jmist.framework.VisibilityFunction3, org.jmist.framework.Illuminable)
 	 */
 	@Override
-	public void illuminate(SurfacePoint x, VisibilityFunction3 vf) {
+	public void illuminate(SurfacePoint x, VisibilityFunction3 vf, Illuminable target) {
 
 		if (this.shadows) {
 
@@ -47,7 +48,7 @@ public final class DirectionalLight implements Light {
 
 		}
 
-		x.illuminate(this.from, this.irradiance);
+		target.illuminate(this.from, this.irradiance);
 
 	}
 

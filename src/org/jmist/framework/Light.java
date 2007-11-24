@@ -9,6 +9,6 @@ package org.jmist.framework;
  */
 public interface Light {
 
-	void illuminate(SurfacePoint x, VisibilityFunction3 vf);
+	void illuminate(SurfacePoint x, VisibilityFunction3 vf, Illuminable target);
 
 }

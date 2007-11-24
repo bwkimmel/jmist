@@ -96,15 +96,6 @@ public abstract class AbstractGeometry implements Geometry {
 		}
 
 		/* (non-Javadoc)
-		 * @see org.jmist.framework.SurfacePoint#illuminate(org.jmist.toolkit.Vector3, org.jmist.framework.Spectrum)
-		 */
-		@Override
-		public void illuminate(Vector3 from, Spectrum irradiance) {
-			// TODO Auto-generated method stub
-
-		}
-
-		/* (non-Javadoc)
 		 * @see org.jmist.framework.SurfacePoint#location()
 		 */
 		@Override

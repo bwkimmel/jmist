@@ -5,6 +5,7 @@ package org.jmist.packages;
 
 import java.io.Serializable;
 
+import org.jmist.framework.Illuminable;
 import org.jmist.framework.Light;
 import org.jmist.framework.Spectrum;
 import org.jmist.framework.SurfacePoint;
@@ -32,10 +33,10 @@ public final class PointLight implements Light, Serializable {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.Light#illuminate(org.jmist.framework.SurfacePoint, org.jmist.framework.VisibilityFunction3)
+	 * @see org.jmist.framework.Light#illuminate(org.jmist.framework.SurfacePoint, org.jmist.framework.VisibilityFunction3, org.jmist.framework.Illuminable)
 	 */
 	@Override
-	public void illuminate(SurfacePoint x, VisibilityFunction3 vf) {
+	public void illuminate(SurfacePoint x, VisibilityFunction3 vf, Illuminable target) {
 
 		if (!this.shadows || vf.visibility(x.location(), this.location)) {
 
@@ -43,7 +44,7 @@ public final class PointLight implements Light, Serializable {
 			double		dSquared		= from.squaredLength();
 			double		attenuation		= 1.0 / (4.0 * Math.PI * dSquared);
 
-			x.illuminate(from.unit(), new ScaledSpectrum(attenuation, emission));
+			target.illuminate(from.unit(), new ScaledSpectrum(attenuation, emission));
 
 		}
 
