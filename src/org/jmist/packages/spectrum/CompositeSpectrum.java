@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.jmist.packages;
+package org.jmist.packages.spectrum;
 
 import java.util.ArrayList;
 import java.util.List;

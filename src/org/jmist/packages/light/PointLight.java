@@ -10,7 +10,7 @@ import org.jmist.framework.Light;
 import org.jmist.framework.Spectrum;
 import org.jmist.framework.SurfacePoint;
 import org.jmist.framework.VisibilityFunction3;
-import org.jmist.packages.ScaledSpectrum;
+import org.jmist.packages.spectrum.ScaledSpectrum;
 import org.jmist.toolkit.Point3;
 import org.jmist.toolkit.Vector3;
 

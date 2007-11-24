@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jmist.framework.Spectrum;
+import org.jmist.packages.spectrum.ScaledSpectrum;
+import org.jmist.packages.spectrum.SumSpectrum;
 
 /**
  * A factory for creating spectra from a vector space given the basis spectra.

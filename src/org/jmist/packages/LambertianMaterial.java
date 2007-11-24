@@ -11,6 +11,7 @@ import org.jmist.framework.ScatterRecorder;
 import org.jmist.framework.ScatterResult;
 import org.jmist.framework.Spectrum;
 import org.jmist.framework.SurfacePoint;
+import org.jmist.packages.spectrum.ScaledSpectrum;
 import org.jmist.toolkit.RandomUtil;
 import org.jmist.toolkit.Ray3;
 import org.jmist.toolkit.SphericalCoordinates;

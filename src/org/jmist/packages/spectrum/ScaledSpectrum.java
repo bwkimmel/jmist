@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.jmist.packages;
+package org.jmist.packages.spectrum;
 
 import org.jmist.framework.AbstractSpectrum;
 import org.jmist.framework.Spectrum;

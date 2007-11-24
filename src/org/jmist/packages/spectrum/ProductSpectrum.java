@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.jmist.packages;
+package org.jmist.packages.spectrum;
 
 import org.jmist.framework.Spectrum;
 import org.jmist.toolkit.Tuple;
@@ -13,7 +13,7 @@ import org.jmist.toolkit.Tuple;
 public final class ProductSpectrum extends CompositeSpectrum {
 
 	/* (non-Javadoc)
-	 * @see org.jmist.packages.CompositeSpectrum#addChild(org.jmist.framework.Spectrum)
+	 * @see org.jmist.packages.spectrum.CompositeSpectrum#addChild(org.jmist.framework.Spectrum)
 	 */
 	@Override
 	public ProductSpectrum addChild(Spectrum child) {

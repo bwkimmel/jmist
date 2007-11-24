@@ -6,6 +6,7 @@ package org.jmist.packages;
 import org.jmist.framework.Mask2;
 import org.jmist.framework.Spectrum;
 import org.jmist.framework.Texture2;
+import org.jmist.packages.spectrum.ScaledSpectrum;
 import org.jmist.toolkit.Point2;
 
 /**
