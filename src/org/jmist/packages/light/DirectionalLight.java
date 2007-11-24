@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.jmist.packages;
+package org.jmist.packages.light;
 
 import org.jmist.framework.Illuminable;
 import org.jmist.framework.Light;

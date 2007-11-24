@@ -68,7 +68,6 @@ import org.jmist.packages.NearestIntersectionRecorder;
 import org.jmist.packages.PathShader;
 import org.jmist.packages.PhotometerJob;
 import org.jmist.packages.PiecewiseLinearProbabilityDensityFunction;
-import org.jmist.packages.PointLight;
 import org.jmist.packages.RandomScatterRecorder;
 import org.jmist.packages.RasterJob;
 import org.jmist.packages.ScaledSpectrum;
@@ -83,6 +82,7 @@ import org.jmist.packages.VisibilityRayShader;
 import org.jmist.packages.geometry.primitive.TorusGeometry;
 import org.jmist.packages.lens.OrthographicLens;
 import org.jmist.packages.lens.PinholeLens;
+import org.jmist.packages.light.PointLight;
 import org.jmist.toolkit.Grid3.Cell;
 
 public class Test {
