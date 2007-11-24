@@ -264,6 +264,21 @@ public final class Circle implements Serializable {
 	}
 
 	/**
+	 * Gets the smallest <code>Box2</code> containing this
+	 * <code>Circle</code>.
+	 * @return The smallest <code>Box2</code> containing this
+	 * <code>Circle</code>.
+	 */
+	public Box2 boundingBox() {
+		return new Box2(
+				center.x() - radius,
+				center.y() - radius,
+				center.x() + radius,
+				center.y() + radius
+		);
+	}
+
+	/**
 	 * Default constructor.
 	 */
 	private Circle() {

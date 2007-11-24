@@ -263,6 +263,23 @@ public final class Sphere implements Serializable {
 	}
 
 	/**
+	 * Gets the smallest <code>Box3</code> that contains this
+	 * <code>Sphere</code>.
+	 * @return The smallest <code>Box3</code> that contains this
+	 * 		<code>Sphere</code>.
+	 */
+	public Box3 boundingBox() {
+		return new Box3(
+				center.x() - radius,
+				center.y() - radius,
+				center.z() - radius,
+				center.x() + radius,
+				center.y() + radius,
+				center.z() + radius
+		);
+	}
+
+	/**
 	 * Default constructor.
 	 */
 	private Sphere() {
