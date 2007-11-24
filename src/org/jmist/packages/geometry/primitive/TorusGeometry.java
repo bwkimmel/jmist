@@ -8,6 +8,7 @@ import java.util.Arrays;
 import org.jmist.framework.IntersectionRecorder;
 import org.jmist.framework.Material;
 import org.jmist.framework.SingleMaterialGeometry;
+import org.jmist.toolkit.Basis3;
 import org.jmist.toolkit.Box3;
 import org.jmist.toolkit.Point2;
 import org.jmist.toolkit.Point3;
@@ -66,7 +67,7 @@ public final class TorusGeometry extends SingleMaterialGeometry {
 		{
 			Arrays.sort(x);
 			for (int i = 0; i < x.length; i++)
-				super.newIntersection(ray, x[i], i % 2 == 0);
+				recorder.record(super.newIntersection(ray, x[i], i % 2 == 0));
 		}
 
 	}
@@ -89,6 +90,19 @@ public final class TorusGeometry extends SingleMaterialGeometry {
 		}
 		else
 			return Vector3.K;
+
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.AbstractGeometry#getBasis(org.jmist.framework.AbstractGeometry.GeometryIntersection)
+	 */
+	@Override
+	protected Basis3 getBasis(GeometryIntersection x) {
+
+		Point3	p	= x.location();
+		Vector3	u	= new Vector3(-p.z(), 0.0, p.x()).unit();
+
+		return Basis3.fromWU(x.normal(), u, Basis3.Orientation.RIGHT_HANDED);
 
 	}
 
