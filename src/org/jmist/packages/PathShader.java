@@ -65,15 +65,22 @@ public final class PathShader implements RayShader {
 	}
 
 	private double[] sample(Ray3 ray, Tuple wavelengths, double[] responses) {
-		double[] importance = ArrayUtil.setAll(new double[wavelengths.size()], 1.0);
+
 		responses = ArrayUtil.initialize(responses, wavelengths.size());
-		return this.sample(ray, wavelengths, new RandomScatterRecorder(), null, importance, responses);
+
+		if (ray != null) {
+			double[] importance = ArrayUtil.setAll(new double[wavelengths.size()], 1.0);
+			responses = this.sample(ray, wavelengths, new RandomScatterRecorder(), null, importance, responses);
+		}
+
+		return responses;
+
 	}
 
 	private double[] sample(Ray3 ray, Tuple wavelengths,
 			RandomScatterRecorder scattering, double[] sample,
 			double[] importance, double[] responses) {
-		
+
 		Intersection x = NearestIntersectionRecorder.computeNearestIntersection(ray, this.geometry);
 
 		if (x == null) {

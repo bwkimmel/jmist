@@ -45,7 +45,7 @@ public final class VisibilityRayShader implements RayShader {
 	 */
 	public double[] shadeRay(Ray3 ray, double[] pixel) {
 		pixel = ArrayUtil.initialize(pixel, 1);
-		if (this.visibilityFunction.visibility(ray, Interval.POSITIVE)) {
+		if (ray == null || this.visibilityFunction.visibility(ray, Interval.POSITIVE)) {
 			pixel[0] = this.missValue;
 		} else {
 			pixel[0] = this.hitValue;

@@ -24,7 +24,8 @@ public abstract class TransformableLens implements Lens, AffineTransformable3 {
 	 */
 	@Override
 	public final Ray3 rayAt(Point2 p) {
-		return this.view.apply(this.viewRayAt(p));
+		Ray3 viewRay = this.viewRayAt(p);
+		return viewRay != null ? this.view.apply(viewRay) : null;
 	}
 
 	/**
