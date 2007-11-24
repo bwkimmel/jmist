@@ -36,8 +36,8 @@ public final class VisibilityRayShader implements RayShader {
 	public VisibilityRayShader(VisibilityFunction3 visibilityFunction,
 			double hitValue, double missValue) {
 		this.visibilityFunction = visibilityFunction;
-		this.hitValue = 0.0;
-		this.missValue = 1.0;
+		this.hitValue = hitValue;
+		this.missValue = missValue;
 	}
 
 	/* (non-Javadoc)
