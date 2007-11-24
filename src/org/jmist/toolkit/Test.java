@@ -76,7 +76,9 @@ import org.jmist.packages.TransformableGeometry;
 import org.jmist.packages.TransformableLens;
 import org.jmist.packages.UnionGeometry;
 import org.jmist.packages.VisibilityRayShader;
+import org.jmist.packages.geometry.primitive.DiscGeometry;
 import org.jmist.packages.geometry.primitive.TorusGeometry;
+import org.jmist.packages.lens.FisheyeLens;
 import org.jmist.packages.lens.OrthographicLens;
 import org.jmist.packages.lens.PinholeLens;
 import org.jmist.packages.light.PointLight;
@@ -158,8 +160,9 @@ public class Test {
 		Material emissive = new LambertianMaterial(null, emission);
 
 		TransformableLens lens = new PinholeLens(Math.PI / 3, 1.0);
-		//Geometry object = new CylinderGeometry(new Point3(0, -1, 0), 0.25, 2, matte);
-		TransformableGeometry object = new TransformableGeometry(new TorusGeometry(1.0, 0.25, matte));
+		//TransformableGeometry object = new TransformableGeometry(new CylinderGeometry(new Point3(0, -1, 0), 0.25, 2, matte));
+		//TransformableGeometry object = new TransformableGeometry(new TorusGeometry(1.0, 0.25, matte));
+		TransformableGeometry object = new TransformableGeometry(new DiscGeometry(Point3.ORIGIN, Vector3.J, 1.0, true, matte));
 		CylinderGeometry emitter = new CylinderGeometry(new Point3(0, -10, 0), 10, 20, emissive);
 		Light light = new PointLight(new Point3(0, 0, 4), emission, false);
 		CompositeGeometry geometry = new TransformableGeometry()

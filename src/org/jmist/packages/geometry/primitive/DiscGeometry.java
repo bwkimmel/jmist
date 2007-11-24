@@ -1,14 +1,20 @@
 /**
- * 
+ *
  */
 package org.jmist.packages.geometry.primitive;
 
 import org.jmist.framework.IntersectionRecorder;
 import org.jmist.framework.Material;
 import org.jmist.framework.SingleMaterialGeometry;
+import org.jmist.toolkit.Basis3;
+import org.jmist.toolkit.BoundingBoxBuilder3;
 import org.jmist.toolkit.Box3;
+import org.jmist.toolkit.Plane3;
+import org.jmist.toolkit.Point2;
+import org.jmist.toolkit.Point3;
 import org.jmist.toolkit.Ray3;
 import org.jmist.toolkit.Sphere;
+import org.jmist.toolkit.Vector3;
 
 /**
  * @author bkimmel
@@ -19,9 +25,11 @@ public final class DiscGeometry extends SingleMaterialGeometry {
 	/**
 	 * @param material
 	 */
-	public DiscGeometry(Material material) {
+	public DiscGeometry(Point3 center, Vector3 normal, double radius, boolean twoSided, Material material) {
 		super(material);
-		// TODO Auto-generated constructor stub
+		this.plane = new Plane3(center, normal);
+		this.boundingSphere = new Sphere(center, radius);
+		this.twoSided = twoSided;
 	}
 
 	/* (non-Javadoc)
@@ -29,7 +37,68 @@ public final class DiscGeometry extends SingleMaterialGeometry {
 	 */
 	@Override
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
-		// TODO Auto-generated method stub
+
+		boolean	fromTop = this.plane.altitude(ray.origin()) > 0.0;
+
+		if (!twoSided && !fromTop)
+			return;
+
+		double t = this.plane.intersect(ray);
+
+		if (recorder.interval().contains(t)) {
+
+			Point3 p = ray.pointAt(t);
+
+			if (this.boundingSphere.contains(p)) {
+
+				GeometryIntersection x = super.newIntersection(ray, t, true, fromTop ? DISC_SURFACE_TOP : DISC_SURFACE_BOTTOM)
+					.setLocation(p);
+
+				recorder.record(x);
+
+			}
+
+		}
+
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.AbstractGeometry#getBasis(org.jmist.framework.AbstractGeometry.GeometryIntersection)
+	 */
+	@Override
+	protected Basis3 getBasis(GeometryIntersection x) {
+		switch (x.surfaceId()) {
+		case DISC_SURFACE_TOP:		return Basis3.fromW(this.plane.normal(), Basis3.Orientation.RIGHT_HANDED);
+		case DISC_SURFACE_BOTTOM:	return Basis3.fromW(this.plane.normal().opposite(), Basis3.Orientation.RIGHT_HANDED);
+		default:					assert(false); return null;
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.AbstractGeometry#getNormal(org.jmist.framework.AbstractGeometry.GeometryIntersection)
+	 */
+	@Override
+	protected Vector3 getNormal(GeometryIntersection x) {
+		switch (x.surfaceId()) {
+		case DISC_SURFACE_TOP:		return this.plane.normal();
+		case DISC_SURFACE_BOTTOM:	return this.plane.normal().opposite();
+		default:					assert(false); return null;
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.AbstractGeometry#getTextureCoordinates(org.jmist.framework.AbstractGeometry.GeometryIntersection)
+	 */
+	@Override
+	protected Point2 getTextureCoordinates(GeometryIntersection x) {
+
+		Basis3 basis = x.basis();
+		Vector3 r = x.location().vectorFrom(this.boundingSphere.center());
+
+		return new Point2(
+				r.dot(basis.u()) / this.boundingSphere.radius(),
+				r.dot(basis.v()) / this.boundingSphere.radius()
+		);
 
 	}
 
@@ -38,7 +107,6 @@ public final class DiscGeometry extends SingleMaterialGeometry {
 	 */
 	@Override
 	public boolean isClosed() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -47,8 +115,20 @@ public final class DiscGeometry extends SingleMaterialGeometry {
 	 */
 	@Override
 	public Box3 boundingBox() {
-		// TODO Auto-generated method stub
-		return null;
+
+		BoundingBoxBuilder3 builder = new BoundingBoxBuilder3();
+		Basis3 basis = Basis3.fromW(this.plane.normal(), Basis3.Orientation.RIGHT_HANDED);
+		Point3 center = this.boundingSphere.center();
+		Vector3 u = basis.u().times(this.boundingSphere.radius());
+		Vector3 v = basis.v().times(this.boundingSphere.radius());
+
+		builder.add(center.plus(u).plus(v));
+		builder.add(center.plus(u).minus(v));
+		builder.add(center.minus(u).minus(v));
+		builder.add(center.minus(u).plus(v));
+
+		return builder.getBoundingBox();
+
 	}
 
 	/* (non-Javadoc)
@@ -56,8 +136,14 @@ public final class DiscGeometry extends SingleMaterialGeometry {
 	 */
 	@Override
 	public Sphere boundingSphere() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.boundingSphere;
 	}
+
+	private static final int DISC_SURFACE_TOP = 0;
+	private static final int DISC_SURFACE_BOTTOM = 1;
+
+	private final Plane3 plane;
+	private final Sphere boundingSphere;
+	private final boolean twoSided;
 
 }
