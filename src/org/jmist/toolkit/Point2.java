@@ -85,6 +85,15 @@ public final class Point2 implements Serializable {
 	}
 
 	/**
+	 * Computes the vector from {@link #ORIGIN}.
+	 * @return The vector from {@link #ORIGIN} to this point.
+	 * @see #ORIGIN
+	 */
+	public Vector2 vectorFromOrigin() {
+		return new Vector2(x, y);
+	}
+
+	/**
 	 * Returns this point translated according to the specified vector.
 	 * @param v The vector to translate this point by.
 	 * @return The value of this point translated by v.

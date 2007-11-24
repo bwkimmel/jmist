@@ -98,6 +98,15 @@ public final class Point3 implements Serializable {
 	}
 
 	/**
+	 * Computes the vector from {@link #ORIGIN}.
+	 * @return The vector from {@link #ORIGIN} to this point.
+	 * @see #ORIGIN
+	 */
+	public Vector3 vectorFromOrigin() {
+		return new Vector3(x, y, z);
+	}
+
+	/**
 	 * Returns this point translated according to the specified vector.
 	 * @param v The vector to translate this point by.
 	 * @return The value of this point translated by v.
