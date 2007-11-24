@@ -79,6 +79,9 @@ import org.jmist.packages.SumSpectrum;
 import org.jmist.packages.TransformableGeometry;
 import org.jmist.packages.TransformableLens;
 import org.jmist.packages.UnionGeometry;
+import org.jmist.packages.VisibilityRayShader;
+import org.jmist.packages.geometry.primitive.TorusGeometry;
+import org.jmist.packages.lens.OrthographicLens;
 import org.jmist.packages.lens.PinholeLens;
 import org.jmist.toolkit.Grid3.Cell;
 
@@ -148,25 +151,27 @@ public class Test {
 	@SuppressWarnings("unused")
 	private static void testRender() {
 
-		Spectrum emission = new ScaledSpectrum(1e-11, new BlackbodySpectrum(5500)); // new ConstantSpectrum(1e3);
+		Spectrum emission = new ScaledSpectrum(2e-10, new BlackbodySpectrum(5500)); // new ConstantSpectrum(1e3);
 		Spectrum reflectance = new ConstantSpectrum(1.0);
 
 		Material matte = new LambertianMaterial(reflectance, null);
 		Material emissive = new LambertianMaterial(null, emission);
 
 		TransformableLens lens = new PinholeLens(Math.PI / 3, 1.0);
-		Geometry object = new CylinderGeometry(new Point3(0, -1, 0), 0.25, 2, matte);
-		CylinderGeometry light = new CylinderGeometry(new Point3(0, -10, 0), 10, 20, emissive);
+		//Geometry object = new CylinderGeometry(new Point3(0, -1, 0), 0.25, 2, matte);
+		TransformableGeometry object = new TransformableGeometry(new TorusGeometry(1.0, 0.25, matte));
+		CylinderGeometry emitter = new CylinderGeometry(new Point3(0, -10, 0), 10, 20, emissive);
+		Light light = new PointLight(new Point3(0, 0, 4), emission, false);
 		CompositeGeometry geometry = new TransformableGeometry()
-				.addChild(object)	/* inner cylinder */
-				.addChild(new InsideOutGeometry(light));
+				.addChild(object);	/* inner cylinder */
+				//.addChild(new InsideOutGeometry(emitter));
 
-
+		object.rotateX(Math.toRadians(15));
 		lens.translate(new Vector3(0, 0, 3));
 
 		Observer observer = new FixedObserver(550e-9); //StandardObserver.getInstance(StandardObserver.Type.CIE_2_DEGREE);
 
-		RayShader shader = new PathShader(geometry, observer);
+		RayShader shader =  new PathShader(geometry, light, observer);//new VisibilityRayShader(geometry, 255, 0);//
 		ImageShader camera = new CameraImageShader(lens, shader);
 		PixelShader pixelShader = new AveragingPixelShader(1, new SimplePixelShader(camera));
 		//ColorModel cm = new ComponentColorModel(ColorSpace.getInstance(ColorSpace.CS_CIEXYZ), false, false, Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
