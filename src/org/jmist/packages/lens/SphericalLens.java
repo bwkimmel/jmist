@@ -1,25 +1,68 @@
 /**
- * 
+ *
  */
 package org.jmist.packages.lens;
 
 import org.jmist.packages.TransformableLens;
+import org.jmist.toolkit.LinearMatrix3;
 import org.jmist.toolkit.Point2;
+import org.jmist.toolkit.Point3;
 import org.jmist.toolkit.Ray3;
+import org.jmist.toolkit.Vector3;
 
 /**
+ * A <code>Lens</code> that projects the scene onto a spherical virtual screen.
  * @author bkimmel
- *
  */
 public final class SphericalLens extends TransformableLens {
+
+	/**
+	 * Creates a new <code>SphericalLens</code>.
+	 */
+	public SphericalLens() {
+		this.hfov = DEFAULT_HORIZONTAL_FIELD_OF_VIEW;
+		this.vfov = DEFAULT_VERTICAL_FIELD_OF_VIEW;
+	}
+
+	/**
+	 * Creates a new <code>SphericalLens</code>.
+	 * @param hfov The horizontal field of view (in radians).
+	 * @param vfov The vertical field of view (in radians).
+	 */
+	public SphericalLens(double hfov, double vfov) {
+		this.hfov = hfov;
+		this.vfov = vfov;
+	}
+
+	/** The default horizontal field of view (in radians). */
+	public static final double DEFAULT_HORIZONTAL_FIELD_OF_VIEW = 2.0 * Math.PI;
+
+	/** The default vertical field of view (in radians). */
+	public static final double DEFAULT_VERTICAL_FIELD_OF_VIEW = Math.PI;
 
 	/* (non-Javadoc)
 	 * @see org.jmist.packages.TransformableLens#viewRayAt(org.jmist.toolkit.Point2)
 	 */
 	@Override
 	protected Ray3 viewRayAt(Point2 p) {
-		// TODO Auto-generated method stub
-		return null;
+
+	    double		nx = (0.5 - p.x()) * hfov;
+	    double		ny = (0.5 - p.y()) * vfov;
+
+	    Vector3		dir = Vector3.NEGATIVE_K;
+
+	    /* TODO: optimize, using rotation matrices is not necessary. */
+	    dir = LinearMatrix3.rotateXMatrix(ny).times(dir);
+	    dir = LinearMatrix3.rotateYMatrix(nx).times(dir);
+
+	    return new Ray3(Point3.ORIGIN, dir);
+
 	}
+
+	/** Horizontal field of view (in radians). */
+	private final double hfov;
+
+	/** Vertical field of view (in radians). */
+	private final double vfov;
 
 }
