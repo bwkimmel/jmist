@@ -77,6 +77,8 @@ import org.jmist.packages.TransformableLens;
 import org.jmist.packages.UnionGeometry;
 import org.jmist.packages.VisibilityRayShader;
 import org.jmist.packages.geometry.primitive.DiscGeometry;
+import org.jmist.packages.geometry.primitive.SphereGeometry;
+import org.jmist.packages.geometry.primitive.SuperellipsoidGeometry;
 import org.jmist.packages.geometry.primitive.TorusGeometry;
 import org.jmist.packages.lens.FisheyeLens;
 import org.jmist.packages.lens.OrthographicLens;
@@ -162,7 +164,9 @@ public class Test {
 		TransformableLens lens = new PinholeLens(Math.PI / 3, 1.0);
 		//TransformableGeometry object = new TransformableGeometry(new CylinderGeometry(new Point3(0, -1, 0), 0.25, 2, matte));
 		//TransformableGeometry object = new TransformableGeometry(new TorusGeometry(1.0, 0.25, matte));
-		TransformableGeometry object = new TransformableGeometry(new DiscGeometry(Point3.ORIGIN, Vector3.J, 1.0, true, matte));
+		//TransformableGeometry object = new TransformableGeometry(new DiscGeometry(Point3.ORIGIN, Vector3.J, 1.0, true, matte));
+		//TransformableGeometry object = new TransformableGeometry(new SuperellipsoidGeometry(1.5, 1.5, matte));
+		TransformableGeometry object = new TransformableGeometry(new SphereGeometry(Point3.ORIGIN, 1, matte));
 		CylinderGeometry emitter = new CylinderGeometry(new Point3(0, -10, 0), 10, 20, emissive);
 		Light light = new PointLight(new Point3(0, 0, 4), emission, false);
 		CompositeGeometry geometry = new TransformableGeometry()
