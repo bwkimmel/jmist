@@ -51,10 +51,8 @@ public final class SphereGeometry extends SingleMaterialGeometry {
 
 		Interval I = this.sphere.intersect(ray);
 
-		if (recorder.interval().contains(I.minimum())) {
+		if (!I.isEmpty()) {
 			recorder.record(super.newIntersection(ray, I.minimum(), true));
-		}
-		if (recorder.interval().contains(I.maximum())) {
 			recorder.record(super.newIntersection(ray, I.maximum(), false));
 		}
 
