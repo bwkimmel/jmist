@@ -378,12 +378,10 @@ public final class Box3 implements Serializable {
 			return Interval.EMPTY;
 		}
 
-		// Check if the ray starts from within the box.
-		double[]	t = new double[2];
-		int			n = 0;
-
 		assert(ray.direction().x() != 0.0 || ray.direction().y() != 0.0 || ray.direction().z() != 0.0);
 
+		double[]	t = new double[2];
+		int			n = 0;
 		Point3		p;
 
 		// Check for intersection with each of the six sides of the box.
