@@ -201,7 +201,7 @@ public final class Sphere implements Serializable {
 		double		thc = Math.sqrt(t2hc);
 
 		// compute interval (equation (A14)).
-		return new Interval(startInside ? 0.0 : (tca - thc), tca + thc);
+		return new Interval(tca - thc, tca + thc);
 
 	}
 
