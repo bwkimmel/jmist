@@ -78,6 +78,7 @@ import org.jmist.packages.UnionGeometry;
 import org.jmist.packages.VisibilityRayShader;
 import org.jmist.packages.geometry.primitive.BoxGeometry;
 import org.jmist.packages.geometry.primitive.DiscGeometry;
+import org.jmist.packages.geometry.primitive.RectangleGeometry;
 import org.jmist.packages.geometry.primitive.SphereGeometry;
 import org.jmist.packages.geometry.primitive.SuperellipsoidGeometry;
 import org.jmist.packages.geometry.primitive.TorusGeometry;
@@ -169,7 +170,8 @@ public class Test {
 		//TransformableGeometry object = new TransformableGeometry(new DiscGeometry(Point3.ORIGIN, Vector3.J, 1.0, true, matte));
 		//TransformableGeometry object = new TransformableGeometry(new SuperellipsoidGeometry(1.5, 1.5, matte));
 		//TransformableGeometry object = new TransformableGeometry(new SphereGeometry(Point3.ORIGIN, 1, matte));
-		TransformableGeometry object = new TransformableGeometry(new BoxGeometry(new Box3(-0.25, -0.25, -0.25, 0.25, 0.25, 0.25), matte));
+		//TransformableGeometry object = new TransformableGeometry(new BoxGeometry(new Box3(-0.25, -0.25, -0.25, 0.25, 0.25, 0.25), matte));
+		TransformableGeometry object = new TransformableGeometry(new RectangleGeometry(Point3.ORIGIN, Basis3.fromW(Vector3.J, Basis3.Orientation.RIGHT_HANDED), 1, 1, true, matte));
 		CylinderGeometry emitter = new CylinderGeometry(new Point3(0, -10, 0), 10, 20, emissive);
 		Light light = new PointLight(new Point3(0, 0, 4), emission, false);
 		CompositeGeometry geometry = new TransformableGeometry()
