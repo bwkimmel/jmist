@@ -10,6 +10,7 @@ import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -91,6 +92,7 @@ import org.jmist.packages.spectrum.BlackbodySpectrum;
 import org.jmist.packages.spectrum.ScaledSpectrum;
 import org.jmist.packages.spectrum.SumSpectrum;
 import org.jmist.toolkit.Grid3.Cell;
+import org.jmist.toolkit.matlab.MatlabWriter;
 
 public class Test {
 
@@ -128,8 +130,31 @@ public class Test {
 		//testSpectrum();
 		//testTransformableGeometry();
 
-		testRender();
+		//testRender();
 		//testPLPDF();
+
+		testMatlabWriter();
+
+	}
+
+	@SuppressWarnings("unused")
+	private static void testMatlabWriter() {
+
+		try {
+			OutputStream file = new FileOutputStream("C:/test.mat");
+			MatlabWriter writer = new MatlabWriter(file);
+			//writer.write(new double[]{1.1, 2.2, 3.3});
+			writer.write("author", "Brad Kimmel");
+			writer.write("Z", new Complex[]{ new Complex(1,2) }, new int[]{ 1, 1 });
+			writer.write("Y", new int[]{ 1,2,3,4,5,6 }, new int[]{6, 1});
+			writer.write("X", new double[]{ 1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8 }, new int[]{ 2, 4 });
+			writer.flush();
+			writer.close();
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
