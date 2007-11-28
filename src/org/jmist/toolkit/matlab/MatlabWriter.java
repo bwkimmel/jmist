@@ -440,10 +440,19 @@ public final class MatlabWriter {
 		DOUBLE(9,8),
 		INT64(12,8),
 		UINT64(13,8),
-		MATRIX(14,0);
+		MATRIX(14),
+		COMPRESSED(15),
+		UTF8(16),
+		UTF16(17),
+		UTF32(18);
 
 		public final int value;
 		public final int size;
+
+		MatlabDataType(int value) {
+			this.value = value;
+			this.size = 0;
+		}
 
 		MatlabDataType(int value, int size) {
 			this.value = value;
