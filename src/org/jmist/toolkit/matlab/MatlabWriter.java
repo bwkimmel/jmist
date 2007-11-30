@@ -18,7 +18,15 @@ public final class MatlabWriter {
 	 * @throws IOException
 	 */
 	public MatlabWriter(OutputStream out) throws IOException {
-		this.out = new MatlabOutputStream(out);
+		this(new MatlabOutputStream(out));
+	}
+
+	/**
+	 * @param out
+	 * @throws IOException
+	 */
+	public MatlabWriter(MatlabOutputStream out) throws IOException {
+		this.out = out;
 	}
 
 	public void flush() throws IOException {
