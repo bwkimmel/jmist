@@ -14,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
 import java.rmi.registry.LocateRegistry;
@@ -22,6 +23,9 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Arrays;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.zip.DataFormatException;
+import java.util.zip.GZIPOutputStream;
+import java.util.zip.Inflater;
 import java.util.zip.ZipOutputStream;
 
 import javax.imageio.ImageIO;
@@ -134,7 +138,55 @@ public class Test {
 		//testPLPDF();
 
 		testMatlabWriter();
-
+		//testGZip();
+		//testInflate();
+	}
+	
+	@SuppressWarnings("unused")
+	private static void testInflate() {
+		
+		Inflater inf = new Inflater();
+		
+		inf.setInput(new byte[]{ (byte) 0x78, (byte) 0x9c, (byte) 0xe3, (byte) 0x63, (byte) 0x60, (byte) 0x60, (byte) 0xf0, (byte) 0x00, (byte) 0x62, (byte) 0x36, (byte) 0x20, (byte) 0xe6, (byte) 0x00, (byte) 0x62, (byte) 0x16, (byte) 0x06, (byte) 0x08, (byte) 0x60, (byte) 0x85, (byte) 0xf2, (byte) 0x19, (byte) 0x81, (byte) 0x98, (byte) 0x1b, (byte) 0x4a, (byte) 0x83, (byte) 0xd4, (byte) 0x24, (byte) 0x96, (byte) 0x96, (byte) 0x64, (byte) 0xe4, (byte) 0x17, (byte) 0x31, (byte) 0x30, (byte) 0x08, (byte) 0x40, (byte) 0xc5, (byte) 0x9d, (byte) 0x8a, (byte) 0x12, (byte) 0x53, (byte) 0x14, (byte) 0xbc, (byte) 0x33, (byte) 0x73, (byte) 0x73, (byte) 0x53, (byte) 0x73, (byte) 0xc0, (byte) 0xfa, (byte) 0x00, (byte) 0x9d, (byte) 0x68, (byte) 0x07, (byte) 0x2f });
+		byte[] buffer = new byte[1000];
+		int len = 0;
+		
+		try {
+			len = inf.inflate(buffer);
+			inf.end();
+		} catch (DataFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+		FileOutputStream file = new FileOutputStream("C:/test.out");
+		file.write(buffer, 0, len);
+		file.flush();
+		file.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@SuppressWarnings("unused")
+	private static void testGZip() {
+		
+		try {
+			
+			OutputStream file = new FileOutputStream("C:/test.txt.gz");
+			GZIPOutputStream gzip = new GZIPOutputStream(file);
+			PrintStream out = new PrintStream(gzip);
+			
+			out.println("This is a test.");
+			
+			out.flush();
+			out.close();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@SuppressWarnings("unused")
@@ -146,7 +198,7 @@ public class Test {
 			//writer.write(new double[]{1.1, 2.2, 3.3});
 			writer.write("author", "Brad Kimmel");
 			writer.write("Z", new Complex[]{ new Complex(1,2) }, new int[]{ 1, 1 });
-			writer.write("Y", new int[]{ 1,2,3,4,5,6 }, new int[]{6, 1});
+			writer.write("Y", new int[]{ 1,2,3,4,5,6 }, new int[]{ 6,5,4,3,2,1 }, new int[]{6, 1});
 			writer.write("X", new double[]{ 1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8 }, new int[]{ 2, 4 });
 			writer.flush();
 			writer.close();
