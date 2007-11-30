@@ -504,23 +504,20 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 			//this.gzip.flush();
 			Deflater def = new Deflater();
 			def.setInput(bytes.toByteArray());
+			bytes.reset();
 			def.finish();
-			int totalLength = 0;
-			byte[] buffer = new byte[1000];
+			byte[] buffer = new byte[1024];
 			while (!def.finished()) {
 				int length = def.deflate(buffer, 0, buffer.length);
-				totalLength += length;
-				writeElementTagTo(out, MatlabDataType.COMPRESSED, length);
 				if (length > 0) {
-					out.write(buffer, 0, length);
+					bytes.write(buffer, 0, length);
 				}
-				break;
 			}
 
-			//def.
-			//this.bytes.writeTo(out);
+			writeElementTagTo(out, MatlabDataType.COMPRESSED, bytes.size());
+			bytes.writeTo(out);
+
 			out.flush();
-			//align(out);
 
 		}
 
