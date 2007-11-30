@@ -7,7 +7,7 @@ package org.jmist.toolkit.matlab;
  * @author bkimmel
  *
  */
-enum MatlabDataType {
+public enum MatlabDataType {
 
 	INT8(1,1),
 	UINT8(2,1),

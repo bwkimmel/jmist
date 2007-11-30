@@ -7,7 +7,7 @@ package org.jmist.toolkit.matlab;
  * @author bkimmel
  *
  */
-enum MatlabArrayType {
+public enum MatlabArrayType {
 
 	CELL(1),
 	STRUCT(2),

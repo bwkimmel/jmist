@@ -2,11 +2,8 @@
  *
  */
 package org.jmist.toolkit.matlab;
-
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Date;
 
 import org.jmist.toolkit.Complex;
 
@@ -17,93 +14,19 @@ import org.jmist.toolkit.Complex;
 public final class MatlabWriter {
 
 	/**
-	 * @param stream
+	 * @param out
 	 * @throws IOException
 	 */
-	public MatlabWriter(OutputStream stream) throws IOException {
-		this.stream = new DataOutputStream(stream);
-		this.writeHeader();
+	public MatlabWriter(OutputStream out) throws IOException {
+		this.out = new MatlabOutputStream(out);
 	}
 
 	public void flush() throws IOException {
-		this.stream.flush();
+		this.out.flush();
 	}
 
 	public void close() throws IOException {
-		this.stream.close();
-	}
-
-	private void write(boolean[] array) throws IOException {
-		this.writePrimitiveElementTag(MatlabDataType.UINT8, array.length);
-		for (int i = 0; i < array.length; i++) {
-			this.stream.writeBoolean(array[i]);
-		}
-	}
-
-	private void write(double[] array) throws IOException {
-		this.writePrimitiveElementTag(MatlabDataType.DOUBLE, array.length);
-		for (int i = 0; i < array.length; i++) {
-			this.stream.writeDouble(array[i]);
-		}
-	}
-
-	private void write(float[] array) throws IOException {
-		this.writePrimitiveElementTag(MatlabDataType.SINGLE, array.length);
-		for (int i = 0; i < array.length; i++) {
-			this.stream.writeFloat(array[i]);
-		}
-	}
-
-	private void write(byte[] array) throws IOException {
-		this.writePrimitiveElementTag(MatlabDataType.INT8, array.length);
-		this.stream.write(array);
-	}
-
-	private void write(short[] array) throws IOException {
-		this.writePrimitiveElementTag(MatlabDataType.INT16, array.length);
-		for (int i = 0; i < array.length; i++) {
-			this.stream.writeShort(array[i]);
-		}
-	}
-
-	private void write(int[] array) throws IOException {
-		this.writePrimitiveElementTag(MatlabDataType.INT32, array.length);
-		for (int i = 0; i < array.length; i++) {
-			this.stream.writeInt(array[i]);
-		}
-	}
-
-	private void write(long[] array) throws IOException {
-		this.writePrimitiveElementTag(MatlabDataType.INT64, array.length);
-		for (int i = 0; i < array.length; i++) {
-			this.stream.writeLong(array[i]);
-		}
-	}
-
-	private void writeUnsigned(byte[] array) throws IOException {
-		this.writePrimitiveElementTag(MatlabDataType.UINT8, array.length);
-		this.stream.write(array);
-	}
-
-	private void writeUnsigned(short[] array) throws IOException {
-		this.writePrimitiveElementTag(MatlabDataType.UINT16, array.length);
-		for (int i = 0; i < array.length; i++) {
-			this.stream.writeShort(array[i]);
-		}
-	}
-
-	private void writeUnsigned(int[] array) throws IOException {
-		this.writePrimitiveElementTag(MatlabDataType.UINT32, array.length);
-		for (int i = 0; i < array.length; i++) {
-			this.stream.writeInt(array[i]);
-		}
-	}
-
-	private void writeUnsigned(long[] array) throws IOException {
-		this.writePrimitiveElementTag(MatlabDataType.UINT64, array.length);
-		for (int i = 0; i < array.length; i++) {
-			this.stream.writeLong(array[i]);
-		}
+		this.out.close();
 	}
 
 	public void write(String name, double[] pr, double[] pi, int[] dimensions) throws IOException {
@@ -112,14 +35,17 @@ public final class MatlabWriter {
 
 	public void write(String name, double[] pr, double[] pi, int[] dimensions, boolean global) throws IOException {
 
-		this.writeNumericArrayHeader(name, MatlabArrayType.DOUBLE,
+		this.out.beginElement(MatlabDataType.COMPRESSED);
+		this.out.beginArrayElement(name, MatlabArrayType.DOUBLE,
 				MatlabDataType.DOUBLE, pi != null, global, false, dimensions,
 				pr.length);
 
-		this.write(pr);
+		this.out.writeElement(pr);
 		if (pi != null) {
-			this.write(pi);
+			this.out.writeElement(pi);
 		}
+		this.out.endElement();
+		this.out.endElement();
 
 	}
 
@@ -137,14 +63,17 @@ public final class MatlabWriter {
 
 	public void write(String name, float[] pr, float[] pi, int[] dimensions, boolean global) throws IOException {
 
-		this.writeNumericArrayHeader(name, MatlabArrayType.SINGLE,
+		this.out.beginElement(MatlabDataType.COMPRESSED);
+		this.out.beginArrayElement(name, MatlabArrayType.SINGLE,
 				MatlabDataType.SINGLE, pi != null, global, false, dimensions,
 				pr.length);
 
-		this.write(pr);
+		this.out.writeElement(pr);
 		if (pi != null) {
-			this.write(pi);
+			this.out.writeElement(pi);
 		}
+		this.out.endElement();
+		this.out.endElement();
 
 	}
 
@@ -162,14 +91,17 @@ public final class MatlabWriter {
 
 	public void write(String name, int[] pr, int[] pi, int[] dimensions, boolean global) throws IOException {
 
-		this.writeNumericArrayHeader(name, MatlabArrayType.INT32,
+		this.out.beginElement(MatlabDataType.COMPRESSED);
+		this.out.beginArrayElement(name, MatlabArrayType.INT32,
 				MatlabDataType.INT32, pi != null, global, false, dimensions,
 				pr.length);
 
-		this.write(pr);
+		this.out.writeElement(pr);
 		if (pi != null) {
-			this.write(pi);
+			this.out.writeElement(pi);
 		}
+		this.out.endElement();
+		this.out.endElement();
 
 	}
 
@@ -187,14 +119,17 @@ public final class MatlabWriter {
 
 	public void write(String name, short[] pr, short[] pi, int[] dimensions, boolean global) throws IOException {
 
-		this.writeNumericArrayHeader(name, MatlabArrayType.INT16,
+		this.out.beginElement(MatlabDataType.COMPRESSED);
+		this.out.beginArrayElement(name, MatlabArrayType.INT16,
 				MatlabDataType.INT16, pi != null, global, false, dimensions,
 				pr.length);
 
-		this.write(pr);
+		this.out.writeElement(pr);
 		if (pi != null) {
-			this.write(pi);
+			this.out.writeElement(pi);
 		}
+		this.out.endElement();
+		this.out.endElement();
 
 	}
 
@@ -212,14 +147,17 @@ public final class MatlabWriter {
 
 	public void write(String name, byte[] pr, byte[] pi, int[] dimensions, boolean global) throws IOException {
 
-		this.writeNumericArrayHeader(name, MatlabArrayType.INT8,
+		this.out.beginElement(MatlabDataType.COMPRESSED);
+		this.out.beginArrayElement(name, MatlabArrayType.INT8,
 				MatlabDataType.INT8, pi != null, global, false, dimensions,
 				pr.length);
 
-		this.write(pr);
+		this.out.writeElement(pr);
 		if (pi != null) {
-			this.write(pi);
+			this.out.writeElement(pi);
 		}
+		this.out.endElement();
+		this.out.endElement();
 
 	}
 
@@ -237,14 +175,17 @@ public final class MatlabWriter {
 
 	public void writeUnsigned(String name, int[] pr, int[] pi, int[] dimensions, boolean global) throws IOException {
 
-		this.writeNumericArrayHeader(name, MatlabArrayType.UINT32,
+		this.out.beginElement(MatlabDataType.COMPRESSED);
+		this.out.beginArrayElement(name, MatlabArrayType.UINT32,
 				MatlabDataType.UINT32, pi != null, global, false, dimensions,
 				pr.length);
 
-		this.writeUnsigned(pr);
+		this.out.writeUnsignedElement(pr);
 		if (pi != null) {
-			this.writeUnsigned(pi);
+			this.out.writeUnsignedElement(pi);
 		}
+		this.out.endElement();
+		this.out.endElement();
 
 	}
 
@@ -262,14 +203,17 @@ public final class MatlabWriter {
 
 	public void writeUnsigned(String name, short[] pr, short[] pi, int[] dimensions, boolean global) throws IOException {
 
-		this.writeNumericArrayHeader(name, MatlabArrayType.UINT16,
+		this.out.beginElement(MatlabDataType.COMPRESSED);
+		this.out.beginArrayElement(name, MatlabArrayType.UINT16,
 				MatlabDataType.UINT16, pi != null, global, false, dimensions,
 				pr.length);
 
-		this.writeUnsigned(pr);
+		this.out.writeUnsignedElement(pr);
 		if (pi != null) {
-			this.writeUnsigned(pi);
+			this.out.writeUnsignedElement(pi);
 		}
+		this.out.endElement();
+		this.out.endElement();
 
 	}
 
@@ -287,14 +231,17 @@ public final class MatlabWriter {
 
 	public void writeUnsigned(String name, byte[] pr, byte[] pi, int[] dimensions, boolean global) throws IOException {
 
-		this.writeNumericArrayHeader(name, MatlabArrayType.UINT8,
+		this.out.beginElement(MatlabDataType.COMPRESSED);
+		this.out.beginArrayElement(name, MatlabArrayType.UINT8,
 				MatlabDataType.UINT8, pi != null, global, false, dimensions,
 				pr.length);
 
-		this.writeUnsigned(pr);
+		this.out.writeUnsignedElement(pr);
 		if (pi != null) {
-			this.writeUnsigned(pi);
+			this.out.writeUnsignedElement(pi);
 		}
+		this.out.endElement();
+		this.out.endElement();
 
 	}
 
@@ -312,19 +259,14 @@ public final class MatlabWriter {
 
 	public void write(String name, Complex[] array, int[] dimensions, boolean global) throws IOException {
 
-		this.writeNumericArrayHeader(name, MatlabArrayType.DOUBLE,
+		this.out.beginElement(MatlabDataType.COMPRESSED);
+		this.out.beginArrayElement(name, MatlabArrayType.DOUBLE,
 				MatlabDataType.DOUBLE, true, global, false, dimensions,
 				array.length);
 
-		this.writePrimitiveElementTag(MatlabDataType.DOUBLE, array.length);
-		for (int i = 0; i < array.length; i++) {
-			this.stream.writeDouble(array[i].re());
-		}
-
-		this.writePrimitiveElementTag(MatlabDataType.DOUBLE, array.length);
-		for (int i = 0; i < array.length; i++) {
-			this.stream.writeDouble(array[i].im());
-		}
+		this.out.writeElement(array);
+		this.out.endElement();
+		this.out.endElement();
 
 	}
 
@@ -334,17 +276,15 @@ public final class MatlabWriter {
 
 	public void write(String name, boolean[] array, int[] dimensions, boolean global) throws IOException {
 
-		this.writeNumericArrayHeader(name, MatlabArrayType.UINT8,
+		this.out.beginElement(MatlabDataType.COMPRESSED);
+		this.out.beginArrayElement(name, MatlabArrayType.UINT8,
 				MatlabDataType.INT8, false, global, true, dimensions,
 				array.length);
 
-		this.write(array);
+		this.out.writeElement(array);
+		this.out.endElement();
+		this.out.endElement();
 
-	}
-
-	private void write(String s) throws IOException {
-		this.writePrimitiveElementTag(MatlabDataType.UINT16, s.length());
-		this.stream.writeChars(s);
 	}
 
 	public void write(String name, String value) throws IOException {
@@ -355,164 +295,17 @@ public final class MatlabWriter {
 
 		int length = value.length();
 
-		this.writeNumericArrayHeader(name, MatlabArrayType.CHAR,
+		this.out.beginElement(MatlabDataType.COMPRESSED);
+		this.out.beginArrayElement(name, MatlabArrayType.CHAR,
 				MatlabDataType.UINT16, false, global, false, new int[]{ 1, length },
 				length);
 
-		this.write(value);
+		this.out.writeElement(value);
+		this.out.endElement();
+		this.out.endElement();
 
 	}
 
-	private static int roundToBoundary(int size) {
-		int n = size % MATLAB_BYTE_ALIGNMENT;
-		return n != 0 ? size + (MATLAB_BYTE_ALIGNMENT - n) : size;
-	}
-
-	private static void checkDimensions(int[] dimensions, int elements) {
-		if (dimensions.length < 2) {
-			throw new IllegalArgumentException("must have at least two dimensions");
-		}
-		int total = 1;
-		for (int i = 0; i < dimensions.length; i++) {
-			total *= dimensions[i];
-		}
-		if (total != elements) {
-			throw new IllegalArgumentException("incorrect number of elements.");
-		}
-	}
-
-	private void writeNumericArrayHeader(String name, MatlabArrayType arrayType,
-			MatlabDataType dataType, boolean complex, boolean global,
-			boolean logical, int[] dimensions, int elements) throws IOException {
-
-		assert(dataType.size > 0);
-
-		checkDimensions(dimensions, elements);
-
-		int bytes = 0;
-
-		/* size of array flags */
-		bytes += MATLAB_TAG_SIZE + MATLAB_ARRAY_FLAGS_SIZE;
-
-		/* size of dimensions */
-		bytes += MATLAB_TAG_SIZE + roundToBoundary(dimensions.length * MatlabDataType.INT32.size);
-
-		/* size of array name */
-		bytes += MATLAB_TAG_SIZE + roundToBoundary(name.length());
-
-		/* size of real data */
-		bytes += MATLAB_TAG_SIZE + roundToBoundary(elements * dataType.size);
-
-		/* size of imaginary data (optional) */
-		if (complex) {
-			bytes += MATLAB_TAG_SIZE + roundToBoundary(elements * dataType.size);
-		}
-
-		this.writeElementTag(MatlabDataType.MATRIX, bytes);
-		this.writeArrayFlags(arrayType, complex, global, logical);
-		this.writeDimensionsArray(dimensions);
-		this.writeArrayName(name);
-
-	}
-
-	private void writeArrayFlags(MatlabArrayType type, boolean complex, boolean global, boolean logical) throws IOException {
-
-		byte[] flags = new byte[MATLAB_ARRAY_FLAGS_SIZE];
-
-		if (complex) {
-			flags[MATLAB_ARRAY_FLAGS_INDEX] |= MATLAB_ARRAY_COMPLEX;
-		}
-
-		if (global) {
-			flags[MATLAB_ARRAY_FLAGS_INDEX] |= MATLAB_ARRAY_GLOBAL;
-		}
-
-		if (logical) {
-			flags[MATLAB_ARRAY_FLAGS_INDEX] |= MATLAB_ARRAY_LOGICAL;
-		}
-
-		flags[MATLAB_ARRAY_CLASS_INDEX] = type.value;
-
-		this.writeElementTag(MatlabDataType.UINT32, MATLAB_ARRAY_FLAGS_SIZE);
-		this.stream.write(flags);
-
-	}
-
-	private void writeDimensionsArray(int[] dimensions) throws IOException {
-		this.write(dimensions);
-	}
-
-	private void writeArrayName(String name) throws IOException {
-		this.writeElementTag(MatlabDataType.INT8, name.length());
-		this.stream.writeBytes(name);
-	}
-
-	private void writeHeader() throws IOException {
-
-		assert(this.stream.size() == 0);
-
-		String description = String.format(HEADER_FORMAT_STRING, new Date().toString());
-		this.stream.writeBytes(description);
-
-		assert(this.stream.size() < MATLAB_DESCRIPTION_SIZE);
-		this.writePaddingTo(MATLAB_DESCRIPTION_SIZE);
-
-		this.stream.writeShort(MATLAB_FILE_VERSION);
-		this.stream.writeShort(MATLAB_ENDIAN_INDICATOR);
-
-		assert(this.stream.size() == MATLAB_HEADER_SIZE);
-
-	}
-
-	private void writePaddingTo(int position) throws IOException {
-		this.writePadding(position - this.stream.size());
-		assert(this.stream.size() == position);
-	}
-
-	private void writePadding(int amount) throws IOException {
-		assert(amount >= 0);
-
-		if (amount > 0) {
-			this.stream.write(new byte[amount]);
-		}
-	}
-
-	private void align() throws IOException {
-		int n = this.stream.size() % MATLAB_BYTE_ALIGNMENT;
-		if (n > 0) {
-			this.writePadding(MATLAB_BYTE_ALIGNMENT - n);
-		}
-	}
-
-	private final void writePrimitiveElementTag(MatlabDataType type, int elements) throws IOException {
-		assert(type.size > 0);
-		this.writeElementTag(type, elements * type.size);
-	}
-
-	private final void writeElementTag(MatlabDataType type, int bytes) throws IOException {
-		this.align();
-		this.stream.writeInt(type.value);
-		this.stream.writeInt(bytes);
-	}
-
-	private final DataOutputStream stream;
-
-	private static final String HEADER_FORMAT_STRING = "MATLAB 5.0 MAT-file, Platform: JAVA, Created on: %s, Created by: jMIST.";
-
-	private static final int MATLAB_FILE_VERSION = 0x0100;
-	private static final int MATLAB_ENDIAN_INDICATOR = 0x4D49;
-
-	private static final int MATLAB_DESCRIPTION_SIZE = 124;
-	private static final int MATLAB_HEADER_SIZE = 128;
-
-	private static final int MATLAB_BYTE_ALIGNMENT = 8;
-	private static final int MATLAB_TAG_SIZE = 8;
-
-	private static final byte MATLAB_ARRAY_COMPLEX = 0x08;
-	private static final byte MATLAB_ARRAY_GLOBAL = 0x04;
-	private static final byte MATLAB_ARRAY_LOGICAL = 0x02;
-	private static final int MATLAB_ARRAY_FLAGS_INDEX = 2;
-	private static final int MATLAB_ARRAY_CLASS_INDEX = 3;
-	private static final int MATLAB_ARRAY_FLAGS_SIZE = 8;
+	private final MatlabOutputStream out;
 
 }
