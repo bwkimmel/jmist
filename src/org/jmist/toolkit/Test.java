@@ -97,6 +97,7 @@ import org.jmist.packages.spectrum.ScaledSpectrum;
 import org.jmist.packages.spectrum.SumSpectrum;
 import org.jmist.toolkit.Grid3.Cell;
 import org.jmist.toolkit.matlab.MatlabWriter;
+import org.jmist.util.ArrayUtil;
 
 public class Test {
 
@@ -137,14 +138,33 @@ public class Test {
 		//testRender();
 		//testPLPDF();
 
-		testMatlabWriter();
+		//testMatlabWriter();
 		//testGZip();
 		//testInflate();
+		testRange();
+	}
+	
+	@SuppressWarnings("unused")
+	private static void testRange() {
+		
+		for (int x : ArrayUtil.range(1, 10)) {
+			System.out.printf("Test %d.\n", x);
+		}
+		
+		for (int bottlesOfBeer : ArrayUtil.range(99, 1)) {
+			
+			System.out.printf("%d bottles of beer on the wall,\n", bottlesOfBeer);
+			System.out.printf("%d bottles of beer.\n", bottlesOfBeer);
+			System.out.println("Take one down, pass it around,");
+			System.out.printf("%d bottles of beer on the wall.\n", bottlesOfBeer - 1);
+			
+		}
+		
 	}
 	
 	@SuppressWarnings("unused")
 	private static void testInflate() {
-		
+			
 		Inflater inf = new Inflater();
 		
 		inf.setInput(new byte[]{ (byte) 0x78, (byte) 0x9c, (byte) 0xe3, (byte) 0x63, (byte) 0x60, (byte) 0x60, (byte) 0xf0, (byte) 0x00, (byte) 0x62, (byte) 0x36, (byte) 0x20, (byte) 0xe6, (byte) 0x00, (byte) 0x62, (byte) 0x16, (byte) 0x06, (byte) 0x08, (byte) 0x60, (byte) 0x85, (byte) 0xf2, (byte) 0x19, (byte) 0x81, (byte) 0x98, (byte) 0x1b, (byte) 0x4a, (byte) 0x83, (byte) 0xd4, (byte) 0x24, (byte) 0x96, (byte) 0x96, (byte) 0x64, (byte) 0xe4, (byte) 0x17, (byte) 0x31, (byte) 0x30, (byte) 0x08, (byte) 0x40, (byte) 0xc5, (byte) 0x9d, (byte) 0x8a, (byte) 0x12, (byte) 0x53, (byte) 0x14, (byte) 0xbc, (byte) 0x33, (byte) 0x73, (byte) 0x73, (byte) 0x53, (byte) 0x73, (byte) 0xc0, (byte) 0xfa, (byte) 0x00, (byte) 0x9d, (byte) 0x68, (byte) 0x07, (byte) 0x2f });

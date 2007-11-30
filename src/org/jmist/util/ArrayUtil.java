@@ -25,6 +25,19 @@ public final class ArrayUtil {
 	}
 
 	/**
+	 * Resets all elements of the given array to zero.
+	 * @param array The array of <code>int</code>s to zero the values of.
+	 * 		This may be <code>null</code>, in which case nothing is done.
+	 * @return A reference to <code>array</code>.
+	 */
+	public static int[] reset(int[] array) {
+		if (array != null) {
+			Arrays.fill(array, 0);
+		}
+		return array;
+	}
+
+	/**
 	 * Returns an array of zeros of the specified length.
 	 * @param array The array of <code>double</code>s to zero and return.  If
 	 * 		<code>null</code>, a new array will be created.  Otherwise, all
@@ -38,6 +51,30 @@ public final class ArrayUtil {
 
 		if (array == null) {
 			return new double[length];
+		} else if (array.length != length) {
+			throw new IllegalArgumentException(String.format(
+					"Invalid array length: expected %d but got %d.", length,
+					array.length));
+		}
+
+		return ArrayUtil.reset(array);
+
+	}
+
+	/**
+	 * Returns an array of zeros of the specified length.
+	 * @param array The array of <code>int</code>s to zero and return.  If
+	 * 		<code>null</code>, a new array will be created.  Otherwise, all
+	 * 		elements will be set to zero and this array will be returned.
+	 * @param length The length of the array to return.
+	 * @return An array of the specified length that is all zeros.
+	 * @throws IllegalArgumentException if <code>array</code> is not
+	 * 		<code>null</code> and <code>array.length != length</code>.
+	 */
+	public static int[] initialize(int[] array, int length) {
+
+		if (array == null) {
+			return new int[length];
 		} else if (array.length != length) {
 			throw new IllegalArgumentException(String.format(
 					"Invalid array length: expected %d but got %d.", length,
@@ -64,6 +101,32 @@ public final class ArrayUtil {
 
 		if (array == null) {
 			array = new double[length];
+		} else if (array.length != length) {
+			throw new IllegalArgumentException(String.format(
+					"Invalid array length: expected %d but got %d.", length,
+					array.length));
+		}
+
+		return ArrayUtil.setAll(array, value);
+
+	}
+
+	/**
+	 * Returns an array of <code>int</code>s, all equal to the specified
+	 * value, of the specified length.
+	 * @param array The array of <code>int</code>s to zero and return.  If
+	 * 		<code>null</code>, a new array will be created.  Otherwise, all
+	 * 		elements will be set to zero and this array will be returned.
+	 * @param length The length of the array to return.
+	 * @param value The value to initialize each element of the array to.
+	 * @return An array of the specified length that is all zeros.
+	 * @throws IllegalArgumentException if <code>array</code> is not
+	 * 		<code>null</code> and <code>array.length != length</code>.
+	 */
+	public static int[] initialize(int[] array, int length, int value) {
+
+		if (array == null) {
+			array = new int[length];
 		} else if (array.length != length) {
 			throw new IllegalArgumentException(String.format(
 					"Invalid array length: expected %d but got %d.", length,
@@ -132,6 +195,19 @@ public final class ArrayUtil {
 	}
 
 	/**
+	 * Sets all of the values in the specified array of <code>int</code>s to
+	 * the same value.
+	 * @param array The array of <code>int</code>s the elements of which are to
+	 * 		be set (the elements of this array will be modified).
+	 * @param value The value to set each element of <code>array</code> to.
+	 * @return A reference to <code>array</code>.
+	 */
+	public static int[] setAll(int[] array, int value) {
+		Arrays.fill(array, value);
+		return array;
+	}
+
+	/**
 	 * Fills an array with values uniformly within a specified range.
 	 * @param array The array to populate.
 	 * @param first The value to assign to the first element of
@@ -158,6 +234,37 @@ public final class ArrayUtil {
 	}
 
 	/**
+	 * Fills an array with each value within a specified range.
+	 * @param array The array to populate.
+	 * @param first The value to assign to the first element of
+	 * 		<code>array</code> (must be <code>null</code> or of length equal to
+	 * 		<code>1 + |last - first|</code>.
+	 * @param last The value to assign to the last element of the
+	 * 		<code>array</code>.
+	 * @return A reference to <code>array</code>, populated with the values
+	 * 		<code>first</code> through <code>last</code>.
+	 * @throws IllegalArgumentException if <code>array != null</code> and
+	 * 		<code>array.length != 1 + Math.abs(last - first)</code>.
+	 */
+	public static int[] fillRange(int[] array, int first, int last) {
+
+		array = ArrayUtil.initialize(array, 1 + Math.abs(last - first), first);
+
+		if (last >= first) {
+			for (int i = 0; i < array.length; i++) {
+				array[i] += i;
+			}
+		} else { /* last < first */
+			for (int i = 0; i < array.length; i++) {
+				array[i] -= i;
+			}
+		}
+
+		return array;
+
+	}
+
+	/**
 	 * Creates a new array populated with values spaced uniformly in the
 	 * specified range.
 	 * @param first The value to assign to the first element of the array.
@@ -169,6 +276,17 @@ public final class ArrayUtil {
 	 */
 	public static double[] range(double first, double last, int length) {
 		return ArrayUtil.fillRange(new double[length], first, last);
+	}
+
+	/**
+	 * Creates a new array populated with values in the specified range.
+	 * @param first The value to assign to the first element of the array.
+	 * @param last The value to assign to the last element of the array.
+	 * @return An array of the given length, populated with the values
+	 * 		from <code>first</code> to <code>last</code>.
+	 */
+	public static int[] range(int first, int last) {
+		return ArrayUtil.fillRange((int[]) null, first, last);
 	}
 
 	/**
