@@ -96,7 +96,7 @@ public final class PathShader implements RayShader {
 
 		if (this.light != null && material != null) {
 			this.light.illuminate(x, this.geometry, new IlluminationTarget(x,
-					wavelengths, responses));
+					wavelengths, importance, responses));
 		}
 
 		scattering.reset(RandomUtil.categorical(importance));
@@ -138,11 +138,13 @@ public final class PathShader implements RayShader {
 		/**
 		 * @param x
 		 * @param wavelengths
+		 * @param importance
 		 * @param responses
 		 */
-		public IlluminationTarget(Intersection x, Tuple wavelengths, double[] responses) {
+		public IlluminationTarget(Intersection x, Tuple wavelengths, double[] importance, double[] responses) {
 			this.x = x;
 			this.wavelengths = wavelengths;
+			this.importance = importance;
 			this.responses = responses;
 		}
 
@@ -162,6 +164,7 @@ public final class PathShader implements RayShader {
 
 				sample = radiance.sample(wavelengths, sample);
 				scattering.modulate(wavelengths, sample);
+				MathUtil.modulate(sample, importance);
 				MathUtil.scale(sample, Math.abs(ndotv));
 				MathUtil.add(responses, sample);
 
@@ -171,6 +174,7 @@ public final class PathShader implements RayShader {
 
 		private final Intersection x;
 		private final Tuple wavelengths;
+		private final double[] importance;
 		private final double[] responses;
 		private double[] sample;
 
