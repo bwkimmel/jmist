@@ -17,13 +17,19 @@ import org.jmist.toolkit.Sphere;
 import org.jmist.toolkit.Vector3;
 
 /**
+ * A circular plane <code>Geometry</code>.
  * @author bkimmel
- *
  */
 public final class DiscGeometry extends SingleMaterialGeometry {
 
 	/**
-	 * @param material
+	 * Creates a new <code>DiscGeometry</code>.
+	 * @param center The <code>Point3</code> at the center of the disc.
+	 * @param normal The <code>Vector3</code> that is perpendicular to the
+	 * 		disc.
+	 * @param radius The radius of the disc (in meters).
+	 * @param twoSided A value indicating whether the disc is two sided.
+	 * @param material The <code>Material</code> to apply to the disc.
 	 */
 	public DiscGeometry(Point3 center, Vector3 normal, double radius, boolean twoSided, Material material) {
 		super(material);
@@ -139,11 +145,27 @@ public final class DiscGeometry extends SingleMaterialGeometry {
 		return this.boundingSphere;
 	}
 
+	/**
+	 * The surface ID for the top of the disc (the side toward which the normal
+	 * points.
+	 */
 	private static final int DISC_SURFACE_TOP = 0;
+
+	/**
+	 * The surface ID for the bottom of the disc (the side away from which the
+	 * normal points.
+	 */
 	private static final int DISC_SURFACE_BOTTOM = 1;
 
+	/**
+	 * The <code>Plane3</code> in which this <code>DiscGeometry</code> lies.
+	 */
 	private final Plane3 plane;
+
+	/** The bounding <code>Sphere</code>. */
 	private final Sphere boundingSphere;
+
+	/** A value indicating whether this disc is two sided. */
 	private final boolean twoSided;
 
 }
