@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import java.util.Date;
 import java.util.Stack;
 import java.util.zip.Deflater;
+import java.util.zip.DeflaterOutputStream;
 
 import javax.imageio.stream.ImageOutputStream;
 
@@ -1030,7 +1031,7 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 		 * @throws IOException if writing to a stream fails.
 		 */
 		public CompressedCompoundElementOutputStream(ByteArrayOutputStream bytes) throws IOException {
-			super(bytes);
+			super(new DeflaterOutputStream(bytes));
 			this.bytes = bytes;
 		}
 
@@ -1041,21 +1042,12 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 		public void writeTo(DataOutputStream out) throws IOException {
 
 			this.flush();
-			Deflater def = new Deflater();
-			def.setInput(bytes.toByteArray());
-			bytes.reset();
-			def.finish();
-			byte[] buffer = new byte[1024];
-			while (!def.finished()) {
-				int length = def.deflate(buffer, 0, buffer.length);
-				if (length > 0) {
-					bytes.write(buffer, 0, length);
-				}
-			}
+
+			DeflaterOutputStream deflater = (DeflaterOutputStream) this.out;
+			deflater.finish();
 
 			writeElementTagTo(out, MatlabDataType.COMPRESSED, bytes.size());
 			bytes.writeTo(out);
-
 			out.flush();
 
 		}
