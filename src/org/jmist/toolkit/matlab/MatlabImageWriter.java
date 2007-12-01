@@ -81,13 +81,15 @@ public final class MatlabImageWriter extends ImageWriter {
 			int height = raster.getHeight();
 			int bands = raster.getNumBands();
 			double[] data = new double[width * height * bands];
-			double[] column = new double[height * bands];
+			double[] column = new double[height];
 			int position = 0;
 
-			for (int x = 0; x < width; x++) {
-				raster.getPixels(x, 0, 1, height, column);
-				ArrayUtil.setRange(data, position, column);
-				position += column.length;
+			for (int band = 0; band < bands; band++) {
+				for (int x = 0; x < width; x++) {
+					raster.getSamples(x, 0, 1, height, band, column);
+					ArrayUtil.setRange(data, position, column);
+					position += column.length;
+				}
 			}
 
 			writer.write("image", data, new int[]{ height, width, bands });
