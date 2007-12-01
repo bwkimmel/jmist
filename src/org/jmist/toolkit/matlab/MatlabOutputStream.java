@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Date;
 import java.util.Stack;
-import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
 
 import javax.imageio.stream.ImageOutputStream;
