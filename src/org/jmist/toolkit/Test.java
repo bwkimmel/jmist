@@ -73,6 +73,7 @@ import org.jmist.packages.TransformableGeometry;
 import org.jmist.packages.TransformableLens;
 import org.jmist.packages.geometry.primitive.PolyhedronGeometry;
 import org.jmist.packages.geometry.primitive.RectangleGeometry;
+import org.jmist.packages.lens.OrthographicLens;
 import org.jmist.packages.lens.PinholeLens;
 import org.jmist.packages.light.PointLight;
 import org.jmist.packages.spectrum.BlackbodySpectrum;
@@ -262,7 +263,7 @@ public class Test {
 						new Point3( 0.0, 1,  0.0)
 				},
 				new int[][]{
-						new int[]{ 3, 2, 1, 0 },
+						new int[]{ 0, 1, 2, 3 },
 						new int[]{ 1, 0, 4 },
 						new int[]{ 2, 1, 4 },
 						new int[]{ 3, 2, 4 },

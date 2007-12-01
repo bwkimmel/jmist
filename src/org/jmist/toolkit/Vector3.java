@@ -170,9 +170,9 @@ public final class Vector3 implements Serializable {
 	 * @return An arbitrary <code>Vector3</code> perpendicular to this one.
 	 */
 	public Vector3 perp() {
-		if (x < y && x < z) {
+		if (Math.abs(x) < Math.abs(y) && Math.abs(x) < Math.abs(z)) {
 			return new Vector3(0, -z, y);
-		} else if (y < z) {
+		} else if (Math.abs(y) < Math.abs(z)) {
 			return new Vector3(z, 0, -x);
 		} else {
 			return new Vector3(-y, x, 0);
