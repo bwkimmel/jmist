@@ -1,16 +1,12 @@
 package org.jmist.toolkit;
 
-import java.awt.Image;
-import java.awt.Transparency;
-import java.awt.color.ColorSpace;
 import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.ComponentColorModel;
 import java.awt.image.DataBuffer;
+import java.awt.image.PixelInterleavedSampleModel;
 import java.awt.image.Raster;
+import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -28,10 +24,9 @@ import java.util.zip.GZIPOutputStream;
 import java.util.zip.Inflater;
 import java.util.zip.ZipOutputStream;
 
-import javax.imageio.ImageIO;
+import javax.imageio.spi.IIORegistry;
 import javax.swing.JDialog;
 
-import org.jmist.framework.AbstractGeometry;
 import org.jmist.framework.ConstantSpectrum;
 import org.jmist.framework.Geometry;
 import org.jmist.framework.ImageShader;
@@ -64,38 +59,25 @@ import org.jmist.packages.CylinderGeometry;
 import org.jmist.packages.DummyParallelizableJob;
 import org.jmist.packages.EqualSolidAnglesCollectorSphere;
 import org.jmist.packages.FixedObserver;
-import org.jmist.packages.InsideOutGeometry;
-import org.jmist.packages.IntersectionGeometry;
 import org.jmist.packages.LambertianMaterial;
 import org.jmist.packages.NRooksRandom;
 import org.jmist.packages.NearestIntersectionRecorder;
 import org.jmist.packages.PathShader;
 import org.jmist.packages.PhotometerJob;
 import org.jmist.packages.PiecewiseLinearProbabilityDensityFunction;
-import org.jmist.packages.RandomScatterRecorder;
 import org.jmist.packages.RasterJob;
 import org.jmist.packages.SimplePixelShader;
-import org.jmist.packages.StandardObserver;
 import org.jmist.packages.SubtractionGeometry;
 import org.jmist.packages.TransformableGeometry;
 import org.jmist.packages.TransformableLens;
-import org.jmist.packages.UnionGeometry;
-import org.jmist.packages.VisibilityRayShader;
-import org.jmist.packages.geometry.primitive.BoxGeometry;
-import org.jmist.packages.geometry.primitive.DiscGeometry;
 import org.jmist.packages.geometry.primitive.RectangleGeometry;
-import org.jmist.packages.geometry.primitive.SphereGeometry;
-import org.jmist.packages.geometry.primitive.SuperellipsoidGeometry;
-import org.jmist.packages.geometry.primitive.TorusGeometry;
-import org.jmist.packages.lens.FisheyeLens;
-import org.jmist.packages.lens.OmnimaxLens;
-import org.jmist.packages.lens.OrthographicLens;
 import org.jmist.packages.lens.PinholeLens;
 import org.jmist.packages.light.PointLight;
 import org.jmist.packages.spectrum.BlackbodySpectrum;
 import org.jmist.packages.spectrum.ScaledSpectrum;
 import org.jmist.packages.spectrum.SumSpectrum;
 import org.jmist.toolkit.Grid3.Cell;
+import org.jmist.toolkit.matlab.MatlabImageWriterSpi;
 import org.jmist.toolkit.matlab.MatlabWriter;
 import org.jmist.util.ArrayUtil;
 
@@ -135,42 +117,42 @@ public class Test {
 		//testSpectrum();
 		//testTransformableGeometry();
 
-		//testRender();
+		testRender();
 		//testPLPDF();
 
 		//testMatlabWriter();
 		//testGZip();
 		//testInflate();
-		testRange();
+		//testRange();
 	}
-	
+
 	@SuppressWarnings("unused")
 	private static void testRange() {
-		
+
 		for (int x : ArrayUtil.range(1, 10)) {
 			System.out.printf("Test %d.\n", x);
 		}
-		
+
 		for (int bottlesOfBeer : ArrayUtil.range(99, 1)) {
-			
+
 			System.out.printf("%d bottles of beer on the wall,\n", bottlesOfBeer);
 			System.out.printf("%d bottles of beer.\n", bottlesOfBeer);
 			System.out.println("Take one down, pass it around,");
 			System.out.printf("%d bottles of beer on the wall.\n", bottlesOfBeer - 1);
-			
+
 		}
-		
+
 	}
-	
+
 	@SuppressWarnings("unused")
 	private static void testInflate() {
-			
+
 		Inflater inf = new Inflater();
-		
+
 		inf.setInput(new byte[]{ (byte) 0x78, (byte) 0x9c, (byte) 0xe3, (byte) 0x63, (byte) 0x60, (byte) 0x60, (byte) 0xf0, (byte) 0x00, (byte) 0x62, (byte) 0x36, (byte) 0x20, (byte) 0xe6, (byte) 0x00, (byte) 0x62, (byte) 0x16, (byte) 0x06, (byte) 0x08, (byte) 0x60, (byte) 0x85, (byte) 0xf2, (byte) 0x19, (byte) 0x81, (byte) 0x98, (byte) 0x1b, (byte) 0x4a, (byte) 0x83, (byte) 0xd4, (byte) 0x24, (byte) 0x96, (byte) 0x96, (byte) 0x64, (byte) 0xe4, (byte) 0x17, (byte) 0x31, (byte) 0x30, (byte) 0x08, (byte) 0x40, (byte) 0xc5, (byte) 0x9d, (byte) 0x8a, (byte) 0x12, (byte) 0x53, (byte) 0x14, (byte) 0xbc, (byte) 0x33, (byte) 0x73, (byte) 0x73, (byte) 0x53, (byte) 0x73, (byte) 0xc0, (byte) 0xfa, (byte) 0x00, (byte) 0x9d, (byte) 0x68, (byte) 0x07, (byte) 0x2f });
 		byte[] buffer = new byte[1000];
 		int len = 0;
-		
+
 		try {
 			len = inf.inflate(buffer);
 			inf.end();
@@ -178,7 +160,7 @@ public class Test {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		try {
 		FileOutputStream file = new FileOutputStream("C:/test.out");
 		file.write(buffer, 0, len);
@@ -188,21 +170,21 @@ public class Test {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@SuppressWarnings("unused")
 	private static void testGZip() {
-		
+
 		try {
-			
+
 			OutputStream file = new FileOutputStream("C:/test.txt.gz");
 			GZIPOutputStream gzip = new GZIPOutputStream(file);
 			PrintStream out = new PrintStream(gzip);
-			
+
 			out.println("This is a test.");
-			
+
 			out.flush();
 			out.close();
-			
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -255,7 +237,7 @@ public class Test {
 	@SuppressWarnings("unused")
 	private static void testRender() {
 
-		Spectrum emission = new ScaledSpectrum(2e-10, new BlackbodySpectrum(5500)); // new ConstantSpectrum(1e3);
+		Spectrum emission = new ScaledSpectrum(1, new BlackbodySpectrum(5500)); // new ConstantSpectrum(1e3);
 		Spectrum reflectance = new ConstantSpectrum(1.0);
 
 		Material matte = new LambertianMaterial(reflectance, null);
@@ -284,12 +266,12 @@ public class Test {
 		ImageShader camera = new CameraImageShader(lens, shader);
 		PixelShader pixelShader = new AveragingPixelShader(1, new SimplePixelShader(camera));
 		//ColorModel cm = new ComponentColorModel(ColorSpace.getInstance(ColorSpace.CS_CIEXYZ), false, false, Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
-		//WritableRaster raster = Raster.createInterleavedRaster(DataBuffer.TYPE_BYTE, 500, 500, 3, null);
+		SampleModel sm = new PixelInterleavedSampleModel(DataBuffer.TYPE_DOUBLE, 500, 220, 1, 500, new int[]{ 0 });
+		WritableRaster raster = Raster.createWritableRaster(sm, null);
 		//BufferedImage image = new BufferedImage(cm, raster, false, null);
-		BufferedImage image = new BufferedImage(500, 500, BufferedImage.TYPE_BYTE_GRAY);
-
-
-		ParallelizableJob job = new RasterJob(pixelShader, image.getRaster(), "bmp", 50, 50);
+		//BufferedImage image = new BufferedImage(500, 500, BufferedImage.);
+		IIORegistry.getDefaultInstance().getDefaultInstance().registerServiceProvider(new MatlabImageWriterSpi());
+		ParallelizableJob job = new RasterJob(pixelShader, raster, "mat", 50, 50);
 		ProgressMonitor monitor = new ProgressDialog();
 		job.go(monitor);
 
