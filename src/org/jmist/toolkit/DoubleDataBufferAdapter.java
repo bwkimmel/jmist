@@ -50,8 +50,7 @@ public final class DoubleDataBufferAdapter extends DataBuffer {
 	 */
 	@Override
 	public double getElemDouble(int i) {
-		buffer.position(i);
-		return buffer.get();
+		return buffer.get(i);
 	}
 
 	/* (non-Javadoc)
@@ -59,8 +58,7 @@ public final class DoubleDataBufferAdapter extends DataBuffer {
 	 */
 	@Override
 	public void setElemDouble(int i, double val) {
-		buffer.position(i);
-		buffer.put(val);
+		buffer.put(i, val);
 	}
 
 	/* (non-Javadoc)
