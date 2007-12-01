@@ -72,7 +72,6 @@ public final class MatlabImageWriter extends ImageWriter {
 		if (image.hasRaster()) {
 
 			MatlabOutputStream out = new MatlabOutputStream((ImageOutputStream) super.output);
-			MatlabWriter writer = new MatlabWriter(out);
 			Raster raster = image.getRaster();
 
 			assert(raster != null);
@@ -80,20 +79,25 @@ public final class MatlabImageWriter extends ImageWriter {
 			int width = raster.getWidth();
 			int height = raster.getHeight();
 			int bands = raster.getNumBands();
-			double[] data = new double[width * height * bands];
+			int size = height * width * bands;
 			double[] column = new double[height];
-			int position = 0;
-
+			
+			out.beginElement(MatlabDataType.COMPRESSED);
+			out.beginArrayElement("image", MatlabArrayType.DOUBLE, MatlabDataType.DOUBLE, false, false, false, new int[]{ height, width, bands }, size);
+			out.beginElement(MatlabDataType.DOUBLE, MatlabDataType.DOUBLE.size * size);
+			
 			for (int band = 0; band < bands; band++) {
 				for (int x = 0; x < width; x++) {
 					raster.getSamples(x, 0, 1, height, band, column);
-					ArrayUtil.setRange(data, position, column);
-					position += column.length;
+					out.writeDoubles(column);
 				}
 			}
-
-			writer.write("image", data, new int[]{ height, width, bands });
-			writer.flush();
+			
+			out.endElement();
+			out.endElement();
+			out.endElement();
+			
+			out.flush();
 
 		}
 
