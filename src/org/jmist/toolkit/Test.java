@@ -67,9 +67,11 @@ import org.jmist.packages.PhotometerJob;
 import org.jmist.packages.PiecewiseLinearProbabilityDensityFunction;
 import org.jmist.packages.RasterJob;
 import org.jmist.packages.SimplePixelShader;
+import org.jmist.packages.StandardObserver;
 import org.jmist.packages.SubtractionGeometry;
 import org.jmist.packages.TransformableGeometry;
 import org.jmist.packages.TransformableLens;
+import org.jmist.packages.geometry.primitive.PolyhedronGeometry;
 import org.jmist.packages.geometry.primitive.RectangleGeometry;
 import org.jmist.packages.lens.PinholeLens;
 import org.jmist.packages.light.PointLight;
@@ -250,23 +252,41 @@ public class Test {
 		//TransformableGeometry object = new TransformableGeometry(new SuperellipsoidGeometry(1.5, 1.5, matte));
 		//TransformableGeometry object = new TransformableGeometry(new SphereGeometry(Point3.ORIGIN, 1, matte));
 		//TransformableGeometry object = new TransformableGeometry(new BoxGeometry(new Box3(-0.25, -0.25, -0.25, 0.25, 0.25, 0.25), matte));
-		TransformableGeometry object = new TransformableGeometry(new RectangleGeometry(Point3.ORIGIN, Basis3.fromW(Vector3.J, Basis3.Orientation.RIGHT_HANDED), 1, 1, true, matte));
+		//TransformableGeometry object = new TransformableGeometry(new RectangleGeometry(Point3.ORIGIN, Basis3.fromW(Vector3.J, Basis3.Orientation.RIGHT_HANDED), 1, 1, true, matte));
+		TransformableGeometry object = new TransformableGeometry(new PolyhedronGeometry(
+				new Point3[]{
+						new Point3(-0.5, 0, -0.5),
+						new Point3( 0.5, 0, -0.5),
+						new Point3( 0.5, 0,  0.5),
+						new Point3(-0.5, 0,  0.5),
+						new Point3( 0.0, 1,  0.0)
+				},
+				new int[][]{
+						new int[]{ 3, 2, 1, 0 },
+						new int[]{ 1, 0, 4 },
+						new int[]{ 2, 1, 4 },
+						new int[]{ 3, 2, 4 },
+						new int[]{ 0, 3, 4 }
+				}
+				, matte));
 		CylinderGeometry emitter = new CylinderGeometry(new Point3(0, -10, 0), 10, 20, emissive);
 		Light light = new PointLight(new Point3(0, 0, 4), emission, false);
 		CompositeGeometry geometry = new TransformableGeometry()
 				.addChild(object);	/* inner cylinder */
 				//.addChild(new InsideOutGeometry(emitter));
 
-		object.rotateX(Math.toRadians(15));
+		object.rotateX(Math.toRadians(-25));
+		object.rotateY(Math.toRadians(25));
+		object.rotateZ(Math.toRadians(15));
 		lens.translate(new Vector3(0, 0, 3));
 
-		Observer observer = new FixedObserver(550e-9); //StandardObserver.getInstance(StandardObserver.Type.CIE_2_DEGREE);
+		Observer observer = StandardObserver.getInstance(StandardObserver.Type.CIE_2_DEGREE);
 
 		RayShader shader =  new PathShader(geometry, light, observer);//new VisibilityRayShader(geometry, 255, 0);//
 		ImageShader camera = new CameraImageShader(lens, shader);
 		PixelShader pixelShader = new AveragingPixelShader(1, new SimplePixelShader(camera));
 		//ColorModel cm = new ComponentColorModel(ColorSpace.getInstance(ColorSpace.CS_CIEXYZ), false, false, Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
-		SampleModel sm = new PixelInterleavedSampleModel(DataBuffer.TYPE_DOUBLE, 500, 220, 1, 500, new int[]{ 0 });
+		SampleModel sm = new PixelInterleavedSampleModel(DataBuffer.TYPE_DOUBLE, 500, 500, 3, 1500, new int[]{ 0, 1, 2 });
 		WritableRaster raster = Raster.createWritableRaster(sm, null);
 		//BufferedImage image = new BufferedImage(cm, raster, false, null);
 		//BufferedImage image = new BufferedImage(500, 500, BufferedImage.);
