@@ -70,12 +70,15 @@ import org.jmist.packages.NearestIntersectionRecorder;
 import org.jmist.packages.PathShader;
 import org.jmist.packages.PhotometerJob;
 import org.jmist.packages.PiecewiseLinearProbabilityDensityFunction;
+import org.jmist.packages.RandomPixelShader;
 import org.jmist.packages.RasterJob;
 import org.jmist.packages.SimplePixelShader;
 import org.jmist.packages.StandardObserver;
 import org.jmist.packages.SubtractionGeometry;
 import org.jmist.packages.TransformableGeometry;
 import org.jmist.packages.TransformableLens;
+import org.jmist.packages.VisibilityRayShader;
+import org.jmist.packages.geometry.primitive.HeightFieldGeometry;
 import org.jmist.packages.geometry.primitive.PolyhedronGeometry;
 import org.jmist.packages.geometry.primitive.RectangleGeometry;
 import org.jmist.packages.lens.OrthographicLens;
@@ -127,14 +130,14 @@ public class Test {
 		//testSpectrum();
 		//testTransformableGeometry();
 
-		//testRender();
+		testRender();
 		//testPLPDF();
 
 		//testMatlabWriter();
 		//testGZip();
 		//testInflate();
 		//testRange();
-		testMatrix();
+		//testMatrix();
 	}
 
 	@SuppressWarnings("unused")
@@ -335,28 +338,29 @@ public class Test {
 			//TransformableGeometry object = new TransformableGeometry(new SuperellipsoidGeometry(1.5, 1.5, matte));
 			//TransformableGeometry object = new TransformableGeometry(new SphereGeometry(Point3.ORIGIN, 1, matte));
 			//TransformableGeometry object = new TransformableGeometry(new BoxGeometry(new Box3(-0.25, -0.25, -0.25, 0.25, 0.25, 0.25), matte));
-			TransformableGeometry mirror = new TransformableGeometry(new RectangleGeometry(new Point3(0, -0.5, 0), Basis3.fromW(Vector3.J, Basis3.Orientation.RIGHT_HANDED), 10, 10, true, reflective));
-			TransformableGeometry object = new TransformableGeometry(new PolyhedronGeometry(
-					new Point3[]{
-							new Point3(-0.5, 0, -0.5),
-							new Point3( 0.5, 0, -0.5),
-							new Point3( 0.5, 0,  0.5),
-							new Point3(-0.5, 0,  0.5),
-							new Point3( 0.0, 1,  0.0)
-					},
-					new int[][]{
-							new int[]{ 0, 1, 2, 3 },
-							new int[]{ 1, 0, 4 },
-							new int[]{ 2, 1, 4 },
-							new int[]{ 3, 2, 4 },
-							new int[]{ 0, 3, 4 }
-					}
-					, matte));
+			//TransformableGeometry mirror = new TransformableGeometry(new RectangleGeometry(new Point3(0, -0.5, 0), Basis3.fromW(Vector3.J, Basis3.Orientation.RIGHT_HANDED), 10, 10, true, reflective));
+//			TransformableGeometry object = new TransformableGeometry(new PolyhedronGeometry(
+//					new Point3[]{
+//							new Point3(-0.5, 0, -0.5),
+//							new Point3( 0.5, 0, -0.5),
+//							new Point3( 0.5, 0,  0.5),
+//							new Point3(-0.5, 0,  0.5),
+//							new Point3( 0.0, 1,  0.0)
+//					},
+//					new int[][]{
+//							new int[]{ 0, 1, 2, 3 },
+//							new int[]{ 1, 0, 4 },
+//							new int[]{ 2, 1, 4 },
+//							new int[]{ 3, 2, 4 },
+//							new int[]{ 0, 3, 4 }
+//					}
+//					, matte));
+			TransformableGeometry object = new TransformableGeometry(new HeightFieldGeometry(new Box2(-1, -1, 1, 1), createHeightField(), matte));
 			CylinderGeometry emitter = new CylinderGeometry(new Point3(0, -10, 0), 10, 20, emissive);
 			Light light = new PointLight(new Point3(0, 0, 4), emission, false);
 			CompositeGeometry geometry = new TransformableGeometry()
-					.addChild(object)	/* inner cylinder */
-					.addChild(mirror);
+					.addChild(object);	/* inner cylinder */
+					//.addChild(mirror);
 					//.addChild(new InsideOutGeometry(emitter));
 
 			object.rotateX(Math.toRadians(-25));
@@ -364,12 +368,12 @@ public class Test {
 			object.rotateZ(Math.toRadians(15));
 			lens.translate(new Vector3(0, 0, 3));
 
-			Observer observer = new StandardObserver(StandardObserver.Type.CIE_2_DEGREE, 100);
+			Observer observer = new StandardObserver(StandardObserver.Type.CIE_2_DEGREE, 1);
 			//Observer observer = new FixedObserver(ArrayUtil.range(400e-9, 700e-9, 31));
 
-			RayShader shader =  new PathShader(geometry, light, observer);//new VisibilityRayShader(geometry, 255, 0);//
+			RayShader shader = new PathShader(geometry, light, observer);//new VisibilityRayShader(geometry, 255, 0);//
 			ImageShader camera = new CameraImageShader(lens, shader);
-			PixelShader pixelShader = new AveragingPixelShader(10, new SimplePixelShader(camera));
+			PixelShader pixelShader = new AveragingPixelShader(10, new RandomPixelShader(new NRooksRandom(10, 2), camera));
 			//ColorModel cm = new ComponentColorModel(ColorSpace.getInstance(ColorSpace.CS_CIEXYZ), false, false, Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
 			SampleModel sm = new PixelInterleavedSampleModel(DataBuffer.TYPE_DOUBLE, 500, 500, 3, 500*3, ArrayUtil.range(0, 2));
 
@@ -395,6 +399,18 @@ public class Test {
 			e.printStackTrace();
 		}
 
+	}
+
+	private static Matrix createHeightField() {
+		double[] height = new double[101 * 101];
+		for (int x = 0, i = 0; x <= 100; x++) {
+			double dx = 4.0 * Math.PI * (double) (x - 50) / 50.0;
+			for (int z = 0; z <= 100; z++, i++) {
+				double dz = 4.0 * Math.PI * (double) (z - 50) / 50.0;
+				height[i] = 0.1 * Math.cos(Math.sqrt(dx * dx + dz * dz));
+			}
+		}
+		return Matrix.columnMajor(101, 101, height);
 	}
 
 	@SuppressWarnings("unused")
