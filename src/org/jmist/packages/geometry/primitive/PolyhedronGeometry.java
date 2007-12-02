@@ -128,19 +128,7 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	 */
 	@Override
 	public Sphere boundingSphere() {
-
-		Point3 center = Point3.centroid(Arrays.asList(this.vertices));
-		double radius = 0.0;
-
-		for (Point3 vertex : this.vertices) {
-			double d = vertex.distanceTo(center);
-			if (d > radius) {
-				radius = d;
-			}
-		}
-
-		return new Sphere(center, radius);
-
+		return Sphere.smallestContaining(Arrays.asList(this.vertices));
 	}
 
 	/**
