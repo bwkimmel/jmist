@@ -7,36 +7,31 @@ import org.jmist.framework.ProbabilityDensityFunction;
 import org.jmist.util.ArrayUtil;
 
 /**
- * An <code>Observer</code> based on a CIE standard observer.  Instances of
- * this class may be obtained by calling {@link #getInstance(org.jmist.packages.StandardObserver.Type)}.
+ * An <code>Observer</code> based on a CIE standard observer.
  * @author bkimmel
- * @see #getInstance(org.jmist.packages.StandardObserver.Type)
- * @see Type
  */
 public final class StandardObserver extends IntegratingObserver {
 
 	/**
 	 * Creates a new <code>StandardObserver</code>.
-	 * @param type
+	 * @param type The type of <code>StandardObserver</code> to create.  This
+	 * 		indicates one of the CIE standard observers.
 	 */
-	private StandardObserver(Type type) {
+	public StandardObserver(Type type) {
 		super(PDFS[type.index], SCALES[type.index]);
 		this.type = type;
 	}
 
 	/**
-	 * Gets a <code>StandardObserver</code> instance.
-	 * @param type The type of <code>Observer</code> to obtain.
-	 * @return The specified <code>StandardObserver</code>.
+	 * Creates a new <code>StandardObserver</code>.
+	 * @param type The type of <code>StandardObserver</code> to create.  This
+	 * 		indicates one of the CIE standard observers.
+	 * @param samplesPerComponent The number of samples to take for each
+	 * 		component.
 	 */
-	public static StandardObserver getInstance(Type type) {
-
-		if (INSTANCES[type.index] == null) {
-			INSTANCES[type.index] = new StandardObserver(type);
-		}
-
-		return INSTANCES[type.index];
-
+	public StandardObserver(Type type, int samplesPerComponent) {
+		super(PDFS[type.index], SCALES[type.index], samplesPerComponent);
+		this.type = type;
 	}
 
 	/**
@@ -622,7 +617,5 @@ public final class StandardObserver extends IntegratingObserver {
 		CIE_2_DEGREE_PDFS,
 		CIE_10_DEGREE_PDFS
 	};
-
-	private static final StandardObserver[] INSTANCES = new StandardObserver[PDFS.length];
 
 }
