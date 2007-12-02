@@ -2,6 +2,7 @@ package org.jmist.toolkit;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
+import java.awt.image.DataBufferDouble;
 import java.awt.image.PixelInterleavedSampleModel;
 import java.awt.image.Raster;
 import java.awt.image.SampleModel;
@@ -11,8 +12,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.io.RandomAccessFile;
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
+import java.nio.ByteBuffer;
+import java.nio.DoubleBuffer;
+import java.nio.channels.FileChannel;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -76,7 +81,9 @@ import org.jmist.packages.geometry.primitive.RectangleGeometry;
 import org.jmist.packages.lens.OrthographicLens;
 import org.jmist.packages.lens.PinholeLens;
 import org.jmist.packages.light.PointLight;
+import org.jmist.packages.material.MirrorMaterial;
 import org.jmist.packages.spectrum.BlackbodySpectrum;
+import org.jmist.packages.spectrum.PiecewiseLinearSpectrum;
 import org.jmist.packages.spectrum.ScaledSpectrum;
 import org.jmist.packages.spectrum.SumSpectrum;
 import org.jmist.toolkit.Grid3.Cell;
@@ -120,13 +127,80 @@ public class Test {
 		//testSpectrum();
 		//testTransformableGeometry();
 
-		testRender();
+		//testRender();
 		//testPLPDF();
 
 		//testMatlabWriter();
 		//testGZip();
 		//testInflate();
 		//testRange();
+		testMatrix();
+	}
+
+	@SuppressWarnings("unused")
+	private static void testMatrix() {
+
+		Matrix A = Matrix.rowMajor(5, 3, new double[]{
+				1, 0.5, 2,
+				0, 5, 3,
+				-1, -6, 3,
+				3, 2, 1,
+				9, 1, -8
+		});
+
+		System.out.println("A");
+		printMatrix(A, System.out);
+
+		System.out.println("A.diagonal()");
+		printMatrix(A.diagonal(), System.out);
+
+		System.out.println("A.diagonal().transpose()");
+		printMatrix(A.diagonal().transpose(), System.out);
+
+		System.out.println("A.row(1)");
+		printMatrix(A.row(1), System.out);
+
+		System.out.println("A.column(0)");
+		printMatrix(A.column(0), System.out);
+
+		System.out.println("A.column(2).transpose()");
+		printMatrix(A.column(2).transpose(), System.out);
+
+		System.out.println("A.transpose()");
+		printMatrix(A.transpose(), System.out);
+
+		System.out.println("A.slice(1, 1, 3, 2)");
+		printMatrix(A.slice(1, 1, 3, 2), System.out);
+
+		System.out.println("A.slice(1, 1, 3, 2).diagonal()");
+		printMatrix(A.slice(1, 1, 3, 2).diagonal(), System.out);
+
+		System.out.println("A.slice(1, 1, 3, 2).transpose()");
+		printMatrix(A.slice(1, 1, 3, 2).transpose(), System.out);
+
+		System.out.println("Matrix.ones(3, 2)");
+		printMatrix(Matrix.ones(3, 2), System.out);
+
+		System.out.println("Matrix.zeros(2, 3)");
+		printMatrix(Matrix.zeros(2, 3), System.out);
+
+		System.out.println("Matrix.constant(3, 4, 5)");
+		printMatrix(Matrix.constant(3, 4, 5), System.out);
+
+	}
+
+	private static void printMatrix(Matrix matrix, PrintStream out) {
+		for (int r = 0; r < matrix.rows(); r++) {
+			for (int c = 0; c < matrix.columns(); c++) {
+				if (c > 0) out.print(' ');
+				double value = matrix.at(r, c);
+				if (value >= 0.0) {
+					out.print(' ');
+				}
+				out.print(matrix.at(r, c));
+			}
+			out.println();
+		}
 	}
 
 	@SuppressWarnings("unused")
@@ -240,63 +314,78 @@ public class Test {
 	@SuppressWarnings("unused")
 	private static void testRender() {
 
-		Spectrum emission = new ScaledSpectrum(1, new BlackbodySpectrum(5500)); // new ConstantSpectrum(1e3);
-		Spectrum reflectance = new ConstantSpectrum(1.0);
-
-		Material matte = new LambertianMaterial(reflectance, null);
-		Material emissive = new LambertianMaterial(null, emission);
-
-		TransformableLens lens = new PinholeLens(Math.PI / 3, 1.0);
-		//TransformableGeometry object = new TransformableGeometry(new CylinderGeometry(new Point3(0, -1, 0), 0.25, 2, matte));
-		//TransformableGeometry object = new TransformableGeometry(new TorusGeometry(1.0, 0.25, matte));
-		//TransformableGeometry object = new TransformableGeometry(new DiscGeometry(Point3.ORIGIN, Vector3.J, 1.0, true, matte));
-		//TransformableGeometry object = new TransformableGeometry(new SuperellipsoidGeometry(1.5, 1.5, matte));
-		//TransformableGeometry object = new TransformableGeometry(new SphereGeometry(Point3.ORIGIN, 1, matte));
-		//TransformableGeometry object = new TransformableGeometry(new BoxGeometry(new Box3(-0.25, -0.25, -0.25, 0.25, 0.25, 0.25), matte));
-		//TransformableGeometry object = new TransformableGeometry(new RectangleGeometry(Point3.ORIGIN, Basis3.fromW(Vector3.J, Basis3.Orientation.RIGHT_HANDED), 1, 1, true, matte));
-		TransformableGeometry object = new TransformableGeometry(new PolyhedronGeometry(
-				new Point3[]{
-						new Point3(-0.5, 0, -0.5),
-						new Point3( 0.5, 0, -0.5),
-						new Point3( 0.5, 0,  0.5),
-						new Point3(-0.5, 0,  0.5),
-						new Point3( 0.0, 1,  0.0)
-				},
-				new int[][]{
-						new int[]{ 0, 1, 2, 3 },
-						new int[]{ 1, 0, 4 },
-						new int[]{ 2, 1, 4 },
-						new int[]{ 3, 2, 4 },
-						new int[]{ 0, 3, 4 }
-				}
-				, matte));
-		CylinderGeometry emitter = new CylinderGeometry(new Point3(0, -10, 0), 10, 20, emissive);
-		Light light = new PointLight(new Point3(0, 0, 4), emission, false);
-		CompositeGeometry geometry = new TransformableGeometry()
-				.addChild(object);	/* inner cylinder */
-				//.addChild(new InsideOutGeometry(emitter));
-
-		object.rotateX(Math.toRadians(-25));
-		object.rotateY(Math.toRadians(25));
-		object.rotateZ(Math.toRadians(15));
-		lens.translate(new Vector3(0, 0, 3));
-
-		Observer observer = StandardObserver.getInstance(StandardObserver.Type.CIE_2_DEGREE);
-
-		RayShader shader =  new PathShader(geometry, light, observer);//new VisibilityRayShader(geometry, 255, 0);//
-		ImageShader camera = new CameraImageShader(lens, shader);
-		PixelShader pixelShader = new AveragingPixelShader(1, new SimplePixelShader(camera));
-		//ColorModel cm = new ComponentColorModel(ColorSpace.getInstance(ColorSpace.CS_CIEXYZ), false, false, Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
-		SampleModel sm = new PixelInterleavedSampleModel(DataBuffer.TYPE_DOUBLE, 500, 500, 3, 1500, new int[]{ 0, 1, 2 });
-		WritableRaster raster = Raster.createWritableRaster(sm, null);
-		//BufferedImage image = new BufferedImage(cm, raster, false, null);
-		//BufferedImage image = new BufferedImage(500, 500, BufferedImage.);
-		IIORegistry.getDefaultInstance().getDefaultInstance().registerServiceProvider(new MatlabImageWriterSpi());
-		ParallelizableJob job = new RasterJob(pixelShader, raster, "mat", 50, 50);
-		ProgressMonitor monitor = new ProgressDialog();
-		job.go(monitor);
-
 		try {
+
+			Spectrum emission = new ScaledSpectrum(1, new BlackbodySpectrum(5500)); // new ConstantSpectrum(1e3);
+			Spectrum reflectance = new ConstantSpectrum(1.0);
+
+			Material matte = new LambertianMaterial(reflectance, null);
+			Material reflective = new MirrorMaterial(new PiecewiseLinearSpectrum(new double[]{
+					350e-9, 400e-9, 450e-9, 500e-9, 550e-9, 600e-9, 650e-9, 700e-9, 750e-9, 800e-9, 850e-9
+			}, new double[] {
+					0.1, 0.12, 0.15, 0.2, 0.3, 0.5, 0.75, 0.8, 0.9, 0.92, 0.93
+					//0.0, 0.0, 0.0, 0, 0, 0, 0, 0.8, 0.9, 0.92, 0.93
+			}));
+			Material emissive = new LambertianMaterial(null, emission);
+
+			TransformableLens lens = new PinholeLens(Math.PI / 3, 1.0);
+			//TransformableGeometry object = new TransformableGeometry(new CylinderGeometry(new Point3(0, -1, 0), 0.25, 2, matte));
+			//TransformableGeometry object = new TransformableGeometry(new TorusGeometry(1.0, 0.25, matte));
+			//TransformableGeometry object = new TransformableGeometry(new DiscGeometry(Point3.ORIGIN, Vector3.J, 1.0, true, matte));
+			//TransformableGeometry object = new TransformableGeometry(new SuperellipsoidGeometry(1.5, 1.5, matte));
+			//TransformableGeometry object = new TransformableGeometry(new SphereGeometry(Point3.ORIGIN, 1, matte));
+			//TransformableGeometry object = new TransformableGeometry(new BoxGeometry(new Box3(-0.25, -0.25, -0.25, 0.25, 0.25, 0.25), matte));
+			TransformableGeometry mirror = new TransformableGeometry(new RectangleGeometry(new Point3(0, -0.5, 0), Basis3.fromW(Vector3.J, Basis3.Orientation.RIGHT_HANDED), 10, 10, true, reflective));
+			TransformableGeometry object = new TransformableGeometry(new PolyhedronGeometry(
+					new Point3[]{
+							new Point3(-0.5, 0, -0.5),
+							new Point3( 0.5, 0, -0.5),
+							new Point3( 0.5, 0,  0.5),
+							new Point3(-0.5, 0,  0.5),
+							new Point3( 0.0, 1,  0.0)
+					},
+					new int[][]{
+							new int[]{ 0, 1, 2, 3 },
+							new int[]{ 1, 0, 4 },
+							new int[]{ 2, 1, 4 },
+							new int[]{ 3, 2, 4 },
+							new int[]{ 0, 3, 4 }
+					}
+					, matte));
+			CylinderGeometry emitter = new CylinderGeometry(new Point3(0, -10, 0), 10, 20, emissive);
+			Light light = new PointLight(new Point3(0, 0, 4), emission, false);
+			CompositeGeometry geometry = new TransformableGeometry()
+					.addChild(object)	/* inner cylinder */
+					.addChild(mirror);
+					//.addChild(new InsideOutGeometry(emitter));
+
+			object.rotateX(Math.toRadians(-25));
+			object.rotateY(Math.toRadians(25));
+			object.rotateZ(Math.toRadians(15));
+			lens.translate(new Vector3(0, 0, 3));
+
+			Observer observer = new StandardObserver(StandardObserver.Type.CIE_2_DEGREE, 100);
+			//Observer observer = new FixedObserver(ArrayUtil.range(400e-9, 700e-9, 31));
+
+			RayShader shader =  new PathShader(geometry, light, observer);//new VisibilityRayShader(geometry, 255, 0);//
+			ImageShader camera = new CameraImageShader(lens, shader);
+			PixelShader pixelShader = new AveragingPixelShader(10, new SimplePixelShader(camera));
+			//ColorModel cm = new ComponentColorModel(ColorSpace.getInstance(ColorSpace.CS_CIEXYZ), false, false, Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
+			SampleModel sm = new PixelInterleavedSampleModel(DataBuffer.TYPE_DOUBLE, 500, 500, 3, 500*3, ArrayUtil.range(0, 2));
+
+			FileChannel ch = new RandomAccessFile("C:/render.tmp", "rw").getChannel();
+			ByteBuffer buf = ch.map(FileChannel.MapMode.READ_WRITE, 0, 500 * 500 * 3 * 8);
+			ch.close();
+			DoubleBuffer dbuf = buf.asDoubleBuffer();
+			DataBuffer db = new DoubleDataBufferAdapter(dbuf);
+			WritableRaster raster = Raster.createWritableRaster(sm, db, null);
+			//BufferedImage image = new BufferedImage(cm, raster, false, null);
+			//BufferedImage image = new BufferedImage(500, 500, BufferedImage.);
+			IIORegistry.getDefaultInstance().getDefaultInstance().registerServiceProvider(new MatlabImageWriterSpi());
+			ParallelizableJob job = new RasterJob(pixelShader, raster, "mat", 50, 50);
+			ProgressMonitor monitor = new ProgressDialog();
+			job.go(monitor);
+
 			OutputStream out = new FileOutputStream("C:/image.zip");
 			ZipOutputStream zip = new ZipOutputStream(out);
 
