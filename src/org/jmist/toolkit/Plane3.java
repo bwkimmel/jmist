@@ -20,6 +20,21 @@ public final class Plane3 {
 	}
 
 	/**
+	 * Gets the <code>Plane3</code> that passes through three
+	 * <code>Point3</code>s.
+	 * @param p0 The first <code>Point3</code>.
+	 * @param p1 The second <code>Point3</code>.
+	 * @param p2 The third <code>Point3</code>.
+	 * @return The <code>Plane3</code> that passes through three
+	 * <code>Point3</code>s.
+	 */
+	public static Plane3 throughPoints(Point3 p0, Point3 p1, Point3 p2) {
+		Vector3 u = p2.vectorTo(p0);
+		Vector3 v = p0.vectorTo(p1);
+		return new Plane3(p0, u.cross(v).unit());
+	}
+
+	/**
 	 * Gets the <code>Vector3</code> that is normal to the plane.
 	 * @return The <code>Vector3</code> that is normal to the plane.
 	 */
