@@ -421,7 +421,7 @@ public final class MathUtil {
 
 		assert(index < x.length - 1);
 
-		return interpolate(x[index], y[index], x[index + 1], y[index + 1], x0);
+		return interpolate(x[index - 1], y[index - 1], x[index], y[index], x0);
 
 	}
 
