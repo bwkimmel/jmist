@@ -64,7 +64,6 @@ import org.jmist.packages.CylinderGeometry;
 import org.jmist.packages.DummyParallelizableJob;
 import org.jmist.packages.EqualSolidAnglesCollectorSphere;
 import org.jmist.packages.FixedObserver;
-import org.jmist.packages.LambertianMaterial;
 import org.jmist.packages.NRooksRandom;
 import org.jmist.packages.NearestIntersectionRecorder;
 import org.jmist.packages.PathShader;
@@ -84,6 +83,7 @@ import org.jmist.packages.geometry.primitive.RectangleGeometry;
 import org.jmist.packages.lens.OrthographicLens;
 import org.jmist.packages.lens.PinholeLens;
 import org.jmist.packages.light.PointLight;
+import org.jmist.packages.material.LambertianMaterial;
 import org.jmist.packages.material.MirrorMaterial;
 import org.jmist.packages.spectrum.BlackbodySpectrum;
 import org.jmist.packages.spectrum.PiecewiseLinearSpectrum;
@@ -363,7 +363,7 @@ public class Test {
 					//.addChild(mirror);
 					//.addChild(new InsideOutGeometry(emitter));
 
-			object.rotateX(Math.toRadians(-25));
+			object.rotateX(Math.toRadians(180-25));
 			object.rotateY(Math.toRadians(25));
 			object.rotateZ(Math.toRadians(15));
 			lens.translate(new Vector3(0, 0, 3));
@@ -402,15 +402,27 @@ public class Test {
 	}
 
 	private static Matrix createHeightField() {
-		double[] height = new double[101 * 101];
-		for (int x = 0, i = 0; x <= 100; x++) {
-			double dx = 4.0 * Math.PI * (double) (x - 50) / 50.0;
-			for (int z = 0; z <= 100; z++, i++) {
-				double dz = 4.0 * Math.PI * (double) (z - 50) / 50.0;
-				height[i] = 0.1 * Math.cos(Math.sqrt(dx * dx + dz * dz));
+		double[] height = new double[1001 * 1001];
+		for (int x = 0, i = 0; x <= 1000; x++) {
+			double dx = 4.0 * Math.PI * (double) (x - 500) / 500.0;
+			for (int z = 0; z <= 1000; z++, i++) {
+				double dz = 4.0 * Math.PI * (double) (z - 500) / 500.0;
+				//height[i] = 0.1 * Math.cos(Math.sqrt(dx * dx + dz * dz));
+				//height[i] = 0.1 * Math.cos(Math.sqrt(dx * dx + dz * dz)) / (1.0 + 0.1 * (dx * dx + dz * dz));
+				//height[i] = -0.001 * (dx * dx + dz * dz) + 0.1 * Math.sin(dx) * Math.sin(dz);
+				dx = (double) (x - 500) / 500.0;
+				dz = (double) (z - 500) / 500.0;
+				//double rx = Math.round(dx);
+				//double rz = Math.round(dz);
+				double d = Math.sqrt(dx * dx + (Math.abs(dz) - 0.25) * (Math.abs(dz) - 0.25));
+				double det1 = 0.25 * 0.25 - d * d;
+				double det2 = 0.025 * 0.025 - d * d;
+				double h1 = det1 > 0.0 ? Math.sqrt(det1) : 0.0;
+				double h2 = det2 > 0.0 ? Math.sqrt(det2) : 0.0;
+				height[i] = h1 + h2;
 			}
 		}
-		return Matrix.columnMajor(101, 101, height);
+		return Matrix.columnMajor(1001, 1001, height);
 	}
 
 	@SuppressWarnings("unused")

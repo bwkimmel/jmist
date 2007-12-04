@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.jmist.packages;
+package org.jmist.packages.material;
 
 import org.jmist.framework.AbstractMaterial;
 import org.jmist.framework.Intersection;
