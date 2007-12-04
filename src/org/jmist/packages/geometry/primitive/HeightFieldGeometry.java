@@ -22,6 +22,7 @@ import org.jmist.toolkit.Point3;
 import org.jmist.toolkit.Ray3;
 import org.jmist.toolkit.Sphere;
 import org.jmist.toolkit.Grid3.Cell;
+import org.jmist.util.MathUtil;
 
 /**
  * A polygonal <code>Geometry</code> with a uniform grid for the <code>x</code>
@@ -56,7 +57,7 @@ public final class HeightFieldGeometry extends SingleMaterialGeometry {
 			throw new IllegalArgumentException("height must have at least two rows and two columns");
 		}
 
-		Box3 bounds = new Box3(xz.spanX(), height.range(), xz.spanY());
+		Box3 bounds = new Box3(xz.spanX(), height.range().expand(MathUtil.EPSILON), xz.spanY());
 		this.grid = new Grid3(bounds, height.rows() - 1, 1, height.columns() - 1);
 		this.height = height;
 	}
