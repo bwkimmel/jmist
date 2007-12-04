@@ -88,16 +88,32 @@ public final class Basis3 implements Serializable {
 		return new Basis3(u.opposite(), v.opposite(), w.opposite());
 	}
 
+	public static Basis3 fromU(Vector3 u) {
+		return Basis3.fromU(u, Basis3.Orientation.RIGHT_HANDED);
+	}
+
 	public static Basis3 fromU(Vector3 u, Orientation orientation) {
 		return fromUV(u, u.perp(), orientation);
+	}
+
+	public static Basis3 fromV(Vector3 v) {
+		return Basis3.fromV(v, Basis3.Orientation.RIGHT_HANDED);
 	}
 
 	public static Basis3 fromV(Vector3 v, Orientation orientation) {
 		return fromVW(v, v.perp(), orientation);
 	}
 
+	public static Basis3 fromW(Vector3 w) {
+		return Basis3.fromW(w, Basis3.Orientation.RIGHT_HANDED);
+	}
+
 	public static Basis3 fromW(Vector3 w, Orientation orientation) {
 		return fromWU(w, w.perp(), orientation);
+	}
+
+	public static Basis3 fromUV(Vector3 u, Vector3 v) {
+		return Basis3.fromUV(u, v, Basis3.Orientation.RIGHT_HANDED);
 	}
 
 	public static Basis3 fromUV(Vector3 u, Vector3 v, Orientation orientation) {
@@ -114,6 +130,10 @@ public final class Basis3 implements Serializable {
 
 	}
 
+	public static Basis3 fromUW(Vector3 u, Vector3 w) {
+		return Basis3.fromUW(u, w, Basis3.Orientation.RIGHT_HANDED);
+	}
+
 	public static Basis3 fromUW(Vector3 u, Vector3 w, Orientation orientation) {
 
 		Vector3 _u = u.unit();
@@ -126,6 +146,10 @@ public final class Basis3 implements Serializable {
 
 		return new Basis3(_u, _v, _w);
 
+	}
+
+	public static Basis3 fromVU(Vector3 v, Vector3 u) {
+		return Basis3.fromVU(v, u, Basis3.Orientation.RIGHT_HANDED);
 	}
 
 	public static Basis3 fromVU(Vector3 v, Vector3 u, Orientation orientation) {
@@ -142,6 +166,10 @@ public final class Basis3 implements Serializable {
 
 	}
 
+	public static Basis3 fromVW(Vector3 v, Vector3 w) {
+		return Basis3.fromVW(v, w, Basis3.Orientation.RIGHT_HANDED);
+	}
+
 	public static Basis3 fromVW(Vector3 v, Vector3 w, Orientation orientation) {
 
 		Vector3 _v = v.unit();
@@ -156,6 +184,10 @@ public final class Basis3 implements Serializable {
 
 	}
 
+	public static Basis3 fromWU(Vector3 w, Vector3 u) {
+		return Basis3.fromWU(w, u, Basis3.Orientation.RIGHT_HANDED);
+	}
+
 	public static Basis3 fromWU(Vector3 w, Vector3 u, Orientation orientation) {
 
 		Vector3 _w = w.unit();
@@ -168,6 +200,10 @@ public final class Basis3 implements Serializable {
 
 		return new Basis3(_u, _v, _w);
 
+	}
+
+	public static Basis3 fromWV(Vector3 w, Vector3 v) {
+		return Basis3.fromWV(w, v, Basis3.Orientation.RIGHT_HANDED);
 	}
 
 	public static Basis3 fromWV(Vector3 w, Vector3 v, Orientation orientation) {
