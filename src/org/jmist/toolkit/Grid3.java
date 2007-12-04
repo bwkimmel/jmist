@@ -9,7 +9,7 @@ import org.jmist.util.MathUtil;
 
 /**
  * An axis-aligned box divided into a grid of cells along each of
- * the three axes.  Used for ray tracing with spacial subdivision.
+ * the three axes.  Used for ray tracing with spatial subdivision.
  * @author bkimmel
  */
 public final class Grid3 implements Serializable {
