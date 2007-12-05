@@ -4,6 +4,7 @@
 package org.jmist.framework;
 
 import org.jmist.toolkit.Tuple;
+import org.jmist.util.MathUtil;
 
 /**
  * A base implementation of <code>Spectrum</code> that provides a default
@@ -57,9 +58,7 @@ public abstract class AbstractSpectrum implements Spectrum {
 		}
 
 		/* Sample the spectrum to determine the factor for each wavelength. */
-		for (int i = 0; i < samples.length; i++) {
-			samples[i] *= this.sample(wavelengths.at(i));
-		}
+		MathUtil.modulate(samples, this.sample(wavelengths, null));
 
 	}
 
