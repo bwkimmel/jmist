@@ -99,6 +99,19 @@ public abstract class CompositeGeometry implements Geometry {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.Geometry#isClosed()
+	 */
+	@Override
+	public boolean isClosed() {
+		for (Geometry child : this.children) {
+			if (!child.isClosed()) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	/**
 	 * Gets the list of child geometries.
 	 * @return The <code>List</code> of child geometries.
