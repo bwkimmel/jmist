@@ -219,7 +219,7 @@ public final class Box2 implements Serializable {
 
 	/**
 	 * Determines if the specified ray intersects with this box.
-	 * Equivalent to {@code !this.intersects(ray).isEmpty()}.
+	 * Equivalent to {@code !this.intersect(ray).isEmpty()}.
 	 * @param ray The ray to test for an intersection with this
 	 * 		box.
 	 * @return A value indicating if the specified ray intersects
@@ -227,6 +227,21 @@ public final class Box2 implements Serializable {
 	 * @see {@link #intersect(Ray2)}, {@link Interval#isEmpty()}.
 	 */
 	public boolean intersects(Ray2 ray) {
+		return this.intersects(ray, Interval.POSITIVE);
+	}
+
+	/**
+	 * Determines if the specified ray intersects with this box.
+	 * Equivalent to {@code !this.intersect(ray).intersects(I)}.
+	 * @param ray The ray to test for an intersection with this
+	 * 		box.
+	 * @param I The <code>Interval</code> along the ray to check for an
+	 * 		intersection.
+	 * @return A value indicating if the specified ray intersects
+	 * 		with this box.
+	 * @see {@link #intersect(Ray2)}, {@link Interval#intersects(Interval)}.
+	 */
+	public boolean intersects(Ray2 ray, Interval I) {
 
 		// Check for an empty box.
 		if (isEmpty()) {
@@ -234,7 +249,7 @@ public final class Box2 implements Serializable {
 		}
 
 		// Check if the ray starts from within the box.
-		if (this.contains(ray.origin())) {
+		if (this.contains(ray.pointAt(I.minimum()))) {
 			return true;
 		}
 
@@ -246,7 +261,7 @@ public final class Box2 implements Serializable {
 		// Check for intersection with each of the six sides of the box.
 		if (ray.direction().x() != 0.0) {
 			t = (minimumX - ray.origin().x()) / ray.direction().x();
-			if (t > 0.0) {
+			if (I.contains(t)) {
 				p = ray.pointAt(t);
 				if (minimumY < p.y() && p.y() < maximumY) {
 					return true;
@@ -254,7 +269,7 @@ public final class Box2 implements Serializable {
 			}
 
 			t = (maximumX - ray.origin().x()) / ray.direction().x();
-			if (t > 0.0) {
+			if (I.contains(t)) {
 				p = ray.pointAt(t);
 				if (minimumY < p.y() && p.y() < maximumY) {
 					return true;
@@ -264,7 +279,7 @@ public final class Box2 implements Serializable {
 
 		if (ray.direction().y() != 0.0) {
 			t = (minimumY - ray.origin().y()) / ray.direction().y();
-			if (t > 0.0) {
+			if (I.contains(t)) {
 				p = ray.pointAt(t);
 				if (minimumX < p.x() && p.x() < maximumX) {
 					return true;
@@ -272,7 +287,7 @@ public final class Box2 implements Serializable {
 			}
 
 			t = (maximumY - ray.origin().y()) / ray.direction().y();
-			if (t > 0.0) {
+			if (I.contains(t)) {
 				p = ray.pointAt(t);
 				if (minimumX < p.x() && p.x() < maximumX) {
 					return true;

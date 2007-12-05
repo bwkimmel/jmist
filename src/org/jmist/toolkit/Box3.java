@@ -275,7 +275,7 @@ public final class Box3 implements Serializable {
 
 	/**
 	 * Determines if the specified ray intersects with this box.
-	 * Equivalent to {@code !this.intersects(ray).isEmpty()}.
+	 * Equivalent to {@code !this.intersect(ray).isEmpty()}.
 	 * @param ray The ray to test for an intersection with this
 	 * 		box.
 	 * @return A value indicating if the specified ray intersects
@@ -283,6 +283,21 @@ public final class Box3 implements Serializable {
 	 * @see {@link #intersect(Ray3)}, {@link Interval#isEmpty()}.
 	 */
 	public boolean intersects(Ray3 ray) {
+		return this.intersects(ray, Interval.POSITIVE);
+	}
+
+	/**
+	 * Determines if the specified ray intersects with this box.
+	 * Equivalent to {@code !this.intersect(ray).intersects(I)}.
+	 * @param ray The ray to test for an intersection with this
+	 * 		box.
+	 * @param I The <code>Interval</code> along the ray to check for an
+	 * 		intersection.
+	 * @return A value indicating if the specified ray intersects
+	 * 		with this box.
+	 * @see {@link #intersect(Ray3)}, {@link Interval#intersects(Interval)}.
+	 */
+	public boolean intersects(Ray3 ray, Interval I) {
 
 		// Check for an empty box.
 		if (isEmpty()) {
@@ -290,7 +305,7 @@ public final class Box3 implements Serializable {
 		}
 
 		// Check if the ray starts from within the box.
-		if (this.contains(ray.origin())) {
+		if (this.contains(ray.pointAt(I.minimum()))) {
 			return true;
 		}
 
@@ -302,7 +317,7 @@ public final class Box3 implements Serializable {
 		// Check for intersection with each of the six sides of the box.
 		if (ray.direction().x() != 0.0) {
 			t = (minimumX - ray.origin().x()) / ray.direction().x();
-			if (t > 0.0) {
+			if (I.contains(t)) {
 				p = ray.pointAt(t);
 				if (minimumY < p.y() && p.y() < maximumY && minimumZ < p.z() && p.z() < maximumZ) {
 					return true;
@@ -310,7 +325,7 @@ public final class Box3 implements Serializable {
 			}
 
 			t = (maximumX - ray.origin().x()) / ray.direction().x();
-			if (t > 0.0) {
+			if (I.contains(t)) {
 				p = ray.pointAt(t);
 				if (minimumY < p.y() && p.y() < maximumY && minimumZ < p.z() && p.z() < maximumZ) {
 					return true;
@@ -320,7 +335,7 @@ public final class Box3 implements Serializable {
 
 		if (ray.direction().y() != 0.0) {
 			t = (minimumY - ray.origin().y()) / ray.direction().y();
-			if (t > 0.0) {
+			if (I.contains(t)) {
 				p = ray.pointAt(t);
 				if (minimumX < p.x() && p.x() < maximumX && minimumZ < p.z() && p.z() < maximumZ) {
 					return true;
@@ -328,7 +343,7 @@ public final class Box3 implements Serializable {
 			}
 
 			t = (maximumY - ray.origin().y()) / ray.direction().y();
-			if (t > 0.0) {
+			if (I.contains(t)) {
 				p = ray.pointAt(t);
 				if (minimumX < p.x() && p.x() < maximumX && minimumZ < p.z() && p.z() < maximumZ) {
 					return true;
@@ -338,7 +353,7 @@ public final class Box3 implements Serializable {
 
 		if (ray.direction().z() != 0.0) {
 			t = (minimumZ - ray.origin().z()) / ray.direction().z();
-			if (t > 0.0) {
+			if (I.contains(t)) {
 				p = ray.pointAt(t);
 				if (minimumX < p.x() && p.x() < maximumX && minimumY < p.y() && p.y() < maximumY) {
 					return true;
@@ -346,7 +361,7 @@ public final class Box3 implements Serializable {
 			}
 
 			t = (maximumZ - ray.origin().z()) / ray.direction().z();
-			if (t > 0.0) {
+			if (I.contains(t)) {
 				p = ray.pointAt(t);
 				if (minimumX < p.x() && p.x() < maximumX && minimumY < p.y() && p.y() < maximumY) {
 					return true;
