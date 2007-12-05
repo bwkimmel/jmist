@@ -101,11 +101,11 @@ public class BoundingBoxBuilder3 implements Serializable {
 				maximumZ = box.maximumZ();
 			} else {
 				minimumX = Math.min(box.minimumX(), minimumX);
-				minimumY = Math.min(box.minimumX(), minimumY);
-				minimumZ = Math.min(box.minimumX(), minimumZ);
+				minimumY = Math.min(box.minimumY(), minimumY);
+				minimumZ = Math.min(box.minimumZ(), minimumZ);
 				maximumX = Math.max(box.maximumX(), maximumX);
-				maximumY = Math.max(box.maximumX(), maximumY);
-				maximumZ = Math.max(box.maximumX(), maximumZ);
+				maximumY = Math.max(box.maximumY(), maximumY);
+				maximumZ = Math.max(box.maximumZ(), maximumZ);
 			}
 		}
 	}
