@@ -7,19 +7,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.jmist.framework.AbstractGeometry;
 import org.jmist.framework.Geometry;
 import org.jmist.toolkit.Box3;
-import org.jmist.toolkit.Interval;
-import org.jmist.toolkit.Point3;
-import org.jmist.toolkit.Ray3;
 import org.jmist.toolkit.Sphere;
-import org.jmist.toolkit.Vector3;
 
 /**
  * A <code>Geometry</code> that is composed of component geometries.
  * @author bkimmel
  */
-public abstract class CompositeGeometry implements Geometry {
+public abstract class CompositeGeometry extends AbstractGeometry {
 
 	/**
 	 * Adds a child <code>Geometry</code> to this
@@ -31,38 +28,6 @@ public abstract class CompositeGeometry implements Geometry {
 	public CompositeGeometry addChild(Geometry child) {
 		this.children.add(child);
 		return this;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.jmist.framework.VisibilityFunction3#visibility(org.jmist.toolkit.Ray3, org.jmist.toolkit.Interval)
-	 */
-	@Override
-	public boolean visibility(Ray3 ray, Interval I) {
-
-		/* Compute the visibility function in terms of the intersect method. */
-		NearestIntersectionRecorder recorder = new NearestIntersectionRecorder(I);
-
-		this.intersect(ray, recorder);
-
-		return recorder.isEmpty() || !I.contains(recorder.nearestIntersection().distance());
-
-	}
-
-	/* (non-Javadoc)
-	 * @see org.jmist.framework.VisibilityFunction3#visibility(org.jmist.toolkit.Point3, org.jmist.toolkit.Point3)
-	 */
-	@Override
-	public boolean visibility(Point3 p, Point3 q) {
-
-		/* Determine the visibility in terms of the other overloaded
-		 * method.
-		 */
-		Vector3		d		= p.vectorTo(q);
-		Ray3		ray		= new Ray3(p, d.unit());
-		Interval	I		= new Interval(0.0, d.length());
-
-		return this.visibility(ray, I);
-
 	}
 
 	/* (non-Javadoc)
