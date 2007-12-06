@@ -159,6 +159,16 @@ public final class Box2 implements Serializable {
 	}
 
 	/**
+	 * Determines if this box contains another box.
+	 * @param other The <code>Box2</code> to check for containment of.
+	 * @return A value indicating if this box contains <code>other</code>.
+	 */
+	public boolean contains(Box2 other) {
+		return (minimumX <= other.minimumX && other.maximumX <= maximumX)
+				&& (minimumY <= other.minimumY && other.maximumY <= maximumY);
+	}
+
+	/**
 	 * Gets the area of the box.
 	 * @return The area of the box.
 	 */
@@ -215,6 +225,16 @@ public final class Box2 implements Serializable {
 	 */
 	public Box2 expand(double amount) {
 		return getInstance(minimumX - amount, minimumY - amount, maximumX + amount, maximumY + amount);
+	}
+
+	/**
+	 * Determines if this box intersects with another.
+	 * @param other The <code>Box2</code> to check for an intersection with.
+	 * @return A value indicating if this box intersects <code>other</code>.
+	 */
+	public boolean intersects(Box2 other) {
+		return Math.max(minimumX, other.minimumX) <= Math.min(maximumX, other.maximumX)
+				&& Math.max(minimumY, other.minimumY) <= Math.min(maximumY, other.maximumY);
 	}
 
 	/**

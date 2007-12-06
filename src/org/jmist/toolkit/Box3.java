@@ -202,6 +202,17 @@ public final class Box3 implements Serializable {
 	}
 
 	/**
+	 * Determines if this box contains another box.
+	 * @param other The <code>Box3</code> to check for containment of.
+	 * @return A value indicating if this box contains <code>other</code>.
+	 */
+	public boolean contains(Box3 other) {
+		return (minimumX <= other.minimumX && other.maximumX <= maximumX)
+				&& (minimumY <= other.minimumY && other.maximumY <= maximumY)
+				&& (minimumZ <= other.minimumZ && other.maximumZ <= maximumZ);
+	}
+
+	/**
 	 * Computes the volume of the box.
 	 * @return The volume of the box.
 	 */
@@ -271,6 +282,17 @@ public final class Box3 implements Serializable {
 				maximumY + amount,
 				minimumZ + amount
 		);
+	}
+
+	/**
+	 * Determines if this box intersects with another.
+	 * @param other The <code>Box3</code> to check for an intersection with.
+	 * @return A value indicating if this box intersects <code>other</code>.
+	 */
+	public boolean intersects(Box3 other) {
+		return Math.max(minimumX, other.minimumX) <= Math.min(maximumX, other.maximumX)
+				&& Math.max(minimumY, other.minimumY) <= Math.min(maximumY, other.maximumY)
+				&& Math.max(minimumZ, other.minimumZ) <= Math.min(maximumZ, other.maximumZ);
 	}
 
 	/**
