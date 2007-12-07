@@ -30,4 +30,10 @@ public interface IntersectionRecorder {
 	 */
 	boolean needAllIntersections();
 
+	/**
+	 * Gets a value indicating whether an intersection has been recorded.
+	 * @return A value indicating whether an intersection has been recorded.
+	 */
+	boolean isEmpty();
+
 }

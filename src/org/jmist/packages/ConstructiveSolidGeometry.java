@@ -96,6 +96,14 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 		}
 
 		/* (non-Javadoc)
+		 * @see org.jmist.framework.IntersectionRecorder#isEmpty()
+		 */
+		@Override
+		public boolean isEmpty() {
+			return this.intersectionSet.isEmpty();
+		}
+
+		/* (non-Javadoc)
 		 * @see org.jmist.framework.IntersectionRecorderDecorator#interval()
 		 */
 		@Override

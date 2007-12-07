@@ -72,11 +72,10 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
 		}
 	}
 
-	/**
-	 * Determines if this intersection recorder is empty.
-	 * @return A value indicating if this intersection recorder is
-	 * 		empty.
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.IntersectionRecorder#isEmpty()
 	 */
+	@Override
 	public boolean isEmpty() {
 		return (this.nearest == null);
 	}

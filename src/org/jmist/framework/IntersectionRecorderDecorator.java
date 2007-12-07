@@ -39,6 +39,14 @@ public abstract class IntersectionRecorderDecorator implements
 	}
 
 	/* (non-Javadoc)
+	 * @see org.jmist.framework.IntersectionRecorder#isEmpty()
+	 */
+	@Override
+	public boolean isEmpty() {
+		return this.inner.isEmpty();
+	}
+
+	/* (non-Javadoc)
 	 * @see org.jmist.framework.IntersectionRecorder#record(org.jmist.framework.Intersection)
 	 */
 	@Override
