@@ -58,6 +58,7 @@ import org.jmist.framework.services.ServiceSubmitJob;
 import org.jmist.framework.services.ThreadServiceWorkerJob;
 import org.jmist.packages.AveragingPixelShader;
 import org.jmist.packages.BasisSpectrumFactory;
+import org.jmist.packages.BoundingBoxHierarchyGeometry;
 import org.jmist.packages.CameraImageShader;
 import org.jmist.packages.CompositeGeometry;
 import org.jmist.packages.CylinderGeometry;
@@ -80,6 +81,7 @@ import org.jmist.packages.VisibilityRayShader;
 import org.jmist.packages.geometry.primitive.HeightFieldGeometry;
 import org.jmist.packages.geometry.primitive.PolyhedronGeometry;
 import org.jmist.packages.geometry.primitive.RectangleGeometry;
+import org.jmist.packages.geometry.primitive.SphereGeometry;
 import org.jmist.packages.lens.OrthographicLens;
 import org.jmist.packages.lens.PinholeLens;
 import org.jmist.packages.light.PointLight;
@@ -355,10 +357,11 @@ public class Test {
 //							new int[]{ 0, 3, 4 }
 //					}
 //					, matte));
-			TransformableGeometry object = new TransformableGeometry(new HeightFieldGeometry(new Box2(-1, -1, 1, 1), createHeightField(), matte));
+			//TransformableGeometry object = new TransformableGeometry(new HeightFieldGeometry(new Box2(-1, -1, 1, 1), createHeightField(), matte));
+			TransformableGeometry object = new TransformableGeometry(createSphereSnowflake(matte, 10));
 			CylinderGeometry emitter = new CylinderGeometry(new Point3(0, -10, 0), 10, 20, emissive);
 			Light light = new PointLight(new Point3(0, 0, 4), emission, false);
-			CompositeGeometry geometry = new TransformableGeometry()
+			Geometry geometry = new TransformableGeometry()
 					.addChild(object);	/* inner cylinder */
 					//.addChild(mirror);
 					//.addChild(new InsideOutGeometry(emitter));
@@ -366,7 +369,7 @@ public class Test {
 			object.rotateX(Math.toRadians(180-25));
 			object.rotateY(Math.toRadians(25));
 			object.rotateZ(Math.toRadians(15));
-			lens.translate(new Vector3(0, 0, 3));
+			lens.translate(new Vector3(0, 0, 5));
 
 			Observer observer = new StandardObserver(StandardObserver.Type.CIE_2_DEGREE, 1);
 			//Observer observer = new FixedObserver(ArrayUtil.range(400e-9, 700e-9, 31));
@@ -397,6 +400,52 @@ public class Test {
 			zip.close();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+
+	}
+
+	private static Geometry createSphereSnowflake(Material material, int levels) {
+		CompositeGeometry geometry = new BoundingBoxHierarchyGeometry(); // FIXME
+		createSphereSnowflake(geometry, Sphere.UNIT, material, Basis3.STANDARD, levels, true);
+		return geometry;
+	}
+
+	private static void createSphereSnowflake(CompositeGeometry geometry, Sphere center, Material material, Basis3 basis, int levels, boolean first) {
+
+		if (levels > 0) {
+
+			Geometry sphere = new SphereGeometry(center, material);
+			geometry.addChild(sphere);
+
+			double alpha = 0.5;
+			double radius = alpha * center.radius();
+			for (int i = 0; i < 3; i++) {
+
+				SphericalCoordinates sc = new SphericalCoordinates(2.0 * Math.PI / 3.0, ((double) (i - 1)) * 2.0 * Math.PI / 3.0, radius + center.radius()).canonical();
+				SphericalCoordinates u = new SphericalCoordinates(Math.PI / 2.0, 0.0);
+				Vector3 orientation = sc.toCartesian(basis).opposite();
+				
+				radius *= 0.8;
+
+				Sphere childSphere = new Sphere(center.center().minus(orientation), radius);
+				Basis3 childBasis = Basis3.fromWU(orientation, u.toCartesian(basis));
+				createSphereSnowflake(geometry, childSphere, material, childBasis, levels - 1, false);
+
+			}
+
+			if (first) {
+				SphericalCoordinates sc = new SphericalCoordinates(0.0, 0.0, radius + center.radius());
+				SphericalCoordinates u = new SphericalCoordinates(Math.PI / 2.0, 0.0);
+				Vector3 orientation = sc.toCartesian(basis).opposite();
+				
+				radius *= 0.8;
+				
+				Sphere childSphere = new Sphere(center.center().minus(orientation), radius);
+				Basis3 childBasis = Basis3.fromWU(orientation, u.toCartesian(basis));
+				createSphereSnowflake(geometry, childSphere, material, childBasis, levels - 1, false);
+
+			}
+
 		}
 
 	}

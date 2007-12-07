@@ -4,6 +4,7 @@
 package org.jmist.framework;
 
 import org.jmist.toolkit.Basis3;
+import org.jmist.toolkit.Box3;
 import org.jmist.toolkit.Interval;
 import org.jmist.toolkit.Point2;
 import org.jmist.toolkit.Point3;
@@ -259,6 +260,14 @@ public abstract class AbstractGeometry implements Geometry {
 
 		return this.visibility(ray, I);
 
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.PartialBoundable3#surfaceMayIntersect(org.jmist.toolkit.Box3)
+	 */
+	@Override
+	public boolean surfaceMayIntersect(Box3 box) {
+		return this.boundingBox().intersects(box);
 	}
 
 }

@@ -8,6 +8,7 @@ import org.jmist.framework.Material;
 import org.jmist.framework.SingleMaterialGeometry;
 import org.jmist.toolkit.Basis3;
 import org.jmist.toolkit.Box3;
+import org.jmist.toolkit.Grid3;
 import org.jmist.toolkit.Interval;
 import org.jmist.toolkit.Point2;
 import org.jmist.toolkit.Point3;
@@ -118,6 +119,54 @@ public final class SphereGeometry extends SingleMaterialGeometry {
 	@Override
 	public Sphere boundingSphere() {
 		return this.sphere;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.AbstractGeometry#surfaceMayIntersect(org.jmist.toolkit.Box3)
+	 */
+	@Override
+	public boolean surfaceMayIntersect(Box3 box) {
+
+		boolean foundCornerInside = false;
+		boolean foundCornerOutside = false;
+
+		for (int i = 0; i < 8; i++) {
+			if (this.sphere.contains(box.corner(i))) {
+				foundCornerInside = true;
+			} else {
+				foundCornerOutside = true;
+			}
+			if (foundCornerInside && foundCornerOutside) {
+				return true;
+			}
+		}
+
+		if (box.contains(this.sphere.center().plus(Vector3.I.times(this.sphere.radius())))) {
+			return true;
+		}
+
+		if (box.contains(this.sphere.center().plus(Vector3.J.times(this.sphere.radius())))) {
+			return true;
+		}
+
+		if (box.contains(this.sphere.center().plus(Vector3.K.times(this.sphere.radius())))) {
+			return true;
+		}
+
+		if (box.contains(this.sphere.center().plus(Vector3.NEGATIVE_I.times(this.sphere.radius())))) {
+			return true;
+		}
+
+		if (box.contains(this.sphere.center().plus(Vector3.NEGATIVE_J.times(this.sphere.radius())))) {
+			return true;
+		}
+
+		if (box.contains(this.sphere.center().plus(Vector3.NEGATIVE_K.times(this.sphere.radius())))) {
+			return true;
+		}
+
+		return false;
+
 	}
 
 	/** The <code>Sphere</code> describing this <code>Geometry</code>. */
