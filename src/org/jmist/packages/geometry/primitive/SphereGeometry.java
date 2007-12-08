@@ -8,7 +8,6 @@ import org.jmist.framework.Material;
 import org.jmist.framework.SingleMaterialGeometry;
 import org.jmist.toolkit.Basis3;
 import org.jmist.toolkit.Box3;
-import org.jmist.toolkit.Grid3;
 import org.jmist.toolkit.Interval;
 import org.jmist.toolkit.Point2;
 import org.jmist.toolkit.Point3;
