@@ -51,11 +51,11 @@ public class BoundingBoxBuilder3 implements Serializable {
 			minimumZ = maximumZ = p.z();
 		} else {
 			minimumX = Math.min(p.x(), minimumX);
-			minimumY = Math.min(p.x(), minimumY);
-			minimumZ = Math.min(p.x(), minimumZ);
+			minimumY = Math.min(p.y(), minimumY);
+			minimumZ = Math.min(p.z(), minimumZ);
 			maximumX = Math.max(p.x(), maximumX);
-			maximumY = Math.max(p.x(), maximumY);
-			maximumZ = Math.max(p.x(), maximumZ);
+			maximumY = Math.max(p.y(), maximumY);
+			maximumZ = Math.max(p.z(), maximumZ);
 		}
 	}
 
