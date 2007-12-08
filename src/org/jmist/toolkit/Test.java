@@ -79,6 +79,7 @@ import org.jmist.packages.TransformableGeometry;
 import org.jmist.packages.TransformableLens;
 import org.jmist.packages.VisibilityRayShader;
 import org.jmist.packages.geometry.primitive.HeightFieldGeometry;
+import org.jmist.packages.geometry.primitive.PolygonGeometry;
 import org.jmist.packages.geometry.primitive.PolyhedronGeometry;
 import org.jmist.packages.geometry.primitive.RectangleGeometry;
 import org.jmist.packages.geometry.primitive.SphereGeometry;
@@ -358,7 +359,24 @@ public class Test {
 //					}
 //					, matte));
 			//TransformableGeometry object = new TransformableGeometry(new HeightFieldGeometry(new Box2(-1, -1, 1, 1), createHeightField(), matte));
-			TransformableGeometry object = new TransformableGeometry(createSphereSnowflake(matte, 10));
+			//TransformableGeometry object = new TransformableGeometry(createSphereSnowflake(matte, 10));
+			TransformableGeometry object = new TransformableGeometry(new PolygonGeometry(
+					new Point3[]{
+							new Point3( 2,  2,  0),
+							new Point3(-2,  2,  0),
+							new Point3(-2, -2,  0),
+							new Point3( 2, -2,  0),
+							new Point3( 1,  1,  0),
+							new Point3(-1,  1,  0),
+							new Point3(-1, -1,  0),
+							new Point3( 1, -1,  0)
+					},
+					new int[][]{
+							new int[]{ 0, 1, 2, 3 },
+							new int[]{ 7, 6, 5, 4 }
+					},
+					matte
+			));
 			CylinderGeometry emitter = new CylinderGeometry(new Point3(0, -10, 0), 10, 20, emissive);
 			Light light = new PointLight(new Point3(0, 0, 4), emission, false);
 			Geometry geometry = new TransformableGeometry()
@@ -366,7 +384,7 @@ public class Test {
 					//.addChild(mirror);
 					//.addChild(new InsideOutGeometry(emitter));
 
-			object.rotateX(Math.toRadians(180-25));
+			object.rotateX(Math.toRadians(25));
 			object.rotateY(Math.toRadians(25));
 			object.rotateZ(Math.toRadians(15));
 			lens.translate(new Vector3(0, 0, 5));
