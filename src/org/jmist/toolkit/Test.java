@@ -39,6 +39,7 @@ import org.jmist.framework.Intersection;
 import org.jmist.framework.Job;
 import org.jmist.framework.Light;
 import org.jmist.framework.Material;
+import org.jmist.framework.Model;
 import org.jmist.framework.Observer;
 import org.jmist.framework.ParallelizableJob;
 import org.jmist.framework.PixelShader;
@@ -67,6 +68,7 @@ import org.jmist.packages.EqualSolidAnglesCollectorSphere;
 import org.jmist.packages.FixedObserver;
 import org.jmist.packages.NRooksRandom;
 import org.jmist.packages.NearestIntersectionRecorder;
+import org.jmist.packages.ParallelizableJobRunner;
 import org.jmist.packages.PathShader;
 import org.jmist.packages.PhotometerJob;
 import org.jmist.packages.PiecewiseLinearProbabilityDensityFunction;
@@ -75,6 +77,7 @@ import org.jmist.packages.RasterJob;
 import org.jmist.packages.SimplePixelShader;
 import org.jmist.packages.StandardObserver;
 import org.jmist.packages.SubtractionGeometry;
+import org.jmist.packages.ThreadLocalRandom;
 import org.jmist.packages.TransformableGeometry;
 import org.jmist.packages.TransformableLens;
 import org.jmist.packages.VisibilityRayShader;
@@ -88,6 +91,7 @@ import org.jmist.packages.lens.PinholeLens;
 import org.jmist.packages.light.PointLight;
 import org.jmist.packages.material.LambertianMaterial;
 import org.jmist.packages.material.MirrorMaterial;
+import org.jmist.packages.model.CornellBoxModel;
 import org.jmist.packages.spectrum.BlackbodySpectrum;
 import org.jmist.packages.spectrum.PiecewiseLinearSpectrum;
 import org.jmist.packages.spectrum.ScaledSpectrum;
@@ -389,12 +393,18 @@ public class Test {
 			object.rotateZ(Math.toRadians(15));
 			lens.translate(new Vector3(0, 0, 5));
 
-			Observer observer = new StandardObserver(StandardObserver.Type.CIE_2_DEGREE, 1);
+			Model model = CornellBoxModel.getInstance();
+			geometry = model.getGeometry();
+			lens = (TransformableLens) model.getLens();
+			light = model.getLight();
+
+			Observer observer = new StandardObserver(StandardObserver.Type.CIE_2_DEGREE, 3);
 			//Observer observer = new FixedObserver(ArrayUtil.range(400e-9, 700e-9, 31));
+			//Observer observer = new FixedObserver(550e-9);
 
 			RayShader shader = new PathShader(geometry, light, observer);//new VisibilityRayShader(geometry, 255, 0);//
 			ImageShader camera = new CameraImageShader(lens, shader);
-			PixelShader pixelShader = new AveragingPixelShader(10, new RandomPixelShader(new NRooksRandom(10, 2), camera));
+			PixelShader pixelShader = new AveragingPixelShader(10000, new RandomPixelShader(new ThreadLocalRandom(new NRooksRandom(10000, 2)), camera));
 			//ColorModel cm = new ComponentColorModel(ColorSpace.getInstance(ColorSpace.CS_CIEXYZ), false, false, Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
 			SampleModel sm = new PixelInterleavedSampleModel(DataBuffer.TYPE_DOUBLE, 500, 500, 3, 500*3, ArrayUtil.range(0, 2));
 
@@ -407,9 +417,10 @@ public class Test {
 			//BufferedImage image = new BufferedImage(cm, raster, false, null);
 			//BufferedImage image = new BufferedImage(500, 500, BufferedImage.);
 			IIORegistry.getDefaultInstance().getDefaultInstance().registerServiceProvider(new MatlabImageWriterSpi());
-			ParallelizableJob job = new RasterJob(pixelShader, raster, "mat", 50, 50);
+			ParallelizableJob job = new RasterJob(pixelShader, raster, "mat", 10, 10);
 			ProgressMonitor monitor = new ProgressDialog();
-			job.go(monitor);
+			Job runner = new ParallelizableJobRunner(job, 2);
+			runner.go(monitor);
 
 			OutputStream out = new FileOutputStream("C:/image.zip");
 			ZipOutputStream zip = new ZipOutputStream(out);
@@ -442,7 +453,7 @@ public class Test {
 				SphericalCoordinates sc = new SphericalCoordinates(2.0 * Math.PI / 3.0, ((double) (i - 1)) * 2.0 * Math.PI / 3.0, radius + center.radius()).canonical();
 				SphericalCoordinates u = new SphericalCoordinates(Math.PI / 2.0, 0.0);
 				Vector3 orientation = sc.toCartesian(basis).opposite();
-				
+
 				radius *= 0.8;
 
 				Sphere childSphere = new Sphere(center.center().minus(orientation), radius);
@@ -455,9 +466,9 @@ public class Test {
 				SphericalCoordinates sc = new SphericalCoordinates(0.0, 0.0, radius + center.radius());
 				SphericalCoordinates u = new SphericalCoordinates(Math.PI / 2.0, 0.0);
 				Vector3 orientation = sc.toCartesian(basis).opposite();
-				
+
 				radius *= 0.8;
-				
+
 				Sphere childSphere = new Sphere(center.center().minus(orientation), radius);
 				Basis3 childBasis = Basis3.fromWU(orientation, u.toCartesian(basis));
 				createSphereSnowflake(geometry, childSphere, material, childBasis, levels - 1, false);
