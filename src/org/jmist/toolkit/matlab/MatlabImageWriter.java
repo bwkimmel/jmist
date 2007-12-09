@@ -14,8 +14,6 @@ import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.spi.ImageWriterSpi;
 import javax.imageio.stream.ImageOutputStream;
 
-import org.jmist.util.ArrayUtil;
-
 /**
  * An <code>ImageWriter</code> for writing images to MATLAB MAT-files.
  * @author bkimmel
@@ -81,22 +79,22 @@ public final class MatlabImageWriter extends ImageWriter {
 			int bands = raster.getNumBands();
 			int size = height * width * bands;
 			double[] column = new double[height];
-			
+
 			out.beginElement(MatlabDataType.COMPRESSED);
 			out.beginArrayElement("image", MatlabArrayType.DOUBLE, MatlabDataType.DOUBLE, false, false, false, new int[]{ height, width, bands }, size);
 			out.beginElement(MatlabDataType.DOUBLE, MatlabDataType.DOUBLE.size * size);
-			
+
 			for (int band = 0; band < bands; band++) {
 				for (int x = 0; x < width; x++) {
 					raster.getSamples(x, 0, 1, height, band, column);
 					out.writeDoubles(column);
 				}
 			}
-			
+
 			out.endElement();
 			out.endElement();
 			out.endElement();
-			
+
 			out.flush();
 
 		}
