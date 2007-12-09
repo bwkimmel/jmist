@@ -16,8 +16,6 @@ import org.jmist.packages.geometry.primitive.PolygonGeometry;
 import org.jmist.packages.geometry.primitive.PolyhedronGeometry;
 import org.jmist.packages.geometry.primitive.RectangleGeometry;
 import org.jmist.packages.lens.PinholeLens;
-import org.jmist.packages.lens.ThinLens;
-import org.jmist.packages.light.PointLight;
 import org.jmist.packages.material.LambertianMaterial;
 import org.jmist.packages.spectrum.PiecewiseLinearSpectrum;
 import org.jmist.packages.spectrum.ScaledSpectrum;
@@ -27,13 +25,17 @@ import org.jmist.toolkit.Vector3;
 import org.jmist.util.ArrayUtil;
 
 /**
+ * A <code>Model</code> of the Cornell Box.
  * @author bkimmel
- *
  */
 public final class CornellBoxModel implements Model {
 
+	/**
+	 * Creates a new <code>CornellBoxModel</code>.  This constructor is private
+	 * because this class is a singleton.
+	 */
 	private CornellBoxModel() {
-
+		/* nothing to do. */
 	}
 
 	/* (non-Javadoc)
@@ -61,6 +63,10 @@ public final class CornellBoxModel implements Model {
 		return this.lens;
 	}
 
+	/**
+	 * Creates the <code>Lens</code> used in the Cornell Box.
+	 * @return The <code>Lens</code> used in the Cornell Box.
+	 */
 	private static Lens createLens() {
 
 		TransformableLens lens = new PinholeLens(2.0 * Math.atan2(0.25 / 2.0, 0.35), 1.0);
@@ -72,6 +78,10 @@ public final class CornellBoxModel implements Model {
 
 	}
 
+	/**
+	 * Gets the single instance of <code>CornellBoxModel</code>.
+	 * @return The single instance of <code>CornellBoxModel</code>.
+	 */
 	public static Model getInstance() {
 		if (instance == null) {
 			instance = new CornellBoxModel();
@@ -79,10 +89,13 @@ public final class CornellBoxModel implements Model {
 		return instance;
 	}
 
+	/** The single <code>CornellBoxModel</code> instance. */
 	private static CornellBoxModel instance = null;
 
+	/** The wavelengths at which the reflectance spectra are given. */
 	private static double[] WAVELENGTHS = ArrayUtil.range(400.0e-9, 700.0e-9, 76);
 
+	/** The reflectance <code>Spectrum</code> for the white walls. */
 	private Spectrum white = new PiecewiseLinearSpectrum(WAVELENGTHS, new double[]{
 
 			0.343,0.445,0.551,0.624,0.665,0.687,0.708,0.723,0.715,0.710, /* 400 - 436 */
@@ -96,6 +109,7 @@ public final class CornellBoxModel implements Model {
 
 	});
 
+	/** The reflectance <code>Spectrum</code> for the green wall. */
 	private Spectrum green = new PiecewiseLinearSpectrum(WAVELENGTHS, new double[]{
 
 			0.092,0.096,0.098,0.097,0.098,0.095,0.095,0.097,0.095,0.094, /* 400 - 436 */
@@ -109,7 +123,7 @@ public final class CornellBoxModel implements Model {
 
 	});
 
-
+	/** The reflectance <code>Spectrum</code> for the red wall. */
 	private Spectrum red = new PiecewiseLinearSpectrum(WAVELENGTHS, new double[]{
 
 			0.040,0.046,0.048,0.053,0.049,0.050,0.053,0.055,0.057,0.056, /* 400 - 436 */
@@ -123,18 +137,28 @@ public final class CornellBoxModel implements Model {
 
 	});
 
+	/** The emission <code>Spectrum</code> for the light box. */
 	private Spectrum emission = new ScaledSpectrum(5e16, new PiecewiseLinearSpectrum(
 			new double[]{ 400.0e-9, 500.0e-9, 600.0e-9, 700.0e-9 },
 			new double[]{   0.0   ,   8.0   ,  15.6   ,  18.4    }
 	));
 
+	/** The <code>Material</code> for the white walls. */
 	private Material matteWhite = new LambertianMaterial(white);
+
+	/** The <code>Material</code> for the green wall. */
 	private Material matteGreen = new LambertianMaterial(green);
+
+	/** The <code>Material</code> for the red wall. */
 	private Material matteRed = new LambertianMaterial(red);
+
+	/** The <code>Material</code> for the light box. */
 	private Material matteEmissive = new LambertianMaterial(new ConstantSpectrum(0.78), emission);
 
+	/** The <code>Lens</code> to use to view the box. */
 	private Lens lens = createLens();
 
+	/** The <code>Geometry</code> for the floor. */
 	private Geometry floor = new PolygonGeometry(
 			new Point3[]{
 					new Point3(552.8, 0.0,   0.0),
@@ -160,6 +184,7 @@ public final class CornellBoxModel implements Model {
 			matteWhite
 	);
 
+	/** The <code>Geometry</code> for the light box. */
 	private Geometry lightBox = new RectangleGeometry(
 			new Point3(278.0, 548.8, 279.5),		// center
 			Basis3.fromUV(Vector3.I, Vector3.K),	// basis
@@ -168,6 +193,7 @@ public final class CornellBoxModel implements Model {
 			matteEmissive							// material
 	);
 
+	/** The <code>Geometry</code> for the ceiling. */
 	private Geometry ceiling = new PolygonGeometry(
 			new Point3[]{
 					new Point3(556.0, 548.8,   0.0),
@@ -186,6 +212,7 @@ public final class CornellBoxModel implements Model {
 			matteWhite
 	);
 
+	/** The <code>Geometry</code> for the back wall. */
 	private Geometry backWall = new PolygonGeometry(
 			new Point3[]{
 					new Point3(549.6,   0.0, 559.2),
@@ -196,6 +223,7 @@ public final class CornellBoxModel implements Model {
 			matteWhite
 	);
 
+	/** The <code>Geometry</code> for the right wall. */
 	private Geometry rightWall = new PolygonGeometry(
 			new Point3[]{
 					new Point3(0.0,   0.0, 559.2),
@@ -206,6 +234,7 @@ public final class CornellBoxModel implements Model {
 			matteGreen
 	);
 
+	/** The <code>Geometry</code> for the left wall. */
 	private Geometry leftWall = new PolygonGeometry(
 			new Point3[]{
 					new Point3(552.8,   0.0,   0.0),
@@ -216,6 +245,7 @@ public final class CornellBoxModel implements Model {
 			matteRed
 	);
 
+	/** The <code>Geometry</code> for the short block. */
 	private Geometry shortBlock = new PolyhedronGeometry(
 			new Point3[]{
 					new Point3(130.0, 165.0,  65.0),
@@ -237,6 +267,7 @@ public final class CornellBoxModel implements Model {
 			matteWhite
 	);
 
+	/** The <code>Geometry</code> for the tall block. */
 	private Geometry tallBlock = new PolyhedronGeometry(
 			new Point3[]{
 					new Point3(423.0, 330.0, 247.0),
@@ -258,7 +289,7 @@ public final class CornellBoxModel implements Model {
 			matteWhite
 	);
 
-
+	/** The <code>Geometry</code> for the entire Cornell Box. */
 	private Geometry cornellBox = new BoundingBoxHierarchyGeometry()
 		.addChild(floor)
 		.addChild(lightBox)
