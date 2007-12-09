@@ -10,6 +10,7 @@ import org.jmist.toolkit.Point2;
 import org.jmist.toolkit.Point3;
 import org.jmist.toolkit.Ray3;
 import org.jmist.toolkit.Vector3;
+import org.jmist.util.MathUtil;
 import org.jmist.packages.NearestIntersectionRecorder;
 
 /**
@@ -256,7 +257,7 @@ public abstract class AbstractGeometry implements Geometry {
 		 */
 		Vector3		d		= p.vectorTo(q);
 		Ray3		ray		= new Ray3(p, d.unit());
-		Interval	I		= new Interval(0.0, d.length());
+		Interval	I		= new Interval(0.0, d.length()).expand(-MathUtil.EPSILON);
 
 		return this.visibility(ray, I);
 
