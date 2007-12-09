@@ -70,6 +70,14 @@ public final class StratifiedRandom implements Random {
 		this.nextPartition = this.sequence.length - 1;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.Random#createCompatibleRandom()
+	 */
+	@Override
+	public StratifiedRandom createCompatibleRandom() {
+		return new StratifiedRandom(this.sequence.length);
+	}
+
 	/**
 	 * Resets this random number generator.  Following invocation of this
 	 * method, each block of {@code n} successive calls to {@link #next()}

@@ -28,6 +28,14 @@ public class SimpleRandom implements Random {
 		// nothing to do.
 	}
 
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.Random#createCompatibleRandom()
+	 */
+	@Override
+	public SimpleRandom createCompatibleRandom() {
+		return this;
+	}
+
 	/** The random number generator. */
 	private final java.util.Random rnd = new java.util.Random();
 

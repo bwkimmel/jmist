@@ -20,4 +20,11 @@ public interface Random {
 	 */
 	void reset();
 
+	/**
+	 * Creates a new <code>Random</code> with the same behavior as this
+	 * <code>Random</code>.
+	 * @return The new <code>Random</code>.
+	 */
+	Random createCompatibleRandom();
+
 }
