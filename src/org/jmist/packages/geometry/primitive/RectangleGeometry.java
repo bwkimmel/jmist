@@ -3,10 +3,18 @@
  */
 package org.jmist.packages.geometry.primitive;
 
+import org.jmist.framework.Illuminable;
 import org.jmist.framework.Intersection;
 import org.jmist.framework.IntersectionRecorder;
+import org.jmist.framework.Light;
 import org.jmist.framework.Material;
+import org.jmist.framework.Random;
 import org.jmist.framework.SingleMaterialGeometry;
+import org.jmist.framework.Spectrum;
+import org.jmist.framework.SurfacePoint;
+import org.jmist.framework.VisibilityFunction3;
+import org.jmist.packages.SimpleRandom;
+import org.jmist.packages.spectrum.ScaledSpectrum;
 import org.jmist.toolkit.Basis3;
 import org.jmist.toolkit.BoundingBoxBuilder3;
 import org.jmist.toolkit.Box3;
@@ -22,7 +30,7 @@ import org.jmist.util.MathUtil;
  * A plane rectangle <code>Geometry</code>.
  * @author bkimmel
  */
-public final class RectangleGeometry extends SingleMaterialGeometry {
+public final class RectangleGeometry extends SingleMaterialGeometry implements Light {
 
 	/**
 	 * Creates a new <code>RectangleGeometry</code>.
@@ -147,6 +155,45 @@ public final class RectangleGeometry extends SingleMaterialGeometry {
 		return new Sphere(this.center, Math.sqrt(ru * ru * rv * rv));
 	}
 
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.Light#illuminate(org.jmist.framework.SurfacePoint, org.jmist.framework.VisibilityFunction3, org.jmist.framework.Illuminable)
+	 */
+	@Override
+	public void illuminate(SurfacePoint x, VisibilityFunction3 vf,
+			Illuminable target) {
+
+		/* Pick a point at random on the surface of the rectangle. */
+		double u = 2.0 * random.next() - 1.0;
+		double v = 2.0 * random.next() - 1.0;
+
+		Point3 p = center.plus(basis.u().times(u * ru)).plus(basis.v().times(v * rv));
+
+		/* Check for visibility between the point being illuminated and the
+		 * point on the rectangle.
+		 */
+		if (vf.visibility(p, x.location())) {
+
+			// FIXME Select from appropriate side when two-sided.
+			Intersection sp = super.newIntersection(null, 0.0, true, RECTANGLE_SURFACE_TOP)
+				.setLocation(p)
+				.setTextureCoordinates(new Point2(u, v)); // FIXME correct texture coordinates.
+
+			/* Compute the attenuation according to distance. */
+			Vector3 from = x.location().vectorTo(p);
+			double r = from.length();
+			double attenuation = 1.0 / (4.0 * Math.PI * r * r);
+			from = from.divide(r);
+
+			/* Sample the material radiance. */
+			Spectrum radiance = sp.material().emission(sp, from.opposite());
+
+			/* Illuminate the point. */
+			target.illuminate(from, new ScaledSpectrum(attenuation, radiance));
+
+		}
+
+	}
+
 	/**
 	 * The surface id for the side of the rectangle toward which the normal
 	 * points.
@@ -185,5 +232,7 @@ public final class RectangleGeometry extends SingleMaterialGeometry {
 
 	/** A value indicating whether this rectangle is two sided. */
 	private final boolean twoSided;
+
+	private final Random random = new SimpleRandom();
 
 }
