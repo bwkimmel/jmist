@@ -70,7 +70,7 @@ public final class PathShader implements RayShader {
 
 		if (ray != null) {
 			double[] importance = ArrayUtil.setAll(new double[wavelengths.size()], 1.0);
-			responses = this.sample(ray, wavelengths, new RandomScatterRecorder(), null, importance, responses);
+			responses = this.sample(ray, wavelengths, new RandomScatterRecorder(), null, importance, responses, 0);
 		}
 
 		return responses;
@@ -79,7 +79,7 @@ public final class PathShader implements RayShader {
 
 	private double[] sample(Ray3 ray, Tuple wavelengths,
 			RandomScatterRecorder scattering, double[] sample,
-			double[] importance, double[] responses) {
+			double[] importance, double[] responses, int depth) {
 
 		Intersection x = NearestIntersectionRecorder.computeNearestIntersection(ray, this.geometry);
 
@@ -88,12 +88,15 @@ public final class PathShader implements RayShader {
 		}
 
 		Material material = x.material();
-		Spectrum emission = material.emission(x, ray.direction().opposite());
-
-		sample = emission.sample(wavelengths, sample);
-		sample = MathUtil.modulate(sample, importance);
-		responses = MathUtil.add(responses, sample);
-
+		
+		if (depth == 0) {
+			Spectrum emission = material.emission(x, ray.direction().opposite());
+	
+			sample = emission.sample(wavelengths, sample);
+			sample = MathUtil.modulate(sample, importance);
+			responses = MathUtil.add(responses, sample);
+		}
+		
 		if (this.light != null && material != null) {
 			this.light.illuminate(x, this.geometry, new IlluminationTarget(x,
 					wavelengths, importance, responses));
@@ -116,7 +119,7 @@ public final class PathShader implements RayShader {
 					importance[index]);
 			double[] dispersedResponses = this
 					.sample(sr.scatteredRay(), sr.wavelengths(), scattering,
-							null, dispersedImportance, null);
+							null, dispersedImportance, null, depth + 1);
 
 			assert(dispersedResponses.length == 1);
 			responses[index] += dispersedResponses[0];
@@ -127,7 +130,7 @@ public final class PathShader implements RayShader {
 
 			MathUtil.modulate(importance, sr.weights());
 			return this.sample(sr.scatteredRay(), sr.wavelengths(), scattering,
-					sample, importance, responses);
+					sample, importance, responses, depth + 1);
 
 		}
 
