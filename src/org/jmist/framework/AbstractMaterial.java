@@ -28,6 +28,14 @@ public abstract class AbstractMaterial implements Material {
 	}
 
 	/* (non-Javadoc)
+	 * @see org.jmist.framework.Material#isEmissive()
+	 */
+	@Override
+	public boolean isEmissive() {
+		return false;
+	}
+
+	/* (non-Javadoc)
 	 * @see org.jmist.framework.Material#scatter(org.jmist.framework.Intersection, org.jmist.toolkit.Tuple, org.jmist.framework.ScatterRecorder)
 	 */
 	@Override

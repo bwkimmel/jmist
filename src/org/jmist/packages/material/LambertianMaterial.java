@@ -31,8 +31,7 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 	 * @param reflectance The reflectance <code>Spectrum</code>.
 	 */
 	public LambertianMaterial(Spectrum reflectance) {
-		this.reflectance = reflectance;
-		this.emittance = null;
+		this(reflectance, null);
 	}
 
 	/**
@@ -43,6 +42,14 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 	public LambertianMaterial(Spectrum reflectance, Spectrum emittance) {
 		this.reflectance = reflectance;
 		this.emittance = emittance;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.AbstractMaterial#isEmissive()
+	 */
+	@Override
+	public boolean isEmissive() {
+		return (this.emittance != null);
 	}
 
 	/* (non-Javadoc)

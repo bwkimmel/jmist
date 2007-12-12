@@ -17,6 +17,8 @@ public interface Material extends Medium {
 	Spectrum scattering(Intersection x, Vector3 out);
 	Spectrum emission(SurfacePoint x, Vector3 out);
 
+	boolean isEmissive();
+
 	void scatter(Intersection x, Tuple wavelengths, ScatterRecorder recorder);
 	void emit(SurfacePoint x, Tuple wavelengths, ScatterRecorder recorder);
 
@@ -40,6 +42,14 @@ public interface Material extends Medium {
 		@Override
 		public void emit(SurfacePoint x, Tuple wavelengths,
 				ScatterRecorder recorder) {
+		}
+
+		/* (non-Javadoc)
+		 * @see org.jmist.framework.Material#isEmissive()
+		 */
+		@Override
+		public boolean isEmissive() {
+			return false;
 		}
 
 		/* (non-Javadoc)
