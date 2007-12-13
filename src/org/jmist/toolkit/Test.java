@@ -8,6 +8,7 @@ import java.awt.image.Raster;
 import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -81,17 +82,23 @@ import org.jmist.packages.ThreadLocalRandom;
 import org.jmist.packages.TransformableGeometry;
 import org.jmist.packages.TransformableLens;
 import org.jmist.packages.VisibilityRayShader;
+import org.jmist.packages.WavefrontObjectReader;
 import org.jmist.packages.geometry.primitive.HeightFieldGeometry;
 import org.jmist.packages.geometry.primitive.PolygonGeometry;
 import org.jmist.packages.geometry.primitive.PolyhedronGeometry;
 import org.jmist.packages.geometry.primitive.RectangleGeometry;
 import org.jmist.packages.geometry.primitive.SphereGeometry;
+import org.jmist.packages.lens.FisheyeLens;
+import org.jmist.packages.lens.OmnimaxLens;
 import org.jmist.packages.lens.OrthographicLens;
 import org.jmist.packages.lens.PinholeLens;
+import org.jmist.packages.light.CompositeLight;
 import org.jmist.packages.light.PointLight;
+import org.jmist.packages.light.SimpleCompositeLight;
 import org.jmist.packages.material.LambertianMaterial;
 import org.jmist.packages.material.MirrorMaterial;
 import org.jmist.packages.model.CornellBoxModel;
+import org.jmist.packages.model.EmissionTestModel;
 import org.jmist.packages.spectrum.BlackbodySpectrum;
 import org.jmist.packages.spectrum.PiecewiseLinearSpectrum;
 import org.jmist.packages.spectrum.ScaledSpectrum;
@@ -338,7 +345,7 @@ public class Test {
 			}));
 			Material emissive = new LambertianMaterial(null, emission);
 
-			TransformableLens lens = new PinholeLens(Math.PI / 3, 1.0);
+			TransformableLens lens = new PinholeLens(0.785398, 1.0);
 			//TransformableGeometry object = new TransformableGeometry(new CylinderGeometry(new Point3(0, -1, 0), 0.25, 2, matte));
 			//TransformableGeometry object = new TransformableGeometry(new TorusGeometry(1.0, 0.25, matte));
 			//TransformableGeometry object = new TransformableGeometry(new DiscGeometry(Point3.ORIGIN, Vector3.J, 1.0, true, matte));
@@ -382,8 +389,9 @@ public class Test {
 					matte
 			));
 			CylinderGeometry emitter = new CylinderGeometry(new Point3(0, -10, 0), 10, 20, emissive);
-			Light light = new PointLight(new Point3(0, 0, 4), emission, false);
-			Geometry geometry = new TransformableGeometry()
+			//Light light = new PointLight(new Point3(0, 0, 4), emission, false);
+			CompositeLight light = new SimpleCompositeLight();
+			CompositeGeometry geometry = new TransformableGeometry()
 					.addChild(object);	/* inner cylinder */
 					//.addChild(mirror);
 					//.addChild(new InsideOutGeometry(emitter));
@@ -391,25 +399,37 @@ public class Test {
 			object.rotateX(Math.toRadians(25));
 			object.rotateY(Math.toRadians(25));
 			object.rotateZ(Math.toRadians(15));
-			lens.translate(new Vector3(0, 0, 5));
+			//lens.translate(new Vector3(0, 0, 5));
 
-			Model model = CornellBoxModel.getInstance();
+			/*
+			Model model = EmissionTestModel.getInstance();
 			geometry = model.getGeometry();
 			lens = (TransformableLens) model.getLens();
 			light = model.getLight();
+			*/
+			//lens = new OmnimaxLens();
+			//lens.rotateY(-Math.PI / 2.0);
+			lens.rotateX(-Math.atan2(2.75, 1.5));
+			lens.translate(new Vector3(-0.5, 2.75, 1.5));
 
-			Observer observer = new StandardObserver(StandardObserver.Type.CIE_2_DEGREE, 3);
+			geometry = new BoundingBoxHierarchyGeometry();
+			WavefrontObjectReader reader = new WavefrontObjectReader();
+			reader.addMaterial("diffuse50SG", new LambertianMaterial(new ConstantSpectrum(0.5)));
+			reader.addMaterial("diffuseLuminaire1SG", new LambertianMaterial(null, Spectrum.ONE));
+			reader.read(new FileInputStream("C:/Documents and Settings/bkimmel/My Documents/My Received Files/secondary.obj"), geometry, light, 0.01);
+
+			//Observer observer = new StandardObserver(StandardObserver.Type.CIE_2_DEGREE, 3);
 			//Observer observer = new FixedObserver(ArrayUtil.range(400e-9, 700e-9, 31));
-			//Observer observer = new FixedObserver(550e-9);
+			Observer observer = new FixedObserver(550e-9);
 
 			RayShader shader = new PathShader(geometry, light, observer);//new VisibilityRayShader(geometry, 255, 0);//
 			ImageShader camera = new CameraImageShader(lens, shader);
-			PixelShader pixelShader = new AveragingPixelShader(10000, new RandomPixelShader(new ThreadLocalRandom(new NRooksRandom(10000, 2)), camera));
+			PixelShader pixelShader = new AveragingPixelShader(100, new RandomPixelShader(new ThreadLocalRandom(new NRooksRandom(100, 2)), camera));
 			//ColorModel cm = new ComponentColorModel(ColorSpace.getInstance(ColorSpace.CS_CIEXYZ), false, false, Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
-			SampleModel sm = new PixelInterleavedSampleModel(DataBuffer.TYPE_DOUBLE, 500, 500, 3, 500*3, ArrayUtil.range(0, 2));
+			SampleModel sm = new PixelInterleavedSampleModel(DataBuffer.TYPE_DOUBLE, 256, 256, 1, 256*1, ArrayUtil.range(0, 0));
 
 			FileChannel ch = new RandomAccessFile("C:/render.tmp", "rw").getChannel();
-			ByteBuffer buf = ch.map(FileChannel.MapMode.READ_WRITE, 0, 500 * 500 * 3 * 8);
+			ByteBuffer buf = ch.map(FileChannel.MapMode.READ_WRITE, 0, 256 * 256 * 1 * 8);
 			ch.close();
 			DoubleBuffer dbuf = buf.asDoubleBuffer();
 			DataBuffer db = new DoubleDataBufferAdapter(dbuf);
