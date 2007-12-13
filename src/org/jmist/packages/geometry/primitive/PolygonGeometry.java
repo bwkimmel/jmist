@@ -6,10 +6,19 @@ package org.jmist.packages.geometry.primitive;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jmist.framework.CategoricalRandom;
+import org.jmist.framework.Illuminable;
 import org.jmist.framework.Intersection;
 import org.jmist.framework.IntersectionRecorder;
+import org.jmist.framework.Light;
 import org.jmist.framework.Material;
+import org.jmist.framework.Random;
 import org.jmist.framework.SingleMaterialGeometry;
+import org.jmist.framework.Spectrum;
+import org.jmist.framework.SurfacePoint;
+import org.jmist.framework.VisibilityFunction3;
+import org.jmist.packages.SimpleRandom;
+import org.jmist.packages.spectrum.ScaledSpectrum;
 import org.jmist.toolkit.Basis3;
 import org.jmist.toolkit.BoundingBoxBuilder2;
 import org.jmist.toolkit.Box2;
@@ -26,7 +35,7 @@ import org.jmist.util.ArrayUtil;
  * @author bkimmel
  *
  */
-public final class PolygonGeometry extends SingleMaterialGeometry {
+public final class PolygonGeometry extends SingleMaterialGeometry implements Light {
 
 	/**
 	 * @param material
@@ -72,6 +81,7 @@ public final class PolygonGeometry extends SingleMaterialGeometry {
 		}
 
 		this.bound = builder.getBoundingBox();
+		this.area = this.getArea();
 
 	}
 
@@ -252,13 +262,45 @@ public final class PolygonGeometry extends SingleMaterialGeometry {
 		return Sphere.smallestContaining(this.getVertices());
 	}
 
+	/* (non-Javadoc)
+	 * @see org.jmist.framework.Light#illuminate(org.jmist.framework.SurfacePoint, org.jmist.framework.VisibilityFunction3, org.jmist.framework.Illuminable)
+	 */
+	@Override
+	public void illuminate(SurfacePoint x, VisibilityFunction3 vf,
+			Illuminable target) {
+
+		if (categorical == null) {
+			double[] weights = new double[components.size()];
+			for (int i = 0; i < components.size(); i++) {
+				weights[i] = components.get(i).getArea();
+			}
+			categorical = new CategoricalRandom(weights);
+		}
+
+		Component component = this.components.get(categorical.next());
+		component.illuminate(x, vf, target);
+
+	}
+
+	private Point3 pointAt(Point2 uv) {
+		return this.origin.plus(basis.u().times(uv.x())).plus(basis.v().times(uv.y()));
+	}
+
+	private double getArea() {
+		double area = 0.0;
+		for (Component component : this.components) {
+			area += component.getArea();
+		}
+		return area;
+	}
+
 	private Iterable<Point3> getVertices() {
 
 		List<Point3> vertexList = new ArrayList<Point3>();
 
 		for (int i = 0; i < this.vertices.size(); i++) {
 			Point2 p = this.vertices.get(i);
-			Point3 vertex = this.origin.plus(basis.u().times(p.x())).plus(basis.v().times(p.y()));
+			Point3 vertex = this.pointAt(p);
 
 			vertexList.add(vertex);
 		}
@@ -282,6 +324,60 @@ public final class PolygonGeometry extends SingleMaterialGeometry {
 			this.bound = builder.getBoundingBox();
 		}
 
+		public double getArea() {
+			double area = this.getOuterArea();
+			for (Component child : this.children) {
+				area -= child.getArea();
+			}
+			return area;
+		}
+
+		private double getOuterArea() {
+			double area = 0.0;
+			for (int i = 0; i < indices.length - 1; i++) {
+				Point2 a = vertices.get(indices[i]);
+				Point2 b = vertices.get(indices[i + 1]);
+
+				area += a.x() * b.y() - b.x() * a.y();
+			}
+			area /= 2.0;
+			return area;
+		}
+
+		public void illuminate(SurfacePoint x, VisibilityFunction3 vf,
+				Illuminable target) {
+
+			Point2 uv;
+			do {
+				uv = bound.interpolate(random.next(), random.next());
+			} while (!PolygonGeometry.this.inside(uv, this));
+
+			Point3 p = PolygonGeometry.this.pointAt(uv);
+
+			if (vf.visibility(p, x.location())) {
+
+				// FIXME Select from appropriate side when two-sided.
+				Intersection sp = PolygonGeometry.super.newIntersection(null, 0.0, true, POLYGON_SURFACE_TOP)
+					.setLocation(p)
+					.setTextureCoordinates(uv)
+					.setNormal(PolygonGeometry.this.plane.normal());
+
+				/* Compute the attenuation according to distance. */
+				Vector3 from = x.location().vectorTo(p);
+				double r = from.length();
+				double attenuation = PolygonGeometry.this.area / (4.0 * Math.PI * r * r);
+				from = from.divide(r);
+
+				/* Sample the material radiance. */
+				Spectrum radiance = sp.material().emission(sp, from.opposite());
+
+				/* Illuminate the point. */
+				target.illuminate(from, new ScaledSpectrum(attenuation, radiance));
+
+			}
+
+		}
+
 		private final Box2 bound;
 		private final int[] indices;
 		private final List<Component> children = new ArrayList<Component>();
@@ -298,9 +394,7 @@ public final class PolygonGeometry extends SingleMaterialGeometry {
 	private final Point3 origin;
 	private final Basis3 basis;
 	private final Box2 bound;
-
-
-
-
-
+	private CategoricalRandom categorical = null;
+	private final double area;
+	private final Random random = new SimpleRandom();
 }
