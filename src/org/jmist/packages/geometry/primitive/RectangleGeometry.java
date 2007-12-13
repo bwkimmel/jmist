@@ -181,7 +181,7 @@ public final class RectangleGeometry extends SingleMaterialGeometry implements L
 			/* Compute the attenuation according to distance. */
 			Vector3 from = x.location().vectorTo(p);
 			double r = from.length();
-			double attenuation = 1.0 / (4.0 * Math.PI * r * r);
+			double attenuation = (ru * rv) / (Math.PI * r * r);
 			from = from.divide(r);
 
 			/* Sample the material radiance. */
