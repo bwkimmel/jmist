@@ -112,6 +112,14 @@ public final class RandomUtil {
 
 	}
 
+	public static int discrete(int minimum, int maximum) {
+		return minimum + random.nextInt(maximum - minimum + 1);
+	}
+
+	public static int discrete(int minimum, int maximum, double seed) {
+		return minimum + (int) Math.floor(random.nextDouble() * (double) (maximum - minimum + 1));
+	}
+
 	private static final java.util.Random random = new java.util.Random();
 
 }
