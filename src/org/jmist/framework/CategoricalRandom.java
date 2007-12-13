@@ -5,8 +5,6 @@ package org.jmist.framework;
 
 import java.util.Arrays;
 
-import org.jmist.packages.SimpleRandom;
-
 /**
  * A categorical random variable (i.e., a discrete random variable that selects
  * a value with probability proportional to specified weights).
@@ -43,7 +41,7 @@ public final class CategoricalRandom {
 	 * 		from zero to <code>weights.length - 1</code>.
 	 */
 	public CategoricalRandom(double[] weights) {
-		this(weights, new SimpleRandom());
+		this(weights, null);
 	}
 
 	/**
@@ -52,7 +50,7 @@ public final class CategoricalRandom {
 	 * @return The next sample.
 	 */
 	public int next() {
-		int index = Arrays.binarySearch(this.cpf, source.next());
+		int index = Arrays.binarySearch(this.cpf, source != null ? source.next() : Math.random());
 		return index >= 0 ? index : -(index + 1);
 	}
 
