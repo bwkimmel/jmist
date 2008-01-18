@@ -8,7 +8,6 @@ package org.jmist.framework.reporting;
 
 import java.awt.Component;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -492,33 +491,23 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 		}
 
 		/**
-		 * Removes the child at the specified index.
-		 * @param index The index of the <code>ProgressNode</code> to remove.
-		 */
-		public void removeChildAt(int index) {
-
-			assert(0 <= index && index < this.children.size());
-
-			this.children.remove(index);
-			this.fireTableRowsDeleted(index, index);
-
-		}
-
-		/**
 		 * Removes the specified child from this <code>ProgressNode</code>.
 		 * @param child The child <code>ProgressNode</code> to remove.
 		 */
-		public void removeChild(ProgressNode child) {
+		public synchronized void removeChild(ProgressNode child) {
+			int index = this.children.indexOf(child);
+			this.children.remove(index);
+			this.fireTableRowsDeleted(index, index);
+		}
 
-			Iterator<ProgressNode> i = this.children.iterator();
-
-			while (i.hasNext()) {
-				if (i.next() == child) {
-					i.remove();
-					break;
-				}
-			}
-
+		/**
+		 * Gets the index of the specified child node.
+		 * @param child The child <code>ProgressNode</code> to find.
+		 * @return The index of the <code>child</code>, or <code>-1</code> if
+		 * 		there is no such child node.
+		 */
+		private synchronized int indexOf(ProgressNode child) {
+			return this.children.indexOf(child);
 		}
 
 		/**
@@ -528,8 +517,7 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 		 */
 		private void fireColumnChanged(int column) {
 			if (this.parent != null) {
-				// TODO indicate which cell changed.
-				this.parent.fireTableDataChanged();
+				this.parent.fireTableCellUpdated(this.parent.indexOf(this), column);
 			}
 		}
 
@@ -611,30 +599,34 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 		 * @see javax.swing.table.TableModel#getValueAt(int, int)
 		 */
 		@Override
-		public Object getValueAt(int rowIndex, int columnIndex) {
+		public synchronized Object getValueAt(int rowIndex, int columnIndex) {
 
-			assert(rowIndex < this.children.size());
+			if (rowIndex < this.children.size()) {
 
-			ProgressNode node = this.children.get(rowIndex);
+				ProgressNode node = this.children.get(rowIndex);
 
-			switch (columnIndex) {
+				switch (columnIndex) {
 
-			case CHILDREN_COLUMN:
-				return node.children.size();
+				case CHILDREN_COLUMN:
+					return node.children.size();
 
-			case TITLE_COLUMN:
-				return node.title;
+				case TITLE_COLUMN:
+					return node.title;
 
-			case PROGRESS_COLUMN:
-				return node.progressBar;
+				case PROGRESS_COLUMN:
+					return node.progressBar;
 
-			case STATUS_COLUMN:
-				return node.status;
+				case STATUS_COLUMN:
+					return node.status;
 
-			default:
-				assert(false);
+				default:
+					assert(false);
+					return null;
+
+				}
+
+			} else {
 				return null;
-
 			}
 
 		}
