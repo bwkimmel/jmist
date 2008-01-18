@@ -56,7 +56,7 @@ public final class ParallelizableJobRunner implements Job {
 		this.monitor = monitor;
 
 		/* Task loop. */
-		while (notifyIndeterminantProgress()) {
+		while (!this.monitor.isCancelPending()) {
 
 			try {
 
