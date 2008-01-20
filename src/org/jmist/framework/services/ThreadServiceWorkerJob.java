@@ -64,7 +64,7 @@ public final class ThreadServiceWorkerJob implements Job {
 			this.registry = LocateRegistry.getRegistry(this.masterHost);
 			this.initializeService();
 
-			while (monitor.notifyIndeterminantProgress()) {
+			while (!monitor.isCancelPending()) {
 
 				this.workerSlot.acquire();
 
