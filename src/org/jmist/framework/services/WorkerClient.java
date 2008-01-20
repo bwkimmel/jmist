@@ -27,7 +27,7 @@ public final class WorkerClient {
             System.setSecurityManager(new RMISecurityManager());
         }
 
-		String host = args[0].trim().length() > 0 ? args[0] : "localhost";
+		String host = args.length > 0 ? args[0] : "localhost";
 		JDialog dialog = new JDialog();
 		ProgressTreePanel monitor = new ProgressTreePanel();
 		Executor threadPool = Executors.newFixedThreadPool(2, new BackgroundThreadFactory());
