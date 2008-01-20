@@ -22,9 +22,8 @@ public final class WorkerClient {
 	 */
 	public static void main(String[] args) {
 
-		String host = "spock.eandb.net";
+		String host = args[0].trim().length() > 0 ? args[0] : "localhost";
 		JDialog dialog = new JDialog();
-		dialog.setTitle(host);
 		ProgressTreePanel monitor = new ProgressTreePanel();
 		Executor threadPool = Executors.newFixedThreadPool(2, new BackgroundThreadFactory());
 		Job workerJob = new ThreadServiceWorkerJob(host, 10000, 2, threadPool);
