@@ -386,7 +386,7 @@ public final class ThreadServiceWorkerJob implements Job {
 
 				} else {
 
-					this.monitor.notifyStatusChanged("No service");
+					this.monitor.notifyStatusChanged("No service at " + ThreadServiceWorkerJob.this.masterHost);
 					this.waitForService();
 					this.monitor.notifyCancelled();
 
