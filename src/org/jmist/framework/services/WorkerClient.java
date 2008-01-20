@@ -3,6 +3,7 @@
  */
 package org.jmist.framework.services;
 
+import java.rmi.RMISecurityManager;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -21,6 +22,10 @@ public final class WorkerClient {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+
+        if (System.getSecurityManager() == null) {
+            System.setSecurityManager(new RMISecurityManager());
+        }
 
 		String host = args[0].trim().length() > 0 ? args[0] : "localhost";
 		JDialog dialog = new JDialog();
