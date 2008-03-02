@@ -30,8 +30,10 @@ public final class WorkerClient {
 		String host = args.length > 0 ? args[0] : "localhost";
 		JDialog dialog = new JDialog();
 		ProgressTreePanel monitor = new ProgressTreePanel();
-		Executor threadPool = Executors.newFixedThreadPool(2, new BackgroundThreadFactory());
-		Job workerJob = new ThreadServiceWorkerJob(host, 10000, 2, threadPool);
+		
+		int numberOfCpus = Runtime.getRuntime().availableProcessors();
+		Executor threadPool = Executors.newFixedThreadPool(numberOfCpus, new BackgroundThreadFactory());
+		Job workerJob = new ThreadServiceWorkerJob(host, 10000, numberOfCpus, threadPool);
 
 		dialog.add(monitor);
 		dialog.setBounds(0, 0, 400, 300);
