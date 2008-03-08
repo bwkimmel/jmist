@@ -72,7 +72,6 @@ public final class PiecewiseLinearProbabilityDensityFunction extends
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.ProbabilityDensityFunction#evaluate(double)
 	 */
-	@Override
 	public double evaluate(double x) {
 		return MathUtil.interpolate(this.x, this.pdf, x);
 	}
@@ -80,7 +79,6 @@ public final class PiecewiseLinearProbabilityDensityFunction extends
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.ProbabilityDensityFunction#warp(double)
 	 */
-	@Override
 	public double warp(double seed) {
 
 		/* If the value is out of range, the results are undefined.  Returning

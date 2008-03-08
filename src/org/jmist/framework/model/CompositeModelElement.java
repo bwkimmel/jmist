@@ -38,7 +38,6 @@ public class CompositeModelElement extends AbstractModelElement {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.model.ModelElement#removeChild(org.jmist.framework.model.ModelElement)
 	 */
-	@Override
 	public void removeChild(ModelElement child) {
 
 		Iterator<ModelElement> i = this.children.iterator();

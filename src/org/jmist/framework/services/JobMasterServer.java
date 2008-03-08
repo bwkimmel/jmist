@@ -182,7 +182,6 @@ public final class JobMasterServer implements JobMasterService {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.services.JobMasterService#setIdleTime(int)
 	 */
-	@Override
 	public void setIdleTime(int idleSeconds) throws IllegalArgumentException {
 		this.idle.setIdleTime(idleSeconds);
 	}
@@ -190,7 +189,6 @@ public final class JobMasterServer implements JobMasterService {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.JobMasterService#getTaskWorker(java.util.UUID)
 	 */
-	@Override
 	public synchronized TaskWorker getTaskWorker(UUID jobId) {
 
 		ScheduledJob sched = this.jobLookup.get(jobId);
@@ -201,7 +199,6 @@ public final class JobMasterServer implements JobMasterService {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.JobMasterService#requestTask()
 	 */
-	@Override
 	public synchronized TaskDescription requestTask() {
 
 		if (this.verbose) {
@@ -307,7 +304,6 @@ public final class JobMasterServer implements JobMasterService {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.JobMasterService#submitJob(org.jmist.framework.ParallelizableJob, int)
 	 */
-	@Override
 	public synchronized UUID submitJob(ParallelizableJob job, int priority) {
 
 		// Create the job and add it to the schedule.
@@ -326,7 +322,6 @@ public final class JobMasterServer implements JobMasterService {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.JobMasterService#submitTaskResults(java.util.UUID, int, java.lang.Object)
 	 */
-	@Override
 	public synchronized void submitTaskResults(UUID jobId, int taskId, Object results) {
 
 		// Find the task.
@@ -579,7 +574,6 @@ public final class JobMasterServer implements JobMasterService {
 		/* (non-Javadoc)
 		 * @see java.lang.Comparable#compareTo(java.lang.Object)
 		 */
-		@Override
 		public int compareTo(ScheduledJob arg0) {
 
 			// First compare priorities.

@@ -35,7 +35,6 @@ public class DielectricMaterial extends AbstractMaterial {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Medium#extinctionIndex(org.jmist.toolkit.Point3)
 	 */
-	@Override
 	public Spectrum extinctionIndex(Point3 p) {
 		return Spectrum.ZERO;
 	}
@@ -43,7 +42,6 @@ public class DielectricMaterial extends AbstractMaterial {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Medium#refractiveIndex(org.jmist.toolkit.Point3)
 	 */
-	@Override
 	public Spectrum refractiveIndex(Point3 p) {
 		return this.refractiveIndex;
 	}
@@ -51,7 +49,6 @@ public class DielectricMaterial extends AbstractMaterial {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Medium#transmittance(org.jmist.toolkit.Ray3, double)
 	 */
-	@Override
 	public Spectrum transmittance(Ray3 ray, double distance) {
 		return Spectrum.ONE;
 	}
@@ -115,7 +112,6 @@ public class DielectricMaterial extends AbstractMaterial {
 //	/* (non-Javadoc)
 //	 * @see org.jmist.framework.AbstractMaterial#scatter(org.jmist.framework.Intersection, org.jmist.toolkit.Tuple)
 //	 */
-//	@Override
 //	public Ray3 scatter(Intersection x, Tuple wavelengths, double[] radiance) {
 //
 //		Point3		p			= x.location();

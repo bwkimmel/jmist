@@ -80,7 +80,6 @@ public final class EqualSolidAnglesCollectorSphere extends
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.measurement.CollectorSphere#getSensorCenter(int)
 	 */
-	@Override
 	public SphericalCoordinates getSensorCenter(int sensor) {
 
 		int hemispheres = (upper ? 1 : 0) + (lower ? 1 : 0);
@@ -138,7 +137,6 @@ public final class EqualSolidAnglesCollectorSphere extends
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.measurement.CollectorSphere#getSensorProjectedSolidAngle(int)
 	 */
-	@Override
 	public double getSensorProjectedSolidAngle(int sensor) {
 
 		int hemispheres = (upper ? 1 : 0) + (lower ? 1 : 0);
@@ -186,7 +184,6 @@ public final class EqualSolidAnglesCollectorSphere extends
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.measurement.CollectorSphere#getSensorSolidAngle(int)
 	 */
-	@Override
 	public double getSensorSolidAngle(int sensor) {
 		double hemispheres = (upper ? 1.0 : 0.0) + (lower ? 1.0 : 0.0);
 		return hemispheres * (2.0 * Math.PI) / (double) this.sensors();

@@ -35,7 +35,6 @@ public final class ServiceSubmitJob implements Job {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Job#go(org.jmist.framework.ProgressMonitor)
 	 */
-	@Override
 	public boolean go(ProgressMonitor monitor) {
 
 		try {

@@ -36,7 +36,6 @@ public final class EmissionTestModel implements Model {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Model#getGeometry()
 	 */
-	@Override
 	public Geometry getGeometry() {
 		if (geometry == null) {
 			this.initialize();
@@ -48,7 +47,6 @@ public final class EmissionTestModel implements Model {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Model#getLens()
 	 */
-	@Override
 	public Lens getLens() {
 		if (lens == null) {
 			this.initialize();
@@ -60,7 +58,6 @@ public final class EmissionTestModel implements Model {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Model#getLight()
 	 */
-	@Override
 	public Light getLight() {
 		if (light == null) {
 			this.initialize();

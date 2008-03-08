@@ -15,7 +15,6 @@ public abstract class AbstractParallelizableJob implements ParallelizableJob {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Job#go(org.jmist.framework.reporting.ProgressMonitor)
 	 */
-	@Override
 	public boolean go(ProgressMonitor monitor) {
 
 		/* Get the task worker. */

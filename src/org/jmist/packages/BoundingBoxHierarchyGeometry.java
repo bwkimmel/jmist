@@ -18,7 +18,6 @@ public final class BoundingBoxHierarchyGeometry extends CompositeGeometry {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Geometry#intersect(org.jmist.toolkit.Ray3, org.jmist.framework.IntersectionRecorder)
 	 */
-	@Override
 	public void intersect(final Ray3 ray, final IntersectionRecorder recorder) {
 
 		this.bbh.intersect(ray, recorder.interval(), new Visitor() {
@@ -26,7 +25,6 @@ public final class BoundingBoxHierarchyGeometry extends CompositeGeometry {
 			/* (non-Javadoc)
 			 * @see org.jmist.framework.Visitor#visit(java.lang.Object)
 			 */
-			@Override
 			public boolean visit(Object item) {
 				Geometry geometry = (Geometry) item;
 				geometry.intersect(ray, recorder);

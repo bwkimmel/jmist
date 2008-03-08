@@ -49,7 +49,6 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Geometry#intersect(org.jmist.toolkit.Ray3, org.jmist.framework.IntersectionRecorder)
 	 */
-	@Override
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 		for (int i = 0; i < this.faces.length; i++) {
 			this.intersectFace(i, ray, recorder);
@@ -102,7 +101,6 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Geometry#isClosed()
 	 */
-	@Override
 	public boolean isClosed() {
 		return this.closed;
 	}
@@ -110,7 +108,6 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Bounded3#boundingBox()
 	 */
-	@Override
 	public Box3 boundingBox() {
 
 		BoundingBoxBuilder3 builder = new BoundingBoxBuilder3();
@@ -126,7 +123,6 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Bounded3#boundingSphere()
 	 */
-	@Override
 	public Sphere boundingSphere() {
 		return Sphere.smallestContaining(Arrays.asList(this.vertices));
 	}

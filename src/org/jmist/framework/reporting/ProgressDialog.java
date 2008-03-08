@@ -48,6 +48,8 @@ public class ProgressDialog extends javax.swing.JDialog implements ProgressMonit
 			}
 		});
 
+		/** TODO: Redo using Java 5 supported classes. */
+		/*
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
 		getContentPane().setLayout(layout);
 		layout.setHorizontalGroup(
@@ -71,6 +73,7 @@ public class ProgressDialog extends javax.swing.JDialog implements ProgressMonit
 				.addComponent(cancelButton)
 				.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
+		*/
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
 
@@ -99,7 +102,6 @@ public class ProgressDialog extends javax.swing.JDialog implements ProgressMonit
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.reporting.ProgressMonitor#isCancelPending()
 	 */
-	@Override
 	public synchronized boolean isCancelPending() {
 		return this.cancelPending;
 	}
@@ -107,7 +109,6 @@ public class ProgressDialog extends javax.swing.JDialog implements ProgressMonit
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.reporting.ProgressMonitor#notifyProgress(double)
 	 */
-	@Override
 	public boolean notifyProgress(double progress) {
 		this.ensureVisible();
 		this.setProgressBarValue((int) Math.floor(100.0 * progress), 100);
@@ -118,7 +119,6 @@ public class ProgressDialog extends javax.swing.JDialog implements ProgressMonit
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.reporting.ProgressMonitor#notifyProgress(int, int)
 	 */
-	@Override
 	public boolean notifyProgress(int value, int maximum) {
 		this.ensureVisible();
 		this.setProgressBarValue(value, maximum);
@@ -129,7 +129,6 @@ public class ProgressDialog extends javax.swing.JDialog implements ProgressMonit
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.reporting.ProgressMonitor#notifyIndeterminantProgress()
 	 */
-	@Override
 	public boolean notifyIndeterminantProgress() {
 		this.ensureVisible();
 		this.progressBar.setIndeterminate(true);
@@ -158,7 +157,6 @@ public class ProgressDialog extends javax.swing.JDialog implements ProgressMonit
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.reporting.ProgressMonitor#notifyStatusChanged(java.lang.String)
 	 */
-	@Override
 	public void notifyStatusChanged(String status) {
 		this.ensureVisible();
 		this.statusText = status;
@@ -188,7 +186,7 @@ public class ProgressDialog extends javax.swing.JDialog implements ProgressMonit
 	 * dialog.
 	 */
 	private void clearProgressText() {
-		if (!this.progressText.isEmpty()) {
+		if (this.progressText != "") {
 			this.progressText = "";
 			this.updateStatusLabel();
 		}
@@ -197,7 +195,6 @@ public class ProgressDialog extends javax.swing.JDialog implements ProgressMonit
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.reporting.ProgressMonitor#notifyCancelled()
 	 */
-	@Override
 	public void notifyCancelled() {
 		this.setVisible(false);
 	}
@@ -205,7 +202,6 @@ public class ProgressDialog extends javax.swing.JDialog implements ProgressMonit
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.reporting.ProgressMonitor#notifyComplete()
 	 */
-	@Override
 	public void notifyComplete() {
 		this.setVisible(false);
 	}
@@ -213,7 +209,6 @@ public class ProgressDialog extends javax.swing.JDialog implements ProgressMonit
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.reporting.ProgressMonitor#createChildProgressMonitor(java.lang.String)
 	 */
-	@Override
 	public ProgressMonitor createChildProgressMonitor(String title) {
 		return DummyProgressMonitor.getInstance();
 	}

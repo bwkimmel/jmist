@@ -59,7 +59,6 @@ public final class RectangleGeometry extends SingleMaterialGeometry implements L
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Geometry#intersect(org.jmist.toolkit.Ray3, org.jmist.framework.IntersectionRecorder)
 	 */
-	@Override
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 
 		boolean	fromTop = ray.direction().dot(plane.normal()) < 0.0;
@@ -129,7 +128,6 @@ public final class RectangleGeometry extends SingleMaterialGeometry implements L
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Geometry#isClosed()
 	 */
-	@Override
 	public boolean isClosed() {
 		return false;
 	}
@@ -137,7 +135,6 @@ public final class RectangleGeometry extends SingleMaterialGeometry implements L
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Bounded3#boundingBox()
 	 */
-	@Override
 	public Box3 boundingBox() {
 		BoundingBoxBuilder3 builder = new BoundingBoxBuilder3();
 		builder.add(center.plus(basis.u().times( ru)).plus(basis.v().times( rv)));
@@ -150,7 +147,6 @@ public final class RectangleGeometry extends SingleMaterialGeometry implements L
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Bounded3#boundingSphere()
 	 */
-	@Override
 	public Sphere boundingSphere() {
 		return new Sphere(this.center, Math.sqrt(ru * ru * rv * rv));
 	}
@@ -158,7 +154,6 @@ public final class RectangleGeometry extends SingleMaterialGeometry implements L
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Light#illuminate(org.jmist.framework.SurfacePoint, org.jmist.framework.VisibilityFunction3, org.jmist.framework.Illuminable)
 	 */
-	@Override
 	public void illuminate(SurfacePoint x, VisibilityFunction3 vf,
 			Illuminable target) {
 

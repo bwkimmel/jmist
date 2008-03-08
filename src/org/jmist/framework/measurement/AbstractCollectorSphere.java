@@ -71,7 +71,6 @@ public abstract class AbstractCollectorSphere implements CollectorSphere,
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.measurement.CollectorSphere#hits(int)
 	 */
-	@Override
 	public long hits(int sensor) {
 		return this.hits[sensor];
 	}
@@ -79,7 +78,6 @@ public abstract class AbstractCollectorSphere implements CollectorSphere,
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.measurement.CollectorSphere#record(org.jmist.toolkit.Vector3)
 	 */
-	@Override
 	public void record(Vector3 v) {
 		this.record(this.getSensor(v));
 	}
@@ -87,7 +85,6 @@ public abstract class AbstractCollectorSphere implements CollectorSphere,
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.measurement.CollectorSphere#record(org.jmist.toolkit.SphericalCoordinates)
 	 */
-	@Override
 	public final void record(SphericalCoordinates v) {
 		this.record(this.getSensor(v));
 	}
@@ -95,7 +92,6 @@ public abstract class AbstractCollectorSphere implements CollectorSphere,
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.measurement.CollectorSphere#reset()
 	 */
-	@Override
 	public void reset() {
 		for (int i = 0; i < this.hits.length; i++) {
 			this.hits[i] = 0;
@@ -105,7 +101,6 @@ public abstract class AbstractCollectorSphere implements CollectorSphere,
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.measurement.CollectorSphere#sensors()
 	 */
-	@Override
 	public int sensors() {
 		return this.hits.length;
 	}
@@ -113,7 +108,6 @@ public abstract class AbstractCollectorSphere implements CollectorSphere,
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.measurement.CollectorSphere#merge(org.jmist.framework.measurement.CollectorSphere)
 	 */
-	@Override
 	public void merge(CollectorSphere other) throws IllegalArgumentException {
 
 		if (this.getClass().equals(other.getClass())) {

@@ -42,7 +42,6 @@ public final class ThreadLocalRandom implements Random {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Random#next()
 	 */
-	@Override
 	public double next() {
 		return this.random.get().next();
 	}
@@ -50,7 +49,6 @@ public final class ThreadLocalRandom implements Random {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Random#reset()
 	 */
-	@Override
 	public void reset() {
 		this.random.get().reset();
 	}
@@ -58,7 +56,6 @@ public final class ThreadLocalRandom implements Random {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Random#createCompatibleRandom()
 	 */
-	@Override
 	public ThreadLocalRandom createCompatibleRandom() {
 		return new ThreadLocalRandom(this.random.get().createCompatibleRandom());
 	}

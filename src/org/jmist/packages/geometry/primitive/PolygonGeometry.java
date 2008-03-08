@@ -200,7 +200,6 @@ public final class PolygonGeometry extends SingleMaterialGeometry implements Lig
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Geometry#intersect(org.jmist.toolkit.Ray3, org.jmist.framework.IntersectionRecorder)
 	 */
-	@Override
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 
 		if (this.components.isEmpty())
@@ -241,7 +240,6 @@ public final class PolygonGeometry extends SingleMaterialGeometry implements Lig
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Geometry#isClosed()
 	 */
-	@Override
 	public boolean isClosed() {
 		return false;
 	}
@@ -249,7 +247,6 @@ public final class PolygonGeometry extends SingleMaterialGeometry implements Lig
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Bounded3#boundingBox()
 	 */
-	@Override
 	public Box3 boundingBox() {
 		return Box3.smallestContainingPoints(this.getVertices());
 	}
@@ -257,7 +254,6 @@ public final class PolygonGeometry extends SingleMaterialGeometry implements Lig
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Bounded3#boundingSphere()
 	 */
-	@Override
 	public Sphere boundingSphere() {
 		return Sphere.smallestContaining(this.getVertices());
 	}
@@ -265,7 +261,6 @@ public final class PolygonGeometry extends SingleMaterialGeometry implements Lig
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Light#illuminate(org.jmist.framework.SurfacePoint, org.jmist.framework.VisibilityFunction3, org.jmist.framework.Illuminable)
 	 */
-	@Override
 	public void illuminate(SurfacePoint x, VisibilityFunction3 vf,
 			Illuminable target) {
 

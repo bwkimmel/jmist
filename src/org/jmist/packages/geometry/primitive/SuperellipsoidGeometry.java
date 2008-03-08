@@ -48,7 +48,6 @@ public final class SuperellipsoidGeometry extends SingleMaterialGeometry {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Geometry#intersect(org.jmist.toolkit.Ray3, org.jmist.framework.IntersectionRecorder)
 	 */
-	@Override
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 
 		List<Double>	a = getIntervals(ray);
@@ -349,7 +348,6 @@ public final class SuperellipsoidGeometry extends SingleMaterialGeometry {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Geometry#isClosed()
 	 */
-	@Override
 	public boolean isClosed() {
 		return true;
 	}
@@ -357,7 +355,6 @@ public final class SuperellipsoidGeometry extends SingleMaterialGeometry {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Bounded3#boundingBox()
 	 */
-	@Override
 	public Box3 boundingBox() {
 		return SUPERELLIPSOID_BOUNDING_BOX;
 	}
@@ -365,7 +362,6 @@ public final class SuperellipsoidGeometry extends SingleMaterialGeometry {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Bounded3#boundingSphere()
 	 */
-	@Override
 	public Sphere boundingSphere() {
 		return new Sphere(Point3.ORIGIN, Math.sqrt(2.0));
 	}

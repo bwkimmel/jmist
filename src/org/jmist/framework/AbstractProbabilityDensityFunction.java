@@ -16,7 +16,6 @@ public abstract class AbstractProbabilityDensityFunction implements
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.ProbabilityDensityFunction#sample()
 	 */
-	@Override
 	public double sample() {
 		return this.warp(Math.random());
 	}
@@ -24,7 +23,6 @@ public abstract class AbstractProbabilityDensityFunction implements
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.ProbabilityDensityFunction#evaluate(double[], double[])
 	 */
-	@Override
 	public double[] evaluate(double[] x, double[] results) {
 
 		results = ArrayUtil.initialize(results, x.length);
@@ -40,7 +38,6 @@ public abstract class AbstractProbabilityDensityFunction implements
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.ProbabilityDensityFunction#sample(double[])
 	 */
-	@Override
 	public double[] sample(double[] results) {
 
 		for (int i = 0; i < results.length; i++) {
@@ -54,7 +51,6 @@ public abstract class AbstractProbabilityDensityFunction implements
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.ProbabilityDensityFunction#warp(double[], double[])
 	 */
-	@Override
 	public double[] warp(double[] seeds, double[] results) {
 
 		if (results == null) {

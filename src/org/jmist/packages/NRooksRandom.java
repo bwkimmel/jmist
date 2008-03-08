@@ -76,7 +76,6 @@ public final class NRooksRandom implements Random {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Random#createCompatibleRandom()
 	 */
-	@Override
 	public NRooksRandom createCompatibleRandom() {
 		return new NRooksRandom(this.sources);
 	}

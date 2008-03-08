@@ -19,7 +19,6 @@ public class AffineTransformation3 implements AffineTransformable3 {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.AffineTransformable3#transform(org.jmist.toolkit.AffineMatrix3)
 	 */
-	@Override
 	public void transform(AffineMatrix3 T) {
 		this.applyTransformation(T);
 	}
@@ -27,7 +26,6 @@ public class AffineTransformation3 implements AffineTransformable3 {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.LinearTransformable3#transform(org.jmist.toolkit.LinearMatrix3)
 	 */
-	@Override
 	public void transform(LinearMatrix3 T) {
 		this.applyTransformation(T);
 	}
@@ -35,7 +33,6 @@ public class AffineTransformation3 implements AffineTransformable3 {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Rotatable3#rotate(org.jmist.toolkit.Vector3, double)
 	 */
-	@Override
 	public void rotate(Vector3 axis, double angle) {
 		this.applyTransformation(LinearMatrix3.rotateMatrix(axis, angle));
 	}
@@ -43,7 +40,6 @@ public class AffineTransformation3 implements AffineTransformable3 {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Rotatable3#rotateX(double)
 	 */
-	@Override
 	public void rotateX(double angle) {
 		this.applyTransformation(LinearMatrix3.rotateXMatrix(angle));
 	}
@@ -51,7 +47,6 @@ public class AffineTransformation3 implements AffineTransformable3 {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Rotatable3#rotateY(double)
 	 */
-	@Override
 	public void rotateY(double angle) {
 		this.applyTransformation(LinearMatrix3.rotateYMatrix(angle));
 	}
@@ -59,7 +54,6 @@ public class AffineTransformation3 implements AffineTransformable3 {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Rotatable3#rotateZ(double)
 	 */
-	@Override
 	public void rotateZ(double angle) {
 		this.applyTransformation(LinearMatrix3.rotateZMatrix(angle));
 	}
@@ -67,7 +61,6 @@ public class AffineTransformation3 implements AffineTransformable3 {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Translatable3#translate(org.jmist.toolkit.Vector3)
 	 */
-	@Override
 	public void translate(Vector3 v) {
 		this.applyTransformation(AffineMatrix3.translateMatrix(v));
 	}
@@ -75,7 +68,6 @@ public class AffineTransformation3 implements AffineTransformable3 {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Scalable#scale(double)
 	 */
-	@Override
 	public void scale(double c) {
 		this.applyTransformation(LinearMatrix3.scaleMatrix(c));
 	}
@@ -83,7 +75,6 @@ public class AffineTransformation3 implements AffineTransformable3 {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Stretchable3#stretch(org.jmist.toolkit.Vector3, double)
 	 */
-	@Override
 	public void stretch(Vector3 axis, double c) {
 		this.applyTransformation(LinearMatrix3.stretchMatrix(axis, c));
 	}
@@ -91,7 +82,6 @@ public class AffineTransformation3 implements AffineTransformable3 {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.AxisStretchable3#stretch(double, double, double)
 	 */
-	@Override
 	public void stretch(double cx, double cy, double cz) {
 		this.applyTransformation(LinearMatrix3.stretchMatrix(cx, cy, cz));
 	}
@@ -99,7 +89,6 @@ public class AffineTransformation3 implements AffineTransformable3 {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.AxisStretchable3#stretchX(double)
 	 */
-	@Override
 	public void stretchX(double cx) {
 		this.applyTransformation(LinearMatrix3.stretchXMatrix(cx));
 	}
@@ -107,7 +96,6 @@ public class AffineTransformation3 implements AffineTransformable3 {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.AxisStretchable3#stretchY(double)
 	 */
-	@Override
 	public void stretchY(double cy) {
 		this.applyTransformation(LinearMatrix3.stretchYMatrix(cy));
 	}
@@ -115,7 +103,6 @@ public class AffineTransformation3 implements AffineTransformable3 {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.AxisStretchable3#stretchZ(double)
 	 */
-	@Override
 	public void stretchZ(double cz) {
 		this.applyTransformation(LinearMatrix3.stretchZMatrix(cz));
 	}

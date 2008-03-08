@@ -152,6 +152,8 @@ public class Test {
 		//testInflate();
 		//testRange();
 		//testMatrix();
+		//testParallelJob();
+		
 	}
 
 	@SuppressWarnings("unused")
@@ -416,7 +418,7 @@ public class Test {
 			WavefrontObjectReader reader = new WavefrontObjectReader();
 			reader.addMaterial("diffuse50SG", new LambertianMaterial(new ConstantSpectrum(0.5)));
 			reader.addMaterial("diffuseLuminaire1SG", new LambertianMaterial(null, Spectrum.ONE));
-			reader.read(new FileInputStream("C:/Documents and Settings/bkimmel/My Documents/My Received Files/secondary.obj"), geometry, light, 0.01);
+			reader.read(new FileInputStream("/Users/brad/Documents/secondary.obj"), geometry, light, 0.01);
 
 			//Observer observer = new StandardObserver(StandardObserver.Type.CIE_2_DEGREE, 3);
 			//Observer observer = new FixedObserver(ArrayUtil.range(400e-9, 700e-9, 31));
@@ -424,11 +426,11 @@ public class Test {
 
 			RayShader shader = new PathShader(geometry, light, observer);//new VisibilityRayShader(geometry, 255, 0);//
 			ImageShader camera = new CameraImageShader(lens, shader);
-			PixelShader pixelShader = new AveragingPixelShader(100, new RandomPixelShader(new ThreadLocalRandom(new NRooksRandom(100, 2)), camera));
+			PixelShader pixelShader = new AveragingPixelShader(1000, new RandomPixelShader(new ThreadLocalRandom(new NRooksRandom(1000, 2)), camera));
 			//ColorModel cm = new ComponentColorModel(ColorSpace.getInstance(ColorSpace.CS_CIEXYZ), false, false, Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
 			SampleModel sm = new PixelInterleavedSampleModel(DataBuffer.TYPE_DOUBLE, 256, 256, 1, 256*1, ArrayUtil.range(0, 0));
 
-			FileChannel ch = new RandomAccessFile("C:/render.tmp", "rw").getChannel();
+			FileChannel ch = new RandomAccessFile("/tmp/render.tmp", "rw").getChannel();
 			ByteBuffer buf = ch.map(FileChannel.MapMode.READ_WRITE, 0, 256 * 256 * 1 * 8);
 			ch.close();
 			DoubleBuffer dbuf = buf.asDoubleBuffer();
@@ -437,12 +439,12 @@ public class Test {
 			//BufferedImage image = new BufferedImage(cm, raster, false, null);
 			//BufferedImage image = new BufferedImage(500, 500, BufferedImage.);
 			IIORegistry.getDefaultInstance().registerServiceProvider(new MatlabImageWriterSpi());
-			ParallelizableJob job = new RasterJob(pixelShader, raster, "mat", 10, 10);
-			ProgressMonitor monitor = new ProgressDialog();
-			Job runner = new ParallelizableJobRunner(job, 2);
+			ParallelizableJob job = new RasterJob(pixelShader, raster, "mat", 32, 32);
+			ProgressMonitor monitor = new ConsoleProgressMonitor();
+			Job runner = new ParallelizableJobRunner(job, 8);
 			runner.go(monitor);
 
-			OutputStream out = new FileOutputStream("C:/image.zip");
+			OutputStream out = new FileOutputStream("/Users/brad/image.zip");
 			ZipOutputStream zip = new ZipOutputStream(out);
 
 			job.writeJobResults(zip);
@@ -834,6 +836,16 @@ public class Test {
 
 		submitJob.go(monitor);
 		//workerJob.go(monitor);
+
+	}
+
+	@SuppressWarnings("unused")
+	private static void testParallelJob() {
+
+		String host = "localhost";
+		ParallelizableJob job = getMeasurementJob(); //new DummyParallelizableJob(100, 5000, 10000);
+		Job runner = new ParallelizableJobRunner(job, 8);
+		runner.go(new ConsoleProgressMonitor());
 
 	}
 

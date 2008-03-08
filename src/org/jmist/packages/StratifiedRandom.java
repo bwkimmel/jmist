@@ -73,7 +73,6 @@ public final class StratifiedRandom implements Random {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Random#createCompatibleRandom()
 	 */
-	@Override
 	public StratifiedRandom createCompatibleRandom() {
 		return new StratifiedRandom(this.sequence.length);
 	}

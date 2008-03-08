@@ -41,7 +41,6 @@ public final class TorusGeometry extends SingleMaterialGeometry {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Geometry#intersect(org.jmist.toolkit.Ray3, org.jmist.framework.IntersectionRecorder)
 	 */
-	@Override
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 
 		Vector3		orig			= ray.origin().vectorFrom(Point3.ORIGIN);
@@ -126,7 +125,6 @@ public final class TorusGeometry extends SingleMaterialGeometry {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Geometry#isClosed()
 	 */
-	@Override
 	public boolean isClosed() {
 		return true;
 	}
@@ -134,7 +132,6 @@ public final class TorusGeometry extends SingleMaterialGeometry {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Bounded3#boundingBox()
 	 */
-	@Override
 	public Box3 boundingBox() {
 		return new Box3(
 				-(major + minor), -minor, -(major + minor),
@@ -145,7 +142,6 @@ public final class TorusGeometry extends SingleMaterialGeometry {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Bounded3#boundingSphere()
 	 */
-	@Override
 	public Sphere boundingSphere() {
 		return new Sphere(Point3.ORIGIN, major + minor);
 	}

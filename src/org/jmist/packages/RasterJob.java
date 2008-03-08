@@ -57,7 +57,6 @@ public final class RasterJob extends AbstractParallelizableJob implements
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.ParallelizableJob#getNextTask()
 	 */
-	@Override
 	public Object getNextTask() {
 
 		if (this.nextRow < this.rows) {
@@ -147,7 +146,6 @@ public final class RasterJob extends AbstractParallelizableJob implements
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.ParallelizableJob#submitTaskResults(java.lang.Object, java.lang.Object, org.jmist.framework.reporting.ProgressMonitor)
 	 */
-	@Override
 	public void submitTaskResults(Object task, Object results, ProgressMonitor monitor) {
 
 		Rectangle	cell	= (Rectangle) task;
@@ -164,7 +162,6 @@ public final class RasterJob extends AbstractParallelizableJob implements
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.ParallelizableJob#isComplete()
 	 */
-	@Override
 	public boolean isComplete() {
 		return this.tasksComplete >= (this.rows * this.cols);
 	}
@@ -172,7 +169,6 @@ public final class RasterJob extends AbstractParallelizableJob implements
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.ParallelizableJob#writeJobResults(java.util.zip.ZipOutputStream)
 	 */
-	@Override
 	public void writeJobResults(ZipOutputStream stream) throws IOException {
 
 		Iterator<ImageWriter> writers = ImageIO.getImageWritersByFormatName(this.formatName);
@@ -195,7 +191,6 @@ public final class RasterJob extends AbstractParallelizableJob implements
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.ParallelizableJob#worker()
 	 */
-	@Override
 	public TaskWorker worker() {
 		return this.worker;
 	}
@@ -223,7 +218,6 @@ public final class RasterJob extends AbstractParallelizableJob implements
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.TaskWorker#performTask(java.lang.Object, org.jmist.framework.reporting.ProgressMonitor)
 		 */
-		@Override
 		public Object performTask(Object task, ProgressMonitor monitor) {
 
 			Rectangle		cell				= (Rectangle) task;

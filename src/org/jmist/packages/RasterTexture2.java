@@ -33,7 +33,6 @@ public final class RasterTexture2 implements Texture2 {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Texture2#evaluate(org.jmist.toolkit.Point2)
 	 */
-	@Override
 	public Spectrum evaluate(Point2 p) {
 
 		int			w		= raster.getWidth();

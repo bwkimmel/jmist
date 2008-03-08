@@ -47,7 +47,6 @@ public final class TransformableGeometry extends CompositeGeometry implements
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Geometry#intersect(org.jmist.toolkit.Ray3, org.jmist.framework.IntersectionRecorder)
 	 */
-	@Override
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 
 		ray			= this.model.applyInverse(ray);
@@ -227,7 +226,6 @@ public final class TransformableGeometry extends CompositeGeometry implements
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.AffineTransformable3#transform(org.jmist.toolkit.AffineMatrix3)
 	 */
-	@Override
 	public void transform(AffineMatrix3 T) {
 		this.model.transform(T);
 	}
@@ -235,7 +233,6 @@ public final class TransformableGeometry extends CompositeGeometry implements
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.LinearTransformable3#transform(org.jmist.toolkit.LinearMatrix3)
 	 */
-	@Override
 	public void transform(LinearMatrix3 T) {
 		this.model.transform(T);
 	}
@@ -243,7 +240,6 @@ public final class TransformableGeometry extends CompositeGeometry implements
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Rotatable3#rotate(org.jmist.toolkit.Vector3, double)
 	 */
-	@Override
 	public void rotate(Vector3 axis, double angle) {
 		this.model.rotate(axis, angle);
 	}
@@ -251,7 +247,6 @@ public final class TransformableGeometry extends CompositeGeometry implements
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Rotatable3#rotateX(double)
 	 */
-	@Override
 	public void rotateX(double angle) {
 		this.model.rotateX(angle);
 	}
@@ -259,7 +254,6 @@ public final class TransformableGeometry extends CompositeGeometry implements
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Rotatable3#rotateY(double)
 	 */
-	@Override
 	public void rotateY(double angle) {
 		this.model.rotateY(angle);
 	}
@@ -267,7 +261,6 @@ public final class TransformableGeometry extends CompositeGeometry implements
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Rotatable3#rotateZ(double)
 	 */
-	@Override
 	public void rotateZ(double angle) {
 		this.model.rotateZ(angle);
 	}
@@ -275,7 +268,6 @@ public final class TransformableGeometry extends CompositeGeometry implements
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Translatable3#translate(org.jmist.toolkit.Vector3)
 	 */
-	@Override
 	public void translate(Vector3 v) {
 		this.model.translate(v);
 	}
@@ -283,7 +275,6 @@ public final class TransformableGeometry extends CompositeGeometry implements
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Scalable#scale(double)
 	 */
-	@Override
 	public void scale(double c) {
 		this.model.scale(c);
 	}
@@ -291,7 +282,6 @@ public final class TransformableGeometry extends CompositeGeometry implements
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Stretchable3#stretch(org.jmist.toolkit.Vector3, double)
 	 */
-	@Override
 	public void stretch(Vector3 axis, double c) {
 		this.model.stretch(axis, c);
 	}
@@ -299,7 +289,6 @@ public final class TransformableGeometry extends CompositeGeometry implements
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.AxisStretchable3#stretch(double, double, double)
 	 */
-	@Override
 	public void stretch(double cx, double cy, double cz) {
 		this.model.stretch(cx, cy, cz);
 	}
@@ -307,7 +296,6 @@ public final class TransformableGeometry extends CompositeGeometry implements
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.AxisStretchable3#stretchX(double)
 	 */
-	@Override
 	public void stretchX(double cx) {
 		this.model.stretchX(cx);
 	}
@@ -315,7 +303,6 @@ public final class TransformableGeometry extends CompositeGeometry implements
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.AxisStretchable3#stretchY(double)
 	 */
-	@Override
 	public void stretchY(double cy) {
 		this.model.stretchY(cy);
 	}
@@ -323,7 +310,6 @@ public final class TransformableGeometry extends CompositeGeometry implements
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.AxisStretchable3#stretchZ(double)
 	 */
-	@Override
 	public void stretchZ(double cz) {
 		this.model.stretchZ(cz);
 	}

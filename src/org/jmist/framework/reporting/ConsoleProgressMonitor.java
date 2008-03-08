@@ -67,7 +67,6 @@ public final class ConsoleProgressMonitor implements ProgressMonitor {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.ProgressMonitor#notifyIndeterminantProgress()
 	 */
-	@Override
 	public boolean notifyIndeterminantProgress() {
 		this.printProgressBar(Double.NaN);
 		this.out.print("\r");
@@ -85,7 +84,6 @@ public final class ConsoleProgressMonitor implements ProgressMonitor {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.reporting.ProgressMonitor#isCancelPending()
 	 */
-	@Override
 	public boolean isCancelPending() {
 		return false;
 	}
@@ -93,7 +91,6 @@ public final class ConsoleProgressMonitor implements ProgressMonitor {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.ProgressMonitor#createChildProgressMonitor()
 	 */
-	@Override
 	public ProgressMonitor createChildProgressMonitor(String title) {
 		return DummyProgressMonitor.getInstance();
 	}

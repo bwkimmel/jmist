@@ -278,7 +278,8 @@ public final class Complex implements Serializable {
      * (non-Javadoc)
      * @see java.lang.Object#toString()
      */
-    public String toString() {
+    @Override
+	public String toString() {
     	return Double.toString(re) + " + " + Double.toString(im) + "*I";
     }
 

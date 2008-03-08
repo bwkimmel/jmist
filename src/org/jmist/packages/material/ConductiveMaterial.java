@@ -38,7 +38,6 @@ public final class ConductiveMaterial extends AbstractMaterial {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Medium#extinctionIndex(org.jmist.toolkit.Point3)
 	 */
-	@Override
 	public Spectrum extinctionIndex(Point3 p) {
 		return this.k;
 	}
@@ -46,7 +45,6 @@ public final class ConductiveMaterial extends AbstractMaterial {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Medium#refractiveIndex(org.jmist.toolkit.Point3)
 	 */
-	@Override
 	public Spectrum refractiveIndex(Point3 p) {
 		return this.n;
 	}
@@ -54,7 +52,6 @@ public final class ConductiveMaterial extends AbstractMaterial {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Medium#transmittance(org.jmist.toolkit.Ray3, double)
 	 */
-	@Override
 	public Spectrum transmittance(Ray3 ray, final double distance) {
 
 		return new AbstractSpectrum() {

@@ -40,7 +40,6 @@ public final class FixedObserver implements Observer {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Observer#acquire(org.jmist.framework.SpectralEstimator, double[])
 	 */
-	@Override
 	public double[] acquire(SpectralEstimator estimator, double[] observation) {
 		return estimator.sample(this.wavelengths, observation);
 	}

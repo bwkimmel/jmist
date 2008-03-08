@@ -31,7 +31,6 @@ public interface Material extends Medium {
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.Material#emission(org.jmist.framework.SurfacePoint, org.jmist.toolkit.Vector3)
 		 */
-		@Override
 		public Spectrum emission(SurfacePoint x, Vector3 out) {
 			return Spectrum.ZERO;
 		}
@@ -39,7 +38,6 @@ public interface Material extends Medium {
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.Material#emit(org.jmist.framework.SurfacePoint, org.jmist.toolkit.Tuple, org.jmist.framework.ScatterRecorder)
 		 */
-		@Override
 		public void emit(SurfacePoint x, Tuple wavelengths,
 				ScatterRecorder recorder) {
 		}
@@ -47,7 +45,6 @@ public interface Material extends Medium {
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.Material#isEmissive()
 		 */
-		@Override
 		public boolean isEmissive() {
 			return false;
 		}
@@ -55,7 +52,6 @@ public interface Material extends Medium {
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.Material#scatter(org.jmist.framework.Intersection, org.jmist.toolkit.Tuple, org.jmist.framework.ScatterRecorder)
 		 */
-		@Override
 		public void scatter(Intersection x, Tuple wavelengths,
 				ScatterRecorder recorder) {
 		}
@@ -63,7 +59,6 @@ public interface Material extends Medium {
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.Material#scattering(org.jmist.framework.Intersection, org.jmist.toolkit.Vector3)
 		 */
-		@Override
 		public Spectrum scattering(Intersection x, Vector3 out) {
 			return Spectrum.ZERO;
 		}
@@ -71,7 +66,6 @@ public interface Material extends Medium {
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.Medium#extinctionIndex(org.jmist.toolkit.Point3)
 		 */
-		@Override
 		public Spectrum extinctionIndex(Point3 p) {
 			return Spectrum.POSITIVE_INFINITY;
 		}
@@ -79,7 +73,6 @@ public interface Material extends Medium {
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.Medium#refractiveIndex(org.jmist.toolkit.Point3)
 		 */
-		@Override
 		public Spectrum refractiveIndex(Point3 p) {
 			return Spectrum.ONE;
 		}
@@ -87,7 +80,6 @@ public interface Material extends Medium {
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.Medium#transmittance(org.jmist.toolkit.Ray3, double)
 		 */
-		@Override
 		public Spectrum transmittance(Ray3 ray, double distance) {
 			return Spectrum.ZERO;
 		}

@@ -28,7 +28,6 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Geometry#intersect(org.jmist.toolkit.Ray3, org.jmist.framework.IntersectionRecorder)
 	 */
-	@Override
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 
 		/* Use a special intersection recorder that knows how to combine the
@@ -90,7 +89,6 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.IntersectionRecorderDecorator#needAllIntersections()
 		 */
-		@Override
 		public boolean needAllIntersections() {
 			return true;
 		}
@@ -98,7 +96,6 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.IntersectionRecorder#isEmpty()
 		 */
-		@Override
 		public boolean isEmpty() {
 			return this.intersectionSet.isEmpty();
 		}
@@ -106,7 +103,6 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.IntersectionRecorderDecorator#interval()
 		 */
-		@Override
 		public Interval interval() {
 			return Interval.UNIVERSE;
 		}
@@ -114,7 +110,6 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.IntersectionRecorderDecorator#record(org.jmist.framework.Intersection)
 		 */
-		@Override
 		public void record(Intersection intersection) {
 			this.intersectionSet.add(new CsgIntersection(this.argumentIndex, intersection));
 		}
@@ -326,7 +321,6 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 		private final SortedSet<CsgIntersection> intersectionSet = new TreeSet<CsgIntersection>(
 				new Comparator<Intersection>() {
 
-					@Override
 					public int compare(Intersection arg0, Intersection arg1) {
 						return Double.compare(arg0.distance(), arg1.distance());
 					}

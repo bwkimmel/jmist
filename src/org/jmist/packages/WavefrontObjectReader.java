@@ -172,7 +172,6 @@ public final class WavefrontObjectReader {
 
 	private static LineInterpreter LI_DEFAULT = new LineInterpreter() {
 
-		@Override
 		public void process(String[] args, State state) {
 			state.addWarningMessage(String.format("Unrecognized command: `%s'", args[0]));
 		}
@@ -181,7 +180,6 @@ public final class WavefrontObjectReader {
 
 	private static LineInterpreter LI_V = new LineInterpreter() {
 
-		@Override
 		public void process(String[] args, State state) {
 			checkArgs(args, state, 3, 4);
 
@@ -200,7 +198,6 @@ public final class WavefrontObjectReader {
 
 	private static LineInterpreter LI_F = new LineInterpreter() {
 
-		@Override
 		public void process(String[] args, State state) {
 			checkArgs(args, state, 3, Integer.MAX_VALUE);
 
@@ -242,7 +239,6 @@ public final class WavefrontObjectReader {
 
 	private static LineInterpreter LI_USEMTL = new LineInterpreter() {
 
-		@Override
 		public void process(String[] args, State state) {
 			checkArgs(args, state, 1);
 			state.setActiveMaterial(args[1]);

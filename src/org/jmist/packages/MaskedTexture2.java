@@ -30,7 +30,6 @@ public final class MaskedTexture2 implements Texture2 {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Texture2#evaluate(org.jmist.toolkit.Point2)
 	 */
-	@Override
 	public Spectrum evaluate(Point2 p) {
 		return new ScaledSpectrum(this.mask.opacity(p), this.texture.evaluate(p));
 	}

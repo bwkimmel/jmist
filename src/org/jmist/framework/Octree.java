@@ -30,7 +30,6 @@ public final class Octree implements RayTraversalStrategy3 {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.RayTraversalStrategy3#intersect(org.jmist.toolkit.Ray3, org.jmist.toolkit.Interval, org.jmist.framework.Visitor)
 	 */
-	@Override
 	public boolean intersect(Ray3 ray, Interval I, Visitor visitor) {
 		Interval J = bound.intersect(ray).intersect(I);
 

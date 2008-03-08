@@ -41,7 +41,6 @@ public final class DiscGeometry extends SingleMaterialGeometry {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Geometry#intersect(org.jmist.toolkit.Ray3, org.jmist.framework.IntersectionRecorder)
 	 */
-	@Override
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 
 		boolean	fromTop = this.plane.altitude(ray.origin()) > 0.0;
@@ -111,7 +110,6 @@ public final class DiscGeometry extends SingleMaterialGeometry {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Geometry#isClosed()
 	 */
-	@Override
 	public boolean isClosed() {
 		return false;
 	}
@@ -119,7 +117,6 @@ public final class DiscGeometry extends SingleMaterialGeometry {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Bounded3#boundingBox()
 	 */
-	@Override
 	public Box3 boundingBox() {
 
 		BoundingBoxBuilder3 builder = new BoundingBoxBuilder3();
@@ -140,7 +137,6 @@ public final class DiscGeometry extends SingleMaterialGeometry {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Bounded3#boundingSphere()
 	 */
-	@Override
 	public Sphere boundingSphere() {
 		return this.boundingSphere;
 	}

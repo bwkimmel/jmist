@@ -47,7 +47,6 @@ public final class ParallelizableJobRunner implements Job {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Job#go(org.jmist.framework.reporting.ProgressMonitor)
 	 */
-	@Override
 	public synchronized boolean go(final ProgressMonitor monitor) {
 
 		int taskNumber = 0;
@@ -71,7 +70,7 @@ public final class ParallelizableJobRunner implements Job {
 				 */
 				Object task = this.job.getNextTask();
 				if (task == null) {
-					this.workerSlot.acquire(this.maxConcurrentWorkers - 1);
+					this.workerSlot.acquire(); //.acquire(this.maxConcurrentWorkers - 1);
 					complete = true;
 					break;
 				}
@@ -154,7 +153,6 @@ public final class ParallelizableJobRunner implements Job {
 		/* (non-Javadoc)
 		 * @see java.lang.Runnable#run()
 		 */
-		@Override
 		public void run() {
 			try {
 				submitResults(task, worker.performTask(task, monitor));

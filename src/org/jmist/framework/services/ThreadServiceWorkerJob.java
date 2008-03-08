@@ -51,7 +51,6 @@ public final class ThreadServiceWorkerJob implements Job {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Job#go(org.jmist.framework.ProgressMonitor)
 	 */
-	@Override
 	public boolean go(ProgressMonitor monitor) {
 
 		try {
@@ -346,7 +345,6 @@ public final class ThreadServiceWorkerJob implements Job {
 		/* (non-Javadoc)
 		 * @see java.lang.Runnable#run()
 		 */
-		@Override
 		public void run() {
 
 			try {

@@ -65,7 +65,6 @@ public final class HeightFieldGeometry extends SingleMaterialGeometry {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Geometry#intersect(org.jmist.toolkit.Ray3, org.jmist.framework.IntersectionRecorder)
 	 */
-	@Override
 	public void intersect(Ray3 ray, final IntersectionRecorder recorder) {
 
 		this.grid.intersect(ray, recorder.interval(), new Grid3.Visitor() {
@@ -73,7 +72,6 @@ public final class HeightFieldGeometry extends SingleMaterialGeometry {
 			/* (non-Javadoc)
 			 * @see org.jmist.toolkit.Grid3.Visitor#visit(org.jmist.toolkit.Ray3, org.jmist.toolkit.Interval, org.jmist.toolkit.Grid3.Cell)
 			 */
-			@Override
 			public boolean visit(Ray3 ray, Interval I, Cell cell) {
 
 				/* Get the points at which the ray enters and exits the cell.
@@ -187,7 +185,6 @@ public final class HeightFieldGeometry extends SingleMaterialGeometry {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Geometry#isClosed()
 	 */
-	@Override
 	public boolean isClosed() {
 		return false;
 	}
@@ -195,7 +192,6 @@ public final class HeightFieldGeometry extends SingleMaterialGeometry {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Bounded3#boundingBox()
 	 */
-	@Override
 	public Box3 boundingBox() {
 		return grid.getBoundingBox();
 	}
@@ -203,7 +199,6 @@ public final class HeightFieldGeometry extends SingleMaterialGeometry {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Bounded3#boundingSphere()
 	 */
-	@Override
 	public Sphere boundingSphere() {
 
 		List<Point3> points = new ArrayList<Point3>();

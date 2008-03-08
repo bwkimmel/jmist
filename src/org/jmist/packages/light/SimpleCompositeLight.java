@@ -17,7 +17,6 @@ public final class SimpleCompositeLight extends CompositeLight {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Light#illuminate(org.jmist.framework.SurfacePoint, org.jmist.framework.VisibilityFunction3, org.jmist.framework.Illuminable)
 	 */
-	@Override
 	public void illuminate(SurfacePoint x, VisibilityFunction3 vf,
 			Illuminable target) {
 		

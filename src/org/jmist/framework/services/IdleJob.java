@@ -55,7 +55,6 @@ public final class IdleJob extends AbstractParallelizableJob {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.ParallelizableJob#getNextTask()
 	 */
-	@Override
 	public Object getNextTask() {
 		return this.idleSeconds;
 	}
@@ -63,7 +62,6 @@ public final class IdleJob extends AbstractParallelizableJob {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.ParallelizableJob#isComplete()
 	 */
-	@Override
 	public boolean isComplete() {
 		return false;
 	}
@@ -71,7 +69,6 @@ public final class IdleJob extends AbstractParallelizableJob {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.ParallelizableJob#submitTaskResults(java.lang.Object, java.lang.Object, org.jmist.framework.reporting.ProgressMonitor)
 	 */
-	@Override
 	public void submitTaskResults(Object task, Object results,
 			ProgressMonitor monitor) {
 		monitor.notifyIndeterminantProgress();
@@ -80,7 +77,6 @@ public final class IdleJob extends AbstractParallelizableJob {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.ParallelizableJob#worker()
 	 */
-	@Override
 	public TaskWorker worker() {
 		return worker;
 	}
@@ -88,7 +84,6 @@ public final class IdleJob extends AbstractParallelizableJob {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.ParallelizableJob#writeJobResults(java.util.zip.ZipOutputStream)
 	 */
-	@Override
 	public void writeJobResults(ZipOutputStream stream) throws IOException {
 		assert(false);
 	}
@@ -104,7 +99,6 @@ public final class IdleJob extends AbstractParallelizableJob {
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.TaskWorker#performTask(java.lang.Object, org.jmist.framework.reporting.ProgressMonitor)
 		 */
-		@Override
 		public Object performTask(Object task, ProgressMonitor monitor) {
 
 			int seconds = (Integer) task;

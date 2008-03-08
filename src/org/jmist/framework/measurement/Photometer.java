@@ -125,67 +125,54 @@ public final class Photometer {
 
 	private final Intersection x = new Intersection() {
 
-		@Override
 		public Point3 location() {
 			return Point3.ORIGIN;
 		}
 
-		@Override
 		public Material material() {
 			return specimen;
 		}
 
-		@Override
 		public Medium ambientMedium() {
 			return Medium.VACUUM;
 		}
 
-		@Override
 		public Vector3 microfacetNormal() {
 			return Vector3.K;
 		}
 
-		@Override
 		public Vector3 normal() {
 			return Vector3.K;
 		}
 
-		@Override
 		public Vector3 tangent() {
 			return Vector3.I;
 		}
 
-		@Override
 		public Point2 textureCoordinates() {
 			return Point2.ORIGIN;
 		}
 
-		@Override
 		public double distance() {
 			return 1.0;
 		}
 
-		@Override
 		public boolean front() {
 			return front;
 		}
 
-		@Override
 		public Vector3 incident() {
 			return in;
 		}
 
-		@Override
 		public Basis3 basis() {
 			return Basis3.STANDARD;
 		}
 
-		@Override
 		public Basis3 microfacetBasis() {
 			return Basis3.STANDARD;
 		}
 
-		@Override
 		public boolean closed() {
 			return false;
 		}

@@ -39,7 +39,6 @@ public final class DummyParallelizableJob extends AbstractParallelizableJob
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.ParallelizableJob#getNextTask()
 	 */
-	@Override
 	public Object getNextTask() {
 
 		if (this.nextTask < this.tasks) {
@@ -59,7 +58,6 @@ public final class DummyParallelizableJob extends AbstractParallelizableJob
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.ParallelizableJob#submitResults(java.lang.Object, java.lang.Object, org.jmist.framework.reporting.ProgressMonitor)
 	 */
-	@Override
 	public void submitTaskResults(Object task, Object results, ProgressMonitor monitor) {
 
 		int taskValue = (Integer) task;
@@ -73,7 +71,6 @@ public final class DummyParallelizableJob extends AbstractParallelizableJob
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.ParallelizableJob#isComplete()
 	 */
-	@Override
 	public boolean isComplete() {
 		return this.numResultsReceived >= this.tasks;
 	}
@@ -81,7 +78,6 @@ public final class DummyParallelizableJob extends AbstractParallelizableJob
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.ParallelizableJob#writeJobResults(java.util.zip.ZipOutputStream)
 	 */
-	@Override
 	public void writeJobResults(ZipOutputStream stream) throws IOException {
 
 		stream.putNextEntry(new ZipEntry("results.txt"));
@@ -97,7 +93,6 @@ public final class DummyParallelizableJob extends AbstractParallelizableJob
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.ParallelizableJob#worker()
 	 */
-	@Override
 	public TaskWorker worker() {
 		return this.worker;
 	}
@@ -137,7 +132,6 @@ public final class DummyParallelizableJob extends AbstractParallelizableJob
 		 * (non-Javadoc)
 		 * @see org.jmist.framework.TaskWorker#performTask(java.lang.Object, org.jmist.framework.ProgressMonitor)
 		 */
-		@Override
 		public Object performTask(Object task, ProgressMonitor monitor) {
 
 			int value = (Integer) task;

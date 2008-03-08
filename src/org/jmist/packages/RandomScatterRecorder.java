@@ -69,7 +69,6 @@ public final class RandomScatterRecorder implements ScatterRecorder {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.ScatterRecorder#record(org.jmist.framework.ScatterResult)
 	 */
-	@Override
 	public void record(ScatterResult sr) {
 		if (this.result == null && this.accept(sr)) {
 			this.result = sr;

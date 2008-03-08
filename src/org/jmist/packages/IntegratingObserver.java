@@ -103,7 +103,6 @@ public class IntegratingObserver implements Observer {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Observer#acquire(org.jmist.framework.SpectralEstimator, double[])
 	 */
-	@Override
 	public double[] acquire(SpectralEstimator estimator, double[] observation) {
 		if (this.samplesPerComponent == 1) {
 			return this.acquireOne(estimator, observation);
@@ -142,7 +141,6 @@ public class IntegratingObserver implements Observer {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Observer#getNumberOfComponents()
 	 */
-	@Override
 	public int getNumberOfComponents() {
 		return pdf.length;
 	}

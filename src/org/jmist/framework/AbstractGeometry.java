@@ -50,7 +50,6 @@ public abstract class AbstractGeometry implements Geometry {
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.Intersection#distance()
 		 */
-		@Override
 		public double distance() {
 			return this.distance;
 		}
@@ -58,7 +57,6 @@ public abstract class AbstractGeometry implements Geometry {
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.Intersection#front()
 		 */
-		@Override
 		public boolean front() {
 			return this.front;
 		}
@@ -66,7 +64,6 @@ public abstract class AbstractGeometry implements Geometry {
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.Intersection#incident()
 		 */
-		@Override
 		public Vector3 incident() {
 			return this.ray.direction();
 		}
@@ -74,7 +71,6 @@ public abstract class AbstractGeometry implements Geometry {
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.SurfacePoint#ambientMedium()
 		 */
-		@Override
 		public Medium ambientMedium() {
 			return Medium.VACUUM;
 		}
@@ -82,7 +78,6 @@ public abstract class AbstractGeometry implements Geometry {
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.SurfacePoint#basis()
 		 */
-		@Override
 		public Basis3 basis() {
 			if (this.basis == null) {
 				this.setBasis(this.geometry.getBasis(this));
@@ -100,7 +95,6 @@ public abstract class AbstractGeometry implements Geometry {
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.SurfacePoint#location()
 		 */
-		@Override
 		public Point3 location() {
 			if (this.location == null) {
 				this.setLocation(this.ray.pointAt(this.distance));
@@ -117,7 +111,6 @@ public abstract class AbstractGeometry implements Geometry {
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.SurfacePoint#material()
 		 */
-		@Override
 		public Material material() {
 			return this.material;
 		}
@@ -130,7 +123,6 @@ public abstract class AbstractGeometry implements Geometry {
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.SurfacePoint#microfacetBasis()
 		 */
-		@Override
 		public Basis3 microfacetBasis() {
 			return this.basis();
 		}
@@ -138,7 +130,6 @@ public abstract class AbstractGeometry implements Geometry {
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.SurfacePoint#microfacetNormal()
 		 */
-		@Override
 		public Vector3 microfacetNormal() {
 			return this.normal();
 		}
@@ -146,7 +137,6 @@ public abstract class AbstractGeometry implements Geometry {
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.SurfacePoint#normal()
 		 */
-		@Override
 		public Vector3 normal() {
 			if (this.normal == null) {
 				this.setNormal(this.geometry.getNormal(this));
@@ -163,7 +153,6 @@ public abstract class AbstractGeometry implements Geometry {
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.SurfacePoint#tangent()
 		 */
-		@Override
 		public Vector3 tangent() {
 			return this.basis().u();
 		}
@@ -171,7 +160,6 @@ public abstract class AbstractGeometry implements Geometry {
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.SurfacePoint#textureCoordinates()
 		 */
-		@Override
 		public Point2 textureCoordinates() {
 			if (this.textureCoordinates == null) {
 				this.setTextureCoordinates(this.geometry.getTextureCoordinates(this));
@@ -188,7 +176,6 @@ public abstract class AbstractGeometry implements Geometry {
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.SurfacePoint#closed()
 		 */
-		@Override
 		public boolean closed() {
 			return this.geometry.isClosed();
 		}
@@ -266,7 +253,6 @@ public abstract class AbstractGeometry implements Geometry {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.PartialBoundable3#surfaceMayIntersect(org.jmist.toolkit.Box3)
 	 */
-	@Override
 	public boolean surfaceMayIntersect(Box3 box) {
 		return this.boundingBox().intersects(box);
 	}

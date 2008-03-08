@@ -29,7 +29,6 @@ public abstract class IntersectionDecorator implements Intersection {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Intersection#distance()
 	 */
-	@Override
 	public double distance() {
 		return this.inner.distance();
 	}
@@ -37,7 +36,6 @@ public abstract class IntersectionDecorator implements Intersection {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Intersection#front()
 	 */
-	@Override
 	public boolean front() {
 		return this.inner.front();
 	}
@@ -45,7 +43,6 @@ public abstract class IntersectionDecorator implements Intersection {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Intersection#incident()
 	 */
-	@Override
 	public Vector3 incident() {
 		return this.inner.incident();
 	}
@@ -53,7 +50,6 @@ public abstract class IntersectionDecorator implements Intersection {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.SurfacePoint#ambientMedium()
 	 */
-	@Override
 	public Medium ambientMedium() {
 		return this.inner.ambientMedium();
 	}
@@ -61,7 +57,6 @@ public abstract class IntersectionDecorator implements Intersection {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.SurfacePoint#basis()
 	 */
-	@Override
 	public Basis3 basis() {
 		return this.inner.basis();
 	}
@@ -69,7 +64,6 @@ public abstract class IntersectionDecorator implements Intersection {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.SurfacePoint#closed()
 	 */
-	@Override
 	public boolean closed() {
 		return this.inner.closed();
 	}
@@ -77,7 +71,6 @@ public abstract class IntersectionDecorator implements Intersection {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.SurfacePoint#location()
 	 */
-	@Override
 	public Point3 location() {
 		return this.inner.location();
 	}
@@ -85,7 +78,6 @@ public abstract class IntersectionDecorator implements Intersection {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.SurfacePoint#material()
 	 */
-	@Override
 	public Material material() {
 		return this.inner.material();
 	}
@@ -93,7 +85,6 @@ public abstract class IntersectionDecorator implements Intersection {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.SurfacePoint#microfacetBasis()
 	 */
-	@Override
 	public Basis3 microfacetBasis() {
 		return this.inner.microfacetBasis();
 	}
@@ -101,7 +92,6 @@ public abstract class IntersectionDecorator implements Intersection {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.SurfacePoint#microfacetNormal()
 	 */
-	@Override
 	public Vector3 microfacetNormal() {
 		return this.inner.microfacetNormal();
 	}
@@ -109,7 +99,6 @@ public abstract class IntersectionDecorator implements Intersection {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.SurfacePoint#normal()
 	 */
-	@Override
 	public Vector3 normal() {
 		return this.inner.normal();
 	}
@@ -117,7 +106,6 @@ public abstract class IntersectionDecorator implements Intersection {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.SurfacePoint#tangent()
 	 */
-	@Override
 	public Vector3 tangent() {
 		return this.inner.tangent();
 	}
@@ -125,7 +113,6 @@ public abstract class IntersectionDecorator implements Intersection {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.SurfacePoint#textureCoordinates()
 	 */
-	@Override
 	public Point2 textureCoordinates() {
 		return this.inner.textureCoordinates();
 	}

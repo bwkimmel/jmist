@@ -15,7 +15,6 @@ public abstract class AbstractMaterial implements Material {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Material#emission(org.jmist.framework.SurfacePoint, org.jmist.toolkit.Vector3)
 	 */
-	@Override
 	public Spectrum emission(SurfacePoint x, Vector3 out) {
 		return Spectrum.ZERO;
 	}
@@ -23,14 +22,12 @@ public abstract class AbstractMaterial implements Material {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Material#emit(org.jmist.framework.SurfacePoint, org.jmist.toolkit.Tuple, org.jmist.framework.ScatterRecorder)
 	 */
-	@Override
 	public void emit(SurfacePoint x, Tuple wavelengths, ScatterRecorder recorder) {
 	}
 
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Material#isEmissive()
 	 */
-	@Override
 	public boolean isEmissive() {
 		return false;
 	}
@@ -38,14 +35,12 @@ public abstract class AbstractMaterial implements Material {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Material#scatter(org.jmist.framework.Intersection, org.jmist.toolkit.Tuple, org.jmist.framework.ScatterRecorder)
 	 */
-	@Override
 	public void scatter(Intersection x, Tuple wavelengths, ScatterRecorder recorder) {
 	}
 
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Material#scattering(org.jmist.framework.Intersection, org.jmist.toolkit.Vector3)
 	 */
-	@Override
 	public Spectrum scattering(Intersection x, Vector3 out) {
 		return Spectrum.ZERO;
 	}

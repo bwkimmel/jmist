@@ -58,7 +58,6 @@ public final class SpectrophotometerCollectorSphere extends
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.measurement.CollectorSphere#getSensorCenter(int)
 	 */
-	@Override
 	public SphericalCoordinates getSensorCenter(int sensor) {
 		assert(0 <= sensor && sensor < 2);
 		return sensor == UPPER_HEMISPHERE ? SphericalCoordinates.NORMAL : SphericalCoordinates.ANTINORMAL;
@@ -67,7 +66,6 @@ public final class SpectrophotometerCollectorSphere extends
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.measurement.CollectorSphere#getSensorProjectedSolidAngle(int)
 	 */
-	@Override
 	public double getSensorProjectedSolidAngle(int sensor) {
 		return Math.PI;
 	}
@@ -75,7 +73,6 @@ public final class SpectrophotometerCollectorSphere extends
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.measurement.CollectorSphere#getSensorSolidAngle(int)
 	 */
-	@Override
 	public double getSensorSolidAngle(int sensor) {
 		return 2.0 * Math.PI;
 	}

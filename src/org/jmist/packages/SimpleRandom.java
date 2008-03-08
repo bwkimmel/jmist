@@ -31,7 +31,6 @@ public class SimpleRandom implements Random {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Random#createCompatibleRandom()
 	 */
-	@Override
 	public SimpleRandom createCompatibleRandom() {
 		return this;
 	}

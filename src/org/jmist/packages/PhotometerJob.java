@@ -50,7 +50,6 @@ public final class PhotometerJob extends
 	 *
 	 * @see org.jmist.framework.ParallelizableJob#getNextTask()
 	 */
-	@Override
 	public Object getNextTask() {
 
 		if (!this.isComplete()) {
@@ -92,7 +91,6 @@ public final class PhotometerJob extends
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.ParallelizableJob#submitTaskResults(java.lang.Object, java.lang.Object, org.jmist.framework.reporting.ProgressMonitor)
 	 */
-	@Override
 	public void submitTaskResults(Object task, Object results,
 			ProgressMonitor monitor) {
 
@@ -108,7 +106,6 @@ public final class PhotometerJob extends
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.ParallelizableJob#isComplete()
 	 */
-	@Override
 	public boolean isComplete() {
 		return this.outstandingSamplesPerMeasurement >= this.samplesPerMeasurement;
 	}
@@ -116,7 +113,6 @@ public final class PhotometerJob extends
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.ParallelizableJob#writeJobResults(java.util.zip.ZipOutputStream)
 	 */
-	@Override
 	public void writeJobResults(ZipOutputStream stream) throws IOException {
 
 		stream.putNextEntry(new ZipEntry("photometer.csv"));
@@ -196,7 +192,6 @@ public final class PhotometerJob extends
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.ParallelizableJob#worker()
 	 */
-	@Override
 	public TaskWorker worker() {
 		return this.worker;
 	}
@@ -238,7 +233,6 @@ public final class PhotometerJob extends
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.TaskWorker#performTask(java.lang.Object, org.jmist.framework.reporting.ProgressMonitor)
 		 */
-		@Override
 		public Object performTask(Object task, ProgressMonitor monitor) {
 
 			CollectorSphere		collector		= this.prototype.clone();

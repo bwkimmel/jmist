@@ -69,6 +69,7 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 		childrenTable.setModel(getTableModel());
 		childrenTable.getColumn("Progress").setCellRenderer(ProgressTableCellRenderer.getInstance());
 		childrenTable.addMouseListener(new java.awt.event.MouseAdapter() {
+			@Override
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
 				childrenTableMouseClicked(evt);
 			}
@@ -76,6 +77,8 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 
 		jScrollPane1.setViewportView(childrenTable);
 
+		/** TODO: Redo using Java 5 supported classes. */
+		/*
 		javax.swing.GroupLayout progressNodeComponentLayout = new javax.swing.GroupLayout(progressNodeComponent);
 		progressNodeComponent.setLayout(progressNodeComponentLayout);
 		progressNodeComponentLayout.setHorizontalGroup(
@@ -133,6 +136,7 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 					.addComponent(rootButton))
 				.addContainerGap())
 		);
+		*/
 	}// </editor-fold>//GEN-END:initComponents
 
 	/**
@@ -183,7 +187,6 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 		/* (non-Javadoc)
 		 * @see javax.swing.table.TableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
 		 */
-		@Override
 		public Component getTableCellRendererComponent(JTable table,
 				Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 
@@ -250,6 +253,8 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 
 		this.progressNodePanel.removeAll();
 
+		/** TODO: Redo using Java 5 supported classes. */
+		/*
 		javax.swing.GroupLayout progressNodePanelLayout = new javax.swing.GroupLayout(progressNodePanel);
 		progressNodePanel.setLayout(progressNodePanelLayout);
 		progressNodePanelLayout.setHorizontalGroup(
@@ -260,6 +265,7 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 			progressNodePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 			.addComponent(progressNodeComponent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 		);
+		*/
 
 		/* Update the child table. */
 		this.childrenTable.setModel(this.getTableModel());
@@ -353,7 +359,6 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.reporting.ProgressMonitor#isCancelPending()
 		 */
-		@Override
 		public boolean isCancelPending() {
 			// TODO Auto-generated method stub
 			return false;
@@ -362,7 +367,6 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.reporting.ProgressMonitor#notifyProgress(double)
 		 */
-		@Override
 		public boolean notifyProgress(double progress) {
 			this.progressBar.setStringPainted(false);
 			this.setProgressBarValue((int) Math.floor(progress * 100.0), 100);
@@ -372,7 +376,6 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.reporting.ProgressMonitor#notifyProgress(int, int)
 		 */
-		@Override
 		public boolean notifyProgress(int value, int maximum) {
 			this.progressBar.setString(String.format("(%d/%d)", value, maximum));
 			this.progressBar.setStringPainted(true);
@@ -401,7 +404,6 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.reporting.ProgressMonitor#notifyIndeterminantProgress()
 		 */
-		@Override
 		public boolean notifyIndeterminantProgress() {
 			this.progressBar.setIndeterminate(true);
 			this.fireColumnChanged(PROGRESS_COLUMN);
@@ -411,7 +413,6 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.reporting.ProgressMonitor#notifyStatusChanged(java.lang.String)
 		 */
-		@Override
 		public void notifyStatusChanged(String status) {
 
 			this.status = status;
@@ -429,7 +430,6 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.reporting.ProgressMonitor#notifyCancelled()
 		 */
-		@Override
 		public void notifyCancelled() {
 			this.removeFromParent();
 		}
@@ -437,7 +437,6 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.reporting.ProgressMonitor#notifyComplete()
 		 */
-		@Override
 		public void notifyComplete() {
 			this.removeFromParent();
 		}
@@ -455,7 +454,6 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.reporting.ProgressMonitor#createChildProgressMonitor(java.lang.String)
 		 */
-		@Override
 		public ProgressNode createChildProgressMonitor(String title) {
 			ProgressNode node = new ProgressNode(title, this);
 			int index = this.children.size();
@@ -544,6 +542,8 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 
 			javax.swing.JPanel progressBarPanel = new javax.swing.JPanel();
 
+			/** TODO: Redo using Java 5 supported classes. */
+			/*
 			javax.swing.GroupLayout progressBarPanelLayout = new javax.swing.GroupLayout(progressBarPanel);
 			progressBarPanel.setLayout(progressBarPanelLayout);
 			progressBarPanelLayout.setHorizontalGroup(
@@ -574,6 +574,7 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 					.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 					.addComponent(progressBarPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 			);
+			*/
 
 			return progressNodePanel;
 
@@ -582,7 +583,6 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 		/* (non-Javadoc)
 		 * @see javax.swing.table.TableModel#getColumnCount()
 		 */
-		@Override
 		public int getColumnCount() {
 			return NUM_COLUMNS;
 		}
@@ -590,7 +590,6 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 		/* (non-Javadoc)
 		 * @see javax.swing.table.TableModel#getRowCount()
 		 */
-		@Override
 		public int getRowCount() {
 			return this.children.size();
 		}
@@ -598,7 +597,6 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 		/* (non-Javadoc)
 		 * @see javax.swing.table.TableModel#getValueAt(int, int)
 		 */
-		@Override
 		public synchronized Object getValueAt(int rowIndex, int columnIndex) {
 
 			if (rowIndex < this.children.size()) {
@@ -704,7 +702,6 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.reporting.ProgressMonitor#createChildProgressMonitor(java.lang.String)
 	 */
-	@Override
 	public ProgressMonitor createChildProgressMonitor(String title) {
 		return this.getRootNode().createChildProgressMonitor(title);
 	}
@@ -712,7 +709,6 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.reporting.ProgressMonitor#isCancelPending()
 	 */
-	@Override
 	public boolean isCancelPending() {
 		return this.getRootNode().isCancelPending();
 	}
@@ -720,7 +716,6 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.reporting.ProgressMonitor#notifyCancelled()
 	 */
-	@Override
 	public void notifyCancelled() {
 		this.getRootNode().notifyCancelled();
 	}
@@ -728,7 +723,6 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.reporting.ProgressMonitor#notifyComplete()
 	 */
-	@Override
 	public void notifyComplete() {
 		this.getRootNode().notifyComplete();
 	}
@@ -736,7 +730,6 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.reporting.ProgressMonitor#notifyIndeterminantProgress()
 	 */
-	@Override
 	public boolean notifyIndeterminantProgress() {
 		return this.getRootNode().notifyIndeterminantProgress();
 	}
@@ -744,7 +737,6 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.reporting.ProgressMonitor#notifyProgress(int, int)
 	 */
-	@Override
 	public boolean notifyProgress(int value, int maximum) {
 		return this.getRootNode().notifyProgress(value, maximum);
 	}
@@ -752,7 +744,6 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.reporting.ProgressMonitor#notifyProgress(double)
 	 */
-	@Override
 	public boolean notifyProgress(double progress) {
 		return this.getRootNode().notifyProgress(progress);
 	}
@@ -760,7 +751,6 @@ public class ProgressTreePanel extends javax.swing.JPanel implements ProgressMon
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.reporting.ProgressMonitor#notifyStatusChanged(java.lang.String)
 	 */
-	@Override
 	public void notifyStatusChanged(String status) {
 		this.getRootNode().notifyStatusChanged(status);
 	}

@@ -35,7 +35,6 @@ public final class BackgroundThreadFactory implements ThreadFactory {
 	/* (non-Javadoc)
 	 * @see java.util.concurrent.ThreadFactory#newThread(java.lang.Runnable)
 	 */
-	@Override
 	public Thread newThread(Runnable r) {
 
 		/* Use the inner ThreadFactory to create a new thread. */

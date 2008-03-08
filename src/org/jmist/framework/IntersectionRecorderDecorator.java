@@ -25,7 +25,6 @@ public abstract class IntersectionRecorderDecorator implements
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.IntersectionRecorder#interval()
 	 */
-	@Override
 	public Interval interval() {
 		return this.inner.interval();
 	}
@@ -33,7 +32,6 @@ public abstract class IntersectionRecorderDecorator implements
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.IntersectionRecorder#needAllIntersections()
 	 */
-	@Override
 	public boolean needAllIntersections() {
 		return this.inner.needAllIntersections();
 	}
@@ -41,7 +39,6 @@ public abstract class IntersectionRecorderDecorator implements
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.IntersectionRecorder#isEmpty()
 	 */
-	@Override
 	public boolean isEmpty() {
 		return this.inner.isEmpty();
 	}
@@ -49,7 +46,6 @@ public abstract class IntersectionRecorderDecorator implements
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.IntersectionRecorder#record(org.jmist.framework.Intersection)
 	 */
-	@Override
 	public abstract void record(Intersection intersection);
 
 	/** The decorated <code>IntersectionRecorder</code>. */

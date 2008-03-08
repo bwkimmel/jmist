@@ -36,7 +36,6 @@ public final class BoxGeometry extends SingleMaterialGeometry {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Geometry#intersect(org.jmist.toolkit.Ray3, org.jmist.framework.IntersectionRecorder)
 	 */
-	@Override
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 
 		// Check for an empty box.
@@ -226,7 +225,6 @@ public final class BoxGeometry extends SingleMaterialGeometry {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Geometry#isClosed()
 	 */
-	@Override
 	public boolean isClosed() {
 		return true;
 	}
@@ -234,7 +232,6 @@ public final class BoxGeometry extends SingleMaterialGeometry {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Bounded3#boundingBox()
 	 */
-	@Override
 	public Box3 boundingBox() {
 		return this.box;
 	}
@@ -242,7 +239,6 @@ public final class BoxGeometry extends SingleMaterialGeometry {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Bounded3#boundingSphere()
 	 */
-	@Override
 	public Sphere boundingSphere() {
 		return new Sphere(this.box.center(), this.box.diagonal() / 2.0);
 	}

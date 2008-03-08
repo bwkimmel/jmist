@@ -33,7 +33,6 @@ public final class InsideOutGeometry extends AbstractGeometry {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Geometry#intersect(org.jmist.toolkit.Ray3, org.jmist.framework.IntersectionRecorder)
 	 */
-	@Override
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 		recorder = new InsideOutIntersectionRecorder(recorder);
 		this.inner.intersect(ray, recorder);
@@ -42,7 +41,6 @@ public final class InsideOutGeometry extends AbstractGeometry {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Geometry#isClosed()
 	 */
-	@Override
 	public boolean isClosed() {
 		return this.inner.isClosed();
 	}
@@ -50,7 +48,6 @@ public final class InsideOutGeometry extends AbstractGeometry {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Bounded3#boundingBox()
 	 */
-	@Override
 	public Box3 boundingBox() {
 		return this.inner.boundingBox();
 	}
@@ -58,7 +55,6 @@ public final class InsideOutGeometry extends AbstractGeometry {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Bounded3#boundingSphere()
 	 */
-	@Override
 	public Sphere boundingSphere() {
 		return this.inner.boundingSphere();
 	}

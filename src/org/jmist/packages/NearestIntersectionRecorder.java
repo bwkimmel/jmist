@@ -47,7 +47,6 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.IntersectionRecorder#needAllIntersections()
 	 */
-	@Override
 	public boolean needAllIntersections() {
 		return false;
 	}
@@ -55,7 +54,6 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.IntersectionRecorder#interval()
 	 */
-	@Override
 	public Interval interval() {
 		return this.interval;
 	}
@@ -63,7 +61,6 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.IntersectionRecorder#record(org.jmist.framework.Intersection)
 	 */
-	@Override
 	public void record(Intersection intersection) {
 		if (this.interval().contains(intersection.distance())) {
 			if (this.nearest == null || intersection.distance() < this.nearest.distance()) {
@@ -75,7 +72,6 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.IntersectionRecorder#isEmpty()
 	 */
-	@Override
 	public boolean isEmpty() {
 		return (this.nearest == null);
 	}

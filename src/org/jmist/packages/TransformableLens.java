@@ -22,7 +22,6 @@ public abstract class TransformableLens implements Lens, AffineTransformable3 {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Lens#rayAt(org.jmist.toolkit.Point2)
 	 */
-	@Override
 	public final Ray3 rayAt(Point2 p) {
 		Ray3 viewRay = this.viewRayAt(p);
 		return viewRay != null ? this.view.apply(viewRay) : null;
@@ -48,7 +47,6 @@ public abstract class TransformableLens implements Lens, AffineTransformable3 {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Rotatable3#rotate(org.jmist.toolkit.Vector3, double)
 	 */
-	@Override
 	public void rotate(Vector3 axis, double angle) {
 		view.rotate(axis, angle);
 	}
@@ -56,7 +54,6 @@ public abstract class TransformableLens implements Lens, AffineTransformable3 {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Rotatable3#rotateX(double)
 	 */
-	@Override
 	public void rotateX(double angle) {
 		view.rotateX(angle);
 	}
@@ -64,7 +61,6 @@ public abstract class TransformableLens implements Lens, AffineTransformable3 {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Rotatable3#rotateY(double)
 	 */
-	@Override
 	public void rotateY(double angle) {
 		view.rotateY(angle);
 	}
@@ -72,7 +68,6 @@ public abstract class TransformableLens implements Lens, AffineTransformable3 {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Rotatable3#rotateZ(double)
 	 */
-	@Override
 	public void rotateZ(double angle) {
 		view.rotateZ(angle);
 	}
@@ -80,7 +75,6 @@ public abstract class TransformableLens implements Lens, AffineTransformable3 {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Scalable#scale(double)
 	 */
-	@Override
 	public void scale(double c) {
 		view.scale(c);
 	}
@@ -88,7 +82,6 @@ public abstract class TransformableLens implements Lens, AffineTransformable3 {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.AxisStretchable3#stretch(double, double, double)
 	 */
-	@Override
 	public void stretch(double cx, double cy, double cz) {
 		view.stretch(cx, cy, cz);
 	}
@@ -96,7 +89,6 @@ public abstract class TransformableLens implements Lens, AffineTransformable3 {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Stretchable3#stretch(org.jmist.toolkit.Vector3, double)
 	 */
-	@Override
 	public void stretch(Vector3 axis, double c) {
 		view.stretch(axis, c);
 	}
@@ -104,7 +96,6 @@ public abstract class TransformableLens implements Lens, AffineTransformable3 {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.AxisStretchable3#stretchX(double)
 	 */
-	@Override
 	public void stretchX(double cx) {
 		view.stretchX(cx);
 	}
@@ -112,7 +103,6 @@ public abstract class TransformableLens implements Lens, AffineTransformable3 {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.AxisStretchable3#stretchY(double)
 	 */
-	@Override
 	public void stretchY(double cy) {
 		view.stretchY(cy);
 	}
@@ -120,7 +110,6 @@ public abstract class TransformableLens implements Lens, AffineTransformable3 {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.AxisStretchable3#stretchZ(double)
 	 */
-	@Override
 	public void stretchZ(double cz) {
 		view.stretchZ(cz);
 	}
@@ -128,7 +117,6 @@ public abstract class TransformableLens implements Lens, AffineTransformable3 {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.AffineTransformable3#transform(org.jmist.toolkit.AffineMatrix3)
 	 */
-	@Override
 	public void transform(AffineMatrix3 T) {
 		view.transform(T);
 	}
@@ -136,7 +124,6 @@ public abstract class TransformableLens implements Lens, AffineTransformable3 {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.LinearTransformable3#transform(org.jmist.toolkit.LinearMatrix3)
 	 */
-	@Override
 	public void transform(LinearMatrix3 T) {
 		view.transform(T);
 	}
@@ -144,7 +131,6 @@ public abstract class TransformableLens implements Lens, AffineTransformable3 {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Translatable3#translate(org.jmist.toolkit.Vector3)
 	 */
-	@Override
 	public void translate(Vector3 v) {
 		view.translate(v);
 	}

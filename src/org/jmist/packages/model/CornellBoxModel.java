@@ -41,7 +41,6 @@ public final class CornellBoxModel implements Model {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Model#getGeometry()
 	 */
-	@Override
 	public Geometry getGeometry() {
 		return this.cornellBox;
 	}
@@ -49,7 +48,6 @@ public final class CornellBoxModel implements Model {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Model#getLight()
 	 */
-	@Override
 	public Light getLight() {
 		return (Light) lightBox;
 		//return new PointLight(new Point3(278.0, 540.8, 279.5), emission, true);
@@ -58,7 +56,6 @@ public final class CornellBoxModel implements Model {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Model#getLens()
 	 */
-	@Override
 	public Lens getLens() {
 		return this.lens;
 	}

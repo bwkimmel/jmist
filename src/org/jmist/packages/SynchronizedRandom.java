@@ -22,7 +22,6 @@ public final class SynchronizedRandom implements Random {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Random#next()
 	 */
-	@Override
 	public synchronized double next() {
 		return this.inner.next();
 	}
@@ -30,7 +29,6 @@ public final class SynchronizedRandom implements Random {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Random#reset()
 	 */
-	@Override
 	public synchronized void reset() {
 		this.inner.reset();
 	}
@@ -38,7 +36,6 @@ public final class SynchronizedRandom implements Random {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Random#createCompatibleRandom()
 	 */
-	@Override
 	public SynchronizedRandom createCompatibleRandom() {
 		return new SynchronizedRandom(this.inner.createCompatibleRandom());
 	}

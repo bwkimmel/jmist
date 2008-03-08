@@ -33,7 +33,6 @@ public abstract class CompositeGeometry extends AbstractGeometry {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Bounded3#boundingBox()
 	 */
-	@Override
 	public Box3 boundingBox() {
 
 		/* The default behavior is pessimistic (i.e., the result is the union
@@ -52,7 +51,6 @@ public abstract class CompositeGeometry extends AbstractGeometry {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Bounded3#boundingSphere()
 	 */
-	@Override
 	public Sphere boundingSphere() {
 
 		/* The default behavior is to return the sphere that bounds the
@@ -67,7 +65,6 @@ public abstract class CompositeGeometry extends AbstractGeometry {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Geometry#isClosed()
 	 */
-	@Override
 	public boolean isClosed() {
 		for (Geometry child : this.children) {
 			if (!child.isClosed()) {

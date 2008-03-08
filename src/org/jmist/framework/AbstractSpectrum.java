@@ -16,13 +16,11 @@ public abstract class AbstractSpectrum implements Spectrum {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Spectrum#sample(double)
 	 */
-	@Override
 	public abstract double sample(double wavelength);
 
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Spectrum#sample(org.jmist.toolkit.Tuple, double[])
 	 */
-	@Override
 	public double[] sample(Tuple wavelengths, double[] results) throws IllegalArgumentException {
 
 		/* If no results array was passed in, then make one. */
@@ -46,7 +44,6 @@ public abstract class AbstractSpectrum implements Spectrum {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Spectrum#modulate(org.jmist.toolkit.Tuple, double[])
 	 */
-	@Override
 	public void modulate(Tuple wavelengths, double[] samples)
 			throws IllegalArgumentException {
 

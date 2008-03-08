@@ -44,7 +44,6 @@ public final class BidirectionalPathShader implements RayShader {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.RayShader#shadeRay(org.jmist.toolkit.Ray3, double[])
 	 */
-	@Override
 	public double[] shadeRay(Ray3 ray, double[] pixel) {
 		return this.observer.acquire(new PathEstimator(ray), pixel);
 	}
@@ -58,7 +57,6 @@ public final class BidirectionalPathShader implements RayShader {
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.SpectralEstimator#sample(org.jmist.toolkit.Tuple, double[])
 		 */
-		@Override
 		public double[] sample(Tuple wavelengths, double[] responses) {
 			Path lightPath = generateLightPath(wavelengths);
 			Path eyePath = generateEyePath(this.ray, wavelengths);
@@ -240,7 +238,6 @@ public final class BidirectionalPathShader implements RayShader {
 		/* (non-Javadoc)
 		 * @see org.jmist.framework.Illuminable#illuminate(org.jmist.toolkit.Vector3, org.jmist.framework.Spectrum)
 		 */
-		@Override
 		public void illuminate(Vector3 from, Spectrum radiance) {
 
 			Material	material = x.material();

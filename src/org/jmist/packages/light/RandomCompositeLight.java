@@ -30,7 +30,6 @@ public final class RandomCompositeLight extends CompositeLight {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.Light#illuminate(org.jmist.framework.SurfacePoint, org.jmist.framework.VisibilityFunction3, org.jmist.framework.Illuminable)
 	 */
-	@Override
 	public void illuminate(SurfacePoint x, VisibilityFunction3 vf,
 			final Illuminable target) {
 
@@ -39,7 +38,6 @@ public final class RandomCompositeLight extends CompositeLight {
 			/* (non-Javadoc)
 			 * @see org.jmist.framework.Illuminable#illuminate(org.jmist.toolkit.Vector3, org.jmist.framework.Spectrum)
 			 */
-			@Override
 			public void illuminate(Vector3 from, Spectrum radiance) {
 				target.illuminate(from, new ScaledSpectrum(children().size(), radiance));
 			}

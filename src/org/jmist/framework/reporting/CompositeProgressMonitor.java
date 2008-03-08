@@ -33,7 +33,6 @@ public final class CompositeProgressMonitor implements ProgressMonitor {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.reporting.ProgressMonitor#createChildProgressMonitor(java.lang.String)
 	 */
-	@Override
 	public ProgressMonitor createChildProgressMonitor(String title) {
 
 		CompositeProgressMonitor result = new CompositeProgressMonitor();
@@ -60,7 +59,6 @@ public final class CompositeProgressMonitor implements ProgressMonitor {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.reporting.ProgressMonitor#isCancelPending()
 	 */
-	@Override
 	public boolean isCancelPending() {
 
 		for (ProgressMonitor monitor : this.monitors) {
@@ -76,7 +74,6 @@ public final class CompositeProgressMonitor implements ProgressMonitor {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.reporting.ProgressMonitor#notifyCancelled()
 	 */
-	@Override
 	public void notifyCancelled() {
 		for (ProgressMonitor monitor : this.monitors) {
 			monitor.notifyCancelled();
@@ -86,7 +83,6 @@ public final class CompositeProgressMonitor implements ProgressMonitor {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.reporting.ProgressMonitor#notifyComplete()
 	 */
-	@Override
 	public void notifyComplete() {
 		for (ProgressMonitor monitor : this.monitors) {
 			monitor.notifyComplete();
@@ -96,7 +92,6 @@ public final class CompositeProgressMonitor implements ProgressMonitor {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.reporting.ProgressMonitor#notifyIndeterminantProgress()
 	 */
-	@Override
 	public boolean notifyIndeterminantProgress() {
 
 		boolean result = true;
@@ -114,7 +109,6 @@ public final class CompositeProgressMonitor implements ProgressMonitor {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.reporting.ProgressMonitor#notifyProgress(int, int)
 	 */
-	@Override
 	public boolean notifyProgress(int value, int maximum) {
 
 		boolean result = true;
@@ -132,7 +126,6 @@ public final class CompositeProgressMonitor implements ProgressMonitor {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.reporting.ProgressMonitor#notifyProgress(double)
 	 */
-	@Override
 	public boolean notifyProgress(double progress) {
 
 		boolean result = true;
@@ -150,7 +143,6 @@ public final class CompositeProgressMonitor implements ProgressMonitor {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.reporting.ProgressMonitor#notifyStatusChanged(java.lang.String)
 	 */
-	@Override
 	public void notifyStatusChanged(String status) {
 		for (ProgressMonitor monitor : this.monitors) {
 			monitor.notifyStatusChanged(status);

@@ -184,6 +184,7 @@ public class InvertibleAffineTransformation3 extends AffineTransformation3 {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.AffineTransformation3#apply(org.jmist.framework.AffineTransformable3)
 	 */
+	@Override
 	public void apply(AffineTransformable3 to) {
 		if (to instanceof InvertibleAffineTransformation3) {
 			this.apply((InvertibleAffineTransformation3) to);
