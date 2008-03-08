@@ -436,7 +436,7 @@ public class Test {
 			WritableRaster raster = Raster.createWritableRaster(sm, db, null);
 			//BufferedImage image = new BufferedImage(cm, raster, false, null);
 			//BufferedImage image = new BufferedImage(500, 500, BufferedImage.);
-			IIORegistry.getDefaultInstance().getDefaultInstance().registerServiceProvider(new MatlabImageWriterSpi());
+			IIORegistry.getDefaultInstance().registerServiceProvider(new MatlabImageWriterSpi());
 			ParallelizableJob job = new RasterJob(pixelShader, raster, "mat", 10, 10);
 			ProgressMonitor monitor = new ProgressDialog();
 			Job runner = new ParallelizableJobRunner(job, 2);
