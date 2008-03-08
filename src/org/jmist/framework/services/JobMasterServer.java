@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.rmi.RMISecurityManager;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -136,7 +137,7 @@ public final class JobMasterServer implements JobMasterService {
 
 			System.err.print("Initializing security manager...");
 	        if (System.getSecurityManager() == null) {
-	            System.setSecurityManager(new SecurityManager());
+	            System.setSecurityManager(new RMISecurityManager());
 	        }
 	        System.err.println("OK");
 
@@ -148,7 +149,7 @@ public final class JobMasterServer implements JobMasterService {
 	        System.err.println("OK");
 
 	        System.err.print("Initializing server...");
-	        File outputDirectory = new File("C:/jobs/");
+	        File outputDirectory = new File("/home/brad/jmist/jobs/");
 			JobMasterServer server = new JobMasterServer(outputDirectory, monitor, true);
 			System.err.println("OK");
 
