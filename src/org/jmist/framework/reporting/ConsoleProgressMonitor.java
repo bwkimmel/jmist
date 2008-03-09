@@ -34,24 +34,26 @@ public final class ConsoleProgressMonitor implements ProgressMonitor {
 	 * @see org.jmist.framework.ProgressMonitor#notifyCancelled()
 	 */
 	public void notifyCancelled() {
-		this.printProgressBar(this.progress);
-		this.out.println(" CANCELLED");
+		this.notifyStatusChanged("CANCELLED");
 	}
 
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.ProgressMonitor#notifyComplete()
 	 */
 	public void notifyComplete() {
-		this.printProgressBar(1.0);
-		this.out.println(" DONE");
+		this.progress = 1.0;
+		this.value = this.maximum;
+		this.notifyStatusChanged("DONE");
 	}
 
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.ProgressMonitor#notifyProgress(double)
 	 */
 	public boolean notifyProgress(double progress) {
-		this.printProgressBar(progress);
-		this.out.print("\r");
+		this.value = 0;
+		this.maximum = 0;
+		this.progress = progress;
+		this.printProgressBar();
 		return true;
 	}
 
@@ -59,8 +61,10 @@ public final class ConsoleProgressMonitor implements ProgressMonitor {
 	 * @see org.jmist.framework.ProgressMonitor#notifyProgress(int, int)
 	 */
 	public boolean notifyProgress(int value, int maximum) {
-		this.printProgressBar((double) value / (double) maximum);
-		this.out.printf(" (%d/%d)\r", value, maximum);
+		this.progress = (double) value / (double) maximum;
+		this.value = value;
+		this.maximum = maximum;
+		this.printProgressBar();
 		return true;
 	}
 
@@ -68,8 +72,10 @@ public final class ConsoleProgressMonitor implements ProgressMonitor {
 	 * @see org.jmist.framework.ProgressMonitor#notifyIndeterminantProgress()
 	 */
 	public boolean notifyIndeterminantProgress() {
-		this.printProgressBar(Double.NaN);
-		this.out.print("\r");
+		this.progress = Double.NaN;
+		this.value = 0;
+		this.maximum = 0;
+		this.printProgressBar();
 		return true;
 	}
 
@@ -77,8 +83,19 @@ public final class ConsoleProgressMonitor implements ProgressMonitor {
 	 * @see org.jmist.framework.ProgressMonitor#notifyStatusChanged(java.lang.String)
 	 */
 	public void notifyStatusChanged(String status) {
-		this.out.println();
-		this.out.println(status);
+
+		/* If the new status message is shorter than the previous one, then
+		 * first change the status message all spaces to clear out the previous
+		 * message.
+		 */
+		if (status.length() < this.status.length()) {
+			this.status = this.status.replaceAll(".", " ");
+			this.printProgressBar();
+		}
+
+		this.status = status;
+		this.printProgressBar();
+
 	}
 
 	/* (non-Javadoc)
@@ -99,18 +116,19 @@ public final class ConsoleProgressMonitor implements ProgressMonitor {
 	 * Writes the progress bar to the stream.
 	 * @param progress
 	 */
-	private void printProgressBar(double progress) {
+	private void printProgressBar() {
 
 		double x;
 
+		this.out.print("\r");
 		this.out.print(PROGRESS_BAR_END_CHAR);
 
 		for (int i = 1; i <= this.length; i++) {
 
-			if (!Double.isNaN(progress)) {
+			if (!Double.isNaN(this.progress)) {
 
 				x = (double) i / this.length;
-				this.out.print(progress >= x ? PROGRESS_BAR_CHAR : PROGRESS_BACKGROUND_CHAR);
+				this.out.print(this.progress >= x ? PROGRESS_BAR_CHAR : PROGRESS_BACKGROUND_CHAR);
 
 			} else { // Double.isNaN(progress)
 
@@ -122,8 +140,12 @@ public final class ConsoleProgressMonitor implements ProgressMonitor {
 
 		this.out.print(PROGRESS_BAR_END_CHAR);
 
-		// Update the progress internally.
-		this.progress = progress;
+		if (this.maximum > 0) {
+			this.out.printf(" (%d/%d)", value, maximum);
+		}
+
+		this.out.print(" ");
+		this.out.print(status);
 
 	}
 
@@ -132,6 +154,15 @@ public final class ConsoleProgressMonitor implements ProgressMonitor {
 
 	/** The progress as last updated. */
 	private double progress = 0.0;
+
+	/** The status as last updated. */
+	private String status = "";
+
+	/** The value as last updated. */
+	private int value = 0;
+
+	/** The maximum value of the progress bar as last updated. */
+	private int maximum = 0;
 
 	/** The length of the progress bar. */
 	private final int length;
