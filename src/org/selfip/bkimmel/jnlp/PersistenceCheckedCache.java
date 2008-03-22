@@ -201,7 +201,7 @@ public final class PersistenceCheckedCache implements CheckedCache {
 	/* (non-Javadoc)
 	 * @see org.selfip.bkimmel.util.CheckedCache#put(java.lang.String, java.nio.ByteBuffer, java.security.MessageDigest)
 	 */
-	public void put(String key, ByteBuffer data, MessageDigest digest) {
+	public byte[] put(String key, ByteBuffer data, MessageDigest digest) {
 
 		digest.reset();
 		data.reset();
@@ -219,6 +219,8 @@ public final class PersistenceCheckedCache implements CheckedCache {
 		this.remove(key);
 		this.write(dataUrl, dataArray);
 		this.write(digestUrl, digestArray);
+
+		return digestArray;
 
 	}
 

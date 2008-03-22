@@ -21,8 +21,9 @@ public interface CheckedCache {
 	 * 		with the key.
 	 * @param digest The <code>MessageDigest</code> to update with the data
 	 * 		being added.
+	 * @return The data digest.
 	 */
-	void put(String key, ByteBuffer data, MessageDigest digest);
+	byte[] put(String key, ByteBuffer data, MessageDigest digest);
 
 	/**
 	 * Gets an entry from the cache, optionally performing integrity checking.
