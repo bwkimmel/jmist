@@ -38,7 +38,7 @@ public final class ClassUtil {
 	public static void getClassDigest(Class<?> cl, MessageDigest digest) {
 		DigestOutputStream out = new DigestOutputStream(NullOutputStream.getInstance(), digest);
 		try {
-			writeClassTo(cl, out);
+			writeClassToStream(cl, out);
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new UnexpectedException(e);
@@ -51,7 +51,7 @@ public final class ClassUtil {
 	 * @param out The <code>OutputStream</code> to write to.
 	 * @throws IOException If unable to write to <code>out</code>.
 	 */
-	public static void writeClassTo(Class<?> cl, OutputStream out) throws IOException {
+	public static void writeClassToStream(Class<?> cl, OutputStream out) throws IOException {
 		InputStream in = getClassAsStream(cl);
 		StreamUtil.writeStream(in, out);
 	}
