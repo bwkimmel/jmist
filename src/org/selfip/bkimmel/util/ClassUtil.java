@@ -21,24 +21,24 @@ public final class ClassUtil {
 	/**
 	 * Gets an <code>InputStream</code> from which the specified class'
 	 * bytecode definition may be read.
-	 * @param class_ The <code>Class</code> for which to get the stream.
+	 * @param cl The <code>Class</code> for which to get the stream.
 	 * @return An <code>InputStream</code> from which the specified class'
 	 * 		bytecode definition may be read.
 	 */
-	public static InputStream getClassAsStream(Class<?> class_) {
-		String resourceName = class_.getName() + ".class";
-		return class_.getResourceAsStream(resourceName);
+	public static InputStream getClassAsStream(Class<?> cl) {
+		String resourceName = cl.getName() + ".class";
+		return cl.getResourceAsStream(resourceName);
 	}
 
 	/**
 	 * Computes a digest from a class' bytecode.
-	 * @param class_ The <code>Class</code> for which to compute the digest.
+	 * @param cl The <code>Class</code> for which to compute the digest.
 	 * @param digest The <code>MessageDigest</code> to update.
 	 */
-	public static void getClassDigest(Class<?> class_, MessageDigest digest) {
+	public static void getClassDigest(Class<?> cl, MessageDigest digest) {
 		DigestOutputStream out = new DigestOutputStream(NullOutputStream.getInstance(), digest);
 		try {
-			writeClassTo(class_, out);
+			writeClassTo(cl, out);
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new UnexpectedException(e);
@@ -47,30 +47,30 @@ public final class ClassUtil {
 
 	/**
 	 * Writes a class' bytecode to an <code>OutputStream</code>.
-	 * @param class_ The <code>Class</code> to write.
+	 * @param cl The <code>Class</code> to write.
 	 * @param out The <code>OutputStream</code> to write to.
 	 * @throws IOException If unable to write to <code>out</code>.
 	 */
-	public static void writeClassTo(Class<?> class_, OutputStream out) throws IOException {
-		InputStream in = getClassAsStream(class_);
+	public static void writeClassTo(Class<?> cl, OutputStream out) throws IOException {
+		InputStream in = getClassAsStream(cl);
 		StreamUtil.writeStream(in, out);
 	}
 
 	/**
 	 * Gets the outer class (a class with no enclosing class) that contains the
 	 * given class.
-	 * @param class_ The <code>Class</code> for which to find the outer class.
-	 * 		If <code>class_</code> is an outer class, then <code>class_</code>
-	 * 		is returned.
+	 * @param cl The <code>Class</code> for which to find the outer class.  If
+	 * 		<code>class_</code> is an outer class, then <code>class_</code> is
+	 * 		returned.
 	 * @return The outer <code>Outer</code> class containing
 	 * 		<code>class_</code>.
 	 */
-	public static Class<?> getOuterClass(Class<?> class_) {
+	public static Class<?> getOuterClass(Class<?> cl) {
 		Class<?> enclosingClass;
-		while ((enclosingClass = class_.getEnclosingClass()) != null) {
-			class_ = enclosingClass;
+		while ((enclosingClass = cl.getEnclosingClass()) != null) {
+			cl = enclosingClass;
 		}
-		return class_;
+		return cl;
 	}
 
 	/** Declared private to prevent this class from being instantiated. */
