@@ -13,6 +13,7 @@ import java.nio.ByteBuffer;
 import java.security.DigestException;
 import java.security.MessageDigest;
 
+import javax.jnlp.BasicService;
 import javax.jnlp.FileContents;
 import javax.jnlp.PersistenceService;
 import javax.jnlp.ServiceManager;
@@ -48,6 +49,36 @@ public final class PersistenceCheckedCache implements CheckedCache {
 	 * entries.
 	 */
 	private final PersistenceService service;
+
+	/**
+	 * Creates a new <code>PersistenceCheckedCache</code> at the codebase
+	 * <code>URL</code> for the current application.
+	 * @throws IllegalStateException If <code>BasicService</code> or
+	 * 		<code>PersistenceService</code> are unavailable.
+	 */
+	public PersistenceCheckedCache() throws IllegalStateException {
+
+		try {
+
+			BasicService service = (BasicService) ServiceManager.lookup("javax.jnlp.BasicService");
+
+			this.baseUrl = service.getCodeBase();
+			this.baseDataUrl = new URL(this.baseUrl, "data");
+			this.baseDigestUrl = new URL(this.baseUrl, "digest");
+			this.service = (PersistenceService) ServiceManager.lookup("javax.jnlp.PersistenceService");
+
+		} catch (UnavailableServiceException e) {
+
+			throw new IllegalStateException("A required service is could not be found.", e);
+
+		} catch (MalformedURLException e) {
+
+			e.printStackTrace();
+			throw new UnexpectedException(e);
+
+		}
+
+	}
 
 	/**
 	 * Creates a new <code>PersistenceCheckedCache</code>.
