@@ -10,6 +10,7 @@ import java.io.PrintStream;
 import java.rmi.RMISecurityManager;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.RemoteStub;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,6 +28,8 @@ import org.jmist.framework.TaskWorker;
 import org.jmist.framework.reporting.DummyProgressMonitor;
 import org.jmist.framework.reporting.ProgressMonitor;
 import org.jmist.framework.reporting.ProgressTreePanel;
+import org.selfip.bkimmel.rmi.ClassLoaderServer;
+import org.selfip.bkimmel.rmi.ClassLoaderService;
 
 /**
  * An implementation of <code>JobMasterService</code>: a remote service for
@@ -148,18 +151,21 @@ public final class JobMasterServer implements JobMasterService {
 	        dialog.setBounds(100, 100, 500, 350);
 	        System.err.println("OK");
 
-	        System.err.print("Initializing server...");
+	        System.err.print("Initializing servers...");
 	        File outputDirectory = new File("/home/brad/jmist/jobs/");
-			JobMasterServer server = new JobMasterServer(outputDirectory, monitor, true);
+			JobMasterServer jobServer = new JobMasterServer(outputDirectory, monitor, true);
+			ClassLoaderServer classServer = new ClassLoaderServer();
 			System.err.println("OK");
 
-			System.err.print("Exporting service stub...");
-			JobMasterService stub = (JobMasterService) UnicastRemoteObject.exportObject(server, 0);
+			System.err.print("Exporting service stubs...");
+			JobMasterService jobStub = (JobMasterService) UnicastRemoteObject.exportObject(jobServer);
+			ClassLoaderService classStub = (ClassLoaderService) UnicastRemoteObject.exportObject(classServer);
 			System.err.println("OK");
 
 			System.err.print("Binding service...");
 			Registry registry = LocateRegistry.getRegistry();
-			registry.bind("JobMasterService", stub);
+			registry.bind("JobMasterService", jobStub);
+			registry.bind("ClassLoaderService", classStub);
 			System.err.println("OK");
 
 			System.err.println("Server ready");
