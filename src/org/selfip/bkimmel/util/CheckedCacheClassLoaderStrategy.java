@@ -19,15 +19,23 @@ public class CheckedCacheClassLoaderStrategy implements ClassLoaderStrategy {
 	private final CheckedCache cache;
 	private final ClassLoaderStrategy fallback;
 	private final String digestAlgorithm;
+	private final DigestLookup digestLookup;
 
-	public CheckedCacheClassLoaderStrategy(CheckedCache cache, ClassLoaderStrategy fallback) {
-		this(cache, "MD5", fallback);
+	public CheckedCacheClassLoaderStrategy(CheckedCache cache, DigestLookup digestLookup, ClassLoaderStrategy fallback) {
+		this(cache, "MD5", digestLookup, fallback);
 	}
 
-	public CheckedCacheClassLoaderStrategy(CheckedCache cache, String digestAlgorithm, ClassLoaderStrategy fallback) {
+	public CheckedCacheClassLoaderStrategy(CheckedCache cache, String digestAlgorithm, DigestLookup digestLookup, ClassLoaderStrategy fallback) {
 		this.cache = cache;
 		this.digestAlgorithm = digestAlgorithm;
+		this.digestLookup = digestLookup;
 		this.fallback = fallback;
+	}
+
+	public static interface DigestLookup {
+
+		byte[] getDigest(String name);
+
 	}
 
 	/* (non-Javadoc)
@@ -41,7 +49,8 @@ public class CheckedCacheClassLoaderStrategy implements ClassLoaderStrategy {
 
 		try {
 
-			def = cache.get(classPath, null);
+			byte[] digest = digestLookup.getDigest(name);
+			def = cache.get(classPath, digest);
 
 		} catch (DigestException e) {
 
