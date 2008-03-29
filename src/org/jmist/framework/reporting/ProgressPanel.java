@@ -15,6 +15,7 @@ import javax.swing.tree.TreePath;
 
 import org.jdesktop.swingx.JXTreeTable;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
+import org.selfip.bkimmel.ui.TreeUtil;
 import org.selfip.bkimmel.ui.renderer.ProgressBarRenderer;
 
 /**
@@ -459,6 +460,7 @@ public final class ProgressPanel extends JPanel implements ProgressMonitor {
 		if (progressTree == null) {
 			progressTree = new JXTreeTable(model);
 			progressTree.setRootVisible(true);
+			TreeUtil.enableAutoExpansion(progressTree);
 			ProgressBarRenderer.applyTo(progressTree);
 		}
 		return progressTree;
