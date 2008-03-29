@@ -82,6 +82,14 @@ public final class ProgressPanel extends JPanel implements ProgressMonitor {
 	}
 
 	/**
+	 * Sets a value indicating whether the root progress node is visible.
+	 * @param visible true to make the root node visible, false otherwise.
+	 */
+	public void setRootVisible(boolean visible) {
+		getProgressTree().setRootVisible(visible);
+	}
+
+	/**
 	 * Gets the top level <code>ProgressMonitor</code>.
 	 * @return The top level <code>ProgressMonitor</code>.
 	 */
