@@ -25,11 +25,33 @@ public final class ProgressPanel extends JPanel implements ProgressMonitor {
 	/** Serialization version ID. */
 	private static final long serialVersionUID = 1L;
 
+	/** The <code>ProgressModel</code> describing the structure of the tree. */
+	private final ProgressModel model;  //  @jve:decl-index=0:
+
+	/** The top level <code>ProgressMonitor</code>. */
+	private ProgressMonitor monitor = null;
+
+	/**
+	 * The <code>JXTreeTable</code> in which to display the progress monitors.
+	 */
+	private JXTreeTable progressTree = null;
+
 	/**
 	 * This is the default constructor
 	 */
 	public ProgressPanel() {
 		super();
+		this.model = new ProgressModel();
+		initialize();
+	}
+
+	/**
+	 * Creates a new <code>ProgressPanel</code>.
+	 * @param title The title to apply to the root node.
+	 */
+	public ProgressPanel(String title) {
+		super();
+		this.model = new ProgressModel(title);
 		initialize();
 	}
 
@@ -49,17 +71,6 @@ public final class ProgressPanel extends JPanel implements ProgressMonitor {
 		this.setLayout(new GridBagLayout());
 		this.add(getProgressTree(), gridBagConstraints1);
 	}
-
-	/** The <code>ProgressModel</code> describing the structure of the tree. */
-	private final ProgressModel model = new ProgressModel();  //  @jve:decl-index=0:
-
-	/** The top level <code>ProgressMonitor</code>. */
-	private ProgressMonitor monitor = null;
-
-	/**
-	 * The <code>JXTreeTable</code> in which to display the progress monitors.
-	 */
-	private JXTreeTable progressTree = null;
 
 	/**
 	 * Gets the top level <code>ProgressMonitor</code>.
@@ -89,6 +100,15 @@ public final class ProgressPanel extends JPanel implements ProgressMonitor {
 		 */
 		private ProgressModel() {
 			super(new Node());
+			getRootNode().setModel(this);
+		}
+
+		/**
+		 * Creates a new <code>ProgressModel</code>.
+		 * @param title The title to apply to the root node.
+		 */
+		private ProgressModel(String title) {
+			super(new Node(title));
 			getRootNode().setModel(this);
 		}
 
@@ -200,6 +220,16 @@ public final class ProgressPanel extends JPanel implements ProgressMonitor {
 			 */
 			public Node() {
 				super();
+				model = null;
+				parent = null;
+			}
+
+			/**
+			 * Creates a new root <code>Node</code>.
+			 * @param title The title to use to label the node.
+			 */
+			public Node(String title) {
+				super(title);
 				model = null;
 				parent = null;
 			}
@@ -413,6 +443,7 @@ public final class ProgressPanel extends JPanel implements ProgressMonitor {
 
 	/**
 	 * This method initializes progressTree
+	 * @param title
 	 *
 	 * @return org.jdesktop.swingx.JXTreeTable
 	 */
