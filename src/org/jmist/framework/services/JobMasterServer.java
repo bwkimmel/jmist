@@ -27,7 +27,6 @@ import org.jmist.framework.TaskWorker;
 import org.jmist.framework.reporting.DummyProgressMonitor;
 import org.jmist.framework.reporting.ProgressMonitor;
 import org.jmist.framework.reporting.ProgressPanel;
-import org.jmist.framework.reporting.ProgressTreePanel;
 import org.selfip.bkimmel.rmi.ClassLoaderServer;
 import org.selfip.bkimmel.rmi.ClassLoaderService;
 

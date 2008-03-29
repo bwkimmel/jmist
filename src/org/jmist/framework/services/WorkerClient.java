@@ -11,7 +11,6 @@ import javax.swing.JDialog;
 
 import org.jmist.framework.Job;
 import org.jmist.framework.reporting.ProgressPanel;
-import org.jmist.framework.reporting.ProgressTreePanel;
 
 /**
  * @author brad
