@@ -10,6 +10,7 @@ import java.util.concurrent.Executors;
 import javax.swing.JDialog;
 
 import org.jmist.framework.Job;
+import org.jmist.framework.reporting.ProgressPanel;
 import org.jmist.framework.reporting.ProgressTreePanel;
 
 /**
@@ -29,8 +30,8 @@ public final class WorkerClient {
 
 		String host = args.length > 0 ? args[0] : "localhost";
 		JDialog dialog = new JDialog();
-		ProgressTreePanel monitor = new ProgressTreePanel();
-		
+		ProgressPanel monitor = new ProgressPanel();
+
 		int numberOfCpus = Runtime.getRuntime().availableProcessors();
 		Executor threadPool = Executors.newFixedThreadPool(numberOfCpus, new BackgroundThreadFactory());
 		Job workerJob = new ThreadServiceWorkerJob(host, 10000, numberOfCpus, threadPool);
