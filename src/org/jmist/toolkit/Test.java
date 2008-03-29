@@ -164,25 +164,34 @@ public class Test {
 
 		JDialog dialog = new JDialog();
 		ProgressPanel panel = new ProgressPanel();
-		JScrollPane scrollPane = new JScrollPane(panel);
-		dialog.add(scrollPane);
+		dialog.add(panel);
 		dialog.setBounds(100, 100, 640, 480);
 
 		dialog.setVisible(true);
 
-		for (int j = 0; j < 10; j++) {
+		for (int i = 0; i < 10; i++) {
 
-			ProgressMonitor child = panel.createChildProgressMonitor("Test " + new Integer(j + 1).toString());
+			ProgressMonitor child = panel.createChildProgressMonitor("Test " + new Integer(i + 1).toString());
 
-			for (int i = 0; i < 100; i++) {
-				child.notifyProgress(i, 100);
-				panel.notifyProgress(j * 100 + i, 1000);
-				try {
-					Thread.sleep(10);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+			for (int j = 0; j < 10; j++) {
+
+				ProgressMonitor grandChild = child.createChildProgressMonitor("Test " + new Integer(i + 1).toString() + " " + new Integer(j + 1).toString());
+
+				for (int k = 0; k < 10; k++) {
+					grandChild.notifyProgress(k, 10);
+					child.notifyProgress(j * 10 + k, 100);
+					panel.notifyProgress(i * 100 + j * 10 + k, 1000);
+					try {
+						Thread.sleep(50);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
+
+				grandChild.notifyProgress(10, 10);
+				grandChild.notifyComplete();
+
 			}
 
 			child.notifyProgress(100, 100);
