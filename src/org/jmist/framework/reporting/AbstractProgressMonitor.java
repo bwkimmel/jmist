@@ -125,8 +125,8 @@ public abstract class AbstractProgressMonitor implements ProgressMonitor {
 	}
 
 	/**
-	 * Gets a value indicating whether the operation has been canceled.
-	 * @return A value indicating whether the operation has been canceled.
+	 * Gets a value indicating whether the operation has been cancelled.
+	 * @return A value indicating whether the operation has been cancelled.
 	 */
 	protected boolean isCancelled() {
 		return cancelled;
