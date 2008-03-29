@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
 import javax.swing.tree.TreePath;
 
 import org.jdesktop.swingx.JXTreeTable;
@@ -63,13 +64,20 @@ public final class ProgressPanel extends JPanel implements ProgressMonitor {
 	private void initialize() {
 		GridBagConstraints gridBagConstraints1 = new GridBagConstraints();
 		gridBagConstraints1.fill = GridBagConstraints.BOTH;
-		gridBagConstraints1.gridy = 0;
+		gridBagConstraints1.gridy = 1;
 		gridBagConstraints1.weightx = 1.0;
 		gridBagConstraints1.weighty = 1.0;
 		gridBagConstraints1.gridx = 0;
 		this.setSize(300, 200);
 		this.setLayout(new GridBagLayout());
-		this.add(getProgressTree(), gridBagConstraints1);
+		GridBagConstraints gridBagConstraints2 = new GridBagConstraints();
+		gridBagConstraints2.fill = GridBagConstraints.HORIZONTAL;
+		gridBagConstraints2.gridx = 0;
+		gridBagConstraints2.gridy = 0;
+		gridBagConstraints2.weightx = 1.0;
+		gridBagConstraints2.weighty = 0.0;
+		this.add(getProgressTree().getTableHeader(), gridBagConstraints2);
+		this.add(new JScrollPane(getProgressTree()), gridBagConstraints1);
 	}
 
 	/**
@@ -450,6 +458,7 @@ public final class ProgressPanel extends JPanel implements ProgressMonitor {
 	private JXTreeTable getProgressTree() {
 		if (progressTree == null) {
 			progressTree = new JXTreeTable(model);
+			progressTree.setRootVisible(true);
 			ProgressBarRenderer.applyTo(progressTree);
 		}
 		return progressTree;
