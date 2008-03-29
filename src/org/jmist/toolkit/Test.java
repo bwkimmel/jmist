@@ -32,6 +32,7 @@ import java.util.zip.ZipOutputStream;
 
 import javax.imageio.spi.IIORegistry;
 import javax.swing.JDialog;
+import javax.swing.JScrollPane;
 
 import org.jmist.framework.ConstantSpectrum;
 import org.jmist.framework.Geometry;
@@ -52,6 +53,7 @@ import org.jmist.framework.reporting.CompositeProgressMonitor;
 import org.jmist.framework.reporting.ConsoleProgressMonitor;
 import org.jmist.framework.reporting.ProgressDialog;
 import org.jmist.framework.reporting.ProgressMonitor;
+import org.jmist.framework.reporting.ProgressPanel;
 import org.jmist.framework.reporting.ProgressTreePanel;
 import org.jmist.framework.services.BackgroundThreadFactory;
 import org.jmist.framework.services.JobMasterServer;
@@ -144,7 +146,7 @@ public class Test {
 		//testSpectrum();
 		//testTransformableGeometry();
 
-		testRender();
+		//testRender();
 		//testPLPDF();
 
 		//testMatlabWriter();
@@ -154,6 +156,47 @@ public class Test {
 		//testMatrix();
 		//testParallelJob();
 		
+		testProgressPanel();
+		
+	}
+	
+	@SuppressWarnings("unused")
+	private static void testProgressPanel() {
+		
+		JDialog dialog = new JDialog();
+		ProgressPanel panel = new ProgressPanel();
+		JScrollPane scrollPane = new JScrollPane(panel);
+		dialog.add(scrollPane);
+		dialog.setBounds(100, 100, 640, 480);
+		
+		dialog.setVisible(true);
+		
+		for (int j = 0; j < 10; j++) {
+			
+			ProgressMonitor child = panel.createChildProgressMonitor("Test " + new Integer(j + 1).toString());
+			
+			for (int i = 0; i < 100; i++) {
+				child.notifyProgress(i, 100);
+				panel.notifyProgress(j * 100 + i, 1000);
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			child.notifyProgress(100, 100);
+			child.notifyComplete();
+			
+		}
+		
+		panel.notifyProgress(1000, 1000);
+		panel.notifyComplete();
+		
+		dialog.setVisible(false);
+		System.exit(0);
+			
 	}
 
 	@SuppressWarnings("unused")
