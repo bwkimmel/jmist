@@ -54,7 +54,6 @@ import org.jmist.framework.reporting.ConsoleProgressMonitor;
 import org.jmist.framework.reporting.ProgressDialog;
 import org.jmist.framework.reporting.ProgressMonitor;
 import org.jmist.framework.reporting.ProgressPanel;
-import org.jmist.framework.reporting.ProgressTreePanel;
 import org.jmist.framework.services.BackgroundThreadFactory;
 import org.jmist.framework.services.JobMasterServer;
 import org.jmist.framework.services.JobMasterService;
@@ -155,26 +154,26 @@ public class Test {
 		//testRange();
 		//testMatrix();
 		//testParallelJob();
-		
+
 		testProgressPanel();
-		
+
 	}
-	
+
 	@SuppressWarnings("unused")
 	private static void testProgressPanel() {
-		
+
 		JDialog dialog = new JDialog();
 		ProgressPanel panel = new ProgressPanel();
 		JScrollPane scrollPane = new JScrollPane(panel);
 		dialog.add(scrollPane);
 		dialog.setBounds(100, 100, 640, 480);
-		
+
 		dialog.setVisible(true);
-		
+
 		for (int j = 0; j < 10; j++) {
-			
+
 			ProgressMonitor child = panel.createChildProgressMonitor("Test " + new Integer(j + 1).toString());
-			
+
 			for (int i = 0; i < 100; i++) {
 				child.notifyProgress(i, 100);
 				panel.notifyProgress(j * 100 + i, 1000);
@@ -185,18 +184,18 @@ public class Test {
 					e.printStackTrace();
 				}
 			}
-			
+
 			child.notifyProgress(100, 100);
 			child.notifyComplete();
-			
+
 		}
-		
+
 		panel.notifyProgress(1000, 1000);
 		panel.notifyComplete();
-		
+
 		dialog.setVisible(false);
 		System.exit(0);
-			
+
 	}
 
 	@SuppressWarnings("unused")
@@ -735,7 +734,7 @@ public class Test {
 
 
 		JDialog dialog = new JDialog();
-		ProgressTreePanel progressTree = new ProgressTreePanel("Working...");
+		ProgressPanel progressTree = new ProgressPanel("Working...");
 		dialog.add(progressTree);
 
 		dialog.setVisible(true);
@@ -810,7 +809,7 @@ public class Test {
 	private static void testProgressTree() {
 
 		JDialog dialog = new JDialog();
-		ProgressTreePanel progressTree = new ProgressTreePanel("Working...");
+		ProgressPanel progressTree = new ProgressPanel("Working...");
 		dialog.add(progressTree);
 
 		ProgressMonitor child = progressTree.createChildProgressMonitor("Test");
@@ -834,7 +833,7 @@ public class Test {
 	        }
 
 	        JDialog dialog = new JDialog();
-	        ProgressTreePanel monitor = new ProgressTreePanel("JobMasterServer");
+	        ProgressPanel monitor = new ProgressPanel("JobMasterServer");
 	        dialog.add(monitor);
 	        dialog.setBounds(100, 100, 500, 350);
 
@@ -867,7 +866,7 @@ public class Test {
 
 		String host = "localhost";
 		JDialog dialog = new JDialog();
-		ProgressTreePanel monitor = new ProgressTreePanel();
+		ProgressPanel monitor = new ProgressPanel();
 		ParallelizableJob job = getMeasurementJob(); //new DummyParallelizableJob(100, 5000, 10000);
 		Executor threadPool = Executors.newFixedThreadPool(2, new BackgroundThreadFactory());
 		Job submitJob = new ServiceSubmitJob(job, 0, host);
