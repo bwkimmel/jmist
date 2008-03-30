@@ -56,7 +56,6 @@ public final class DummyProgressMonitor implements ProgressMonitor {
 	 * @see org.jmist.framework.reporting.ProgressMonitor#isCancelPending()
 	 */
 	public boolean isCancelPending() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
