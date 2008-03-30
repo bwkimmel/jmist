@@ -170,6 +170,8 @@ public final class JobMasterServer implements JobMasterService {
 
 			System.err.println("Server ready");
 
+			monitor.setRootVisible(false);
+
 			dialog.setTitle("JobMasterServer");
 			dialog.setModal(true);
 			dialog.setVisible(true);
