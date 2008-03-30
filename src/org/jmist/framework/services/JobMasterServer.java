@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.rmi.RMISecurityManager;
+import java.rmi.StubNotFoundException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -151,14 +152,14 @@ public final class JobMasterServer implements JobMasterService {
 	        System.err.println("OK");
 
 	        System.err.print("Initializing servers...");
-	        File outputDirectory = new File("/home/brad/jmist/jobs/");
+	        File outputDirectory = new File("/Users/brad/jmist/jobs");
 			JobMasterServer jobServer = new JobMasterServer(outputDirectory, monitor, true);
 			ClassLoaderServer classServer = new ClassLoaderServer();
 			System.err.println("OK");
 
 			System.err.print("Exporting service stubs...");
-			JobMasterService jobStub = (JobMasterService) UnicastRemoteObject.exportObject(jobServer);
-			ClassLoaderService classStub = (ClassLoaderService) UnicastRemoteObject.exportObject(classServer);
+			JobMasterService jobStub = (JobMasterService) UnicastRemoteObject.exportObject(jobServer, 0);
+			ClassLoaderService classStub = (ClassLoaderService) UnicastRemoteObject.exportObject(classServer, 0);
 			System.err.println("OK");
 
 			System.err.print("Binding service...");
