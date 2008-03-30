@@ -35,6 +35,8 @@ public final class WorkerClient {
 		Executor threadPool = Executors.newFixedThreadPool(numberOfCpus, new BackgroundThreadFactory());
 		Job workerJob = new ThreadServiceWorkerJob(host, 10000, numberOfCpus, threadPool);
 
+		monitor.setRootVisible(false);
+
 		dialog.add(monitor);
 		dialog.setBounds(0, 0, 400, 300);
 		dialog.setVisible(true);
