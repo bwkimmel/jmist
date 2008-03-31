@@ -25,10 +25,6 @@ public final class WorkerClient {
 	 */
 	public static void main(String[] args) {
 
-        if (System.getSecurityManager() == null) {
-            System.setSecurityManager(new RMISecurityManager());
-        }
-
 		String host = args.length > 0 ? args[0] : "localhost";
 
 		int numberOfCpus = Runtime.getRuntime().availableProcessors();
