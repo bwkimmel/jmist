@@ -44,7 +44,7 @@ public class CheckedCacheClassLoaderStrategy implements ClassLoaderStrategy {
 	public ByteBuffer getClassDefinition(String name) {
 
 		ByteBuffer def = null;
-		String baseName = name.replaceAll("\\$.*$", "").replace('.', '/');
+		String baseName = name.replace('.', '/');
 		String classPath = baseName + ".class";
 
 		try {
