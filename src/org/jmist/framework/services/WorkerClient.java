@@ -5,7 +5,6 @@ package org.jmist.framework.services;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.rmi.RMISecurityManager;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
