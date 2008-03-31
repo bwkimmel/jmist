@@ -26,7 +26,7 @@ public final class ClassUtil {
 	 * 		bytecode definition may be read.
 	 */
 	public static InputStream getClassAsStream(Class<?> cl) {
-		String resourceName = cl.getName() + ".class";
+		String resourceName = cl.getSimpleName() + ".class";
 		return cl.getResourceAsStream(resourceName);
 	}
 
