@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.ByteBuffer;
@@ -34,17 +35,6 @@ public final class PersistenceCheckedCache implements CheckedCache {
 	private final URL baseUrl;
 
 	/**
-	 * The <code>URL</code> at which the data for the cache entries are rooted.
-	 */
-	private final URL baseDataUrl;
-
-	/**
-	 * The <code>URL</code> at which the digests for the cache entries are
-	 * rooted.
-	 */
-	private final URL baseDigestUrl;
-
-	/**
 	 * The <code>PersistenceService</code> to use to load and store the cache
 	 * entries.
 	 */
@@ -63,18 +53,11 @@ public final class PersistenceCheckedCache implements CheckedCache {
 			BasicService service = (BasicService) ServiceManager.lookup("javax.jnlp.BasicService");
 
 			this.baseUrl = service.getCodeBase();
-			this.baseDataUrl = new URL(this.baseUrl, "data");
-			this.baseDigestUrl = new URL(this.baseUrl, "digest");
 			this.service = (PersistenceService) ServiceManager.lookup("javax.jnlp.PersistenceService");
 
 		} catch (UnavailableServiceException e) {
 
 			throw new IllegalStateException("A required service is could not be found.", e);
-
-		} catch (MalformedURLException e) {
-
-			e.printStackTrace();
-			throw new UnexpectedException(e);
 
 		}
 
@@ -100,8 +83,6 @@ public final class PersistenceCheckedCache implements CheckedCache {
 	 */
 	public PersistenceCheckedCache(URL baseUrl, PersistenceService service) throws MalformedURLException {
 		this.baseUrl = baseUrl;
-		this.baseDataUrl = new URL(this.baseUrl, "data");
-		this.baseDigestUrl = new URL(this.baseUrl, "digest");
 		this.service = service;
 	}
 
@@ -235,7 +216,7 @@ public final class PersistenceCheckedCache implements CheckedCache {
 	public byte[] put(String key, ByteBuffer data, MessageDigest digest) {
 
 		digest.reset();
-		data.reset();
+		data.rewind();
 
 		byte[] dataArray = new byte[data.remaining()];
 		data.get(dataArray);
@@ -328,7 +309,7 @@ public final class PersistenceCheckedCache implements CheckedCache {
 	 * @return The <code>URL</code> at which the data is stored.
 	 */
 	private URL getDataUrlForKey(String key) {
-		return tryGetUrlForKey(baseDataUrl, key);
+		return tryGetUrlForKey(baseUrl, encode(key) + ".data");
 	}
 
 	/**
@@ -338,7 +319,34 @@ public final class PersistenceCheckedCache implements CheckedCache {
 	 * @return The <code>URL</code> at which the digest is stored.
 	 */
 	private URL getDigestUrlForKey(String key) {
-		return tryGetUrlForKey(baseDigestUrl, key);
+		return tryGetUrlForKey(baseUrl, encode(key) + ".digest");
+	}
+
+	/**
+	 * Encodes the key as a valid filename within the URL.
+	 * @param key The key to encode.
+	 * @return The base filename to use to store the data for the item
+	 * 		corresponding to the given key.
+	 */
+	private static String encode(String key) {
+
+		StringWriter writer = new StringWriter();
+
+		/*
+		 * Leave alphanumeric characters and dashes (-) as they are.  For
+		 * everything else, insert an underscore (_) followed by the
+		 * hexadecimal representation of the character.
+		 */
+		for (int i = 0; i < key.length(); i++) {
+			if (key.substring(i, i + 1).matches("^[A-Za-z0-9-]$")) {
+				writer.append(key.charAt(i));
+			} else {
+				writer.write(String.format("_%02X", (int) key.charAt(i)));
+			}
+		}
+
+		return writer.toString();
+
 	}
 
 	/**
