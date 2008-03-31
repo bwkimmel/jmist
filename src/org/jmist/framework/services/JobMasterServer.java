@@ -163,7 +163,7 @@ public final class JobMasterServer implements JobMasterService {
 			System.err.println("OK");
 
 			System.err.print("Binding service...");
-			Registry registry = LocateRegistry.getRegistry();
+			Registry registry = LocateRegistry.createRegistry(1099);
 			registry.bind("JobMasterService", jobStub);
 			registry.bind("ClassLoaderService", classStub);
 			System.err.println("OK");
