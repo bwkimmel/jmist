@@ -8,6 +8,9 @@ import java.awt.event.WindowEvent;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import javax.jnlp.BasicService;
+import javax.jnlp.ServiceManager;
+import javax.jnlp.UnavailableServiceException;
 import javax.swing.JDialog;
 
 import org.jmist.framework.Job;
@@ -24,8 +27,7 @@ public final class WorkerClient {
 	 */
 	public static void main(String[] args) {
 
-		String host = args.length > 0 ? args[0] : "localhost";
-
+		String host = getParentHost(args);
 		int numberOfCpus = Runtime.getRuntime().availableProcessors();
 		Executor threadPool = Executors.newFixedThreadPool(numberOfCpus, new BackgroundThreadFactory());
 		Job workerJob = new ThreadServiceWorkerJob(host, 10000, numberOfCpus, threadPool);
@@ -52,6 +54,36 @@ public final class WorkerClient {
 		dialog.setVisible(true);
 
 		workerJob.go(monitor);
+
+	}
+
+	/**
+	 * Gets the host name to get tasks from.
+	 * @param args The command line arguments.
+	 * @return The master host.
+	 */
+	private static String getParentHost(String[] args) {
+
+		/* If a host was passed on the command line, use it. */
+		if (args.length > 0) {
+
+			return args[0];
+
+		} else { // args.length == 0
+
+			/*
+			 * If this application is being run via Java Web Start, then look
+			 * up the code base URL and use that host, otherwise, the parent
+			 * is "localhost".
+			 */
+			try {
+				BasicService service = (BasicService) ServiceManager.lookup("javax.jnlp.BasicService");
+				return service.getCodeBase().getHost();
+			} catch (UnavailableServiceException e) {
+				return "localhost";
+			}
+
+		}
 
 	}
 
