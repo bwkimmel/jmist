@@ -31,6 +31,17 @@ public final class ClassUtil {
 	}
 
 	/**
+	 * Writes a class' bytecode to an <code>OutputStream</code>.
+	 * @param cl The <code>Class</code> to write.
+	 * @param out The <code>OutputStream</code> to write to.
+	 * @throws IOException If unable to write to <code>out</code>.
+	 */
+	public static void writeClassToStream(Class<?> cl, OutputStream out) throws IOException {
+		InputStream in = getClassAsStream(cl);
+		StreamUtil.writeStream(in, out);
+	}
+
+	/**
 	 * Computes a digest from a class' bytecode.
 	 * @param cl The <code>Class</code> for which to compute the digest.
 	 * @param digest The <code>MessageDigest</code> to update.
@@ -44,18 +55,7 @@ public final class ClassUtil {
 			throw new UnexpectedException(e);
 		}
 	}
-
-	/**
-	 * Writes a class' bytecode to an <code>OutputStream</code>.
-	 * @param cl The <code>Class</code> to write.
-	 * @param out The <code>OutputStream</code> to write to.
-	 * @throws IOException If unable to write to <code>out</code>.
-	 */
-	public static void writeClassToStream(Class<?> cl, OutputStream out) throws IOException {
-		InputStream in = getClassAsStream(cl);
-		StreamUtil.writeStream(in, out);
-	}
-
+	
 	/**
 	 * Gets the outer class (a class with no enclosing class) that contains the
 	 * given class.
