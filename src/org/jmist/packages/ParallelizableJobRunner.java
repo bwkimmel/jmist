@@ -11,6 +11,7 @@ import org.jmist.framework.Job;
 import org.jmist.framework.ParallelizableJob;
 import org.jmist.framework.TaskWorker;
 import org.jmist.framework.reporting.ProgressMonitor;
+import org.jmist.framework.services.BackgroundThreadFactory;
 
 /**
  * A <code>Job</code> that runs a <code>ParallelizableJob</code> using multiple
@@ -30,7 +31,7 @@ public final class ParallelizableJobRunner implements Job {
 		this.job = job;
 		this.worker = job.worker();
 		this.executor = executor;
-		this.workerSlot = new Semaphore(maxConcurrentWorkers, true);
+		this.workerSlot = new Semaphore(maxConcurrentWorkers);
 		this.maxConcurrentWorkers = maxConcurrentWorkers;
 	}
 
@@ -41,7 +42,7 @@ public final class ParallelizableJobRunner implements Job {
 	 * 		process.
 	 */
 	public ParallelizableJobRunner(ParallelizableJob job, int maxConcurrentWorkers) {
-		this(job, Executors.newFixedThreadPool(maxConcurrentWorkers), maxConcurrentWorkers);
+		this(job, Executors.newFixedThreadPool(maxConcurrentWorkers, new BackgroundThreadFactory()), maxConcurrentWorkers);
 	}
 
 	/* (non-Javadoc)
@@ -59,27 +60,28 @@ public final class ParallelizableJobRunner implements Job {
 
 			try {
 
-				/* Acquire one of the slots for processing a task -- this
-				 * limits the processing to the specified number of concurrent
-				 * tasks.
-				 */
-				this.workerSlot.acquire();
-
 				/* Get the next task to run.  If there are no further tasks,
 				 * then wait for the remaining tasks to finish.
 				 */
 				Object task = this.job.getNextTask();
 				if (task == null) {
-					this.workerSlot.acquire(); //.acquire(this.maxConcurrentWorkers - 1);
+					this.workerSlot.acquire(this.maxConcurrentWorkers);
 					complete = true;
 					break;
 				}
 
 				/* Create a worker and process the task. */
 				String workerTitle = String.format("Worker (%d)", taskNumber);
-				notifyStatusChanged(String.format("Starting worker %d", ++taskNumber));
+				Worker worker = new Worker(task, monitor.createChildProgressMonitor(workerTitle));
 
-				this.executor.execute(new Worker(task, monitor.createChildProgressMonitor(workerTitle)));
+				/* Acquire one of the slots for processing a task -- this
+				 * limits the processing to the specified number of concurrent
+				 * tasks.
+				 */
+				this.workerSlot.acquire();
+
+				notifyStatusChanged(String.format("Starting worker %d", ++taskNumber));
+				this.executor.execute(worker);
 
 			} catch (InterruptedException e) {
 				e.printStackTrace();
