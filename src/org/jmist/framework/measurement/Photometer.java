@@ -84,6 +84,8 @@ public final class Photometer {
 			return;
 		}
 
+		RandomScatterRecorder scattering = new RandomScatterRecorder();
+
 		for (int i = 0; i < n; i++) {
 
 			if (--untilCallback <= 0) {
@@ -99,8 +101,7 @@ public final class Photometer {
 
 			}
 
-			RandomScatterRecorder scattering = new RandomScatterRecorder();
-
+			scattering.reset();
 			this.specimen.scatter(this.x, this.wavelengths, scattering);
 
 			ScatterResult sr = scattering.getScatterResult();
