@@ -51,6 +51,7 @@ import org.jmist.framework.Spectrum;
 import org.jmist.framework.measurement.CollectorSphere;
 import org.jmist.framework.reporting.CompositeProgressMonitor;
 import org.jmist.framework.reporting.ConsoleProgressMonitor;
+import org.jmist.framework.reporting.DummyProgressMonitor;
 import org.jmist.framework.reporting.ProgressDialog;
 import org.jmist.framework.reporting.ProgressMonitor;
 import org.jmist.framework.reporting.ProgressPanel;
@@ -138,7 +139,7 @@ public class Test {
 
 		//testZip();
 		//testMath();
-		//testLambertianMaterial();
+		testLambertianMaterial();
 		//testLens();
 		//testPolynomial2();
 		//testCsg();
@@ -155,7 +156,7 @@ public class Test {
 		//testMatrix();
 		//testParallelJob();
 
-		testProgressPanel();
+		//testProgressPanel();
 
 	}
 
@@ -481,17 +482,23 @@ public class Test {
 			//ColorModel cm = new ComponentColorModel(ColorSpace.getInstance(ColorSpace.CS_CIEXYZ), false, false, Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
 			SampleModel sm = new PixelInterleavedSampleModel(DataBuffer.TYPE_DOUBLE, 256, 256, 1, 256*1, ArrayUtil.range(0, 0));
 
-			FileChannel ch = new RandomAccessFile("/tmp/render.tmp", "rw").getChannel();
-			ByteBuffer buf = ch.map(FileChannel.MapMode.READ_WRITE, 0, 256 * 256 * 1 * 8);
-			ch.close();
+			//FileChannel ch = new RandomAccessFile("/tmp/render.tmp", "rw").getChannel();
+			//ByteBuffer buf = ch.map(FileChannel.MapMode.READ_WRITE, 0, 256 * 256 * 1 * 8);
+			ByteBuffer buf = ByteBuffer.wrap(new byte[256 * 256 * 1 * 8]);
+			//ch.close();
 			DoubleBuffer dbuf = buf.asDoubleBuffer();
 			DataBuffer db = new DoubleDataBufferAdapter(dbuf);
 			WritableRaster raster = Raster.createWritableRaster(sm, db, null);
 			//BufferedImage image = new BufferedImage(cm, raster, false, null);
 			//BufferedImage image = new BufferedImage(500, 500, BufferedImage.);
 			IIORegistry.getDefaultInstance().registerServiceProvider(new MatlabImageWriterSpi());
-			ParallelizableJob job = new RasterJob(pixelShader, raster, "mat", 32, 32);
-			ProgressMonitor monitor = new ConsoleProgressMonitor();
+			ParallelizableJob job = new RasterJob(pixelShader, raster, "mat", 10, 10);
+//			JDialog dialog = new JDialog();
+//			ProgressPanel monitor = new ProgressPanel();
+//			dialog.add(monitor);
+//			dialog.setVisible(true);
+			ProgressMonitor monitor = DummyProgressMonitor.getInstance();
+
 			Job runner = new ParallelizableJobRunner(job, 8);
 			runner.go(monitor);
 
@@ -500,6 +507,8 @@ public class Test {
 
 			job.writeJobResults(zip);
 			zip.close();
+
+//			dialog.setVisible(false);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -742,17 +751,19 @@ public class Test {
 		ParallelizableJob job = getMeasurementJob();
 
 
-		JDialog dialog = new JDialog();
-		ProgressPanel progressTree = new ProgressPanel("Working...");
-		dialog.add(progressTree);
+//		JDialog dialog = new JDialog();
+//		ProgressPanel progressTree = new ProgressPanel("Working...");
+//		dialog.add(progressTree);
+//
+//		dialog.setVisible(true);
 
-		dialog.setVisible(true);
+		//Job runner = new ParallelizableJobRunner(job, 8);
 
-		job.go(progressTree);
+		job.go(DummyProgressMonitor.getInstance());
 
 		if (job.isComplete()) {
 			try {
-				FileOutputStream fos = new FileOutputStream("C:/results.zip");
+				FileOutputStream fos = new FileOutputStream("/Users/brad/results.zip");
 				ZipOutputStream zip = new ZipOutputStream(fos);
 
 				job.writeJobResults(zip);
