@@ -44,7 +44,11 @@ public final class Ray3 implements Serializable {
 	 * @return The point that is t units along the ray.
 	 */
 	public Point3 pointAt(double t) {
-		return origin.plus(direction.times(t));
+		return new Point3(
+				origin.x() + t * direction.x(),
+				origin.y() + t * direction.y(),
+				origin.z() + t * direction.z()
+		);
 	}
 
 	/**
