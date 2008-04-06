@@ -54,9 +54,7 @@ public final class BoundingBoxHierarchy3 implements RayTraversalStrategy3 {
 		if (this.leaves.size() > 0) {
 
 			/* Rebuild the tree if necessary. */
-			if (this.root == null) {
-				this.rebuild();
-			}
+			this.ensureReady();
 
 			return this.root.intersect(ray, I, visitor);
 
@@ -67,6 +65,15 @@ public final class BoundingBoxHierarchy3 implements RayTraversalStrategy3 {
 	}
 
 	/**
+	 * Rebuilds the tree if necessary.
+	 */
+	private synchronized void ensureReady() {
+		if (this.root == null) {
+			this.rebuild();
+		}
+	}
+
+	/**
 	 * Gets the outer bounding <code>Box3</code> of this
 	 * <code>BoundingBoxHierarchy3</code>.
 	 * @return The smallest <code>Box3</code> containing all of the bounding
@@ -74,9 +81,7 @@ public final class BoundingBoxHierarchy3 implements RayTraversalStrategy3 {
 	 */
 	public Box3 getBoundingBox() {
 		if (this.leaves.size() > 0) {
-			if (this.root == null) {
-				this.rebuild();
-			}
+			this.ensureReady();
 			return this.root.bound;
 		}
 		return Box3.EMPTY;
