@@ -326,74 +326,45 @@ public final class Box3 implements Serializable {
 			return false;
 		}
 
-		// Check if the ray starts from within the box.
-		if (this.contains(ray.pointAt(I.minimum()))) {
-			return true;
+		double tmin, tmax, tymin, tymax, tzmin, tzmax;
+		double t0 = I.minimum();
+		double t1 = I.maximum();
+
+		if (ray.direction().x() >= 0) {
+			tmin = (minimumX - ray.origin().x()) / ray.direction().x();
+			tmax = (maximumX - ray.origin().x()) / ray.direction().x();
+		} else {
+			tmin = (maximumX - ray.origin().x()) / ray.direction().x();
+			tmax = (minimumX - ray.origin().x()) / ray.direction().x();
 		}
-
-		assert(ray.direction().x() != 0.0 || ray.direction().y() != 0.0 || ray.direction().z() != 0.0);
-
-		double	t;
-		Point3	p;
-
-		// Check for intersection with each of the six sides of the box.
-		if (ray.direction().x() != 0.0) {
-			t = (minimumX - ray.origin().x()) / ray.direction().x();
-			if (I.contains(t)) {
-				p = ray.pointAt(t);
-				if (minimumY < p.y() && p.y() < maximumY && minimumZ < p.z() && p.z() < maximumZ) {
-					return true;
-				}
-			}
-
-			t = (maximumX - ray.origin().x()) / ray.direction().x();
-			if (I.contains(t)) {
-				p = ray.pointAt(t);
-				if (minimumY < p.y() && p.y() < maximumY && minimumZ < p.z() && p.z() < maximumZ) {
-					return true;
-				}
-			}
+		if (ray.direction().y() >= 0) {
+			tymin = (minimumY - ray.origin().y()) / ray.direction().y();
+			tymax = (maximumY - ray.origin().y()) / ray.direction().y();
+		} else {
+			tymin = (maximumY - ray.origin().y()) / ray.direction().y();
+			tymax = (minimumY - ray.origin().y()) / ray.direction().y();
 		}
+		if ((tmin > tymax) || (tymin > tmax))
+			return false;
 
-		if (ray.direction().y() != 0.0) {
-			t = (minimumY - ray.origin().y()) / ray.direction().y();
-			if (I.contains(t)) {
-				p = ray.pointAt(t);
-				if (minimumX < p.x() && p.x() < maximumX && minimumZ < p.z() && p.z() < maximumZ) {
-					return true;
-				}
-			}
-
-			t = (maximumY - ray.origin().y()) / ray.direction().y();
-			if (I.contains(t)) {
-				p = ray.pointAt(t);
-				if (minimumX < p.x() && p.x() < maximumX && minimumZ < p.z() && p.z() < maximumZ) {
-					return true;
-				}
-			}
+		if (tymin > tmin)
+			tmin = tymin;
+		if (tymax < tmax)
+			tmax = tymax;
+		if (ray.direction().z() >= 0) {
+			tzmin = (minimumZ - ray.origin().z()) / ray.direction().z();
+			tzmax = (maximumZ - ray.origin().z()) / ray.direction().z();
+		} else {
+			tzmin = (maximumZ - ray.origin().z()) / ray.direction().z();
+			tzmax = (minimumZ - ray.origin().z()) / ray.direction().z();
 		}
-
-		if (ray.direction().z() != 0.0) {
-			t = (minimumZ - ray.origin().z()) / ray.direction().z();
-			if (I.contains(t)) {
-				p = ray.pointAt(t);
-				if (minimumX < p.x() && p.x() < maximumX && minimumY < p.y() && p.y() < maximumY) {
-					return true;
-				}
-			}
-
-			t = (maximumZ - ray.origin().z()) / ray.direction().z();
-			if (I.contains(t)) {
-				p = ray.pointAt(t);
-				if (minimumX < p.x() && p.x() < maximumX && minimumY < p.y() && p.y() < maximumY) {
-					return true;
-				}
-			}
-		}
-
-		// If we didn't find any intersection points, then the
-		// ray does not intersect the box.
-		return false;
+		if ((tmin > tzmax) || (tzmin > tmax))
+			return false;
+		if (tzmin > tmin)
+			tmin = tzmin;
+		if (tzmax < tmax)
+			tmax = tzmax;
+		return ((tmin < t1) && (tmax > t0));
 
 	}
 
