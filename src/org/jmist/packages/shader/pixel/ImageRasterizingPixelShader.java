@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.jmist.packages;
+package org.jmist.packages.shader.pixel;
 
 import org.jmist.toolkit.Point2;
 import org.jmist.framework.ImageShader;

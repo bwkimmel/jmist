@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.jmist.packages;
+package org.jmist.packages.shader.ray;
 
 import org.jmist.framework.RayShader;
 import org.jmist.framework.VisibilityFunction3;

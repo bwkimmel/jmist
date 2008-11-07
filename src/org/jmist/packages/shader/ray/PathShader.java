@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.jmist.packages;
+package org.jmist.packages.shader.ray;
 
 import org.jmist.framework.Geometry;
 import org.jmist.framework.Illuminable;
@@ -13,6 +13,8 @@ import org.jmist.framework.RayShader;
 import org.jmist.framework.ScatterResult;
 import org.jmist.framework.SpectralEstimator;
 import org.jmist.framework.Spectrum;
+import org.jmist.packages.NearestIntersectionRecorder;
+import org.jmist.packages.RandomScatterRecorder;
 import org.jmist.toolkit.RandomUtil;
 import org.jmist.toolkit.Ray3;
 import org.jmist.toolkit.Tuple;

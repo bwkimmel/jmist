@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.jmist.packages;
+package org.jmist.packages.shader.image;
 
 import org.jmist.framework.ImageShader;
 import org.jmist.framework.Lens;
