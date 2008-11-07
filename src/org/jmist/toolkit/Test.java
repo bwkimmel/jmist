@@ -139,14 +139,14 @@ public class Test {
 
 		//testZip();
 		//testMath();
-		testLambertianMaterial();
+		//testLambertianMaterial();
 		//testLens();
 		//testPolynomial2();
 		//testCsg();
 		//testSpectrum();
 		//testTransformableGeometry();
 
-		//testRender();
+		testRender();
 		//testPLPDF();
 
 		//testMatlabWriter();
@@ -499,8 +499,8 @@ public class Test {
 //			dialog.setVisible(true);
 			ProgressMonitor monitor = DummyProgressMonitor.getInstance();
 
-			Job runner = new ParallelizableJobRunner(job, 8);
-			runner.go(monitor);
+			Job runner = new ParallelizableJobRunner(job, 1);
+			job.go(monitor);
 
 			OutputStream out = new FileOutputStream("/Users/brad/image.zip");
 			ZipOutputStream zip = new ZipOutputStream(out);
@@ -757,9 +757,9 @@ public class Test {
 //
 //		dialog.setVisible(true);
 
-		//Job runner = new ParallelizableJobRunner(job, 8);
+		Job runner = new ParallelizableJobRunner(job, 8);
 
-		job.go(DummyProgressMonitor.getInstance());
+		runner.go(DummyProgressMonitor.getInstance());
 
 		if (job.isComplete()) {
 			try {
