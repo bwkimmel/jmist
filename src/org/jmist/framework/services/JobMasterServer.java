@@ -174,6 +174,7 @@ public final class JobMasterServer implements JobMasterService {
 
 			System.err.print("Shutting down...");
 			registry.unbind("JobMasterService");
+			registry.unbind("ClassLoaderService");
 			System.err.println("OK");
 			System.exit(0);
 
