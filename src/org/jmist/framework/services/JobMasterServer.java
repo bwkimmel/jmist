@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.UUID;
+import java.util.prefs.Preferences;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -137,12 +138,6 @@ public final class JobMasterServer implements JobMasterService {
 
 		try {
 
-			System.err.print("Initializing security manager...");
-	        if (System.getSecurityManager() == null) {
-	            System.setSecurityManager(new RMISecurityManager());
-	        }
-	        System.err.println("OK");
-
 	        System.err.print("Initializing progress monitor...");
 	        JDialog dialog = new JDialog();
 	        ProgressPanel monitor = new ProgressPanel();
@@ -151,7 +146,9 @@ public final class JobMasterServer implements JobMasterService {
 	        System.err.println("OK");
 
 	        System.err.print("Initializing servers...");
-	        File outputDirectory = new File("/Users/brad/jmist/jobs");
+	        Preferences pref = Preferences.userNodeForPackage(JobMasterServer.class);
+	        String path = pref.get("jobOutputPath", "");
+	        File outputDirectory = new File(path);
 			JobMasterServer jobServer = new JobMasterServer(outputDirectory, monitor, true);
 			ClassLoaderServer classServer = new ClassLoaderServer();
 			System.err.println("OK");
@@ -175,7 +172,9 @@ public final class JobMasterServer implements JobMasterService {
 			dialog.setModal(true);
 			dialog.setVisible(true);
 
+			System.err.print("Shutting down...");
 			registry.unbind("JobMasterService");
+			System.err.println("OK");
 			System.exit(0);
 
 		} catch (Exception e) {
