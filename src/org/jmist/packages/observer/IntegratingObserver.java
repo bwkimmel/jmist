@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.jmist.packages;
+package org.jmist.packages.observer;
 
 import org.jmist.framework.Observer;
 import org.jmist.framework.ProbabilityDensityFunction;

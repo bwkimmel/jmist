@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.jmist.packages;
+package org.jmist.packages.geometry;
 
 import java.util.BitSet;
 import java.util.Comparator;

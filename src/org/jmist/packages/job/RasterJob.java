@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.jmist.packages;
+package org.jmist.packages.job;
 
 import java.awt.Rectangle;
 import java.awt.image.DataBuffer;

@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.jmist.framework.Material;
+import org.jmist.packages.geometry.CompositeGeometry;
 import org.jmist.packages.geometry.primitive.PolygonGeometry;
 import org.jmist.packages.light.CompositeLight;
 import org.jmist.toolkit.Point3;

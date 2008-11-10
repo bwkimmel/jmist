@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.jmist.packages;
+package org.jmist.packages.texture;
 
 import java.awt.image.Raster;
 

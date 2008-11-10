@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.jmist.packages;
+package org.jmist.packages.texture;
 
 import org.jmist.framework.Mask2;
 import org.jmist.framework.Spectrum;

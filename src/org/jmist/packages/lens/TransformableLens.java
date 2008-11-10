@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.jmist.packages;
+package org.jmist.packages.lens;
 
 import org.jmist.framework.AffineTransformable3;
 import org.jmist.framework.AffineTransformation3;

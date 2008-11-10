@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.jmist.packages;
+package org.jmist.packages.geometry;
 
 import org.jmist.framework.BoundingBoxHierarchy3;
 import org.jmist.framework.Geometry;

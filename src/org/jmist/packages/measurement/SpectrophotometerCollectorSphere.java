@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.jmist.packages;
+package org.jmist.packages.measurement;
 
 import org.jmist.framework.measurement.AbstractCollectorSphere;
 import org.jmist.framework.measurement.CollectorSphere;

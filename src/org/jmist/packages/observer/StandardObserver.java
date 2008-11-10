@@ -1,9 +1,10 @@
 /**
  *
  */
-package org.jmist.packages;
+package org.jmist.packages.observer;
 
 import org.jmist.framework.ProbabilityDensityFunction;
+import org.jmist.packages.PiecewiseLinearProbabilityDensityFunction;
 import org.jmist.util.ArrayUtil;
 
 /**

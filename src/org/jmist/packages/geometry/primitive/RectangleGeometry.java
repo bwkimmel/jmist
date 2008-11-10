@@ -13,7 +13,7 @@ import org.jmist.framework.SingleMaterialGeometry;
 import org.jmist.framework.Spectrum;
 import org.jmist.framework.SurfacePoint;
 import org.jmist.framework.VisibilityFunction3;
-import org.jmist.packages.SimpleRandom;
+import org.jmist.packages.random.SimpleRandom;
 import org.jmist.packages.spectrum.ScaledSpectrum;
 import org.jmist.toolkit.Basis3;
 import org.jmist.toolkit.BoundingBoxBuilder3;

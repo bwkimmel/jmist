@@ -1,9 +1,10 @@
 /**
  *
  */
-package org.jmist.packages;
+package org.jmist.packages.geometry;
 
 import java.util.BitSet;
+
 
 /**
  * A <code>Geometry</code> that is the union of all its component geometries.

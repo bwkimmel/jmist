@@ -3,7 +3,6 @@
  */
 package org.jmist.packages.lens;
 
-import org.jmist.packages.TransformableLens;
 import org.jmist.toolkit.Point2;
 import org.jmist.toolkit.Point3;
 import org.jmist.toolkit.Ray3;
