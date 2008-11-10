@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.jmist.packages;
+package org.jmist.packages.geometry.primitive;
 
 import java.io.Serializable;
 
