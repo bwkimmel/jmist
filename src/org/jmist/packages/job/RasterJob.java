@@ -21,11 +21,11 @@ import javax.imageio.ImageIO;
 import javax.imageio.ImageWriter;
 import javax.imageio.stream.MemoryCacheImageOutputStream;
 
-import org.jmist.framework.AbstractParallelizableJob;
+import org.jdcp.job.AbstractParallelizableJob;
+import org.jdcp.job.TaskWorker;
 import org.jmist.framework.PixelShader;
-import org.jmist.framework.TaskWorker;
-import org.jmist.framework.reporting.ProgressMonitor;
 import org.jmist.toolkit.Box2;
+import org.selfip.bkimmel.progress.ProgressMonitor;
 
 /**
  * A <code>ParallelizableJob</code> that renders a <code>Raster</code> image.

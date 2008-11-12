@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.jmist.framework.reporting;
+package org.selfip.bkimmel.progress;
 
 
 import java.io.PrintStream;

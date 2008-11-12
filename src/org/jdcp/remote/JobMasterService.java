@@ -1,14 +1,15 @@
 /**
  *
  */
-package org.jmist.framework.services;
+package org.jdcp.remote;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.UUID;
 
-import org.jmist.framework.ParallelizableJob;
-import org.jmist.framework.TaskWorker;
+import org.jdcp.job.ParallelizableJob;
+import org.jdcp.job.TaskDescription;
+import org.jdcp.job.TaskWorker;
 
 /**
  * A remote service for accepting <code>ParallelizableJob</code>s,

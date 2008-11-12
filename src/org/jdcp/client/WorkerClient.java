@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.jmist.framework.services;
+package org.jdcp.client;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -13,8 +13,9 @@ import javax.jnlp.ServiceManager;
 import javax.jnlp.UnavailableServiceException;
 import javax.swing.JDialog;
 
-import org.jmist.framework.Job;
-import org.jmist.framework.reporting.ProgressPanel;
+import org.jdcp.concurrent.BackgroundThreadFactory;
+import org.selfip.bkimmel.jobs.Job;
+import org.selfip.bkimmel.progress.ProgressPanel;
 
 /**
  * @author brad

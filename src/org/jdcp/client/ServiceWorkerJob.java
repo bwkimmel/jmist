@@ -1,15 +1,17 @@
 /**
  *
  */
-package org.jmist.framework.services;
+package org.jdcp.client;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.UUID;
 
-import org.jmist.framework.Job;
-import org.jmist.framework.TaskWorker;
-import org.jmist.framework.reporting.ProgressMonitor;
+import org.jdcp.job.TaskDescription;
+import org.jdcp.job.TaskWorker;
+import org.jdcp.remote.JobMasterService;
+import org.selfip.bkimmel.jobs.Job;
+import org.selfip.bkimmel.progress.ProgressMonitor;
 
 /**
  * A job that processes tasks for a parallelizable job from a remote

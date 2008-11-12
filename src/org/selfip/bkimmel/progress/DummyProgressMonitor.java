@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.jmist.framework.reporting;
+package org.selfip.bkimmel.progress;
 
 /**
  * A dummy progress monitor that does not report the progress to

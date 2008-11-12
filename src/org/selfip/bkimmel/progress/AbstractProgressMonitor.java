@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.jmist.framework.reporting;
+package org.selfip.bkimmel.progress;
 
 /**
  * An abstract base class for <code>ProgressMonitor</code>s.

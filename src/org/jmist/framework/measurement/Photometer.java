@@ -8,8 +8,6 @@ import org.jmist.framework.Material;
 import org.jmist.framework.Medium;
 import org.jmist.framework.ScatterResult;
 import org.jmist.framework.Spectrum;
-import org.jmist.framework.reporting.DummyProgressMonitor;
-import org.jmist.framework.reporting.ProgressMonitor;
 import org.jmist.packages.RandomScatterRecorder;
 import org.jmist.toolkit.Basis3;
 import org.jmist.toolkit.Point2;
@@ -18,6 +16,8 @@ import org.jmist.toolkit.SphericalCoordinates;
 import org.jmist.toolkit.Tuple;
 import org.jmist.toolkit.Vector3;
 import org.jmist.util.MathUtil;
+import org.selfip.bkimmel.progress.DummyProgressMonitor;
+import org.selfip.bkimmel.progress.ProgressMonitor;
 
 /**
  * @author bkimmel

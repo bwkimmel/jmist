@@ -4,7 +4,7 @@
  * Created on October 21, 2007, 3:34 PM
  */
 
-package org.jmist.framework.reporting;
+package org.selfip.bkimmel.progress;
 
 /**
  * A dialog for indicating the progress of an operation.

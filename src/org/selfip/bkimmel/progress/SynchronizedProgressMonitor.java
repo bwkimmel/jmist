@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.jmist.framework.reporting;
+package org.selfip.bkimmel.progress;
 
 /**
  * A <code>ProgressMonitor</code> that synchronizes all operations on itself

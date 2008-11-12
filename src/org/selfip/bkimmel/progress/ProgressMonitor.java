@@ -1,4 +1,4 @@
-package org.jmist.framework.reporting;
+package org.selfip.bkimmel.progress;
 
 /**
  * Receives progress updates from a long running job, and potentially requests

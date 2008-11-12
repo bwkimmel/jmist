@@ -1,9 +1,9 @@
 /**
  *
  */
-package org.jmist.framework;
+package org.selfip.bkimmel.jobs;
 
-import org.jmist.framework.reporting.ProgressMonitor;
+import org.selfip.bkimmel.progress.ProgressMonitor;
 
 /**
  * Represents a job.

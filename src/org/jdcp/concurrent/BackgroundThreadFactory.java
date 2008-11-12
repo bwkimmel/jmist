@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.jmist.framework.services;
+package org.jdcp.concurrent;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;

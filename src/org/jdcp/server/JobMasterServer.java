@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.jmist.framework.services;
+package org.jdcp.server;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -23,11 +23,14 @@ import java.util.zip.ZipOutputStream;
 
 import javax.swing.JDialog;
 
-import org.jmist.framework.ParallelizableJob;
-import org.jmist.framework.TaskWorker;
-import org.jmist.framework.reporting.DummyProgressMonitor;
-import org.jmist.framework.reporting.ProgressMonitor;
-import org.jmist.framework.reporting.ProgressPanel;
+import org.jdcp.job.IdleJob;
+import org.jdcp.job.ParallelizableJob;
+import org.jdcp.job.TaskDescription;
+import org.jdcp.job.TaskWorker;
+import org.jdcp.remote.JobMasterService;
+import org.selfip.bkimmel.progress.DummyProgressMonitor;
+import org.selfip.bkimmel.progress.ProgressMonitor;
+import org.selfip.bkimmel.progress.ProgressPanel;
 import org.selfip.bkimmel.rmi.ClassLoaderServer;
 import org.selfip.bkimmel.rmi.ClassLoaderService;
 
@@ -464,7 +467,7 @@ public final class JobMasterServer implements JobMasterService {
 		/**
 		 * The <code>Object</code> describing the task to be performed
 		 * (obtained via a call to <code>ParallelizableJob.getNextTask()</code>.
-		 * @see {@link org.jmist.framework.ParallelizableJob#getNextTask()}.
+		 * @see {@link org.jdcp.job.ParallelizableJob#getNextTask()}.
 		 */
 		public Object				info;
 

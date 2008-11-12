@@ -9,13 +9,13 @@ import java.io.Serializable;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import org.jmist.framework.AbstractParallelizableJob;
+import org.jdcp.job.AbstractParallelizableJob;
+import org.jdcp.job.TaskWorker;
 import org.jmist.framework.Material;
-import org.jmist.framework.TaskWorker;
 import org.jmist.framework.measurement.CollectorSphere;
 import org.jmist.framework.measurement.Photometer;
-import org.jmist.framework.reporting.ProgressMonitor;
 import org.jmist.toolkit.SphericalCoordinates;
+import org.selfip.bkimmel.progress.ProgressMonitor;
 
 /**
  * @author bkimmel
