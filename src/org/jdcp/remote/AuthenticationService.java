@@ -18,6 +18,6 @@ public interface AuthenticationService extends Remote {
 	 * @return The <code>JobService</code> to use for this session.
 	 * @throws SecurityException if the user name or password are invalid.
 	 */
-	JobService Login(String username, String password) throws SecurityException;
+	JobService authenticate(String username, String password) throws SecurityException;
 
 }
