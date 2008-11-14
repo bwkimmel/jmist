@@ -9,7 +9,7 @@ import java.util.UUID;
 
 import org.jdcp.job.TaskDescription;
 import org.jdcp.job.TaskWorker;
-import org.jdcp.remote.JobMasterService;
+import org.jdcp.remote.JobService;
 import org.selfip.bkimmel.jobs.Job;
 import org.selfip.bkimmel.progress.ProgressMonitor;
 
@@ -43,7 +43,7 @@ public final class ServiceWorkerJob implements Job {
 			monitor.notifyStatusChanged("Looking up master...");
 
 			Registry registry = LocateRegistry.getRegistry(this.masterHost);
-			JobMasterService service = (JobMasterService) registry.lookup("JobMasterService");
+			JobService service = (JobService) registry.lookup("JobMasterService");
 			TaskWorker worker = null;
 			UUID jobId = null;
 

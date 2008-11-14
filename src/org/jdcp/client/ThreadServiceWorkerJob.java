@@ -17,7 +17,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.jdcp.job.TaskDescription;
 import org.jdcp.job.TaskWorker;
-import org.jdcp.remote.JobMasterService;
+import org.jdcp.remote.JobService;
 import org.selfip.bkimmel.jobs.Job;
 import org.selfip.bkimmel.progress.ProgressMonitor;
 
@@ -101,7 +101,7 @@ public final class ThreadServiceWorkerJob implements Job {
 	 */
 	private boolean initializeService() {
 		try {
-			this.service = (JobMasterService) this.registry.lookup("JobMasterService");
+			this.service = (JobService) this.registry.lookup("JobMasterService");
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -466,7 +466,7 @@ public final class ThreadServiceWorkerJob implements Job {
 	 * The <code>JobMasterService</code> to obtain tasks from and submit
 	 * results to.
 	 */
-	private JobMasterService service = null;
+	private JobService service = null;
 
 	/**
 	 * A list of recently used <code>TaskWorker</code>s and their associated

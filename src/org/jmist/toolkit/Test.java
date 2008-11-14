@@ -40,7 +40,7 @@ import org.jdcp.concurrent.BackgroundThreadFactory;
 import org.jdcp.job.DummyParallelizableJob;
 import org.jdcp.job.ParallelizableJob;
 import org.jdcp.job.ParallelizableJobRunner;
-import org.jdcp.remote.JobMasterService;
+import org.jdcp.remote.JobService;
 import org.jdcp.server.JobMasterServer;
 import org.jmist.framework.ConstantSpectrum;
 import org.jmist.framework.Geometry;
@@ -758,13 +758,13 @@ public class Test {
 //
 //		dialog.setVisible(true);
 
-		Job runner = new ParallelizableJobRunner(job, 8);
+		Job runner = new ParallelizableJobRunner(job, 2);
 
 		runner.go(DummyProgressMonitor.getInstance());
 
 		if (job.isComplete()) {
 			try {
-				FileOutputStream fos = new FileOutputStream("/Users/brad/results.zip");
+				FileOutputStream fos = new FileOutputStream("/home/bwkimmel/results.zip");
 				ZipOutputStream zip = new ZipOutputStream(fos);
 
 				job.writeJobResults(zip);
@@ -861,7 +861,7 @@ public class Test {
 	        File outputDirectory = new File("C:/jobs/");
 			JobMasterServer server = new JobMasterServer(outputDirectory, monitor, true);
 			System.err.println("[1]");
-			JobMasterService stub = (JobMasterService) UnicastRemoteObject.exportObject(server, 0);
+			JobService stub = (JobService) UnicastRemoteObject.exportObject(server, 0);
 			System.err.println("[2]");
 
 			Registry registry = LocateRegistry.getRegistry();

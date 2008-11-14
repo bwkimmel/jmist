@@ -9,7 +9,7 @@ import java.util.UUID;
 /**
  * A description of a task assigned by a <code>JobMasterService</code>.
  * @author bkimmel
- * @see {@link JobMasterService#requestTask()}.
+ * @see {@link JobService#requestTask()}.
  */
 public final class TaskDescription implements Serializable {
 
@@ -32,11 +32,11 @@ public final class TaskDescription implements Serializable {
 	 * should be passed to <code>TaskWorker.performTask</code> for the
 	 * <code>TaskWorker</code> corresponding to the job with the
 	 * <code>UUID</code> given by {@link #getJobId()}.  The <code>TaskWorker</code>
-	 * may be obtained by calling {@link JobMasterService#getTaskWorker(UUID)}.
+	 * may be obtained by calling {@link JobService#getTaskWorker(UUID)}.
 	 * @return The <code>Object</code> describing the task to be performed.
 	 * @see {@link #getJobId()},
 	 * 		{@link org.jmist.framework.TaskWorker#performTask(Object, org.jmist.framework.ProgressMonitor)},
-	 * 		{@link JobMasterService#getTaskWorker(UUID)}.
+	 * 		{@link JobService#getTaskWorker(UUID)}.
 	 */
 	public Object getTask() {
 		return this.task;
@@ -44,11 +44,11 @@ public final class TaskDescription implements Serializable {
 
 	/**
 	 * Gets the <code>UUID</code> of the job whose <code>TaskWorker</code>
-	 * should perform this task.  Call {@link JobMasterService#getTaskWorker(UUID)}
+	 * should perform this task.  Call {@link JobService#getTaskWorker(UUID)}
 	 * to get the <code>TaskWorker</code> to use to perform this task.
 	 * @return The <code>UUID</code> of the job that this task is associated
 	 * 		with.
-	 * @see {@link JobMasterService#getTaskWorker(UUID)}.
+	 * @see {@link JobService#getTaskWorker(UUID)}.
 	 */
 	public UUID getJobId() {
 		return this.jobId;
@@ -59,7 +59,7 @@ public final class TaskDescription implements Serializable {
 	 * <code>JobMasterService.submitTaskResults</code> when submitting the
 	 * results of this task.
 	 * @return The ID of the task to be performed.
-	 * @see {@link JobMasterService#submitTaskResults(UUID, int, Object)}.
+	 * @see {@link JobService#submitTaskResults(UUID, int, Object)}.
 	 */
 	public int getTaskId() {
 		return this.taskId;

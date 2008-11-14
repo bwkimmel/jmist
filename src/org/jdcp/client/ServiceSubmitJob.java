@@ -8,7 +8,7 @@ import java.rmi.registry.Registry;
 import java.util.UUID;
 
 import org.jdcp.job.ParallelizableJob;
-import org.jdcp.remote.JobMasterService;
+import org.jdcp.remote.JobService;
 import org.selfip.bkimmel.jobs.Job;
 import org.selfip.bkimmel.progress.ProgressMonitor;
 
@@ -44,7 +44,7 @@ public final class ServiceSubmitJob implements Job {
 			monitor.notifyStatusChanged("Submitting job...");
 
 			Registry registry = LocateRegistry.getRegistry(this.masterHost);
-			JobMasterService service = (JobMasterService) registry.lookup("JobMasterService");
+			JobService service = (JobService) registry.lookup("JobMasterService");
 			UUID jobId = service.submitJob(this.job, this.priority);
 
 			if (jobId != null) {

@@ -17,7 +17,7 @@ import org.jdcp.job.TaskWorker;
  * submitted by workers.
  * @author bkimmel
  */
-public interface JobMasterService extends Remote {
+public interface JobService extends Remote {
 
 	/**
 	 * Gets the task worker for a job.
@@ -27,14 +27,14 @@ public interface JobMasterService extends Remote {
 	 * 		with the specified <code>UUID</code>, or <code>null</code> if that
 	 * 		job is no longer available.
 	 */
-	TaskWorker getTaskWorker(UUID jobId) throws RemoteException;
+	TaskWorker getTaskWorker(UUID jobId) throws SecurityException, RemoteException;
 
 	/**
 	 * Gets a task to perform.
 	 * @return A <code>TaskDescription</code> describing the task to be
 	 * 		performed.
 	 */
-	TaskDescription requestTask() throws RemoteException;
+	TaskDescription requestTask() throws SecurityException, RemoteException;
 
 	/**
 	 * Submits the results of a task.
@@ -43,7 +43,7 @@ public interface JobMasterService extends Remote {
 	 * @param taskId The ID of the task that was performed.
 	 * @param results The results of the task.
 	 */
-	void submitTaskResults(UUID jobId, int taskId, Object results) throws RemoteException;
+	void submitTaskResults(UUID jobId, int taskId, Object results) throws SecurityException, RemoteException;
 
 	/**
 	 * Submits a new job to be processed.
@@ -52,7 +52,7 @@ public interface JobMasterService extends Remote {
 	 * @return The <code>UUID</code> assigned to the job, or <code>null</code>
 	 * 		if the job was not accepted.
 	 */
-	UUID submitJob(ParallelizableJob job, int priority) throws RemoteException;
+	UUID submitJob(ParallelizableJob job, int priority) throws SecurityException, RemoteException;
 
 	/**
 	 * Sets the amount of time (in seconds) that workers should idle when there
@@ -60,6 +60,6 @@ public interface JobMasterService extends Remote {
 	 * @param idleSeconds The amount of time (in seconds) that workers should
 	 * 		idle when there are no tasks to be performed.
 	 */
-	void setIdleTime(int idleSeconds) throws IllegalArgumentException, RemoteException;
+	void setIdleTime(int idleSeconds) throws IllegalArgumentException, SecurityException, RemoteException;
 
 }

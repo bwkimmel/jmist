@@ -27,7 +27,7 @@ import org.jdcp.job.IdleJob;
 import org.jdcp.job.ParallelizableJob;
 import org.jdcp.job.TaskDescription;
 import org.jdcp.job.TaskWorker;
-import org.jdcp.remote.JobMasterService;
+import org.jdcp.remote.JobService;
 import org.selfip.bkimmel.progress.DummyProgressMonitor;
 import org.selfip.bkimmel.progress.ProgressMonitor;
 import org.selfip.bkimmel.progress.ProgressPanel;
@@ -40,7 +40,7 @@ import org.selfip.bkimmel.rmi.ClassLoaderService;
  * tasks to workers, and aggregating the results submitted by workers.
  * @author bkimmel
  */
-public final class JobMasterServer implements JobMasterService {
+public final class JobMasterServer implements JobService {
 
 	/**
 	 * Initializes the service.
@@ -157,7 +157,7 @@ public final class JobMasterServer implements JobMasterService {
 			System.err.println("OK");
 
 			System.err.print("Exporting service stubs...");
-			JobMasterService jobStub = (JobMasterService) UnicastRemoteObject.exportObject(jobServer, 0);
+			JobService jobStub = (JobService) UnicastRemoteObject.exportObject(jobServer, 0);
 			ClassLoaderService classStub = (ClassLoaderService) UnicastRemoteObject.exportObject(classServer, 0);
 			System.err.println("OK");
 
