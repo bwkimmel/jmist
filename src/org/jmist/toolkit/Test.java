@@ -139,14 +139,14 @@ public class Test {
 
 		//testZip();
 		//testMath();
-		//testLambertianMaterial();
+		testLambertianMaterial();
 		//testLens();
 		//testPolynomial2();
 		//testCsg();
 		//testSpectrum();
 		//testTransformableGeometry();
 
-		testRender();
+		//testRender();
 		//testPLPDF();
 
 		//testMatlabWriter();
