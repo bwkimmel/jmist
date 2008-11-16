@@ -4,7 +4,7 @@
 <options buildIfNeeded="true" compress="true" descriptionLocation="/jmist/jdcpworker.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
 <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
 <selectedProjects/>
-<manifest generateManifest="true" mainClassHandleIdentifier="=jmist/src&lt;org.jdcp.worker{WorkerMain.java[WorkerMain" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+<manifest generateManifest="true" mainClassHandleIdentifier="=jmist/src&lt;org.jdcp.worker{WorkerMain.java[WorkerMain" manifestLocation="/jmist/jdcpworker.manifest" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
 <sealing sealJar="false">
 <packagesToSeal/>
 <packagesToUnSeal/>
@@ -22,10 +22,8 @@
 <javaElement handleIdentifier="=jmist/src&lt;org.selfip.bkimmel.rmi"/>
 <javaElement handleIdentifier="=jmist/src&lt;org.jdcp.job{ParallelizableJob.java"/>
 <javaElement handleIdentifier="=jmist/src&lt;org.jdcp.job{TaskWorker.java"/>
-<file path="/jmist/.classpath"/>
 <javaElement handleIdentifier="=jmist/src&lt;org.selfip.bkimmel.util.classloader"/>
 <javaElement handleIdentifier="=jmist/src&lt;org.selfip.bkimmel.jnlp"/>
-<folder path="/jmist/lib"/>
 <javaElement handleIdentifier="=jmist/src&lt;org.jdcp.worker"/>
 <javaElement handleIdentifier="=jmist/src&lt;org.selfip.bkimmel.ui"/>
 </selectedElements>
