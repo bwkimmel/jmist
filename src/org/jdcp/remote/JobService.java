@@ -19,6 +19,10 @@ import org.jdcp.job.TaskWorker;
  */
 public interface JobService extends Remote {
 
+	/* **************************************************************
+	 * Worker client methods (Task distribution and result gathering)
+	 */
+
 	/**
 	 * Gets the task worker for a job.
 	 * @param jobId The <code>UUID</code> of the job to obtain the task worker
@@ -45,6 +49,11 @@ public interface JobService extends Remote {
 	 */
 	void submitTaskResults(UUID jobId, int taskId, Object results) throws SecurityException, RemoteException;
 
+
+	/* **********************
+	 * Job submission methods
+	 */
+
 	/**
 	 * Submits a new job to be processed.
 	 * @param job The <code>ParallelizableJob</code> to be processed.
@@ -53,6 +62,11 @@ public interface JobService extends Remote {
 	 * 		if the job was not accepted.
 	 */
 	UUID submitJob(ParallelizableJob job, int priority) throws SecurityException, RemoteException;
+
+
+	/* **********************
+	 * Administrative methods
+	 */
 
 	/**
 	 * Sets the amount of time (in seconds) that workers should idle when there
