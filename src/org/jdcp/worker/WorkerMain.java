@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.jdcp.client;
+package org.jdcp.worker;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -21,7 +21,7 @@ import org.selfip.bkimmel.progress.ProgressPanel;
  * @author brad
  *
  */
-public final class WorkerClient {
+public final class WorkerMain {
 
 	/**
 	 * @param args

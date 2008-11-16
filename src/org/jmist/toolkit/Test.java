@@ -35,13 +35,13 @@ import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 
 import org.jdcp.client.ServiceSubmitJob;
-import org.jdcp.client.ThreadServiceWorkerJob;
 import org.jdcp.concurrent.BackgroundThreadFactory;
 import org.jdcp.job.DummyParallelizableJob;
 import org.jdcp.job.ParallelizableJob;
 import org.jdcp.job.ParallelizableJobRunner;
 import org.jdcp.remote.JobService;
 import org.jdcp.server.JobMasterServer;
+import org.jdcp.worker.ThreadServiceWorkerJob;
 import org.jmist.framework.ConstantSpectrum;
 import org.jmist.framework.Geometry;
 import org.jmist.framework.ImageShader;
@@ -132,14 +132,14 @@ public class Test {
 		//testShade();
 
 		//testJobMasterServer();
-		//testJobMasterServiceClient();
+		testJobMasterServiceClient();
 		//testProgressTree();
 
 		//testParallelizableJobAsJob();
 
 		//testZip();
 		//testMath();
-		testLambertianMaterial();
+		//testLambertianMaterial();
 		//testLens();
 		//testPolynomial2();
 		//testCsg();
@@ -470,7 +470,7 @@ public class Test {
 			WavefrontObjectReader reader = new WavefrontObjectReader();
 			reader.addMaterial("diffuse50SG", new LambertianMaterial(new ConstantSpectrum(0.5)));
 			reader.addMaterial("diffuseLuminaire1SG", new LambertianMaterial(null, Spectrum.ONE));
-			reader.read(new FileInputStream("/Users/brad/Documents/secondary.obj"), geometry, light, 0.01);
+			reader.read(new FileInputStream("C:\\Documents and Settings\\Erin\\My Documents\\Brad\\jmist\\secondary.obj"), geometry, light, 0.01);
 
 			//Observer observer = new StandardObserver(StandardObserver.Type.CIE_2_DEGREE, 3);
 			//Observer observer = new FixedObserver(ArrayUtil.range(400e-9, 700e-9, 31));
@@ -499,11 +499,11 @@ public class Test {
 			dialog.setVisible(true);
 			//ProgressMonitor monitor = DummyProgressMonitor.getInstance();
 
-			Job runner = new ParallelizableJobRunner(job, 8);
+			Job runner = new ParallelizableJobRunner(job, Runtime.getRuntime().availableProcessors());
 			runner.go(monitor);
 			//job.go(monitor);
 
-			OutputStream out = new FileOutputStream("/Users/brad/image.zip");
+			OutputStream out = new FileOutputStream("C:\\Documents and Settings\\Erin\\My Documents\\Brad\\jmist\\image.zip");
 			ZipOutputStream zip = new ZipOutputStream(out);
 
 			job.writeJobResults(zip);

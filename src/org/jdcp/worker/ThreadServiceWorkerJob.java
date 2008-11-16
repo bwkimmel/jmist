@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.jdcp.client;
+package org.jdcp.worker;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
