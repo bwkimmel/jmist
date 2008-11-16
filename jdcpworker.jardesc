@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="WINDOWS-1252"?>
+<?xml version="1.0" encoding="MacRoman"?>
 <jardesc>
-<jar path="jmistworker.jar"/>
-<options buildIfNeeded="true" compress="true" descriptionLocation="/jmist/jmistworker.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+<jar path="jdcpworker.jar"/>
+<options buildIfNeeded="true" compress="true" descriptionLocation="/jmist/jdcpworker.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
 <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
 <selectedProjects/>
 <manifest generateManifest="true" mainClassHandleIdentifier="=jmist/src&lt;org.jdcp.worker{WorkerMain.java[WorkerMain" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
