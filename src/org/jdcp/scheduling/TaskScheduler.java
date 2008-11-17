@@ -21,4 +21,6 @@ public interface TaskScheduler {
 
 	TaskDescription getNextTask();
 
+	void removeJob(UUID jobId);
+
 }

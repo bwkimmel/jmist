@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.jdcp.scheduling;
 
@@ -41,6 +41,11 @@ public final class PrioritySerialTaskScheduler implements TaskScheduler {
 	 * @see org.jdcp.scheduling.TaskScheduler#setJobPriority(java.util.UUID, int)
 	 */
 	public void setJobPriority(UUID jobId, int priority) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void removeJob(UUID jobId) {
 		// TODO Auto-generated method stub
 
 	}
