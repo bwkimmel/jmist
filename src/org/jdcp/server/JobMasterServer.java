@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.rmi.RMISecurityManager;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -33,6 +34,7 @@ import org.selfip.bkimmel.progress.ProgressMonitor;
 import org.selfip.bkimmel.progress.ProgressPanel;
 import org.selfip.bkimmel.rmi.ClassLoaderServer;
 import org.selfip.bkimmel.rmi.ClassLoaderService;
+import org.selfip.bkimmel.rmi.Envelope;
 
 /**
  * An implementation of <code>JobMasterService</code>: a remote service for
@@ -200,10 +202,10 @@ public final class JobMasterServer implements JobService {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.JobMasterService#getTaskWorker(java.util.UUID)
 	 */
-	public synchronized TaskWorker getTaskWorker(UUID jobId) {
+	public synchronized Envelope<TaskWorker> getTaskWorker(UUID jobId) {
 
 		ScheduledJob sched = this.jobLookup.get(jobId);
-		return sched != null ? sched.worker : null;
+		return sched != null ? new Envelope<TaskWorker>(sched.worker) : null;
 
 	}
 
@@ -662,5 +664,82 @@ public final class JobMasterServer implements JobService {
 	 * The directory to write results to.
 	 */
 	private final File outputDirectory;
+
+	public UUID createJob() throws SecurityException, RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void setClassDefinition(String name, byte[] def) throws SecurityException,
+			RemoteException {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void setClassDefinition(String name, UUID jobId, byte[] def)
+			throws IllegalArgumentException, SecurityException, RemoteException {
+		// TODO Auto-generated method stub
+
+	}
+
+	public byte[] getClassDefinition(String name, UUID jobId)
+			throws SecurityException, RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public byte[] getClassDigest(String name, UUID jobId)
+			throws SecurityException, RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public byte[] getClassDigest(String name) throws SecurityException,
+			RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void setJobPriority(UUID jobId, int priority)
+			throws IllegalArgumentException, SecurityException, RemoteException {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void submitJob(Envelope<ParallelizableJob> job, UUID jobId)
+			throws IllegalArgumentException, SecurityException, RemoteException {
+		// TODO Auto-generated method stub
+
+	}
+
+	public UUID submitJob(Envelope<ParallelizableJob> job)
+			throws SecurityException, RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void submitTaskResults(UUID jobId, int taskId,
+			Envelope<Object> results) throws SecurityException, RemoteException {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void cancelJob(UUID jobId) throws IllegalArgumentException,
+			SecurityException, RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public UUID createJob(String description) throws SecurityException,
+			RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public UUID submitJob(Envelope<ParallelizableJob> job, String description)
+			throws SecurityException, ClassNotFoundException, RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

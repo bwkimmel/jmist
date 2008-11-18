@@ -11,6 +11,7 @@ import org.jdcp.job.ParallelizableJob;
 import org.jdcp.remote.JobService;
 import org.selfip.bkimmel.jobs.Job;
 import org.selfip.bkimmel.progress.ProgressMonitor;
+import org.selfip.bkimmel.rmi.Envelope;
 
 /**
  * A job that submits a <code>ParallelizableJob</code> to submit to a remote
@@ -45,7 +46,7 @@ public final class ServiceSubmitJob implements Job {
 
 			Registry registry = LocateRegistry.getRegistry(this.masterHost);
 			JobService service = (JobService) registry.lookup("JobMasterService");
-			UUID jobId = service.submitJob(this.job, this.priority);
+			UUID jobId = service.submitJob(new Envelope<ParallelizableJob>(this.job), "no description");
 
 			if (jobId != null) {
 

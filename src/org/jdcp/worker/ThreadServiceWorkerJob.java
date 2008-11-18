@@ -20,6 +20,9 @@ import org.jdcp.job.TaskWorker;
 import org.jdcp.remote.JobService;
 import org.selfip.bkimmel.jobs.Job;
 import org.selfip.bkimmel.progress.ProgressMonitor;
+import org.selfip.bkimmel.rmi.Envelope;
+import org.selfip.bkimmel.util.classloader.ClassLoaderStrategy;
+import org.selfip.bkimmel.util.classloader.StrategyClassLoader;
 
 /**
  * A job that processes tasks for a parallelizable job from a remote
@@ -278,8 +281,9 @@ public final class ThreadServiceWorkerJob implements Job {
 	 * 		the specified <code>UUID</code>, or <code>null</code> if the job
 	 * 		is invalid or has already been completed.
 	 * @throws RemoteException
+	 * @throws ClassNotFoundException
 	 */
-	private TaskWorker getTaskWorker(UUID jobId) throws RemoteException {
+	private TaskWorker getTaskWorker(UUID jobId) throws RemoteException, ClassNotFoundException {
 
 		WorkerCacheEntry entry = null;
 		boolean hit;
@@ -310,7 +314,9 @@ public final class ThreadServiceWorkerJob implements Job {
 			/* The task worker was not in the cache, so use the service to
 			 * obtain the task worker.
 			 */
-			TaskWorker worker = this.service.getTaskWorker(jobId);
+			Envelope<TaskWorker> envelope = this.service.getTaskWorker(jobId);
+			ClassLoader loader = JobServiceClassLoaderStrategy.createCachingClassLoader(service, jobId);
+			TaskWorker worker = envelope.contents(loader);
 			entry.setWorker(worker);
 
 			/* If we couldn't get a worker from the service, then don't keep
@@ -361,7 +367,13 @@ public final class ThreadServiceWorkerJob implements Job {
 					if (taskDesc != null) {
 
 						this.monitor.notifyStatusChanged("Obtaining task worker...");
-						TaskWorker worker = getTaskWorker(taskDesc.getJobId());
+						TaskWorker worker;
+						try {
+							worker = getTaskWorker(taskDesc.getJobId());
+						} catch (ClassNotFoundException e) {
+							e.printStackTrace();
+							worker = null;
+						}
 
 						if (worker == null) {
 							this.monitor.notifyStatusChanged("Could not obtain worker...");
@@ -370,10 +382,12 @@ public final class ThreadServiceWorkerJob implements Job {
 						}
 
 						this.monitor.notifyStatusChanged("Performing task...");
-						Object results = worker.performTask(taskDesc.getTask(), monitor);
+						ClassLoader loader = worker.getClass().getClassLoader();
+						Object task = taskDesc.getTask().contents(loader);
+						Object results = worker.performTask(task, monitor);
 
 						this.monitor.notifyStatusChanged("Submitting task results...");
-						service.submitTaskResults(taskDesc.getJobId(), taskDesc.getTaskId(), results);
+						service.submitTaskResults(taskDesc.getJobId(), taskDesc.getTaskId(), new Envelope<Object>(results));
 
 					} else {
 
@@ -402,6 +416,8 @@ public final class ThreadServiceWorkerJob implements Job {
 
 				this.monitor.notifyCancelled();
 
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
 			} finally {
 
 				workerSlot.release();
