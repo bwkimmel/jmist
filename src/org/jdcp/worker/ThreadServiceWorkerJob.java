@@ -102,7 +102,7 @@ public final class ThreadServiceWorkerJob implements Job {
 	 */
 	private boolean initializeService() {
 		try {
-			this.service = (JobService) this.registry.lookup("JobMasterService");
+			this.service = (JobService) this.registry.lookup("JobService");
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -477,7 +477,7 @@ public final class ThreadServiceWorkerJob implements Job {
 	private Registry registry = null;
 
 	/**
-	 * The <code>JobMasterService</code> to obtain tasks from and submit
+	 * The <code>JobService</code> to obtain tasks from and submit
 	 * results to.
 	 */
 	private JobService service = null;
