@@ -31,8 +31,8 @@ public final class Serialized<T> implements Serializable {
 		this.object = obj;
 		try {
 			ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
-			ObjectOutputStream objectStream;
-			objectStream = new ObjectOutputStream(byteStream);
+			ObjectOutputStream objectStream = new ObjectOutputStream(byteStream);
+			objectStream.writeObject(obj);
 			objectStream.flush();
 			data = byteStream.toByteArray();
 			objectStream.close();
