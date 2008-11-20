@@ -34,7 +34,7 @@ import org.selfip.bkimmel.progress.ProgressMonitor;
 import org.selfip.bkimmel.progress.ProgressPanel;
 import org.selfip.bkimmel.rmi.ClassLoaderServer;
 import org.selfip.bkimmel.rmi.ClassLoaderService;
-import org.selfip.bkimmel.rmi.Envelope;
+import org.selfip.bkimmel.rmi.Serialized;
 
 /**
  * An implementation of <code>JobMasterService</code>: a remote service for
@@ -202,10 +202,10 @@ public final class JobMasterServer implements JobService {
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.JobMasterService#getTaskWorker(java.util.UUID)
 	 */
-	public synchronized Envelope<TaskWorker> getTaskWorker(UUID jobId) {
+	public synchronized Serialized<TaskWorker> getTaskWorker(UUID jobId) {
 
 		ScheduledJob sched = this.jobLookup.get(jobId);
-		return sched != null ? new Envelope<TaskWorker>(sched.worker) : null;
+		return sched != null ? new Serialized<TaskWorker>(sched.worker) : null;
 
 	}
 
@@ -706,20 +706,20 @@ public final class JobMasterServer implements JobService {
 
 	}
 
-	public void submitJob(Envelope<ParallelizableJob> job, UUID jobId)
+	public void submitJob(Serialized<ParallelizableJob> job, UUID jobId)
 			throws IllegalArgumentException, SecurityException, RemoteException {
 		// TODO Auto-generated method stub
 
 	}
 
-	public UUID submitJob(Envelope<ParallelizableJob> job)
+	public UUID submitJob(Serialized<ParallelizableJob> job)
 			throws SecurityException, RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public void submitTaskResults(UUID jobId, int taskId,
-			Envelope<Object> results) throws SecurityException, RemoteException {
+			Serialized<Object> results) throws SecurityException, RemoteException {
 		// TODO Auto-generated method stub
 
 	}
@@ -736,7 +736,7 @@ public final class JobMasterServer implements JobService {
 		return null;
 	}
 
-	public UUID submitJob(Envelope<ParallelizableJob> job, String description)
+	public UUID submitJob(Serialized<ParallelizableJob> job, String description)
 			throws SecurityException, ClassNotFoundException, RemoteException {
 		// TODO Auto-generated method stub
 		return null;

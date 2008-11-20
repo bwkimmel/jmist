@@ -17,7 +17,7 @@ import org.selfip.bkimmel.util.UnexpectedException;
  * @author brad
  *
  */
-public final class Envelope<T> implements Serializable {
+public final class Serialized<T> implements Serializable {
 
 	/**
 	 *
@@ -25,8 +25,10 @@ public final class Envelope<T> implements Serializable {
 	private static final long serialVersionUID = 222718136239175900L;
 
 	private final byte[] data;
+	private transient T object;
 
-	public Envelope(T obj) {
+	public Serialized(T obj) {
+		this.object = obj;
 		try {
 			ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
 			ObjectOutputStream objectStream;
@@ -39,24 +41,48 @@ public final class Envelope<T> implements Serializable {
 		}
 	}
 
+	public boolean isDeserialized() {
+		return (object != null);
+	}
+
+	public T get() {
+		if (!isDeserialized()) {
+			throw new IllegalStateException("Object not deserialized.");
+		}
+		return object;
+	}
+
+	public T get(boolean deserialize) throws ClassNotFoundException {
+		if (!isDeserialized()) {
+			if (deserialize) {
+				deserialize();
+			} else {
+				throw new IllegalStateException("Object not deserialized.");
+			}
+		}
+		return object;
+	}
+
 	@SuppressWarnings("unchecked")
-	public T contents() throws ClassNotFoundException {
+	public T deserialize() throws ClassNotFoundException {
 		try {
 			ByteArrayInputStream byteStream = new ByteArrayInputStream(data);
 			ObjectInputStream objectStream = new ObjectInputStream(byteStream);
-			return (T) objectStream.readObject();
+			object = (T) objectStream.readObject();
+			return object;
 		} catch (IOException e) {
 			throw new UnexpectedException(e);
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	public T contents(ClassLoader loader) throws ClassNotFoundException {
+	public T deserialize(ClassLoader loader) throws ClassNotFoundException {
 		try {
 			ByteArrayInputStream byteStream = new ByteArrayInputStream(data);
 			ObjectInputStream objectStream = new AlternateClassLoaderObjectInputStream(
 					byteStream, loader);
-			return (T) objectStream.readObject();
+			object = (T) objectStream.readObject();
+			return object;
 		} catch (IOException e) {
 			throw new UnexpectedException(e);
 		}

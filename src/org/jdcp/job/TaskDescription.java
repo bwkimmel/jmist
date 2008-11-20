@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.UUID;
 
-import org.selfip.bkimmel.rmi.Envelope;
+import org.selfip.bkimmel.rmi.Serialized;
 
 /**
  * A description of a task assigned by a <code>JobMasterService</code>.
@@ -27,7 +27,7 @@ public final class TaskDescription implements Serializable {
 	public TaskDescription(UUID jobId, int taskId, Object task) {
 		this.jobId = jobId;
 		this.taskId = taskId;
-		this.task = new Envelope<Object>(task);
+		this.task = new Serialized<Object>(task);
 	}
 
 	/**
@@ -41,7 +41,7 @@ public final class TaskDescription implements Serializable {
 	 * 		{@link org.jmist.framework.TaskWorker#performTask(Object, org.jmist.framework.ProgressMonitor)},
 	 * 		{@link JobService#getTaskWorker(UUID)}.
 	 */
-	public Envelope<Object> getTask() {
+	public Serialized<Object> getTask() {
 		return this.task;
 	}
 
@@ -75,7 +75,7 @@ public final class TaskDescription implements Serializable {
 	private final int taskId;
 
 	/** The <code>Object</code> describing the task to be performed. */
-	private final Envelope<Object> task;
+	private final Serialized<Object> task;
 
 	/**
 	 * Serialization version ID.

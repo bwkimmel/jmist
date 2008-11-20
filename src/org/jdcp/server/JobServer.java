@@ -24,7 +24,7 @@ import org.jdcp.scheduling.TaskScheduler;
 import org.jdcp.server.classmanager.ClassManager;
 import org.jdcp.server.classmanager.ParentClassManager;
 import org.selfip.bkimmel.progress.ProgressMonitor;
-import org.selfip.bkimmel.rmi.Envelope;
+import org.selfip.bkimmel.rmi.Serialized;
 import org.selfip.bkimmel.util.classloader.StrategyClassLoader;
 
 /**
@@ -75,7 +75,7 @@ public final class JobServer implements JobService {
 	/* (non-Javadoc)
 	 * @see org.jdcp.remote.JobService#submitJob(org.selfip.bkimmel.rmi.Envelope, java.util.UUID)
 	 */
-	public void submitJob(Envelope<ParallelizableJob> job, UUID jobId)
+	public void submitJob(Serialized<ParallelizableJob> job, UUID jobId)
 			throws IllegalArgumentException, SecurityException, RemoteException, ClassNotFoundException {
 		ScheduledJob sched = jobs.get(jobId);
 		if (sched == null || sched.job != null) {
@@ -89,7 +89,7 @@ public final class JobServer implements JobService {
 	/* (non-Javadoc)
 	 * @see org.jdcp.remote.JobService#submitJob(org.selfip.bkimmel.rmi.Envelope, java.lang.String)
 	 */
-	public UUID submitJob(Envelope<ParallelizableJob> job, String description)
+	public UUID submitJob(Serialized<ParallelizableJob> job, String description)
 			throws SecurityException, RemoteException, ClassNotFoundException {
 
 		ScheduledJob sched = new ScheduledJob(job, description, monitor);
@@ -116,7 +116,7 @@ public final class JobServer implements JobService {
 	/* (non-Javadoc)
 	 * @see org.jdcp.remote.JobService#getTaskWorker(java.util.UUID)
 	 */
-	public Envelope<TaskWorker> getTaskWorker(UUID jobId)
+	public Serialized<TaskWorker> getTaskWorker(UUID jobId)
 			throws IllegalArgumentException, SecurityException, RemoteException {
 		ScheduledJob sched = jobs.get(jobId);
 		if (sched == null) {
@@ -141,7 +141,7 @@ public final class JobServer implements JobService {
 	 * @see org.jdcp.remote.JobService#submitTaskResults(java.util.UUID, int, org.selfip.bkimmel.rmi.Envelope)
 	 */
 	public void submitTaskResults(UUID jobId, int taskId,
-			Envelope<Object> results) throws SecurityException, RemoteException, ClassNotFoundException {
+			Serialized<Object> results) throws SecurityException, RemoteException, ClassNotFoundException {
 		ScheduledJob sched = jobs.get(jobId);
 		if (sched == null) {
 			throw new IllegalArgumentException("No submitted job with provided Job ID");
@@ -254,7 +254,7 @@ public final class JobServer implements JobService {
 		public final String						description;
 
 		/** The <code>TaskWorker</code> to use to process tasks for the job. */
-		public Envelope<TaskWorker>				worker;
+		public Serialized<TaskWorker>				worker;
 
 		/**
 		 * The <code>ProgressMonitor</code> to use to monitor the progress of
@@ -277,7 +277,7 @@ public final class JobServer implements JobService {
 		 * 		<code>ParallelizableJob</code>.
 		 * @throws ClassNotFoundException
 		 */
-		public ScheduledJob(Envelope<ParallelizableJob> job, String description, ProgressMonitor monitor) throws ClassNotFoundException {
+		public ScheduledJob(Serialized<ParallelizableJob> job, String description, ProgressMonitor monitor) throws ClassNotFoundException {
 
 			this.id				= UUID.randomUUID();
 			this.description	= description;
@@ -310,17 +310,17 @@ public final class JobServer implements JobService {
 
 		}
 
-		public void initializeJob(Envelope<ParallelizableJob> job) throws ClassNotFoundException {
+		public void initializeJob(Serialized<ParallelizableJob> job) throws ClassNotFoundException {
 			ClassLoader loader	= new StrategyClassLoader(classManager);
-			this.job			= job.contents(loader);
-			this.worker			= new Envelope<TaskWorker>(this.job.worker());
+			this.job			= job.deserialize(loader);
+			this.worker			= new Serialized<TaskWorker>(this.job.worker());
 			this.monitor.notifyStatusChanged("");
 		}
 
-		public boolean submitTaskResults(int taskId, Envelope<Object> results) throws ClassNotFoundException {
+		public boolean submitTaskResults(int taskId, Serialized<Object> results) throws ClassNotFoundException {
 			ClassLoader cl = job.getClass().getClassLoader();
 			Object task = scheduler.remove(id, taskId);
-			job.submitTaskResults(task, results.contents(cl), monitor);
+			job.submitTaskResults(task, results.deserialize(cl), monitor);
 
 			if (job.isComplete()) {
 				writeJobResults();

@@ -12,7 +12,7 @@ import org.jdcp.job.TaskWorker;
 import org.jdcp.remote.JobService;
 import org.selfip.bkimmel.jobs.Job;
 import org.selfip.bkimmel.progress.ProgressMonitor;
-import org.selfip.bkimmel.rmi.Envelope;
+import org.selfip.bkimmel.rmi.Serialized;
 
 /**
  * A job that processes tasks for a parallelizable job from a remote
@@ -58,7 +58,7 @@ public final class ServiceWorkerJob implements Job {
 
 					if (jobId == null || jobId.compareTo(taskDesc.getJobId()) != 0) {
 						monitor.notifyStatusChanged("Obtaining task worker...");
-						worker = service.getTaskWorker(taskDesc.getJobId()).contents();
+						worker = service.getTaskWorker(taskDesc.getJobId()).deserialize();
 						jobId = taskDesc.getJobId();
 					}
 
@@ -71,7 +71,7 @@ public final class ServiceWorkerJob implements Job {
 					Object results = worker.performTask(taskDesc.getTask(), monitor);
 
 					monitor.notifyStatusChanged("Submitting task results...");
-					service.submitTaskResults(jobId, taskDesc.getTaskId(), new Envelope<Object>(results));
+					service.submitTaskResults(jobId, taskDesc.getTaskId(), new Serialized<Object>(results));
 
 				} else { /* taskDesc == null */
 

@@ -11,7 +11,7 @@ import java.util.UUID;
 import org.jdcp.job.ParallelizableJob;
 import org.jdcp.job.TaskDescription;
 import org.jdcp.job.TaskWorker;
-import org.selfip.bkimmel.rmi.Envelope;
+import org.selfip.bkimmel.rmi.Serialized;
 
 /**
  * A remote service for accepting <code>ParallelizableJob</code>s,
@@ -35,7 +35,7 @@ public interface JobService extends Remote {
 	 * 		with the specified <code>UUID</code>, or <code>null</code> if that
 	 * 		job is no longer available.
 	 */
-	Envelope<TaskWorker> getTaskWorker(UUID jobId) throws IllegalArgumentException, SecurityException, RemoteException;
+	Serialized<TaskWorker> getTaskWorker(UUID jobId) throws IllegalArgumentException, SecurityException, RemoteException;
 
 	/**
 	 * Gets a task to perform.
@@ -52,7 +52,7 @@ public interface JobService extends Remote {
 	 * @param results The results of the task.
 	 * @throws ClassNotFoundException
 	 */
-	void submitTaskResults(UUID jobId, int taskId, Envelope<Object> results)
+	void submitTaskResults(UUID jobId, int taskId, Serialized<Object> results)
 			throws SecurityException, ClassNotFoundException, RemoteException;
 
 
@@ -62,7 +62,7 @@ public interface JobService extends Remote {
 
 	UUID createJob(String description) throws SecurityException, RemoteException;
 
-	void submitJob(Envelope<ParallelizableJob> job, UUID jobId)
+	void submitJob(Serialized<ParallelizableJob> job, UUID jobId)
 			throws IllegalArgumentException, SecurityException,
 			ClassNotFoundException, RemoteException;
 
@@ -74,7 +74,7 @@ public interface JobService extends Remote {
 	 * 		if the job was not accepted.
 	 * @throws ClassNotFoundException
 	 */
-	UUID submitJob(Envelope<ParallelizableJob> job, String description)
+	UUID submitJob(Serialized<ParallelizableJob> job, String description)
 			throws SecurityException, ClassNotFoundException, RemoteException;
 
 	void cancelJob(UUID jobId) throws IllegalArgumentException, SecurityException, RemoteException;

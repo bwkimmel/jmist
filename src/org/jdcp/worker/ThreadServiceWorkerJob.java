@@ -20,7 +20,7 @@ import org.jdcp.job.TaskWorker;
 import org.jdcp.remote.JobService;
 import org.selfip.bkimmel.jobs.Job;
 import org.selfip.bkimmel.progress.ProgressMonitor;
-import org.selfip.bkimmel.rmi.Envelope;
+import org.selfip.bkimmel.rmi.Serialized;
 import org.selfip.bkimmel.util.classloader.ClassLoaderStrategy;
 import org.selfip.bkimmel.util.classloader.StrategyClassLoader;
 
@@ -314,9 +314,9 @@ public final class ThreadServiceWorkerJob implements Job {
 			/* The task worker was not in the cache, so use the service to
 			 * obtain the task worker.
 			 */
-			Envelope<TaskWorker> envelope = this.service.getTaskWorker(jobId);
+			Serialized<TaskWorker> envelope = this.service.getTaskWorker(jobId);
 			ClassLoader loader = JobServiceClassLoaderStrategy.createCachingClassLoader(service, jobId);
-			TaskWorker worker = envelope.contents(loader);
+			TaskWorker worker = envelope.deserialize(loader);
 			entry.setWorker(worker);
 
 			/* If we couldn't get a worker from the service, then don't keep
@@ -383,11 +383,11 @@ public final class ThreadServiceWorkerJob implements Job {
 
 						this.monitor.notifyStatusChanged("Performing task...");
 						ClassLoader loader = worker.getClass().getClassLoader();
-						Object task = taskDesc.getTask().contents(loader);
+						Object task = taskDesc.getTask().deserialize(loader);
 						Object results = worker.performTask(task, monitor);
 
 						this.monitor.notifyStatusChanged("Submitting task results...");
-						service.submitTaskResults(taskDesc.getJobId(), taskDesc.getTaskId(), new Envelope<Object>(results));
+						service.submitTaskResults(taskDesc.getJobId(), taskDesc.getTaskId(), new Serialized<Object>(results));
 
 					} else {
 
