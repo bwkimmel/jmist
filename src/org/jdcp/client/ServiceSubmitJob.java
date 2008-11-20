@@ -45,7 +45,7 @@ public final class ServiceSubmitJob implements Job {
 			monitor.notifyStatusChanged("Submitting job...");
 
 			Registry registry = LocateRegistry.getRegistry(this.masterHost);
-			JobService service = (JobService) registry.lookup("JobMasterService");
+			JobService service = (JobService) registry.lookup("JobService");
 			UUID jobId = service.submitJob(new Serialized<ParallelizableJob>(this.job), "no description");
 
 			if (jobId != null) {
