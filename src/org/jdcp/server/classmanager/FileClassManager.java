@@ -31,6 +31,7 @@ import org.selfip.bkimmel.util.UnexpectedException;
 public final class FileClassManager extends AbstractClassManager implements
 		ParentClassManager {
 
+	private static final String CLASS_EXTENSION = ".dat";
 	private static final String DIGEST_ALGORITHM = "MD5";
 	private static final int DIGEST_LENGTH = 16;
 
@@ -97,7 +98,7 @@ public final class FileClassManager extends AbstractClassManager implements
 	}
 
 	private File getClassFile(String name) {
-		return new File(currentDirectory, name);
+		return new File(currentDirectory, name.concat(CLASS_EXTENSION));
 	}
 
 	/* (non-Javadoc)
@@ -137,7 +138,7 @@ public final class FileClassManager extends AbstractClassManager implements
 		if (createDirectory && !directory.isDirectory()) {
 			directory.mkdir();
 		}
-		return new File(directory, name);
+		return new File(directory, name.concat(CLASS_EXTENSION));
 	}
 
 	private void writeClass(File file, ByteBuffer def, byte[] digest) {
@@ -250,7 +251,7 @@ public final class FileClassManager extends AbstractClassManager implements
 		private File getClassFile(String name) {
 			check();
 			if (childDirectory.isDirectory()) {
-				File file = new File(childDirectory, name);
+				File file = new File(childDirectory, name.concat(CLASS_EXTENSION));
 				if (file.exists()) {
 					return file;
 				}
@@ -271,7 +272,7 @@ public final class FileClassManager extends AbstractClassManager implements
 				}
 			}
 
-			return new File(currentDirectory, name);
+			return new File(currentDirectory, name.concat(CLASS_EXTENSION));
 		}
 
 		/* (non-Javadoc)
@@ -291,7 +292,7 @@ public final class FileClassManager extends AbstractClassManager implements
 			if (!childDirectory.exists()) {
 				childDirectory.mkdir();
 			}
-			File file = new File(childDirectory, name);
+			File file = new File(childDirectory, name.concat(CLASS_EXTENSION));
 			writeClass(file, def);
 		}
 
