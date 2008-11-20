@@ -57,7 +57,7 @@ public final class WeakHashSet<T> extends AbstractSet<T> implements Set<T> {
 	 * @see java.util.AbstractCollection#iterator()
 	 */
 	@Override
-	public Iterator iterator() {
+	public Iterator<T> iterator() {
 		return map.keySet().iterator();
 	}
 
