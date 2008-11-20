@@ -65,7 +65,6 @@ public final class FileClassManager extends AbstractClassManager implements
 	/* (non-Javadoc)
 	 * @see org.jdcp.server.classmanager.ClassManager#getClassDigest(java.lang.String)
 	 */
-	@Override
 	public byte[] getClassDigest(String name) {
 		return getClassDigest(getClassFile(name));
 	}
@@ -104,7 +103,6 @@ public final class FileClassManager extends AbstractClassManager implements
 	/* (non-Javadoc)
 	 * @see org.jdcp.server.classmanager.ClassManager#setClassDefinition(java.lang.String, java.nio.ByteBuffer)
 	 */
-	@Override
 	public void setClassDefinition(String name, ByteBuffer def) {
 		File file = getClassFile(name);
 		byte[] digest = computeClassDigest(def);
@@ -160,7 +158,6 @@ public final class FileClassManager extends AbstractClassManager implements
 	/* (non-Javadoc)
 	 * @see org.selfip.bkimmel.util.classloader.ClassLoaderStrategy#getClassDefinition(java.lang.String)
 	 */
-	@Override
 	public ByteBuffer getClassDefinition(String name) {
 		return getClassDefinition(getClassFile(name));
 	}
@@ -278,7 +275,6 @@ public final class FileClassManager extends AbstractClassManager implements
 		/* (non-Javadoc)
 		 * @see org.jdcp.server.classmanager.ClassManager#getClassDigest(java.lang.String)
 		 */
-		@Override
 		public byte[] getClassDigest(String name) {
 			return FileClassManager.this.getClassDigest(getClassFile(name));
 		}
@@ -286,7 +282,6 @@ public final class FileClassManager extends AbstractClassManager implements
 		/* (non-Javadoc)
 		 * @see org.jdcp.server.classmanager.ClassManager#setClassDefinition(java.lang.String, java.nio.ByteBuffer)
 		 */
-		@Override
 		public void setClassDefinition(String name, ByteBuffer def) {
 			check();
 			if (!childDirectory.exists()) {
@@ -299,7 +294,6 @@ public final class FileClassManager extends AbstractClassManager implements
 		/* (non-Javadoc)
 		 * @see org.selfip.bkimmel.util.classloader.ClassLoaderStrategy#getClassDefinition(java.lang.String)
 		 */
-		@Override
 		public ByteBuffer getClassDefinition(String name) {
 			return FileClassManager.this.getClassDefinition(getClassFile(name));
 		}

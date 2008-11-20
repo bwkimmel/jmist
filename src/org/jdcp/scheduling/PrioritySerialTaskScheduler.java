@@ -40,7 +40,6 @@ public final class PrioritySerialTaskScheduler implements TaskScheduler {
 		/* (non-Javadoc)
 		 * @see java.lang.Comparable#compareTo(java.lang.Object)
 		 */
-		@Override
 		public int compareTo(JobInfo other) {
 			if (priority > other.priority) {
 				return -1;
@@ -93,7 +92,6 @@ public final class PrioritySerialTaskScheduler implements TaskScheduler {
 
 	private final class JobIdComparator implements Comparator<UUID> {
 
-		@Override
 		public int compare(UUID id1, UUID id2) {
 			JobInfo job1 = jobs.get(id1);
 			JobInfo job2 = jobs.get(id2);
