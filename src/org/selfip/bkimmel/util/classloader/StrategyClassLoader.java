@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.selfip.bkimmel.util.classloader;
 
@@ -10,14 +10,14 @@ import java.nio.ByteBuffer;
  *
  */
 public class StrategyClassLoader extends ClassLoader {
-	
+
 	private final ClassLoaderStrategy strategy;
 
 	/**
-	 * 
+	 *
 	 */
 	public StrategyClassLoader(ClassLoaderStrategy strategy) {
-		this(strategy, ClassLoader.getSystemClassLoader());
+		this(strategy, null);
 	}
 
 	/**
@@ -34,22 +34,22 @@ public class StrategyClassLoader extends ClassLoader {
 	 */
 	@Override
 	protected Class<?> findClass(String name) throws ClassNotFoundException {
-		
+
 		ByteBuffer def = strategy.getClassDefinition(name);
-		
+
 		if (def != null) {
-		
+
 			Class<?> result = super.defineClass(name, def, null);
-			
+
 			if (result != null) {
 				super.resolveClass(result);
 				return result;
 			}
-			
+
 		}
-		
-		throw new ClassNotFoundException();	
-		
+
+		throw new ClassNotFoundException(name);
+
 	}
 
 }
