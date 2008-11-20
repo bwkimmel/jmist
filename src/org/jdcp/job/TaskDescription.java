@@ -3,10 +3,10 @@
  */
 package org.jdcp.job;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.UUID;
 
+import org.jdcp.remote.JobService;
 import org.selfip.bkimmel.rmi.Serialized;
 
 /**
