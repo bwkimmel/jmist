@@ -5,18 +5,14 @@ package org.jdcp.scheduling;
 
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Random;
-import java.util.Set;
 import java.util.UUID;
 
 import org.jdcp.job.TaskDescription;
 import org.jdcp.remote.JobService;
-import org.jmist.toolkit.RandomUtil;
 
 /**
  * @author brad
@@ -34,7 +30,6 @@ public final class PrioritySerialTaskScheduler implements TaskScheduler {
 		public final UUID id;
 		private int priority = JobService.DEFAULT_PRIORITY;
 		private final int order = nextOrder++;
-		private int nextTaskId = 0;
 		private Map<Integer, TaskDescription> tasks = new HashMap<Integer, TaskDescription>();
 		private final LinkedList<Integer> taskQueue = new LinkedList<Integer>();
 
