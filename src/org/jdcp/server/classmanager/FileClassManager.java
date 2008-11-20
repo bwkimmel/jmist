@@ -42,6 +42,10 @@ public final class FileClassManager extends AbstractClassManager {
 	private final List<Reference<ChildClassManager>> activeChildren = new ArrayList<Reference<ChildClassManager>>();
 	private final List<Integer> deprecationPendingList = new ArrayList<Integer>();
 
+	public FileClassManager(String rootDirectory) throws IllegalArgumentException {
+		this(new File(rootDirectory));
+	}
+
 	public FileClassManager(File rootDirectory) throws IllegalArgumentException {
 		if (!rootDirectory.isDirectory()) {
 			throw new IllegalArgumentException("rootDirectory must be a directory");
