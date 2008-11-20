@@ -28,7 +28,8 @@ import org.selfip.bkimmel.util.UnexpectedException;
  * @author brad
  *
  */
-public final class FileClassManager extends AbstractClassManager {
+public final class FileClassManager extends AbstractClassManager implements
+		ParentClassManager {
 
 	private static final String DIGEST_ALGORITHM = "MD5";
 	private static final int DIGEST_LENGTH = 16;
@@ -182,16 +183,24 @@ public final class FileClassManager extends AbstractClassManager {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.jdcp.server.classmanager.ParentClassManager#createChildClassManager()
+	 */
 	public ClassManager createChildClassManager() {
 		ChildClassManager child = new ChildClassManager();
 		activeChildren.add(new WeakReference<ChildClassManager>(child));
 		return child;
 	}
 
-	public static void releaseChildClassManager(ClassManager childClassManager) {
+	/* (non-Javadoc)
+	 * @see org.jdcp.server.classmanager.ParentClassManager#releaseChildClassManager(org.jdcp.server.classmanager.ClassManager)
+	 */
+	public void releaseChildClassManager(ClassManager childClassManager) {
 		ChildClassManager child = (ChildClassManager) childClassManager;
-		FileClassManager parent = child.getParent();
-		parent.releaseChildClassManager(child);
+		if (child.getParent() != this) {
+			throw new IllegalArgumentException("childClassManager is not the child of this ParentClassManager");
+		}
+		releaseChildClassManager(child);
 	}
 
 	private void releaseChildClassManager(ChildClassManager child) {

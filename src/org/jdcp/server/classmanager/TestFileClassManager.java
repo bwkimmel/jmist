@@ -37,7 +37,7 @@ public final class TestFileClassManager {
 		printBytes(child.getClassDefinition("Test1"));
 		printBytes(child.getClassDigest("Test1"));
 
-		FileClassManager.releaseChildClassManager(child);
+		cm.releaseChildClassManager(child);
 
 		child.getClassDefinition("Test1");
 
