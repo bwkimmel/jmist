@@ -5,25 +5,19 @@ package org.jdcp.worker;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.rmi.NotBoundException;
-import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
 import org.jdcp.concurrent.BackgroundThreadFactory;
 import org.selfip.bkimmel.jnlp.PersistenceCheckedCache;
 import org.selfip.bkimmel.jobs.Job;
 import org.selfip.bkimmel.progress.ProgressPanel;
-import org.selfip.bkimmel.rmi.ClassLoaderService;
 import org.selfip.bkimmel.rmi.RMIClassLoaderStrategy;
 import org.selfip.bkimmel.util.CheckedCacheClassLoaderStrategy;
 import org.selfip.bkimmel.util.classloader.ClassLoaderStrategy;

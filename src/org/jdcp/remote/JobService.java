@@ -5,7 +5,6 @@ package org.jdcp.remote;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.security.MessageDigest;
 import java.util.UUID;
 
 import org.jdcp.job.ParallelizableJob;

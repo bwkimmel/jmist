@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -727,7 +726,7 @@ public final class JobMasterServer implements JobService {
 	public void cancelJob(UUID jobId) throws IllegalArgumentException,
 			SecurityException, RemoteException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public UUID createJob(String description) throws SecurityException,

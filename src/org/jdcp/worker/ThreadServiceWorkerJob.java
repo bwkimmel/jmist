@@ -21,8 +21,6 @@ import org.jdcp.remote.JobService;
 import org.selfip.bkimmel.jobs.Job;
 import org.selfip.bkimmel.progress.ProgressMonitor;
 import org.selfip.bkimmel.rmi.Serialized;
-import org.selfip.bkimmel.util.classloader.ClassLoaderStrategy;
-import org.selfip.bkimmel.util.classloader.StrategyClassLoader;
 
 /**
  * A job that processes tasks for a parallelizable job from a remote
