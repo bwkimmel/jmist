@@ -29,8 +29,12 @@ public final class JobServiceClassLoaderStrategy implements ClassLoaderStrategy 
 		this.jobId = jobId;
 	}
 
+	public static ClassLoader createCachingClassLoader(JobService service, UUID jobId) {
+		return createCachingClassLoader(service, jobId, null);
+	}
+
 	public static ClassLoader createCachingClassLoader(
-			final JobService service, final UUID jobId) {
+			final JobService service, final UUID jobId, ClassLoader parent) {
 		ClassLoaderStrategy fallback = new JobServiceClassLoaderStrategy(
 				service, jobId);
 		ClassLoaderStrategy strategy = new CheckedCacheClassLoaderStrategy(
@@ -47,7 +51,7 @@ public final class JobServiceClassLoaderStrategy implements ClassLoaderStrategy 
 
 				}, fallback);
 
-		return new StrategyClassLoader(strategy);
+		return new StrategyClassLoader(strategy, parent);
 	}
 
 	/* (non-Javadoc)

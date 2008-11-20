@@ -311,7 +311,7 @@ public final class JobServer implements JobService {
 		}
 
 		public void initializeJob(Serialized<ParallelizableJob> job) throws ClassNotFoundException {
-			ClassLoader loader	= new StrategyClassLoader(classManager);
+			ClassLoader loader	= new StrategyClassLoader(classManager, JobServer.class.getClassLoader());
 			this.job			= job.deserialize(loader);
 			this.worker			= new Serialized<TaskWorker>(this.job.worker());
 			this.monitor.notifyStatusChanged("");
