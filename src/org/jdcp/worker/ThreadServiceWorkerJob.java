@@ -313,7 +313,7 @@ public final class ThreadServiceWorkerJob implements Job {
 			 * obtain the task worker.
 			 */
 			Serialized<TaskWorker> envelope = this.service.getTaskWorker(jobId);
-			ClassLoader loader = JobServiceClassLoaderStrategy.createCachingClassLoader(service, jobId);
+			ClassLoader loader = JobServiceClassLoaderStrategy.createCachingClassLoader(service, jobId, ThreadServiceWorkerJob.class.getClassLoader());
 			TaskWorker worker = envelope.deserialize(loader);
 			entry.setWorker(worker);
 
