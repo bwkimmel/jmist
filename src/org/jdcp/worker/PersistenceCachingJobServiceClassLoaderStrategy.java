@@ -28,7 +28,7 @@ import org.selfip.bkimmel.util.UnexpectedException;
 public final class PersistenceCachingJobServiceClassLoaderStrategy extends
 		CachingJobServiceClassLoaderStrategy {
 
-	private final URL codeBase;
+	private final URL baseUrl;
 	private final PersistenceService persistenceService;
 
 	/**
@@ -40,7 +40,20 @@ public final class PersistenceCachingJobServiceClassLoaderStrategy extends
 			UUID jobId) throws UnavailableServiceException {
 		super(service, jobId);
 		BasicService basicService = (BasicService) ServiceManager.lookup("javax.jnlp.BasicService");
-		this.codeBase = basicService.getCodeBase();
+		this.baseUrl = basicService.getCodeBase();
+		this.persistenceService = (PersistenceService) ServiceManager.lookup("javax.jnlp.PersistenceService");
+	}
+
+	/**
+	 * @param service
+	 * @param jobId
+	 * @param baseUrl
+	 * @throws UnavailableServiceException
+	 */
+	public PersistenceCachingJobServiceClassLoaderStrategy(JobService service,
+			UUID jobId, URL baseUrl) throws UnavailableServiceException {
+		super(service, jobId);
+		this.baseUrl = baseUrl;
 		this.persistenceService = (PersistenceService) ServiceManager.lookup("javax.jnlp.PersistenceService");
 	}
 
@@ -99,7 +112,7 @@ public final class PersistenceCachingJobServiceClassLoaderStrategy extends
 
 	private URL getUrlForCacheEntry(String name, byte[] digest) {
 		try {
-			return new URL(codeBase, name.replace('.', '/') + StringUtil.toHex(digest));
+			return new URL(baseUrl, name.replace('.', '/') + StringUtil.toHex(digest));
 		} catch (MalformedURLException e) {
 			throw new UnexpectedException(e);
 		}
