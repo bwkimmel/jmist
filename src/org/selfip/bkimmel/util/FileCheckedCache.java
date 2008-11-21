@@ -39,7 +39,6 @@ public final class FileCheckedCache implements CheckedCache {
 	/* (non-Javadoc)
 	 * @see org.selfip.bkimmel.util.CheckedCache#get(java.lang.String, byte[])
 	 */
-	@Override
 	public ByteBuffer get(String key, byte[] digest) throws DigestException {
 		File file = new File(directory, key.concat(".dat"));
 
@@ -68,7 +67,6 @@ public final class FileCheckedCache implements CheckedCache {
 	/* (non-Javadoc)
 	 * @see org.selfip.bkimmel.util.CheckedCache#get(java.lang.String)
 	 */
-	@Override
 	public ByteBuffer get(String key) {
 		try {
 			return get(key, null);
@@ -80,7 +78,6 @@ public final class FileCheckedCache implements CheckedCache {
 	/* (non-Javadoc)
 	 * @see org.selfip.bkimmel.util.CheckedCache#put(java.lang.String, java.nio.ByteBuffer, java.security.MessageDigest)
 	 */
-	@Override
 	public byte[] put(String key, ByteBuffer data, MessageDigest digest) {
 		digest.reset();
 		digest.update(data);
@@ -107,7 +104,6 @@ public final class FileCheckedCache implements CheckedCache {
 	/* (non-Javadoc)
 	 * @see org.selfip.bkimmel.util.CheckedCache#remove(java.lang.String)
 	 */
-	@Override
 	public void remove(String key) {
 		File file = new File(directory, key.concat(".dat"));
 		file.delete();
