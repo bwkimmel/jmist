@@ -129,7 +129,7 @@ public final class JobServer implements JobService {
 	/* (non-Javadoc)
 	 * @see org.jdcp.remote.JobService#requestTask()
 	 */
-	public TaskDescription requestTask() throws SecurityException,
+	public synchronized TaskDescription requestTask() throws SecurityException,
 			RemoteException {
 		TaskDescription taskDesc = scheduler.getNextTask();
 		ScheduledJob sched = jobs.get(taskDesc.getJobId());
