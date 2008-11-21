@@ -49,7 +49,7 @@ public final class SynchronizeCommand implements Command {
 							System.out.print(digest == null ? "+ " : "U ");
 							System.out.println(className);
 						} else if (conf.verbose) {
-							System.out.print("- ");
+							System.out.print("= ");
 							System.out.println(className);
 						}
 					}

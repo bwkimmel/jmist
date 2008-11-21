@@ -46,10 +46,10 @@ public final class VerifyCommand implements Command {
 							System.out.print("? ");
 							System.out.println(className);
 						} else if (!matches(file, digest, conf)) {
-							System.out.print("D ");
+							System.out.print("* ");
 							System.out.println(className);
 						} else if (conf.verbose) {
-							System.out.print("M ");
+							System.out.print("= ");
 							System.out.println(className);
 						}
 					}
