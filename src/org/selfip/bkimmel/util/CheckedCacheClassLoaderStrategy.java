@@ -65,7 +65,10 @@ public class CheckedCacheClassLoaderStrategy implements ClassLoaderStrategy {
 			try {
 
 				MessageDigest digest = MessageDigest.getInstance(digestAlgorithm);
+
+				int position = def.position();
 				cache.put(classPath, def, digest);
+				def.position(position);
 
 			} catch (NoSuchAlgorithmException e) {
 

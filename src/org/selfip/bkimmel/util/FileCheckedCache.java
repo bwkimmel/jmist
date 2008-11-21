@@ -36,11 +36,24 @@ public final class FileCheckedCache implements CheckedCache {
 		this.directory = directory;
 	}
 
+	private File getFile(String key, boolean createDirectory) {
+		File file = new File(directory, key.concat(".dat"));
+
+		if (createDirectory && !file.exists() && (key.contains("/") || key.contains(File.pathSeparator))) {
+			File path = file.getParentFile();
+			if (path != null) {
+				path.mkdirs();
+			}
+		}
+
+		return file;
+	}
+
 	/* (non-Javadoc)
 	 * @see org.selfip.bkimmel.util.CheckedCache#get(java.lang.String, byte[])
 	 */
 	public ByteBuffer get(String key, byte[] digest) throws DigestException {
-		File file = new File(directory, key.concat(".dat"));
+		File file = getFile(key, false);
 
 		try {
 			FileInputStream fs = new FileInputStream(file);
@@ -79,11 +92,15 @@ public final class FileCheckedCache implements CheckedCache {
 	 * @see org.selfip.bkimmel.util.CheckedCache#put(java.lang.String, java.nio.ByteBuffer, java.security.MessageDigest)
 	 */
 	public byte[] put(String key, ByteBuffer data, MessageDigest digest) {
+
+		int position = data.position();
 		digest.reset();
 		digest.update(data);
+		data.position(position);
+
 		byte[] digestBytes = digest.digest();
 
-		File file = new File(directory, key.concat(".dat"));
+		File file = getFile(key, true);
 
 		try {
 			FileOutputStream fs = new FileOutputStream(file);
@@ -105,7 +122,7 @@ public final class FileCheckedCache implements CheckedCache {
 	 * @see org.selfip.bkimmel.util.CheckedCache#remove(java.lang.String)
 	 */
 	public void remove(String key) {
-		File file = new File(directory, key.concat(".dat"));
+		File file = getFile(key, false);
 		file.delete();
 	}
 
