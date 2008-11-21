@@ -21,6 +21,8 @@ import org.jdcp.remote.JobService;
 import org.selfip.bkimmel.jobs.Job;
 import org.selfip.bkimmel.progress.ProgressMonitor;
 import org.selfip.bkimmel.rmi.Serialized;
+import org.selfip.bkimmel.util.classloader.ClassLoaderStrategy;
+import org.selfip.bkimmel.util.classloader.StrategyClassLoader;
 
 /**
  * A job that processes tasks for a parallelizable job from a remote
@@ -313,7 +315,11 @@ public final class ThreadServiceWorkerJob implements Job {
 			 * obtain the task worker.
 			 */
 			Serialized<TaskWorker> envelope = this.service.getTaskWorker(jobId);
-			ClassLoader loader = JobServiceClassLoaderStrategy.createCachingClassLoader(service, jobId, ThreadServiceWorkerJob.class.getClassLoader());
+
+			// TODO replace hard coded class loader strategy.
+			ClassLoaderStrategy strategy = new FileCachingJobServiceClassLoaderStrategy(service, jobId, "/Users/brad/jmist/worker");
+
+			ClassLoader loader = new StrategyClassLoader(strategy, ThreadServiceWorkerJob.class.getClassLoader());
 			TaskWorker worker = envelope.deserialize(loader);
 			entry.setWorker(worker);
 

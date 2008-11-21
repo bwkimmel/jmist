@@ -14,12 +14,12 @@ import org.selfip.bkimmel.util.classloader.ClassLoaderStrategy;
  * @author brad
  *
  */
-public final class JobServiceClassLoaderStrategy implements ClassLoaderStrategy {
+public abstract class CachingJobServiceClassLoaderStrategy implements ClassLoaderStrategy {
 
 	private final JobService service;
 	private final UUID jobId;
 
-	public JobServiceClassLoaderStrategy(JobService service, UUID jobId) {
+	protected CachingJobServiceClassLoaderStrategy(JobService service, UUID jobId) {
 		this.service = service;
 		this.jobId = jobId;
 	}
@@ -27,11 +27,19 @@ public final class JobServiceClassLoaderStrategy implements ClassLoaderStrategy 
 	/* (non-Javadoc)
 	 * @see org.selfip.bkimmel.util.classloader.ClassLoaderStrategy#getClassDefinition(java.lang.String)
 	 */
-	public ByteBuffer getClassDefinition(String name) {
+	public final ByteBuffer getClassDefinition(String name) {
 
 		try {
 
-			byte[] def = service.getClassDefinition(name, jobId);
+			byte[] digest = service.getClassDigest(name, jobId);
+			byte[] def = cacheLookup(name, digest);
+
+			if (def == null) {
+				def = service.getClassDefinition(name, jobId);
+				if (def != null) {
+					cacheStore(name, digest, def);
+				}
+			}
 
 			if (def != null) {
 				return ByteBuffer.wrap(def);
@@ -44,5 +52,9 @@ public final class JobServiceClassLoaderStrategy implements ClassLoaderStrategy 
 		return null;
 
 	}
+
+	protected abstract byte[] cacheLookup(String name, byte[] digest);
+
+	protected abstract void cacheStore(String name, byte[] digest, byte[] def);
 
 }
