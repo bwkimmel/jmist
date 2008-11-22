@@ -31,7 +31,7 @@ public final class WorkerMain {
 		String host = getParentHost(args);
 		int numberOfCpus = Runtime.getRuntime().availableProcessors();
 		Executor threadPool = Executors.newFixedThreadPool(numberOfCpus, new BackgroundThreadFactory());
-		Job workerJob = new ThreadServiceWorkerJob(host, 10000, numberOfCpus, threadPool);
+		Job workerJob = new ThreadServiceWorkerJob(host, 10, numberOfCpus, threadPool);
 
 		ProgressPanel monitor = new ProgressPanel();
 		monitor.setRootVisible(false);

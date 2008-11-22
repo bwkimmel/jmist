@@ -5,7 +5,6 @@ import java.awt.image.PixelInterleavedSampleModel;
 import java.awt.image.Raster;
 import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -15,9 +14,6 @@ import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.Arrays;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -31,11 +27,10 @@ import javax.swing.JDialog;
 
 import org.jdcp.client.ServiceSubmitJob;
 import org.jdcp.concurrent.BackgroundThreadFactory;
+import org.jdcp.job.DiagnosticJob;
 import org.jdcp.job.DummyParallelizableJob;
 import org.jdcp.job.ParallelizableJob;
 import org.jdcp.job.ParallelizableJobRunner;
-import org.jdcp.remote.JobService;
-import org.jdcp.server.JobMasterServer;
 import org.jdcp.worker.ThreadServiceWorkerJob;
 import org.jmist.framework.ConstantSpectrum;
 import org.jmist.framework.Geometry;
@@ -826,52 +821,12 @@ public class Test {
 	}
 
 	@SuppressWarnings("unused")
-	private static void testJobMasterServer() {
-
-		try {
-			System.err.println("[0]");
-
-	        if (System.getSecurityManager() == null) {
-				System.err.println("[0.1]");
-	            System.setSecurityManager(new SecurityManager());
-	        }
-
-	        JDialog dialog = new JDialog();
-	        ProgressPanel monitor = new ProgressPanel("JobMasterServer");
-	        dialog.add(monitor);
-	        dialog.setBounds(100, 100, 500, 350);
-
-	        File outputDirectory = new File("C:/jobs/");
-			JobMasterServer server = new JobMasterServer(outputDirectory, monitor, true);
-			System.err.println("[1]");
-			JobService stub = (JobService) UnicastRemoteObject.exportObject(server, 0);
-			System.err.println("[2]");
-
-			Registry registry = LocateRegistry.getRegistry();
-			System.err.println("[3]");
-			registry.bind("JobMasterService", stub);
-			System.err.println("[4]");
-
-			System.err.println("Server ready");
-			dialog.setTitle("JobMasterServer");
-			dialog.setVisible(true);
-
-		} catch (Exception e) {
-
-			System.err.println("Server exception:");
-			e.printStackTrace();
-
-		}
-
-	}
-
-	@SuppressWarnings("unused")
 	private static void testJobMasterServiceClient() {
 
 		String host = "localhost";
 		JDialog dialog = new JDialog();
 		ProgressPanel monitor = new ProgressPanel();
-		ParallelizableJob job = getMeasurementJob(); //new DummyParallelizableJob(100, 5000, 10000);
+		ParallelizableJob job = new DiagnosticJob();// getMeasurementJob(); //new DummyParallelizableJob(100, 5000, 10000);
 		Executor threadPool = Executors.newFixedThreadPool(2, new BackgroundThreadFactory());
 		Job submitJob = new ServiceSubmitJob(job, 0, host);
 		Job workerJob = new ThreadServiceWorkerJob(host, 10000, 2, threadPool);

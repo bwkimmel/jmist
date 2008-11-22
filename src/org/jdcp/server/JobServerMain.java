@@ -40,7 +40,7 @@ public final class JobServerMain {
 
 			System.err.print("Initializing folders...");
 			Preferences pref = Preferences
-					.userNodeForPackage(JobMasterServer.class);
+					.userNodeForPackage(JobServer.class);
 			String path = pref.get("rootDirectory", "");
 			File rootDirectory = new File(path);
 			File classesDirectory = new File(rootDirectory, "classes");

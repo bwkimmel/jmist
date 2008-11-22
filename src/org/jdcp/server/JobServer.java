@@ -33,6 +33,8 @@ import org.selfip.bkimmel.util.classloader.StrategyClassLoader;
  */
 public final class JobServer implements JobService {
 
+	private static final int DEFAULT_IDLE_SECONDS = 10;
+
 	private final ProgressMonitor monitor;
 
 	private final TaskScheduler scheduler;
@@ -42,6 +44,8 @@ public final class JobServer implements JobService {
 	private final File outputDirectory;
 
 	private final Map<UUID, ScheduledJob> jobs = new HashMap<UUID, ScheduledJob>();
+
+	private TaskDescription idleTask = new TaskDescription(null, 0, DEFAULT_IDLE_SECONDS);
 
 	/**
 	 * Creates a new <code>JobServer</code>.
@@ -132,6 +136,10 @@ public final class JobServer implements JobService {
 	public synchronized TaskDescription requestTask() throws SecurityException,
 			RemoteException {
 		TaskDescription taskDesc = scheduler.getNextTask();
+		if (taskDesc == null) {
+			return idleTask;
+		}
+
 		ScheduledJob sched = jobs.get(taskDesc.getJobId());
 		sched.scheduleNextTask();
 		return taskDesc;
@@ -221,8 +229,7 @@ public final class JobServer implements JobService {
 	 */
 	public void setIdleTime(int idleSeconds) throws IllegalArgumentException,
 			SecurityException, RemoteException {
-		// TODO Auto-generated method stub
-
+		idleTask = new TaskDescription(null, 0, idleSeconds);
 	}
 
 	/* (non-Javadoc)

@@ -36,13 +36,13 @@ public final class ThreadServiceWorkerJob implements Job {
 	 * Initializes the address of the master and the amount of time to idle
 	 * when no task is available.
 	 * @param masterHost The URL of the master.
-	 * @param idleTime The time (in milliseconds) to idle when no task is
+	 * @param idleTime The time (in seconds) to idle when no task is
 	 * 		available.
 	 * @param maxConcurrentWorkers The maximum number of concurrent worker
 	 * 		threads to allow.
 	 * @param executor The <code>Executor</code> to use to process tasks.
 	 */
-	public ThreadServiceWorkerJob(String masterHost, long idleTime, int maxConcurrentWorkers, Executor executor) {
+	public ThreadServiceWorkerJob(String masterHost, int idleTime, int maxConcurrentWorkers, Executor executor) {
 
 		assert(maxConcurrentWorkers > 0);
 
@@ -370,32 +370,42 @@ public final class ThreadServiceWorkerJob implements Job {
 
 					if (taskDesc != null) {
 
-						this.monitor.notifyStatusChanged("Obtaining task worker...");
-						TaskWorker worker;
-						try {
-							worker = getTaskWorker(taskDesc.getJobId());
-						} catch (ClassNotFoundException e) {
-							e.printStackTrace();
-							worker = null;
+						UUID jobId = taskDesc.getJobId();
+
+						if (jobId != null) {
+
+							this.monitor.notifyStatusChanged("Obtaining task worker...");
+							TaskWorker worker;
+							try {
+								worker = getTaskWorker(jobId);
+							} catch (ClassNotFoundException e) {
+								e.printStackTrace();
+								worker = null;
+							}
+
+							if (worker == null) {
+								this.monitor.notifyStatusChanged("Could not obtain worker...");
+								this.monitor.notifyCancelled();
+								return;
+							}
+
+							this.monitor.notifyStatusChanged("Performing task...");
+							ClassLoader loader = worker.getClass().getClassLoader();
+							Object task = taskDesc.getTask().deserialize(loader);
+							Object results = worker.performTask(task, monitor);
+
+							this.monitor.notifyStatusChanged("Submitting task results...");
+							service.submitTaskResults(jobId, taskDesc.getTaskId(), new Serialized<Object>(results));
+
+						} else {
+
+							int seconds = (Integer) taskDesc.getTask().deserialize();
+							this.idle(seconds);
+
 						}
-
-						if (worker == null) {
-							this.monitor.notifyStatusChanged("Could not obtain worker...");
-							this.monitor.notifyCancelled();
-							return;
-						}
-
-						this.monitor.notifyStatusChanged("Performing task...");
-						ClassLoader loader = worker.getClass().getClassLoader();
-						Object task = taskDesc.getTask().deserialize(loader);
-						Object results = worker.performTask(task, monitor);
-
-						this.monitor.notifyStatusChanged("Submitting task results...");
-						service.submitTaskResults(taskDesc.getJobId(), taskDesc.getTaskId(), new Serialized<Object>(results));
 
 					} else {
 
-						this.monitor.notifyStatusChanged("Idling...");
 						this.idle();
 
 					}
@@ -446,10 +456,40 @@ public final class ThreadServiceWorkerJob implements Job {
 		 * Idles for a period of time before finishing the task.
 		 */
 		private void idle() {
+			idle(idleTime);
+		}
+
+		/**
+		 * Idles for the specified number of seconds.
+		 * @param seconds The number of seconds to idle for.
+		 */
+		private void idle(int seconds) {
+
+			monitor.notifyStatusChanged("Idling...");
+
+			for (int i = 0; i < seconds; i++) {
+
+				if (!monitor.notifyProgress(i, seconds)) {
+					monitor.notifyCancelled();
+				}
+
+				this.sleep();
+
+			}
+
+			monitor.notifyProgress(seconds, seconds);
+			monitor.notifyComplete();
+
+		}
+
+		/**
+		 * Sleeps for one second.
+		 */
+		private void sleep() {
 			try {
-				Thread.sleep(idleTime);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
-				// continue.
+				e.printStackTrace();
 			}
 		}
 
@@ -464,9 +504,9 @@ public final class ThreadServiceWorkerJob implements Job {
 	private final String masterHost;
 
 	/**
-	 * The amount of time (in milliseconds) to idle when no task is available.
+	 * The amount of time (in seconds) to idle when no task is available.
 	 */
-	private final long idleTime;
+	private final int idleTime;
 
 	/** The <code>Executor</code> to use to process tasks. */
 	private final Executor executor;
