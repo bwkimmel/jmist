@@ -16,14 +16,6 @@ public final class ClientMain {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-		/*
-		 * Commands:
-		 *
-		 * verify <classpath>
-		 *
-		 */
 
 		Configuration conf = new Configuration();
 
@@ -84,6 +76,8 @@ public final class ClientMain {
 			return new VerifyCommand();
 		} else if (commandName.equals("sync")) {
 			return new SynchronizeCommand();
+		} else if (commandName.equals("idle")) {
+			return new SetIdleTimeCommand();
 		}
 		return null;
 	}
