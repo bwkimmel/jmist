@@ -100,17 +100,6 @@ public final class ParallelizableJobRunner implements Job {
 	}
 
 	/**
-	 * Notifies the progress monitor that the job is being processed, but
-	 * that the progress is unknown.
-	 * @return A value indicating whether the job should continue.
-	 */
-	private boolean notifyIndeterminantProgress() {
-		synchronized (monitor) {
-			return this.monitor.notifyIndeterminantProgress();
-		}
-	}
-
-	/**
 	 * Notifies the progress monitor that the status has changed.
 	 * @param status A <code>String</code> describing the status.
 	 */
