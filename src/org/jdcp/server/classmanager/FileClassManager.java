@@ -4,9 +4,6 @@
 package org.jdcp.server.classmanager;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
@@ -21,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.selfip.bkimmel.io.FileUtil;
-import org.selfip.bkimmel.io.StreamUtil;
 import org.selfip.bkimmel.util.UnexpectedException;
 
 /**
@@ -34,7 +30,6 @@ public final class FileClassManager extends AbstractClassManager implements
 	private static final String CLASS_EXTENSION = ".class";
 	private static final String DIGEST_EXTENSION = ".md5";
 	private static final String DIGEST_ALGORITHM = "MD5";
-	private static final int DIGEST_LENGTH = 16;
 
 	private final File currentDirectory;
 	private final File deprecatedDirectory;
