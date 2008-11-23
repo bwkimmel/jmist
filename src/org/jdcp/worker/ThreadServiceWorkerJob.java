@@ -10,8 +10,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
-import java.util.concurrent.Semaphore;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -19,6 +20,7 @@ import org.jdcp.job.TaskDescription;
 import org.jdcp.job.TaskWorker;
 import org.jdcp.remote.JobService;
 import org.selfip.bkimmel.jobs.Job;
+import org.selfip.bkimmel.progress.PermanentProgressMonitor;
 import org.selfip.bkimmel.progress.ProgressMonitor;
 import org.selfip.bkimmel.rmi.Serialized;
 import org.selfip.bkimmel.util.classloader.ClassLoaderStrategy;
@@ -49,7 +51,7 @@ public final class ThreadServiceWorkerJob implements Job {
 		this.masterHost = masterHost;
 		this.idleTime = idleTime;
 		this.executor = executor;
-		this.workerSlot = new Semaphore(maxConcurrentWorkers, true);
+		this.maxConcurrentWorkers = maxConcurrentWorkers;
 
 	}
 
@@ -60,22 +62,19 @@ public final class ThreadServiceWorkerJob implements Job {
 
 		try {
 
-			int workerIndex = 0;
-
 			monitor.notifyIndeterminantProgress();
 			monitor.notifyStatusChanged("Looking up master...");
 
 			this.registry = LocateRegistry.getRegistry(this.masterHost);
 			this.initializeService();
+			this.initializeWorkers(maxConcurrentWorkers, monitor);
 
 			while (!monitor.isCancelPending()) {
 
-				this.workerSlot.acquire();
-
-				String workerTitle = String.format("Worker (%d)", ++workerIndex);
+				Worker worker = this.workerQueue.take();
 
 				monitor.notifyStatusChanged("Queueing worker process...");
-				this.executor.execute(new Worker(monitor.createChildProgressMonitor(workerTitle)));
+				this.executor.execute(worker);
 
 			}
 
@@ -96,6 +95,20 @@ public final class ThreadServiceWorkerJob implements Job {
 
 		return false;
 
+	}
+
+	/**
+	 * Initializes the worker queue with the specified number of workers.
+	 * @param numWorkers The number of workers to create.
+	 * @param parentMonitor The <code>ProgressMonitor</code> to use to create
+	 * 		child <code>ProgressMonitor</code>s for each <code>Worker</code>.
+	 */
+	private void initializeWorkers(int numWorkers, ProgressMonitor parentMonitor) {
+		for (int i = 0; i < numWorkers; i++) {
+			String title = String.format("Worker (%d)", i + 1);
+			ProgressMonitor monitor = new PermanentProgressMonitor(parentMonitor.createChildProgressMonitor(title));
+			workerQueue.add(new Worker(monitor));
+		}
 	}
 
 	/**
@@ -434,7 +447,7 @@ public final class ThreadServiceWorkerJob implements Job {
 				e.printStackTrace();
 			} finally {
 
-				workerSlot.release();
+				workerQueue.add(this);
 
 			}
 
@@ -512,12 +525,6 @@ public final class ThreadServiceWorkerJob implements Job {
 	private final Executor executor;
 
 	/**
-	 * The <code>Semaphore</code> to use to throttle <code>Worker</code>
-	 * threads.
-	 */
-	private final Semaphore workerSlot;
-
-	/**
 	 * The <code>Registry</code> to obtain the service from.
 	 */
 	private Registry registry = null;
@@ -527,6 +534,12 @@ public final class ThreadServiceWorkerJob implements Job {
 	 * results to.
 	 */
 	private JobService service = null;
+
+	/** The maximum number of workers that may be executing simultaneously. */
+	private final int maxConcurrentWorkers;
+
+	/** A queue containing the available workers. */
+	private final BlockingQueue<Worker> workerQueue = new LinkedBlockingQueue<Worker>();
 
 	/**
 	 * A list of recently used <code>TaskWorker</code>s and their associated
