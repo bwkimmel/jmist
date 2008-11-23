@@ -4,6 +4,10 @@
 package org.selfip.bkimmel.io;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
 
 /**
  * File I/O utility methods.
@@ -38,6 +42,115 @@ public final class FileUtil {
 	 */
 	public static boolean deleteRecursive(File file) {
 		return clearDirectory(file) && file.delete();
+	}
+
+	/**
+	 * Reads the contents of a file into a byte array.
+	 * @param file The <code>File</code> to read.
+	 * @return A byte array containing the file's contents.
+	 * @throws IOException If an error occurred while reading the file.
+	 */
+	public static byte[] getFileContents(File file) throws IOException {
+		FileInputStream stream = new FileInputStream(file);
+		byte[] contents = new byte[(int) file.length()];
+		stream.read(contents);
+		stream.close();
+		return contents;
+	}
+
+	/**
+	 * Writes the specified byte array to a file.
+	 * @param file The <code>File</code> to write.
+	 * @param contents The byte array to write to the file.
+	 * @throws IOException If the file could not be written.
+	 */
+	public static void setFileContents(File file, byte[] contents) throws IOException {
+		setFileContents(file, contents, false);
+	}
+
+	/**
+	 * Writes the specified byte array to a file.
+	 * @param file The <code>File</code> to write.
+	 * @param contents The byte array to write to the file.
+	 * @param createDirectory A value indicating whether the directory
+	 * 		containing the file to be written should be created if it does
+	 * 		not exist.
+	 * @throws IOException If the file could not be written.
+	 */
+	public static void setFileContents(File file, byte[] contents, boolean createDirectory) throws IOException {
+		if (createDirectory) {
+			File directory = file.getParentFile();
+			if (!directory.exists()) {
+				directory.mkdirs();
+			}
+		}
+
+		FileOutputStream stream = new FileOutputStream(file);
+		stream.write(contents);
+		stream.close();
+	}
+
+	/**
+	 * Writes the specified byte array to a file.
+	 * @param file The <code>File</code> to write.
+	 * @param contents The byte array to write to the file.
+	 * @throws IOException If the file could not be written.
+	 */
+	public static void setFileContents(File file, ByteBuffer contents) throws IOException {
+		setFileContents(file, contents, false);
+	}
+
+	/**
+	 * Writes the specified byte array to a file.
+	 * @param file The <code>File</code> to write.
+	 * @param contents The byte array to write to the file.
+	 * @param createDirectory A value indicating whether the directory
+	 * 		containing the file to be written should be created if it does
+	 * 		not exist.
+	 * @throws IOException If the file could not be written.
+	 */
+	public static void setFileContents(File file, ByteBuffer contents, boolean createDirectory) throws IOException {
+		if (createDirectory) {
+			File directory = file.getParentFile();
+			if (!directory.exists()) {
+				directory.mkdirs();
+			}
+		}
+
+		FileOutputStream stream = new FileOutputStream(file);
+		StreamUtil.writeBytes(contents, stream);
+		stream.close();
+	}
+
+	/**
+	 * Determines if the specified directory is an ancestor of the specified
+	 * file or directory.
+	 * @param file The file or directory to test.
+	 * @param ancestor The directory for which to determine whether
+	 * 		<code>file</code> is an ancestor.
+	 * @return <code>true</code> if <code>ancestor</code> is equal to or an
+	 * 		ancestor of <code>file</code>, <code>false</code> otherwise.
+	 */
+	public static boolean isAncestor(File file, File ancestor) {
+		do {
+			if (file.equals(ancestor)) {
+				return true;
+			}
+			file = file.getParentFile();
+		} while (file != null);
+		return false;
+	}
+
+	/**
+	 * Removes a file or directory and its ancestors up to, but not including
+	 * the specified directory, until a non-empty directory is reached.
+	 * @param file The file or directory at which to start pruning.
+	 * @param root The directory at which to stop pruning.
+	 */
+	public static void prune(File file, File root) {
+		while (!file.equals(root) && file.delete()) {
+			file = file.getParentFile();
+		}
 	}
 
 	/** Declared private to prevent this class from being instantiated. */
