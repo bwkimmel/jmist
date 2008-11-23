@@ -372,6 +372,7 @@ public final class ProgressPanel extends JPanel implements ProgressMonitor {
 			 */
 			@Override
 			public boolean notifyProgress(double progress) {
+				progressBar.setIndeterminate(false);
 				progressBar.setMaximum(100);
 				progressBar.setValue((int) (100.0 * progress));
 				model.modelSupport.firePathChanged(getPath());
@@ -383,6 +384,7 @@ public final class ProgressPanel extends JPanel implements ProgressMonitor {
 			 */
 			@Override
 			public boolean notifyProgress(int value, int maximum) {
+				progressBar.setIndeterminate(false);
 				progressBar.setMaximum(maximum);
 				progressBar.setValue(value);
 				model.modelSupport.firePathChanged(getPath());
