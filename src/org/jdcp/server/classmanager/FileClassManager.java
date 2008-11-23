@@ -31,7 +31,8 @@ import org.selfip.bkimmel.util.UnexpectedException;
 public final class FileClassManager extends AbstractClassManager implements
 		ParentClassManager {
 
-	private static final String CLASS_EXTENSION = ".dat";
+	private static final String CLASS_EXTENSION = ".class";
+	private static final String DIGEST_EXTENSION = ".md5";
 	private static final String DIGEST_ALGORITHM = "MD5";
 	private static final int DIGEST_LENGTH = 16;
 
@@ -62,26 +63,71 @@ public final class FileClassManager extends AbstractClassManager implements
 		FileUtil.clearDirectory(childrenDirectory);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.jdcp.server.classmanager.ClassManager#getClassDigest(java.lang.String)
-	 */
-	public byte[] getClassDigest(String name) {
-		return getClassDigest(getClassFile(name));
+	public String getBaseFileName(String className) {
+		return className.replace('.', '/');
 	}
 
-	private byte[] getClassDigest(File file) {
+	public void writeClass(File directory, String name, ByteBuffer def) {
+		writeClass(directory, name, def, computeClassDigest(def));
+	}
+
+	public void writeClass(File directory, String name, ByteBuffer def, byte[] digest) {
+		String baseName = getBaseFileName(name);
+		File classFile = new File(directory, baseName + CLASS_EXTENSION);
+		File digestFile = new File(directory, baseName + DIGEST_EXTENSION);
+
+		try {
+			FileUtil.setFileContents(classFile, def, true);
+			FileUtil.setFileContents(digestFile, digest, true);
+		} catch (IOException e) {
+			e.printStackTrace();
+			classFile.delete();
+			digestFile.delete();
+		}
+	}
+
+	public void moveClass(File fromDirectory, String name, File toDirectory) {
+		String baseName = getBaseFileName(name);
+		File fromClassFile = new File(fromDirectory, baseName + CLASS_EXTENSION);
+		File toClassFile = new File(toDirectory, baseName + CLASS_EXTENSION);
+		File fromDigestFile = new File(fromDirectory, baseName + DIGEST_EXTENSION);
+		File toDigestFile = new File(toDirectory, baseName + DIGEST_EXTENSION);
+		File toClassDirectory = toClassFile.getParentFile();
+
+		toClassDirectory.mkdirs();
+		fromClassFile.renameTo(toClassFile);
+		fromDigestFile.renameTo(toDigestFile);
+	}
+
+	public boolean classExists(File directory, String name) {
+		String baseName = getBaseFileName(name);
+		File classFile = new File(directory, baseName + CLASS_EXTENSION);
+		File digestFile = new File(directory, baseName + DIGEST_EXTENSION);
+
+		return classFile.isFile() && digestFile.isFile();
+	}
+
+	private byte[] getFileContents(File file) {
 		if (file.exists()) {
 			try {
-				FileInputStream stream = new FileInputStream(file);
-				byte[] digest = new byte[DIGEST_LENGTH];
-				stream.read(digest);
-				stream.close();
-				return digest;
+				return FileUtil.getFileContents(file);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 		return null;
+	}
+
+	private byte[] getClassDigest(File directory, String name) {
+		String baseName = getBaseFileName(name);
+		File digestFile = new File(directory, baseName + DIGEST_EXTENSION);
+		return getFileContents(digestFile);
+	}
+
+	private ByteBuffer getClassDefinition(File directory, String name) {
+		String baseName = getBaseFileName(name);
+		File digestFile = new File(directory, baseName + CLASS_EXTENSION);
+		return ByteBuffer.wrap(getFileContents(digestFile));
 	}
 
 	private byte[] computeClassDigest(ByteBuffer def) {
@@ -96,27 +142,27 @@ public final class FileClassManager extends AbstractClassManager implements
 		}
 	}
 
-	private File getClassFile(String name) {
-		return new File(currentDirectory, name.concat(CLASS_EXTENSION));
+	/* (non-Javadoc)
+	 * @see org.jdcp.server.classmanager.ClassManager#getClassDigest(java.lang.String)
+	 */
+	public byte[] getClassDigest(String name) {
+		return getClassDigest(currentDirectory, name);
 	}
 
 	/* (non-Javadoc)
 	 * @see org.jdcp.server.classmanager.ClassManager#setClassDefinition(java.lang.String, java.nio.ByteBuffer)
 	 */
 	public void setClassDefinition(String name, ByteBuffer def) {
-		File file = getClassFile(name);
 		byte[] digest = computeClassDigest(def);
-		if (file.exists()) {
-			byte[] oldDigest = getClassDigest(file);
+		if (classExists(currentDirectory, name)) {
+			byte[] oldDigest = getClassDigest(currentDirectory, name);
 			if (Arrays.equals(digest, oldDigest)) {
 				return;
 			}
 			if (nextChildIndex > 0) {
-				File deprecatedFile = getDeprecatedClassFile(name, nextChildIndex, true);
-				if (!deprecatedFile.exists()) {
-					if (!file.renameTo(deprecatedFile)) {
-						throw new UnexpectedException("Unable to deprecate class.");
-					}
+				File deprecatedDirectory = getDeprecatedDirectory(name, nextChildIndex);
+				if (!classExists(deprecatedDirectory, name)) {
+					moveClass(currentDirectory, name, deprecatedDirectory);
 					List<Integer> deprecationList = deprecationMap.get(name);
 					if (deprecationList == null) {
 						deprecationList = new ArrayList<Integer>();
@@ -126,59 +172,18 @@ public final class FileClassManager extends AbstractClassManager implements
 				}
 			}
 		}
-		writeClass(file, def, digest);
+		writeClass(currentDirectory, name, def, digest);
 	}
 
-	private File getDeprecatedClassFile(String name, int childIndex,
-			boolean createDirectory) {
-		File directory = new File(deprecatedDirectory, Integer
-				.toString(childIndex));
-		if (createDirectory && !directory.isDirectory()) {
-			directory.mkdir();
-		}
-		return new File(directory, name.concat(CLASS_EXTENSION));
-	}
-
-	private void writeClass(File file, ByteBuffer def, byte[] digest) {
-		try {
-			FileOutputStream stream = new FileOutputStream(file);
-			stream.write(digest);
-			StreamUtil.writeBytes(def, stream);
-			stream.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	private void writeClass(File file, ByteBuffer def) {
-		writeClass(file, def, computeClassDigest(def));
+	private File getDeprecatedDirectory(String name, int childIndex) {
+		return new File(deprecatedDirectory, Integer.toString(childIndex));
 	}
 
 	/* (non-Javadoc)
 	 * @see org.selfip.bkimmel.util.classloader.ClassLoaderStrategy#getClassDefinition(java.lang.String)
 	 */
 	public ByteBuffer getClassDefinition(String name) {
-		return getClassDefinition(getClassFile(name));
-	}
-
-	private ByteBuffer getClassDefinition(File file) {
-		try {
-			FileInputStream stream = new FileInputStream(file);
-			stream.skip(DIGEST_LENGTH);
-
-			int size = (int) file.length() - DIGEST_LENGTH;
-			byte[] def = new byte[size];
-			stream.read(def);
-			stream.close();
-
-			return ByteBuffer.wrap(def);
-		} catch (FileNotFoundException e) {
-			return null;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
+		return getClassDefinition(currentDirectory, name);
 	}
 
 	/* (non-Javadoc)
@@ -245,13 +250,10 @@ public final class FileClassManager extends AbstractClassManager implements
 			}
 		}
 
-		private File getClassFile(String name) {
+		private File getClassDirectory(String name) {
 			check();
-			if (childDirectory.isDirectory()) {
-				File file = new File(childDirectory, name.concat(CLASS_EXTENSION));
-				if (file.exists()) {
-					return file;
-				}
+			if (classExists(childDirectory, name)) {
+				return childDirectory;
 			}
 
 			List<Integer> deprecationList = deprecationMap.get(name);
@@ -261,22 +263,23 @@ public final class FileClassManager extends AbstractClassManager implements
 
 				if (index < deprecationList.size()) {
 					int deprecationIndex = deprecationList.get(index);
-					File file = FileClassManager.this.getDeprecatedClassFile(name, deprecationIndex, false);
-					if (!file.exists()) {
+					File deprecatedDirectory = FileClassManager.this.getDeprecatedDirectory(name, deprecationIndex);
+					if (!classExists(deprecatedDirectory, name)) {
 						throw new UnexpectedException("Deprecated class missing.");
 					}
-					return file;
+					return deprecatedDirectory;
 				}
 			}
 
-			return new File(currentDirectory, name.concat(CLASS_EXTENSION));
+			return currentDirectory;
 		}
 
 		/* (non-Javadoc)
 		 * @see org.jdcp.server.classmanager.ClassManager#getClassDigest(java.lang.String)
 		 */
 		public byte[] getClassDigest(String name) {
-			return FileClassManager.this.getClassDigest(getClassFile(name));
+			File directory = getClassDirectory(name);
+			return FileClassManager.this.getClassDigest(directory, name);
 		}
 
 		/* (non-Javadoc)
@@ -284,18 +287,15 @@ public final class FileClassManager extends AbstractClassManager implements
 		 */
 		public void setClassDefinition(String name, ByteBuffer def) {
 			check();
-			if (!childDirectory.exists()) {
-				childDirectory.mkdir();
-			}
-			File file = new File(childDirectory, name.concat(CLASS_EXTENSION));
-			writeClass(file, def);
+			writeClass(childDirectory, name, def);
 		}
 
 		/* (non-Javadoc)
 		 * @see org.selfip.bkimmel.util.classloader.ClassLoaderStrategy#getClassDefinition(java.lang.String)
 		 */
 		public ByteBuffer getClassDefinition(String name) {
-			return FileClassManager.this.getClassDefinition(getClassFile(name));
+			File directory = getClassDirectory(name);
+			return FileClassManager.this.getClassDefinition(directory, name);
 		}
 
 		public FileClassManager getParent() {
