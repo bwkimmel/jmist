@@ -9,7 +9,7 @@ import java.nio.ByteBuffer;
 import org.selfip.bkimmel.util.StringUtil;
 
 /**
- * @author Erin
+ * @author brad
  *
  */
 public final class TestFileClassManager {

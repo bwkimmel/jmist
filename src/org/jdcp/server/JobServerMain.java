@@ -19,7 +19,7 @@ import org.jdcp.server.classmanager.ParentClassManager;
 import org.selfip.bkimmel.progress.ProgressPanel;
 
 /**
- * @author Erin
+ * @author brad
  *
  */
 public final class JobServerMain {

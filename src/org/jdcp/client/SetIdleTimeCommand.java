@@ -6,7 +6,7 @@ package org.jdcp.client;
 import java.util.List;
 
 /**
- * @author Erin
+ * @author brad
  *
  */
 public class SetIdleTimeCommand implements Command {
