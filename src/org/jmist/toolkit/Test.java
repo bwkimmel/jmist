@@ -15,23 +15,20 @@ import java.lang.ref.WeakReference;
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
 import java.util.Arrays;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+import java.util.List;
 import java.util.zip.DataFormatException;
 import java.util.zip.GZIPOutputStream;
 import java.util.zip.Inflater;
 import java.util.zip.ZipOutputStream;
 
 import javax.imageio.spi.IIORegistry;
+import javax.script.ScriptEngineFactory;
+import javax.script.ScriptEngineManager;
 import javax.swing.JDialog;
 
-import org.jdcp.client.ServiceSubmitJob;
-import org.jdcp.concurrent.BackgroundThreadFactory;
-import org.jdcp.job.DiagnosticJob;
 import org.jdcp.job.DummyParallelizableJob;
 import org.jdcp.job.ParallelizableJob;
 import org.jdcp.job.ParallelizableJobRunner;
-import org.jdcp.worker.ThreadServiceWorkerJob;
 import org.jmist.framework.ConstantSpectrum;
 import org.jmist.framework.Geometry;
 import org.jmist.framework.ImageShader;
@@ -110,7 +107,7 @@ public class Test {
 		//testShade();
 
 		//testJobMasterServer();
-		testJobMasterServiceClient();
+		//testJobMasterServiceClient();
 		//testProgressTree();
 
 		//testParallelizableJobAsJob();
@@ -135,6 +132,28 @@ public class Test {
 		//testParallelJob();
 
 		//testProgressPanel();
+		testScripting();
+	}
+
+	private static void testScripting() {
+		  ScriptEngineManager mgr = new ScriptEngineManager();
+		  List<ScriptEngineFactory> factories =
+		      mgr.getEngineFactories();
+		  for (ScriptEngineFactory factory: factories) {
+		    System.out.println("ScriptEngineFactory Info");
+		    String engName = factory.getEngineName();
+		    String engVersion = factory.getEngineVersion();
+		    String langName = factory.getLanguageName();
+		    String langVersion = factory.getLanguageVersion();
+		    System.out.printf("\tScript Engine: %s (%s)\n",
+		        engName, engVersion);
+		    List<String> engNames = factory.getNames();
+		    for(String name: engNames) {
+		      System.out.printf("\tEngine Alias: %s\n", name);
+		    }
+		    System.out.printf("\tLanguage: %s (%s)\n",
+		        langName, langVersion);
+		  }
 
 	}
 
@@ -820,25 +839,25 @@ public class Test {
 
 	}
 
-	@SuppressWarnings("unused")
-	private static void testJobMasterServiceClient() {
-
-		String host = "localhost";
-		JDialog dialog = new JDialog();
-		ProgressPanel monitor = new ProgressPanel();
-		ParallelizableJob job = new DiagnosticJob();// getMeasurementJob(); //new DummyParallelizableJob(100, 5000, 10000);
-		Executor threadPool = Executors.newFixedThreadPool(2, new BackgroundThreadFactory());
-		Job submitJob = new ServiceSubmitJob(job, 0, host);
-		Job workerJob = new ThreadServiceWorkerJob(host, 10000, 2, threadPool);
-
-		dialog.add(monitor);
-		dialog.setBounds(0, 0, 400, 300);
-		dialog.setVisible(true);
-
-		submitJob.go(monitor);
-		//workerJob.go(monitor);
-
-	}
+//	@SuppressWarnings("unused")
+//	private static void testJobMasterServiceClient() {
+//
+//		String host = "localhost";
+//		JDialog dialog = new JDialog();
+//		ProgressPanel monitor = new ProgressPanel();
+//		ParallelizableJob job = getMeasurementJob(); //new DummyParallelizableJob(100, 5000, 10000);
+//		Executor threadPool = Executors.newFixedThreadPool(2, new BackgroundThreadFactory());
+//		Job submitJob = new ServiceSubmitJob(job, 0, host);
+//		Job workerJob = new ThreadServiceWorkerJob(host, 10000, 2, threadPool);
+//
+//		dialog.add(monitor);
+//		dialog.setBounds(0, 0, 400, 300);
+//		dialog.setVisible(true);
+//
+//		submitJob.go(monitor);
+//		//workerJob.go(monitor);
+//
+//	}
 
 	@SuppressWarnings("unused")
 	private static void testParallelJob() {

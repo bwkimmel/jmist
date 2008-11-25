@@ -16,6 +16,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import javax.jnlp.UnavailableServiceException;
+
 import org.jdcp.job.TaskDescription;
 import org.jdcp.job.TaskWorker;
 import org.jdcp.remote.JobService;
@@ -330,7 +332,14 @@ public final class ThreadServiceWorkerJob implements Job {
 			Serialized<TaskWorker> envelope = this.service.getTaskWorker(jobId);
 
 			// TODO replace hard coded class loader strategy.
-			ClassLoaderStrategy strategy = new FileCachingJobServiceClassLoaderStrategy(service, jobId, "/Users/brad/jmist/worker");
+			ClassLoaderStrategy strategy;
+			try {
+				strategy = new PersistenceCachingJobServiceClassLoaderStrategy(service, jobId);
+			} catch (UnavailableServiceException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				strategy = new FileCachingJobServiceClassLoaderStrategy(service, jobId, "C:/test/worker");
+			} // new FileCachingJobServiceClassLoaderStrategy(service, jobId, "C:/test/worker");
 
 			ClassLoader loader = new StrategyClassLoader(strategy, ThreadServiceWorkerJob.class.getClassLoader());
 			TaskWorker worker = envelope.deserialize(loader);
