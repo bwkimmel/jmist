@@ -112,6 +112,7 @@ public final class JobServer implements JobService {
 			throw new IllegalArgumentException("No job with provided Job ID");
 		}
 
+		sched.monitor.notifyCancelled();
 		jobs.remove(jobId);
 		scheduler.removeJob(jobId);
 		classManager.releaseChildClassManager(sched.classManager);
