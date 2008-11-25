@@ -23,10 +23,18 @@ public final class Configuration {
 
 	private JobService service = null;
 
-	public JobService getJobService() throws RemoteException, NotBoundException {
+	public JobService getJobService() {
 		if (service == null) {
-			Registry registry = LocateRegistry.getRegistry(host);
-			service = (JobService) registry.lookup("JobService");
+			try {
+				Registry registry = LocateRegistry.getRegistry(host);
+				service = (JobService) registry.lookup("JobService");
+			} catch (NotBoundException e) {
+				System.err.println("Job service not found at remote host.");
+				System.exit(1);
+			} catch (RemoteException e) {
+				System.err.println("Could not connect to job service.");
+				System.exit(1);
+			}
 		}
 		return service;
 	}
