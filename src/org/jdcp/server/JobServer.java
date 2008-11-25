@@ -69,8 +69,7 @@ public final class JobServer implements JobService {
 	/* (non-Javadoc)
 	 * @see org.jdcp.remote.JobService#createJob(java.lang.String)
 	 */
-	public UUID createJob(String description) throws SecurityException,
-			RemoteException {
+	public UUID createJob(String description) throws SecurityException {
 		ScheduledJob sched = new ScheduledJob(description, monitor);
 		jobs.put(sched.id, sched);
 		return sched.id;
@@ -80,7 +79,7 @@ public final class JobServer implements JobService {
 	 * @see org.jdcp.remote.JobService#submitJob(org.selfip.bkimmel.rmi.Envelope, java.util.UUID)
 	 */
 	public void submitJob(Serialized<ParallelizableJob> job, UUID jobId)
-			throws IllegalArgumentException, SecurityException, RemoteException, ClassNotFoundException {
+			throws IllegalArgumentException, SecurityException, ClassNotFoundException {
 		ScheduledJob sched = jobs.get(jobId);
 		if (sched == null || sched.job != null) {
 			throw new IllegalArgumentException("No pending job with provided Job ID");
@@ -94,7 +93,7 @@ public final class JobServer implements JobService {
 	 * @see org.jdcp.remote.JobService#submitJob(org.selfip.bkimmel.rmi.Envelope, java.lang.String)
 	 */
 	public UUID submitJob(Serialized<ParallelizableJob> job, String description)
-			throws SecurityException, RemoteException, ClassNotFoundException {
+			throws SecurityException, ClassNotFoundException {
 
 		ScheduledJob sched = new ScheduledJob(job, description, monitor);
 		jobs.put(sched.id, sched);
@@ -106,7 +105,7 @@ public final class JobServer implements JobService {
 	/* (non-Javadoc)
 	 * @see org.jdcp.remote.JobService#cancelJob(java.util.UUID)
 	 */
-	public void cancelJob(UUID jobId) throws IllegalArgumentException, SecurityException, RemoteException {
+	public void cancelJob(UUID jobId) throws IllegalArgumentException, SecurityException {
 		ScheduledJob sched = jobs.get(jobId);
 		if (sched == null) {
 			throw new IllegalArgumentException("No job with provided Job ID");
@@ -122,7 +121,7 @@ public final class JobServer implements JobService {
 	 * @see org.jdcp.remote.JobService#getTaskWorker(java.util.UUID)
 	 */
 	public Serialized<TaskWorker> getTaskWorker(UUID jobId)
-			throws IllegalArgumentException, SecurityException, RemoteException {
+			throws IllegalArgumentException, SecurityException {
 		ScheduledJob sched = jobs.get(jobId);
 		if (sched == null) {
 			throw new IllegalArgumentException("No submitted job with provided Job ID");
@@ -134,8 +133,7 @@ public final class JobServer implements JobService {
 	/* (non-Javadoc)
 	 * @see org.jdcp.remote.JobService#requestTask()
 	 */
-	public synchronized TaskDescription requestTask() throws SecurityException,
-			RemoteException {
+	public synchronized TaskDescription requestTask() throws SecurityException {
 		TaskDescription taskDesc = scheduler.getNextTask();
 		if (taskDesc == null) {
 			return idleTask;
@@ -150,7 +148,7 @@ public final class JobServer implements JobService {
 	 * @see org.jdcp.remote.JobService#submitTaskResults(java.util.UUID, int, org.selfip.bkimmel.rmi.Envelope)
 	 */
 	public void submitTaskResults(UUID jobId, int taskId,
-			Serialized<Object> results) throws SecurityException, RemoteException, ClassNotFoundException {
+			Serialized<Object> results) throws SecurityException, ClassNotFoundException {
 		ScheduledJob sched = jobs.get(jobId);
 		if (sched == null) {
 			throw new IllegalArgumentException("No submitted job with provided Job ID");
@@ -167,7 +165,7 @@ public final class JobServer implements JobService {
 	 * @see org.jdcp.remote.JobService#getClassDefinition(java.lang.String, java.util.UUID)
 	 */
 	public byte[] getClassDefinition(String name, UUID jobId)
-			throws SecurityException, RemoteException {
+			throws SecurityException {
 		ScheduledJob sched = jobs.get(jobId);
 		if (sched == null) {
 			throw new IllegalArgumentException("No job with provided Job ID");
@@ -187,7 +185,7 @@ public final class JobServer implements JobService {
 	 * @see org.jdcp.remote.JobService#getClassDigest(java.lang.String, java.util.UUID)
 	 */
 	public byte[] getClassDigest(String name, UUID jobId)
-			throws SecurityException, RemoteException {
+			throws SecurityException {
 		ScheduledJob sched = jobs.get(jobId);
 		if (sched == null) {
 			throw new IllegalArgumentException("No job with provided Job ID");
@@ -199,8 +197,7 @@ public final class JobServer implements JobService {
 	/* (non-Javadoc)
 	 * @see org.jdcp.remote.JobService#getClassDigest(java.lang.String)
 	 */
-	public byte[] getClassDigest(String name) throws SecurityException,
-			RemoteException {
+	public byte[] getClassDigest(String name) throws SecurityException {
 		return classManager.getClassDigest(name);
 	}
 
@@ -208,7 +205,7 @@ public final class JobServer implements JobService {
 	 * @see org.jdcp.remote.JobService#setClassDefinition(java.lang.String, byte[])
 	 */
 	public void setClassDefinition(String name, byte[] def)
-			throws SecurityException, RemoteException {
+			throws SecurityException {
 		classManager.setClassDefinition(name, def);
 	}
 
@@ -216,7 +213,7 @@ public final class JobServer implements JobService {
 	 * @see org.jdcp.remote.JobService#setClassDefinition(java.lang.String, java.util.UUID, byte[])
 	 */
 	public void setClassDefinition(String name, UUID jobId, byte[] def)
-			throws IllegalArgumentException, SecurityException, RemoteException {
+			throws IllegalArgumentException, SecurityException {
 		ScheduledJob sched = jobs.get(jobId);
 		if (sched == null || sched.job != null) {
 			throw new IllegalArgumentException("No pending job with provided Job ID");
@@ -229,7 +226,7 @@ public final class JobServer implements JobService {
 	 * @see org.jdcp.remote.JobService#setIdleTime(int)
 	 */
 	public void setIdleTime(int idleSeconds) throws IllegalArgumentException,
-			SecurityException, RemoteException {
+			SecurityException {
 		idleTask = new TaskDescription(null, 0, idleSeconds);
 	}
 
@@ -237,7 +234,7 @@ public final class JobServer implements JobService {
 	 * @see org.jdcp.remote.JobService#setJobPriority(java.util.UUID, int)
 	 */
 	public void setJobPriority(UUID jobId, int priority)
-			throws IllegalArgumentException, SecurityException, RemoteException {
+			throws IllegalArgumentException, SecurityException {
 		if (!jobs.containsKey(jobId)) {
 			throw new IllegalArgumentException("No job with provided Job ID");
 		}
