@@ -4,6 +4,7 @@
 package org.jdcp.remote;
 
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 /**
  * A remote service for authenticating <code>JobService</code> users.
@@ -18,6 +19,6 @@ public interface AuthenticationService extends Remote {
 	 * @return The <code>JobService</code> to use for this session.
 	 * @throws SecurityException if the user name or password are invalid.
 	 */
-	JobService authenticate(String username, String password) throws SecurityException;
+	JobService authenticate(String username, String password) throws RemoteException, SecurityException;
 
 }
