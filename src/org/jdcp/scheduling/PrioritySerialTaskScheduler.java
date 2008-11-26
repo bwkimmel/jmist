@@ -135,6 +135,7 @@ public final class PrioritySerialTaskScheduler implements TaskScheduler {
 				return null;
 			}
 			int taskId = taskQueue.remove();
+			taskQueue.addLast(taskId);
 			return tasks.get(taskId);
 		}
 
