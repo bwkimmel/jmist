@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.jdcp.server;
+package org.jdcp.security;
 
 import java.security.BasicPermission;
 
@@ -9,7 +9,7 @@ import java.security.BasicPermission;
  * @author brad
  *
  */
-public final class ServerPermission extends BasicPermission {
+public final class JdcpPermission extends BasicPermission {
 
 	/**
 	 *
@@ -19,7 +19,7 @@ public final class ServerPermission extends BasicPermission {
 	/**
 	 * @param name
 	 */
-	public ServerPermission(String name) {
+	public JdcpPermission(String name) {
 		super(name);
 	}
 

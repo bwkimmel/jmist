@@ -20,6 +20,8 @@ import javax.security.auth.Subject;
 
 import org.jdcp.remote.AuthenticationService;
 import org.jdcp.remote.JobService;
+import org.jdcp.security.InvalidUserException;
+import org.jdcp.security.JdcpPrincipal;
 import org.selfip.bkimmel.util.StringUtil;
 import org.selfip.bkimmel.util.UnexpectedException;
 

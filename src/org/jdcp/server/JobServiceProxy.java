@@ -16,6 +16,7 @@ import org.jdcp.job.ParallelizableJob;
 import org.jdcp.job.TaskDescription;
 import org.jdcp.job.TaskWorker;
 import org.jdcp.remote.JobService;
+import org.jdcp.security.JdcpPermission;
 import org.selfip.bkimmel.rmi.Serialized;
 import org.selfip.bkimmel.util.UnexpectedException;
 
@@ -54,7 +55,7 @@ public final class JobServiceProxy extends UnicastRemoteObject implements JobSer
 
 				@Override
 				public Object run() throws Exception {
-					AccessController.checkPermission(new ServerPermission("job.cancel"));
+					AccessController.checkPermission(new JdcpPermission("job.cancel"));
 					service.cancelJob(jobId);
 					return null;
 				}
@@ -86,7 +87,7 @@ public final class JobServiceProxy extends UnicastRemoteObject implements JobSer
 
 				@Override
 				public UUID run() throws Exception {
-					AccessController.checkPermission(new ServerPermission("job.submit"));
+					AccessController.checkPermission(new JdcpPermission("job.submit"));
 					return service.createJob(description);
 				}
 
@@ -115,7 +116,7 @@ public final class JobServiceProxy extends UnicastRemoteObject implements JobSer
 
 				@Override
 				public byte[] run() throws Exception {
-					AccessController.checkPermission(new ServerPermission("worker"));
+					AccessController.checkPermission(new JdcpPermission("worker"));
 					return service.getClassDefinition(name, jobId);
 				}
 
@@ -144,7 +145,7 @@ public final class JobServiceProxy extends UnicastRemoteObject implements JobSer
 
 				@Override
 				public byte[] run() throws Exception {
-					AccessController.checkPermission(new ServerPermission("worker"));
+					AccessController.checkPermission(new JdcpPermission("worker"));
 					return service.getClassDigest(name, jobId);
 				}
 
@@ -173,7 +174,7 @@ public final class JobServiceProxy extends UnicastRemoteObject implements JobSer
 
 				@Override
 				public byte[] run() throws Exception {
-					AccessController.checkPermission(new ServerPermission("worker"));
+					AccessController.checkPermission(new JdcpPermission("worker"));
 					return service.getClassDigest(name);
 				}
 
@@ -202,7 +203,7 @@ public final class JobServiceProxy extends UnicastRemoteObject implements JobSer
 
 				@Override
 				public Serialized<TaskWorker> run() throws Exception {
-					AccessController.checkPermission(new ServerPermission("worker"));
+					AccessController.checkPermission(new JdcpPermission("worker"));
 					return service.getTaskWorker(jobId);
 				}
 
@@ -233,7 +234,7 @@ public final class JobServiceProxy extends UnicastRemoteObject implements JobSer
 
 				@Override
 				public TaskDescription run() throws Exception {
-					AccessController.checkPermission(new ServerPermission("worker"));
+					AccessController.checkPermission(new JdcpPermission("worker"));
 					return service.requestTask();
 				}
 
@@ -262,7 +263,7 @@ public final class JobServiceProxy extends UnicastRemoteObject implements JobSer
 
 				@Override
 				public Object run() throws Exception {
-					AccessController.checkPermission(new ServerPermission("admin.setClassDefinition"));
+					AccessController.checkPermission(new JdcpPermission("admin.setClassDefinition"));
 					service.setClassDefinition(name, def);
 					return null;
 				}
@@ -292,7 +293,7 @@ public final class JobServiceProxy extends UnicastRemoteObject implements JobSer
 
 				@Override
 				public Object run() throws Exception {
-					AccessController.checkPermission(new ServerPermission("job.setClassDefinition"));
+					AccessController.checkPermission(new JdcpPermission("job.setClassDefinition"));
 					service.setClassDefinition(name, jobId, def);
 					return null;
 				}
@@ -324,7 +325,7 @@ public final class JobServiceProxy extends UnicastRemoteObject implements JobSer
 
 				@Override
 				public Object run() throws Exception {
-					AccessController.checkPermission(new ServerPermission("admin.setIdleTime"));
+					AccessController.checkPermission(new JdcpPermission("admin.setIdleTime"));
 					service.setIdleTime(idleSeconds);
 					return null;
 				}
@@ -356,7 +357,7 @@ public final class JobServiceProxy extends UnicastRemoteObject implements JobSer
 
 				@Override
 				public Object run() throws Exception {
-					AccessController.checkPermission(new ServerPermission("admin.setJobPriority"));
+					AccessController.checkPermission(new JdcpPermission("admin.setJobPriority"));
 					service.setJobPriority(jobId, priority);
 					return null;
 				}
@@ -389,7 +390,7 @@ public final class JobServiceProxy extends UnicastRemoteObject implements JobSer
 
 				@Override
 				public Object run() throws Exception {
-					AccessController.checkPermission(new ServerPermission("job.submit"));
+					AccessController.checkPermission(new JdcpPermission("job.submit"));
 					service.submitJob(job, jobId);
 					return null;
 				}
@@ -423,7 +424,7 @@ public final class JobServiceProxy extends UnicastRemoteObject implements JobSer
 
 				@Override
 				public UUID run() throws Exception {
-					AccessController.checkPermission(new ServerPermission("job.submit"));
+					AccessController.checkPermission(new JdcpPermission("job.submit"));
 					return service.submitJob(job, description);
 				}
 
@@ -457,7 +458,7 @@ public final class JobServiceProxy extends UnicastRemoteObject implements JobSer
 
 				@Override
 				public Object run() throws Exception {
-					AccessController.checkPermission(new ServerPermission("worker"));
+					AccessController.checkPermission(new JdcpPermission("worker"));
 					service.submitTaskResults(jobId, taskId, results);
 					return null;
 				}

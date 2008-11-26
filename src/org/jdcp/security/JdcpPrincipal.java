@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.jdcp.server;
+package org.jdcp.security;
 
 import java.security.Principal;
 
