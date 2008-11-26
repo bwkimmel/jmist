@@ -4,12 +4,12 @@
 package org.jdcp.server;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
 import java.util.UUID;
 
-import javax.rmi.PortableRemoteObject;
 import javax.security.auth.Subject;
 
 import org.jdcp.job.ParallelizableJob;
@@ -23,7 +23,12 @@ import org.selfip.bkimmel.util.UnexpectedException;
  * @author brad
  *
  */
-public final class JobServiceProxy extends PortableRemoteObject implements JobService {
+public final class JobServiceProxy extends UnicastRemoteObject implements JobService {
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -3663995122172056330L;
 
 	private final Subject user;
 	private final JobService service;
@@ -45,7 +50,7 @@ public final class JobServiceProxy extends PortableRemoteObject implements JobSe
 			SecurityException, RemoteException {
 
 		try {
-			Subject.doAs(user, new PrivilegedExceptionAction<Object>() {
+			Subject.doAsPrivileged(user, new PrivilegedExceptionAction<Object>() {
 
 				@Override
 				public Object run() throws Exception {
@@ -54,7 +59,7 @@ public final class JobServiceProxy extends PortableRemoteObject implements JobSe
 					return null;
 				}
 
-			});
+			}, null);
 		} catch (PrivilegedActionException e) {
 			if (e.getException() instanceof IllegalArgumentException) {
 				throw (IllegalArgumentException) e.getException();
@@ -77,7 +82,7 @@ public final class JobServiceProxy extends PortableRemoteObject implements JobSe
 			RemoteException {
 
 		try {
-			return Subject.doAs(user, new PrivilegedExceptionAction<UUID>() {
+			return Subject.doAsPrivileged(user, new PrivilegedExceptionAction<UUID>() {
 
 				@Override
 				public UUID run() throws Exception {
@@ -85,7 +90,7 @@ public final class JobServiceProxy extends PortableRemoteObject implements JobSe
 					return service.createJob(description);
 				}
 
-			});
+			}, null);
 		} catch (PrivilegedActionException e) {
 			if (e.getException() instanceof SecurityException) {
 				throw (SecurityException) e.getException();
@@ -106,7 +111,7 @@ public final class JobServiceProxy extends PortableRemoteObject implements JobSe
 			throws SecurityException, RemoteException {
 
 		try {
-			return Subject.doAs(user, new PrivilegedExceptionAction<byte[]>() {
+			return Subject.doAsPrivileged(user, new PrivilegedExceptionAction<byte[]>() {
 
 				@Override
 				public byte[] run() throws Exception {
@@ -114,7 +119,7 @@ public final class JobServiceProxy extends PortableRemoteObject implements JobSe
 					return service.getClassDefinition(name, jobId);
 				}
 
-			});
+			}, null);
 		} catch (PrivilegedActionException e) {
 			if (e.getException() instanceof SecurityException) {
 				throw (SecurityException) e.getException();
@@ -135,7 +140,7 @@ public final class JobServiceProxy extends PortableRemoteObject implements JobSe
 			throws SecurityException, RemoteException {
 
 		try {
-			return Subject.doAs(user, new PrivilegedExceptionAction<byte[]>() {
+			return Subject.doAsPrivileged(user, new PrivilegedExceptionAction<byte[]>() {
 
 				@Override
 				public byte[] run() throws Exception {
@@ -143,7 +148,7 @@ public final class JobServiceProxy extends PortableRemoteObject implements JobSe
 					return service.getClassDigest(name, jobId);
 				}
 
-			});
+			}, null);
 		} catch (PrivilegedActionException e) {
 			if (e.getException() instanceof SecurityException) {
 				throw (SecurityException) e.getException();
@@ -164,7 +169,7 @@ public final class JobServiceProxy extends PortableRemoteObject implements JobSe
 			RemoteException {
 
 		try {
-			return Subject.doAs(user, new PrivilegedExceptionAction<byte[]>() {
+			return Subject.doAsPrivileged(user, new PrivilegedExceptionAction<byte[]>() {
 
 				@Override
 				public byte[] run() throws Exception {
@@ -172,7 +177,7 @@ public final class JobServiceProxy extends PortableRemoteObject implements JobSe
 					return service.getClassDigest(name);
 				}
 
-			});
+			}, null);
 		} catch (PrivilegedActionException e) {
 			if (e.getException() instanceof SecurityException) {
 				throw (SecurityException) e.getException();
@@ -193,7 +198,7 @@ public final class JobServiceProxy extends PortableRemoteObject implements JobSe
 			throws IllegalArgumentException, SecurityException, RemoteException {
 
 		try {
-			return Subject.doAs(user, new PrivilegedExceptionAction<Serialized<TaskWorker>>() {
+			return Subject.doAsPrivileged(user, new PrivilegedExceptionAction<Serialized<TaskWorker>>() {
 
 				@Override
 				public Serialized<TaskWorker> run() throws Exception {
@@ -201,7 +206,7 @@ public final class JobServiceProxy extends PortableRemoteObject implements JobSe
 					return service.getTaskWorker(jobId);
 				}
 
-			});
+			}, null);
 		} catch (PrivilegedActionException e) {
 			if (e.getException() instanceof IllegalArgumentException) {
 				throw (IllegalArgumentException) e.getException();
@@ -224,7 +229,7 @@ public final class JobServiceProxy extends PortableRemoteObject implements JobSe
 			RemoteException {
 
 		try {
-			return Subject.doAs(user, new PrivilegedExceptionAction<TaskDescription>() {
+			return Subject.doAsPrivileged(user, new PrivilegedExceptionAction<TaskDescription>() {
 
 				@Override
 				public TaskDescription run() throws Exception {
@@ -232,7 +237,7 @@ public final class JobServiceProxy extends PortableRemoteObject implements JobSe
 					return service.requestTask();
 				}
 
-			});
+			}, null);
 		} catch (PrivilegedActionException e) {
 			if (e.getException() instanceof SecurityException) {
 				throw (SecurityException) e.getException();
@@ -253,7 +258,7 @@ public final class JobServiceProxy extends PortableRemoteObject implements JobSe
 			throws SecurityException, RemoteException {
 
 		try {
-			Subject.doAs(user, new PrivilegedExceptionAction<Object>() {
+			Subject.doAsPrivileged(user, new PrivilegedExceptionAction<Object>() {
 
 				@Override
 				public Object run() throws Exception {
@@ -262,7 +267,7 @@ public final class JobServiceProxy extends PortableRemoteObject implements JobSe
 					return null;
 				}
 
-			});
+			}, null);
 		} catch (PrivilegedActionException e) {
 			if (e.getException() instanceof SecurityException) {
 				throw (SecurityException) e.getException();
@@ -283,7 +288,7 @@ public final class JobServiceProxy extends PortableRemoteObject implements JobSe
 			throws IllegalArgumentException, SecurityException, RemoteException {
 
 		try {
-			Subject.doAs(user, new PrivilegedExceptionAction<Object>() {
+			Subject.doAsPrivileged(user, new PrivilegedExceptionAction<Object>() {
 
 				@Override
 				public Object run() throws Exception {
@@ -292,7 +297,7 @@ public final class JobServiceProxy extends PortableRemoteObject implements JobSe
 					return null;
 				}
 
-			});
+			}, null);
 		} catch (PrivilegedActionException e) {
 			if (e.getException() instanceof IllegalArgumentException) {
 				throw (IllegalArgumentException) e.getException();
@@ -315,7 +320,7 @@ public final class JobServiceProxy extends PortableRemoteObject implements JobSe
 			SecurityException, RemoteException {
 
 		try {
-			Subject.doAs(user, new PrivilegedExceptionAction<Object>() {
+			Subject.doAsPrivileged(user, new PrivilegedExceptionAction<Object>() {
 
 				@Override
 				public Object run() throws Exception {
@@ -324,7 +329,7 @@ public final class JobServiceProxy extends PortableRemoteObject implements JobSe
 					return null;
 				}
 
-			});
+			}, null);
 		} catch (PrivilegedActionException e) {
 			if (e.getException() instanceof IllegalArgumentException) {
 				throw (IllegalArgumentException) e.getException();
@@ -347,7 +352,7 @@ public final class JobServiceProxy extends PortableRemoteObject implements JobSe
 			throws IllegalArgumentException, SecurityException, RemoteException {
 
 		try {
-			Subject.doAs(user, new PrivilegedExceptionAction<Object>() {
+			Subject.doAsPrivileged(user, new PrivilegedExceptionAction<Object>() {
 
 				@Override
 				public Object run() throws Exception {
@@ -356,7 +361,7 @@ public final class JobServiceProxy extends PortableRemoteObject implements JobSe
 					return null;
 				}
 
-			});
+			}, null);
 		} catch (PrivilegedActionException e) {
 			if (e.getException() instanceof IllegalArgumentException) {
 				throw (IllegalArgumentException) e.getException();
@@ -380,7 +385,7 @@ public final class JobServiceProxy extends PortableRemoteObject implements JobSe
 			ClassNotFoundException, RemoteException {
 
 		try {
-			Subject.doAs(user, new PrivilegedExceptionAction<Object>() {
+			Subject.doAsPrivileged(user, new PrivilegedExceptionAction<Object>() {
 
 				@Override
 				public Object run() throws Exception {
@@ -389,7 +394,7 @@ public final class JobServiceProxy extends PortableRemoteObject implements JobSe
 					return null;
 				}
 
-			});
+			}, null);
 		} catch (PrivilegedActionException e) {
 			if (e.getException() instanceof IllegalArgumentException) {
 				throw (IllegalArgumentException) e.getException();
@@ -414,7 +419,7 @@ public final class JobServiceProxy extends PortableRemoteObject implements JobSe
 			throws SecurityException, ClassNotFoundException, RemoteException {
 
 		try {
-			return Subject.doAs(user, new PrivilegedExceptionAction<UUID>() {
+			return Subject.doAsPrivileged(user, new PrivilegedExceptionAction<UUID>() {
 
 				@Override
 				public UUID run() throws Exception {
@@ -422,7 +427,7 @@ public final class JobServiceProxy extends PortableRemoteObject implements JobSe
 					return service.submitJob(job, description);
 				}
 
-			});
+			}, null);
 		} catch (PrivilegedActionException e) {
 			if (e.getException() instanceof IllegalArgumentException) {
 				throw (IllegalArgumentException) e.getException();
@@ -448,7 +453,7 @@ public final class JobServiceProxy extends PortableRemoteObject implements JobSe
 			ClassNotFoundException, RemoteException {
 
 		try {
-			Subject.doAs(user, new PrivilegedExceptionAction<Object>() {
+			Subject.doAsPrivileged(user, new PrivilegedExceptionAction<Object>() {
 
 				@Override
 				public Object run() throws Exception {
@@ -457,7 +462,7 @@ public final class JobServiceProxy extends PortableRemoteObject implements JobSe
 					return null;
 				}
 
-			});
+			}, null);
 		} catch (PrivilegedActionException e) {
 			if (e.getException() instanceof IllegalArgumentException) {
 				throw (IllegalArgumentException) e.getException();

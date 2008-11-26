@@ -13,7 +13,6 @@ import java.rmi.server.RMIServerSocketFactory;
 import java.rmi.server.UnicastRemoteObject;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.Principal;
 import java.util.Arrays;
 import java.util.Properties;
 
@@ -85,11 +84,7 @@ public final class AuthenticationServer extends UnicastRemoteObject implements
 			if (Arrays.equals(storedHash, hash)) {
 
 				Subject user = new Subject();
-				user.getPrincipals().add(new Principal() {
-					public String getName() {
-						return username;
-					}
-				});
+				user.getPrincipals().add(new JdcpPrincipal(username));
 
 				return new JobServiceProxy(user, service);
 			}
