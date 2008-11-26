@@ -8,6 +8,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
+import org.jdcp.remote.AuthenticationService;
 import org.jdcp.remote.JobService;
 
 /**
@@ -20,6 +21,9 @@ public final class Configuration {
 	public String host = "localhost";
 	public String digestAlgorithm = "MD5";
 
+	public String username = "guest";
+	public String password = "";
+
 
 	private JobService service = null;
 
@@ -27,12 +31,14 @@ public final class Configuration {
 		if (service == null) {
 			try {
 				Registry registry = LocateRegistry.getRegistry(host);
-				service = (JobService) registry.lookup("JobService");
+				AuthenticationService auth = (AuthenticationService) registry.lookup("AuthenticationService");
+				service = auth.authenticate(username, password);
 			} catch (NotBoundException e) {
 				System.err.println("Job service not found at remote host.");
 				System.exit(1);
 			} catch (RemoteException e) {
 				System.err.println("Could not connect to job service.");
+				e.printStackTrace();
 				System.exit(1);
 			}
 		}

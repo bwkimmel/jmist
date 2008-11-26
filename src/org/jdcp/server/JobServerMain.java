@@ -54,16 +54,17 @@ public final class JobServerMain {
 			ParentClassManager classManager = new FileClassManager(classesDirectory);
 			TaskScheduler scheduler = new PrioritySerialTaskScheduler();
 			JobServer jobServer = new JobServer(jobsDirectory, monitor, scheduler, classManager);
+			AuthenticationServer authServer = new AuthenticationServer(jobServer);
 			System.err.println("OK");
 
 			System.err.print("Exporting service stubs...");
-			JobService jobStub = (JobService) UnicastRemoteObject.exportObject(
-					jobServer, 0);
+//			JobService jobStub = (JobService) UnicastRemoteObject.exportObject(
+//					jobServer, 0);
 			System.err.println("OK");
 
 			System.err.print("Binding service...");
 			Registry registry = LocateRegistry.createRegistry(1099);
-			registry.bind("JobService", jobStub);
+			registry.bind("AuthenticationService", authServer);
 			System.err.println("OK");
 
 			System.err.println("Server ready");
@@ -75,7 +76,7 @@ public final class JobServerMain {
 			dialog.setVisible(true);
 
 			System.err.print("Shutting down...");
-			registry.unbind("JobService");
+			registry.unbind("AuthenticationService");
 			System.err.println("OK");
 			System.exit(0);
 

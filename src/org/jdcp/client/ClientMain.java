@@ -23,6 +23,8 @@ public final class ClientMain {
 
 		argProcessor.addOption("verbose", 'V', new BooleanFieldOption<Configuration>("verbose"));
 		argProcessor.addOption("host", 'h', new StringFieldOption<Configuration>("host"));
+		argProcessor.addOption("username", 'u', new StringFieldOption<Configuration>("username"));
+		argProcessor.addOption("password", 'p', new StringFieldOption<Configuration>("password"));
 
 		argProcessor.addCommand("verify", new VerifyCommand());
 		argProcessor.addCommand("sync", new SynchronizeCommand());
