@@ -7,10 +7,10 @@ import java.io.File;
 import java.util.Queue;
 
 /**
- * @author Erin
+ * @author brad
  *
  */
-public final class FileFieldOption<T> extends AbstractFieldOption<T> {
+public class FileFieldOption<T> extends AbstractFieldOption<T> {
 
 	private final boolean mustExist;
 
