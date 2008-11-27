@@ -37,6 +37,6 @@ public abstract class AbstractFieldOption<T> implements Command<T> {
 		}
 	}
 
-	protected abstract Object getOptionValue(Queue<String> args);
+	protected abstract Object getOptionValue(Queue<String> argq);
 
 }
