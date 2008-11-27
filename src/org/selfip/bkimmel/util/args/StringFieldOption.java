@@ -6,10 +6,10 @@ package org.selfip.bkimmel.util.args;
 import java.util.Queue;
 
 /**
- * @author Erin
+ * @author brad
  *
  */
-public final class StringFieldOption<T> extends AbstractFieldOption<T> {
+public class StringFieldOption<T> extends AbstractFieldOption<T> {
 
 	public StringFieldOption(String fieldName) {
 		super(fieldName);
