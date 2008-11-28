@@ -5,6 +5,7 @@ import java.awt.image.PixelInterleavedSampleModel;
 import java.awt.image.Raster;
 import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -132,7 +133,39 @@ public class Test {
 		//testParallelJob();
 
 		//testProgressPanel();
-		testScripting();
+		//testScripting();
+		testPinholeCamera();
+	}
+
+	private static void testPinholeCamera() {
+		double aspect = 297.0/293.0;
+		double vfov = Math.toRadians(97.0);
+		TransformableLens lens = PinholeLens.fromVfovAndAspect(vfov, aspect);
+		lens.rotateX(Math.toRadians(-21.0));
+		lens.translate(Vector3.K.times(1.5));
+		File file = new File("C:/camera.csv");
+		try {
+			PrintStream out = new PrintStream(new FileOutputStream(file));
+
+			for (int i = 0; i < 297; i++) {
+				for (int j = 0; j < 243; j++) {
+					Point2 p = new Point2((double) i / 296.0, (double) j / 242.0);
+					Ray3 ray = lens.rayAt(p);
+					Vector3 v = ray.direction();
+
+					out.print(v.x());
+					out.print(',');
+					out.print(v.y());
+					out.print(',');
+					out.print(v.z());
+					out.println();
+				}
+			}
+
+			out.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private static void testScripting() {
