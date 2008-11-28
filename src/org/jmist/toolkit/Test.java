@@ -396,7 +396,7 @@ public class Test {
 			}));
 			Material emissive = new LambertianMaterial(null, emission);
 
-			TransformableLens lens = new PinholeLens(0.785398, 1.0);
+			TransformableLens lens = PinholeLens.fromHfovAndAspect(0.785398, 1.0);
 			//TransformableGeometry object = new TransformableGeometry(new CylinderGeometry(new Point3(0, -1, 0), 0.25, 2, matte));
 			//TransformableGeometry object = new TransformableGeometry(new TorusGeometry(1.0, 0.25, matte));
 			//TransformableGeometry object = new TransformableGeometry(new DiscGeometry(Point3.ORIGIN, Vector3.J, 1.0, true, matte));
@@ -586,7 +586,7 @@ public class Test {
 	@SuppressWarnings("unused")
 	private static void testTransformableGeometry() {
 
-		TransformableLens lens = new PinholeLens(Math.PI / 3, 1.0);
+		TransformableLens lens = PinholeLens.fromHfovAndAspect(Math.PI / 3, 1.0);
 		TransformableGeometry geometry = new TransformableGeometry(
 				new CylinderGeometry(
 						new Point3(0, -1, 0),
@@ -664,7 +664,7 @@ public class Test {
 	@SuppressWarnings("unused")
 	private static void testCsg() {
 
-		TransformableLens lens = new PinholeLens(Math.PI / 3, 1.0);
+		TransformableLens lens = PinholeLens.fromHfovAndAspect(Math.PI / 3, 1.0);
 
 		//lens.rotateX(Math.toRadians(40.0));
 		//lens.rotateY(Math.toRadians(25.0));
@@ -706,7 +706,7 @@ public class Test {
 	@SuppressWarnings("unused")
 	private static void testLens() {
 
-		TransformableLens lens = new PinholeLens(Math.PI / 3, 1.0);
+		TransformableLens lens = PinholeLens.fromHfovAndAspect(Math.PI / 3, 1.0);
 
 		lens.rotateX(Math.toRadians(40.0));
 		lens.rotateY(Math.toRadians(25.0));

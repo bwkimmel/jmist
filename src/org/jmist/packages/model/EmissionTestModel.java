@@ -114,7 +114,7 @@ public final class EmissionTestModel implements Model {
 			}
 		}
 
-		lens = new PinholeLens(0.785398, 1.0);
+		lens = PinholeLens.fromHfovAndAspect(0.785398, 1.0);
 
 		lens.rotateX(-Math.PI / 2.0);
 		lens.translate(new Vector3(0.0, 550.0, 50.0));

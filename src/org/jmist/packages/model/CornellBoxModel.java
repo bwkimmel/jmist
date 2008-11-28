@@ -66,7 +66,7 @@ public final class CornellBoxModel implements Model {
 	 */
 	private static Lens createLens() {
 
-		TransformableLens lens = new PinholeLens(2.0 * Math.atan2(0.25 / 2.0, 0.35), 1.0);
+		TransformableLens lens = PinholeLens.fromHfovAndAspect(2.0 * Math.atan2(0.25 / 2.0, 0.35), 1.0);
 
 		lens.rotateY(Math.PI);
 		lens.translate(new Vector3(278.0, 273.0, -800.0));

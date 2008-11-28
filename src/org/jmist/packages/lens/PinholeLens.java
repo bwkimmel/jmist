@@ -20,22 +20,79 @@ import org.jmist.toolkit.Vector3;
 public final class PinholeLens extends TransformableLens {
 
 	/**
+	 * Initializes the pinhole camera from the specified dimensions of the
+	 * virtual image plane.  The virtual image plane is one meter from the
+	 * origin along the negative z-axis.
+	 * @param width The width of the virtual image plane (in meters).
+	 * @param height The height of the virtual image plane (in meters).
+	 */
+	public PinholeLens(double width, double height) {
+		this.width = width;
+		this.height = height;
+	}
+
+	/**
 	 * Initializes the pinhole camera from the specified
 	 * field of view and aspect ratio.
-	 * @param fieldOfView The field of view in the horizontal
+	 * @param horizontalFieldOfView The field of view in the horizontal
 	 * 		direction (in radians).  This value must be in
 	 * 		(0, PI).
 	 * @param aspectRatio The ratio between the width and
 	 * 		height of the image.  This value must be positive.
 	 */
-	public PinholeLens(double fieldOfView, double aspectRatio) {
+	public static PinholeLens fromHfovAndAspect(double horizontalFieldOfView, double aspectRatio) {
 
 		// Compute the width and height of the virtual
 		// image plane from the provided field of view
 		// and aspect ratio.  The image plane is assumed
 		// to be one unit away from the origin.
-		width = 2.0 * Math.tan(0.5 * fieldOfView);
-		height = width / aspectRatio;
+		double width = 2.0 * Math.tan(0.5 * horizontalFieldOfView);
+		double height = width / aspectRatio;
+		return new PinholeLens(width, height);
+
+	}
+
+	/**
+	 * Initializes the pinhole camera from the specified
+	 * field of view and aspect ratio.
+	 * @param verticalFieldOfView The field of view in the vertical
+	 * 		direction (in radians).  This value must be in
+	 * 		(0, PI).
+	 * @param aspectRatio The ratio between the width and
+	 * 		height of the image.  This value must be positive.
+	 */
+	public static PinholeLens fromVfovAndAspect(double verticalFieldOfView, double aspectRatio) {
+
+		// Compute the width and height of the virtual
+		// image plane from the provided field of view
+		// and aspect ratio.  The image plane is assumed
+		// to be one unit away from the origin.
+		double height = 2.0 * Math.tan(0.5 * verticalFieldOfView);
+		double width = height * aspectRatio;
+		return new PinholeLens(width, height);
+
+	}
+
+	/**
+	 * Initializes the pinhole camera from the specified
+	 * field of view in the horizontal and vertical directions
+	 * @param horizontalFieldOfView The field of view in the horizontal
+	 * 		direction (in radians).  This value must be in
+	 * 		(0, PI).
+	 * @param verticalFieldOfView The field of view in the vertical
+	 * 		direction (in radians).  This value must be in
+	 * 		(0, PI).
+	 */
+	public static PinholeLens fromFieldOfView(double horizontalFieldOfView,
+			double verticalFieldOfView) {
+
+		// Compute the width and height of the virtual
+		// image plane from the provided field of view
+		// and aspect ratio.  The image plane is assumed
+		// to be one unit away from the origin.
+		double width = 2.0 * Math.tan(0.5 * horizontalFieldOfView);
+		double height = 2.0 * Math.tan(0.5 * verticalFieldOfView);
+		return new PinholeLens(width, height);
 
 	}
 
