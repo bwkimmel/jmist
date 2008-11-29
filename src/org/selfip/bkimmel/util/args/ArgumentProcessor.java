@@ -63,11 +63,13 @@ public final class ArgumentProcessor<T> {
 				if (command != null) {
 					argq.remove();
 					command.process(argq, state);
-				} else if (defaultCommand != null) {
-					defaultCommand.process(argq, state);
+					return;
 				}
 				break;
 			}
+		}
+		if (defaultCommand != null) {
+			defaultCommand.process(argq, state);
 		}
 	}
 
