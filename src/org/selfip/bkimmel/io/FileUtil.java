@@ -5,9 +5,16 @@ package org.selfip.bkimmel.io;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.StringWriter;
 import java.nio.ByteBuffer;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
+import org.selfip.bkimmel.util.UnexpectedException;
 
 /**
  * File I/O utility methods.
@@ -151,6 +158,81 @@ public final class FileUtil {
 		while (!file.equals(root) && file.delete()) {
 			file = file.getParentFile();
 		}
+	}
+
+	public static boolean postOrderTraversal(File root, FileVisitor visitor) throws Exception {
+		for (File child : root.listFiles()) {
+			if (!postOrderTraversal(child, visitor)) {
+				return false;
+			}
+		}
+		return visitor.visit(root);
+	}
+
+	public static boolean preOrderTraversal(File root, FileVisitor visitor) throws Exception {
+		if (!visitor.visit(root)) {
+			return false;
+		}
+		for (File child : root.listFiles()) {
+			if (!preOrderTraversal(child, visitor)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public static void zip(File zipFile, final File contents) throws IOException {
+
+		OutputStream os = new FileOutputStream(zipFile);
+		final ZipOutputStream zs = new ZipOutputStream(os);
+
+		try {
+			preOrderTraversal(contents, new FileVisitor() {
+
+				@Override
+				public boolean visit(File file) throws IOException {
+					if (file.isFile()) {
+						String name = getRelativePath(file, contents);
+						zs.putNextEntry(new ZipEntry(name));
+
+						FileInputStream fs = new FileInputStream(file);
+						StreamUtil.writeStream(fs, zs);
+						fs.close();
+
+						zs.closeEntry();
+					}
+					return true;
+				}
+
+			});
+		} catch (IOException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new UnexpectedException(e);
+		}
+
+		zs.close();
+
+	}
+
+	public static String getRelativePath(File file, File base) {
+		StringWriter path = new StringWriter();
+
+		while (!isAncestor(file, base)) {
+			path.append("../");
+		}
+
+		String fileName = file.getAbsolutePath();
+		String baseName = base.getAbsolutePath();
+		int prefixLength = baseName.length();
+
+		if (!baseName.endsWith("/")) {
+			prefixLength++;
+		}
+
+		path.append(fileName.substring(prefixLength));
+
+		return path.toString();
 	}
 
 	/** Declared private to prevent this class from being instantiated. */
