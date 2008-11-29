@@ -3,9 +3,6 @@
  */
 package org.jdcp.job;
 
-import java.io.IOException;
-import java.util.zip.ZipOutputStream;
-
 import org.selfip.bkimmel.jobs.Job;
 import org.selfip.bkimmel.progress.ProgressMonitor;
 
@@ -15,13 +12,17 @@ import org.selfip.bkimmel.progress.ProgressMonitor;
  */
 public interface ParallelizableJob extends Job {
 
+	void initialize(Host host) throws Exception;
+
+	void finish() throws Exception;
+
 	/**
 	 * Gets the next task to be performed.
 	 * @return The <code>Object</code> describing the next task to be
 	 * 		performed, or <code>null</code> if there are no remaining
 	 * 		tasks.
 	 */
-	Object getNextTask();
+	Object getNextTask() throws Exception;
 
 	/**
 	 * Submits the results of a task.
@@ -34,20 +35,14 @@ public interface ParallelizableJob extends Job {
 	 * 		progress of this <code>Job</code>.
 	 * @see {@link #getNextTask()}.
 	 */
-	void submitTaskResults(Object task, Object results, ProgressMonitor monitor);
+	void submitTaskResults(Object task, Object results, ProgressMonitor monitor) throws Exception;
 
 	/**
 	 * Gets a value that indicates if this job is complete (i.e., if results
 	 * for all tasks have been submitted).
 	 * @return A value indicating if this job is complete.
 	 */
-	boolean isComplete();
-
-	/**
-	 * Writes the results of this job.
-	 * @param stream The <code>ZipOutputStream</code> to write the results to.
-	 */
-	void writeJobResults(ZipOutputStream stream) throws IOException;
+	boolean isComplete() throws Exception;
 
 	/**
 	 * Gets the task worker to use to process the tasks of this
@@ -55,6 +50,6 @@ public interface ParallelizableJob extends Job {
 	 * @return The task worker to use to process the tasks of
 	 * 		this job.
 	 */
-	TaskWorker worker();
+	TaskWorker worker() throws Exception;
 
 }

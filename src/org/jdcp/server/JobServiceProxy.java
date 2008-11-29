@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import javax.security.auth.Subject;
 
+import org.jdcp.job.JobExecutionException;
 import org.jdcp.job.ParallelizableJob;
 import org.jdcp.job.TaskDescription;
 import org.jdcp.job.TaskWorker;
@@ -383,7 +384,7 @@ public final class JobServiceProxy extends UnicastRemoteObject implements JobSer
 	@Override
 	public void submitJob(final Serialized<ParallelizableJob> job, final UUID jobId)
 			throws IllegalArgumentException, SecurityException,
-			ClassNotFoundException, RemoteException {
+			ClassNotFoundException, RemoteException, JobExecutionException {
 
 		try {
 			Subject.doAsPrivileged(user, new PrivilegedExceptionAction<Object>() {
@@ -405,6 +406,8 @@ public final class JobServiceProxy extends UnicastRemoteObject implements JobSer
 				throw (ClassNotFoundException) e.getException();
 			} else if (e.getException() instanceof RemoteException) {
 				throw (RemoteException) e.getException();
+			} else if (e.getException() instanceof JobExecutionException) {
+				throw (JobExecutionException) e.getException();
 			} else {
 				throw new UnexpectedException(e);
 			}
@@ -417,7 +420,7 @@ public final class JobServiceProxy extends UnicastRemoteObject implements JobSer
 	 */
 	@Override
 	public UUID submitJob(final Serialized<ParallelizableJob> job, final String description)
-			throws SecurityException, ClassNotFoundException, RemoteException {
+			throws SecurityException, ClassNotFoundException, RemoteException, JobExecutionException {
 
 		try {
 			return Subject.doAsPrivileged(user, new PrivilegedExceptionAction<UUID>() {
@@ -438,6 +441,8 @@ public final class JobServiceProxy extends UnicastRemoteObject implements JobSer
 				throw (ClassNotFoundException) e.getException();
 			} else if (e.getException() instanceof RemoteException) {
 				throw (RemoteException) e.getException();
+			} else if (e.getException() instanceof JobExecutionException) {
+				throw (JobExecutionException) e.getException();
 			} else {
 				throw new UnexpectedException(e);
 			}
@@ -451,7 +456,7 @@ public final class JobServiceProxy extends UnicastRemoteObject implements JobSer
 	@Override
 	public void submitTaskResults(final UUID jobId, final int taskId,
 			final Serialized<Object> results) throws SecurityException,
-			ClassNotFoundException, RemoteException {
+			RemoteException {
 
 		try {
 			Subject.doAsPrivileged(user, new PrivilegedExceptionAction<Object>() {
@@ -469,8 +474,6 @@ public final class JobServiceProxy extends UnicastRemoteObject implements JobSer
 				throw (IllegalArgumentException) e.getException();
 			} else if (e.getException() instanceof SecurityException) {
 				throw (SecurityException) e.getException();
-			} else if (e.getException() instanceof ClassNotFoundException) {
-				throw (ClassNotFoundException) e.getException();
 			} else if (e.getException() instanceof RemoteException) {
 				throw (RemoteException) e.getException();
 			} else {

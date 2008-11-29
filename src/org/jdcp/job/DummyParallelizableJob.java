@@ -3,11 +3,9 @@
  */
 package org.jdcp.job;
 
-import java.io.IOException;
+import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.io.Serializable;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 import org.selfip.bkimmel.progress.ProgressMonitor;
 
@@ -74,17 +72,16 @@ public final class DummyParallelizableJob extends AbstractParallelizableJob
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.ParallelizableJob#writeJobResults(java.util.zip.ZipOutputStream)
+	 * @see org.jmist.framework.ParallelizableJob#finish()
 	 */
-	public void writeJobResults(ZipOutputStream stream) throws IOException {
+	public void finish() {
 
-		stream.putNextEntry(new ZipEntry("results.txt"));
-
+		FileOutputStream stream = createFileOutputStream("results.txt");
 		PrintStream results = new PrintStream(stream);
+
 		results.printf("DummyParallelizableJob complete (%d tasks).\n", this.tasks);
 		results.flush();
-
-		stream.closeEntry();
+		results.close();
 
 	}
 

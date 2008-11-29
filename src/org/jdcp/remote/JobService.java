@@ -7,6 +7,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.UUID;
 
+import org.jdcp.job.JobExecutionException;
 import org.jdcp.job.ParallelizableJob;
 import org.jdcp.job.TaskDescription;
 import org.jdcp.job.TaskWorker;
@@ -34,7 +35,8 @@ public interface JobService extends Remote {
 	 * 		with the specified <code>UUID</code>, or <code>null</code> if that
 	 * 		job is no longer available.
 	 */
-	Serialized<TaskWorker> getTaskWorker(UUID jobId) throws IllegalArgumentException, SecurityException, RemoteException;
+	Serialized<TaskWorker> getTaskWorker(UUID jobId)
+			throws IllegalArgumentException, SecurityException, RemoteException;
 
 	/**
 	 * Gets a task to perform.
@@ -52,7 +54,7 @@ public interface JobService extends Remote {
 	 * @throws ClassNotFoundException
 	 */
 	void submitTaskResults(UUID jobId, int taskId, Serialized<Object> results)
-			throws SecurityException, ClassNotFoundException, RemoteException;
+			throws SecurityException, RemoteException;
 
 
 	/* **********************
@@ -63,7 +65,7 @@ public interface JobService extends Remote {
 
 	void submitJob(Serialized<ParallelizableJob> job, UUID jobId)
 			throws IllegalArgumentException, SecurityException,
-			ClassNotFoundException, RemoteException;
+			ClassNotFoundException, RemoteException, JobExecutionException;
 
 	/**
 	 * Submits a new job to be processed.
@@ -72,9 +74,11 @@ public interface JobService extends Remote {
 	 * @return The <code>UUID</code> assigned to the job, or <code>null</code>
 	 * 		if the job was not accepted.
 	 * @throws ClassNotFoundException
+	 * @throws JobExecutionException
 	 */
 	UUID submitJob(Serialized<ParallelizableJob> job, String description)
-			throws SecurityException, ClassNotFoundException, RemoteException;
+			throws SecurityException, ClassNotFoundException, RemoteException,
+			JobExecutionException;
 
 	void cancelJob(UUID jobId) throws IllegalArgumentException, SecurityException, RemoteException;
 

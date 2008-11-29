@@ -10,11 +10,10 @@ import java.awt.image.PixelInterleavedSampleModel;
 import java.awt.image.Raster;
 import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Iterator;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -167,9 +166,9 @@ public final class RasterJob extends AbstractParallelizableJob implements
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.ParallelizableJob#writeJobResults(java.util.zip.ZipOutputStream)
+	 * @see org.jmist.framework.ParallelizableJob#finish()
 	 */
-	public void writeJobResults(ZipOutputStream stream) throws IOException {
+	public void finish() throws IOException {
 
 		Iterator<ImageWriter> writers = ImageIO.getImageWritersByFormatName(this.formatName);
 		ImageWriter writer = writers.next();
@@ -177,14 +176,13 @@ public final class RasterJob extends AbstractParallelizableJob implements
 
 		assert(suffix != null && suffix.length > 0);
 
-		stream.putNextEntry(new ZipEntry("raster." + suffix[0]));
-		MemoryCacheImageOutputStream ios = new MemoryCacheImageOutputStream(stream);
+		FileOutputStream fs = createFileOutputStream("raster." + suffix[0]);
+		MemoryCacheImageOutputStream ios = new MemoryCacheImageOutputStream(fs);
 		writer.setOutput(ios);
+
 		writer.write(null, new IIOImage(this.raster, null, null), null);
 		ios.flush();
 		ios.close();
-
-		stream.closeEntry();
 
 	}
 

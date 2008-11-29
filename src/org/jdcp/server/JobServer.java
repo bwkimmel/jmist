@@ -4,17 +4,22 @@
 package org.jdcp.server;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.OutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import org.jdcp.job.Host;
+import org.jdcp.job.JobExecutionException;
+import org.jdcp.job.JobExecutionWrapper;
 import org.jdcp.job.ParallelizableJob;
 import org.jdcp.job.TaskDescription;
 import org.jdcp.job.TaskWorker;
@@ -22,9 +27,11 @@ import org.jdcp.remote.JobService;
 import org.jdcp.scheduling.TaskScheduler;
 import org.jdcp.server.classmanager.ClassManager;
 import org.jdcp.server.classmanager.ParentClassManager;
+import org.selfip.bkimmel.io.FileUtil;
 import org.selfip.bkimmel.progress.ProgressMonitor;
 import org.selfip.bkimmel.rmi.Serialized;
-import org.selfip.bkimmel.util.classloader.StrategyClassLoader;
+import org.selfip.bkimmel.util.UnexpectedException;
+import org.selfip.bkimmel.util.classloader.SandboxedStrategyClassLoader;
 
 /**
  * @author brad
@@ -43,6 +50,8 @@ public final class JobServer implements JobService {
 	private final File outputDirectory;
 
 	private final Map<UUID, ScheduledJob> jobs = new HashMap<UUID, ScheduledJob>();
+
+	private final Logger logger;
 
 	private TaskDescription idleTask = new TaskDescription(null, 0, DEFAULT_IDLE_SECONDS);
 
@@ -63,6 +72,9 @@ public final class JobServer implements JobService {
 		this.monitor = monitor;
 		this.scheduler = scheduler;
 		this.classManager = classManager;
+
+		// TODO Replace this with a logger passed from the constructor.
+		this.logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	}
 
 	/* (non-Javadoc)
@@ -78,42 +90,49 @@ public final class JobServer implements JobService {
 	 * @see org.jdcp.remote.JobService#submitJob(org.selfip.bkimmel.rmi.Envelope, java.util.UUID)
 	 */
 	public void submitJob(Serialized<ParallelizableJob> job, UUID jobId)
-			throws IllegalArgumentException, SecurityException, ClassNotFoundException {
+			throws IllegalArgumentException, SecurityException, ClassNotFoundException, JobExecutionException {
 		ScheduledJob sched = jobs.get(jobId);
 		if (sched == null || sched.job != null) {
 			throw new IllegalArgumentException("No pending job with provided Job ID");
 		}
 
-		sched.initializeJob(job);
-		sched.scheduleNextTask();
+		try {
+			sched.initializeJob(job);
+			sched.scheduleNextTask();
+		} catch (JobExecutionException e) {
+			handleJobExecutionException(e, jobId);
+			throw e;
+		}
 	}
 
 	/* (non-Javadoc)
 	 * @see org.jdcp.remote.JobService#submitJob(org.selfip.bkimmel.rmi.Envelope, java.lang.String)
 	 */
 	public UUID submitJob(Serialized<ParallelizableJob> job, String description)
-			throws SecurityException, ClassNotFoundException {
-
-		ScheduledJob sched = new ScheduledJob(job, description, monitor);
+			throws SecurityException, ClassNotFoundException, JobExecutionException {
+		ScheduledJob sched = new ScheduledJob(description, monitor);
 		jobs.put(sched.id, sched);
-		sched.scheduleNextTask();
-		return sched.id;
 
+		try {
+			sched.initializeJob(job);
+			sched.scheduleNextTask();
+		} catch (JobExecutionException e) {
+			handleJobExecutionException(e, sched.id);
+			throw e;
+		}
+
+		return sched.id;
 	}
 
 	/* (non-Javadoc)
 	 * @see org.jdcp.remote.JobService#cancelJob(java.util.UUID)
 	 */
 	public void cancelJob(UUID jobId) throws IllegalArgumentException, SecurityException {
-		ScheduledJob sched = jobs.get(jobId);
-		if (sched == null) {
+		if (!jobs.containsKey(jobId)) {
 			throw new IllegalArgumentException("No job with provided Job ID");
 		}
 
-		sched.monitor.notifyCancelled();
-		jobs.remove(jobId);
-		scheduler.removeJob(jobId);
-		classManager.releaseChildClassManager(sched.classManager);
+		cancelScheduledJob(jobId);
 	}
 
 	/* (non-Javadoc)
@@ -139,7 +158,11 @@ public final class JobServer implements JobService {
 		}
 
 		ScheduledJob sched = jobs.get(taskDesc.getJobId());
-		sched.scheduleNextTask();
+		try {
+			sched.scheduleNextTask();
+		} catch (JobExecutionException e) {
+			handleJobExecutionException(e, sched.id);
+		}
 		return taskDesc;
 	}
 
@@ -147,16 +170,26 @@ public final class JobServer implements JobService {
 	 * @see org.jdcp.remote.JobService#submitTaskResults(java.util.UUID, int, org.selfip.bkimmel.rmi.Envelope)
 	 */
 	public void submitTaskResults(UUID jobId, int taskId,
-			Serialized<Object> results) throws SecurityException, ClassNotFoundException {
+			Serialized<Object> results) throws SecurityException {
 		ScheduledJob sched = jobs.get(jobId);
 		if (sched == null) {
 			throw new IllegalArgumentException("No submitted job with provided Job ID");
 		}
 
-		if (sched.submitTaskResults(taskId, results)) { // job is complete
-			jobs.remove(jobId);
-			scheduler.removeJob(jobId);
-			classManager.releaseChildClassManager(sched.classManager);
+		try {
+			if (sched.submitTaskResults(taskId, results)) { // job is complete
+				sched.monitor.notifyComplete();
+				jobs.remove(jobId);
+				scheduler.removeJob(jobId);
+				classManager.releaseChildClassManager(sched.classManager);
+			}
+		} catch (JobExecutionException e) {
+			handleJobExecutionException(e, jobId);
+		} catch (ClassNotFoundException e) {
+			logger.log(Level.WARNING,
+					"Exception thrown submitting results of task for job "
+							+ jobId.toString(), e);
+			cancelScheduledJob(jobId);
 		}
 	}
 
@@ -241,15 +274,30 @@ public final class JobServer implements JobService {
 		scheduler.setJobPriority(jobId, priority);
 	}
 
+	private void handleJobExecutionException(JobExecutionException e, UUID jobId) {
+		logger.log(Level.WARNING, "Exception thrown from job " + jobId.toString(), e);
+		cancelScheduledJob(jobId);
+	}
+
+	private void cancelScheduledJob(UUID jobId) {
+		ScheduledJob sched = jobs.remove(jobId);
+		if (sched != null) {
+			sched.monitor.notifyCancelled();
+			jobs.remove(jobId);
+			scheduler.removeJob(jobId);
+			classManager.releaseChildClassManager(sched.classManager);
+		}
+	}
+
 	/**
 	 * Represents a <code>ParallelizableJob</code> that has been submitted
 	 * to this <code>JobMasterServer</code>.
 	 * @author bkimmel
 	 */
-	private class ScheduledJob {
+	private class ScheduledJob implements Host {
 
 		/** The <code>ParallelizableJob</code> to be processed. */
-		public ParallelizableJob				job;
+		public JobExecutionWrapper				job;
 
 		/** The <code>UUID</code> identifying the job. */
 		public final UUID						id;
@@ -272,27 +320,7 @@ public final class JobServer implements JobService {
 		 */
 		public final ClassManager				classManager;
 
-		/**
-		 * Initializes the scheduled job.
-		 * @param job The <code>ParallelizableJob</code> to be processed.
-		 * @param description A description of the job.
-		 * @param monitor The <code>ProgressMonitor</code> from which to create a child
-		 * 		monitor to use to monitor the progress of the
-		 * 		<code>ParallelizableJob</code>.
-		 * @throws ClassNotFoundException
-		 */
-		public ScheduledJob(Serialized<ParallelizableJob> job, String description, ProgressMonitor monitor) throws ClassNotFoundException {
-
-			this.id				= UUID.randomUUID();
-			this.description	= description;
-
-			//String title		= String.format("%s (%s)", this.job.getClass().getSimpleName(), this.id.toString());
-			this.monitor		= monitor.createChildProgressMonitor(description);
-			this.classManager	= JobServer.this.classManager.createChildClassManager();
-
-			this.initializeJob(job);
-
-		}
+		private final File						workingDirectory;
 
 		/**
 		 * Initializes the scheduled job.
@@ -303,38 +331,43 @@ public final class JobServer implements JobService {
 		 */
 		public ScheduledJob(String description, ProgressMonitor monitor) {
 
-			this.id				= UUID.randomUUID();
-			this.description	= description;
+			this.id					= UUID.randomUUID();
+			this.description		= description;
 
-			//String title		= String.format("%s (%s)", this.job.getClass().getSimpleName(), this.id.toString());
-			this.monitor		= monitor.createChildProgressMonitor(description);
+			//String title			= String.format("%s (%s)", this.job.getClass().getSimpleName(), this.id.toString());
+			this.monitor			= monitor.createChildProgressMonitor(description);
 			this.monitor.notifyStatusChanged("Awaiting job submission");
 
-			this.classManager	= JobServer.this.classManager.createChildClassManager();
+			this.classManager		= JobServer.this.classManager.createChildClassManager();
+
+			this.workingDirectory	= new File(outputDirectory, id.toString());
 
 		}
 
-		public void initializeJob(Serialized<ParallelizableJob> job) throws ClassNotFoundException {
-			ClassLoader loader	= new StrategyClassLoader(classManager, JobServer.class.getClassLoader());
-			this.job			= job.deserialize(loader);
+		public void initializeJob(Serialized<ParallelizableJob> job) throws ClassNotFoundException, JobExecutionException {
+			ClassLoader loader	= new SandboxedStrategyClassLoader(classManager, JobServer.class.getClassLoader());
+			this.job			= new JobExecutionWrapper(job.deserialize(loader));
 			this.worker			= new Serialized<TaskWorker>(this.job.worker());
 			this.monitor.notifyStatusChanged("");
+
+			this.workingDirectory.mkdir();
+			this.job.initialize(this);
 		}
 
-		public boolean submitTaskResults(int taskId, Serialized<Object> results) throws ClassNotFoundException {
+		public boolean submitTaskResults(int taskId, Serialized<Object> results) throws ClassNotFoundException, JobExecutionException {
 			ClassLoader cl = job.getClass().getClassLoader();
 			Object task = scheduler.remove(id, taskId);
 			job.submitTaskResults(task, results.deserialize(cl), monitor);
 
 			if (job.isComplete()) {
-				writeJobResults();
+				finalizeJob();
 				return true;
 			}
 
 			return false;
 		}
 
-		public void scheduleNextTask() {
+		public void scheduleNextTask() throws JobExecutionException {
 			scheduler.add(id, job.getNextTask());
 		}
 
@@ -342,34 +375,67 @@ public final class JobServer implements JobService {
 		 * Writes the results of a <code>ScheduledJob</code> to the output
 		 * directory.
 		 * @param sched The <code>ScheduledJob</code> to write results for.
+		 * @throws JobExecutionException
 		 */
-		private void writeJobResults() {
+		private void finalizeJob() throws JobExecutionException {
 
 			assert(job.isComplete());
+
+			job.finish();
 
 			try {
 
 				String				filename		= String.format("%s.zip", id.toString());
 				File				outputFile		= new File(outputDirectory, filename);
-				OutputStream		out				= new FileOutputStream(outputFile);
-				ZipOutputStream		zip				= new ZipOutputStream(out);
 
-				zip.putNextEntry(new ZipEntry("job.log"));
+				File				logFile			= new File(workingDirectory, "job.log");
+				PrintStream			log				= new PrintStream(new FileOutputStream(logFile));
 
-				PrintStream			log				= new PrintStream(zip);
 				log.printf("%tc: Job %s completed.", new Date(), id.toString());
 				log.println();
 				log.flush();
+				log.close();
 
-				zip.closeEntry();
+				FileUtil.zip(outputFile, workingDirectory);
 
-				job.writeJobResults(zip);
-				zip.close();
-
-			} catch (Exception e) {
-				e.printStackTrace();
+			} catch (IOException e) {
+				logger.log(Level.WARNING, "Exception caught while finalizing job " + id.toString(), e);
 			}
 
+		}
+
+		private File getWorkingFile(String path) {
+			File file = new File(workingDirectory, path);
+			if (!FileUtil.isAncestor(file, workingDirectory)) {
+				throw new IllegalArgumentException("path must not reference parent directory.");
+			}
+			return file;
+		}
+
+		@Override
+		public FileOutputStream createFileOutputStream(String path) {
+			File file = getWorkingFile(path);
+			File dir = file.getParentFile();
+			dir.mkdirs();
+
+			try {
+				return new FileOutputStream(path);
+			} catch (FileNotFoundException e) {
+				throw new UnexpectedException(e);
+			}
+		}
+
+		@Override
+		public RandomAccessFile createRandomAccessFile(String path) {
+			File file = getWorkingFile(path);
+			File dir = file.getParentFile();
+			dir.mkdirs();
+
+			try {
+				return new RandomAccessFile(path, "rw");
+			} catch (FileNotFoundException e) {
+				throw new UnexpectedException(e);
+			}
 		}
 
 	}

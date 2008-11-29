@@ -6,12 +6,10 @@ package org.jdcp.server;
 import java.io.File;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.prefs.Preferences;
 
 import javax.swing.JDialog;
 
-import org.jdcp.remote.JobService;
 import org.jdcp.scheduling.PrioritySerialTaskScheduler;
 import org.jdcp.scheduling.TaskScheduler;
 import org.jdcp.server.classmanager.FileClassManager;

@@ -17,6 +17,7 @@ import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.zip.DataFormatException;
 import java.util.zip.GZIPOutputStream;
 import java.util.zip.Inflater;
@@ -78,6 +79,7 @@ import org.jmist.toolkit.Grid3.Cell;
 import org.jmist.toolkit.matlab.MatlabImageWriterSpi;
 import org.jmist.toolkit.matlab.MatlabWriter;
 import org.jmist.util.ArrayUtil;
+import org.selfip.bkimmel.io.FileUtil;
 import org.selfip.bkimmel.jobs.Job;
 import org.selfip.bkimmel.progress.CompositeProgressMonitor;
 import org.selfip.bkimmel.progress.ConsoleProgressMonitor;
@@ -168,6 +170,7 @@ public class Test {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private static void testScripting() {
 		  ScriptEngineManager mgr = new ScriptEngineManager();
 		  List<ScriptEngineFactory> factories =
@@ -529,23 +532,25 @@ public class Test {
 			dialog.setVisible(true);
 			//ProgressMonitor monitor = DummyProgressMonitor.getInstance();
 
-			Job runner = new ParallelizableJobRunner(job, Runtime.getRuntime().availableProcessors());
+			File base = new File("C:\\Documents and Settings\\Erin\\My Documents\\Brad\\jmist");
+			UUID id = UUID.randomUUID();
+			File dir = new File(base, id.toString());
+
+			Job runner = new ParallelizableJobRunner(job, dir, Runtime.getRuntime().availableProcessors());
 			runner.go(monitor);
 			//job.go(monitor);
 
-			OutputStream out = new FileOutputStream("C:\\Documents and Settings\\Erin\\My Documents\\Brad\\jmist\\image.zip");
-			ZipOutputStream zip = new ZipOutputStream(out);
-
-			job.writeJobResults(zip);
-			zip.close();
+			File zipFile = new File(base, id.toString() + ".zip");
+			FileUtil.zip(zipFile, dir);
 
 //			dialog.setVisible(false);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
 
+	@SuppressWarnings("unused")
 	private static Geometry createSphereSnowflake(Material material, int levels) {
 		CompositeGeometry geometry = new BoundingBoxHierarchyGeometry(); // FIXME
 		createSphereSnowflake(geometry, Sphere.UNIT, material, Basis3.STANDARD, levels, true);
@@ -592,6 +597,7 @@ public class Test {
 
 	}
 
+	@SuppressWarnings("unused")
 	private static Matrix createHeightField() {
 		double[] height = new double[1001 * 1001];
 		for (int x = 0, i = 0; x <= 1000; x++) {
@@ -788,20 +794,20 @@ public class Test {
 //
 //		dialog.setVisible(true);
 
-		Job runner = new ParallelizableJobRunner(job, 2);
+		UUID id = UUID.randomUUID();
+		File base = new File("/home/bwkimmel");
+		File dir = new File(base, id.toString());
+		dir.mkdir();
+		Job runner = new ParallelizableJobRunner(job, dir, 2);
 
-		runner.go(DummyProgressMonitor.getInstance());
-
-		if (job.isComplete()) {
-			try {
-				FileOutputStream fos = new FileOutputStream("/home/bwkimmel/results.zip");
-				ZipOutputStream zip = new ZipOutputStream(fos);
-
-				job.writeJobResults(zip);
-				zip.close();
-			} catch (Exception e) {
-				e.printStackTrace();
+		try {
+			runner.go(DummyProgressMonitor.getInstance());
+			if (job.isComplete()) {
+				File zipFile = new File(base, id.toString() + ".zip");
+				FileUtil.zip(zipFile, dir);
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}
@@ -847,12 +853,16 @@ public class Test {
 	private static void testParallelizableJobAsJob() {
 
 		Job job = new DummyParallelizableJob(100, 500, 800);
-		job.go(
-				new CompositeProgressMonitor()
-					.addProgressMonitor(new ProgressDialog())
-					.addProgressMonitor(new ProgressDialog())
-					.addProgressMonitor(new ConsoleProgressMonitor())
-		);
+		try {
+			job.go(
+					new CompositeProgressMonitor()
+						.addProgressMonitor(new ProgressDialog())
+						.addProgressMonitor(new ProgressDialog())
+						.addProgressMonitor(new ConsoleProgressMonitor())
+			);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 	}
 
@@ -897,8 +907,14 @@ public class Test {
 
 		String host = "localhost";
 		ParallelizableJob job = getMeasurementJob(); //new DummyParallelizableJob(100, 5000, 10000);
-		Job runner = new ParallelizableJobRunner(job, 8);
-		runner.go(new ConsoleProgressMonitor());
+		File dir = new File("/home/bwkimmel", UUID.randomUUID().toString());
+		dir.mkdir();
+		Job runner = new ParallelizableJobRunner(job, dir, 8);
+		try {
+			runner.go(new ConsoleProgressMonitor());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 	}
 
