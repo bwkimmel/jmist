@@ -4,6 +4,7 @@
 package org.selfip.bkimmel.util.classloader;
 
 import java.nio.ByteBuffer;
+import java.security.ProtectionDomain;
 
 /**
  * @author brad
@@ -39,7 +40,8 @@ public class StrategyClassLoader extends ClassLoader {
 
 		if (def != null) {
 
-			Class<?> result = super.defineClass(name, def, null);
+			ProtectionDomain domain = getProtectionDomain(name);
+			Class<?> result = super.defineClass(name, def, domain);
 
 			if (result != null) {
 				super.resolveClass(result);
@@ -50,6 +52,10 @@ public class StrategyClassLoader extends ClassLoader {
 
 		throw new ClassNotFoundException(name);
 
+	}
+
+	ProtectionDomain getProtectionDomain(String name) {
+		return null;
 	}
 
 }
