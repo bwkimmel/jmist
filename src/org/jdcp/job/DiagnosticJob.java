@@ -48,6 +48,12 @@ public final class DiagnosticJob extends AbstractParallelizableJob implements Se
 		System.out.print("Results: ");
 		System.out.println(results);
 
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
 		monitor.notifyProgress(++tasksComplete, 10);
 
 	}
