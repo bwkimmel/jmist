@@ -7,7 +7,6 @@ import org.jmist.framework.Intersection;
 import org.jmist.framework.Material;
 import org.jmist.framework.Medium;
 import org.jmist.framework.ScatterResult;
-import org.jmist.framework.Spectrum;
 import org.jmist.packages.RandomScatterRecorder;
 import org.jmist.toolkit.Basis3;
 import org.jmist.toolkit.Point2;

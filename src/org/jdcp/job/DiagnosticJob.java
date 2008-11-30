@@ -6,8 +6,6 @@ package org.jdcp.job;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.Serializable;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 import org.selfip.bkimmel.progress.ProgressMonitor;
 
@@ -28,14 +26,14 @@ public final class DiagnosticJob extends AbstractParallelizableJob implements Se
 	 * @see org.jmist.framework.ParallelizableJob#getNextTask()
 	 */
 	public Object getNextTask() {
-		return !this.isComplete() ? nextTask++ : null;
+		return nextTask < 10 ? nextTask++ : null;
 	}
 
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.ParallelizableJob#isComplete()
 	 */
 	public boolean isComplete() {
-		return nextTask >= 10;
+		return nextTask >= 10 && tasksComplete == nextTask;
 	}
 
 	/* (non-Javadoc)
@@ -50,6 +48,14 @@ public final class DiagnosticJob extends AbstractParallelizableJob implements Se
 		System.out.print("Results: ");
 		System.out.println(results);
 
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		monitor.notifyProgress(++tasksComplete, 10);
+
 	}
 
 	/* (non-Javadoc)
@@ -60,18 +66,13 @@ public final class DiagnosticJob extends AbstractParallelizableJob implements Se
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.ParallelizableJob#writeJobResults(java.util.zip.ZipOutputStream)
+	 * @see org.jmist.framework.ParallelizableJob#finish()
 	 */
-	public void writeJobResults(ZipOutputStream stream) throws IOException {
-
-		stream.putNextEntry(new ZipEntry("output.txt"));
-
-		PrintStream out = new PrintStream(stream);
+	public void finish() throws IOException {
+		PrintStream out = new PrintStream(createFileOutputStream("output.txt"));
 		out.println("Done");
 		out.flush();
-
-		stream.closeEntry();
-
+		out.close();
 	}
 
 	/**
@@ -114,6 +115,11 @@ public final class DiagnosticJob extends AbstractParallelizableJob implements Se
 	 * The index of the next task to be assigned.
 	 */
 	private int nextTask = 0;
+
+	/**
+	 * The number of tasks complete.
+	 */
+	private int tasksComplete = 0;
 
 	/**
 	 * Serialization version ID.

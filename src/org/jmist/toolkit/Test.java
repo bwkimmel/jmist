@@ -1,8 +1,6 @@
 package org.jmist.toolkit;
 
-import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferDouble;
 import java.awt.image.PixelInterleavedSampleModel;
 import java.awt.image.Raster;
 import java.awt.image.SampleModel;
@@ -13,45 +11,36 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.io.RandomAccessFile;
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
-import java.nio.channels.FileChannel;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.Arrays;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+import java.util.List;
+import java.util.UUID;
 import java.util.zip.DataFormatException;
 import java.util.zip.GZIPOutputStream;
 import java.util.zip.Inflater;
 import java.util.zip.ZipOutputStream;
 
 import javax.imageio.spi.IIORegistry;
+import javax.script.ScriptEngineFactory;
+import javax.script.ScriptEngineManager;
 import javax.swing.JDialog;
-import javax.swing.JScrollPane;
 
-import org.jdcp.client.ServiceSubmitJob;
-import org.jdcp.concurrent.BackgroundThreadFactory;
 import org.jdcp.job.DummyParallelizableJob;
 import org.jdcp.job.ParallelizableJob;
 import org.jdcp.job.ParallelizableJobRunner;
-import org.jdcp.remote.JobService;
-import org.jdcp.server.JobMasterServer;
-import org.jdcp.worker.ThreadServiceWorkerJob;
 import org.jmist.framework.ConstantSpectrum;
 import org.jmist.framework.Geometry;
 import org.jmist.framework.ImageShader;
 import org.jmist.framework.Intersection;
 import org.jmist.framework.Light;
 import org.jmist.framework.Material;
-import org.jmist.framework.Model;
 import org.jmist.framework.Observer;
 import org.jmist.framework.PixelShader;
 import org.jmist.framework.ProbabilityDensityFunction;
+import org.jmist.framework.Random;
 import org.jmist.framework.RayShader;
 import org.jmist.framework.Spectrum;
 import org.jmist.framework.measurement.CollectorSphere;
@@ -64,16 +53,10 @@ import org.jmist.packages.geometry.CompositeGeometry;
 import org.jmist.packages.geometry.SubtractionGeometry;
 import org.jmist.packages.geometry.TransformableGeometry;
 import org.jmist.packages.geometry.primitive.CylinderGeometry;
-import org.jmist.packages.geometry.primitive.HeightFieldGeometry;
 import org.jmist.packages.geometry.primitive.PolygonGeometry;
-import org.jmist.packages.geometry.primitive.PolyhedronGeometry;
-import org.jmist.packages.geometry.primitive.RectangleGeometry;
 import org.jmist.packages.geometry.primitive.SphereGeometry;
 import org.jmist.packages.job.PhotometerJob;
 import org.jmist.packages.job.RasterJob;
-import org.jmist.packages.lens.FisheyeLens;
-import org.jmist.packages.lens.OmnimaxLens;
-import org.jmist.packages.lens.OrthographicLens;
 import org.jmist.packages.lens.PinholeLens;
 import org.jmist.packages.lens.TransformableLens;
 import org.jmist.packages.light.CompositeLight;
@@ -82,18 +65,13 @@ import org.jmist.packages.light.SimpleCompositeLight;
 import org.jmist.packages.material.LambertianMaterial;
 import org.jmist.packages.material.MirrorMaterial;
 import org.jmist.packages.measurement.EqualSolidAnglesCollectorSphere;
-import org.jmist.packages.model.CornellBoxModel;
-import org.jmist.packages.model.EmissionTestModel;
 import org.jmist.packages.observer.FixedObserver;
-import org.jmist.packages.observer.StandardObserver;
 import org.jmist.packages.random.NRooksRandom;
 import org.jmist.packages.random.ThreadLocalRandom;
 import org.jmist.packages.shader.image.CameraImageShader;
 import org.jmist.packages.shader.pixel.AveragingPixelShader;
 import org.jmist.packages.shader.pixel.RandomPixelShader;
-import org.jmist.packages.shader.pixel.SimplePixelShader;
 import org.jmist.packages.shader.ray.PathShader;
-import org.jmist.packages.shader.ray.VisibilityRayShader;
 import org.jmist.packages.spectrum.BlackbodySpectrum;
 import org.jmist.packages.spectrum.PiecewiseLinearSpectrum;
 import org.jmist.packages.spectrum.ScaledSpectrum;
@@ -102,6 +80,7 @@ import org.jmist.toolkit.Grid3.Cell;
 import org.jmist.toolkit.matlab.MatlabImageWriterSpi;
 import org.jmist.toolkit.matlab.MatlabWriter;
 import org.jmist.util.ArrayUtil;
+import org.selfip.bkimmel.io.FileUtil;
 import org.selfip.bkimmel.jobs.Job;
 import org.selfip.bkimmel.progress.CompositeProgressMonitor;
 import org.selfip.bkimmel.progress.ConsoleProgressMonitor;
@@ -132,7 +111,7 @@ public class Test {
 		//testShade();
 
 		//testJobMasterServer();
-		testJobMasterServiceClient();
+		//testJobMasterServiceClient();
 		//testProgressTree();
 
 		//testParallelizableJobAsJob();
@@ -157,6 +136,81 @@ public class Test {
 		//testParallelJob();
 
 		//testProgressPanel();
+		//testScripting();
+		//testPinholeCamera();
+
+		testRandom();
+	}
+
+	@SuppressWarnings("unused")
+	private static void testRandom() {
+		int n = 1000;
+		Random rnd = new NRooksRandom(n, 2);
+		File file = new File("/Users/brad/random.csv");
+		try {
+			PrintStream out = new PrintStream(new FileOutputStream(file));
+			for (int i = 0; i < n; i++) {
+				out.print(rnd.next());
+				out.print(',');
+				out.println(rnd.next());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@SuppressWarnings("unused")
+	private static void testPinholeCamera() {
+		double aspect = 297.0/293.0;
+		double vfov = Math.toRadians(97.0);
+		TransformableLens lens = PinholeLens.fromVfovAndAspect(vfov, aspect);
+		lens.rotateX(Math.toRadians(-22.4884));
+		lens.translate(Vector3.K.times(1.5));
+		File file = new File("/Users/brad/camera.csv");
+		try {
+			PrintStream out = new PrintStream(new FileOutputStream(file));
+
+			for (int i = 0; i < 297; i++) {
+				for (int j = 0; j < 243; j++) {
+					Point2 p = new Point2((double) i / 296.0, (double) j / 242.0);
+					Ray3 ray = lens.rayAt(p);
+					Vector3 v = ray.direction();
+
+					out.print(v.x());
+					out.print(',');
+					out.print(v.y());
+					out.print(',');
+					out.print(v.z());
+					out.println();
+				}
+			}
+
+			out.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@SuppressWarnings("unused")
+	private static void testScripting() {
+		  ScriptEngineManager mgr = new ScriptEngineManager();
+		  List<ScriptEngineFactory> factories =
+		      mgr.getEngineFactories();
+		  for (ScriptEngineFactory factory: factories) {
+		    System.out.println("ScriptEngineFactory Info");
+		    String engName = factory.getEngineName();
+		    String engVersion = factory.getEngineVersion();
+		    String langName = factory.getLanguageName();
+		    String langVersion = factory.getLanguageVersion();
+		    System.out.printf("\tScript Engine: %s (%s)\n",
+		        engName, engVersion);
+		    List<String> engNames = factory.getNames();
+		    for(String name: engNames) {
+		      System.out.printf("\tEngine Alias: %s\n", name);
+		    }
+		    System.out.printf("\tLanguage: %s (%s)\n",
+		        langName, langVersion);
+		  }
 
 	}
 
@@ -399,7 +453,7 @@ public class Test {
 			}));
 			Material emissive = new LambertianMaterial(null, emission);
 
-			TransformableLens lens = new PinholeLens(0.785398, 1.0);
+			TransformableLens lens = PinholeLens.fromHfovAndAspect(0.785398, 1.0);
 			//TransformableGeometry object = new TransformableGeometry(new CylinderGeometry(new Point3(0, -1, 0), 0.25, 2, matte));
 			//TransformableGeometry object = new TransformableGeometry(new TorusGeometry(1.0, 0.25, matte));
 			//TransformableGeometry object = new TransformableGeometry(new DiscGeometry(Point3.ORIGIN, Vector3.J, 1.0, true, matte));
@@ -499,23 +553,25 @@ public class Test {
 			dialog.setVisible(true);
 			//ProgressMonitor monitor = DummyProgressMonitor.getInstance();
 
-			Job runner = new ParallelizableJobRunner(job, Runtime.getRuntime().availableProcessors());
+			File base = new File("C:\\Documents and Settings\\Erin\\My Documents\\Brad\\jmist");
+			UUID id = UUID.randomUUID();
+			File dir = new File(base, id.toString());
+
+			Job runner = new ParallelizableJobRunner(job, dir, Runtime.getRuntime().availableProcessors());
 			runner.go(monitor);
 			//job.go(monitor);
 
-			OutputStream out = new FileOutputStream("C:\\Documents and Settings\\Erin\\My Documents\\Brad\\jmist\\image.zip");
-			ZipOutputStream zip = new ZipOutputStream(out);
-
-			job.writeJobResults(zip);
-			zip.close();
+			File zipFile = new File(base, id.toString() + ".zip");
+			FileUtil.zip(zipFile, dir);
 
 //			dialog.setVisible(false);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
 
+	@SuppressWarnings("unused")
 	private static Geometry createSphereSnowflake(Material material, int levels) {
 		CompositeGeometry geometry = new BoundingBoxHierarchyGeometry(); // FIXME
 		createSphereSnowflake(geometry, Sphere.UNIT, material, Basis3.STANDARD, levels, true);
@@ -562,6 +618,7 @@ public class Test {
 
 	}
 
+	@SuppressWarnings("unused")
 	private static Matrix createHeightField() {
 		double[] height = new double[1001 * 1001];
 		for (int x = 0, i = 0; x <= 1000; x++) {
@@ -589,7 +646,7 @@ public class Test {
 	@SuppressWarnings("unused")
 	private static void testTransformableGeometry() {
 
-		TransformableLens lens = new PinholeLens(Math.PI / 3, 1.0);
+		TransformableLens lens = PinholeLens.fromHfovAndAspect(Math.PI / 3, 1.0);
 		TransformableGeometry geometry = new TransformableGeometry(
 				new CylinderGeometry(
 						new Point3(0, -1, 0),
@@ -667,7 +724,7 @@ public class Test {
 	@SuppressWarnings("unused")
 	private static void testCsg() {
 
-		TransformableLens lens = new PinholeLens(Math.PI / 3, 1.0);
+		TransformableLens lens = PinholeLens.fromHfovAndAspect(Math.PI / 3, 1.0);
 
 		//lens.rotateX(Math.toRadians(40.0));
 		//lens.rotateY(Math.toRadians(25.0));
@@ -709,7 +766,7 @@ public class Test {
 	@SuppressWarnings("unused")
 	private static void testLens() {
 
-		TransformableLens lens = new PinholeLens(Math.PI / 3, 1.0);
+		TransformableLens lens = PinholeLens.fromHfovAndAspect(Math.PI / 3, 1.0);
 
 		lens.rotateX(Math.toRadians(40.0));
 		lens.rotateY(Math.toRadians(25.0));
@@ -758,20 +815,20 @@ public class Test {
 //
 //		dialog.setVisible(true);
 
-		Job runner = new ParallelizableJobRunner(job, 2);
+		UUID id = UUID.randomUUID();
+		File base = new File("/home/bwkimmel");
+		File dir = new File(base, id.toString());
+		dir.mkdir();
+		Job runner = new ParallelizableJobRunner(job, dir, 2);
 
-		runner.go(DummyProgressMonitor.getInstance());
-
-		if (job.isComplete()) {
-			try {
-				FileOutputStream fos = new FileOutputStream("/home/bwkimmel/results.zip");
-				ZipOutputStream zip = new ZipOutputStream(fos);
-
-				job.writeJobResults(zip);
-				zip.close();
-			} catch (Exception e) {
-				e.printStackTrace();
+		try {
+			runner.go(DummyProgressMonitor.getInstance());
+			if (job.isComplete()) {
+				File zipFile = new File(base, id.toString() + ".zip");
+				FileUtil.zip(zipFile, dir);
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}
@@ -817,12 +874,16 @@ public class Test {
 	private static void testParallelizableJobAsJob() {
 
 		Job job = new DummyParallelizableJob(100, 500, 800);
-		job.go(
-				new CompositeProgressMonitor()
-					.addProgressMonitor(new ProgressDialog())
-					.addProgressMonitor(new ProgressDialog())
-					.addProgressMonitor(new ConsoleProgressMonitor())
-		);
+		try {
+			job.go(
+					new CompositeProgressMonitor()
+						.addProgressMonitor(new ProgressDialog())
+						.addProgressMonitor(new ProgressDialog())
+						.addProgressMonitor(new ConsoleProgressMonitor())
+			);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 	}
 
@@ -842,73 +903,39 @@ public class Test {
 
 	}
 
-	@SuppressWarnings("unused")
-	private static void testJobMasterServer() {
-
-		try {
-			System.err.println("[0]");
-
-	        if (System.getSecurityManager() == null) {
-				System.err.println("[0.1]");
-	            System.setSecurityManager(new SecurityManager());
-	        }
-
-	        JDialog dialog = new JDialog();
-	        ProgressPanel monitor = new ProgressPanel("JobMasterServer");
-	        dialog.add(monitor);
-	        dialog.setBounds(100, 100, 500, 350);
-
-	        File outputDirectory = new File("C:/jobs/");
-			JobMasterServer server = new JobMasterServer(outputDirectory, monitor, true);
-			System.err.println("[1]");
-			JobService stub = (JobService) UnicastRemoteObject.exportObject(server, 0);
-			System.err.println("[2]");
-
-			Registry registry = LocateRegistry.getRegistry();
-			System.err.println("[3]");
-			registry.bind("JobMasterService", stub);
-			System.err.println("[4]");
-
-			System.err.println("Server ready");
-			dialog.setTitle("JobMasterServer");
-			dialog.setVisible(true);
-
-		} catch (Exception e) {
-
-			System.err.println("Server exception:");
-			e.printStackTrace();
-
-		}
-
-	}
-
-	@SuppressWarnings("unused")
-	private static void testJobMasterServiceClient() {
-
-		String host = "localhost";
-		JDialog dialog = new JDialog();
-		ProgressPanel monitor = new ProgressPanel();
-		ParallelizableJob job = getMeasurementJob(); //new DummyParallelizableJob(100, 5000, 10000);
-		Executor threadPool = Executors.newFixedThreadPool(2, new BackgroundThreadFactory());
-		Job submitJob = new ServiceSubmitJob(job, 0, host);
-		Job workerJob = new ThreadServiceWorkerJob(host, 10000, 2, threadPool);
-
-		dialog.add(monitor);
-		dialog.setBounds(0, 0, 400, 300);
-		dialog.setVisible(true);
-
-		submitJob.go(monitor);
-		//workerJob.go(monitor);
-
-	}
+//	@SuppressWarnings("unused")
+//	private static void testJobMasterServiceClient() {
+//
+//		String host = "localhost";
+//		JDialog dialog = new JDialog();
+//		ProgressPanel monitor = new ProgressPanel();
+//		ParallelizableJob job = getMeasurementJob(); //new DummyParallelizableJob(100, 5000, 10000);
+//		Executor threadPool = Executors.newFixedThreadPool(2, new BackgroundThreadFactory());
+//		Job submitJob = new ServiceSubmitJob(job, 0, host);
+//		Job workerJob = new ThreadServiceWorkerJob(host, 10000, 2, threadPool);
+//
+//		dialog.add(monitor);
+//		dialog.setBounds(0, 0, 400, 300);
+//		dialog.setVisible(true);
+//
+//		submitJob.go(monitor);
+//		//workerJob.go(monitor);
+//
+//	}
 
 	@SuppressWarnings("unused")
 	private static void testParallelJob() {
 
 		String host = "localhost";
 		ParallelizableJob job = getMeasurementJob(); //new DummyParallelizableJob(100, 5000, 10000);
-		Job runner = new ParallelizableJobRunner(job, 8);
-		runner.go(new ConsoleProgressMonitor());
+		File dir = new File("/home/bwkimmel", UUID.randomUUID().toString());
+		dir.mkdir();
+		Job runner = new ParallelizableJobRunner(job, dir, 8);
+		try {
+			runner.go(new ConsoleProgressMonitor());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 	}
 

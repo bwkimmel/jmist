@@ -7,9 +7,11 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.UUID;
 
+import org.jdcp.job.JobExecutionException;
 import org.jdcp.job.ParallelizableJob;
 import org.jdcp.job.TaskDescription;
 import org.jdcp.job.TaskWorker;
+import org.selfip.bkimmel.rmi.Serialized;
 
 /**
  * A remote service for accepting <code>ParallelizableJob</code>s,
@@ -18,6 +20,8 @@ import org.jdcp.job.TaskWorker;
  * @author bkimmel
  */
 public interface JobService extends Remote {
+
+	public static final int DEFAULT_PRIORITY = 20;
 
 	/* **************************************************************
 	 * Worker client methods (Task distribution and result gathering)
@@ -31,7 +35,8 @@ public interface JobService extends Remote {
 	 * 		with the specified <code>UUID</code>, or <code>null</code> if that
 	 * 		job is no longer available.
 	 */
-	TaskWorker getTaskWorker(UUID jobId) throws SecurityException, RemoteException;
+	Serialized<TaskWorker> getTaskWorker(UUID jobId)
+			throws IllegalArgumentException, SecurityException, RemoteException;
 
 	/**
 	 * Gets a task to perform.
@@ -46,13 +51,21 @@ public interface JobService extends Remote {
 	 * 		task was performed.
 	 * @param taskId The ID of the task that was performed.
 	 * @param results The results of the task.
+	 * @throws ClassNotFoundException
 	 */
-	void submitTaskResults(UUID jobId, int taskId, Object results) throws SecurityException, RemoteException;
+	void submitTaskResults(UUID jobId, int taskId, Serialized<Object> results)
+			throws SecurityException, RemoteException;
 
 
 	/* **********************
 	 * Job submission methods
 	 */
+
+	UUID createJob(String description) throws SecurityException, RemoteException;
+
+	void submitJob(Serialized<ParallelizableJob> job, UUID jobId)
+			throws IllegalArgumentException, SecurityException,
+			ClassNotFoundException, RemoteException, JobExecutionException;
 
 	/**
 	 * Submits a new job to be processed.
@@ -60,8 +73,29 @@ public interface JobService extends Remote {
 	 * @param priority The priority to assign to the job.
 	 * @return The <code>UUID</code> assigned to the job, or <code>null</code>
 	 * 		if the job was not accepted.
+	 * @throws ClassNotFoundException
+	 * @throws JobExecutionException
 	 */
-	UUID submitJob(ParallelizableJob job, int priority) throws SecurityException, RemoteException;
+	UUID submitJob(Serialized<ParallelizableJob> job, String description)
+			throws SecurityException, ClassNotFoundException, RemoteException,
+			JobExecutionException;
+
+	void cancelJob(UUID jobId) throws IllegalArgumentException, SecurityException, RemoteException;
+
+
+	/* ************************
+	 * Class management methods
+	 */
+
+	byte[] getClassDigest(String name, UUID jobId) throws SecurityException, RemoteException;
+
+	byte[] getClassDigest(String name) throws SecurityException, RemoteException;
+
+	byte[] getClassDefinition(String name, UUID jobId) throws SecurityException, RemoteException;
+
+	void setClassDefinition(String name, byte[] def) throws SecurityException, RemoteException;
+
+	void setClassDefinition(String name, UUID jobId, byte[] def) throws IllegalArgumentException, SecurityException, RemoteException;
 
 
 	/* **********************
@@ -75,5 +109,7 @@ public interface JobService extends Remote {
 	 * 		idle when there are no tasks to be performed.
 	 */
 	void setIdleTime(int idleSeconds) throws IllegalArgumentException, SecurityException, RemoteException;
+
+	void setJobPriority(UUID jobId, int priority) throws IllegalArgumentException, SecurityException, RemoteException;
 
 }

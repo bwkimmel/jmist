@@ -6,6 +6,9 @@ package org.jdcp.job;
 import java.io.Serializable;
 import java.util.UUID;
 
+import org.jdcp.remote.JobService;
+import org.selfip.bkimmel.rmi.Serialized;
+
 /**
  * A description of a task assigned by a <code>JobMasterService</code>.
  * @author bkimmel
@@ -24,7 +27,7 @@ public final class TaskDescription implements Serializable {
 	public TaskDescription(UUID jobId, int taskId, Object task) {
 		this.jobId = jobId;
 		this.taskId = taskId;
-		this.task = task;
+		this.task = new Serialized<Object>(task);
 	}
 
 	/**
@@ -38,7 +41,7 @@ public final class TaskDescription implements Serializable {
 	 * 		{@link org.jmist.framework.TaskWorker#performTask(Object, org.jmist.framework.ProgressMonitor)},
 	 * 		{@link JobService#getTaskWorker(UUID)}.
 	 */
-	public Object getTask() {
+	public Serialized<Object> getTask() {
 		return this.task;
 	}
 
@@ -72,7 +75,7 @@ public final class TaskDescription implements Serializable {
 	private final int taskId;
 
 	/** The <code>Object</code> describing the task to be performed. */
-	private final Object task;
+	private final Serialized<Object> task;
 
 	/**
 	 * Serialization version ID.

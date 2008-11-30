@@ -10,16 +10,24 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
-import java.util.concurrent.Semaphore;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import javax.jnlp.UnavailableServiceException;
+
 import org.jdcp.job.TaskDescription;
 import org.jdcp.job.TaskWorker;
+import org.jdcp.remote.AuthenticationService;
 import org.jdcp.remote.JobService;
 import org.selfip.bkimmel.jobs.Job;
+import org.selfip.bkimmel.progress.PermanentProgressMonitor;
 import org.selfip.bkimmel.progress.ProgressMonitor;
+import org.selfip.bkimmel.rmi.Serialized;
+import org.selfip.bkimmel.util.classloader.ClassLoaderStrategy;
+import org.selfip.bkimmel.util.classloader.StrategyClassLoader;
 
 /**
  * A job that processes tasks for a parallelizable job from a remote
@@ -33,20 +41,20 @@ public final class ThreadServiceWorkerJob implements Job {
 	 * Initializes the address of the master and the amount of time to idle
 	 * when no task is available.
 	 * @param masterHost The URL of the master.
-	 * @param idleTime The time (in milliseconds) to idle when no task is
+	 * @param idleTime The time (in seconds) to idle when no task is
 	 * 		available.
 	 * @param maxConcurrentWorkers The maximum number of concurrent worker
 	 * 		threads to allow.
 	 * @param executor The <code>Executor</code> to use to process tasks.
 	 */
-	public ThreadServiceWorkerJob(String masterHost, long idleTime, int maxConcurrentWorkers, Executor executor) {
+	public ThreadServiceWorkerJob(String masterHost, int idleTime, int maxConcurrentWorkers, Executor executor) {
 
 		assert(maxConcurrentWorkers > 0);
 
 		this.masterHost = masterHost;
 		this.idleTime = idleTime;
 		this.executor = executor;
-		this.workerSlot = new Semaphore(maxConcurrentWorkers, true);
+		this.maxConcurrentWorkers = maxConcurrentWorkers;
 
 	}
 
@@ -57,22 +65,19 @@ public final class ThreadServiceWorkerJob implements Job {
 
 		try {
 
-			int workerIndex = 0;
-
 			monitor.notifyIndeterminantProgress();
 			monitor.notifyStatusChanged("Looking up master...");
 
 			this.registry = LocateRegistry.getRegistry(this.masterHost);
 			this.initializeService();
+			this.initializeWorkers(maxConcurrentWorkers, monitor);
 
 			while (!monitor.isCancelPending()) {
 
-				this.workerSlot.acquire();
-
-				String workerTitle = String.format("Worker (%d)", ++workerIndex);
+				Worker worker = this.workerQueue.take();
 
 				monitor.notifyStatusChanged("Queueing worker process...");
-				this.executor.execute(new Worker(monitor.createChildProgressMonitor(workerTitle)));
+				this.executor.execute(worker);
 
 			}
 
@@ -96,12 +101,27 @@ public final class ThreadServiceWorkerJob implements Job {
 	}
 
 	/**
+	 * Initializes the worker queue with the specified number of workers.
+	 * @param numWorkers The number of workers to create.
+	 * @param parentMonitor The <code>ProgressMonitor</code> to use to create
+	 * 		child <code>ProgressMonitor</code>s for each <code>Worker</code>.
+	 */
+	private void initializeWorkers(int numWorkers, ProgressMonitor parentMonitor) {
+		for (int i = 0; i < numWorkers; i++) {
+			String title = String.format("Worker (%d)", i + 1);
+			ProgressMonitor monitor = new PermanentProgressMonitor(parentMonitor.createChildProgressMonitor(title));
+			workerQueue.add(new Worker(monitor));
+		}
+	}
+
+	/**
 	 * Attempt to initialize a connection to the master service.
 	 * @return A value indicating whether the operation succeeded.
 	 */
 	private boolean initializeService() {
 		try {
-			this.service = (JobService) this.registry.lookup("JobMasterService");
+			AuthenticationService authService = (AuthenticationService) this.registry.lookup("AuthenticationService");
+			this.service = authService.authenticate("guest", "");
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -278,8 +298,9 @@ public final class ThreadServiceWorkerJob implements Job {
 	 * 		the specified <code>UUID</code>, or <code>null</code> if the job
 	 * 		is invalid or has already been completed.
 	 * @throws RemoteException
+	 * @throws ClassNotFoundException
 	 */
-	private TaskWorker getTaskWorker(UUID jobId) throws RemoteException {
+	private TaskWorker getTaskWorker(UUID jobId) throws RemoteException, ClassNotFoundException {
 
 		WorkerCacheEntry entry = null;
 		boolean hit;
@@ -310,7 +331,18 @@ public final class ThreadServiceWorkerJob implements Job {
 			/* The task worker was not in the cache, so use the service to
 			 * obtain the task worker.
 			 */
-			TaskWorker worker = this.service.getTaskWorker(jobId);
+			Serialized<TaskWorker> envelope = this.service.getTaskWorker(jobId);
+
+			// TODO replace hard coded class loader strategy.
+			ClassLoaderStrategy strategy;
+			try {
+				strategy = new PersistenceCachingJobServiceClassLoaderStrategy(service, jobId);
+			} catch (UnavailableServiceException e) {
+				strategy = new FileCachingJobServiceClassLoaderStrategy(service, jobId, "/Users/brad/jmist/worker");
+			} // new FileCachingJobServiceClassLoaderStrategy(service, jobId, "C:/test/worker");
+
+			ClassLoader loader = new StrategyClassLoader(strategy, ThreadServiceWorkerJob.class.getClassLoader());
+			TaskWorker worker = envelope.deserialize(loader);
 			entry.setWorker(worker);
 
 			/* If we couldn't get a worker from the service, then don't keep
@@ -360,24 +392,42 @@ public final class ThreadServiceWorkerJob implements Job {
 
 					if (taskDesc != null) {
 
-						this.monitor.notifyStatusChanged("Obtaining task worker...");
-						TaskWorker worker = getTaskWorker(taskDesc.getJobId());
+						UUID jobId = taskDesc.getJobId();
 
-						if (worker == null) {
-							this.monitor.notifyStatusChanged("Could not obtain worker...");
-							this.monitor.notifyCancelled();
-							return;
+						if (jobId != null) {
+
+							this.monitor.notifyStatusChanged("Obtaining task worker...");
+							TaskWorker worker;
+							try {
+								worker = getTaskWorker(jobId);
+							} catch (ClassNotFoundException e) {
+								e.printStackTrace();
+								worker = null;
+							}
+
+							if (worker == null) {
+								this.monitor.notifyStatusChanged("Could not obtain worker...");
+								this.monitor.notifyCancelled();
+								return;
+							}
+
+							this.monitor.notifyStatusChanged("Performing task...");
+							ClassLoader loader = worker.getClass().getClassLoader();
+							Object task = taskDesc.getTask().deserialize(loader);
+							Object results = worker.performTask(task, monitor);
+
+							this.monitor.notifyStatusChanged("Submitting task results...");
+							service.submitTaskResults(jobId, taskDesc.getTaskId(), new Serialized<Object>(results));
+
+						} else {
+
+							int seconds = (Integer) taskDesc.getTask().deserialize();
+							this.idle(seconds);
+
 						}
-
-						this.monitor.notifyStatusChanged("Performing task...");
-						Object results = worker.performTask(taskDesc.getTask(), monitor);
-
-						this.monitor.notifyStatusChanged("Submitting task results...");
-						service.submitTaskResults(taskDesc.getJobId(), taskDesc.getTaskId(), results);
 
 					} else {
 
-						this.monitor.notifyStatusChanged("Idling...");
 						this.idle();
 
 					}
@@ -402,9 +452,11 @@ public final class ThreadServiceWorkerJob implements Job {
 
 				this.monitor.notifyCancelled();
 
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
 			} finally {
 
-				workerSlot.release();
+				workerQueue.add(this);
 
 			}
 
@@ -426,10 +478,40 @@ public final class ThreadServiceWorkerJob implements Job {
 		 * Idles for a period of time before finishing the task.
 		 */
 		private void idle() {
+			idle(idleTime);
+		}
+
+		/**
+		 * Idles for the specified number of seconds.
+		 * @param seconds The number of seconds to idle for.
+		 */
+		private void idle(int seconds) {
+
+			monitor.notifyStatusChanged("Idling...");
+
+			for (int i = 0; i < seconds; i++) {
+
+				if (!monitor.notifyProgress(i, seconds)) {
+					monitor.notifyCancelled();
+				}
+
+				this.sleep();
+
+			}
+
+			monitor.notifyProgress(seconds, seconds);
+			monitor.notifyComplete();
+
+		}
+
+		/**
+		 * Sleeps for one second.
+		 */
+		private void sleep() {
 			try {
-				Thread.sleep(idleTime);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
-				// continue.
+				e.printStackTrace();
 			}
 		}
 
@@ -444,18 +526,12 @@ public final class ThreadServiceWorkerJob implements Job {
 	private final String masterHost;
 
 	/**
-	 * The amount of time (in milliseconds) to idle when no task is available.
+	 * The amount of time (in seconds) to idle when no task is available.
 	 */
-	private final long idleTime;
+	private final int idleTime;
 
 	/** The <code>Executor</code> to use to process tasks. */
 	private final Executor executor;
-
-	/**
-	 * The <code>Semaphore</code> to use to throttle <code>Worker</code>
-	 * threads.
-	 */
-	private final Semaphore workerSlot;
 
 	/**
 	 * The <code>Registry</code> to obtain the service from.
@@ -463,10 +539,16 @@ public final class ThreadServiceWorkerJob implements Job {
 	private Registry registry = null;
 
 	/**
-	 * The <code>JobMasterService</code> to obtain tasks from and submit
+	 * The <code>JobService</code> to obtain tasks from and submit
 	 * results to.
 	 */
 	private JobService service = null;
+
+	/** The maximum number of workers that may be executing simultaneously. */
+	private final int maxConcurrentWorkers;
+
+	/** A queue containing the available workers. */
+	private final BlockingQueue<Worker> workerQueue = new LinkedBlockingQueue<Worker>();
 
 	/**
 	 * A list of recently used <code>TaskWorker</code>s and their associated

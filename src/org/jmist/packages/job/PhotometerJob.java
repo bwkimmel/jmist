@@ -3,11 +3,8 @@
  */
 package org.jmist.packages.job;
 
-import java.io.IOException;
 import java.io.PrintStream;
 import java.io.Serializable;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 import org.jdcp.job.AbstractParallelizableJob;
 import org.jdcp.job.TaskWorker;
@@ -111,13 +108,11 @@ public final class PhotometerJob extends
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jmist.framework.ParallelizableJob#writeJobResults(java.util.zip.ZipOutputStream)
+	 * @see org.jmist.framework.ParallelizableJob#finish()
 	 */
-	public void writeJobResults(ZipOutputStream stream) throws IOException {
+	public void finish() {
 
-		stream.putNextEntry(new ZipEntry("photometer.csv"));
-
-		PrintStream out = new PrintStream(stream);
+		PrintStream out = new PrintStream(createFileOutputStream("photometer.csv"));
 
 		this.writeColumnHeadings(out);
 
@@ -162,7 +157,7 @@ public final class PhotometerJob extends
 
 		}
 
-		stream.closeEntry();
+		out.close();
 
 	}
 

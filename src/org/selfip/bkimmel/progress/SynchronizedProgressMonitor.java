@@ -44,7 +44,9 @@ public final class SynchronizedProgressMonitor implements ProgressMonitor {
 	 * @see org.jmist.framework.reporting.ProgressMonitor#createChildProgressMonitor(java.lang.String)
 	 */
 	public ProgressMonitor createChildProgressMonitor(String title) {
-		return new SynchronizedProgressMonitor(monitor.createChildProgressMonitor(title), syncObject);
+		synchronized (syncObject) {
+			return new SynchronizedProgressMonitor(monitor.createChildProgressMonitor(title), syncObject);
+		}
 	}
 
 	/* (non-Javadoc)
