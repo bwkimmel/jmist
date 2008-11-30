@@ -147,7 +147,7 @@ public final class PrioritySerialTaskScheduler implements TaskScheduler {
 		public Object removeTask(int taskId) {
 			taskQueue.remove((Object) new Integer(taskId));
 			TaskDescription desc = tasks.remove(taskId);
-			return desc.getTask().get();
+			return (desc != null) ? desc.getTask().get() : null;
 		}
 
 		/**
@@ -239,7 +239,7 @@ public final class PrioritySerialTaskScheduler implements TaskScheduler {
 	 */
 	public Object remove(UUID jobId, int taskId) {
 		JobInfo job = jobs.get(jobId);
-		return job.removeTask(taskId);
+		return (job != null) ? job.removeTask(taskId) : null;
 	}
 
 	/* (non-Javadoc)
