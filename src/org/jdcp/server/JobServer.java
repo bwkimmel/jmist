@@ -357,18 +357,24 @@ public final class JobServer implements JobService {
 		public boolean submitTaskResults(int taskId, Serialized<Object> results) throws ClassNotFoundException, JobExecutionException {
 			ClassLoader cl = job.getClass().getClassLoader();
 			Object task = scheduler.remove(id, taskId);
-			job.submitTaskResults(task, results.deserialize(cl), monitor);
 
-			if (job.isComplete()) {
-				finalizeJob();
-				return true;
+			if (task != null) {
+				job.submitTaskResults(task, results.deserialize(cl), monitor);
+
+				if (job.isComplete()) {
+					finalizeJob();
+					return true;
+				}
 			}
 
 			return false;
 		}
 
 		public void scheduleNextTask() throws JobExecutionException {
-			scheduler.add(id, job.getNextTask());
+			Object task = job.getNextTask();
+			if (task != null) {
+				scheduler.add(id, task);
+			}
 		}
 
 		/**
