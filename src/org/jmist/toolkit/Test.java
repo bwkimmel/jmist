@@ -40,6 +40,7 @@ import org.jmist.framework.Material;
 import org.jmist.framework.Observer;
 import org.jmist.framework.PixelShader;
 import org.jmist.framework.ProbabilityDensityFunction;
+import org.jmist.framework.Random;
 import org.jmist.framework.RayShader;
 import org.jmist.framework.Spectrum;
 import org.jmist.framework.measurement.CollectorSphere;
@@ -136,16 +137,36 @@ public class Test {
 
 		//testProgressPanel();
 		//testScripting();
-		testPinholeCamera();
+		//testPinholeCamera();
+
+		testRandom();
 	}
 
+	@SuppressWarnings("unused")
+	private static void testRandom() {
+		int n = 1000;
+		Random rnd = new NRooksRandom(n, 2);
+		File file = new File("/Users/brad/random.csv");
+		try {
+			PrintStream out = new PrintStream(new FileOutputStream(file));
+			for (int i = 0; i < n; i++) {
+				out.print(rnd.next());
+				out.print(',');
+				out.println(rnd.next());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@SuppressWarnings("unused")
 	private static void testPinholeCamera() {
 		double aspect = 297.0/293.0;
 		double vfov = Math.toRadians(97.0);
 		TransformableLens lens = PinholeLens.fromVfovAndAspect(vfov, aspect);
-		lens.rotateX(Math.toRadians(-21.0));
+		lens.rotateX(Math.toRadians(-22.4884));
 		lens.translate(Vector3.K.times(1.5));
-		File file = new File("C:/camera.csv");
+		File file = new File("/Users/brad/camera.csv");
 		try {
 			PrintStream out = new PrintStream(new FileOutputStream(file));
 
