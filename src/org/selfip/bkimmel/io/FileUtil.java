@@ -160,9 +160,11 @@ public final class FileUtil {
 	}
 
 	public static boolean postOrderTraversal(File root, FileVisitor visitor) throws Exception {
-		for (File child : root.listFiles()) {
-			if (!postOrderTraversal(child, visitor)) {
-				return false;
+		if (root.isDirectory()) {
+			for (File child : root.listFiles()) {
+				if (!postOrderTraversal(child, visitor)) {
+					return false;
+				}
 			}
 		}
 		return visitor.visit(root);
@@ -172,9 +174,11 @@ public final class FileUtil {
 		if (!visitor.visit(root)) {
 			return false;
 		}
-		for (File child : root.listFiles()) {
-			if (!preOrderTraversal(child, visitor)) {
-				return false;
+		if (root.isDirectory()) {
+			for (File child : root.listFiles()) {
+				if (!preOrderTraversal(child, visitor)) {
+					return false;
+				}
 			}
 		}
 		return true;
