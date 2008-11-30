@@ -403,6 +403,7 @@ public final class JobServer implements JobService {
 				log.close();
 
 				FileUtil.zip(outputFile, workingDirectory);
+				FileUtil.deleteRecursive(workingDirectory);
 
 			} catch (IOException e) {
 				logger.log(Level.WARNING, "Exception caught while finalizing job " + id.toString(), e);
