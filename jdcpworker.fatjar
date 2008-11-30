@@ -1,5 +1,5 @@
 #Fat Jar Configuration File
-#Wed Nov 26 15:45:01 EST 2008
+#Sat Nov 29 19:39:49 EST 2008
 onejar.license.required=false
 manifest.classpath=
 manifest.removesigners=true
@@ -10,5 +10,5 @@ manifest.mainclass=org.jdcp.worker.WorkerMain
 manifest.file=<createnew>
 jarname.isextern=false
 onejar.expand=
-excludes=<po|jmist>~org/~jdcp/~client/;<po|jmist>~org/~jdcp/~job/~DummyParallelizableJob$1.class;<po|jmist>~org/~jdcp/~job/~DummyParallelizableJob.class;<po|jmist>~org/~jdcp/~job/~ParallelizableJobRunner$Worker.class;<po|jmist>~org/~jdcp/~job/~ParallelizableJobRunner.class;<po|jmist>~org/~jdcp/~security/~JdcpPermission.class;<po|jmist>~org/~jdcp/~security/~JdcpPrincipal.class;<po|jmist>~org/~jdcp/~server/;<po|jmist>~org/~jmist/;<jar|junit.jar>
+excludes=<po|jmist>~org/~jdcp/~client/;<po|jmist>~org/~jdcp/~job/~DiagnosticJob$DiagnosticTaskWorker.class;<po|jmist>~org/~jdcp/~job/~DiagnosticJob.class;<po|jmist>~org/~jdcp/~job/~DummyParallelizableJob$1.class;<po|jmist>~org/~jdcp/~job/~DummyParallelizableJob.class;<po|jmist>~org/~jdcp/~job/~ParallelizableJobRunner$Worker.class;<po|jmist>~org/~jdcp/~job/~ParallelizableJobRunner.class;<po|jmist>~org/~jdcp/~security/~JdcpPermission.class;<po|jmist>~org/~jdcp/~server/;<po|jmist>~org/~jmist/;<jar|junit.jar>
 includes=
