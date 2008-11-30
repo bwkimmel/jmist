@@ -26,14 +26,14 @@ public final class DiagnosticJob extends AbstractParallelizableJob implements Se
 	 * @see org.jmist.framework.ParallelizableJob#getNextTask()
 	 */
 	public Object getNextTask() {
-		return !this.isComplete() ? nextTask++ : null;
+		return nextTask < 10 ? nextTask++ : null;
 	}
 
 	/* (non-Javadoc)
 	 * @see org.jmist.framework.ParallelizableJob#isComplete()
 	 */
 	public boolean isComplete() {
-		return nextTask >= 10;
+		return nextTask >= 10 && tasksComplete == nextTask;
 	}
 
 	/* (non-Javadoc)
@@ -47,6 +47,8 @@ public final class DiagnosticJob extends AbstractParallelizableJob implements Se
 
 		System.out.print("Results: ");
 		System.out.println(results);
+
+		monitor.notifyProgress(++tasksComplete, 10);
 
 	}
 
@@ -107,6 +109,11 @@ public final class DiagnosticJob extends AbstractParallelizableJob implements Se
 	 * The index of the next task to be assigned.
 	 */
 	private int nextTask = 0;
+
+	/**
+	 * The number of tasks complete.
+	 */
+	private int tasksComplete = 0;
 
 	/**
 	 * Serialization version ID.
