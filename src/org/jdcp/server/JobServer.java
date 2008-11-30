@@ -16,6 +16,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.Executor;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -55,6 +57,8 @@ public final class JobServer implements JobService {
 
 	private final Logger logger;
 
+	private final Executor executor;
+
 	private TaskDescription idleTask = new TaskDescription(null, 0, DEFAULT_IDLE_SECONDS);
 
 	/**
@@ -65,8 +69,10 @@ public final class JobServer implements JobService {
 	 * 		tasks.
 	 * @param classManager The <code>ParentClassManager</code> to use to
 	 * 		store and retrieve class definitions.
+	 * @param executor The <code>Executor</code> to use to run bits of code
+	 * 		that should not hold up the remote caller.
 	 */
-	public JobServer(File outputDirectory, ProgressMonitor monitor, TaskScheduler scheduler, ParentClassManager classManager) throws IllegalArgumentException {
+	public JobServer(File outputDirectory, ProgressMonitor monitor, TaskScheduler scheduler, ParentClassManager classManager, Executor executor) throws IllegalArgumentException {
 		if (!outputDirectory.isDirectory()) {
 			throw new IllegalArgumentException("outputDirectory must be a directory.");
 		}
@@ -74,6 +80,7 @@ public final class JobServer implements JobService {
 		this.monitor = monitor;
 		this.scheduler = scheduler;
 		this.classManager = classManager;
+		this.executor = executor;
 
 		// TODO Replace this with a logger passed from the constructor.
 		this.logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -134,7 +141,7 @@ public final class JobServer implements JobService {
 			throw new IllegalArgumentException("No job with provided Job ID");
 		}
 
-		cancelScheduledJob(jobId);
+		removeScheduledJob(jobId, false);
 	}
 
 	/* (non-Javadoc)
@@ -171,28 +178,10 @@ public final class JobServer implements JobService {
 	/* (non-Javadoc)
 	 * @see org.jdcp.remote.JobService#submitTaskResults(java.util.UUID, int, org.selfip.bkimmel.rmi.Envelope)
 	 */
-	public void submitTaskResults(UUID jobId, int taskId,
-			Serialized<Object> results) throws SecurityException {
+	public void submitTaskResults(final UUID jobId, final int taskId,
+			final Serialized<Object> results) throws SecurityException {
 		ScheduledJob sched = jobs.get(jobId);
-		if (sched == null) {
-			throw new IllegalArgumentException("No submitted job with provided Job ID");
-		}
-
-		try {
-			if (sched.submitTaskResults(taskId, results)) { // job is complete
-				sched.monitor.notifyComplete();
-				jobs.remove(jobId);
-				scheduler.removeJob(jobId);
-				classManager.releaseChildClassManager(sched.classManager);
-			}
-		} catch (JobExecutionException e) {
-			handleJobExecutionException(e, jobId);
-		} catch (ClassNotFoundException e) {
-			logger.log(Level.WARNING,
-					"Exception thrown submitting results of task for job "
-							+ jobId.toString(), e);
-			cancelScheduledJob(jobId);
-		}
+		sched.submitTaskResults(taskId, results);
 	}
 
 	/* (non-Javadoc)
@@ -278,13 +267,17 @@ public final class JobServer implements JobService {
 
 	private void handleJobExecutionException(JobExecutionException e, UUID jobId) {
 		logger.log(Level.WARNING, "Exception thrown from job " + jobId.toString(), e);
-		cancelScheduledJob(jobId);
+		removeScheduledJob(jobId, false);
 	}
 
-	private void cancelScheduledJob(UUID jobId) {
+	private void removeScheduledJob(UUID jobId, boolean complete) {
 		ScheduledJob sched = jobs.remove(jobId);
 		if (sched != null) {
-			sched.monitor.notifyCancelled();
+			if (complete) {
+				sched.monitor.notifyComplete();
+			} else {
+				sched.monitor.notifyCancelled();
+			}
 			jobs.remove(jobId);
 			scheduler.removeJob(jobId);
 			classManager.releaseChildClassManager(sched.classManager);
@@ -356,20 +349,14 @@ public final class JobServer implements JobService {
 			this.job.initialize(this);
 		}
 
-		public boolean submitTaskResults(int taskId, Serialized<Object> results) throws ClassNotFoundException, JobExecutionException {
-			ClassLoader cl = job.getClass().getClassLoader();
+		public void submitTaskResults(int taskId, Serialized<Object> results) {
 			Object task = scheduler.remove(id, taskId);
-
-			if (task != null) {
-				job.submitTaskResults(task, results.deserialize(cl), monitor);
-
-				if (job.isComplete()) {
-					finalizeJob();
-					return true;
-				}
+			Runnable command = new TaskResultSubmitter(this, task, results, monitor);
+			try {
+				executor.execute(command);
+			} catch (RejectedExecutionException e) {
+				command.run();
 			}
-
-			return false;
 		}
 
 		public void scheduleNextTask() throws JobExecutionException {
@@ -455,6 +442,55 @@ public final class JobServer implements JobService {
 					}
 				}
 			});
+		}
+
+	}
+
+	private class TaskResultSubmitter implements Runnable {
+
+		private final ScheduledJob sched;
+		private final Object task;
+		private final Serialized<Object> results;
+		private final ProgressMonitor monitor;
+
+		/**
+		 * @param sched
+		 * @param task
+		 * @param results
+		 * @param monitor
+		 */
+		public TaskResultSubmitter(ScheduledJob sched, Object task,
+				Serialized<Object> results, ProgressMonitor monitor) {
+			this.sched = sched;
+			this.task = task;
+			this.results = results;
+			this.monitor = monitor;
+		}
+
+		/* (non-Javadoc)
+		 * @see java.lang.Runnable#run()
+		 */
+		@Override
+		public void run() {
+			ClassLoader cl = sched.job.getClass().getClassLoader();
+			if (task != null) {
+				try {
+					sched.job.submitTaskResults(task,
+							results.deserialize(cl), monitor);
+
+					if (sched.job.isComplete()) {
+						sched.finalizeJob();
+						removeScheduledJob(sched.id, true);
+					}
+				} catch (JobExecutionException e) {
+					handleJobExecutionException(e, sched.id);
+				} catch (ClassNotFoundException e) {
+					logger.log(Level.WARNING,
+							"Exception thrown submitting results of task for job "
+									+ sched.id.toString(), e);
+					removeScheduledJob(sched.id, false);
+				}
+			}
 		}
 
 	}

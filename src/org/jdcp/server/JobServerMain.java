@@ -6,6 +6,8 @@ package org.jdcp.server;
 import java.io.File;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.prefs.Preferences;
 
 import javax.swing.JDialog;
@@ -51,7 +53,8 @@ public final class JobServerMain {
 			System.err.print("Initializing service...");
 			ParentClassManager classManager = new FileClassManager(classesDirectory);
 			TaskScheduler scheduler = new PrioritySerialTaskScheduler();
-			JobServer jobServer = new JobServer(jobsDirectory, monitor, scheduler, classManager);
+			Executor executor = Executors.newCachedThreadPool();
+			JobServer jobServer = new JobServer(jobsDirectory, monitor, scheduler, classManager, executor);
 			AuthenticationServer authServer = new AuthenticationServer(jobServer);
 			System.err.println("OK");
 
