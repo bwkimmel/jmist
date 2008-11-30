@@ -136,8 +136,11 @@ public final class FileUtil {
 	 * 		<code>file</code> is an ancestor.
 	 * @return <code>true</code> if <code>ancestor</code> is equal to or an
 	 * 		ancestor of <code>file</code>, <code>false</code> otherwise.
+	 * @throws IOException
 	 */
-	public static boolean isAncestor(File file, File ancestor) {
+	public static boolean isAncestor(File file, File ancestor) throws IOException {
+		file = file.getCanonicalFile();
+		ancestor = ancestor.getCanonicalFile();
 		do {
 			if (file.equals(ancestor)) {
 				return true;
@@ -218,7 +221,7 @@ public final class FileUtil {
 
 	}
 
-	public static String getRelativePath(File file, File base) {
+	public static String getRelativePath(File file, File base) throws IOException {
 		StringWriter path = new StringWriter();
 
 		while (!isAncestor(file, base)) {

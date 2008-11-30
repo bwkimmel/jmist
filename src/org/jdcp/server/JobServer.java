@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +33,7 @@ import org.selfip.bkimmel.io.FileUtil;
 import org.selfip.bkimmel.progress.ProgressMonitor;
 import org.selfip.bkimmel.rmi.Serialized;
 import org.selfip.bkimmel.util.UnexpectedException;
-import org.selfip.bkimmel.util.classloader.SandboxedStrategyClassLoader;
+import org.selfip.bkimmel.util.classloader.StrategyClassLoader;
 
 /**
  * @author brad
@@ -345,7 +347,7 @@ public final class JobServer implements JobService {
 		}
 
 		public void initializeJob(Serialized<ParallelizableJob> job) throws ClassNotFoundException, JobExecutionException {
-			ClassLoader loader	= new SandboxedStrategyClassLoader(classManager, JobServer.class.getClassLoader());
+			ClassLoader loader	= new StrategyClassLoader(classManager, JobServer.class.getClassLoader());
 			this.job			= new JobExecutionWrapper(job.deserialize(loader));
 			this.worker			= new Serialized<TaskWorker>(this.job.worker());
 			this.monitor.notifyStatusChanged("");
@@ -412,37 +414,47 @@ public final class JobServer implements JobService {
 		}
 
 		private File getWorkingFile(String path) {
-			File file = new File(workingDirectory, path);
-			if (!FileUtil.isAncestor(file, workingDirectory)) {
-				throw new IllegalArgumentException("path must not reference parent directory.");
+			File file = new File(workingDirectory, path).getAbsoluteFile();
+			try {
+				if (!FileUtil.isAncestor(file, workingDirectory)) {
+					throw new IllegalArgumentException("path must not reference parent directory.");
+				}
+			} catch (IOException e) {
+				throw new UnexpectedException(e);
 			}
 			return file;
 		}
 
 		@Override
-		public FileOutputStream createFileOutputStream(String path) {
-			File file = getWorkingFile(path);
-			File dir = file.getParentFile();
-			dir.mkdirs();
-
-			try {
-				return new FileOutputStream(path);
-			} catch (FileNotFoundException e) {
-				throw new UnexpectedException(e);
-			}
+		public FileOutputStream createFileOutputStream(final String path) {
+			return AccessController.doPrivileged(new PrivilegedAction<FileOutputStream>() {
+				public FileOutputStream run() {
+					File file = getWorkingFile(path);
+					File dir = file.getParentFile();
+					dir.mkdirs();
+					try {
+						return new FileOutputStream(file);
+					} catch (FileNotFoundException e) {
+						throw new UnexpectedException(e);
+					}
+				}
+			});
 		}
 
 		@Override
-		public RandomAccessFile createRandomAccessFile(String path) {
-			File file = getWorkingFile(path);
-			File dir = file.getParentFile();
-			dir.mkdirs();
-
-			try {
-				return new RandomAccessFile(path, "rw");
-			} catch (FileNotFoundException e) {
-				throw new UnexpectedException(e);
-			}
+		public RandomAccessFile createRandomAccessFile(final String path) {
+			return AccessController.doPrivileged(new PrivilegedAction<RandomAccessFile>() {
+				public RandomAccessFile run() {
+					File file = getWorkingFile(path);
+					File dir = file.getParentFile();
+					dir.mkdirs();
+					try {
+						return new RandomAccessFile(file, "rw");
+					} catch (FileNotFoundException e) {
+						throw new UnexpectedException(e);
+					}
+				}
+			});
 		}
 
 	}

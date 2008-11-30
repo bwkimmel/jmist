@@ -4,7 +4,8 @@
 package org.selfip.bkimmel.util.classloader;
 
 import java.nio.ByteBuffer;
-import java.security.ProtectionDomain;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 
 /**
  * @author brad
@@ -34,14 +35,17 @@ public class StrategyClassLoader extends ClassLoader {
 	 * @see java.lang.ClassLoader#findClass(java.lang.String)
 	 */
 	@Override
-	protected Class<?> findClass(String name) throws ClassNotFoundException {
+	protected Class<?> findClass(final String name) throws ClassNotFoundException {
 
-		ByteBuffer def = strategy.getClassDefinition(name);
+		ByteBuffer def = AccessController.doPrivileged(new PrivilegedAction<ByteBuffer>() {
+			public ByteBuffer run() {
+				return strategy.getClassDefinition(name);
+			}
+		});
 
 		if (def != null) {
 
-			ProtectionDomain domain = getProtectionDomain(name);
-			Class<?> result = super.defineClass(name, def, domain);
+			Class<?> result = super.defineClass(name, def, null);
 
 			if (result != null) {
 				super.resolveClass(result);
@@ -52,10 +56,6 @@ public class StrategyClassLoader extends ClassLoader {
 
 		throw new ClassNotFoundException(name);
 
-	}
-
-	ProtectionDomain getProtectionDomain(String name) {
-		return null;
 	}
 
 }
