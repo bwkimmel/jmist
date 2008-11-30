@@ -8,6 +8,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
+import javax.security.auth.login.LoginException;
+
 import org.jdcp.remote.AuthenticationService;
 import org.jdcp.remote.JobService;
 
@@ -39,6 +41,9 @@ public final class Configuration {
 			} catch (RemoteException e) {
 				System.err.println("Could not connect to job service.");
 				e.printStackTrace();
+				System.exit(1);
+			} catch (LoginException e) {
+				System.err.println("Login failed.");
 				System.exit(1);
 			}
 		}
