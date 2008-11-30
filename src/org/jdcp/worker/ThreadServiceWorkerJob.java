@@ -20,6 +20,7 @@ import javax.jnlp.UnavailableServiceException;
 
 import org.jdcp.job.TaskDescription;
 import org.jdcp.job.TaskWorker;
+import org.jdcp.remote.AuthenticationService;
 import org.jdcp.remote.JobService;
 import org.selfip.bkimmel.jobs.Job;
 import org.selfip.bkimmel.progress.PermanentProgressMonitor;
@@ -119,7 +120,8 @@ public final class ThreadServiceWorkerJob implements Job {
 	 */
 	private boolean initializeService() {
 		try {
-			this.service = (JobService) this.registry.lookup("JobService");
+			AuthenticationService authService = (AuthenticationService) this.registry.lookup("AuthenticationService");
+			this.service = authService.authenticate("guest", "");
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -336,9 +338,7 @@ public final class ThreadServiceWorkerJob implements Job {
 			try {
 				strategy = new PersistenceCachingJobServiceClassLoaderStrategy(service, jobId);
 			} catch (UnavailableServiceException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				strategy = new FileCachingJobServiceClassLoaderStrategy(service, jobId, "C:/test/worker");
+				strategy = new FileCachingJobServiceClassLoaderStrategy(service, jobId, "/Users/brad/jmist/worker");
 			} // new FileCachingJobServiceClassLoaderStrategy(service, jobId, "C:/test/worker");
 
 			ClassLoader loader = new StrategyClassLoader(strategy, ThreadServiceWorkerJob.class.getClassLoader());
