@@ -489,6 +489,11 @@ public final class JobServer implements JobService {
 							"Exception thrown submitting results of task for job "
 									+ sched.id.toString(), e);
 					removeScheduledJob(sched.id, false);
+				} catch (Exception e) {
+					logger.log(Level.WARNING,
+							"Exception thrown while attempting to submit task results for job "
+									+ sched.id.toString(), e);
+					removeScheduledJob(sched.id, false);
 				}
 			}
 		}
