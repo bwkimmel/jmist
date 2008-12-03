@@ -3,6 +3,8 @@
 	<name>jmist</name>
 	<comment></comment>
 	<projects>
+		<project>jdcp</project>
+		<project>util</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
