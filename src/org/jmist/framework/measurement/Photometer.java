@@ -15,8 +15,9 @@ import org.jmist.toolkit.SphericalCoordinates;
 import org.jmist.toolkit.Tuple;
 import org.jmist.toolkit.Vector3;
 import org.jmist.util.MathUtil;
-import org.selfip.bkimmel.progress.DummyProgressMonitor;
-import org.selfip.bkimmel.progress.ProgressMonitor;
+
+import ca.eandb.util.progress.DummyProgressMonitor;
+import ca.eandb.util.progress.ProgressMonitor;
 
 /**
  * @author bkimmel

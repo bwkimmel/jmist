@@ -24,7 +24,8 @@ import org.jdcp.job.AbstractParallelizableJob;
 import org.jdcp.job.TaskWorker;
 import org.jmist.framework.PixelShader;
 import org.jmist.toolkit.Box2;
-import org.selfip.bkimmel.progress.ProgressMonitor;
+
+import ca.eandb.util.progress.ProgressMonitor;
 
 /**
  * A <code>ParallelizableJob</code> that renders a <code>Raster</code> image.

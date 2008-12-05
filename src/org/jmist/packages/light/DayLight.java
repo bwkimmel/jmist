@@ -3,7 +3,11 @@
  */
 package org.jmist.packages.light;
 
+import java.io.PrintStream;
+import java.util.Queue;
+
 import org.jmist.framework.AbstractSpectrum;
+import org.jmist.framework.DirectionalTexture3;
 import org.jmist.framework.Illuminable;
 import org.jmist.framework.Light;
 import org.jmist.framework.Spectrum;
@@ -13,15 +17,22 @@ import org.jmist.toolkit.Basis3;
 import org.jmist.toolkit.Interval;
 import org.jmist.toolkit.RandomUtil;
 import org.jmist.toolkit.Ray3;
+import org.jmist.toolkit.SphericalCoordinates;
+import org.jmist.toolkit.Tuple;
 import org.jmist.toolkit.Vector3;
 import org.jmist.util.ArrayUtil;
 import org.jmist.util.MathUtil;
+
+import ca.eandb.util.util.args.AbstractFieldOption;
+import ca.eandb.util.util.args.ArgumentProcessor;
+import ca.eandb.util.util.args.BooleanFieldOption;
+import ca.eandb.util.util.args.DoubleFieldOption;
 
 /**
  * A hemispherical <code>Light</code> that simulates daylight conditions.
  * @author bkimmel
  */
-public final class DayLight implements Light {
+public final class DayLight implements Light, DirectionalTexture3 {
 
 	/**
 	 * Creates a new <code>DayLight</code> with the sun and zenith in the
@@ -132,6 +143,14 @@ public final class DayLight implements Light {
 	}
 
 	/* (non-Javadoc)
+	 * @see org.jmist.framework.DirectionalTexture3#evaluate(org.jmist.toolkit.Vector3)
+	 */
+	@Override
+	public Spectrum evaluate(Vector3 v) {
+		return new SkyRadianceSpectrum(v);
+	}
+
+	/* (non-Javadoc)
 	 * @see org.jmist.framework.Light#illuminate(org.jmist.framework.SurfacePoint, org.jmist.framework.VisibilityFunction3, org.jmist.framework.Illuminable)
 	 */
 	public void illuminate(SurfacePoint x, VisibilityFunction3 vf,
@@ -151,6 +170,87 @@ public final class DayLight implements Light {
 				target.illuminate(sun, this.solarRadiance);
 			}
 		}
+
+	}
+
+	public static class Options {
+
+		public Vector3 sun = Vector3.K;
+		public Vector3 zenith = Vector3.K;
+		public double turbidity = 2.0;
+		public boolean solar = false;
+
+	}
+
+	private static class DirectionFieldOption<T> extends AbstractFieldOption<T> {
+
+		public DirectionFieldOption(String fieldName) {
+			super(fieldName);
+		}
+
+		@Override
+		protected Object getOptionValue(Queue<String> argq) {
+			double polar = Math.toRadians(Double.parseDouble(argq.remove()));
+			double azimuthal = Math.toRadians(Double.parseDouble(argq.remove()));
+			return new SphericalCoordinates(polar, azimuthal).toCartesian();
+		}
+
+	}
+
+	public static void main(String[] args) {
+
+		ArgumentProcessor<Options> argProcessor = new ArgumentProcessor<Options>();
+		argProcessor.addOption("sun", 's', new DirectionFieldOption<Options>("sun"));
+		argProcessor.addOption("zenith", 'z', new DirectionFieldOption<Options>("zenith"));
+		argProcessor.addOption("turbidity", 't', new DoubleFieldOption<Options>("turbidity"));
+		argProcessor.addOption("solar", 'S', new BooleanFieldOption<Options>("solar"));
+
+		Options opts = new Options();
+		argProcessor.process(args, opts);
+
+		Tuple wavelengths = new Tuple(DL_WAVELENGTHS);
+		double[] sample = null;
+
+		PrintStream out = System.out;
+
+		if (opts.solar) {
+
+			for (int polar = 0; polar <= 90; polar++) {
+				Vector3 sun = new SphericalCoordinates(Math.toRadians(polar), 0).toCartesian(Basis3.fromW(opts.zenith));
+				DayLight light = new DayLight(sun, opts.zenith, opts.turbidity, false);
+				sample = light.solarRadiance.sample(wavelengths, sample);
+
+				for (int k = 0; k < wavelengths.size(); k++) {
+					if (k > 0) {
+						out.print(',');
+					}
+					out.print(sample[k]);
+				}
+				out.println();
+			}
+
+		} else {
+
+			DayLight light = new DayLight(opts.sun, opts.zenith, opts.turbidity, false);
+
+			for (int polar = 0; polar <= 90; polar++) {
+				for (int azimuthal = 0; azimuthal <= 360; azimuthal++) {
+					Vector3 source = new SphericalCoordinates(Math.toRadians(polar), Math.toRadians(azimuthal)).toCartesian();
+					Spectrum radiance = light.evaluate(source);
+					sample = radiance.sample(wavelengths, sample);
+
+					for (int k = 0; k < wavelengths.size(); k++) {
+						if (k > 0) {
+							out.print(',');
+						}
+						out.print(sample[k]);
+					}
+					out.println();
+				}
+			}
+
+		}
+
 
 	}
 
@@ -234,8 +334,8 @@ public final class DayLight implements Light {
 
 	}
 
-	private static final double DL_MIN_WAVELENGTH = 380.0;
-	private static final double DL_MAX_WAVELENGTH = 750.0;
+	private static final double DL_MIN_WAVELENGTH = 0.380;
+	private static final double DL_MAX_WAVELENGTH = 0.750;
 
 	private static final double[] DL_WAVELENGTHS = ArrayUtil.range(DL_MIN_WAVELENGTH, DL_MAX_WAVELENGTH, 38);
 

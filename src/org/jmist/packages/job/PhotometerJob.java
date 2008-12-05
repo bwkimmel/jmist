@@ -12,7 +12,8 @@ import org.jmist.framework.Material;
 import org.jmist.framework.measurement.CollectorSphere;
 import org.jmist.framework.measurement.Photometer;
 import org.jmist.toolkit.SphericalCoordinates;
-import org.selfip.bkimmel.progress.ProgressMonitor;
+
+import ca.eandb.util.progress.ProgressMonitor;
 
 /**
  * @author bkimmel
