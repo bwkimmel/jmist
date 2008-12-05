@@ -23,10 +23,10 @@ import org.jmist.toolkit.Vector3;
 import org.jmist.util.ArrayUtil;
 import org.jmist.util.MathUtil;
 
-import ca.eandb.util.util.args.AbstractFieldOption;
-import ca.eandb.util.util.args.ArgumentProcessor;
-import ca.eandb.util.util.args.BooleanFieldOption;
-import ca.eandb.util.util.args.DoubleFieldOption;
+import ca.eandb.util.args.AbstractFieldOption;
+import ca.eandb.util.args.ArgumentProcessor;
+import ca.eandb.util.args.BooleanFieldOption;
+import ca.eandb.util.args.DoubleFieldOption;
 
 /**
  * A hemispherical <code>Light</code> that simulates daylight conditions.
