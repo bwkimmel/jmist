@@ -87,7 +87,7 @@ public final class PhotometerJob extends
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.ParallelizableJob#submitTaskResults(java.lang.Object, java.lang.Object, ca.eandb.jmist.framework.reporting.ProgressMonitor)
+	 * @see ca.eandb.jmist.framework.ParallelizableJob#submitTaskResults(java.lang.Object, java.lang.Object, ca.eandb.util.progress.ProgressMonitor)
 	 */
 	public void submitTaskResults(Object task, Object results,
 			ProgressMonitor monitor) {
@@ -227,7 +227,7 @@ public final class PhotometerJob extends
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.TaskWorker#performTask(java.lang.Object, ca.eandb.jmist.framework.reporting.ProgressMonitor)
+		 * @see ca.eandb.jmist.framework.TaskWorker#performTask(java.lang.Object, ca.eandb.util.progress.ProgressMonitor)
 		 */
 		public Object performTask(Object task, ProgressMonitor monitor) {
 
