@@ -28,9 +28,6 @@ import javax.script.ScriptEngineFactory;
 import javax.script.ScriptEngineManager;
 import javax.swing.JDialog;
 
-import org.jdcp.job.DummyParallelizableJob;
-import org.jdcp.job.ParallelizableJob;
-import org.jdcp.job.ParallelizableJobRunner;
 import org.jmist.framework.ConstantSpectrum;
 import org.jmist.framework.Geometry;
 import org.jmist.framework.ImageShader;
@@ -81,6 +78,9 @@ import org.jmist.toolkit.matlab.MatlabImageWriterSpi;
 import org.jmist.toolkit.matlab.MatlabWriter;
 import org.jmist.util.ArrayUtil;
 
+import ca.eandb.jdcp.job.DummyParallelizableJob;
+import ca.eandb.jdcp.job.ParallelizableJob;
+import ca.eandb.jdcp.job.ParallelizableJobRunner;
 import ca.eandb.util.io.FileUtil;
 import ca.eandb.util.jobs.Job;
 import ca.eandb.util.progress.CompositeProgressMonitor;

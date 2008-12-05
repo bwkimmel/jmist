@@ -6,13 +6,13 @@ package org.jmist.packages.job;
 import java.io.PrintStream;
 import java.io.Serializable;
 
-import org.jdcp.job.AbstractParallelizableJob;
-import org.jdcp.job.TaskWorker;
 import org.jmist.framework.Material;
 import org.jmist.framework.measurement.CollectorSphere;
 import org.jmist.framework.measurement.Photometer;
 import org.jmist.toolkit.SphericalCoordinates;
 
+import ca.eandb.jdcp.job.AbstractParallelizableJob;
+import ca.eandb.jdcp.job.TaskWorker;
 import ca.eandb.util.progress.ProgressMonitor;
 
 /**

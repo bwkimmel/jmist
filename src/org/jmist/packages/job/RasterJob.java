@@ -20,11 +20,11 @@ import javax.imageio.ImageIO;
 import javax.imageio.ImageWriter;
 import javax.imageio.stream.MemoryCacheImageOutputStream;
 
-import org.jdcp.job.AbstractParallelizableJob;
-import org.jdcp.job.TaskWorker;
 import org.jmist.framework.PixelShader;
 import org.jmist.toolkit.Box2;
 
+import ca.eandb.jdcp.job.AbstractParallelizableJob;
+import ca.eandb.jdcp.job.TaskWorker;
 import ca.eandb.util.progress.ProgressMonitor;
 
 /**
