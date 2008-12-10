@@ -14,7 +14,7 @@ import ca.eandb.jmist.toolkit.Vector3;
 /**
  * A <code>Lens</code> that simulates an orthogonal projection of a mirrored
  * sphere.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class OmnimaxLens extends TransformableLens {
 

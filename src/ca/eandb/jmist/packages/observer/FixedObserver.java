@@ -9,7 +9,7 @@ import ca.eandb.jmist.toolkit.Tuple;
 
 /**
  * A fixed-wavelengths observer.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class FixedObserver implements Observer {
 

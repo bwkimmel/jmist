@@ -8,7 +8,7 @@ import ca.eandb.jmist.toolkit.Tuple;
 
 /**
  * A <code>Spectrum</code> that is the product of other spectra.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class ProductSpectrum extends CompositeSpectrum {
 

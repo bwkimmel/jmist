@@ -10,7 +10,7 @@ import ca.eandb.jmist.toolkit.Vector3;
 
 /**
  * A default implementation of <code>CollectorSphere</code>.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public abstract class AbstractCollectorSphere implements CollectorSphere,
 		Serializable {

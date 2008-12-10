@@ -4,7 +4,7 @@
 package ca.eandb.jmist.framework;
 
 /**
- * @author bkimmel
+ * @author Brad Kimmel
  *
  */
 public interface Light {

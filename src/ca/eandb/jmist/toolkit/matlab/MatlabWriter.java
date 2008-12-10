@@ -11,7 +11,7 @@ import ca.eandb.jmist.toolkit.Complex;
 /**
  * Convenience class for writing array variables to a
  * <code>MatlabOutputStream</code>.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class MatlabWriter {
 

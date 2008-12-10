@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 /**
  * Static utility methods for working with arrays.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class ArrayUtil {
 

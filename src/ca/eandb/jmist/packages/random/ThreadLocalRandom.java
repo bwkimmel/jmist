@@ -10,7 +10,7 @@ import ca.eandb.jmist.framework.Random;
  * separate instance.  For example, if used to decorate a
  * {@link StratifiedRandom}, the stratification would be done independently
  * on each thread.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class ThreadLocalRandom implements Random {
 

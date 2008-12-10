@@ -19,7 +19,7 @@ import ca.eandb.jmist.packages.light.CompositeLight;
 import ca.eandb.jmist.toolkit.Point3;
 
 /**
- * @author bkimmel
+ * @author Brad Kimmel
  *
  */
 public final class WavefrontObjectReader {

@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * Three dimensional vector represented using spherical coordinates.  This
  * class is immutable.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class SphericalCoordinates implements Serializable {
 

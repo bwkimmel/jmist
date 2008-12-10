@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 /**
  * Static mathematical utility methods.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class MathUtil {
 

@@ -16,7 +16,7 @@ import ca.eandb.jmist.toolkit.Vector3;
 
 /**
  * A <code>Light</code> that emits from a single point.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class PointLight implements Light, Serializable {
 

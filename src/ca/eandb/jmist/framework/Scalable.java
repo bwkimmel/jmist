@@ -5,7 +5,7 @@ package ca.eandb.jmist.framework;
 
 /**
  * Something that can be scaled by a specified factor.
- * @author brad
+ * @author Brad Kimmel
  */
 public interface Scalable {
 

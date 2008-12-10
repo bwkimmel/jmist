@@ -19,7 +19,7 @@ import ca.eandb.jmist.toolkit.Vector3;
 
 /**
  * A torus primitive <code>Geometry</code>.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class TorusGeometry extends SingleMaterialGeometry {
 

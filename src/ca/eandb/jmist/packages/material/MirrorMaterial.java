@@ -15,7 +15,7 @@ import ca.eandb.jmist.toolkit.Vector3;
 
 /**
  * An ideally reflective <code>Material</code>.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class MirrorMaterial extends OpaqueMaterial {
 

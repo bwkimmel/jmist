@@ -9,7 +9,7 @@ import ca.eandb.jmist.util.Solver;
 
 /**
  * Represents a polynomial.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class Polynomial implements Serializable {
 

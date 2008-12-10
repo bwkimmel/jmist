@@ -16,7 +16,7 @@ import javax.imageio.stream.ImageOutputStream;
 
 /**
  * An <code>ImageWriter</code> for writing images to MATLAB MAT-files.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class MatlabImageWriter extends ImageWriter {
 

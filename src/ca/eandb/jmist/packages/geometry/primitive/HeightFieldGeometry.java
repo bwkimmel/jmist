@@ -27,7 +27,7 @@ import ca.eandb.jmist.util.MathUtil;
 /**
  * A polygonal <code>Geometry</code> with a uniform grid for the <code>x</code>
  * and <code>z</code> coordinates of the verticies.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class HeightFieldGeometry extends SingleMaterialGeometry {
 

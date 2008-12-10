@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * A ray (half-line) in three dimensional space.
  * This class is immutable.
- * @author brad
+ * @author Brad Kimmel
  */
 public final class Ray3 implements Serializable {
 

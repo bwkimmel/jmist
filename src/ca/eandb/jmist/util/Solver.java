@@ -5,7 +5,7 @@ package ca.eandb.jmist.util;
 
 /**
  * Solves mathematical equations.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class Solver {
 

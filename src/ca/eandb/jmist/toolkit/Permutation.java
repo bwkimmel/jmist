@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Random;
 
 /**
- * @author bkimmel
+ * @author Brad Kimmel
  * TODO: Add comments.
  */
 public final class Permutation implements Serializable {

@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 /**
  * Builds a box that contains the elements added to it.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public class BoundingBoxBuilder2 implements Serializable {
 

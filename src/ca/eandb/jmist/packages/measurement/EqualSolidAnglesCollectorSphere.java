@@ -14,7 +14,7 @@ import ca.eandb.jmist.util.MathUtil;
 /**
  * A <code>CollectorSphere</code> where each sensor spans the same solid angle:
  * <code>4*PI / this.sensors()</code> (in steradians).
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class EqualSolidAnglesCollectorSphere extends
 		AbstractCollectorSphere implements Serializable {

@@ -16,7 +16,7 @@ import ca.eandb.jdcp.job.TaskWorker;
 import ca.eandb.util.progress.ProgressMonitor;
 
 /**
- * @author bkimmel
+ * @author Brad Kimmel
  *
  */
 public final class PhotometerJob extends

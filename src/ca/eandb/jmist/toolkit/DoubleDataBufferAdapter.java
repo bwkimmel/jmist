@@ -8,7 +8,7 @@ import java.nio.DoubleBuffer;
 
 /**
  * A <code>DataBuffer</code> that adapts a <code>DoubleBuffer</code>.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class DoubleDataBufferAdapter extends DataBuffer {
 

@@ -19,7 +19,7 @@ import ca.eandb.jmist.util.MathUtil;
 /**
  * A dielectric <code>Material</code> that refracts but does not absorb
  * light.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public class DielectricMaterial extends AbstractMaterial {
 

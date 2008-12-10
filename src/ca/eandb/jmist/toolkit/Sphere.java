@@ -10,7 +10,7 @@ import ca.eandb.jmist.util.MathUtil;
 /**
  * A sphere in two dimensional space (the set of points at most a
  * constant distance from a fixed point).
- * @author brad
+ * @author Brad Kimmel
  */
 public final class Sphere implements Serializable {
 

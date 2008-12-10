@@ -9,7 +9,7 @@ import ca.eandb.jmist.framework.VisibilityFunction3;
 import ca.eandb.jmist.toolkit.Point3;
 
 /**
- * @author bkimmel
+ * @author Brad Kimmel
  *
  */
 public interface ModelElement extends VisibilityFunction3, Bounded3 {

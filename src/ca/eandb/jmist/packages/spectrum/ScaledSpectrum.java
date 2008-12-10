@@ -10,7 +10,7 @@ import ca.eandb.jmist.util.MathUtil;
 
 /**
  * A <code>Spectrum</code> that differs from another by a constant factor.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class ScaledSpectrum extends AbstractSpectrum {
 

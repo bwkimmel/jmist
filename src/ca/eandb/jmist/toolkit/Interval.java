@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * An closed interval [a, b] on the real number line.
  * This class is immutable.
- * @author brad
+ * @author Brad Kimmel
  */
 public final class Interval implements Serializable {
 

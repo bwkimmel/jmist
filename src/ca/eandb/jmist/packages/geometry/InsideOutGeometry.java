@@ -18,7 +18,7 @@ import ca.eandb.jmist.toolkit.Vector3;
 /**
  * A <code>Geometry</code> decorator that flips another <code>Geometry</code>
  * inside out.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class InsideOutGeometry extends AbstractGeometry {
 
@@ -63,7 +63,7 @@ public final class InsideOutGeometry extends AbstractGeometry {
 	 * An <code>IntersectionRecorder</code> decorator that flips the normals,
 	 * bases, tangents and the {@link Intersection#front()} property of all
 	 * <code>Intersection</code>s recorded to it.
-	 * @author bkimmel
+	 * @author Brad Kimmel
 	 */
 	private static final class InsideOutIntersectionRecorder extends
 			IntersectionRecorderDecorator {
@@ -88,7 +88,7 @@ public final class InsideOutGeometry extends AbstractGeometry {
 		 * An <code>Intersection</code> decorator that flips the normals,
 		 * bases, tangents, and the {@link Intersection#front()} properties of
 		 * the decorated <code>Intersection</code>.
-		 * @author bkimmel
+		 * @author Brad Kimmel
 		 */
 		private static final class InsideOutIntersection extends IntersectionDecorator {
 

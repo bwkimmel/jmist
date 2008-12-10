@@ -29,7 +29,7 @@ import ca.eandb.util.progress.ProgressMonitor;
 
 /**
  * A <code>ParallelizableJob</code> that renders a <code>Raster</code> image.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class RasterJob extends AbstractParallelizableJob implements
 		Serializable {
@@ -197,7 +197,7 @@ public final class RasterJob extends AbstractParallelizableJob implements
 	/**
 	 * A <code>TaskWorker</code> that renders a rectangular subset of a
 	 * <code>Raster</code> image.
-	 * @author bkimmel
+	 * @author Brad Kimmel
 	 */
 	private static final class RasterTaskWorker implements TaskWorker {
 

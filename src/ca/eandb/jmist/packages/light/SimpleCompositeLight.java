@@ -9,7 +9,7 @@ import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.VisibilityFunction3;
 
 /**
- * @author bkimmel
+ * @author Brad Kimmel
  *
  */
 public final class SimpleCompositeLight extends CompositeLight {

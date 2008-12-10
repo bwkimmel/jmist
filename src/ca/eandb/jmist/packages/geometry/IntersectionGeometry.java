@@ -14,7 +14,7 @@ import ca.eandb.jmist.toolkit.Sphere;
 /**
  * A <code>Geometry</code> that it the intersection of its component
  * geometries.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class IntersectionGeometry extends ConstructiveSolidGeometry {
 

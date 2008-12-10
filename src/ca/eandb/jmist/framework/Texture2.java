@@ -7,7 +7,7 @@ import ca.eandb.jmist.toolkit.Point2;
 
 /**
  * Maps two dimensional space to spectra.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public interface Texture2 {
 

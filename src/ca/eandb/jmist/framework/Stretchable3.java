@@ -7,7 +7,7 @@ import ca.eandb.jmist.toolkit.*;
 
 /**
  * A three dimensional object that can be stretched along an arbitrary axis.
- * @author brad
+ * @author Brad Kimmel
  */
 public interface Stretchable3 extends AxisStretchable3 {
 

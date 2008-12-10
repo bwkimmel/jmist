@@ -21,7 +21,7 @@ import ca.eandb.jmist.toolkit.Vector3;
 /**
  * An abstract <code>Geometry</code> that combines other geometries using a
  * boolean expression.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 
@@ -82,7 +82,7 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 	/**
 	 * An <code>IntersectionRecorder</code> that combines the results of
 	 * multiple sets of intersections using a boolean expression.
-	 * @author bkimmel
+	 * @author Brad Kimmel
 	 */
 	private final class CsgIntersectionRecorder implements IntersectionRecorder {
 
@@ -189,7 +189,7 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 		 * keeps track of which child geometry the intersection is for, and it
 		 * can be flipped, which toggles the {@link Intersection#front()}
 		 * property and negates the basis and normal.
-		 * @author bkimmel
+		 * @author Brad Kimmel
 		 */
 		private final class CsgIntersection extends IntersectionDecorator {
 

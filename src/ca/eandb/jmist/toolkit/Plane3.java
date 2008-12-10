@@ -5,7 +5,7 @@ package ca.eandb.jmist.toolkit;
 
 /**
  * A plane in three dimensional space.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class Plane3 {
 

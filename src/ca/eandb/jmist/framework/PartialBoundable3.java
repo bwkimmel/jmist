@@ -8,7 +8,7 @@ import ca.eandb.jmist.toolkit.Box3;
 /**
  * Represents a surface with which one may test for an intersection with a
  * <code>Box3</code>.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public interface PartialBoundable3 {
 

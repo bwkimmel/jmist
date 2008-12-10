@@ -5,7 +5,7 @@ package ca.eandb.jmist.toolkit.matlab;
 
 /**
  * Types of MATLAB arrays.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public enum MatlabArrayType {
 

@@ -15,12 +15,12 @@ import ca.eandb.jmist.packages.NearestIntersectionRecorder;
 
 /**
  * Base class for geometry classes.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public abstract class AbstractGeometry implements Geometry {
 
 	/**
-	 * @author bkimmel
+	 * @author Brad Kimmel
 	 *
 	 */
 	protected static class GeometryIntersection implements Intersection {

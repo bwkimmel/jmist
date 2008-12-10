@@ -12,7 +12,7 @@ import ca.eandb.jmist.toolkit.Vector3;
 
 /**
  * A thin <code>Lens</code>.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class ThinLens extends TransformableLens {
 

@@ -25,7 +25,7 @@ import ca.eandb.jmist.util.MathUtil;
 /**
  * A cylinder aligned along the y-axis.
  *
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class CylinderGeometry extends SingleMaterialGeometry implements
 		Geometry, Serializable {

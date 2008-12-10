@@ -12,7 +12,7 @@ import ca.eandb.jmist.toolkit.Point2;
 /**
  * A <code>Texture2</code> decorator that applies a <code>Mask2</code> to
  * another <code>Texture2</code>.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class MaskedTexture2 implements Texture2 {
 

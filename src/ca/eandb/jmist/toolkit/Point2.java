@@ -10,7 +10,7 @@ import ca.eandb.jmist.util.MathUtil;
 /**
  * A location in two dimensional space.
  * This class is immutable.
- * @author brad
+ * @author Brad Kimmel
  */
 public final class Point2 implements Serializable {
 

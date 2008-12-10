@@ -10,7 +10,7 @@ import ca.eandb.jmist.util.MathUtil;
 /**
  * A location in three dimensional space.
  * This class is immutable.
- * @author brad
+ * @author Brad Kimmel
  */
 public final class Point3 implements Serializable {
 

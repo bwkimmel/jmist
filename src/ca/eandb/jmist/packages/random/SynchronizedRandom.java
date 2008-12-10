@@ -7,7 +7,7 @@ import ca.eandb.jmist.framework.Random;
 
 /**
  * A <code>Random</code> decorator that provides synchronization.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class SynchronizedRandom implements Random {
 

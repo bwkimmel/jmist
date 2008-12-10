@@ -5,7 +5,7 @@ package ca.eandb.jmist.framework;
 
 /**
  * Receives scattering information from a <code>Material</code>.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public interface ScatterRecorder {
 

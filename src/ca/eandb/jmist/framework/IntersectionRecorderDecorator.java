@@ -9,7 +9,7 @@ import ca.eandb.jmist.toolkit.Interval;
  * An abstract <code>IntersectionRecorder</code> that decorates another.  This
  * will typically be used to decorate an <code>Intesection</code> prior to
  * recording it to the decorated <code>IntersectionRecorder</code>.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public abstract class IntersectionRecorderDecorator implements
 		IntersectionRecorder {

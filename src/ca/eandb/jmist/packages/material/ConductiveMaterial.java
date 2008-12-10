@@ -20,7 +20,7 @@ import ca.eandb.jmist.util.MathUtil;
 
 /**
  * A conductive <code>Material</code> with a complex refractive index.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class ConductiveMaterial extends AbstractMaterial {
 

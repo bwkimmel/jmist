@@ -5,7 +5,7 @@ package ca.eandb.jmist.framework;
 
 /**
  * A factory that creates extrapolated spectra from pixel representations.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public interface PixelSpectrumFactory {
 

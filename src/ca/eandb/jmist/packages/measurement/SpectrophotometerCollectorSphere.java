@@ -11,7 +11,7 @@ import ca.eandb.jmist.toolkit.Vector3;
 /**
  * A <code>CollectorSphere</code> that collects rays into two buckets, one for
  * the upper hemisphere and one for the lower hemisphere.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class SpectrophotometerCollectorSphere extends
 		AbstractCollectorSphere {

@@ -8,7 +8,7 @@ import ca.eandb.jmist.toolkit.Vector3;
 
 /**
  * Provides default implementations for a <code>Material</code>.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public abstract class AbstractMaterial implements Material {
 

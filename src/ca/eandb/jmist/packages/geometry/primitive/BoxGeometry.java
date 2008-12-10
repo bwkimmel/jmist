@@ -19,7 +19,7 @@ import ca.eandb.jmist.toolkit.Vector3;
 
 /**
  * An axis aligned box <code>Geometry</code>.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class BoxGeometry extends SingleMaterialGeometry {
 

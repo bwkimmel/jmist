@@ -28,7 +28,7 @@ import ca.eandb.jmist.util.MathUtil;
 
 /**
  * A plane rectangle <code>Geometry</code>.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class RectangleGeometry extends SingleMaterialGeometry implements Light {
 

@@ -6,7 +6,7 @@ package ca.eandb.jmist.framework;
 /**
  * A continuous probability density function from which random samples may be
  * generated.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public interface ProbabilityDensityFunction {
 

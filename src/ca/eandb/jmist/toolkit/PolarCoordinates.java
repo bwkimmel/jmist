@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * Two dimensional vector represented using polar coordinates.  This class is
  * immutable.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class PolarCoordinates implements Serializable {
 

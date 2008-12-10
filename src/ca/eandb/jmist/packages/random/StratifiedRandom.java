@@ -11,7 +11,7 @@ import ca.eandb.jmist.framework.Random;
  * random number generator is guaranteed to generate exactly one value
  * in each interval {@code [i/n, (i+1)/n)} for each block of {@code n}
  * successive calls to {@link #next()}.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class StratifiedRandom implements Random {
 

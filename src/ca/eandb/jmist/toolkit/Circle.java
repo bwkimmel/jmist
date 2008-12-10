@@ -11,7 +11,7 @@ import ca.eandb.jmist.util.MathUtil;
  * A circle in two dimensional space (the set of points at most a
  * constant distance from a fixed point).
  * This class is immutable.
- * @author brad
+ * @author Brad Kimmel
  */
 public final class Circle implements Serializable {
 

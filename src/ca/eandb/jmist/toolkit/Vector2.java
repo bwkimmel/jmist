@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * The difference between two points in two dimensional space.
  * This class is immutable.
- * @author brad
+ * @author Brad Kimmel
  */
 public final class Vector2 implements Serializable {
 

@@ -11,7 +11,7 @@ import ca.eandb.jmist.toolkit.Point2;
 /**
  * An image shader that uses a Lens to shade rays corresponding to points
  * on the image plane.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class CameraImageShader implements ImageShader {
 

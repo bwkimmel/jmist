@@ -14,7 +14,7 @@ import javax.imageio.stream.ImageOutputStream;
 /**
  * An <code>ImageWriterSpi</code> that creates <code>ImageWriter</code>s
  * for writing images to MATLAB MAT-files.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class MatlabImageWriterSpi extends ImageWriterSpi {
 

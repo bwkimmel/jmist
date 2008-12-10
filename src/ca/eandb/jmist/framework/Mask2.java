@@ -6,7 +6,7 @@ package ca.eandb.jmist.framework;
 import ca.eandb.jmist.toolkit.*;
 
 /**
- * @author bkimmel
+ * @author Brad Kimmel
  *
  */
 public interface Mask2 {

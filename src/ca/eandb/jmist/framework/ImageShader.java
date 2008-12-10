@@ -8,7 +8,7 @@ import ca.eandb.jmist.toolkit.*;
 /**
  * Computes the colour channel responses for points on the image
  * plane.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public interface ImageShader {
 

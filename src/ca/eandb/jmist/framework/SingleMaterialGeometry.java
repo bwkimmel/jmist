@@ -7,7 +7,7 @@ import ca.eandb.jmist.toolkit.Ray3;
 
 /**
  * A <code>Geometry</code> that consists of a single <code>Material</code>.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public abstract class SingleMaterialGeometry extends AbstractGeometry {
 

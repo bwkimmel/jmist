@@ -13,7 +13,7 @@ import ca.eandb.jmist.util.MathUtil;
 /**
  * An intersection recorder that only keeps the nearest intersection
  * recorded.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class NearestIntersectionRecorder implements IntersectionRecorder {
 

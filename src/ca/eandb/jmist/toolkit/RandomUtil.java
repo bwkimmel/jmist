@@ -7,7 +7,7 @@ import ca.eandb.jmist.util.MathUtil;
 
 
 /**
- * @author bkimmel
+ * @author Brad Kimmel
  *
  */
 public final class RandomUtil {

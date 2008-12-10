@@ -8,7 +8,7 @@ import java.util.Arrays;
 /**
  * A categorical random variable (i.e., a discrete random variable that selects
  * a value with probability proportional to specified weights).
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class CategoricalRandom {
 

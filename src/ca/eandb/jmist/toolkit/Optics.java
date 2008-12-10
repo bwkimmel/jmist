@@ -7,7 +7,7 @@ import ca.eandb.jmist.util.MathUtil;
 
 /**
  * Provides utility methods for geometric optics.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class Optics {
 
@@ -525,7 +525,7 @@ public final class Optics {
 
 	/**
 	 * The structure returned from refractAngle.
-	 * @author bkimmel
+	 * @author Brad Kimmel
 	 * @see {@link Optics#refractAngle(double, Complex, Complex)}.
 	 */
 	private static class RefractResult {

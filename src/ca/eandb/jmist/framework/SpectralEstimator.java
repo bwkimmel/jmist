@@ -9,7 +9,7 @@ import ca.eandb.jmist.toolkit.*;
  * An estimator for a spectral response.  This is meant to
  * represent a spectral response that is not known explicitly,
  * but for which random samples may be taken.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public interface SpectralEstimator {
 

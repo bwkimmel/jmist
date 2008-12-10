@@ -21,7 +21,7 @@ import ca.eandb.jmist.toolkit.Vector3;
 /**
  * A <code>Material</code> that reflects light equally in all directions in
  * the upper hemisphere.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class LambertianMaterial extends OpaqueMaterial implements
 		Serializable {

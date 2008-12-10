@@ -7,7 +7,7 @@ import ca.eandb.jmist.toolkit.Point3;
 import ca.eandb.jmist.toolkit.Ray3;
 
 /**
- * @author bkimmel
+ * @author Brad Kimmel
  *
  */
 public interface Medium {

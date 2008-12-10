@@ -11,7 +11,7 @@ import ca.eandb.jmist.toolkit.Sphere;
 /**
  * A <code>Geometry</code> that is the first component geometry minus the union
  * of all subsequent component geometries.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class SubtractionGeometry extends ConstructiveSolidGeometry {
 

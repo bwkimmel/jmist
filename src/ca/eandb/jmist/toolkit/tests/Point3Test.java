@@ -11,7 +11,7 @@ import ca.eandb.jmist.util.*;
 
 /**
  * Tests for {@link ca.eandb.jmist.toolkit.Point3}.
- * @author bkimmel
+ * @author Brad Kimmel
  *
  */
 public class Point3Test {

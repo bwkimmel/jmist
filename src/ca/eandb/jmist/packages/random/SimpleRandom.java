@@ -7,7 +7,7 @@ import ca.eandb.jmist.framework.Random;
 
 /**
  * Adapts java.util.Random to the ca.eandb.jmist.framework.Random interface
- * @author bkimmel
+ * @author Brad Kimmel
  * @see {@link java.util.Random}.
  */
 public class SimpleRandom implements Random {

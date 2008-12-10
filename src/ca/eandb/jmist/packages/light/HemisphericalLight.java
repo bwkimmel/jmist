@@ -17,7 +17,7 @@ import ca.eandb.jmist.toolkit.Vector3;
 /**
  * A <code>Light</code> that illuminates from all directions in the specified
  * hemisphere.
- * @author brad
+ * @author Brad Kimmel
  */
 public final class HemisphericalLight implements Light {
 

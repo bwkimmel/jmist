@@ -10,7 +10,7 @@ import ca.eandb.jmist.util.MathUtil;
 /**
  * An axis-aligned box divided into a grid of cells along each of
  * the three axes.  Used for ray tracing with spatial subdivision.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class Grid3 implements Serializable {
 
@@ -41,7 +41,7 @@ public final class Grid3 implements Serializable {
 
 	/**
 	 * Represents a cell in the grid.
-	 * @author bkimmel
+	 * @author Brad Kimmel
 	 */
 	public final class Cell {
 

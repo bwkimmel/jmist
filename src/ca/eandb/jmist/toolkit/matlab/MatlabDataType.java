@@ -5,7 +5,7 @@ package ca.eandb.jmist.toolkit.matlab;
 
 /**
  * The types of the MATLAB elements in a MAT-file.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public enum MatlabDataType {
 

@@ -6,7 +6,7 @@ package ca.eandb.jmist.framework;
 
 /**
  * A three dimensional object that can be stretched along the coordinate axes.
- * @author brad
+ * @author Brad Kimmel
  */
 public interface AxisStretchable3 extends Scalable {
 

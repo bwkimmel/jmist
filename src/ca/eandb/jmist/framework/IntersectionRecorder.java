@@ -4,7 +4,7 @@ import ca.eandb.jmist.toolkit.Interval;
 
 /**
  * Accepts a series of intersections.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public interface IntersectionRecorder {
 

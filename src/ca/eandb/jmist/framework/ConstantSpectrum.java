@@ -9,7 +9,7 @@ import java.io.Serializable;
 /**
  * A <code>Spectrum</code> that has the same value at all wavelengths.  This
  * class is immutable.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public class ConstantSpectrum extends AbstractSpectrum implements Serializable {
 

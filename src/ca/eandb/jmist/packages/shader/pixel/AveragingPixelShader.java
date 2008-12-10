@@ -11,7 +11,7 @@ import ca.eandb.jmist.util.MathUtil;
 /**
  * A pixel shader decorator that averages the results of another
  * pixel shader.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class AveragingPixelShader implements PixelShader {
 

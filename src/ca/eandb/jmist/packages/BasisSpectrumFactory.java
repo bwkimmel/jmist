@@ -12,7 +12,7 @@ import ca.eandb.jmist.packages.spectrum.SumSpectrum;
 
 /**
  * A factory for creating spectra from a vector space given the basis spectra.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class BasisSpectrumFactory {
 

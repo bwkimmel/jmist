@@ -9,7 +9,7 @@ import ca.eandb.jmist.framework.OpaqueMaterial;
 
 /**
  * An <code>OpaqueMaterial</code> that neither reflects nor emits any light.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class DummyMaterial extends OpaqueMaterial implements Serializable {
 

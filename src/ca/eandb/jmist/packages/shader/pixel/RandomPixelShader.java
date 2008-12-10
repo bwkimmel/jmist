@@ -11,7 +11,7 @@ import ca.eandb.jmist.toolkit.Box2;
 /**
  * A rasterizing pixel shader that shades a random point within the
  * bounds of the pixel.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class RandomPixelShader extends ImageRasterizingPixelShader implements
 		PixelShader {

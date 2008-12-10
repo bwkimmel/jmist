@@ -11,7 +11,7 @@ import ca.eandb.jmist.framework.Spectrum;
 
 /**
  * A <code>Spectrum</code> that is made up of other spectra.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public abstract class CompositeSpectrum extends AbstractSpectrum {
 

@@ -10,7 +10,7 @@ import ca.eandb.jmist.util.MathUtil;
 /**
  * A pixel shader decorator that averages stratified samples from the
  * decorated pixel shader.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class StratifyingPixelShader implements PixelShader {
 

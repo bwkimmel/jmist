@@ -13,7 +13,7 @@ import ca.eandb.jmist.util.MathUtil;
 /**
  * An <code>Observer</code> that uses <code>ProbabilityDensityFunction</code>s
  * to describe the spectral responses for each channel.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public class IntegratingObserver implements Observer {
 

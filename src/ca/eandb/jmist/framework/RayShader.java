@@ -7,7 +7,7 @@ import ca.eandb.jmist.toolkit.Ray3;
 
 /**
  * Estimates the colour channel responses along a given ray.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public interface RayShader {
 

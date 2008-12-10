@@ -5,7 +5,7 @@ package ca.eandb.jmist.framework;
 
 /**
  * A complete model that can be rendered.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public interface Model {
 

@@ -14,7 +14,7 @@ import ca.eandb.jmist.toolkit.RandomUtil;
 import ca.eandb.jmist.toolkit.Vector3;
 
 /**
- * @author bkimmel
+ * @author Brad Kimmel
  *
  */
 public final class RandomCompositeLight extends CompositeLight {

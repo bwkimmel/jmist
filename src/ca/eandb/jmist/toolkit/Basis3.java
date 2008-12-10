@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 /**
  * An orthonormal basis in three dimensional space.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class Basis3 implements Serializable {
 
@@ -27,7 +27,7 @@ public final class Basis3 implements Serializable {
 
 	/**
 	 * Indicates whether a <code>Basis3</code> is left or right handed.
-	 * @author bkimmel
+	 * @author Brad Kimmel
 	 */
 	public enum Orientation {
 

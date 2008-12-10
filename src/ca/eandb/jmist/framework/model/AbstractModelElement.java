@@ -12,7 +12,7 @@ import ca.eandb.jmist.toolkit.Sphere;
 
 /**
  * Abstract base class for model elements.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public abstract class AbstractModelElement implements ModelElement {
 

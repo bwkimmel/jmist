@@ -26,7 +26,7 @@ import ca.eandb.jmist.util.ArrayUtil;
 
 /**
  * A <code>Model</code> of the Cornell Box.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class CornellBoxModel implements Model {
 

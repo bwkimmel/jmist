@@ -12,7 +12,7 @@ import ca.eandb.jmist.toolkit.Vector3;
 /**
  * An abstract base class for classes implementing
  * <code>AffineTransformable3</code>.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public class AffineTransformation3 implements AffineTransformable3 {
 

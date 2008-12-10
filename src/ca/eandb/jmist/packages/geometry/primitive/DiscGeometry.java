@@ -18,7 +18,7 @@ import ca.eandb.jmist.toolkit.Vector3;
 
 /**
  * A circular plane <code>Geometry</code>.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class DiscGeometry extends SingleMaterialGeometry {
 

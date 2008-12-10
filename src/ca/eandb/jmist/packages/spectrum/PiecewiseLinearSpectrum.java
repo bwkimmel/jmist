@@ -8,7 +8,7 @@ import ca.eandb.jmist.util.MathUtil;
 
 /**
  * A piecewise linear <code>Spectrum</code>.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class PiecewiseLinearSpectrum extends AbstractSpectrum {
 

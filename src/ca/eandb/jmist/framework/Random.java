@@ -5,7 +5,7 @@ package ca.eandb.jmist.framework;
 
 /**
  * A random number generator.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public interface Random {
 

@@ -8,7 +8,7 @@ import ca.eandb.jmist.util.ArrayUtil;
 /**
  * An abstract <code>ProbabilityDensityFunction</code> that provides default
  * implementations for some methods.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public abstract class AbstractProbabilityDensityFunction implements
 		ProbabilityDensityFunction {

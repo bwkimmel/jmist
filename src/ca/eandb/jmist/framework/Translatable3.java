@@ -8,7 +8,7 @@ import ca.eandb.jmist.toolkit.*;
 /**
  * Represents something that can be translated (moved) around
  * in three dimensional space.
- * @author brad
+ * @author Brad Kimmel
  */
 public interface Translatable3 {
 

@@ -8,7 +8,7 @@ import java.util.BitSet;
 
 /**
  * An immutable array of double precision values.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class Tuple implements Serializable {
 

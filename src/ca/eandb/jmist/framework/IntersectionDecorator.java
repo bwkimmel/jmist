@@ -14,7 +14,7 @@ import ca.eandb.jmist.toolkit.Vector3;
  * the corresponding methods on the decorated <code>Intersection</code>.  It is
  * up to the derived class to override whichever methods are necessary to
  * provide the specific decoration required.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public abstract class IntersectionDecorator implements Intersection {
 

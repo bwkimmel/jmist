@@ -9,7 +9,7 @@ import ca.eandb.jmist.util.MathUtil;
 
 /**
  * A blackbody emission <code>Spectrum</code>.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class BlackbodySpectrum extends AbstractSpectrum {
 

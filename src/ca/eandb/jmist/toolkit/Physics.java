@@ -5,7 +5,7 @@ package ca.eandb.jmist.toolkit;
 
 /**
  * Provides constants and utility methods for physics.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class Physics {
 

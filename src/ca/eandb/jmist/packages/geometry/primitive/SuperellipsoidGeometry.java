@@ -24,7 +24,7 @@ import ca.eandb.jmist.util.MathUtil;
 
 /**
  * A superellipsoid <code>Geometry</code>.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class SuperellipsoidGeometry extends SingleMaterialGeometry {
 

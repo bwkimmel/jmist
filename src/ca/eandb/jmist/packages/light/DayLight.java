@@ -30,7 +30,7 @@ import ca.eandb.util.args.DoubleFieldOption;
 
 /**
  * A hemispherical <code>Light</code> that simulates daylight conditions.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class DayLight implements Light, DirectionalTexture3 {
 
@@ -257,7 +257,7 @@ public final class DayLight implements Light, DirectionalTexture3 {
 	/**
 	 * A <code>Spectrum</code> representing the indirect radiance from a
 	 * direction toward the sky.
-	 * @author bkimmel
+	 * @author Brad Kimmel
 	 */
 	private final class SkyRadianceSpectrum extends AbstractSpectrum {
 
@@ -312,7 +312,7 @@ public final class DayLight implements Light, DirectionalTexture3 {
 
 	/**
 	 * A <code>Spectrum</code> representing the direct radiance from the sun.
-	 * @author bkimmel
+	 * @author Brad Kimmel
 	 */
 	private final class SunRadianceSpectrum extends AbstractSpectrum {
 

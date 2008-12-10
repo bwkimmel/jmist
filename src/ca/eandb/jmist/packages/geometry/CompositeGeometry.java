@@ -14,7 +14,7 @@ import ca.eandb.jmist.toolkit.Sphere;
 
 /**
  * A <code>Geometry</code> that is composed of component geometries.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public abstract class CompositeGeometry extends AbstractGeometry {
 

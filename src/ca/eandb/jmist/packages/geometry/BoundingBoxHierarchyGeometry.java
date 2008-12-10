@@ -10,7 +10,7 @@ import ca.eandb.jmist.framework.Visitor;
 import ca.eandb.jmist.toolkit.Ray3;
 
 /**
- * @author bkimmel
+ * @author Brad Kimmel
  *
  */
 public final class BoundingBoxHierarchyGeometry extends CompositeGeometry {

@@ -12,7 +12,7 @@ import ca.eandb.jmist.toolkit.Ray3;
 import ca.eandb.jmist.toolkit.Vector3;
 
 /**
- * @author bkimmel
+ * @author Brad Kimmel
  *
  */
 public final class Octree implements RayTraversalStrategy3 {

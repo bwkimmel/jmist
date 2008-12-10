@@ -12,7 +12,7 @@ import ca.eandb.jmist.toolkit.Vector3;
 /**
  * A class for classes implementing <code>AffineTransformable3</code> that
  * require the inverse of the transformation matrix.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public class InvertibleAffineTransformation3 extends AffineTransformation3 {
 

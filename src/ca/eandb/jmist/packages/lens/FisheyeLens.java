@@ -10,7 +10,7 @@ import ca.eandb.jmist.toolkit.Vector3;
 
 /**
  * A circular fisheye lens (http://en.wikipedia.org/wiki/Fisheye_lens).
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class FisheyeLens extends TransformableLens {
 

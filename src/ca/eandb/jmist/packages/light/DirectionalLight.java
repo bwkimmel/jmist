@@ -15,7 +15,7 @@ import ca.eandb.jmist.toolkit.Vector3;
 /**
  * A <code>Light</code> that illuminates from a specified direction.
  * Equivalent to a point light at an infinite distance.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class DirectionalLight implements Light {
 

@@ -7,7 +7,7 @@ import ca.eandb.jmist.toolkit.Vector3;
 
 /**
  * An object capable of being illuminated by a <code>Light</code>.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public interface Illuminable {
 

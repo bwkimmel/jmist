@@ -15,7 +15,7 @@ import ca.eandb.jmist.toolkit.Vector3;
 
 /**
  * A <code>Lens</code> to which affine transformations may be applied.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public abstract class TransformableLens implements Lens, AffineTransformable3 {
 

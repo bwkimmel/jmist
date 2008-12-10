@@ -10,7 +10,7 @@ import ca.eandb.jmist.util.ArrayUtil;
 
 /**
  * A test ray shader that shades rays based on their direction.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class DirectionalTestRayShader implements RayShader {
 

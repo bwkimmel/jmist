@@ -11,7 +11,7 @@ import ca.eandb.jmist.toolkit.Vector3;
 /**
  * A <code>Lens</code> that projects the scene onto a cylindrical virtual
  * screen.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class PanoramicLens extends TransformableLens {
 

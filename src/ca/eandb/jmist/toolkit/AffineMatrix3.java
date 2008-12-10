@@ -15,7 +15,7 @@ import java.io.Serializable;
  * </table>
  * for applying three dimensional affine transformations.
  * This class is immutable.
- * @author brad
+ * @author Brad Kimmel
  */
 public final class AffineMatrix3 implements Serializable {
 

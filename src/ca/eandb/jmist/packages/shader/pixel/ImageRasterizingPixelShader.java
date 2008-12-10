@@ -11,7 +11,7 @@ import ca.eandb.jmist.framework.PixelShader;
  * Represents a pixel shader that rasterizes an image represented by
  * an image shader.  The inheriting pixel shader's sole responsibility
  * will be anti-aliasing.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public abstract class ImageRasterizingPixelShader implements PixelShader {
 

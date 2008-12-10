@@ -9,7 +9,7 @@ import ca.eandb.jmist.util.ArrayUtil;
 
 /**
  * An <code>Observer</code> based on a CIE standard observer.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class StandardObserver extends IntegratingObserver {
 
@@ -45,7 +45,7 @@ public final class StandardObserver extends IntegratingObserver {
 
 	/**
 	 * The types of <code>StandardObserver</code>s that may be created.
-	 * @author bkimmel
+	 * @author Brad Kimmel
 	 */
 	public static enum Type {
 

@@ -9,7 +9,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 /**
  * Tests everything in {@link ca.eandb.jmist.toolkit}.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 @RunWith(Suite.class)
 @SuiteClasses({

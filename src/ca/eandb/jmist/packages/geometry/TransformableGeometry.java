@@ -24,7 +24,7 @@ import ca.eandb.jmist.toolkit.Vector3;
 
 /**
  * A <code>CompositeGeometry</code> that may be transformed.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class TransformableGeometry extends CompositeGeometry implements
 		AffineTransformable3 {
@@ -113,7 +113,7 @@ public final class TransformableGeometry extends CompositeGeometry implements
 	 * An <code>IntersectionRecorder</code> that transforms the recorded
 	 * intersections according to the transformation for this
 	 * <code>TransformableGeometry</code>.
-	 * @author bkimmel
+	 * @author Brad Kimmel
 	 */
 	private final class TransformedIntersectionRecorder extends
 			IntersectionRecorderDecorator {
@@ -140,7 +140,7 @@ public final class TransformableGeometry extends CompositeGeometry implements
 	/**
 	 * An <code>Intersection</code> that has been transformed according to the
 	 * transformation applied to this <code>TransformableGeometry</code>.
-	 * @author bkimmel
+	 * @author Brad Kimmel
 	 */
 	private final class TransformedIntersection extends IntersectionDecorator {
 

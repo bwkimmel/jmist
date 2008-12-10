@@ -7,7 +7,7 @@ import ca.eandb.jmist.toolkit.Ray3;
 import ca.eandb.jmist.toolkit.Tuple;
 
 /**
- * @author bkimmel
+ * @author Brad Kimmel
  *
  */
 public class ScatterResult {

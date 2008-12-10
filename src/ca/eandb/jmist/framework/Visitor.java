@@ -5,7 +5,7 @@ package ca.eandb.jmist.framework;
 
 /**
  * Visits <code>Object</code>s in a collection.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public interface Visitor {
 

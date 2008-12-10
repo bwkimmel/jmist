@@ -15,7 +15,7 @@ import ca.eandb.jmist.toolkit.Vector3;
  * normal camera.  A pinhole camera has an infinite
  * depth of field (i.e., no depth of field effects
  * are observed).
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class PinholeLens extends TransformableLens {
 

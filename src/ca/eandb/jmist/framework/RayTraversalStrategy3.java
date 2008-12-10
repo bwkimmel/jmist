@@ -9,7 +9,7 @@ import ca.eandb.jmist.toolkit.Ray3;
 /**
  * A strategy for determining with what objects to perform ray intersection
  * tests.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public interface RayTraversalStrategy3 {
 

@@ -8,7 +8,7 @@ import ca.eandb.jmist.toolkit.*;
 /**
  * A function that determines if a line segment or ray intersects
  * something.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public interface VisibilityFunction3 {
 

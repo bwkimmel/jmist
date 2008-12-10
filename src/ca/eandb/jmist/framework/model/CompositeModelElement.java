@@ -14,7 +14,7 @@ import ca.eandb.jmist.toolkit.Ray3;
 import ca.eandb.jmist.toolkit.Sphere;
 
 /**
- * @author bkimmel
+ * @author Brad Kimmel
  *
  */
 public class CompositeModelElement extends AbstractModelElement {

@@ -20,7 +20,7 @@ import ca.eandb.util.progress.DummyProgressMonitor;
 import ca.eandb.util.progress.ProgressMonitor;
 
 /**
- * @author bkimmel
+ * @author Brad Kimmel
  *
  */
 public final class Photometer {

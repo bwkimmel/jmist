@@ -8,7 +8,7 @@ import ca.eandb.jmist.toolkit.*;
 /**
  * Generates the ray to cast corresponding to given points on the
  * image plane.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public interface Lens {
 

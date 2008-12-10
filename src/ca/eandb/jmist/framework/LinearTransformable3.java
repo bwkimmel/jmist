@@ -7,7 +7,7 @@ import ca.eandb.jmist.toolkit.*;
 
 /**
  * Represents a three dimensional object to which linear transformations can be applied.
- * @author brad
+ * @author Brad Kimmel
  */
 public interface LinearTransformable3 extends Rotatable3 {
 

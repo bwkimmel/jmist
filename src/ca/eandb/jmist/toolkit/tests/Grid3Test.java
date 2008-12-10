@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 /**
- * @author bkimmel
+ * @author Brad Kimmel
  *
  */
 public class Grid3Test {

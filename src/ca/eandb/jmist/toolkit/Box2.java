@@ -10,7 +10,7 @@ import ca.eandb.jmist.util.MathUtil;
 /**
  * An axis-aligned two dimensional box.
  * This class is immutable.
- * @author brad
+ * @author Brad Kimmel
  */
 public final class Box2 implements Serializable {
 

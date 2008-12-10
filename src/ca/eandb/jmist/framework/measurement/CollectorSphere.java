@@ -7,7 +7,7 @@ import ca.eandb.jmist.toolkit.SphericalCoordinates;
 import ca.eandb.jmist.toolkit.Vector3;
 
 /**
- * @author bkimmel
+ * @author Brad Kimmel
  *
  */
 public interface CollectorSphere {

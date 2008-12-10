@@ -11,7 +11,7 @@ import ca.eandb.jmist.toolkit.Vector3;
 /**
  * A <code>Lens</code> that projects the world on to the image plane
  * ortographically.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class OrthographicLens extends TransformableLens {
 

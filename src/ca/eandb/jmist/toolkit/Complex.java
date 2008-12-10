@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * A complex number.
  * This class is immutable.
- * @author brad
+ * @author Brad Kimmel
  */
 public final class Complex implements Serializable {
 

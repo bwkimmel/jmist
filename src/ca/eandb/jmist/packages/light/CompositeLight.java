@@ -9,7 +9,7 @@ import java.util.List;
 import ca.eandb.jmist.framework.Light;
 
 /**
- * @author bkimmel
+ * @author Brad Kimmel
  *
  */
 public abstract class CompositeLight implements Light {

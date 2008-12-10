@@ -12,7 +12,7 @@ import ca.eandb.jmist.util.ArrayUtil;
 /**
  * A ray shader that shades based on the evaluation of a visibility
  * function.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class VisibilityRayShader implements RayShader {
 

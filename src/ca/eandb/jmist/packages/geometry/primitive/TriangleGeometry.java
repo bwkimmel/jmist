@@ -11,7 +11,7 @@ import ca.eandb.jmist.toolkit.Ray3;
 import ca.eandb.jmist.toolkit.Sphere;
 
 /**
- * @author bkimmel
+ * @author Brad Kimmel
  *
  */
 public final class TriangleGeometry extends SingleMaterialGeometry {

@@ -6,7 +6,7 @@ package ca.eandb.jmist.packages.random;
 import ca.eandb.jmist.framework.Random;
 
 /**
- * @author bkimmel
+ * @author Brad Kimmel
  *
  */
 public final class NRooksRandom implements Random {

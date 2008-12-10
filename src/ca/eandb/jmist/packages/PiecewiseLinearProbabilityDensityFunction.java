@@ -12,7 +12,7 @@ import ca.eandb.jmist.util.MathUtil;
  * A <code>ProbabilityDensityFunction</code> specified by a piecewise-linear
  * curve, described by an array of domain points and the corresponding array of
  * the PDF values.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class PiecewiseLinearProbabilityDensityFunction extends
 		AbstractProbabilityDensityFunction {

@@ -15,7 +15,7 @@ import java.io.Serializable;
  * </table>
  * for applying three dimensional linear transformations.
  * This class is immutable.
- * @author brad
+ * @author Brad Kimmel
  */
 public final class LinearMatrix3 implements Serializable {
 

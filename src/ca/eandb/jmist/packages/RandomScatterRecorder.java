@@ -14,7 +14,7 @@ import ca.eandb.jmist.util.MathUtil;
  * with probability equal to 1 minus the sum of all the weights of the recorded
  * <code>ScatterResult</code>s at the given index.
  * @see ScatterResult#weightAt(int)
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class RandomScatterRecorder implements ScatterRecorder {
 

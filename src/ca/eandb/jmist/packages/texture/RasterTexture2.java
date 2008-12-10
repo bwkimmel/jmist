@@ -14,7 +14,7 @@ import ca.eandb.jmist.util.MathUtil;
 /**
  * A <code>Texture2</code> that is extrapolated from a <code>Raster</code>
  * image.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class RasterTexture2 implements Texture2 {
 

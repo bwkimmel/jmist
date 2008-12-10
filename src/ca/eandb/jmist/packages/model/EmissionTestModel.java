@@ -28,7 +28,7 @@ import ca.eandb.jmist.toolkit.Point3;
 import ca.eandb.jmist.toolkit.Vector3;
 
 /**
- * @author bkimmel
+ * @author Brad Kimmel
  *
  */
 public final class EmissionTestModel implements Model {

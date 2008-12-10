@@ -13,7 +13,7 @@ import ca.eandb.jmist.util.ArrayUtil;
 /**
  * A ray shader that shades a ray according to the distance to the
  * nearest intersection along the ray.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class DistanceRayShader implements RayShader {
 

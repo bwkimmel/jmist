@@ -18,7 +18,7 @@ import ca.eandb.jmist.toolkit.Complex;
 
 /**
  * An <code>OutputStream</code> for writing MATLAB MAT-files.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class MatlabOutputStream extends OutputStream implements DataOutput {
 
@@ -825,7 +825,7 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 	/**
 	 * An <code>OutputStream</code> adapter that wraps an
 	 * <code>ImageOutputStream</code>.
-	 * @author bkimmel
+	 * @author Brad Kimmel
 	 */
 	private static class ImageOutputStreamAdapter
 		extends OutputStream {
@@ -886,7 +886,7 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 	/**
 	 * An abstract <code>DataOutputStream</code> that can transfer its contents
 	 * to another <code>DataOutputStream</code>.
-	 * @author bkimmel
+	 * @author Brad Kimmel
 	 */
 	private static abstract class CompoundElementOutputStream
 		extends DataOutputStream {
@@ -952,7 +952,7 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 	 * written to a temporary buffer.  When {@link #writeTo(DataOutputStream)}
 	 * is called, the tag is written and the contents of the temporary buffer
 	 * are transferred.
-	 * @author bkimmel
+	 * @author Brad Kimmel
 	 */
 	private static final class BufferedCompoundElementOutputStream
 		extends CompoundElementOutputStream {
@@ -1007,7 +1007,7 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 	/**
 	 * A <code>CompoundElementOutputStream</code> that compresses its contents
 	 * using GZIP compression before it is written to another stream.
-	 * @author bkimmel
+	 * @author Brad Kimmel
 	 */
 	private static final class CompressedCompoundElementOutputStream
 		extends CompoundElementOutputStream {
@@ -1051,7 +1051,7 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 	 * the element being written is known in advance.  It will be verified that
 	 * the number of bytes written to this stream matches what was indicated in
 	 * the constructor (after alignment for <code>MATRIX</code> elements).
-	 * @author bkimmel
+	 * @author Brad Kimmel
 	 */
 	public static final class FixedLengthCompoundElementOutputStream
 		extends CompoundElementOutputStream {

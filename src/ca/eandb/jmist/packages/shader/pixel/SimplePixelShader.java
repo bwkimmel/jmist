@@ -7,7 +7,7 @@ import ca.eandb.jmist.framework.ImageShader;
 import ca.eandb.jmist.toolkit.Box2;
 
 /**
- * @author bkimmel
+ * @author Brad Kimmel
  *
  */
 public final class SimplePixelShader extends ImageRasterizingPixelShader {

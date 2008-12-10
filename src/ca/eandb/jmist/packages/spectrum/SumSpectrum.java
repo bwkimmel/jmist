@@ -10,7 +10,7 @@ import ca.eandb.jmist.util.MathUtil;
 
 /**
  * A <code>Spectrum</code> that is the sum of other spectra.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class SumSpectrum extends CompositeSpectrum {
 

@@ -5,7 +5,7 @@ package ca.eandb.jmist.toolkit;
 
 /**
  * A two dimensional matrix.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class Matrix {
 

@@ -21,7 +21,7 @@ import ca.eandb.jmist.toolkit.Vector3;
 
 /**
  * A polyhedron <code>Geometry</code>.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class PolyhedronGeometry extends AbstractGeometry {
 
@@ -129,7 +129,7 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 
 	/**
 	 * A face of a polyhedron.
-	 * @author bkimmel
+	 * @author Brad Kimmel
 	 */
 	private final class Face {
 

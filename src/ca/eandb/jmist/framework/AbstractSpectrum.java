@@ -9,7 +9,7 @@ import ca.eandb.jmist.util.MathUtil;
 /**
  * A base implementation of <code>Spectrum</code> that provides a default
  * implementation for sampling at multiple wavelengths.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public abstract class AbstractSpectrum implements Spectrum {
 

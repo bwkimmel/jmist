@@ -32,7 +32,7 @@ import ca.eandb.jmist.toolkit.Vector3;
 import ca.eandb.jmist.util.ArrayUtil;
 
 /**
- * @author bkimmel
+ * @author Brad Kimmel
  *
  */
 public final class PolygonGeometry extends SingleMaterialGeometry implements Light {

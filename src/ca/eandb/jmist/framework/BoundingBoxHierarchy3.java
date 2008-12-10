@@ -17,7 +17,7 @@ import ca.eandb.jmist.toolkit.Ray3;
 /**
  * Stores bounded objects in a tree structure so that intersection tests may be
  * accelerated.
- * @author bkimmel
+ * @author Brad Kimmel
  */
 public final class BoundingBoxHierarchy3 implements RayTraversalStrategy3 {
 
@@ -196,7 +196,7 @@ public final class BoundingBoxHierarchy3 implements RayTraversalStrategy3 {
 
 	/**
 	 * A node in the bounding box tree.
-	 * @author bkimmel
+	 * @author Brad Kimmel
 	 */
 	private static final class Node {
 
@@ -275,7 +275,7 @@ public final class BoundingBoxHierarchy3 implements RayTraversalStrategy3 {
 	/**
 	 * Compares <code>Node</code>s according to the centers of their bounding
 	 * boxes along a particular axis.
-	 * @author bkimmel
+	 * @author Brad Kimmel
 	 */
 	private static final class NodeComparator implements Comparator<Node> {
 

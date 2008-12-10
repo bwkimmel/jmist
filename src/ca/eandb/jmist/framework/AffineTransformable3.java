@@ -9,7 +9,7 @@ import ca.eandb.jmist.toolkit.*;
 /**
  * A three dimensional object that can be transformed according to an affine transformation
  * (linear transformations plus translations).
- * @author brad
+ * @author Brad Kimmel
  *
  */
 public interface AffineTransformable3 extends LinearTransformable3, ShapePreservingTransformable3, Stretchable3 {
