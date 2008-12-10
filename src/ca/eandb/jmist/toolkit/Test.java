@@ -1,5 +1,6 @@
 package ca.eandb.jmist.toolkit;
 
+import java.awt.BorderLayout;
 import java.awt.image.DataBuffer;
 import java.awt.image.PixelInterleavedSampleModel;
 import java.awt.image.Raster;
@@ -27,6 +28,7 @@ import javax.imageio.spi.IIORegistry;
 import javax.script.ScriptEngineFactory;
 import javax.script.ScriptEngineManager;
 import javax.swing.JDialog;
+import javax.swing.SwingUtilities;
 
 import ca.eandb.jdcp.job.ParallelizableJob;
 import ca.eandb.jdcp.job.ParallelizableJobRunner;
@@ -80,10 +82,11 @@ import ca.eandb.jmist.toolkit.matlab.MatlabImageWriterSpi;
 import ca.eandb.jmist.toolkit.matlab.MatlabWriter;
 import ca.eandb.jmist.util.ArrayUtil;
 import ca.eandb.util.io.FileUtil;
-import ca.eandb.util.jobs.Job;
-import ca.eandb.util.progress.ConsoleProgressMonitor;
 import ca.eandb.util.progress.DummyProgressMonitor;
+import ca.eandb.util.progress.DummyProgressMonitorFactory;
 import ca.eandb.util.progress.ProgressMonitor;
+import ca.eandb.util.progress.ProgressMonitorFactory;
+import ca.eandb.util.progress.ProgressPanel;
 
 public class Test {
 
@@ -131,11 +134,11 @@ public class Test {
 		//testMatrix();
 		//testParallelJob();
 
-		//testProgressPanel();
+		testProgressPanel();
 		//testScripting();
 		//testPinholeCamera();
 
-		testRandom();
+//		testRandom();
 	}
 
 	@SuppressWarnings("unused")
@@ -210,53 +213,51 @@ public class Test {
 
 	}
 
-//	@SuppressWarnings("unused")
-//	private static void testProgressPanel() {
-//
-//		JDialog dialog = new JDialog();
-//		ProgressPanel panel = new ProgressPanel();
-//		dialog.add(panel);
-//		dialog.setBounds(100, 100, 640, 480);
-//
-//		dialog.setVisible(true);
-//
-//		for (int i = 0; i < 10; i++) {
-//
-//			ProgressMonitor child = panel.createChildProgressMonitor("Test " + new Integer(i + 1).toString());
-//
-//			for (int j = 0; j < 10; j++) {
-//
-//				ProgressMonitor grandChild = child.createChildProgressMonitor("Test " + new Integer(i + 1).toString() + " " + new Integer(j + 1).toString());
-//
-//				for (int k = 0; k < 10; k++) {
-//					grandChild.notifyProgress(k, 10);
-//					child.notifyProgress(j * 10 + k, 100);
-//					panel.notifyProgress(i * 100 + j * 10 + k, 1000);
-//					try {
-//						Thread.sleep(50);
-//					} catch (InterruptedException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
-//				}
-//
-//				grandChild.notifyProgress(10, 10);
-//				grandChild.notifyComplete();
-//
-//			}
-//
-//			child.notifyProgress(100, 100);
-//			child.notifyComplete();
-//
-//		}
-//
-//		panel.notifyProgress(1000, 1000);
-//		panel.notifyComplete();
-//
-//		dialog.setVisible(false);
-//		System.exit(0);
-//
-//	}
+	@SuppressWarnings("unused")
+	private static void testProgressPanel() {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				JDialog dialog = new JDialog();
+				final ProgressPanel panel = new ProgressPanel();
+				dialog.getContentPane().setLayout(new BorderLayout());
+				dialog.getContentPane().add(panel, BorderLayout.CENTER);
+				dialog.pack();
+				dialog.setBounds(100, 100, 640, 480);
+				dialog.validate();
+
+				dialog.setVisible(true);
+
+				Thread thread = new Thread(new Runnable() {
+					public void run() {
+
+						for (int i = 0; i < 100; i++) {
+
+							ProgressMonitor child = panel.createProgressMonitor("Test " + new Integer(i + 1).toString());
+
+							for (int k = 0; k < 10; k++) {
+								child.notifyProgress(10 * k, 100);
+								try {
+									Thread.sleep(50);
+								} catch (InterruptedException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							}
+
+							child.notifyProgress(100, 100);
+							//child.notifyComplete();
+
+						}
+
+					}
+				});
+
+				thread.start();
+
+			}
+		});
+
+	}
 
 	@SuppressWarnings("unused")
 	private static void testMatrix() {
@@ -547,14 +548,15 @@ public class Test {
 //			ProgressPanel monitor = new ProgressPanel();
 //			dialog.add(monitor);
 //			dialog.setVisible(true);
+			ProgressMonitorFactory factory = DummyProgressMonitorFactory.getInstance();
 			ProgressMonitor monitor = DummyProgressMonitor.getInstance();
 
 			File base = new File("C:\\Documents and Settings\\Erin\\My Documents\\Brad\\jmist");
 			UUID id = UUID.randomUUID();
 			File dir = new File(base, id.toString());
 
-			Job runner = new ParallelizableJobRunner(job, dir, Runtime.getRuntime().availableProcessors());
-			runner.go(monitor);
+			Runnable runner = new ParallelizableJobRunner(job, dir, Runtime.getRuntime().availableProcessors());
+			runner.run();
 			//job.go(monitor);
 
 			File zipFile = new File(base, id.toString() + ".zip");
@@ -815,10 +817,10 @@ public class Test {
 		File base = new File("/home/bwkimmel");
 		File dir = new File(base, id.toString());
 		dir.mkdir();
-		Job runner = new ParallelizableJobRunner(job, dir, 2);
+		Runnable runner = new ParallelizableJobRunner(job, dir, 2);
 
 		try {
-			runner.go(DummyProgressMonitor.getInstance());
+			runner.run();
 			if (job.isComplete()) {
 				File zipFile = new File(base, id.toString() + ".zip");
 				FileUtil.zip(zipFile, dir);
@@ -908,7 +910,7 @@ public class Test {
 //		ParallelizableJob job = getMeasurementJob(); //new DummyParallelizableJob(100, 5000, 10000);
 //		Executor threadPool = Executors.newFixedThreadPool(2, new BackgroundThreadFactory());
 //		Job submitJob = new ServiceSubmitJob(job, 0, host);
-//		Job workerJob = new ThreadServiceWorkerJob(host, 10000, 2, threadPool);
+//		Job workerJob = new ThreadServiceWorker(host, 10000, 2, threadPool);
 //
 //		dialog.add(monitor);
 //		dialog.setBounds(0, 0, 400, 300);
@@ -926,9 +928,9 @@ public class Test {
 		ParallelizableJob job = getMeasurementJob(); //new DummyParallelizableJob(100, 5000, 10000);
 		File dir = new File("/home/bwkimmel", UUID.randomUUID().toString());
 		dir.mkdir();
-		Job runner = new ParallelizableJobRunner(job, dir, 8);
+		Runnable runner = new ParallelizableJobRunner(job, dir, 8);
 		try {
-			runner.go(new ConsoleProgressMonitor());
+			runner.run();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
