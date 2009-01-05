@@ -12,7 +12,12 @@ import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.RandomAccessFile;
 import java.io.Serializable;
+import java.nio.DoubleBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileChannel.MapMode;
 import java.util.Iterator;
 
 import javax.imageio.IIOImage;
@@ -20,11 +25,12 @@ import javax.imageio.ImageIO;
 import javax.imageio.ImageWriter;
 import javax.imageio.stream.MemoryCacheImageOutputStream;
 
-import ca.eandb.jmist.framework.PixelShader;
-import ca.eandb.jmist.toolkit.Box2;
-
 import ca.eandb.jdcp.job.AbstractParallelizableJob;
 import ca.eandb.jdcp.job.TaskWorker;
+import ca.eandb.jmist.framework.PixelShader;
+import ca.eandb.jmist.toolkit.Box2;
+import ca.eandb.jmist.toolkit.DoubleDataBufferAdapter;
+import ca.eandb.util.io.Archive;
 import ca.eandb.util.progress.ProgressMonitor;
 
 /**
@@ -34,24 +40,45 @@ import ca.eandb.util.progress.ProgressMonitor;
 public final class RasterJob extends AbstractParallelizableJob implements
 		Serializable {
 
-	private String formatName;
-
 	/**
 	 * Creates a new <code>RasterJob</code>.  This job will
 	 * divide the image into <code>rows * cols</code> tasks to render roughly
 	 * equally sized chunks of the image.
 	 * @param shader The <code>PixelShader</code> to use to compute the values
 	 * 		of individual <code>Pixel</code>s.
-	 * @param raster The <code>Raster</code> to write the results to.
+	 * @param sampleModel the <code>SampleModel</code> that describes the
+	 * 		dimensions of the image to be rendered.
 	 * @param cols The number of columns to divide the image into.
 	 * @param rows The number of rows to divide the image into.
 	 */
-	public RasterJob(PixelShader shader, WritableRaster raster, String formatName, int cols, int rows) {
-		this.worker = new RasterTaskWorker(shader, raster.getWidth(), raster.getHeight());
-		this.raster = raster;
+	public RasterJob(PixelShader shader, SampleModel sampleModel, String formatName, int cols, int rows) {
+		this.worker = new RasterTaskWorker(shader, sampleModel.getWidth(), sampleModel.getHeight());
+		this.sampleModel = sampleModel;
 		this.cols = cols;
 		this.rows = rows;
 		this.formatName = formatName;
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jdcp.job.AbstractParallelizableJob#initialize()
+	 */
+	@Override
+	public void initialize() throws IOException {
+		RandomAccessFile file = createRandomAccessFile("raster.tmp");
+		FileChannel channel = file.getChannel();
+		long bytes = sampleModel.getNumDataElements() * 8;
+		DoubleBuffer buffer = channel.map(MapMode.READ_WRITE, 0, bytes).asDoubleBuffer();
+		DataBuffer db = new DoubleDataBufferAdapter(buffer);
+		this.raster = Raster.createWritableRaster(sampleModel, db, null);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jdcp.job.AbstractParallelizableJob#restoreState(java.io.ObjectInput)
+	 */
+	@Override
+	public void restoreState(ObjectInput input) throws Exception {
+		super.restoreState(input);
+		this.initialize();
 	}
 
 	/* (non-Javadoc)
@@ -188,6 +215,16 @@ public final class RasterJob extends AbstractParallelizableJob implements
 	}
 
 	/* (non-Javadoc)
+	 * @see ca.eandb.jdcp.job.AbstractParallelizableJob#archiveState(ca.eandb.util.io.Archive)
+	 */
+	@Override
+	protected void archiveState(Archive ar) throws IOException {
+		nextCol = ar.archiveInt(nextCol);
+		nextRow = ar.archiveInt(nextRow);
+		tasksComplete = ar.archiveInt(tasksComplete);
+	}
+
+	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.ParallelizableJob#worker()
 	 */
 	public TaskWorker worker() {
@@ -306,14 +343,20 @@ public final class RasterJob extends AbstractParallelizableJob implements
 
 	}
 
+	/** The name of the format in which to render the image. */
+	private final String formatName;
+
 	/**
 	 * The <code>TaskWorker</code> to use to render rectangular subsets of
 	 * the <code>Raster</code> image.
 	 */
 	private final TaskWorker worker;
 
-	/** The <code>WritableRaster</code> image to render to. */
-	private final WritableRaster raster;
+	/**
+	 * The <code>SampleModel</code> that describes the dimensions of the image
+	 * to be rendered.
+	 */
+	private final SampleModel sampleModel;
 
 	/** The number of columns to divide the <code>Raster</code> image into. */
 	private final int cols;
@@ -321,14 +364,17 @@ public final class RasterJob extends AbstractParallelizableJob implements
 	/** The number of rows to divide the <code>Raster</code> image into. */
 	private final int rows;
 
+	/** The <code>WritableRaster</code> image to render to. */
+	private transient WritableRaster raster;
+
 	/** The column index of the next task to return. */
-	private int nextCol = 0;
+	private transient int nextCol = 0;
 
 	/** The row index of the next task to return. */
-	private int nextRow = 0;
+	private transient int nextRow = 0;
 
 	/** The number of tasks that have been completed. */
-	private int tasksComplete = 0;
+	private transient int tasksComplete = 0;
 
 	/**
 	 * Serialization version ID.

@@ -3,6 +3,7 @@
  */
 package ca.eandb.jmist.packages.job;
 
+import java.io.IOException;
 import java.io.PrintStream;
 import java.io.Serializable;
 
@@ -13,6 +14,7 @@ import ca.eandb.jmist.toolkit.SphericalCoordinates;
 
 import ca.eandb.jdcp.job.AbstractParallelizableJob;
 import ca.eandb.jdcp.job.TaskWorker;
+import ca.eandb.util.io.Archive;
 import ca.eandb.util.progress.ProgressMonitor;
 
 /**
@@ -31,16 +33,23 @@ public final class PhotometerJob extends
 		this.wavelengths				= wavelengths.clone();
 		this.samplesPerMeasurement		= samplesPerMeasurement;
 		this.samplesPerTask				= samplesPerTask;
-		this.results					= new CollectorSphere[wavelengths.length * incidentAngles.length];
 		this.totalTasks					= wavelengths.length
 												* incidentAngles.length
 												* ((int) (samplesPerMeasurement / samplesPerTask) + ((samplesPerMeasurement % samplesPerTask) > 0 ? 1
 														: 0));
 
-		for (int i = 0; i < this.results.length; i++) {
-			this.results[i] = prototype.clone();
-		}
 
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jdcp.job.AbstractParallelizableJob#initialize()
+	 */
+	@Override
+	public void initialize() {
+		this.results = new CollectorSphere[wavelengths.length * incidentAngles.length];
+		for (int i = 0; i < this.results.length; i++) {
+			this.results[i] = worker.prototype.clone();
+		}
 	}
 
 	/*
@@ -186,6 +195,17 @@ public final class PhotometerJob extends
 	}
 
 	/* (non-Javadoc)
+	 * @see ca.eandb.jdcp.job.AbstractParallelizableJob#archiveState(ca.eandb.util.io.Archive)
+	 */
+	@Override
+	protected void archiveState(Archive ar) throws IOException, ClassNotFoundException {
+		results = (CollectorSphere[]) ar.archiveObject(results);
+		nextMeasurementIndex = ar.archiveInt(nextMeasurementIndex);
+		outstandingSamplesPerMeasurement = ar.archiveLong(outstandingSamplesPerMeasurement);
+		tasksReturned = ar.archiveInt(tasksReturned);
+	}
+
+	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.ParallelizableJob#worker()
 	 */
 	public TaskWorker worker() {
@@ -263,17 +283,17 @@ public final class PhotometerJob extends
 	}
 
 	/** The <code>TaskWorker</code> that performs the work for this job. */
-	private final TaskWorker worker;
+	private final PhotometerTaskWorker worker;
 
 	private final double[] wavelengths;
 	private final SphericalCoordinates[] incidentAngles;
 	private final long samplesPerMeasurement;
 	private final long samplesPerTask;
-	private final CollectorSphere[] results;
-	private int nextMeasurementIndex = 0;
-	private long outstandingSamplesPerMeasurement = 0;
 	private final int totalTasks;
-	private int tasksReturned = 0;
+	private transient CollectorSphere[] results;
+	private transient int nextMeasurementIndex = 0;
+	private transient long outstandingSamplesPerMeasurement = 0;
+	private transient int tasksReturned = 0;
 
 	/**
 	 * Serialization version ID.

@@ -543,7 +543,7 @@ public class Test {
 			//BufferedImage image = new BufferedImage(cm, raster, false, null);
 			//BufferedImage image = new BufferedImage(500, 500, BufferedImage.);
 			IIORegistry.getDefaultInstance().registerServiceProvider(new MatlabImageWriterSpi());
-			ParallelizableJob job = new RasterJob(pixelShader, raster, "mat", 10, 10);
+			ParallelizableJob job = new RasterJob(pixelShader, sm, "mat", 10, 10);
 			JDialog dialog = new JDialog();
 //			ProgressPanel monitor = new ProgressPanel();
 //			dialog.add(monitor);
