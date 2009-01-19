@@ -145,7 +145,6 @@ public final class DayLight implements Light, DirectionalTexture3 {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.DirectionalTexture3#evaluate(ca.eandb.jmist.toolkit.Vector3)
 	 */
-	@Override
 	public Spectrum evaluate(Vector3 v) {
 		return new SkyRadianceSpectrum(v);
 	}

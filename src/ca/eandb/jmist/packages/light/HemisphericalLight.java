@@ -63,7 +63,6 @@ public final class HemisphericalLight implements Light {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.VisibilityFunction3, ca.eandb.jmist.framework.Illuminable)
 	 */
-	@Override
 	public void illuminate(SurfacePoint x, VisibilityFunction3 vf,
 			Illuminable target) {
 
