@@ -408,10 +408,10 @@ public final class MathUtil {
 	public static double interpolate(double[] x, double[] y, double x0) {
 
 		if (x0 <= x[0]) {
-			return x[0];
+			return y[0];
 		}
 		if (x0 >= x[x.length - 1]) {
-			return x[x.length - 1];
+			return y[x.length - 1];
 		}
 
 		int index = Arrays.binarySearch(x, x0);
