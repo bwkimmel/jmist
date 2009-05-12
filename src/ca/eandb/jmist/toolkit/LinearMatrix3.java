@@ -36,9 +36,9 @@ public final class LinearMatrix3 implements Serializable {
 			double _10, double _11, double _12,
 			double _20, double _21, double _22
 			) {
-		this.a[0][0] = _00; this.a[0][1] = _01; this.a[0][2] = _02;
-		this.a[1][0] = _10; this.a[1][1] = _11; this.a[1][2] = _12;
-		this.a[2][0] = _20; this.a[2][1] = _21; this.a[2][2] = _22;
+		this._00 = _00; this._01 = _01; this._02 = _02;
+		this._10 = _10; this._11 = _11; this._12 = _12;
+		this._20 = _20; this._21 = _21; this._22 = _22;
 	}
 
 	/**
@@ -48,15 +48,15 @@ public final class LinearMatrix3 implements Serializable {
 	 */
 	public LinearMatrix3 times(LinearMatrix3 other) {
 		return new LinearMatrix3(
-				a[0][0] * other.a[0][0] + a[0][1] * other.a[1][0] + a[0][2] * other.a[2][0],
-				a[0][0] * other.a[0][1] + a[0][1] * other.a[1][1] + a[0][2] * other.a[2][1],
-				a[0][0] * other.a[0][2] + a[0][1] * other.a[1][2] + a[0][2] * other.a[2][2],
-				a[1][0] * other.a[0][0] + a[1][1] * other.a[1][0] + a[1][2] * other.a[2][0],
-				a[1][0] * other.a[0][1] + a[1][1] * other.a[1][1] + a[1][2] * other.a[2][1],
-				a[1][0] * other.a[0][2] + a[1][1] * other.a[1][2] + a[1][2] * other.a[2][2],
-				a[2][0] * other.a[0][0] + a[2][1] * other.a[1][0] + a[2][2] * other.a[2][0],
-				a[2][0] * other.a[0][1] + a[2][1] * other.a[1][1] + a[2][2] * other.a[2][1],
-				a[2][0] * other.a[0][2] + a[2][1] * other.a[1][2] + a[2][2] * other.a[2][2]
+				_00 * other._00 + _01 * other._10 + _02 * other._20,
+				_00 * other._01 + _01 * other._11 + _02 * other._21,
+				_00 * other._02 + _01 * other._12 + _02 * other._22,
+				_10 * other._00 + _11 * other._10 + _12 * other._20,
+				_10 * other._01 + _11 * other._11 + _12 * other._21,
+				_10 * other._02 + _11 * other._12 + _12 * other._22,
+				_20 * other._00 + _21 * other._10 + _22 * other._20,
+				_20 * other._01 + _21 * other._11 + _22 * other._21,
+				_20 * other._02 + _21 * other._12 + _22 * other._22
 		);
 	}
 
@@ -80,9 +80,9 @@ public final class LinearMatrix3 implements Serializable {
 		double det = determinant();
 
 		return new LinearMatrix3(
-				(a[1][1] * a[2][2] - a[1][2] * a[2][1]) / det, (a[0][1] * a[2][2] - a[0][2] * a[2][1]) / det, (a[0][1] * a[1][2] - a[0][2] * a[1][1]) / det,
-				(a[1][2] * a[2][0] - a[1][0] * a[2][2]) / det, (a[0][0] * a[2][2] - a[0][2] * a[2][0]) / det, (a[0][2] * a[1][0] - a[0][0] * a[1][2]) / det,
-				(a[1][0] * a[2][1] - a[1][1] * a[2][0]) / det, (a[0][1] * a[2][0] - a[0][0] * a[2][1]) / det, (a[0][0] * a[1][1] - a[0][1] * a[1][0]) / det
+				(_11 * _22 - _12 * _21) / det, (_01 * _22 - _02 * _21) / det, (_01 * _12 - _02 * _11) / det,
+				(_12 * _20 - _10 * _22) / det, (_00 * _22 - _02 * _20) / det, (_02 * _10 - _00 * _12) / det,
+				(_10 * _21 - _11 * _20) / det, (_01 * _20 - _00 * _21) / det, (_00 * _11 - _01 * _10) / det
 		);
 	}
 
@@ -92,9 +92,9 @@ public final class LinearMatrix3 implements Serializable {
 	 */
 	public LinearMatrix3 transposed() {
 		return new LinearMatrix3(
-				a[0][0], a[1][0], a[2][0],
-				a[0][1], a[1][1], a[2][1],
-				a[0][2], a[1][2], a[2][2]
+				_00, _10, _20,
+				_01, _11, _21,
+				_02, _12, _22
 		);
 	}
 
@@ -105,9 +105,9 @@ public final class LinearMatrix3 implements Serializable {
 	 * @return The determinant of this matrix.
 	 */
 	public double determinant() {
-		return a[0][0] * (a[1][1] * a[2][2] - a[1][2] * a[2][1]) +
-		       a[0][1] * (a[1][2] * a[2][0] - a[1][0] * a[2][2]) +
-		       a[0][2] * (a[1][0] * a[2][1] - a[1][1] * a[2][0]);
+		return _00 * (_11 * _22 - _12 * _21) +
+		       _01 * (_12 * _20 - _10 * _22) +
+		       _02 * (_10 * _21 - _11 * _20);
 	}
 
 	/**
@@ -118,7 +118,27 @@ public final class LinearMatrix3 implements Serializable {
 	 * @see #getElement(int, int)
 	 */
 	public double at(int row, int col) {
-		return a[row][col];
+		switch (row) {
+		case 0:
+			switch (col) {
+			case 0: return _00;
+			case 1: return _01;
+			case 2: return _02;
+			}
+		case 1:
+			switch (col) {
+			case 0: return _10;
+			case 1: return _11;
+			case 2: return _12;
+			}
+		case 2:
+			switch (col) {
+			case 0: return _20;
+			case 1: return _21;
+			case 2: return _22;
+			}
+		}
+		throw new IndexOutOfBoundsException();
 	}
 
 	/**
@@ -129,9 +149,9 @@ public final class LinearMatrix3 implements Serializable {
 	 */
 	public Vector3 times(Vector3 v) {
 		return new Vector3(
-				a[0][0] * v.x() + a[0][1] * v.y() + a[0][2] * v.z(),
-				a[1][0] * v.x() + a[1][1] * v.y() + a[1][2] * v.z(),
-				a[2][0] * v.x() + a[2][1] * v.y() + a[2][2] * v.z()
+				_00 * v.x() + _01 * v.y() + _02 * v.z(),
+				_10 * v.x() + _11 * v.y() + _12 * v.z(),
+				_20 * v.x() + _21 * v.y() + _22 * v.z()
 		);
 	}
 
@@ -274,8 +294,10 @@ public final class LinearMatrix3 implements Serializable {
 	 */
 	public static final LinearMatrix3 ZERO = new LinearMatrix3(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
-	/** The elements of the matrix. */
-	private final double[][] a = new double[3][3];
+	/* Matrix elements */
+	private final double _00, _01, _02,
+						 _10, _11, _12,
+						 _20, _21, _22;
 
 	/**
 	 * Serialization version ID.
