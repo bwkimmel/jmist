@@ -80,7 +80,7 @@ public final class LinearMatrix3 implements Serializable {
 		double det = determinant();
 
 		return new LinearMatrix3(
-				(_11 * _22 - _12 * _21) / det, (_01 * _22 - _02 * _21) / det, (_01 * _12 - _02 * _11) / det,
+				(_11 * _22 - _12 * _21) / det, (_02 * _21 - _01 * _22) / det, (_01 * _12 - _02 * _11) / det,
 				(_12 * _20 - _10 * _22) / det, (_00 * _22 - _02 * _20) / det, (_02 * _10 - _00 * _12) / det,
 				(_10 * _21 - _11 * _20) / det, (_01 * _20 - _00 * _21) / det, (_00 * _11 - _01 * _10) / det
 		);
