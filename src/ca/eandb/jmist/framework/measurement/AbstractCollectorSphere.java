@@ -5,8 +5,8 @@ package ca.eandb.jmist.framework.measurement;
 
 import java.io.Serializable;
 
-import ca.eandb.jmist.toolkit.SphericalCoordinates;
-import ca.eandb.jmist.toolkit.Vector3;
+import ca.eandb.jmist.math.SphericalCoordinates;
+import ca.eandb.jmist.math.Vector3;
 
 /**
  * A default implementation of <code>CollectorSphere</code>.

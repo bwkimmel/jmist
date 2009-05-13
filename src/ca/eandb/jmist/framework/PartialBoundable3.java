@@ -3,7 +3,7 @@
  */
 package ca.eandb.jmist.framework;
 
-import ca.eandb.jmist.toolkit.Box3;
+import ca.eandb.jmist.math.Box3;
 
 /**
  * Represents a surface with which one may test for an intersection with a

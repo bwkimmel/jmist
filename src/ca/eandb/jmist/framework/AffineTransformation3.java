@@ -3,11 +3,11 @@
  */
 package ca.eandb.jmist.framework;
 
-import ca.eandb.jmist.toolkit.AffineMatrix3;
-import ca.eandb.jmist.toolkit.LinearMatrix3;
-import ca.eandb.jmist.toolkit.Point3;
-import ca.eandb.jmist.toolkit.Ray3;
-import ca.eandb.jmist.toolkit.Vector3;
+import ca.eandb.jmist.math.AffineMatrix3;
+import ca.eandb.jmist.math.LinearMatrix3;
+import ca.eandb.jmist.math.Point3;
+import ca.eandb.jmist.math.Ray3;
+import ca.eandb.jmist.math.Vector3;
 
 /**
  * An abstract base class for classes implementing

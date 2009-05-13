@@ -3,7 +3,7 @@
  */
 package ca.eandb.jmist.framework;
 
-import ca.eandb.jmist.toolkit.Interval;
+import ca.eandb.jmist.math.Interval;
 
 /**
  * An abstract <code>IntersectionRecorder</code> that decorates another.  This

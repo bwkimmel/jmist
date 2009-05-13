@@ -3,8 +3,8 @@
  */
 package ca.eandb.jmist.framework;
 
-import ca.eandb.jmist.toolkit.Interval;
-import ca.eandb.jmist.toolkit.Ray3;
+import ca.eandb.jmist.math.Interval;
+import ca.eandb.jmist.math.Ray3;
 
 /**
  * A strategy for determining with what objects to perform ray intersection

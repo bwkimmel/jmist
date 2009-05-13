@@ -3,7 +3,7 @@
  */
 package ca.eandb.jmist.framework;
 
-import ca.eandb.jmist.toolkit.Point2;
+import ca.eandb.jmist.math.Point2;
 
 /**
  * Maps two dimensional space to spectra.

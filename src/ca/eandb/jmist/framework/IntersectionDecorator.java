@@ -3,10 +3,10 @@
  */
 package ca.eandb.jmist.framework;
 
-import ca.eandb.jmist.toolkit.Basis3;
-import ca.eandb.jmist.toolkit.Point2;
-import ca.eandb.jmist.toolkit.Point3;
-import ca.eandb.jmist.toolkit.Vector3;
+import ca.eandb.jmist.math.Basis3;
+import ca.eandb.jmist.math.Point2;
+import ca.eandb.jmist.math.Point3;
+import ca.eandb.jmist.math.Vector3;
 
 /**
  * An abstract <code>Intersection</code> that decorates another (e.g., by

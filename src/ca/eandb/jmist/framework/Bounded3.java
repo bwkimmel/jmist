@@ -3,6 +3,8 @@
  */
 package ca.eandb.jmist.framework;
 
+import ca.eandb.jmist.math.Box3;
+import ca.eandb.jmist.math.Sphere;
 import ca.eandb.jmist.toolkit.*;
 
 /**

@@ -4,11 +4,11 @@
 package ca.eandb.jmist.framework.model;
 
 import ca.eandb.jmist.framework.SurfacePoint;
-import ca.eandb.jmist.toolkit.Box3;
-import ca.eandb.jmist.toolkit.Interval;
-import ca.eandb.jmist.toolkit.Point3;
-import ca.eandb.jmist.toolkit.Ray3;
-import ca.eandb.jmist.toolkit.Sphere;
+import ca.eandb.jmist.math.Box3;
+import ca.eandb.jmist.math.Interval;
+import ca.eandb.jmist.math.Point3;
+import ca.eandb.jmist.math.Ray3;
+import ca.eandb.jmist.math.Sphere;
 
 /**
  * Abstract base class for model elements.

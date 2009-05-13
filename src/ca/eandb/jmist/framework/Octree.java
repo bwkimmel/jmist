@@ -5,11 +5,11 @@ package ca.eandb.jmist.framework;
 
 import java.util.HashSet;
 
-import ca.eandb.jmist.toolkit.Box3;
-import ca.eandb.jmist.toolkit.Interval;
-import ca.eandb.jmist.toolkit.Point3;
-import ca.eandb.jmist.toolkit.Ray3;
-import ca.eandb.jmist.toolkit.Vector3;
+import ca.eandb.jmist.math.Box3;
+import ca.eandb.jmist.math.Interval;
+import ca.eandb.jmist.math.Point3;
+import ca.eandb.jmist.math.Ray3;
+import ca.eandb.jmist.math.Vector3;
 
 /**
  * @author Brad Kimmel

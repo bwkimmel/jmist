@@ -1,6 +1,6 @@
 package ca.eandb.jmist.framework;
 
-import ca.eandb.jmist.toolkit.Interval;
+import ca.eandb.jmist.math.Interval;
 
 /**
  * Accepts a series of intersections.

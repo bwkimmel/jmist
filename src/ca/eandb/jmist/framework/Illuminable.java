@@ -3,7 +3,7 @@
  */
 package ca.eandb.jmist.framework;
 
-import ca.eandb.jmist.toolkit.Vector3;
+import ca.eandb.jmist.math.Vector3;
 
 /**
  * An object capable of being illuminated by a <code>Light</code>.

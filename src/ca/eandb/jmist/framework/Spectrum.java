@@ -3,7 +3,8 @@
  */
 package ca.eandb.jmist.framework;
 
-import ca.eandb.jmist.toolkit.Tuple;
+import ca.eandb.jmist.framework.spectrum.ConstantSpectrum;
+import ca.eandb.jmist.math.Tuple;
 
 /**
  * @author Brad Kimmel

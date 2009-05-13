@@ -3,6 +3,7 @@
  */
 package ca.eandb.jmist.framework;
 
+import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.toolkit.*;
 
 /**

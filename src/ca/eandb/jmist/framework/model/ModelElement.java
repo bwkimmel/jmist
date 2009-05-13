@@ -6,7 +6,7 @@ package ca.eandb.jmist.framework.model;
 import ca.eandb.jmist.framework.Bounded3;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.VisibilityFunction3;
-import ca.eandb.jmist.toolkit.Point3;
+import ca.eandb.jmist.math.Point3;
 
 /**
  * @author Brad Kimmel

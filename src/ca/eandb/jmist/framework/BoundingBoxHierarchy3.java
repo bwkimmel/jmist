@@ -8,11 +8,10 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-import ca.eandb.jmist.toolkit.BoundingBoxBuilder3;
-import ca.eandb.jmist.toolkit.Box3;
-import ca.eandb.jmist.toolkit.Interval;
-import ca.eandb.jmist.toolkit.Point3;
-import ca.eandb.jmist.toolkit.Ray3;
+import ca.eandb.jmist.math.Box3;
+import ca.eandb.jmist.math.Interval;
+import ca.eandb.jmist.math.Point3;
+import ca.eandb.jmist.math.Ray3;
 
 /**
  * Stores bounded objects in a tree structure so that intersection tests may be
