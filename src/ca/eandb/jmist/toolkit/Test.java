@@ -134,11 +134,30 @@ public class Test {
 		//testMatrix();
 		//testParallelJob();
 
-		testProgressPanel();
+		//testProgressPanel();
 		//testScripting();
 		//testPinholeCamera();
 
 //		testRandom();
+		testMatrixMultBench();
+	}
+
+	@SuppressWarnings("unused")
+	private static void testMatrixMultBench() {
+		Timer timer = new Timer();
+		AffineMatrix3 A = new AffineMatrix3(
+				Math.random(), Math.random(), Math.random(), Math.random(),
+				Math.random(), Math.random(), Math.random(), Math.random(),
+				Math.random(), Math.random(), Math.random(), Math.random());
+		AffineMatrix3 B = new AffineMatrix3(
+				Math.random(), Math.random(), Math.random(), Math.random(),
+				Math.random(), Math.random(), Math.random(), Math.random(),
+				Math.random(), Math.random(), Math.random(), Math.random());
+		for (int i = 0; i < 100000000; i++) {
+
+			AffineMatrix3 C = A.times(B);
+		}
+		timer.print("Matrix Multiplication");
 	}
 
 	@SuppressWarnings("unused")
@@ -163,9 +182,11 @@ public class Test {
 		double aspect = 297.0/293.0;
 		double vfov = Math.toRadians(97.0);
 		TransformableLens lens = PinholeLens.fromVfovAndAspect(vfov, aspect);
-		lens.rotateX(Math.toRadians(-22.4884));
-		lens.translate(Vector3.K.times(1.5));
-		File file = new File("/Users/brad/camera.csv");
+		//lens.rotateX(Math.toRadians(-22.4884));
+		lens.rotateX(Math.toRadians(-50));
+		lens.translate(Vector3.J.times(1.5));
+		File file = new File("/Users/brad/camera2.csv");
+		Plane3 surface = new Plane3(Point3.ORIGIN, Vector3.J);
 		try {
 			PrintStream out = new PrintStream(new FileOutputStream(file));
 
@@ -180,10 +201,14 @@ public class Test {
 					out.print(v.y());
 					out.print(',');
 					out.print(v.z());
+					out.print(',');
+					out.print(surface.intersect(ray));
 					out.println();
+
 				}
 			}
 
+			out.flush();
 			out.close();
 		} catch (Exception e) {
 			e.printStackTrace();
