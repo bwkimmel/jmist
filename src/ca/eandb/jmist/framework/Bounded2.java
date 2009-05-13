@@ -5,7 +5,6 @@ package ca.eandb.jmist.framework;
 
 import ca.eandb.jmist.math.Box2;
 import ca.eandb.jmist.math.Circle;
-import ca.eandb.jmist.toolkit.*;
 
 /**
  * @author Brad Kimmel

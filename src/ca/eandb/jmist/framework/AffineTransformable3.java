@@ -4,7 +4,6 @@
 package ca.eandb.jmist.framework;
 
 import ca.eandb.jmist.math.AffineMatrix3;
-import ca.eandb.jmist.toolkit.*;
 
 
 /**

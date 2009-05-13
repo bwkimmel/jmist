@@ -4,7 +4,6 @@
 package ca.eandb.jmist.framework;
 
 import ca.eandb.jmist.math.Vector3;
-import ca.eandb.jmist.toolkit.*;
 
 /**
  * Represents something that can be translated (moved) around

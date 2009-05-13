@@ -6,7 +6,6 @@ package ca.eandb.jmist.framework;
 import ca.eandb.jmist.math.Box2;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Ray3;
-import ca.eandb.jmist.toolkit.*;
 
 /**
  * Generates the ray to cast corresponding to given points on the

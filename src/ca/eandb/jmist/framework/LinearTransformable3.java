@@ -4,7 +4,6 @@
 package ca.eandb.jmist.framework;
 
 import ca.eandb.jmist.math.LinearMatrix3;
-import ca.eandb.jmist.toolkit.*;
 
 /**
  * Represents a three dimensional object to which linear transformations can be applied.

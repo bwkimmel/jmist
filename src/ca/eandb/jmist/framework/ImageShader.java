@@ -5,7 +5,6 @@ package ca.eandb.jmist.framework;
 
 import ca.eandb.jmist.math.Box2;
 import ca.eandb.jmist.math.Point2;
-import ca.eandb.jmist.toolkit.*;
 
 /**
  * Computes the colour channel responses for points on the image

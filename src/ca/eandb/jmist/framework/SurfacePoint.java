@@ -7,7 +7,6 @@ import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Vector3;
-import ca.eandb.jmist.toolkit.*;
 
 /**
  * @author Brad Kimmel

@@ -4,7 +4,6 @@
 package ca.eandb.jmist.framework;
 
 import ca.eandb.jmist.math.Vector3;
-import ca.eandb.jmist.toolkit.*;
 
 /**
  * A three dimensional object that can be stretched along an arbitrary axis.
