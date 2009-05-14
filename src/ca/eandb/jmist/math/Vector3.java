@@ -179,6 +179,32 @@ public final class Vector3 implements Serializable {
 		}
 	}
 
+	public short toCompactDirection() {
+		int theta = (int) Math.floor(Math.acos(z) * (256.0 / Math.PI));
+		if (theta > 255) {
+			theta = 255;
+		}
+
+		int phi = (int) Math.floor(Math.atan2(y, x) * 256.0 / (2.0 * Math.PI));
+		if (phi > 255) {
+			phi = 255;
+		} else if (phi < 255) {
+			phi += 256;
+		}
+
+		return (short) ((theta << 8) | phi);
+	}
+
+	public static Vector3 fromCompactDirection(short dir) {
+		int phi = dir & 0xff;
+		int theta = (dir >> 8) & 0xff;
+
+		return new Vector3(
+				Trig.SIN_THETA[theta] * Trig.COS_PHI[phi],
+				Trig.SIN_THETA[theta] * Trig.SIN_PHI[phi],
+				Trig.COS_THETA[theta]);
+	}
+
 	/**
 	 * The zero vector (represents the vector between two identical points).
 	 */

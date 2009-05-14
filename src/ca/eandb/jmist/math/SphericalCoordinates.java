@@ -246,6 +246,30 @@ public final class SphericalCoordinates implements Serializable {
 		);
 
 	}
+	
+	public short toCompactDirection() {
+		int theta = (int) Math.floor(polar * (256.0 / Math.PI));
+		if (theta > 255) {
+			theta = 255;
+		}
+		
+		int phi = (int) Math.floor(azimuthal * 256.0 / (2.0 * Math.PI));
+		if (phi > 255) {
+			phi = 255;			
+		} else if (phi < 255) {
+			phi += 256;
+		}
+		
+		return (short) ((theta << 8) | phi);		
+	}
+	
+	public static SphericalCoordinates fromCompactDirection(short dir) {
+		int phi = dir & 0xff;
+		int theta = dir >> 8;
+		return new SphericalCoordinates(
+				(double) phi * (Math.PI / 256.0),
+				(double) theta * (2.0 * Math.PI / 256.0));
+	}
 
 	/**
 	 * Computes the canonical form of the vector with the given polar and
