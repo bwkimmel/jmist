@@ -29,31 +29,91 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 /**
+ * Represents a compact array of photons used for photon mapping.
  * @author brad
- *
  */
 public final class PhotonBuffer {
 
+	/** The <code>ByteBuffer</code> in which to store the photons. */
 	private final ByteBuffer buffer;
 
+	/** The number of bytes required for a single photon. */
 	private static final int ELEMENT_SIZE = 20;
 
+	/**
+	 * The offset into the storage for a photon at which its x coordinate is
+	 * stored.
+	 */
 	private static final int OFFSET_X = 0;
+
+	/**
+	 * The offset into the storage for a photon at which its y coordinate is
+	 * stored.
+	 */
 	private static final int OFFSET_Y = 4;
+
+	/**
+	 * The offset into the storage for a photon at which its z coordinate is
+	 * stored.
+	 */
 	private static final int OFFSET_Z = 8;
+
+	/**
+	 * The offset into the storage for a photon at which its power is stored.
+	 */
 	private static final int OFFSET_POWER = 12;
+
+	/**
+	 * The offset into the storage for a photon at which its direction is
+	 * stored.  The direction is stored in a compact, two byte format.
+	 * @see ca.eandb.jmist.math.Vector3#toCompactDirection()
+	 */
 	private static final int OFFSET_DIR = 16;
+
+	/**
+	 * The offset into the storage for a photon at which a short (two byte)
+	 * value indicating the orientation of the dividing plane is stored.
+	 * Zero represents the YZ-plane, one represents the XZ-plane, and two
+	 * represents the XY-plane.
+	 * @see #store(float, float, float, float, short, short)
+	 */
 	private static final int OFFSET_PLANE = 18;
 
+	/**
+	 * Creates a <code>PhotonBuffer</code> large enough to hold
+	 * <code>capacity</code> photons.
+	 * @param capacity The number of photons to allocate storage for.
+	 */
 	public PhotonBuffer(int capacity) {
 		buffer = ByteBuffer.allocateDirect(capacity * ELEMENT_SIZE);
-		buffer.order(ByteOrder.nativeOrder());
+		buffer.order(ByteOrder.nativeOrder());	// gives a slight performance boost.
 	}
 
+	/**
+	 * Moves the cursor to the specified index.  Subsequent calls to
+	 * {@link #store(float, float, float, float, short, short)} will write
+	 * photons starting at that index.
+	 * @param index The location to move the cursor to.
+	 * @see #store(float, float, float, float, short, short)
+	 */
 	public void moveTo(int index) {
 		buffer.position(index * ELEMENT_SIZE);
 	}
 
+	/**
+	 * Stores a photon at the current cursor position.
+	 * @param x The x coordinate of the photon.
+	 * @param y The y coordinate of the photon.
+	 * @param z The z coordinate of the photon.
+	 * @param power The power of the photon.
+	 * @param dir The compact direction of the photon (see
+	 * 		{@link ca.eandb.jmist.math.Vector3#toCompactDirection()}).
+	 * @param plane The value indicating the orientation of the dividing plane.
+	 * 		(0 - perpendicular to the x-axis, 1 - perpendicular to the y-axis,
+	 * 		or 2 - perpendicular to the z-axis).
+	 * @see #moveTo(int)
+	 * @see ca.eandb.jmist.math.Vector3#toCompactDirection()
+	 */
 	public void store(float x, float y, float z, float power, short dir, short plane) {
 		buffer.putFloat(x);
 		buffer.putFloat(y);
@@ -63,47 +123,113 @@ public final class PhotonBuffer {
 		buffer.putShort(plane);
 	}
 
+	/**
+	 * Gets a single coordinate for the location of the photon.
+	 * @param index The index of the photon for which to get the coordinate.
+	 * @param element The coordinate to get (0 for the power, 1 for the
+	 * 		y-coordinate, or 2 for the z-coordinate).
+	 * @return The value of the coordinate for the specified photon.
+	 */
 	public float getPosition(int index, int element) {
 		return buffer.getFloat(index * ELEMENT_SIZE + OFFSET_X + (element * 4));
 	}
 
+	/**
+	 * Gets the power of the specified photon.
+	 * @param index The index of the photon to obtain the power of.
+	 * @return The power of the specified photon.
+	 */
 	public float getX(int index) {
 		return buffer.getFloat(index * ELEMENT_SIZE + OFFSET_X);
 	}
 
+	/**
+	 * Gets the y-coordinate of the specified photon.
+	 * @param index The index of the photon to obtain the y-coordinate of.
+	 * @return The y-coordinate of the specified photon.
+	 */
 	public float getY(int index) {
 		return buffer.getFloat(index * ELEMENT_SIZE + OFFSET_Y);
 	}
 
+	/**
+	 * Gets the z-coordinate of the specified photon.
+	 * @param index The index of the photon to obtain the z-coordinate of.
+	 * @return The z-coordinate of the specified photon.
+	 */
 	public float getZ(int index) {
 		return buffer.getFloat(index * ELEMENT_SIZE + OFFSET_Z);
 	}
 
+	/**
+	 * Gets the power of the specified photon.
+	 * @param index The index of the photon to obtain the power of.
+	 * @return The power of the specified photon.
+	 */
 	public float getPower(int index) {
 		return buffer.getFloat(index * ELEMENT_SIZE + OFFSET_POWER);
 	}
 
+	/**
+	 * Gets the direction of the specified photon.  The direction is
+	 * represented in a compact, two byte format.
+	 * @param index The index of the photon to obtain the direction of.
+	 * @return The direction of the specified photon.
+	 * @see ca.eandb.jmist.math.Vector3#toCompactDirection()
+	 */
 	public short getDir(int index) {
 		return buffer.getShort(index * ELEMENT_SIZE + OFFSET_DIR);
 	}
 
+	/**
+	 * Gets the orientation of the dividing plane for the specified photon.
+	 * This value is either 0 - perpendicular to the x-axis, 1 - perpendicular
+	 * to the y-axis, or 2 - perpendicular to the z-axis.
+	 * @param index The index of the photon for which to orientation of the
+	 * 		dividing plane.
+	 * @return The orientation of the dividing plane for the specified photon.
+	 */
 	public short getPlane(int index) {
 		return buffer.getShort(index * ELEMENT_SIZE + OFFSET_PLANE);
 	}
 
+	/**
+	 * Sets the power of the specified photon.
+	 * @param index The index of the photon to set the power of.
+	 * @param power The power to assign to the photon.
+	 */
 	public void setPower(int index, float power) {
 		buffer.putFloat(index * ELEMENT_SIZE + OFFSET_POWER, power);
 	}
 
+	/**
+	 * Scales the power of the specified photon by a given factor.
+	 * @param index The index of the photon whose power to scale.
+	 * @param scale The factor by which to scale the photon's power.
+	 */
 	public void scalePower(int index, float scale) {
 		int offset = index * ELEMENT_SIZE + OFFSET_POWER;
 		buffer.putFloat(offset, scale * buffer.getFloat(offset));
 	}
 
+	/**
+	 * Sets the orientation of the dividiing plane for the specified photon.
+	 * @param index The index of the photon for which to set the orientation of
+	 * 		the dividing plane.
+	 * @param plane The orientation of the dividing plane: 0 - perpendicular to
+	 * 		the x-axis, 1 - perpendicular to the y-axis, or 2 - perpendicular
+	 * 		to the z-axis.
+	 */
 	public void setPlane(int index, short plane) {
 		buffer.putShort(index * ELEMENT_SIZE + OFFSET_PLANE, plane);
 	}
 
+	/**
+	 * Copies the photon at a given index to another location in the photon
+	 * buffer.
+	 * @param src The index of the photon the copy.
+	 * @param dst The index of the location to copy the photon to.
+	 */
 	public void copyPhoton(int src, int dst) {
 		buffer.position(src * ELEMENT_SIZE);
 		ByteBuffer slice = buffer.slice();

@@ -29,22 +29,54 @@ import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Vector3;
 
 /**
+ * Stores photons in a kd-tree data structure.  This implementation is based on
+ * Appendix B of H.W. Jensen, "Realistic Image Synthesis using Photon Mapping".
  * @author brad
- *
  */
 public final class PhotonMap {
 
+	/**	A compact array for storing photons */
 	private final PhotonBuffer photons;
+
+	/**
+	 * The photons are stored in an array representing a balanced binary tree.
+	 * This value indicates the index of the first leaf node.
+	 */
 	private int leafStart;
+
+	/** The number of photons in the photon map. */
 	private int storedPhotons = 0;
+
+	/**
+	 * The coordinates of the corner of the bounding box that is closest to the
+	 * origin.
+	 */
 	private final float[] bbox_min = { Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY };
+
+	/**
+	 * The coordinates of the corner of the bounding box that is farthest from
+	 * the origin.
+	 */
 	private final float[] bbox_max = { Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY };
 
+	/**
+	 * Creates a new photon map with the capacity to store a given number of
+	 * photons.
+	 * @param capacity The number of photons to allocate storage for.
+	 */
 	public PhotonMap(int capacity) {
 		photons = new PhotonBuffer(capacity + 1);
 		photons.moveTo(1);
 	}
 
+	/**
+	 * Adds a photon to the photon map.
+	 * @param position The <code>Point3</code> representing the location of the
+	 * 		photon.
+	 * @param direction The <code>Vector3</code> representing the direction of
+	 * 		the photon.
+	 * @param power The power of the photon.
+	 */
 	public void store(Point3 position, Vector3 direction, double power) {
 		float x = (float) position.x();
 		float y = (float) position.y();
@@ -60,6 +92,10 @@ public final class PhotonMap {
 		storedPhotons++;
 	}
 
+	/**
+	 * Creates a balanced tree from the stored photons.  New photons may not be
+	 * added after this method is called.
+	 */
 	public void balance() {
 		int[] pa1 = new int[storedPhotons + 1];
 		int[] pa2 = new int[storedPhotons + 1];
@@ -97,12 +133,28 @@ public final class PhotonMap {
 		leafStart = storedPhotons / 2 - 1;
 	}
 
+	/**
+	 * Scales the power of all photons by a given power.
+	 * @param scale The factor by which to scale the power of all the photons.
+	 */
 	public void scalePhotons(double scale) {
 		for (int i = 1; i <= storedPhotons; i++) {
 			photons.scalePower(i, (float) scale);
 		}
 	}
 
+	/**
+	 * Estimate the irradiance ad a given surface point.
+	 * @param position The <code>Point3</code> representing the location of the
+	 * 		surface point.
+	 * @param normal The <code>Vector3</code> representing the normal to the
+	 * 		surface at the surface point.
+	 * @param maxDistance The maximum distance from <code>position</code> to
+	 * 		search for photons.
+	 * @param numPhotons The maximum number of photons to use for the
+	 * 		irradiance estimate.
+	 * @return An estimate of the irradiance at the given surface point.
+	 */
 	public double getIrradianceEstimate(Point3 position, Vector3 normal, double maxDistance, int numPhotons) {
 		NearestPhotons np = new NearestPhotons();
 		np.squaredDistance = new float[numPhotons + 1];
@@ -115,26 +167,37 @@ public final class PhotonMap {
 		np.gotHeap = false;
 		np.squaredDistance[0] = (float) (maxDistance * maxDistance);
 
+		// locate the nearest photons.
 		locatePhotons(np, 1);
 
+		// if less than 8 photons return.
 		if (np.found < 8) {
 			return 0.0;
 		}
 
 		double irrad = 0.0;
 
+		// sum irradiance from all photons.
 		for (int i = 1; i < np.found; i++) {
 			int index = np.index[i];
+			// the following check can be omitted (for speed) if the scene does
+			// not have any thin surfaces.
 			Vector3 pdir = Vector3.fromCompactDirection(photons.getDir(index));
 			if (pdir.dot(normal) < 0.0) {
 				irrad += photons.getPower(index);
 			}
 		}
 
-		irrad *= (1.0 / Math.PI) / np.squaredDistance[0];
+		irrad *= (1.0 / Math.PI) / np.squaredDistance[0];	// estimate of density
 		return irrad;
 	}
 
+	/**
+	 * Searches the balanced tree for the nearest photons to a given point.
+	 * @param np A <code>NearestPhotons</code> object to receive the results
+	 * 		and provide search parameters.
+	 * @param index The index of the node whose subtree to search.
+	 */
 	private void locatePhotons(NearestPhotons np, int index) {
 		float dist1;
 
@@ -143,12 +206,12 @@ public final class PhotonMap {
 			float pos = photons.getPosition(index, plane);
 			dist1 = np.getPosition(plane) - pos;
 
-			if (dist1 > 0.0) {
+			if (dist1 > 0.0) {	// if dist1 is positive search right plane
 				locatePhotons(np, 2 * index + 1);
 				if (dist1 * dist1 < np.squaredDistance[0]) {
 					locatePhotons(np, 2 * index);
 				}
-			} else {
+			} else {			// if dist1 is negative search left plane
 				locatePhotons(np, 2 * index);
 				if (dist1 * dist1 < np.squaredDistance[0]) {
 					locatePhotons(np, 2 * index + 1);
@@ -156,6 +219,7 @@ public final class PhotonMap {
 			}
 		}
 
+		// compute squared distance between current photon and position from np
 		dist1 = photons.getX(index) - np.x;
 		float dist2 = dist1 * dist1;
 		dist1 = photons.getY(index) - np.y;
@@ -164,14 +228,17 @@ public final class PhotonMap {
 		dist2 += dist1 * dist1;
 
 		if (dist2 < np.squaredDistance[0]) {
+			// we found a photon -- insert it in the candidate list.
 			if (np.found < np.maximum) {
+				// heap is not full, use array
 				np.found++;
 				np.squaredDistance[np.found] = dist2;
 				np.index[np.found] = index;
 			} else {
 				int j, parent;
 
-				if (!np.gotHeap) {
+				if (!np.gotHeap) {	// do we need to build the heap?
+					// build heap
 					float dst2;
 					int phot;
 					int half_found = np.found / 2;
@@ -197,6 +264,9 @@ public final class PhotonMap {
 					np.gotHeap = true;
 				}
 
+				// insert new photon into max heap
+				// delete largest element, insert new, and reorder the heap.
+
 				parent = 1;
 				j = 2;
 				while (j <= np.found) {
@@ -220,6 +290,17 @@ public final class PhotonMap {
 		}
 	}
 
+	/**
+	 * Splits the array of photons at the median along a given axis.
+	 * @param p An array of indices into the <code>PhotonBuffer</code>.
+	 * @param start The index into <code>p</code> indicating the start of the
+	 * 		range of photon indices to split.
+	 * @param end The index into <code>p</code> indicating the end of the range
+	 * 		of photon indices to split.
+	 * @param median The index into <code>p</code> of the median.
+	 * @param axis The direction along which to split the photons (0 for
+	 * 		x-axis, 1 for y-axis, 2 for z-axis).
+	 */
 	private void medianSplit(int[] p, int start, int end, int median, int axis) {
 		int left = start;
 		int right = end;
@@ -247,13 +328,29 @@ public final class PhotonMap {
 		}
 	}
 
+	/**
+	 * Swaps two elements of an array.
+	 * @param p The array containing the elements to swap.
+	 * @param i The index of the first element.
+	 * @param j The index of the second element.
+	 */
 	private void swap(int[] p, int i, int j) {
 		int tmp = p[i];
 		p[i] = p[j];
 		p[j] = tmp;
 	}
 
+	/**
+	 * Used in creating a balanced binary tree from the array of photons.
+	 * See Chapter 6 of H.W. Jensen, "Realistic Image Synthesis using Photon
+	 * Mapping".
+	 */
 	private void balanceSegment(int[] pbal, int[] porg, int index, int start, int end) {
+
+		//-------------------
+		// compute new median
+		//-------------------
+
 		int median = 1;
 		while ((4 * median) <= (end - start + 1)) {
 			median += median;
@@ -266,6 +363,10 @@ public final class PhotonMap {
 			median = end - median + 1;
 		}
 
+		//-------------------------
+		// find axis to split along
+		//-------------------------
+
 		short axis = 2;
 		if ((bbox_max[0] - bbox_min[0]) > (bbox_max[1] - bbox_min[1]) && (bbox_max[0] - bbox_min[0]) > (bbox_max[2] - bbox_min[2])) {
 			axis = 0;
@@ -273,12 +374,21 @@ public final class PhotonMap {
 			axis = 1;
 		}
 
+		//-----------------------------------------
+		// partition photon block around the median
+		//-----------------------------------------
+
 		medianSplit(porg, start, end, median, axis);
 
 		pbal[index] = porg[median];
 		photons.setPlane(pbal[index], axis);
 
+		//---------------------------------------------
+		// recursively balance the left and right block
+		//---------------------------------------------
+
 		if (median > start) {
+			// balance left segment
 			if (start < median - 1) {
 				float tmp = bbox_max[axis];
 				bbox_max[axis] = photons.getPosition(pbal[index], axis);
@@ -290,6 +400,7 @@ public final class PhotonMap {
 		}
 
 		if (median < end) {
+			// balance right segment
 			if (median + 1 < end) {
 				float tmp = bbox_min[axis];
 				bbox_min[axis] = photons.getPosition(pbal[index], axis);
@@ -301,6 +412,10 @@ public final class PhotonMap {
 		}
 	}
 
+	/**
+	 * Structure used to locate the nearest photons in the kd-tree.
+	 * @author brad
+	 */
 	private final class NearestPhotons {
 		private int maximum;
 		private int found;
