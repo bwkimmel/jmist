@@ -32,7 +32,7 @@ import java.nio.ByteOrder;
  * Represents a compact array of photons used for photon mapping.
  * @author brad
  */
-public final class PhotonBuffer {
+final class PhotonBuffer {
 
 	/** The <code>ByteBuffer</code> in which to store the photons. */
 	private final ByteBuffer buffer;
