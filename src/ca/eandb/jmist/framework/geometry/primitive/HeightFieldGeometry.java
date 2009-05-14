@@ -6,11 +6,11 @@ package ca.eandb.jmist.framework.geometry.primitive;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.eandb.jmist.framework.Grid3;
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
 import ca.eandb.jmist.framework.Material;
-import ca.eandb.jmist.framework.Grid3.Cell;
+import ca.eandb.jmist.framework.accel.Grid3;
+import ca.eandb.jmist.framework.accel.Grid3.Cell;
 import ca.eandb.jmist.framework.geometry.SingleMaterialGeometry;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box2;

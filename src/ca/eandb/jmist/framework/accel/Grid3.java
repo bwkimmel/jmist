@@ -1,7 +1,7 @@
 /**
  *
  */
-package ca.eandb.jmist.framework;
+package ca.eandb.jmist.framework.accel;
 
 import java.io.Serializable;
 
@@ -108,9 +108,9 @@ public final class Grid3 implements Serializable {
 	}
 
 	/**
-	 * An interface to allow {@link Grid3#intersect(Ray3, Interval, ca.eandb.jmist.framework.Grid3.Visitor)}
+	 * An interface to allow {@link Grid3#intersect(Ray3, Interval, ca.eandb.jmist.framework.accel.Grid3.Visitor)}
 	 * to notify the caller about each cell passed through by the ray.
-	 * @see {@link Grid3#intersect(Ray3, Interval, ca.eandb.jmist.framework.Grid3.Visitor)}
+	 * @see {@link Grid3#intersect(Ray3, Interval, ca.eandb.jmist.framework.accel.Grid3.Visitor)}
 	 */
 	public static interface Visitor {
 
@@ -119,14 +119,14 @@ public final class Grid3 implements Serializable {
 		 * passed through the specified cell.  It is guaranteed that
 		 * grid.hasCellAt(cell.getX(), cell.getY(), cell.getZ()) will
 		 * return true.
-		 * @param ray The ray passed to {@link Grid3#intersect(Ray3, Interval, ca.eandb.jmist.framework.Grid3.Visitor)}
+		 * @param ray The ray passed to {@link Grid3#intersect(Ray3, Interval, ca.eandb.jmist.framework.accel.Grid3.Visitor)}
 		 * @param I The interval along the ray that passes through the cell (i.e.,
 		 * 		cell.getBoundingBox().contains(ray.pointAt(t)) if and only if
 		 * 		I.contains(t)).
 		 * @param cell The cell being traversed.
-		 * @return A value indicating whether {@link Grid3#intersect(Ray3, Interval, ca.eandb.jmist.framework.Grid3.Visitor)}
+		 * @return A value indicating whether {@link Grid3#intersect(Ray3, Interval, ca.eandb.jmist.framework.accel.Grid3.Visitor)}
 		 * 		should continue its traversal.
-		 * @see {@link Grid3#intersect(Ray3, Interval, ca.eandb.jmist.framework.Grid3.Visitor)},
+		 * @see {@link Grid3#intersect(Ray3, Interval, ca.eandb.jmist.framework.accel.Grid3.Visitor)},
 		 * 		{@link Grid3.Cell#getBoundingBox()} , {@link Box3#contains(Point3)},
 		 * 		{@link Ray3#pointAt(double)}, {@link Interval#contains(double)},
 		 * 		{@link Grid3#hasCellAt(int, int, int)}.

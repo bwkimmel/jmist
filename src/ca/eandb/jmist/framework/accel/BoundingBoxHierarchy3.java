@@ -1,13 +1,16 @@
 /**
  *
  */
-package ca.eandb.jmist.framework;
+package ca.eandb.jmist.framework.accel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
+import ca.eandb.jmist.framework.BoundingBoxBuilder3;
+import ca.eandb.jmist.framework.RayTraversalStrategy3;
+import ca.eandb.jmist.framework.Visitor;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.math.Point3;

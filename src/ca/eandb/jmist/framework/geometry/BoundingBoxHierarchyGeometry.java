@@ -3,10 +3,10 @@
  */
 package ca.eandb.jmist.framework.geometry;
 
-import ca.eandb.jmist.framework.BoundingBoxHierarchy3;
 import ca.eandb.jmist.framework.Geometry;
 import ca.eandb.jmist.framework.IntersectionRecorder;
 import ca.eandb.jmist.framework.Visitor;
+import ca.eandb.jmist.framework.accel.BoundingBoxHierarchy3;
 import ca.eandb.jmist.math.Ray3;
 
 /**

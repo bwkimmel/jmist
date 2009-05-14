@@ -1,10 +1,13 @@
 /**
  *
  */
-package ca.eandb.jmist.framework;
+package ca.eandb.jmist.framework.accel;
 
 import java.util.HashSet;
 
+import ca.eandb.jmist.framework.PartialBoundable3;
+import ca.eandb.jmist.framework.RayTraversalStrategy3;
+import ca.eandb.jmist.framework.Visitor;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.math.Point3;
