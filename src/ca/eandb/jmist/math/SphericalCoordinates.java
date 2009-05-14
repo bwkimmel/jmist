@@ -246,23 +246,36 @@ public final class SphericalCoordinates implements Serializable {
 		);
 
 	}
-	
+
+	/**
+	 * Converts this <code>SphericalCoordinates</code> to a compact, two byte
+	 * representation of its direction.  The first 8 bits represent the polar
+	 * angle, and the second (low order) 8 bits represent the azimuthal angle.
+	 * @return The two byte representation of the direction.
+	 */
 	public short toCompactDirection() {
 		int theta = (int) Math.floor(polar * (256.0 / Math.PI));
 		if (theta > 255) {
 			theta = 255;
 		}
-		
+
 		int phi = (int) Math.floor(azimuthal * 256.0 / (2.0 * Math.PI));
 		if (phi > 255) {
-			phi = 255;			
+			phi = 255;
 		} else if (phi < 255) {
 			phi += 256;
 		}
-		
-		return (short) ((theta << 8) | phi);		
+
+		return (short) ((theta << 8) | phi);
 	}
-	
+
+	/**
+	 * Creates a <code>SphericalCoordinates</code> corresponding to the
+	 * provided two byte direction representation.
+	 * @param dir The two byte direction.
+	 * @return The corresponding <code>SphericalCoordinates</code>.
+	 * @see #toCompactDirection()
+	 */
 	public static SphericalCoordinates fromCompactDirection(short dir) {
 		int phi = dir & 0xff;
 		int theta = dir >> 8;

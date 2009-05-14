@@ -179,6 +179,14 @@ public final class Vector3 implements Serializable {
 		}
 	}
 
+	/**
+	 * Converts this <code>Vector3</code> to a compact, two byte representation
+	 * of its direction.  The first 8 bits represent the angle between this
+	 * vector and the positive z-axis.  The second (low order) 8 bits represent
+	 * the counter clockwise angle about positive z-axis, with zero radians being
+	 * the positive x-axis.
+	 * @return The two byte representation of the direction.
+	 */
 	public short toCompactDirection() {
 		int theta = (int) Math.floor(Math.acos(z) * (256.0 / Math.PI));
 		if (theta > 255) {
@@ -195,6 +203,13 @@ public final class Vector3 implements Serializable {
 		return (short) ((theta << 8) | phi);
 	}
 
+	/**
+	 * Creates a unit length <code>Vector3</code> corresponding to the
+	 * provided two byte direction representation.
+	 * @param dir The two byte direction.
+	 * @return The corresponding <code>Vector3</code>.
+	 * @see #toCompactDirection()
+	 */
 	public static Vector3 fromCompactDirection(short dir) {
 		int phi = dir & 0xff;
 		int theta = (dir >> 8) & 0xff;

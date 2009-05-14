@@ -26,16 +26,26 @@
 package ca.eandb.jmist.math;
 
 /**
+ * This class contains precomputed arrays of trigonometric quantities.
  * @author brad
- *
  */
 public final class Trig {
 
+	/** 256 cosine values uniformly spaced from zero to pi. */
 	public static final double[] COS_THETA = new double[256];
+
+	/** 256 sine values uniformly spaced from zero to pi. */
 	public static final double[] SIN_THETA = new double[256];
+
+	/** 256 cosine values uniformly spaced from zero to 2*pi. */
 	public static final double[] COS_PHI = new double[256];
+
+	/** 256 sine values uniformly spaced from zero to 2*pi. */
 	public static final double[] SIN_PHI = new double[256];
 
+	/**
+	 * Precomputed trigonometric quantities.
+	 */
 	static {
 		for (int i = 0; i < 256; i++) {
 			double angle = (double) i * (1.0 / 256.0) * Math.PI;
@@ -46,6 +56,7 @@ public final class Trig {
 		}
 	}
 
+	/** Private constructure to ensure that this class is not instantiated. */
 	private Trig() {}
 
 }
