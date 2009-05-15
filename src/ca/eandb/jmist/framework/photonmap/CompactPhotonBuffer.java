@@ -32,7 +32,7 @@ import java.nio.ByteOrder;
  * Represents a compact array of photons used for photon mapping.
  * @author brad
  */
-final class PhotonBuffer {
+final class CompactPhotonBuffer {
 
 	/** The <code>ByteBuffer</code> in which to store the photons. */
 	private final ByteBuffer buffer;
@@ -80,11 +80,11 @@ final class PhotonBuffer {
 	private static final int OFFSET_PLANE = 18;
 
 	/**
-	 * Creates a <code>PhotonBuffer</code> large enough to hold
+	 * Creates a <code>CompactPhotonBuffer</code> large enough to hold
 	 * <code>capacity</code> photons.
 	 * @param capacity The number of photons to allocate storage for.
 	 */
-	public PhotonBuffer(int capacity) {
+	public CompactPhotonBuffer(int capacity) {
 		buffer = ByteBuffer.allocateDirect(capacity * ELEMENT_SIZE);
 		buffer.order(ByteOrder.nativeOrder());	// gives a slight performance boost.
 	}

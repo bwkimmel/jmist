@@ -36,7 +36,7 @@ import ca.eandb.jmist.math.Vector3;
 public final class PhotonMap {
 
 	/**	A compact array for storing photons */
-	private final PhotonBuffer photons;
+	private final CompactPhotonBuffer photons;
 
 	/**
 	 * The photons are stored in an array representing a balanced binary tree.
@@ -65,7 +65,7 @@ public final class PhotonMap {
 	 * @param capacity The number of photons to allocate storage for.
 	 */
 	public PhotonMap(int capacity) {
-		photons = new PhotonBuffer(capacity + 1);
+		photons = new CompactPhotonBuffer(capacity + 1);
 		photons.moveTo(1);
 	}
 
@@ -292,7 +292,7 @@ public final class PhotonMap {
 
 	/**
 	 * Splits the array of photons at the median along a given axis.
-	 * @param p An array of indices into the <code>PhotonBuffer</code>.
+	 * @param p An array of indices into the <code>CompactPhotonBuffer</code>.
 	 * @param start The index into <code>p</code> indicating the start of the
 	 * 		range of photon indices to split.
 	 * @param end The index into <code>p</code> indicating the end of the range
