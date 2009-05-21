@@ -3,6 +3,7 @@
  */
 package ca.eandb.jmist.framework.lens;
 
+import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
@@ -40,6 +41,17 @@ public final class OrthographicLens extends TransformableLens {
 				Vector3.NEGATIVE_K
 		);
 
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.lens.TransformableLens#projectInViewSpace(ca.eandb.jmist.math.Point3)
+	 */
+	@Override
+	protected Point2 projectInViewSpace(Point3 p) {
+		if (-p.z() < MathUtil.EPSILON) {
+			return null;
+		}
+		return new Point2((p.x() / width) + 0.5, 0.5 - (p.y() / height));
 	}
 
 	/** The extent of the image plane along the x-axis. */

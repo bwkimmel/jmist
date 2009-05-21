@@ -4,12 +4,13 @@
 package ca.eandb.jmist.framework.lens;
 
 import ca.eandb.jmist.framework.AffineTransformable3;
-import ca.eandb.jmist.framework.AffineTransformation3;
+import ca.eandb.jmist.framework.InvertibleAffineTransformation3;
 import ca.eandb.jmist.framework.Lens;
 import ca.eandb.jmist.math.AffineMatrix3;
 import ca.eandb.jmist.math.Box2;
 import ca.eandb.jmist.math.LinearMatrix3;
 import ca.eandb.jmist.math.Point2;
+import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
 
@@ -25,6 +26,10 @@ public abstract class TransformableLens implements Lens, AffineTransformable3 {
 	public final Ray3 rayAt(Point2 p) {
 		Ray3 viewRay = this.viewRayAt(p);
 		return viewRay != null ? this.view.apply(viewRay) : null;
+	}
+
+	public final Point2 project(Point3 p) {
+		return projectInViewSpace(view.applyInverse(p));
 	}
 
 	/**
@@ -43,6 +48,17 @@ public abstract class TransformableLens implements Lens, AffineTransformable3 {
 	 * @see {@link Box2#UNIT}
 	 */
 	protected abstract Ray3 viewRayAt(Point2 p);
+
+	/**
+	 * Gets the normalized device coordinates (two dimensional) corresponding
+	 * to the projection of the three dimensional point <code>p</code> onto the
+	 * image plane.
+	 * @param p The <code>Point3</code> to project onto the image plane.
+	 * @return The <code>Point2</code> indicating the projected coordinates, or
+	 * 		<code>null</code> if <code>p</code> does not project onto the image
+	 * 		plane.
+	 */
+	protected abstract Point2 projectInViewSpace(Point3 p);
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Rotatable3#rotate(ca.eandb.jmist.toolkit.Vector3, double)
@@ -139,6 +155,6 @@ public abstract class TransformableLens implements Lens, AffineTransformable3 {
 	 * The transformation to apply to the ray in the view coordinate system to
 	 * obtain the ray in the world coordinate system.
 	 */
-	private final AffineTransformation3 view = new AffineTransformation3();
+	private final InvertibleAffineTransformation3 view = new InvertibleAffineTransformation3();
 
 }
