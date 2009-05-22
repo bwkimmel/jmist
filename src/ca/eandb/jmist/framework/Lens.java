@@ -5,6 +5,7 @@ package ca.eandb.jmist.framework;
 
 import ca.eandb.jmist.math.Box2;
 import ca.eandb.jmist.math.Point2;
+import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
 
 /**
@@ -28,5 +29,14 @@ public interface Lens {
 	 * @see {@link Box2#UNIT}
 	 */
 	Ray3 rayAt(Point2 p);
+
+	/**
+	 * Projects a point in three-dimensional space onto the image plane.
+	 * @param p The <code>Point3</code> to project onto the image plane.
+	 * @return The <code>Point2</code> representing the point on the image
+	 * 		plane, or <code>null</code> if <code>p</code> does not project
+	 * 		onto the image plane.
+	 */
+	Point2 project(Point3 p);
 
 }

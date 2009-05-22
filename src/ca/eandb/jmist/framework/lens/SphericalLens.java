@@ -58,6 +58,11 @@ public final class SphericalLens extends TransformableLens {
 
 	}
 
+	@Override
+	protected Point2 projectInViewSpace(Point3 p) {
+		throw new RuntimeException("Not yet implemented.");
+	}
+
 	/** Horizontal field of view (in radians). */
 	private final double hfov;
 

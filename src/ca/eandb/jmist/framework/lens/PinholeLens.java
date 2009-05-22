@@ -3,6 +3,7 @@
  */
 package ca.eandb.jmist.framework.lens;
 
+import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
@@ -111,6 +112,19 @@ public final class PinholeLens extends TransformableLens {
 			)
 		);
 
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.lens.TransformableLens#projectInViewSpace(ca.eandb.jmist.math.Point3)
+	 */
+	@Override
+	protected Point2 projectInViewSpace(Point3 p) {
+		if (-p.z() < MathUtil.EPSILON) {
+			return null;
+		}
+		return new Point2(
+				0.5 - p.x() / (width * p.z()),
+				0.5 + p.y() / (height * p.z()));
 	}
 
 	/** The width of the virtual image plane. */

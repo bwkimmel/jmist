@@ -3,6 +3,7 @@
  */
 package ca.eandb.jmist.framework.lens;
 
+import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
@@ -19,8 +20,7 @@ public final class PanoramicLens extends TransformableLens {
 	 * Creates a new <code>PanoramicLens</code>.
 	 */
 	public PanoramicLens() {
-		this.hfov = DEFAULT_HORIZONTAL_FIELD_OF_VIEW;
-		this.vfov = DEFAULT_VERTICAL_FIELD_OF_VIEW;
+		this(DEFAULT_HORIZONTAL_FIELD_OF_VIEW, DEFAULT_VERTICAL_FIELD_OF_VIEW);
 	}
 
 	/**
@@ -28,8 +28,7 @@ public final class PanoramicLens extends TransformableLens {
 	 * @param hfov The horizontal field of view (in radians).
 	 */
 	public PanoramicLens(double hfov) {
-		this.hfov = hfov;
-		this.vfov = DEFAULT_VERTICAL_FIELD_OF_VIEW;
+		this(hfov, DEFAULT_VERTICAL_FIELD_OF_VIEW);
 	}
 
 	/**
@@ -39,7 +38,7 @@ public final class PanoramicLens extends TransformableLens {
 	 */
 	public PanoramicLens(double hfov, double vfov) {
 		this.hfov = hfov;
-		this.vfov = vfov;
+		this.height = 2.0 * Math.tan(vfov / 2.0);
 	}
 
 	/** The default horizontal field of view (in radians). */
@@ -54,8 +53,7 @@ public final class PanoramicLens extends TransformableLens {
 	@Override
 	protected Ray3 viewRayAt(Point2 p) {
 
-		double theta = (p.x() - 0.05) * hfov;
-		double height = 2.0 * Math.tan(vfov / 2.0);
+		double theta = (p.x() - 0.5) * hfov;
 
 		return new Ray3(
 				Point3.ORIGIN,
@@ -68,10 +66,31 @@ public final class PanoramicLens extends TransformableLens {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.lens.TransformableLens#projectInViewSpace(ca.eandb.jmist.math.Point3)
+	 */
+	@Override
+	protected Point2 projectInViewSpace(Point3 p) {
+		double theta = Math.atan2(p.x(), -p.z());
+		double x = 0.5 + theta / hfov;
+		if (!MathUtil.inRangeCC(x, 0.0, 1.0)) {
+			return null;
+		}
+		double d = Math.sqrt(p.x() * p.x() + p.z() * p.z());
+		if (d < MathUtil.EPSILON) {
+			return null;
+		}
+		double y =  0.5 - (p.y() / (d * height));
+		if (!MathUtil.inRangeCC(y, 0.0, 1.0)) {
+			return null;
+		}
+		return new Point2(x, y);
+	}
+
 	/** Horizontal field of view (in radians). */
 	private final double hfov;
 
-	/** Vertical field of view (in radians). */
-	private final double vfov;
+	/** Height of the virtual image plane. */
+	private final double height;
 
 }
