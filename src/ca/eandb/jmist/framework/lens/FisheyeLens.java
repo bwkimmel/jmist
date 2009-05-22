@@ -3,6 +3,7 @@
  */
 package ca.eandb.jmist.framework.lens;
 
+import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
@@ -22,21 +23,28 @@ public final class FisheyeLens extends TransformableLens {
 
 		double	nx = 2.0 * (p.x() - 0.5);
 		double	ny = 2.0 * (0.5 - p.y());
-		double	d = Math.sqrt(nx * nx + ny * ny);
-		double	theta = Math.atan2(ny, nx);
+		double	d2 = nx * nx + ny * ny;
 
-		if (d > 1.0)
+		if (d2 > 1.0)
 			return null;
 
 		return new Ray3(
 				Point3.ORIGIN,
-				new Vector3(
-						d * Math.cos(theta),
-						d * Math.sin(theta),
-						-Math.sqrt(1.0 - d * d)
-				)
+				new Vector3(nx, ny,	-Math.sqrt(1.0 - d2))
 		);
 
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.lens.TransformableLens#projectInViewSpace(ca.eandb.jmist.math.Point3)
+	 */
+	@Override
+	protected Point2 projectInViewSpace(Point3 p) {
+		if (-p.z() < MathUtil.EPSILON) {
+			return null;
+		}
+		double d = p.distanceTo(Point3.ORIGIN);
+		return new Point2((p.x() / d + 1.0) / 2.0, (1.0 - p.y() / d) / 2.0);
 	}
 
 }

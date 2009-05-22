@@ -3,6 +3,7 @@
  */
 package ca.eandb.jmist.framework.lens;
 
+import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.RandomUtil;
@@ -82,6 +83,14 @@ public final class ThinLens extends TransformableLens {
 
 		return new Ray3(aperaturePoint, direction);
 
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.lens.TransformableLens#projectInViewSpace(ca.eandb.jmist.math.Point3)
+	 */
+	@Override
+	protected Point2 projectInViewSpace(Point3 p) {
+		throw new RuntimeException("Not yet implemented.");
 	}
 
 	/** The focal length (in meters). */

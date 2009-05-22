@@ -41,6 +41,11 @@ public final class OmnimaxLens extends TransformableLens {
 
 	}
 
+	@Override
+	protected Point2 projectInViewSpace(Point3 p) {
+		throw new RuntimeException("Not yet implemented.");
+	}
+
 	/** The <code>Sphere</code> to bounce the orthogonally generated rays from. */
 	private static final Sphere LENS_SPHERE = new Sphere(new Point3(0, 0, 2), 1);
 
