@@ -54,7 +54,7 @@ public final class PanoramicLens extends TransformableLens {
 	@Override
 	protected Ray3 viewRayAt(Point2 p) {
 
-		double theta = (p.x() - 0.05) * hfov;
+		double theta = (p.x() - 0.5) * hfov;
 		double height = 2.0 * Math.tan(vfov / 2.0);
 
 		return new Ray3(
