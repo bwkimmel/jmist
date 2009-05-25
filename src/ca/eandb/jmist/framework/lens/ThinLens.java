@@ -76,7 +76,7 @@ public final class ThinLens extends TransformableLens {
 		Point3		focalPoint		= new Point3(
 											objPlaneWidth * (p.x() - 0.5),
 											objPlaneHeight * (0.5 - p.y()),
-											focusDistance
+											-focusDistance
 									);
 
 		Vector3		direction		= aperaturePoint.vectorTo(focalPoint).unit();
