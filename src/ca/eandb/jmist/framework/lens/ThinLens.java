@@ -90,7 +90,28 @@ public final class ThinLens extends TransformableLens {
 	 */
 	@Override
 	protected Point2 projectInViewSpace(Point3 p) {
-		throw new RuntimeException("Not yet implemented.");
+		if (-p.z() < MathUtil.EPSILON) {
+			return null;
+		}
+
+		Vector2		ap				= RandomUtil.uniformOnDisc(aperatureRadius).toCartesian();
+		Point3		aperaturePoint	= new Point3(ap.x(), ap.y(), 0.0);
+		Vector3		dir				= aperaturePoint.vectorTo(p);
+		double		ratio			= -focusDistance / dir.z();
+		double		x				= ap.x() + ratio * dir.x();
+		double		y				= ap.y() + ratio * dir.y();
+
+		double		u				= 0.5 + x / objPlaneWidth;
+		if (!MathUtil.inRangeCC(u, 0.0, 1.0)) {
+			return null;
+		}
+
+		double		v				= 0.5 - y / objPlaneHeight;
+		if (!MathUtil.inRangeCC(v, 0.0, 1.0)) {
+			return null;
+		}
+
+		return new Point2(u, v);
 	}
 
 	/** The focal length (in meters). */
