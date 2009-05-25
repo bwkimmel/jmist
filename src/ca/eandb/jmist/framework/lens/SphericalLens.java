@@ -4,6 +4,7 @@
 package ca.eandb.jmist.framework.lens;
 
 import ca.eandb.jmist.math.LinearMatrix3;
+import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
@@ -48,19 +49,35 @@ public final class SphericalLens extends TransformableLens {
 	    double		nx = (0.5 - p.x()) * hfov;
 	    double		ny = (0.5 - p.y()) * vfov;
 
-	    Vector3		dir = Vector3.NEGATIVE_K;
+	    double		sx = Math.sin(nx);
+	    double		sy = Math.sin(ny);
+	    double		cx = Math.cos(nx);
+	    double		cy = Math.cos(ny);
 
-	    /* TODO: optimize, using rotation matrices is not necessary. */
-	    dir = LinearMatrix3.rotateXMatrix(ny).times(dir);
-	    dir = LinearMatrix3.rotateYMatrix(nx).times(dir);
-
-	    return new Ray3(Point3.ORIGIN, dir);
+	    return new Ray3(
+	    		Point3.ORIGIN,
+	    		new Vector3(-sx * cy, sy, -cx * cy));
 
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.lens.TransformableLens#projectInViewSpace(ca.eandb.jmist.math.Point3)
+	 */
 	@Override
 	protected Point2 projectInViewSpace(Point3 p) {
-		throw new RuntimeException("Not yet implemented.");
+		Vector3 dir = p.vectorFromOrigin().unit();
+
+		double v = 0.5 - Math.asin(dir.y()) / vfov;
+		if (!MathUtil.inRangeCC(v, 0.0, 1.0)) {
+			return null;
+		}
+
+		double u = 0.5 - Math.atan2(-dir.x(), -dir.z()) / hfov;
+		if (!MathUtil.inRangeCC(u, 0.0, 1.0)) {
+			return null;
+		}
+
+		return new Point2(u, v);
 	}
 
 	/** Horizontal field of view (in radians). */

@@ -41,9 +41,16 @@ public final class OmnimaxLens extends TransformableLens {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.lens.TransformableLens#projectInViewSpace(ca.eandb.jmist.math.Point3)
+	 */
 	@Override
 	protected Point2 projectInViewSpace(Point3 p) {
-		throw new RuntimeException("Not yet implemented.");
+		Vector3 dir = p.vectorFromOrigin().unit();
+		Vector3 half = new Vector3(0.5 * dir.x(), 0.5 * dir.y(), 0.5 * (dir.z() - 1.0)).unit();
+		double u = 0.5 * (half.x() + 1.0);
+		double v = 0.5 * (1.0 - half.y());
+		return new Point2(u, v);
 	}
 
 	/** The <code>Sphere</code> to bounce the orthogonally generated rays from. */
