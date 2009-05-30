@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
+import ca.eandb.jmist.framework.Bounded3;
 import ca.eandb.jmist.framework.BoundingBoxBuilder3;
 import ca.eandb.jmist.framework.RayTraversalStrategy3;
 import ca.eandb.jmist.framework.Visitor;
@@ -27,6 +28,16 @@ public final class BoundingBoxHierarchy3 implements RayTraversalStrategy3 {
 	 * Creates a new <code>BoundingBoxHierarchy3</code>.
 	 */
 	public BoundingBoxHierarchy3() {
+	}
+
+	/**
+	 * Adds a new item to this <code>BoundingBoxHierarchy3</code>.
+	 * @param item The <code>Bounded3</item> item to add.
+	 * @return A reference to this <code>BoundingBoxHierarchy3</code> so that
+	 * 		calls to this method may be chained.
+	 */
+	public BoundingBoxHierarchy3 addItem(Bounded3 item) {
+		return addItem(item, item.boundingBox());
 	}
 
 	/**
