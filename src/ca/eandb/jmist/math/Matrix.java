@@ -385,7 +385,7 @@ public final class Matrix {
 		for (int r = 0, i = 0; r < this.rows; r++) {
 			for (int c = 0; c < other.cols; c++, i++) {
 				for (int j = 0; j < this.cols; j++) {
-					elements[i] = this.at(r, j) * other.at(j, c);
+					elements[i] += this.at(r, j) * other.at(j, c);
 				}
 			}
 		}
