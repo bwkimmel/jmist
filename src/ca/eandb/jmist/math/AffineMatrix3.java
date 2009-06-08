@@ -223,6 +223,93 @@ public final class AffineMatrix3 implements Serializable {
 	}
 
 	/**
+	 * Creates an <code>AffineMatrix3</code> with the given columns.
+	 * @param u The <code>Vector3</code> with the elements for the first
+	 * 		column.
+	 * @param v The <code>Vector3</code> with the elements for the second
+	 * 		column.
+	 * @param w The <code>Vector3</code> with the elements for the third
+	 * 		column.
+	 * @return The required <code>AffineMatrix3</code>.
+	 */
+	public static AffineMatrix3 fromColumns(Vector3 u, Vector3 v, Vector3 w) {
+		return fromColumns(u, v, w, Point3.ORIGIN);
+	}
+
+
+	/**
+	 * Creates an <code>AffineMatrix3</code> with the given columns.
+	 * @param u The <code>Vector3</code> with the elements for the first
+	 * 		column.
+	 * @param v The <code>Vector3</code> with the elements for the second
+	 * 		column.
+	 * @param w The <code>Vector3</code> with the elements for the third
+	 * 		column.
+	 * @param p The <code>Point3</code> with the elements for the fourth
+	 * 		column.
+	 * @return The required <code>AffineMatrix3</code>.
+	 */
+	public static AffineMatrix3 fromColumns(Vector3 u, Vector3 v, Vector3 w, Point3 p) {
+		return new AffineMatrix3(
+				u.x(), v.x(), w.x(), p.x(),
+				u.y(), v.y(), w.y(), p.y(),
+				u.z(), v.z(), w.z(), p.z());
+	}
+
+	/**
+	 * Creates an <code>AffineMatrix3</code> that transforms the standard view
+	 * coordinate system to consist of the eye at the given coordinates looking
+	 * in the specified direction.  For the standard view coordinate system,
+	 * the eye is at the origin looking along the negative z-axis.  The
+	 * positive y-axis points up and the positive x-axis points to the right.
+	 * @param eye The <code>Point3</code> indicating the transformed eye point.
+	 * @param direction The <code>Vector3</code> indicating the direction to
+	 * 		look.
+	 * @param up The <code>Vector3</code> indicating the direction that is up.
+	 * 		This vector will be projected onto the plane perpendicular to
+	 * 		<code>direction</code>.  This vector must not be parallel to
+	 * 		<code>direction</code>.
+	 * @return The <code>AffineMatrix3</code> representing the transformation
+	 * 		from the standard view coordinate system to the specified system.
+	 */
+	public static AffineMatrix3 lookMatrix(Point3 eye, Vector3 direction, Vector3 up) {
+		Vector3 z = direction.unit().opposite();
+		Vector3 x = up.cross(z).unit();
+		Vector3 y = z.cross(x);
+		Vector3	e = eye.vectorFromOrigin();
+
+		return new AffineMatrix3(
+				x.x(), x.y(), x.z(), -x.dot(e),
+				y.x(), y.y(), y.z(), -y.dot(e),
+				z.x(), z.y(), z.z(), -z.dot(e)).inverse();
+	}
+
+	/**
+	 * Creates an <code>AffineMatrix3</code> that transforms the standard view
+	 * coordinate system to consist of the eye at the given coordinates looking
+	 * at the specified point.  For the standard view coordinate system, the
+	 * eye is at the origin looking along the negative z-axis.  The positive
+	 * y-axis points up and the positive x-axis points to the right.
+	 *
+	 * This is equivalent to
+	 * <code>AffineMatrix3.lookMatrix(eye, eye.vectorTo(target), up)</code>.
+	 * @param eye The <code>Point3</code> indicating the transformed eye point.
+	 * @param target The <code>Point3</code> indicating location to look at.
+	 * @param up The <code>Vector3</code> indicating the direction that is up.
+	 * 		This vector will be projected onto the plane perpendicular to
+	 * 		the vector from <code>eye</code> to <code>target</code>.  This
+	 * 		vector (<code>up</code>) must not be parallel to the vector from
+	 * 		<code>eye</code> to <code>target</code>.
+	 * @return The <code>AffineMatrix3</code> representing the transformation
+	 * 		from the standard view coordinate system to the specified system.
+	 * @see #lookMatrix(Point3, Vector3, Vector3)
+	 * @see Point3#vectorTo(Point3)
+	 */
+	public static AffineMatrix3 lookAtMatrix(Point3 eye, Point3 target, Vector3 up) {
+		return lookMatrix(eye, eye.vectorTo(target), up);
+	}
+
+	/**
 	 * The identity matrix ({@code this * IDENTITY == this}).
 	 */
 	public static final AffineMatrix3 IDENTITY = new AffineMatrix3(1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
