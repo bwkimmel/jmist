@@ -44,7 +44,7 @@ public final class PathShader2 implements RayShader {
 
 		Color shade = ColorModel.getInstance().getBlack();
 		RandomScatterRecorder recorder = new RandomScatterRecorder();
-		Color importance = ColorModel.getInstance().getUnit();
+		Color importance = ColorModel.getInstance().getWhite();
 
 		int depth = 0;
 		while (true) {

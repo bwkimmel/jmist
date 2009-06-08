@@ -34,14 +34,14 @@ public interface Medium {
 		 * @see ca.eandb.jmist.framework.Medium#refractiveIndex(ca.eandb.jmist.toolkit.Point3)
 		 */
 		public Color refractiveIndex(Point3 p) {
-			return ColorModel.getInstance().getUnit();
+			return ColorModel.getInstance().getWhite();
 		}
 
 		/* (non-Javadoc)
 		 * @see ca.eandb.jmist.framework.Medium#transmittance(ca.eandb.jmist.toolkit.Ray3, double)
 		 */
 		public Color transmittance(Ray3 ray, double distance) {
-			return ColorModel.getInstance().getUnit();
+			return ColorModel.getInstance().getWhite();
 		}
 
 	};

@@ -25,7 +25,7 @@ public abstract class OpaqueMaterial extends AbstractMaterial {
 	 * @see ca.eandb.jmist.framework.Medium#refractiveIndex(ca.eandb.jmist.math.Point3)
 	 */
 	public Color refractiveIndex(Point3 p) {
-		return ColorModel.getInstance().getUnit();
+		return ColorModel.getInstance().getWhite();
 	}
 
 	/* (non-Javadoc)

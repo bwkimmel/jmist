@@ -271,13 +271,13 @@ public final class RasterJob extends AbstractParallelizableJob implements
 			Rectangle		cell				= (Rectangle) task;
 			ColorModel		cm					= ColorModel.getInstance();
 			int				numPixels			= cell.width * cell.height;
-			double[]		pixels				= new double[numPixels * cm.getNumBands()];
+			double[]		pixels				= new double[numPixels * cm.getNumChannels()];
 			Color			pixel;
 			Box2			bounds;
 			double			x0, y0, x1, y1;
 			double			w					= this.width;
 			double			h					= this.height;
-			WritableRaster	image				= createCellWritableRaster(cell, cm.getNumBands(), pixels);
+			WritableRaster	image				= createCellWritableRaster(cell, cm.getNumChannels(), pixels);
 
 			for (int n = 0, y = cell.y; y < cell.y + cell.height; y++) {
 
@@ -295,7 +295,7 @@ public final class RasterJob extends AbstractParallelizableJob implements
 					bounds	= new Box2(x0, y0, x1, y1);
 
 					pixel = shader.shadePixel(bounds);
-					pixel.writeToRaster(image, x, y);
+					image.setPixel(x, y, pixel.toArray());
 
 				}
 

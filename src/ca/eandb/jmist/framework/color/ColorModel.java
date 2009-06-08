@@ -11,18 +11,13 @@ import ca.eandb.jmist.framework.Spectrum;
  */
 public abstract class ColorModel {
 
-	private static ColorModel instance;
-
 	public static ColorModel getInstance() {
-		if (instance == null) {
-			instance = new RGBColorModel();
-		}
-		return instance;
+		return RGBColorModel.getInstance();
 	}
 
 	public abstract Color getBlack();
 
-	public abstract Color getUnit();
+	public abstract Color getWhite();
 
 	public abstract Color fromRGB(double r, double g, double b);
 
@@ -30,6 +25,6 @@ public abstract class ColorModel {
 
 	public abstract Color fromSpectrum(Spectrum spectrum);
 
-	public abstract int getNumBands();
+	public abstract int getNumChannels();
 
 }

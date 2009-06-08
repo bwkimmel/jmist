@@ -3,8 +3,6 @@
  */
 package ca.eandb.jmist.framework.color;
 
-import java.awt.image.WritableRaster;
-
 import ca.eandb.jmist.framework.Spectrum;
 
 /**
@@ -23,28 +21,12 @@ public final class MonochromaticColorModel extends ColorModel {
 	 * @author Brad
 	 *
 	 */
-	private final class Sample implements MonochromaticColor {
+	private final class Sample implements Color {
 
 		private final double value;
 
 		public Sample(double value) {
 			this.value = value;
-		}
-
-		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.color.MonochromaticColor#value()
-		 */
-		@Override
-		public double value() {
-			return value;
-		}
-
-		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.color.Color#disperse()
-		 */
-		@Override
-		public MonochromaticColor disperse() {
-			return this;
 		}
 
 		/* (non-Javadoc)
@@ -164,11 +146,41 @@ public final class MonochromaticColorModel extends ColorModel {
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.color.Color#writeToRaster(java.awt.image.WritableRaster, int, int)
+		 * @see ca.eandb.jmist.framework.color.Color#disperse(int)
 		 */
 		@Override
-		public void writeToRaster(WritableRaster raster, int x, int y) {
-			raster.setSample(x, y, 0, value);
+		public Color disperse(int channel) {
+			if (channel != 0) {
+				throw new IndexOutOfBoundsException();
+			}
+			return this;
+		}
+
+		/* (non-Javadoc)
+		 * @see ca.eandb.jmist.framework.color.Color#getColorModel()
+		 */
+		@Override
+		public ColorModel getColorModel() {
+			return MonochromaticColorModel.this;
+		}
+
+		/* (non-Javadoc)
+		 * @see ca.eandb.jmist.framework.color.Color#getValue(int)
+		 */
+		@Override
+		public double getValue(int channel) {
+			if (channel != 0) {
+				throw new IndexOutOfBoundsException();
+			}
+			return value;
+		}
+
+		/* (non-Javadoc)
+		 * @see ca.eandb.jmist.framework.color.Color#toArray()
+		 */
+		@Override
+		public double[] toArray() {
+			return new double[]{ value };
 		}
 
 	}
@@ -217,7 +229,7 @@ public final class MonochromaticColorModel extends ColorModel {
 	 * @see ca.eandb.jmist.framework.color.ColorModel#getUnit()
 	 */
 	@Override
-	public Color getUnit() {
+	public Color getWhite() {
 		return UNIT;
 	}
 
@@ -225,7 +237,7 @@ public final class MonochromaticColorModel extends ColorModel {
 	 * @see ca.eandb.jmist.framework.color.ColorModel#getNumBands()
 	 */
 	@Override
-	public int getNumBands() {
+	public int getNumChannels() {
 		return 1;
 	}
 

@@ -20,17 +20,15 @@ public final class ScatterResult {
 
 	private final Ray3 scatteredRay;
 	private Color color;
-	private double weight;
 	private final Type type;
 	private final boolean transmitted;
 
-	private ScatterResult(Ray3 scatteredRay, Color color, double weight, Type type, boolean transmitted) {
+	private ScatterResult(Ray3 scatteredRay, Color color, Type type, boolean transmitted) {
 
 		assert(scatteredRay != null);
 
 		this.scatteredRay = scatteredRay;
 		this.color = color;
-		this.weight = weight;
 		this.transmitted = transmitted;
 		this.type = type;
 
@@ -41,13 +39,6 @@ public final class ScatterResult {
 	 */
 	public final void setColor(Color color) {
 		this.color = color;
-	}
-
-	/**
-	 * @param weight the weight to set
-	 */
-	public final void setWeight(double weight) {
-		this.weight = weight;
 	}
 
 	/**
@@ -65,13 +56,6 @@ public final class ScatterResult {
 	}
 
 	/**
-	 * @return the weight
-	 */
-	public final double getWeight() {
-		return weight;
-	}
-
-	/**
 	 * @return the type
 	 */
 	public final Type getType() {
@@ -85,52 +69,28 @@ public final class ScatterResult {
 		return transmitted;
 	}
 
-	public static ScatterResult diffuse(Ray3 ray, Color color, double weight) {
-		return new ScatterResult(ray, color, weight, Type.DIFFUSE, false);
-	}
-
 	public static ScatterResult diffuse(Ray3 ray, Color color) {
-		return new ScatterResult(ray, color, 1.0, Type.DIFFUSE, false);
-	}
-
-	public static ScatterResult glossy(Ray3 ray, Color color, double weight) {
-		return new ScatterResult(ray, color, weight, Type.GLOSSY, false);
+		return new ScatterResult(ray, color, Type.DIFFUSE, false);
 	}
 
 	public static ScatterResult glossy(Ray3 ray, Color color) {
-		return new ScatterResult(ray, color, 1.0, Type.GLOSSY, false);
-	}
-
-	public static ScatterResult specular(Ray3 ray, Color color, double weight) {
-		return new ScatterResult(ray, color, weight, Type.SPECULAR, false);
+		return new ScatterResult(ray, color, Type.GLOSSY, false);
 	}
 
 	public static ScatterResult specular(Ray3 ray, Color color) {
-		return new ScatterResult(ray, color, 1.0, Type.SPECULAR, false);
-	}
-
-	public static ScatterResult transmitDiffuse(Ray3 ray, Color color, double weight) {
-		return new ScatterResult(ray, color, weight, Type.DIFFUSE, true);
+		return new ScatterResult(ray, color, Type.SPECULAR, false);
 	}
 
 	public static ScatterResult transmitDiffuse(Ray3 ray, Color color) {
-		return new ScatterResult(ray, color, 1.0, Type.DIFFUSE, true);
-	}
-
-	public static ScatterResult transmitGlossy(Ray3 ray, Color color, double weight) {
-		return new ScatterResult(ray, color, weight, Type.GLOSSY, true);
+		return new ScatterResult(ray, color, Type.DIFFUSE, true);
 	}
 
 	public static ScatterResult transmitGlossy(Ray3 ray, Color color) {
-		return new ScatterResult(ray, color, 1.0, Type.GLOSSY, true);
-	}
-
-	public static ScatterResult transmitSpecular(Ray3 ray, Color color, double weight) {
-		return new ScatterResult(ray, color, weight, Type.SPECULAR, true);
+		return new ScatterResult(ray, color, Type.GLOSSY, true);
 	}
 
 	public static ScatterResult transmitSpecular(Ray3 ray, Color color) {
-		return new ScatterResult(ray, color, 1.0, Type.SPECULAR, true);
+		return new ScatterResult(ray, color, Type.SPECULAR, true);
 	}
 
 }

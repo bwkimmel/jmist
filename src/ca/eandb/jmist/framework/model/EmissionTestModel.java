@@ -125,7 +125,7 @@ public final class EmissionTestModel implements Model {
 
 	private final ColorModel cm = ColorModel.getInstance();
 	private final Material diffuse50 = new LambertianMaterial(new UniformPainter(cm.getGray(0.5)));
-	private final Material diffuseLuminaire1 = new LambertianMaterial(null, new UniformPainter(cm.getUnit()));
+	private final Material diffuseLuminaire1 = new LambertianMaterial(null, new UniformPainter(cm.getWhite()));
 
 	private CompositeGeometry geometry = null;
 	private CompositeLight light = null;

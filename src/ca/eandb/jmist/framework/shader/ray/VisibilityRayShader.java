@@ -22,7 +22,7 @@ public final class VisibilityRayShader implements RayShader {
 	 * @param visibilityFunction The visibility function to evaluate.
 	 */
 	public VisibilityRayShader(VisibilityFunction3 visibilityFunction) {
-		this(visibilityFunction, ColorModel.getInstance().getUnit(), ColorModel
+		this(visibilityFunction, ColorModel.getInstance().getWhite(), ColorModel
 				.getInstance().getBlack());
 	}
 

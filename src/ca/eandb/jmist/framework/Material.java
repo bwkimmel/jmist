@@ -61,7 +61,7 @@ public interface Material extends Medium {
 
 		@Override
 		public Color refractiveIndex(Point3 p) {
-			return ColorModel.getInstance().getUnit();
+			return ColorModel.getInstance().getWhite();
 		}
 
 		@Override

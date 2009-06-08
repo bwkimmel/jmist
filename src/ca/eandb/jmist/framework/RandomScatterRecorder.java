@@ -3,6 +3,8 @@
  */
 package ca.eandb.jmist.framework;
 
+import ca.eandb.jmist.framework.color.ColorUtil;
+
 
 /**
  * A <code>ScatterRecorder</code> that selects a single scattering event with
@@ -47,7 +49,6 @@ public final class RandomScatterRecorder implements ScatterRecorder {
 	public void record(ScatterResult sr) {
 		if (this.result == null && this.accept(sr)) {
 			this.result = sr;
-			this.result.setWeight(1.0);
 		}
 	}
 
@@ -57,7 +58,7 @@ public final class RandomScatterRecorder implements ScatterRecorder {
 	 * @return A value indicating whether to accept the scattering event.
 	 */
 	private boolean accept(ScatterResult sr) {
-		this.cumulative += sr.getWeight();
+		this.cumulative += ColorUtil.getMeanChannelValue(sr.getColor());
 		return (this.rnd < this.cumulative);
 	}
 

@@ -107,7 +107,7 @@ public final class Photometer {
 			ScatterResult sr = scattering.getScatterResult();
 
 			if (sr != null) {
-				assert(MathUtil.equal(sr.getWeight(), 1.0));
+				//assert(MathUtil.equal(sr.getWeight(), 1.0));
 				// FIXME: Account for color.
 				this.collectorSphere.record(sr.getScatteredRay().direction());
 			}

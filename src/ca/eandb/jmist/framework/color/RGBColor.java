@@ -3,7 +3,6 @@
  */
 package ca.eandb.jmist.framework.color;
 
-import java.awt.image.WritableRaster;
 
 /**
  * @author Brad
@@ -26,15 +25,6 @@ public final class RGBColor implements Color {
 		this.r = r;
 		this.g = g;
 		this.b = b;
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.color.Color#disperse()
-	 */
-	@Override
-	public MonochromaticColor disperse() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	/* (non-Javadoc)
@@ -154,18 +144,57 @@ public final class RGBColor implements Color {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.color.Color#writeToRaster(java.awt.image.WritableRaster, int, int)
+	 * @see ca.eandb.jmist.framework.color.Color#disperse(int)
 	 */
 	@Override
-	public void writeToRaster(WritableRaster raster, int x, int y) {
-		raster.setSample(x, y, 0, r);
-		raster.setSample(x, y, 1, g);
-		raster.setSample(x, y, 2, b);
+	public Color disperse(int channel) {
+		switch (channel) {
+		case 0:
+			return new RGBColor(r, 0, 0);
+		case 1:
+			return new RGBColor(0, g, 0);
+		case 2:
+			return new RGBColor(0, 0, b);
+		default:
+			throw new IndexOutOfBoundsException();
+		}
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.Color#getColorModel()
+	 */
+	@Override
+	public ColorModel getColorModel() {
+		return RGBColorModel.getInstance();
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.Color#getValue(int)
+	 */
+	@Override
+	public double getValue(int channel) {
+		switch (channel) {
+		case 0:
+			return r;
+		case 1:
+			return g;
+		case 2:
+			return b;
+		default:
+			throw new IndexOutOfBoundsException();
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.Color#toArray()
+	 */
+	@Override
+	public double[] toArray() {
+		return new double[]{ r, g, b };
+	}
 
 	public static final RGBColor BLACK = new RGBColor(0, 0, 0);
 
-	public static final RGBColor UNIT = new RGBColor(1, 1, 1);
+	public static final RGBColor WHITE = new RGBColor(1, 1, 1);
 
 }

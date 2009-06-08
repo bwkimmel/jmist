@@ -3,7 +3,6 @@
  */
 package ca.eandb.jmist.framework.color;
 
-import java.awt.image.WritableRaster;
 
 
 /**
@@ -36,8 +35,12 @@ public interface Color {
 
 	Color pow(double e);
 
-	MonochromaticColor disperse();
+	double getValue(int channel);
 
-	void writeToRaster(WritableRaster raster, int x, int y);
+	ColorModel getColorModel();
+
+	Color disperse(int channel);
+
+	double[] toArray();
 
 }
