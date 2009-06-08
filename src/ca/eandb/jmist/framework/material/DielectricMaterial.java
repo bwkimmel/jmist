@@ -6,18 +6,14 @@ package ca.eandb.jmist.framework.material;
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.ScatterRecorder;
 import ca.eandb.jmist.framework.ScatterResult;
-import ca.eandb.jmist.framework.Spectrum;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.ColorUtil;
 import ca.eandb.jmist.math.Complex;
-import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Optics;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
-import ca.eandb.jmist.math.Tuple;
 import ca.eandb.jmist.math.Vector3;
-import ca.eandb.jmist.util.ArrayUtil;
 
 /**
  * A dielectric <code>Material</code> that refracts but does not absorb
