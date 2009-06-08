@@ -3,7 +3,6 @@
  */
 package ca.eandb.jmist.framework;
 
-import ca.eandb.jmist.math.MathUtil;
 
 /**
  * A <code>ScatterRecorder</code> that selects a single scattering event with
@@ -21,17 +20,6 @@ public final class RandomScatterRecorder implements ScatterRecorder {
 	 * <code>ScatterResult</code> based on the first weight (index zero).
 	 */
 	public RandomScatterRecorder() {
-		this.keySampleIndex = 0;
-	}
-
-	/**
-	 * Creates a new <code>RandomScatterRecorder</code> that will select a
-	 * <code>ScatterResult</code> based on the weight at the specified index.
-	 * @param keySampleIndex The index of the weight to use to select a
-	 * 		<code>ScatterResult</code>.
-	 */
-	public RandomScatterRecorder(int keySampleIndex) {
-		this.keySampleIndex = keySampleIndex;
 	}
 
 	/**
@@ -42,17 +30,6 @@ public final class RandomScatterRecorder implements ScatterRecorder {
 		this.rnd = Math.random();
 		this.cumulative = 0.0;
 		this.result = null;
-	}
-
-	/**
-	 * Reset this <code>ScatterRecorder</code> to its initial state and
-	 * sets the index to use for selecting a <code>ScatterResult</code>.
-	 * @param keySampleIndex The index of the weight to use to select a
-	 * 		<code>ScatterResult</code>.
-	 */
-	public void reset(int keySampleIndex) {
-		this.keySampleIndex = keySampleIndex;
-		this.reset();
 	}
 
 	/**
@@ -70,7 +47,7 @@ public final class RandomScatterRecorder implements ScatterRecorder {
 	public void record(ScatterResult sr) {
 		if (this.result == null && this.accept(sr)) {
 			this.result = sr;
-			MathUtil.scale(this.result.weights(), 1.0 / sr.weightAt(this.keySampleIndex));
+			this.result.setWeight(1.0);
 		}
 	}
 
@@ -80,15 +57,9 @@ public final class RandomScatterRecorder implements ScatterRecorder {
 	 * @return A value indicating whether to accept the scattering event.
 	 */
 	private boolean accept(ScatterResult sr) {
-		this.cumulative += sr.weightAt(this.keySampleIndex);
+		this.cumulative += sr.getWeight();
 		return (this.rnd < this.cumulative);
 	}
-
-	/**
-	 * The index of the weight to use for the probabilities of accepting a
-	 * <code>ScatterResult</code>.
-	 */
-	private int keySampleIndex;
 
 	/**
 	 * The random value to use to select the <code>ScatterResult</code>.  The

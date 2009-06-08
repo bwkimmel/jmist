@@ -3,7 +3,8 @@
  */
 package ca.eandb.jmist.framework.material;
 
-import ca.eandb.jmist.framework.Spectrum;
+import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
 
@@ -14,24 +15,24 @@ import ca.eandb.jmist.math.Ray3;
 public abstract class OpaqueMaterial extends AbstractMaterial {
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Medium#extinctionIndex(ca.eandb.jmist.toolkit.Point3)
+	 * @see ca.eandb.jmist.framework.Medium#extinctionIndex(ca.eandb.jmist.math.Point3)
 	 */
-	public Spectrum extinctionIndex(Point3 p) {
-		return Spectrum.POSITIVE_INFINITY;
+	public Color extinctionIndex(Point3 p) {
+		return ColorModel.getInstance().getGray(Double.POSITIVE_INFINITY);
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Medium#refractiveIndex(ca.eandb.jmist.toolkit.Point3)
+	 * @see ca.eandb.jmist.framework.Medium#refractiveIndex(ca.eandb.jmist.math.Point3)
 	 */
-	public Spectrum refractiveIndex(Point3 p) {
-		return Spectrum.ONE;
+	public Color refractiveIndex(Point3 p) {
+		return ColorModel.getInstance().getUnit();
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Medium#transmittance(ca.eandb.jmist.toolkit.Ray3, double)
+	 * @see ca.eandb.jmist.framework.Medium#transmittance(ca.eandb.jmist.math.Ray3, double)
 	 */
-	public Spectrum transmittance(Ray3 ray, double distance) {
-		return Spectrum.ZERO;
+	public Color transmittance(Ray3 ray, double distance) {
+		return ColorModel.getInstance().getBlack();
 	}
 
 }

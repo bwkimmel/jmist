@@ -3,6 +3,9 @@
  */
 package ca.eandb.jmist.math;
 
+import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.util.UnexpectedException;
+
 
 /**
  * Provides utility methods for geometric optics.
@@ -520,6 +523,14 @@ public final class Optics {
 	public static double reflectance(double theta, Complex n1, Complex n2) {
 		Vector2 R = polarizedReflectance(theta, n1, n2);
 		return 0.5 * (R.x() + R.y());
+	}
+
+	public static Color reflectance(Vector3 v, Vector3 n, Color n1, Color n2) {
+		throw new UnexpectedException("Not implemented.");
+	}
+
+	public static Color reflectance(Vector3 v, Vector3 n, Color n1, Color k1, Color n2, Color k2) {
+		throw new UnexpectedException("Not implemented.");
 	}
 
 	/**

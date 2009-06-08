@@ -5,9 +5,10 @@ package ca.eandb.jmist.framework.shader.ray;
 
 import ca.eandb.jmist.framework.RayShader;
 import ca.eandb.jmist.framework.VisibilityFunction3;
+import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.math.Ray3;
-import ca.eandb.jmist.util.ArrayUtil;
 
 /**
  * A ray shader that shades based on the evaluation of a visibility
@@ -21,45 +22,44 @@ public final class VisibilityRayShader implements RayShader {
 	 * @param visibilityFunction The visibility function to evaluate.
 	 */
 	public VisibilityRayShader(VisibilityFunction3 visibilityFunction) {
-		this.visibilityFunction = visibilityFunction;
-		this.hitValue = 0.0;
-		this.missValue = 1.0;
+		this(visibilityFunction, ColorModel.getInstance().getUnit(), ColorModel
+				.getInstance().getBlack());
 	}
 
 	/**
 	 * Initializes the visibility function to evaluate and the values to assign
 	 * to rays that hit or do not hit an object.
 	 * @param visibilityFunction The visibility function to evaluate.
-	 * @param hitValue The value to assign to rays that hit an object.
-	 * @param missValue The value to assign to rays that do not hit an object.
+	 * @param hitValue The <code>Color</code> to assign to rays that hit an
+	 * 		object.
+	 * @param missValue The <code>Color</code> to assign to rays that do not
+	 * 		hit an object.
 	 */
 	public VisibilityRayShader(VisibilityFunction3 visibilityFunction,
-			double hitValue, double missValue) {
+			Color hitValue, Color missValue) {
 		this.visibilityFunction = visibilityFunction;
 		this.hitValue = hitValue;
 		this.missValue = missValue;
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.RayShader#shadeRay(ca.eandb.jmist.toolkit.Ray3, double[])
+	 * @see ca.eandb.jmist.framework.RayShader#shadeRay(ca.eandb.jmist.math.Ray3)
 	 */
-	public double[] shadeRay(Ray3 ray, double[] pixel) {
-		pixel = ArrayUtil.initialize(pixel, 1);
+	public Color shadeRay(Ray3 ray) {
 		if (ray == null || this.visibilityFunction.visibility(ray, Interval.POSITIVE)) {
-			pixel[0] = this.missValue;
+			return missValue;
 		} else {
-			pixel[0] = this.hitValue;
+			return hitValue;
 		}
-		return pixel;
 	}
 
 	/** The visibility function to evaluate. */
 	private final VisibilityFunction3 visibilityFunction;
 
 	/** The value to assign to rays that hit an object. */
-	private final double hitValue;
+	private final Color hitValue;
 
 	/** The value to assign to rays that do not hit an object. */
-	private final double missValue;
+	private final Color missValue;
 
 }

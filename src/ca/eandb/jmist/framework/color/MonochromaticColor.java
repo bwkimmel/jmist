@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package ca.eandb.jmist.framework.color;
 
@@ -9,6 +9,6 @@ package ca.eandb.jmist.framework.color;
  */
 public interface MonochromaticColor extends Color {
 
-	double wavelength();
-	
+	double value();
+
 }

@@ -4,8 +4,9 @@
 package ca.eandb.jmist.framework.shader.pixel;
 
 import ca.eandb.jmist.framework.PixelShader;
+import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.math.Box2;
-import ca.eandb.jmist.math.MathUtil;
 
 /**
  * A pixel shader decorator that averages stratified samples from the
@@ -28,11 +29,12 @@ public final class StratifyingPixelShader implements PixelShader {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.PixelShader#shadePixel(ca.eandb.jmist.toolkit.Box2, double[])
+	 * @see ca.eandb.jmist.framework.PixelShader#shadePixel(ca.eandb.jmist.math.Box2)
 	 */
-	public double[] shadePixel(Box2 bounds, double[] pixel) {
+	public Color shadePixel(Box2 bounds) {
 		double x0, x1, y0, y1;
-		double[] sample = null;
+		Color pixel = ColorModel.getInstance().getBlack();
+		Color sample;
 		Box2 subpixel;
 
 		for (int i = 0; i < this.rows; i++) {
@@ -44,12 +46,12 @@ public final class StratifyingPixelShader implements PixelShader {
 				y1 = bounds.interpolateY((double) (j + 1) / (double) this.columns);
 
 				subpixel = new Box2(x0, y0, x1, y1);
-				sample = this.pixelShader.shadePixel(subpixel, sample);
-				pixel = MathUtil.add(pixel, sample);
+				sample = pixelShader.shadePixel(subpixel);
+				pixel = pixel.plus(sample);
 			}
 		}
 
-		return MathUtil.scale(pixel, 1.0 / (double) (this.rows * this.columns));
+		return pixel.divide(this.rows * this.columns);
 	}
 
 	/** The number of columns to divide each pixel into. */

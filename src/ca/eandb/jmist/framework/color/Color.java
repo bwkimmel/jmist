@@ -3,7 +3,8 @@
  */
 package ca.eandb.jmist.framework.color;
 
-import ca.eandb.jmist.framework.Spectrum;
+import java.awt.image.WritableRaster;
+
 
 /**
  * @author Brad
@@ -11,12 +12,32 @@ import ca.eandb.jmist.framework.Spectrum;
  */
 public interface Color {
 
-	Color times(Spectrum s);
+	Color times(Color other);
 
 	Color times(double c);
 
-	Color add(Spectrum s);
+	Color divide(Color other);
+
+	Color divide(double c);
+
+	Color plus(Color other);
+
+	Color minus(Color other);
+
+	Color sqrt();
+
+	Color exp();
+
+	Color invert();
+
+	Color negative();
+
+	Color pow(Color other);
+
+	Color pow(double e);
 
 	MonochromaticColor disperse();
+
+	void writeToRaster(WritableRaster raster, int x, int y);
 
 }

@@ -5,11 +5,10 @@ package ca.eandb.jmist.framework.light;
 
 import ca.eandb.jmist.framework.Illuminable;
 import ca.eandb.jmist.framework.Random;
-import ca.eandb.jmist.framework.Spectrum;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.VisibilityFunction3;
+import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.random.SimpleRandom;
-import ca.eandb.jmist.framework.spectrum.ScaledSpectrum;
 import ca.eandb.jmist.math.RandomUtil;
 import ca.eandb.jmist.math.Vector3;
 
@@ -36,10 +35,10 @@ public final class RandomCompositeLight extends CompositeLight {
 		this.children().get(this.select()).illuminate(x, vf, new Illuminable() {
 
 			/* (non-Javadoc)
-			 * @see ca.eandb.jmist.framework.Illuminable#illuminate(ca.eandb.jmist.toolkit.Vector3, ca.eandb.jmist.framework.Spectrum)
+			 * @see ca.eandb.jmist.framework.Illuminable#illuminate(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.Color)
 			 */
-			public void illuminate(Vector3 from, Spectrum radiance) {
-				target.illuminate(from, new ScaledSpectrum(children().size(), radiance));
+			public void illuminate(Vector3 from, Color radiance) {
+				target.illuminate(from, radiance.times(children().size()));
 			}
 
 		});

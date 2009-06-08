@@ -6,6 +6,7 @@ package ca.eandb.jmist.framework.shader.pixel;
 import ca.eandb.jmist.framework.ImageShader;
 import ca.eandb.jmist.framework.PixelShader;
 import ca.eandb.jmist.framework.Random;
+import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.math.Box2;
 
 /**
@@ -28,10 +29,10 @@ public final class RandomPixelShader extends ImageRasterizingPixelShader impleme
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.PixelShader#shadePixel(ca.eandb.jmist.toolkit.Box2, double[])
+	 * @see ca.eandb.jmist.framework.PixelShader#shadePixel(ca.eandb.jmist.math.Box2)
 	 */
-	public double[] shadePixel(Box2 bounds, double[] pixel) {
-		return this.shadeAt(bounds.interpolate(random.next(), random.next()), pixel);
+	public Color shadePixel(Box2 bounds) {
+		return shadeAt(bounds.interpolate(random.next(), random.next()));
 	}
 
 	/** The source of random numbers for this pixel shader. */

@@ -3,6 +3,7 @@
  */
 package ca.eandb.jmist.framework;
 
+import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.math.Vector3;
 
 /**
@@ -13,10 +14,10 @@ public interface Illuminable {
 
 	/**
 	 * Illuminates this target.
-	 * @param from The direction in which the light is travelling.
-	 * @param radiance The radiance <code>Spectrum</code> of the light (in
-	 * 		W.m^-3.sr^-1).
+	 * @param from The direction in which the light is traveling.
+	 * @param radiance The radiance <code>Color</code> of the light (in
+	 * 		W.m^-2.sr^-1).
 	 */
-	void illuminate(Vector3 from, Spectrum radiance);
+	void illuminate(Vector3 from, Color radiance);
 
 }

@@ -5,9 +5,9 @@ package ca.eandb.jmist.framework.light;
 
 import ca.eandb.jmist.framework.Illuminable;
 import ca.eandb.jmist.framework.Light;
-import ca.eandb.jmist.framework.Spectrum;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.VisibilityFunction3;
+import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
@@ -23,10 +23,10 @@ public final class DirectionalLight implements Light {
 	 * Creates a new <code>DirectionalLight</code>.
 	 * @param from The <code>Vector3</code> indicating the direction from which
 	 * 		the light originates.
-	 * @param irradiance The irradiance <code>Spectrum</code>.
+	 * @param irradiance The irradiance <code>Color</code>.
 	 * @param shadows A value indicating whether shadows should be applied.
 	 */
-	public DirectionalLight(Vector3 from, Spectrum irradiance, boolean shadows) {
+	public DirectionalLight(Vector3 from, Color irradiance, boolean shadows) {
 		this.from = from.unit();
 		this.irradiance = irradiance;
 		this.shadows = shadows;
@@ -57,8 +57,8 @@ public final class DirectionalLight implements Light {
 	 */
 	private final Vector3 from;
 
-	/** The irradiance <code>Spectrum</code>. */
-	private final Spectrum irradiance;
+	/** The irradiance <code>Color</code>. */
+	private final Color irradiance;
 
 	/** A value indicating whether shadows should be applied. */
 	private final boolean shadows;

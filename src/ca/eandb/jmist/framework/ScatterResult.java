@@ -3,94 +3,134 @@
  */
 package ca.eandb.jmist.framework;
 
+import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.math.Ray3;
-import ca.eandb.jmist.math.Tuple;
 
 /**
  * @author Brad Kimmel
  *
  */
-public class ScatterResult {
+public final class ScatterResult {
 
-	private ScatterResult(Ray3 scatteredRay, Tuple wavelengths, double[] weights, double specularity) {
-
-		assert(scatteredRay != null);
-		assert(wavelengths.size() == weights.length);
-
-		this.scatteredRay = scatteredRay;
-		this.wavelengths = wavelengths;
-		this.weights = weights;
-		this.specularity = specularity;
-		this.dispersionIndex = -1;
-
-	}
-
-	private ScatterResult(Ray3 scatteredRay, double wavelength, double weight, double specularity, int dispersionIndex) {
-
-		assert(scatteredRay != null);
-
-		this.scatteredRay = scatteredRay;
-		this.wavelengths = new Tuple(wavelength);
-		this.weights = new double[]{ weight };
-		this.specularity = specularity;
-		this.dispersionIndex = dispersionIndex;
-
-	}
-
-	public static ScatterResult diffuse(Ray3 scatteredRay, Tuple wavelengths, double[] weights) {
-		return new ScatterResult(scatteredRay, wavelengths, weights, 0.0);
-	}
-
-	public static ScatterResult specular(Ray3 scatteredRay, Tuple wavelengths, double[] weights) {
-		return new ScatterResult(scatteredRay, wavelengths, weights, 1.0);
-	}
-
-	public static ScatterResult scatter(Ray3 scatteredRay, Tuple wavelengths, double[] weights, double specularity) {
-		return new ScatterResult(scatteredRay, wavelengths, weights, specularity);
-	}
-
-	public static ScatterResult disperse(Ray3 scatteredRay, int index, double wavelength, double weight, double specularity) {
-		return new ScatterResult(scatteredRay, wavelength, weight, 1.0, index);
-	}
-
-	public Ray3 scatteredRay() {
-		return this.scatteredRay;
-	}
-
-	public Tuple wavelengths() {
-		return this.wavelengths;
-	}
-
-	public double[] weights() {
-		return this.weights;
-	}
-
-	public double weightAt(int index) {
-		if (this.dispersed()) {
-			return (index == this.dispersionIndex) ? this.weights[0] : 0.0;
-		} else if (index < this.weights.length) {
-			return this.weights[index];
-		} else {
-			return 0.0;
-		}
-	}
-
-	public double specularity() {
-		return this.specularity;
-	}
-
-	public boolean dispersed() {
-		return this.dispersionIndex >= 0;
-	}
-
-	public int dispersionIndex() {
-		return this.dispersionIndex;
-	}
+	public static enum Type {
+		DIFFUSE,
+		GLOSSY,
+		SPECULAR
+	};
 
 	private final Ray3 scatteredRay;
-	private final Tuple wavelengths;
-	private final double[] weights;
-	private final double specularity;
-	private final int dispersionIndex;
+	private Color color;
+	private double weight;
+	private final Type type;
+	private final boolean transmitted;
+
+	private ScatterResult(Ray3 scatteredRay, Color color, double weight, Type type, boolean transmitted) {
+
+		assert(scatteredRay != null);
+
+		this.scatteredRay = scatteredRay;
+		this.color = color;
+		this.weight = weight;
+		this.transmitted = transmitted;
+		this.type = type;
+
+	}
+
+	/**
+	 * @param color the color to set
+	 */
+	public final void setColor(Color color) {
+		this.color = color;
+	}
+
+	/**
+	 * @param weight the weight to set
+	 */
+	public final void setWeight(double weight) {
+		this.weight = weight;
+	}
+
+	/**
+	 * @return the scatteredRay
+	 */
+	public final Ray3 getScatteredRay() {
+		return scatteredRay;
+	}
+
+	/**
+	 * @return the color
+	 */
+	public final Color getColor() {
+		return color;
+	}
+
+	/**
+	 * @return the weight
+	 */
+	public final double getWeight() {
+		return weight;
+	}
+
+	/**
+	 * @return the type
+	 */
+	public final Type getType() {
+		return type;
+	}
+
+	/**
+	 * @return the transmitted
+	 */
+	public final boolean isTransmitted() {
+		return transmitted;
+	}
+
+	public static ScatterResult diffuse(Ray3 ray, Color color, double weight) {
+		return new ScatterResult(ray, color, weight, Type.DIFFUSE, false);
+	}
+
+	public static ScatterResult diffuse(Ray3 ray, Color color) {
+		return new ScatterResult(ray, color, 1.0, Type.DIFFUSE, false);
+	}
+
+	public static ScatterResult glossy(Ray3 ray, Color color, double weight) {
+		return new ScatterResult(ray, color, weight, Type.GLOSSY, false);
+	}
+
+	public static ScatterResult glossy(Ray3 ray, Color color) {
+		return new ScatterResult(ray, color, 1.0, Type.GLOSSY, false);
+	}
+
+	public static ScatterResult specular(Ray3 ray, Color color, double weight) {
+		return new ScatterResult(ray, color, weight, Type.SPECULAR, false);
+	}
+
+	public static ScatterResult specular(Ray3 ray, Color color) {
+		return new ScatterResult(ray, color, 1.0, Type.SPECULAR, false);
+	}
+
+	public static ScatterResult transmitDiffuse(Ray3 ray, Color color, double weight) {
+		return new ScatterResult(ray, color, weight, Type.DIFFUSE, true);
+	}
+
+	public static ScatterResult transmitDiffuse(Ray3 ray, Color color) {
+		return new ScatterResult(ray, color, 1.0, Type.DIFFUSE, true);
+	}
+
+	public static ScatterResult transmitGlossy(Ray3 ray, Color color, double weight) {
+		return new ScatterResult(ray, color, weight, Type.GLOSSY, true);
+	}
+
+	public static ScatterResult transmitGlossy(Ray3 ray, Color color) {
+		return new ScatterResult(ray, color, 1.0, Type.GLOSSY, true);
+	}
+
+	public static ScatterResult transmitSpecular(Ray3 ray, Color color, double weight) {
+		return new ScatterResult(ray, color, weight, Type.SPECULAR, true);
+	}
+
+	public static ScatterResult transmitSpecular(Ray3 ray, Color color) {
+		return new ScatterResult(ray, color, 1.0, Type.SPECULAR, true);
+	}
 
 }

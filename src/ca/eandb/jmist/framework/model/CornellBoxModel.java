@@ -9,6 +9,7 @@ import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.Model;
 import ca.eandb.jmist.framework.Spectrum;
+import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.geometry.BoundingBoxHierarchyGeometry;
 import ca.eandb.jmist.framework.geometry.primitive.PolygonGeometry;
 import ca.eandb.jmist.framework.geometry.primitive.PolyhedronGeometry;
@@ -16,7 +17,7 @@ import ca.eandb.jmist.framework.geometry.primitive.RectangleGeometry;
 import ca.eandb.jmist.framework.lens.PinholeLens;
 import ca.eandb.jmist.framework.lens.TransformableLens;
 import ca.eandb.jmist.framework.material.LambertianMaterial;
-import ca.eandb.jmist.framework.spectrum.ConstantSpectrum;
+import ca.eandb.jmist.framework.painter.UniformPainter;
 import ca.eandb.jmist.framework.spectrum.PiecewiseLinearSpectrum;
 import ca.eandb.jmist.framework.spectrum.ScaledSpectrum;
 import ca.eandb.jmist.math.Basis3;
@@ -140,17 +141,19 @@ public final class CornellBoxModel implements Model {
 			new double[]{   0.0   ,   8.0   ,  15.6   ,  18.4    }
 	));
 
+	private ColorModel cm = ColorModel.getInstance();
+
 	/** The <code>Material</code> for the white walls. */
-	private Material matteWhite = new LambertianMaterial(white);
+	private Material matteWhite = new LambertianMaterial(new UniformPainter(cm.fromSpectrum(white)));
 
 	/** The <code>Material</code> for the green wall. */
-	private Material matteGreen = new LambertianMaterial(green);
+	private Material matteGreen = new LambertianMaterial(new UniformPainter(cm.fromSpectrum(green)));
 
 	/** The <code>Material</code> for the red wall. */
-	private Material matteRed = new LambertianMaterial(red);
+	private Material matteRed = new LambertianMaterial(new UniformPainter(cm.fromSpectrum(red)));
 
 	/** The <code>Material</code> for the light box. */
-	private Material matteEmissive = new LambertianMaterial(new ConstantSpectrum(0.78), emission);
+	private Material matteEmissive = new LambertianMaterial(new UniformPainter(cm.getGray(0.78)), new UniformPainter(cm.fromSpectrum(emission)));
 
 	/** The <code>Lens</code> to use to view the box. */
 	private Lens lens = createLens();

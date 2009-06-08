@@ -8,7 +8,7 @@ import ca.eandb.jmist.framework.Lens;
 import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.Model;
-import ca.eandb.jmist.framework.Spectrum;
+import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.geometry.BoundingBoxHierarchyGeometry;
 import ca.eandb.jmist.framework.geometry.CompositeGeometry;
 import ca.eandb.jmist.framework.geometry.primitive.BoxGeometry;
@@ -19,9 +19,9 @@ import ca.eandb.jmist.framework.light.CompositeLight;
 import ca.eandb.jmist.framework.light.RandomCompositeLight;
 import ca.eandb.jmist.framework.light.SimpleCompositeLight;
 import ca.eandb.jmist.framework.material.LambertianMaterial;
+import ca.eandb.jmist.framework.painter.UniformPainter;
 import ca.eandb.jmist.framework.random.StratifiedRandom;
 import ca.eandb.jmist.framework.random.ThreadLocalRandom;
-import ca.eandb.jmist.framework.spectrum.ConstantSpectrum;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Point3;
@@ -123,8 +123,9 @@ public final class EmissionTestModel implements Model {
 
 	private static Model instance = null;
 
-	private final Material diffuse50 = new LambertianMaterial(new ConstantSpectrum(0.5));
-	private final Material diffuseLuminaire1 = new LambertianMaterial(null, Spectrum.ONE);
+	private final ColorModel cm = ColorModel.getInstance();
+	private final Material diffuse50 = new LambertianMaterial(new UniformPainter(cm.getGray(0.5)));
+	private final Material diffuseLuminaire1 = new LambertianMaterial(null, new UniformPainter(cm.getUnit()));
 
 	private CompositeGeometry geometry = null;
 	private CompositeLight light = null;

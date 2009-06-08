@@ -4,9 +4,9 @@
 package ca.eandb.jmist.framework.shader.pixel;
 
 import ca.eandb.jmist.framework.PixelShader;
+import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.math.Box2;
-import ca.eandb.jmist.math.MathUtil;
-import ca.eandb.jmist.util.ArrayUtil;
 
 /**
  * A pixel shader decorator that averages the results of another
@@ -30,19 +30,16 @@ public final class AveragingPixelShader implements PixelShader {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.PixelShader#shadePixel(ca.eandb.jmist.toolkit.Box2, ca.eandb.jmist.toolkit.Pixel)
+	 * @see ca.eandb.jmist.framework.PixelShader#shadePixel(ca.eandb.jmist.math.Box2)
 	 */
-	public double[] shadePixel(Box2 bounds, double[] pixel) {
-		double[] sample = null;
-
-		ArrayUtil.reset(pixel);
+	public Color shadePixel(Box2 bounds) {
+		Color pixel = ColorModel.getInstance().getBlack();
 
 		for (int i = 0; i < this.numSamples; i++) {
-			sample = this.pixelShader.shadePixel(bounds, sample);
-			pixel = MathUtil.add(pixel, sample);
+			pixel = pixel.plus(pixelShader.shadePixel(bounds));
 		}
 
-		return MathUtil.scale(pixel, 1.0 / (double) this.numSamples);
+		return pixel.divide(numSamples);
 	}
 
 	/**

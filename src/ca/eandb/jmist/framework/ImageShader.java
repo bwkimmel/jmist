@@ -3,6 +3,7 @@
  */
 package ca.eandb.jmist.framework;
 
+import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.math.Box2;
 import ca.eandb.jmist.math.Point2;
 
@@ -33,6 +34,6 @@ public interface ImageShader {
 	 * 		specified point on the image plane.
 	 * @see {@link Box2#UNIT}, {@link PixelFactory#createPixel()}.
 	 */
-	double[] shadeAt(Point2 p, double[] pixel);
+	Color shadeAt(Point2 p);
 
 }

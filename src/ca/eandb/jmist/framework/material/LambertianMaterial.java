@@ -6,15 +6,15 @@ package ca.eandb.jmist.framework.material;
 import java.io.Serializable;
 
 import ca.eandb.jmist.framework.Intersection;
+import ca.eandb.jmist.framework.Painter;
 import ca.eandb.jmist.framework.ScatterRecorder;
 import ca.eandb.jmist.framework.ScatterResult;
-import ca.eandb.jmist.framework.Spectrum;
 import ca.eandb.jmist.framework.SurfacePoint;
-import ca.eandb.jmist.framework.spectrum.ScaledSpectrum;
+import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.math.RandomUtil;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.SphericalCoordinates;
-import ca.eandb.jmist.math.Tuple;
 import ca.eandb.jmist.math.Vector3;
 
 /**
@@ -27,18 +27,18 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 
 	/**
 	 * Creates a new <code>LambertianMaterial</code> that does not emit light.
-	 * @param reflectance The reflectance <code>Spectrum</code>.
+	 * @param reflectance The reflectance <code>Painter</code>.
 	 */
-	public LambertianMaterial(Spectrum reflectance) {
+	public LambertianMaterial(Painter reflectance) {
 		this(reflectance, null);
 	}
 
 	/**
 	 * Creates a new <code>LambertianMaterial</code> that emits light.
-	 * @param reflectance The reflectance <code>Spectrum</code>.
-	 * @param emittance The emission <code>Spectrum</code>.
+	 * @param reflectance The reflectance <code>Painter</code>.
+	 * @param emittance The emission <code>Painter</code>.
 	 */
-	public LambertianMaterial(Spectrum reflectance, Spectrum emittance) {
+	public LambertianMaterial(Painter reflectance, Painter emittance) {
 		this.reflectance = reflectance;
 		this.emittance = emittance;
 	}
@@ -52,25 +52,25 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Material#emission(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.toolkit.Vector3)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#emission(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3)
 	 */
 	@Override
-	public Spectrum emission(SurfacePoint x, Vector3 out) {
+	public Color emission(SurfacePoint x, Vector3 out) {
 
 		if (this.emittance == null || x.normal().dot(out) < 0.0) {
-			return Spectrum.ZERO;
+			return ColorModel.getInstance().getBlack();
 		}
 
 		double ndotv = x.microfacetNormal().dot(out);
-		return ndotv > 0.0 ? new ScaledSpectrum(ndotv, this.emittance) : Spectrum.ZERO;
+		return ndotv > 0.0 ? emittance.getColor(x).times(ndotv) : ColorModel.getInstance().getBlack();
 
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.AbstractMaterial#emit(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.toolkit.Tuple, ca.eandb.jmist.framework.ScatterRecorder)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#emit(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ScatterRecorder)
 	 */
 	@Override
-	public void emit(SurfacePoint x, Tuple wavelengths, ScatterRecorder recorder) {
+	public void emit(SurfacePoint x, ScatterRecorder recorder) {
 
 		if (this.emittance != null) {
 
@@ -78,8 +78,7 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 			Ray3 ray = new Ray3(x.location(), out.toCartesian(x.microfacetBasis()));
 
 			if (x.normal().dot(ray.direction()) > 0.0) {
-				double[] radiance = this.emittance.sample(wavelengths, null);
-				recorder.record(ScatterResult.diffuse(ray, wavelengths, radiance));
+				recorder.record(ScatterResult.diffuse(ray, emittance.getColor(x)));
 			}
 
 		}
@@ -87,10 +86,10 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.AbstractMaterial#scatter(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.toolkit.Tuple, ca.eandb.jmist.framework.ScatterRecorder)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.framework.ScatterRecorder)
 	 */
 	@Override
-	public void scatter(Intersection x, Tuple wavelengths, ScatterRecorder recorder) {
+	public void scatter(Intersection x, ScatterRecorder recorder) {
 
 		if (this.reflectance != null) {
 
@@ -98,8 +97,7 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 			Ray3 ray = new Ray3(x.location(), out.toCartesian(x.microfacetBasis()));
 
 			if (ray.direction().dot(x.normal()) > 0.0) {
-				double[] weights = this.reflectance.sample(wavelengths, null);
-				recorder.record(ScatterResult.diffuse(ray, wavelengths, weights));
+				recorder.record(ScatterResult.diffuse(ray, reflectance.getColor(x)));
 			}
 
 		}
@@ -107,26 +105,26 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.AbstractMaterial#scattering(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.toolkit.Vector3)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scattering(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.math.Vector3)
 	 */
 	@Override
-	public Spectrum scattering(Intersection x, Vector3 out) {
+	public Color scattering(Intersection x, Vector3 out) {
 
 		boolean toFront = (x.normal().dot(out) > 0.0);
 
 		if (this.reflectance != null && x.front() == toFront) {
-			return this.reflectance;
+			return reflectance.getColor(x);
 		} else {
-			return Spectrum.ZERO;
+			return ColorModel.getInstance().getBlack();
 		}
 
 	}
 
-	/** The reflectance <code>Spectrum</code> of this <code>Material</code>. */
-	private final Spectrum reflectance;
+	/** The reflectance <code>Painter</code> of this <code>Material</code>. */
+	private final Painter reflectance;
 
-	/** The emittance <code>Spectrum</code> of this <code>Material</code>. */
-	private final Spectrum emittance;
+	/** The emittance <code>Painter</code> of this <code>Material</code>. */
+	private final Painter emittance;
 
 	/**
 	 * Serialization version ID.

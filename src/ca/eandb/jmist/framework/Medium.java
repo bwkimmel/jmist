@@ -3,6 +3,8 @@
  */
 package ca.eandb.jmist.framework;
 
+import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
 
@@ -12,9 +14,9 @@ import ca.eandb.jmist.math.Ray3;
  */
 public interface Medium {
 
-	Spectrum transmittance(Ray3 ray, double distance);
-	Spectrum refractiveIndex(Point3 p);
-	Spectrum extinctionIndex(Point3 p);
+	Color transmittance(Ray3 ray, double distance);
+	Color refractiveIndex(Point3 p);
+	Color extinctionIndex(Point3 p);
 
 	/**
 	 * A vacuum <code>Medium</code>.
@@ -24,22 +26,22 @@ public interface Medium {
 		/* (non-Javadoc)
 		 * @see ca.eandb.jmist.framework.Medium#extinctionIndex(ca.eandb.jmist.toolkit.Point3)
 		 */
-		public Spectrum extinctionIndex(Point3 p) {
-			return Spectrum.ZERO;
+		public Color extinctionIndex(Point3 p) {
+			return ColorModel.getInstance().getBlack();
 		}
 
 		/* (non-Javadoc)
 		 * @see ca.eandb.jmist.framework.Medium#refractiveIndex(ca.eandb.jmist.toolkit.Point3)
 		 */
-		public Spectrum refractiveIndex(Point3 p) {
-			return Spectrum.ONE;
+		public Color refractiveIndex(Point3 p) {
+			return ColorModel.getInstance().getUnit();
 		}
 
 		/* (non-Javadoc)
 		 * @see ca.eandb.jmist.framework.Medium#transmittance(ca.eandb.jmist.toolkit.Ray3, double)
 		 */
-		public Spectrum transmittance(Ray3 ray, double distance) {
-			return Spectrum.ONE;
+		public Color transmittance(Ray3 ray, double distance) {
+			return ColorModel.getInstance().getUnit();
 		}
 
 	};

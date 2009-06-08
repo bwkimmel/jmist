@@ -102,13 +102,14 @@ public final class Photometer {
 			}
 
 			scattering.reset();
-			this.specimen.scatter(this.x, this.wavelengths, scattering);
+			this.specimen.scatter(this.x, scattering);
 
 			ScatterResult sr = scattering.getScatterResult();
 
 			if (sr != null) {
-				assert(MathUtil.equal(sr.weightAt(0), 1.0));
-				this.collectorSphere.record(sr.scatteredRay().direction());
+				assert(MathUtil.equal(sr.getWeight(), 1.0));
+				// FIXME: Account for color.
+				this.collectorSphere.record(sr.getScatteredRay().direction());
 			}
 
 		}

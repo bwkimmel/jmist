@@ -6,6 +6,7 @@ package ca.eandb.jmist.framework.shader.image;
 import ca.eandb.jmist.framework.ImageShader;
 import ca.eandb.jmist.framework.Lens;
 import ca.eandb.jmist.framework.RayShader;
+import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.math.Point2;
 
 /**
@@ -28,10 +29,10 @@ public final class CameraImageShader implements ImageShader {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.ImageShader#shadeAt(ca.eandb.jmist.toolkit.Point2, double[])
+	 * @see ca.eandb.jmist.framework.ImageShader#shadeAt(ca.eandb.jmist.math.Point2)
 	 */
-	public double[] shadeAt(Point2 p, double[] pixel) {
-		return this.rayShader.shadeRay(this.lens.rayAt(p), pixel);
+	public Color shadeAt(Point2 p) {
+		return this.rayShader.shadeRay(this.lens.rayAt(p));
 	}
 
 	/**

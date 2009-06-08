@@ -3,6 +3,7 @@
  */
 package ca.eandb.jmist.framework;
 
+import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.math.Point2;
 
 /**
@@ -17,6 +18,6 @@ public interface Texture2 {
 	 * @param p The <code>Point2</code> in the domain.
 	 * @return The <code>Spectrum</code> at <code>p</code>.
 	 */
-	Spectrum evaluate(Point2 p);
+	Color evaluate(Point2 p);
 
 }

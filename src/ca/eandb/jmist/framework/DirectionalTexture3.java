@@ -3,6 +3,7 @@
  */
 package ca.eandb.jmist.framework;
 
+import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.math.Vector3;
 
 /**
@@ -14,8 +15,8 @@ public interface DirectionalTexture3 {
 	/**
 	 * Computes the spectrum at the specified direction in the domain.
 	 * @param v The <code>Vector3</code> in the domain.
-	 * @return The <code>Spectrum</code> at in the direction of <code>v</code>.
+	 * @return The <code>Color</code> at in the direction of <code>v</code>.
 	 */
-	Spectrum evaluate(Vector3 v);
+	Color evaluate(Vector3 v);
 
 }

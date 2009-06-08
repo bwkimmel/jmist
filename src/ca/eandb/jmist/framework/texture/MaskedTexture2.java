@@ -4,9 +4,8 @@
 package ca.eandb.jmist.framework.texture;
 
 import ca.eandb.jmist.framework.Mask2;
-import ca.eandb.jmist.framework.Spectrum;
 import ca.eandb.jmist.framework.Texture2;
-import ca.eandb.jmist.framework.spectrum.ScaledSpectrum;
+import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.math.Point2;
 
 /**
@@ -30,8 +29,8 @@ public final class MaskedTexture2 implements Texture2 {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Texture2#evaluate(ca.eandb.jmist.toolkit.Point2)
 	 */
-	public Spectrum evaluate(Point2 p) {
-		return new ScaledSpectrum(this.mask.opacity(p), this.texture.evaluate(p));
+	public Color evaluate(Point2 p) {
+		return texture.evaluate(p).times(mask.opacity(p));
 	}
 
 	/** The <code>Texture2</code> to mask. */

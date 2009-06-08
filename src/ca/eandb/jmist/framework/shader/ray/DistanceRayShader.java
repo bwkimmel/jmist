@@ -6,9 +6,10 @@ package ca.eandb.jmist.framework.shader.ray;
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.RayCaster;
 import ca.eandb.jmist.framework.RayShader;
+import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.math.Ray3;
-import ca.eandb.jmist.util.ArrayUtil;
 
 /**
  * A ray shader that shades a ray according to the distance to the
@@ -18,30 +19,36 @@ import ca.eandb.jmist.util.ArrayUtil;
 public final class DistanceRayShader implements RayShader {
 
 	/**
-	 * Initializes the ray caster to use.
-	 * @param caster The ray caster to use.
+	 * Creates a <code>DistanceRayShader</code>.
+	 * @param caster The <code>RayCaster</code> to use.
 	 */
 	public DistanceRayShader(RayCaster caster) {
+		this(caster, ColorModel.getInstance().getBlack());
+	}
+
+	/**
+	 * Creates a <code>DistanceRayShader</code>.
+	 * @param caster The <code>RayCaster</code> to use.
+	 * @param missValue The <code>Color</code> to assign to rays that do not
+	 * 		intersect with any object.
+	 */
+	public DistanceRayShader(RayCaster caster, Color missValue) {
 		this.caster = caster;
+		this.missValue = missValue;
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.RayShader#shadeRay(ca.eandb.jmist.toolkit.Ray3, double[])
+	 * @see ca.eandb.jmist.framework.RayShader#shadeRay(ca.eandb.jmist.math.Ray3)
 	 */
-	public double[] shadeRay(Ray3 ray, double[] pixel) {
+	public Color shadeRay(Ray3 ray) {
 		Intersection x = this.caster.castRay(ray, Interval.POSITIVE);
 
-		pixel = ArrayUtil.initialize(pixel, 2);
-
-		if (x != null) {
-			pixel[0] = x.distance();
-			pixel[1] = 1.0;
-		}
-
-		return pixel;
+		return (x != null) ? ColorModel.getInstance().getGray(x.distance()) : missValue;
 	}
 
 	/** The ray caster to use. */
 	private final RayCaster caster;
+
+	private final Color missValue;
 
 }

@@ -6,6 +6,7 @@ package ca.eandb.jmist.framework.shader.pixel;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.framework.ImageShader;
 import ca.eandb.jmist.framework.PixelShader;
+import ca.eandb.jmist.framework.color.Color;
 
 /**
  * Represents a pixel shader that rasterizes an image represented by
@@ -26,11 +27,10 @@ public abstract class ImageRasterizingPixelShader implements PixelShader {
 	/**
 	 * Shades the specified pixel using this shader's image shader.
 	 * @param p The point on the image plane to shade.
-	 * @param pixel The pixel to write the shading to.
 	 * @return The shaded pixel.
 	 */
-	protected double[] shadeAt(Point2 p, double[] pixel) {
-		return this.shader.shadeAt(p, pixel);
+	protected Color shadeAt(Point2 p) {
+		return this.shader.shadeAt(p);
 	}
 
 	/** The image shader to use for shading points. */

@@ -4,6 +4,7 @@
 package ca.eandb.jmist.framework.job;
 
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferDouble;
 import java.awt.image.PixelInterleavedSampleModel;
@@ -28,6 +29,8 @@ import javax.imageio.stream.MemoryCacheImageOutputStream;
 import ca.eandb.jdcp.job.AbstractParallelizableJob;
 import ca.eandb.jdcp.job.TaskWorker;
 import ca.eandb.jmist.framework.PixelShader;
+import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.math.Box2;
 import ca.eandb.jmist.util.DoubleDataBufferAdapter;
 import ca.eandb.util.io.Archive;
@@ -66,7 +69,7 @@ public final class RasterJob extends AbstractParallelizableJob implements
 	public void initialize() throws IOException {
 		RandomAccessFile file = createRandomAccessFile("raster.tmp");
 		FileChannel channel = file.getChannel();
-		long bytes = sampleModel.getNumDataElements() * 8;
+		long bytes = sampleModel.getWidth() * sampleModel.getHeight() * sampleModel.getNumBands() * 8;
 		DoubleBuffer buffer = channel.map(MapMode.READ_WRITE, 0, bytes).asDoubleBuffer();
 		DataBuffer db = new DoubleDataBufferAdapter(buffer);
 		this.raster = Raster.createWritableRaster(sampleModel, db, null);
@@ -208,7 +211,16 @@ public final class RasterJob extends AbstractParallelizableJob implements
 		MemoryCacheImageOutputStream ios = new MemoryCacheImageOutputStream(fs);
 		writer.setOutput(ios);
 
-		writer.write(null, new IIOImage(this.raster, null, null), null);
+		BufferedImage image = new BufferedImage(sampleModel.getWidth(), sampleModel.getHeight(), BufferedImage.TYPE_INT_RGB);
+		WritableRaster r = image.getRaster();
+		double[] pixel = new double[sampleModel.getNumBands()];
+		for (int i = 0; i < sampleModel.getWidth(); i++) {
+			for (int j = 0; j < sampleModel.getHeight(); j++) {
+				raster.getPixel(i, j, pixel);
+				r.setPixel(i, j, pixel);
+			}
+		}
+		writer.write(null, new IIOImage(image, null, null), null);
 		ios.flush();
 		ios.close();
 
@@ -257,14 +269,15 @@ public final class RasterJob extends AbstractParallelizableJob implements
 		public Object performTask(Object task, ProgressMonitor monitor) {
 
 			Rectangle		cell				= (Rectangle) task;
+			ColorModel		cm					= ColorModel.getInstance();
 			int				numPixels			= cell.width * cell.height;
-			double[]		pixels				= null;
-			double[]		pixel				= null;
+			double[]		pixels				= new double[numPixels * cm.getNumBands()];
+			Color			pixel;
 			Box2			bounds;
 			double			x0, y0, x1, y1;
 			double			w					= this.width;
 			double			h					= this.height;
-			WritableRaster	image				= null;
+			WritableRaster	image				= createCellWritableRaster(cell, cm.getNumBands(), pixels);
 
 			for (int n = 0, y = cell.y; y < cell.y + cell.height; y++) {
 
@@ -281,14 +294,8 @@ public final class RasterJob extends AbstractParallelizableJob implements
 
 					bounds	= new Box2(x0, y0, x1, y1);
 
-					pixel = this.shader.shadePixel(bounds, pixel);
-
-					if (pixels == null) {
-						pixels = new double[numPixels * pixel.length];
-						image = createCellWritableRaster(cell, pixel.length, pixels);
-					}
-
-					image.setPixel(x, y, pixel);
+					pixel = shader.shadePixel(bounds);
+					pixel.writeToRaster(image, x, y);
 
 				}
 

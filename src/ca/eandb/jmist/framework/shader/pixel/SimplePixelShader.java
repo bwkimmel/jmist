@@ -4,6 +4,7 @@
 package ca.eandb.jmist.framework.shader.pixel;
 
 import ca.eandb.jmist.framework.ImageShader;
+import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.math.Box2;
 
 /**
@@ -17,10 +18,10 @@ public final class SimplePixelShader extends ImageRasterizingPixelShader {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.PixelShader#shadePixel(ca.eandb.jmist.toolkit.Box2, double[])
+	 * @see ca.eandb.jmist.framework.PixelShader#shadePixel(ca.eandb.jmist.math.Box2)
 	 */
-	public double[] shadePixel(Box2 bounds, double[] pixel) {
-		return this.shadeAt(bounds.center(), pixel);
+	public Color shadePixel(Box2 bounds) {
+		return shadeAt(bounds.center());
 	}
 
 }

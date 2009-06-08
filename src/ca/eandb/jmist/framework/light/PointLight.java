@@ -7,10 +7,9 @@ import java.io.Serializable;
 
 import ca.eandb.jmist.framework.Illuminable;
 import ca.eandb.jmist.framework.Light;
-import ca.eandb.jmist.framework.Spectrum;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.VisibilityFunction3;
-import ca.eandb.jmist.framework.spectrum.ScaledSpectrum;
+import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Vector3;
 
@@ -23,11 +22,11 @@ public final class PointLight implements Light, Serializable {
 	/**
 	 * Creates a new <code>PointLight</code>.
 	 * @param location The <code>Point3</code> where the light is to emit from.
-	 * @param emission The emission <code>Spectrum</code> of the light.
+	 * @param emission The emission <code>Color</code> of the light.
 	 * @param shadows A value indicating whether the light should be affected
 	 * 		by shadows.
 	 */
-	public PointLight(Point3 location, Spectrum emission, boolean shadows) {
+	public PointLight(Point3 location, Color emission, boolean shadows) {
 		this.location = location;
 		this.emission = emission;
 		this.shadows = shadows;
@@ -44,7 +43,7 @@ public final class PointLight implements Light, Serializable {
 			double		dSquared		= from.squaredLength();
 			double		attenuation		= 1.0 / (4.0 * Math.PI * dSquared);
 
-			target.illuminate(from.unit(), new ScaledSpectrum(attenuation, emission));
+			target.illuminate(from.unit(), emission.times(attenuation));
 
 		}
 
@@ -53,8 +52,8 @@ public final class PointLight implements Light, Serializable {
 	/** The <code>Point3</code> where the light is to emit from. */
 	private final Point3 location;
 
-	/** The emission <code>Spectrum</code> of the light. */
-	private final Spectrum emission;
+	/** The emission <code>Color</code> of the light. */
+	private final Color emission;
 
 	/** A value indicating whether the light should be affected by shadows. */
 	private final boolean shadows;

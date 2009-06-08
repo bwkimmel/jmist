@@ -10,12 +10,11 @@ import ca.eandb.jmist.framework.IntersectionRecorder;
 import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.Random;
-import ca.eandb.jmist.framework.Spectrum;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.VisibilityFunction3;
+import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.geometry.SingleMaterialGeometry;
 import ca.eandb.jmist.framework.random.SimpleRandom;
-import ca.eandb.jmist.framework.spectrum.ScaledSpectrum;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.MathUtil;
@@ -180,10 +179,10 @@ public final class RectangleGeometry extends SingleMaterialGeometry implements L
 			from = from.divide(r);
 
 			/* Sample the material radiance. */
-			Spectrum radiance = sp.material().emission(sp, from.opposite());
+			Color radiance = sp.material().emission(sp, from.opposite());
 
 			/* Illuminate the point. */
-			target.illuminate(from, new ScaledSpectrum(attenuation, radiance));
+			target.illuminate(from, radiance.times(attenuation));
 
 		}
 
