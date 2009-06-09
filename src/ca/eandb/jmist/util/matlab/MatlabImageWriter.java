@@ -3,7 +3,9 @@
  */
 package ca.eandb.jmist.util.matlab;
 
+import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
+import java.awt.image.RenderedImage;
 import java.io.IOException;
 
 import javax.imageio.IIOImage;
@@ -67,10 +69,20 @@ public final class MatlabImageWriter extends ImageWriter {
 	public void write(IIOMetadata streamMetadata, IIOImage image, ImageWriteParam param)
 			throws IOException {
 
+		Raster raster = null;
+
 		if (image.hasRaster()) {
+			raster = image.getRaster();
+		} else {
+			RenderedImage rendered = image.getRenderedImage();
+			if (rendered != null && rendered instanceof BufferedImage) {
+				raster = ((BufferedImage) rendered).getRaster();
+			}
+		}
+
+		if (raster != null) {
 
 			MatlabOutputStream out = new MatlabOutputStream((ImageOutputStream) super.output);
-			Raster raster = image.getRaster();
 
 			assert(raster != null);
 
