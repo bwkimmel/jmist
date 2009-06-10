@@ -83,17 +83,17 @@ public abstract class IntersectionDecorator implements Intersection {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SurfacePoint#microfacetBasis()
+	 * @see ca.eandb.jmist.framework.SurfacePoint#shadingBasis()
 	 */
-	public Basis3 microfacetBasis() {
-		return this.inner.microfacetBasis();
+	public Basis3 shadingBasis() {
+		return this.inner.shadingBasis();
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SurfacePoint#microfacetNormal()
+	 * @see ca.eandb.jmist.framework.SurfacePoint#shadingNormal()
 	 */
-	public Vector3 microfacetNormal() {
-		return this.inner.microfacetNormal();
+	public Vector3 shadingNormal() {
+		return this.inner.shadingNormal();
 	}
 
 	/* (non-Javadoc)

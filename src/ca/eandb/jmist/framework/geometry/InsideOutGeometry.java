@@ -116,19 +116,19 @@ public final class InsideOutGeometry extends AbstractGeometry {
 			}
 
 			/* (non-Javadoc)
-			 * @see ca.eandb.jmist.framework.IntersectionDecorator#microfacetBasis()
+			 * @see ca.eandb.jmist.framework.IntersectionDecorator#shadingBasis()
 			 */
 			@Override
-			public Basis3 microfacetBasis() {
-				return this.inner.microfacetBasis().opposite();
+			public Basis3 shadingBasis() {
+				return this.inner.shadingBasis().opposite();
 			}
 
 			/* (non-Javadoc)
-			 * @see ca.eandb.jmist.framework.IntersectionDecorator#microfacetNormal()
+			 * @see ca.eandb.jmist.framework.IntersectionDecorator#shadingNormal()
 			 */
 			@Override
-			public Vector3 microfacetNormal() {
-				return this.inner.microfacetNormal().opposite();
+			public Vector3 shadingNormal() {
+				return this.inner.shadingNormal().opposite();
 			}
 
 			/* (non-Javadoc)

@@ -47,7 +47,7 @@ public final class CookTorranceMaterial extends AbstractMaterial {
 		Vector3		E = x.incident().opposite();
 		Vector3		L = out;
 		Vector3		H = E.plus(E).times(0.5).unit();
-		Vector3		N = x.microfacetNormal();
+		Vector3		N = x.shadingNormal();
 		double		HdotN = H.dot(N);
 		double		EdotH = E.dot(H);
 		double		EdotN = E.dot(N);

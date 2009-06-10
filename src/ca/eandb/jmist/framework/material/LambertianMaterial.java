@@ -61,7 +61,7 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 			return ColorModel.getInstance().getBlack();
 		}
 
-		double ndotv = x.microfacetNormal().dot(out);
+		double ndotv = x.shadingNormal().dot(out);
 		return ndotv > 0.0 ? emittance.getColor(x).times(ndotv) : ColorModel.getInstance().getBlack();
 
 	}
@@ -75,7 +75,7 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 		if (this.emittance != null) {
 
 			SphericalCoordinates out = RandomUtil.uniformOnUpperHemisphere();
-			Ray3 ray = new Ray3(x.location(), out.toCartesian(x.microfacetBasis()));
+			Ray3 ray = new Ray3(x.location(), out.toCartesian(x.shadingBasis()));
 
 			if (x.normal().dot(ray.direction()) > 0.0) {
 				recorder.record(ScatterResult.diffuse(ray, emittance.getColor(x)));
@@ -94,7 +94,7 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 		if (this.reflectance != null) {
 
 			SphericalCoordinates out = RandomUtil.diffuse();
-			Ray3 ray = new Ray3(x.location(), out.toCartesian(x.microfacetBasis()));
+			Ray3 ray = new Ray3(x.location(), out.toCartesian(x.shadingBasis()));
 
 			if (ray.direction().dot(x.normal()) > 0.0) {
 				recorder.record(ScatterResult.diffuse(ray, reflectance.getColor(x)));

@@ -139,7 +139,7 @@ public final class Photometer {
 			return Medium.VACUUM;
 		}
 
-		public Vector3 microfacetNormal() {
+		public Vector3 shadingNormal() {
 			return Vector3.K;
 		}
 
@@ -171,7 +171,7 @@ public final class Photometer {
 			return Basis3.STANDARD;
 		}
 
-		public Basis3 microfacetBasis() {
+		public Basis3 shadingBasis() {
 			return Basis3.STANDARD;
 		}
 

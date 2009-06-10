@@ -183,25 +183,25 @@ public final class TransformableGeometry extends CompositeGeometry implements
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.IntersectionDecorator#microfacetBasis()
+		 * @see ca.eandb.jmist.framework.IntersectionDecorator#shadingBasis()
 		 */
 		@Override
-		public Basis3 microfacetBasis() {
-			Basis3 localMicrofacetBasis = this.inner.microfacetBasis();
+		public Basis3 shadingBasis() {
+			Basis3 localShadingBasis = this.inner.shadingBasis();
 			return Basis3.fromUV(
-					model.apply(localMicrofacetBasis.u()),
-					model.apply(localMicrofacetBasis.v()),
-					localMicrofacetBasis.orientation()
+					model.apply(localShadingBasis.u()),
+					model.apply(localShadingBasis.v()),
+					localShadingBasis.orientation()
 			);
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.IntersectionDecorator#microfacetNormal()
+		 * @see ca.eandb.jmist.framework.IntersectionDecorator#shadingNormal()
 		 */
 		@Override
-		public Vector3 microfacetNormal() {
+		public Vector3 shadingNormal() {
 			// TODO implement this directly for better performance.
-			return this.microfacetBasis().w();
+			return this.shadingBasis().w();
 		}
 
 		/* (non-Javadoc)

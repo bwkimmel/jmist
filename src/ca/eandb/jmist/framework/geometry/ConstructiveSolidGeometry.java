@@ -229,20 +229,20 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 			}
 
 			/* (non-Javadoc)
-			 * @see ca.eandb.jmist.framework.IntersectionDecorator#microfacetBasis()
+			 * @see ca.eandb.jmist.framework.IntersectionDecorator#shadingBasis()
 			 */
 			@Override
-			public Basis3 microfacetBasis() {
-				Basis3 basis = this.inner.microfacetBasis();
+			public Basis3 shadingBasis() {
+				Basis3 basis = this.inner.shadingBasis();
 				return this.flipped ? basis.opposite() : basis;
 			}
 
 			/* (non-Javadoc)
-			 * @see ca.eandb.jmist.framework.IntersectionDecorator#microfacetNormal()
+			 * @see ca.eandb.jmist.framework.IntersectionDecorator#shadingNormal()
 			 */
 			@Override
-			public Vector3 microfacetNormal() {
-				Vector3 n = this.inner.microfacetNormal();
+			public Vector3 shadingNormal() {
+				Vector3 n = this.inner.shadingNormal();
 				return this.flipped ? n.opposite() : n;
 			}
 

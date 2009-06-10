@@ -125,16 +125,16 @@ public abstract class AbstractGeometry implements Geometry {
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.SurfacePoint#microfacetBasis()
+		 * @see ca.eandb.jmist.framework.SurfacePoint#shadingBasis()
 		 */
-		public Basis3 microfacetBasis() {
+		public Basis3 shadingBasis() {
 			return this.basis();
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.SurfacePoint#microfacetNormal()
+		 * @see ca.eandb.jmist.framework.SurfacePoint#shadingNormal()
 		 */
-		public Vector3 microfacetNormal() {
+		public Vector3 shadingNormal() {
 			return this.normal();
 		}
 

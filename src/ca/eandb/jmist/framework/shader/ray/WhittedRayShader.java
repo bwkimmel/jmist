@@ -118,7 +118,7 @@ public final class WhittedRayShader implements RayShader {
 		@Override
 		public void illuminate(Vector3 from, Color radiance) {
 			Material material = x.material();
-			Vector3 normal = x.microfacetNormal();
+			Vector3 normal = x.shadingNormal();
 			double ndotv = from.dot(normal);
 			if (ndotv > 0.0) {
 				Color brdf = material.scattering(x, from);

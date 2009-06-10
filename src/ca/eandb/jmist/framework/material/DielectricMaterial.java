@@ -63,7 +63,7 @@ public class DielectricMaterial extends AbstractMaterial {
 		Color		n1			= x.ambientMedium().refractiveIndex(p);
 		Color		k1			= x.ambientMedium().extinctionIndex(p);
 		Vector3		in			= x.incident();
-		Vector3		normal		= x.microfacetNormal();
+		Vector3		normal		= x.shadingNormal();
 		boolean		fromSide	= x.normal().dot(in) < 0.0;
 		Color		R			= Optics.reflectance(in, normal, n1, k1, refractiveIndex, null);
 		Color		T			= cm.getWhite().minus(R);
