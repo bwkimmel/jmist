@@ -21,7 +21,7 @@ import ca.eandb.jmist.math.Vector3;
  * @author Brad
  *
  */
-public final class PathShader2 implements RayShader {
+public final class PathShader implements RayShader {
 
 	private final RayCaster caster;
 
@@ -31,7 +31,7 @@ public final class PathShader2 implements RayShader {
 	 * @param caster
 	 * @param light
 	 */
-	public PathShader2(RayCaster caster, Light light) {
+	public PathShader(RayCaster caster, Light light) {
 		this.caster = caster;
 		this.light = light;
 	}
