@@ -108,9 +108,9 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scattering(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.math.Vector3)
 	 */
 	@Override
-	public Color scattering(Intersection x, Vector3 out) {
+	public Color scattering(Intersection x, Vector3 in) {
 
-		boolean toFront = (x.normal().dot(out) > 0.0);
+		boolean toFront = (x.normal().dot(in) > 0.0);
 
 		if (this.reflectance != null && x.front() == toFront) {
 			return reflectance.getColor(x);

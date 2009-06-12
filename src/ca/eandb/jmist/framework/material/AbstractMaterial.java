@@ -53,7 +53,7 @@ public abstract class AbstractMaterial implements Material {
 	 * @see ca.eandb.jmist.framework.Material#scattering(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.math.Vector3)
 	 */
 	@Override
-	public Color scattering(Intersection x, Vector3 out) {
+	public Color scattering(Intersection x, Vector3 in) {
 		return ColorModel.getInstance().getBlack();
 	}
 

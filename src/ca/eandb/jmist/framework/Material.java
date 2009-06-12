@@ -15,7 +15,7 @@ import ca.eandb.jmist.math.Vector3;
  */
 public interface Material extends Medium {
 
-	Color scattering(Intersection x, Vector3 out);
+	Color scattering(Intersection x, Vector3 in);
 	Color emission(SurfacePoint x, Vector3 out);
 
 	boolean isEmissive();

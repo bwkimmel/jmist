@@ -43,9 +43,9 @@ public final class CookTorranceMaterial extends AbstractMaterial {
 	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scattering(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.math.Vector3)
 	 */
 	@Override
-	public Color scattering(Intersection x, Vector3 out) {
+	public Color scattering(Intersection x, Vector3 in) {
 		Vector3		E = x.incident().opposite();
-		Vector3		L = out;
+		Vector3		L = in;
 		Vector3		H = E.plus(E).times(0.5).unit();
 		Vector3		N = x.shadingNormal();
 		double		HdotN = H.dot(N);
