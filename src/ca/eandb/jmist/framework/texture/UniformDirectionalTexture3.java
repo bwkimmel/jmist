@@ -46,7 +46,7 @@ public final class UniformDirectionalTexture3 implements DirectionalTexture3 {
 	 * @param color The <code>Color</code> assigned to this
 	 * 		<code>UniformDirectionalTexture3</code>.
 	 */
-	private UniformDirectionalTexture3(Color color) {
+	public UniformDirectionalTexture3(Color color) {
 		this.color = color;
 	}
 
