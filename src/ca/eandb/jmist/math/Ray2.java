@@ -39,6 +39,16 @@ public final class Ray2 implements Serializable {
 	}
 
 	/**
+	 * Gets a parallel <code>Ray2</code> with the origin <code>t</code> units
+	 * along this <code>Ray2</code>.
+	 * @param t The number of units along the ray to advance.
+	 * @return The new <code>Ray2</code>.
+	 */
+	public Ray2 advance(double t) {
+		return new Ray2(pointAt(t), direction);
+	}
+
+	/**
 	 * Gets the point that is t units along the ray.
 	 * @param t The number of units along the ray to find the point of.
 	 * @return The point that is t units along the ray.
