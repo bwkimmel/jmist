@@ -4,9 +4,8 @@
 package ca.eandb.jmist.framework.light;
 
 import ca.eandb.jmist.framework.DirectionalTexture3;
-import ca.eandb.jmist.framework.Illuminable;
+import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.Light;
-import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.VisibilityFunction3;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
@@ -142,25 +141,31 @@ public final class DayLight implements Light, DirectionalTexture3 {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.VisibilityFunction3, ca.eandb.jmist.framework.Illuminable)
+	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.framework.VisibilityFunction3)
 	 */
-	public void illuminate(SurfacePoint x, VisibilityFunction3 vf,
-			Illuminable target) {
+	public Color illuminate(Intersection x, VisibilityFunction3 vf) {
 
 		Vector3	source = RandomUtil.uniformOnUpperHemisphere().toCartesian(Basis3.fromW(zenith));
 		Ray3	ray = new Ray3(x.location(), source);
 
 		if (source.dot(x.normal()) > 0.0 && (!shadows || vf.visibility(ray, Interval.POSITIVE))) {
-			target.illuminate(source, ColorModel.getInstance().fromSpectrum(new SkyRadianceSpectrum(source)));
+			double sdotn = source.dot(x.shadingNormal());
+			Color bsdf = x.material().scattering(x, source);
+			Color radiance = ColorModel.getInstance().fromSpectrum(new SkyRadianceSpectrum(source));
+			return radiance.times(bsdf).times(sdotn);
 		}
 
 		if (daytime && sun.dot(x.normal()) > 0.0) {
 			ray = new Ray3(x.location(), sun);
 
 			if (!shadows || vf.visibility(ray, Interval.POSITIVE)) {
-				target.illuminate(sun, this.solarRadiance);
+				double sdotn = sun.dot(x.shadingNormal());
+				Color bsdf = x.material().scattering(x, sun);
+				return solarRadiance.times(bsdf).times(sdotn);
 			}
 		}
+
+		return ColorModel.getInstance().getBlack();
 
 	}
 /*

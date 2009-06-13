@@ -16,7 +16,7 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
 
 	/**
 	 * Creates a new <code>NearestIntersectionRecorder</code> that records
-	 * <code>Intersection</code>s with a non-negligible positive distance.
+	 * <code>IntersectionGeometry</code>s with a non-negligible positive distance.
 	 */
 	public NearestIntersectionRecorder() {
 		this.interval = new Interval(MathUtil.EPSILON, Double.POSITIVE_INFINITY);
@@ -24,7 +24,7 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
 
 	/**
 	 * Creates a new <code>NearestIntersectionRecorder</code> that records
-	 * <code>Intersection</code>s with a distance greater than that specified.
+	 * <code>IntersectionGeometry</code>s with a distance greater than that specified.
 	 * @param epsilon The minimum distance to accept.
 	 */
 	public NearestIntersectionRecorder(double epsilon) {
@@ -33,9 +33,9 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
 
 	/**
 	 * Creates a new <code>NearestIntersectionRecorder</code> that records
-	 * <code>Intersection</code>s within the specified <code>Interval</code>.
+	 * <code>IntersectionGeometry</code>s within the specified <code>Interval</code>.
 	 * @param interval The <code>Interval</code> within which to accept
-	 * 		<code>Intersection</code>s.
+	 * 		<code>IntersectionGeometry</code>s.
 	 */
 	public NearestIntersectionRecorder(Interval interval) {
 		this.interval = interval;
@@ -56,9 +56,9 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.IntersectionRecorder#record(ca.eandb.jmist.framework.Intersection)
+	 * @see ca.eandb.jmist.framework.IntersectionRecorder#record(ca.eandb.jmist.framework.IntersectionGeometry)
 	 */
-	public void record(Intersection intersection) {
+	public void record(IntersectionGeometry intersection) {
 		if (this.interval().contains(intersection.distance())) {
 			if (this.nearest == null || intersection.distance() < this.nearest.distance()) {
 				this.nearest = intersection;
@@ -78,7 +78,7 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
 	 * been recorded.
 	 * @return The nearest intersection that has been recorded.
 	 */
-	public Intersection nearestIntersection() {
+	public IntersectionGeometry nearestIntersection() {
 		return this.nearest;
 	}
 
@@ -88,21 +88,21 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
 	 * @param ray The <code>Ray3</code> to intersect with.
 	 * @param geometry The <code>Geometry</code> to test for an intersection
 	 * 		with.
-	 * @return The nearest <code>Intersection</code>, or <code>null</code> if
+	 * @return The nearest <code>IntersectionGeometry</code>, or <code>null</code> if
 	 * 		none exists.
 	 */
-	public static Intersection computeNearestIntersection(Ray3 ray, Geometry geometry) {
+	public static IntersectionGeometry computeNearestIntersection(Ray3 ray, Geometry geometry) {
 		NearestIntersectionRecorder recorder = new NearestIntersectionRecorder();
 		geometry.intersect(ray, recorder);
 		return recorder.nearestIntersection();
 	}
 
 	/** The nearest intersection that has been recorded so far. */
-	private Intersection nearest = null;
+	private IntersectionGeometry nearest = null;
 
 	/**
 	 * The <code>Interval</code> within which to accept
-	 * <code>Intersection</code>s.
+	 * <code>IntersectionGeometry</code>s.
 	 */
 	private final Interval interval;
 

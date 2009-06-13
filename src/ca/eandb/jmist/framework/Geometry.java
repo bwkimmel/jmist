@@ -17,4 +17,22 @@ public interface Geometry extends Bounded3, VisibilityFunction3, PartialBoundabl
 //
 	boolean isClosed();
 
+	/**
+	 * Computes the surface area of this geometry (optional operation).
+	 * @return The surface area of this geometry.
+	 * @throws UnsupportedOperationException If the operation is not
+	 * 		supported by this <code>Geometry</code>.
+	 */
+	double getSurfaceArea();
+
+	/**
+	 * Generates a <code>SurfacePointGeometry</code> randomly that is uniformly
+	 * distributed over the surface of this <code>Geometry</code> (optional
+	 * operation).
+	 * @return The randomly generated <code>SurfacePointGeometry</code>.
+	 * @throws UnsupportedOperationException If the operation is not supported
+	 * 		by this <code>Geometry</code>.
+	 */
+	SurfacePointGeometry generateRandomSurfacePoint();
+
 }

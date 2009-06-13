@@ -36,7 +36,7 @@ import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
 
 import ca.eandb.jmist.framework.Painter;
-import ca.eandb.jmist.framework.SurfacePoint;
+import ca.eandb.jmist.framework.SurfacePointGeometry;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.math.Point2;
@@ -79,10 +79,10 @@ public final class TexturePainter implements Painter {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Painter#getColor(ca.eandb.jmist.framework.SurfacePoint)
+	 * @see ca.eandb.jmist.framework.Painter#getColor(ca.eandb.jmist.framework.SurfacePointGeometry)
 	 */
 	@Override
-	public Color getColor(SurfacePoint p) {
+	public Color getColor(SurfacePointGeometry p) {
 		Point2 uv = p.textureCoordinates();
 		int x = (int) Math.floor(uv.x() * texture.getWidth());
 		int y = (int) Math.floor(uv.y() * texture.getHeight());

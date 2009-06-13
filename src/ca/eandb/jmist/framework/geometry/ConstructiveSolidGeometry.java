@@ -10,8 +10,8 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import ca.eandb.jmist.framework.Geometry;
-import ca.eandb.jmist.framework.Intersection;
-import ca.eandb.jmist.framework.IntersectionDecorator;
+import ca.eandb.jmist.framework.IntersectionGeometry;
+import ca.eandb.jmist.framework.IntersectionGeometryDecorator;
 import ca.eandb.jmist.framework.IntersectionRecorder;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Interval;
@@ -108,9 +108,9 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.IntersectionRecorderDecorator#record(ca.eandb.jmist.framework.Intersection)
+		 * @see ca.eandb.jmist.framework.IntersectionRecorderDecorator#record(ca.eandb.jmist.framework.IntersectionGeometry)
 		 */
-		public void record(Intersection intersection) {
+		public void record(IntersectionGeometry intersection) {
 			this.intersectionSet.add(new CsgIntersection(this.argumentIndex, intersection));
 		}
 
@@ -133,7 +133,7 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 			while (i.hasNext()) {
 
 				CsgIntersection			x				= i.next();
-				Intersection			inner			= x.getInnerIntersection();
+				IntersectionGeometry			inner			= x.getInnerIntersection();
 
 				assert(x.getArgumentIndex() < nArgs);
 
@@ -184,27 +184,27 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 		}
 
 		/**
-		 * An <code>Intersection</code> decorator that adds functionality
+		 * An <code>IntersectionGeometry</code> decorator that adds functionality
 		 * needed to support constructive solid geometry.  This decorator
 		 * keeps track of which child geometry the intersection is for, and it
-		 * can be flipped, which toggles the {@link Intersection#front()}
+		 * can be flipped, which toggles the {@link IntersectionGeometry#front()}
 		 * property and negates the basis and normal.
 		 * @author Brad Kimmel
 		 */
-		private final class CsgIntersection extends IntersectionDecorator {
+		private final class CsgIntersection extends IntersectionGeometryDecorator {
 
 			/**
 			 * Creates a new <code>CsgIntersection</code>.
 			 * @param argumentIndex The
 			 * @param inner
 			 */
-			public CsgIntersection(int argumentIndex, Intersection inner) {
+			public CsgIntersection(int argumentIndex, IntersectionGeometry inner) {
 				super(inner);
 				this.argumentIndex = argumentIndex;
 			}
 
 			/* (non-Javadoc)
-			 * @see ca.eandb.jmist.framework.IntersectionDecorator#front()
+			 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#front()
 			 */
 			@Override
 			public boolean front() {
@@ -212,7 +212,7 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 			}
 
 			/* (non-Javadoc)
-			 * @see ca.eandb.jmist.framework.IntersectionDecorator#basis()
+			 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#basis()
 			 */
 			@Override
 			public Basis3 basis() {
@@ -221,7 +221,7 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 			}
 
 			/* (non-Javadoc)
-			 * @see ca.eandb.jmist.framework.IntersectionDecorator#closed()
+			 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#closed()
 			 */
 			@Override
 			public boolean closed() {
@@ -229,7 +229,7 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 			}
 
 			/* (non-Javadoc)
-			 * @see ca.eandb.jmist.framework.IntersectionDecorator#shadingBasis()
+			 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#shadingBasis()
 			 */
 			@Override
 			public Basis3 shadingBasis() {
@@ -238,7 +238,7 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 			}
 
 			/* (non-Javadoc)
-			 * @see ca.eandb.jmist.framework.IntersectionDecorator#shadingNormal()
+			 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#shadingNormal()
 			 */
 			@Override
 			public Vector3 shadingNormal() {
@@ -247,7 +247,7 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 			}
 
 			/* (non-Javadoc)
-			 * @see ca.eandb.jmist.framework.IntersectionDecorator#normal()
+			 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#normal()
 			 */
 			@Override
 			public Vector3 normal() {
@@ -256,7 +256,7 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 			}
 
 			/* (non-Javadoc)
-			 * @see ca.eandb.jmist.framework.IntersectionDecorator#tangent()
+			 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#tangent()
 			 */
 			@Override
 			public Vector3 tangent() {
@@ -265,21 +265,21 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 
 			/**
 			 * Gets the value identifying which of the component geometries
-			 * this <code>Intersection</code> came from.
+			 * this <code>IntersectionGeometry</code> came from.
 			 * @return The value identifying which of the component geometries
-			 * 		this <code>Intersection</code> came from.
+			 * 		this <code>IntersectionGeometry</code> came from.
 			 */
 			public int getArgumentIndex() {
 				return this.argumentIndex;
 			}
 
 			/**
-			 * Gets the <code>Intersection</code> that was recorded by the
+			 * Gets the <code>IntersectionGeometry</code> that was recorded by the
 			 * component geometry.
-			 * @return The <code>Intersection</code> that was recorded by the
+			 * @return The <code>IntersectionGeometry</code> that was recorded by the
 			 * 		component geometry.
 			 */
-			public Intersection getInnerIntersection() {
+			public IntersectionGeometry getInnerIntersection() {
 				return this.inner;
 			}
 
@@ -296,13 +296,13 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 
 			/**
 			 * A value indicating if this <code>CsgIntersection</code> was
-			 * flipped from the underlying <code>Intersection</code>.
+			 * flipped from the underlying <code>IntersectionGeometry</code>.
 			 */
 			private boolean flipped = false;
 
 			/**
 			 * A value indicating which component geometry the inner
-			 * <code>Intersection</code> came from.
+			 * <code>IntersectionGeometry</code> came from.
 			 */
 			private final int argumentIndex;
 
@@ -319,9 +319,9 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 		 * geometries, sorted by distance (least to greatest).
 		 */
 		private final SortedSet<CsgIntersection> intersectionSet = new TreeSet<CsgIntersection>(
-				new Comparator<Intersection>() {
+				new Comparator<IntersectionGeometry>() {
 
-					public int compare(Intersection arg0, Intersection arg1) {
+					public int compare(IntersectionGeometry arg0, IntersectionGeometry arg1) {
 						return Double.compare(arg0.distance(), arg1.distance());
 					}
 

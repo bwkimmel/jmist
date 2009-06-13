@@ -1,12 +1,13 @@
 /**
- * 
+ *
  */
 package ca.eandb.jmist.framework.light;
 
-import ca.eandb.jmist.framework.Illuminable;
+import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.Light;
-import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.VisibilityFunction3;
+import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.ColorModel;
 
 /**
  * @author Brad Kimmel
@@ -15,15 +16,14 @@ import ca.eandb.jmist.framework.VisibilityFunction3;
 public final class SimpleCompositeLight extends CompositeLight {
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.VisibilityFunction3, ca.eandb.jmist.framework.Illuminable)
+	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.framework.VisibilityFunction3)
 	 */
-	public void illuminate(SurfacePoint x, VisibilityFunction3 vf,
-			Illuminable target) {
-		
+	public Color illuminate(Intersection x, VisibilityFunction3 vf) {
+		Color sum = ColorModel.getInstance().getBlack();
 		for (Light light : this.children()) {
-			light.illuminate(x, vf, target);
+			sum = sum.plus(light.illuminate(x, vf));
 		}
-		
+		return sum;
 	}
 
 }

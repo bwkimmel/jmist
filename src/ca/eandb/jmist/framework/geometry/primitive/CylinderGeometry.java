@@ -3,14 +3,9 @@
  */
 package ca.eandb.jmist.framework.geometry.primitive;
 
-import java.io.Serializable;
-
-import ca.eandb.jmist.framework.Geometry;
-import ca.eandb.jmist.framework.Intersection;
+import ca.eandb.jmist.framework.IntersectionGeometry;
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.Material;
-import ca.eandb.jmist.framework.WeightedSurfacePoint;
-import ca.eandb.jmist.framework.geometry.SingleMaterialGeometry;
+import ca.eandb.jmist.framework.geometry.AbstractGeometry;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Interval;
@@ -27,30 +22,18 @@ import ca.eandb.jmist.math.Vector3;
  *
  * @author Brad Kimmel
  */
-public final class CylinderGeometry extends SingleMaterialGeometry implements
-		Geometry, Serializable {
+public final class CylinderGeometry extends AbstractGeometry {
 
 	/**
 	 * Initializes the dimensions of this cylinder.
 	 * @param base		the center of the base of the cylinder
 	 * @param radius	the radius of the cylinder
 	 * @param height	the height of the cylinder
-	 * @param material	the <code>Material</code> to apply to this
-	 * 					<code>CylinderGeometry</code>.
 	 */
-	public CylinderGeometry(Point3 base, double radius, double height, Material material) {
-		super(material);
+	public CylinderGeometry(Point3 base, double radius, double height) {
 		this.base = base;
 		this.radius = radius;
 		this.height = height;
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#generateRandomSurfacePoint()
-	 */
-	public WeightedSurfacePoint generateRandomSurfacePoint() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	/* (non-Javadoc)
@@ -72,7 +55,7 @@ public final class CylinderGeometry extends SingleMaterialGeometry implements
 
 			if (this.base.squaredDistanceTo(p) < this.radius * this.radius)
 			{
-				Intersection x = super.newIntersection(ray, t, (ray.direction().y() > 0.0), CYLINDER_SURFACE_BASE)
+				IntersectionGeometry x = super.newIntersection(ray, t, (ray.direction().y() > 0.0), CYLINDER_SURFACE_BASE)
 					.setLocation(p);
 
 				recorder.record(x);
@@ -89,7 +72,7 @@ public final class CylinderGeometry extends SingleMaterialGeometry implements
 
 			if (r < this.radius * this.radius)
 			{
-				Intersection x = super.newIntersection(ray, t, (ray.direction().y() < 0.0), CYLINDER_SURFACE_TOP)
+				IntersectionGeometry x = super.newIntersection(ray, t, (ray.direction().y() < 0.0), CYLINDER_SURFACE_TOP)
 					.setLocation(p);
 
 				recorder.record(x);
@@ -113,7 +96,7 @@ public final class CylinderGeometry extends SingleMaterialGeometry implements
 			p = ray.pointAt(x[0]);
 			if (MathUtil.inRangeOO(p.y(), this.base.y(), this.base.y() + this.height))
 			{
-				Intersection isect = super.newIntersection(ray, x[0], (x[0] < x[1]), CYLINDER_SURFACE_BODY)
+				IntersectionGeometry isect = super.newIntersection(ray, x[0], (x[0] < x[1]), CYLINDER_SURFACE_BODY)
 					.setLocation(p);
 
 				recorder.record(isect);
@@ -122,7 +105,7 @@ public final class CylinderGeometry extends SingleMaterialGeometry implements
 			p = ray.pointAt(x[1]);
 			if (MathUtil.inRangeOO(p.y(), this.base.y(), this.base.y() + this.height))
 			{
-				Intersection isect = super.newIntersection(ray, x[1], (x[0] > x[1]), CYLINDER_SURFACE_BODY)
+				IntersectionGeometry isect = super.newIntersection(ray, x[1], (x[0] > x[1]), CYLINDER_SURFACE_BODY)
 					.setLocation(p);
 
 				recorder.record(isect);

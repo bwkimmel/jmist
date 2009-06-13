@@ -7,16 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.eandb.jmist.framework.BoundingBoxBuilder2;
-import ca.eandb.jmist.framework.Illuminable;
-import ca.eandb.jmist.framework.Intersection;
+import ca.eandb.jmist.framework.IntersectionGeometry;
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.Random;
-import ca.eandb.jmist.framework.SurfacePoint;
-import ca.eandb.jmist.framework.VisibilityFunction3;
-import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.framework.geometry.SingleMaterialGeometry;
+import ca.eandb.jmist.framework.geometry.AbstractGeometry;
 import ca.eandb.jmist.framework.random.SimpleRandom;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box2;
@@ -34,13 +29,12 @@ import ca.eandb.jmist.util.ArrayUtil;
  * @author Brad Kimmel
  *
  */
-public final class PolygonGeometry extends SingleMaterialGeometry implements Light {
+public final class PolygonGeometry extends AbstractGeometry {
 
 	/**
 	 * @param material
 	 */
 	public PolygonGeometry(Point3[] vertices, int[][] components, Material material) {
-		super(material);
 
 		if (vertices.length < 3) {
 			throw new IllegalArgumentException("vertices.length < 3");
@@ -226,7 +220,7 @@ public final class PolygonGeometry extends SingleMaterialGeometry implements Lig
 		double			ndotv		= N.dot(ray.direction());
 		int				surfaceId	= (ndotv < 0.0) ? POLYGON_SURFACE_TOP : POLYGON_SURFACE_BOTTOM;
 
-		Intersection	x = super.newIntersection(ray, t, ndotv < 0.0, surfaceId)
+		IntersectionGeometry	x = super.newIntersection(ray, t, ndotv < 0.0, surfaceId)
 								.setLocation(p)
 								.setTextureCoordinates(inversion)
 								.setBasis((surfaceId == POLYGON_SURFACE_TOP) ? this.basis : this.basis.opposite())
@@ -257,24 +251,24 @@ public final class PolygonGeometry extends SingleMaterialGeometry implements Lig
 		return Sphere.smallestContaining(this.getVertices());
 	}
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.VisibilityFunction3, ca.eandb.jmist.framework.Illuminable)
-	 */
-	public void illuminate(SurfacePoint x, VisibilityFunction3 vf,
-			Illuminable target) {
-
-		if (categorical == null) {
-			double[] weights = new double[components.size()];
-			for (int i = 0; i < components.size(); i++) {
-				weights[i] = components.get(i).getArea();
-			}
-			categorical = new CategoricalRandom(weights);
-		}
-
-		Component component = this.components.get(categorical.next());
-		component.illuminate(x, vf, target);
-
-	}
+//	/* (non-Javadoc)
+//	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.SurfacePointGeometry, ca.eandb.jmist.framework.VisibilityFunction3, ca.eandb.jmist.framework.Illuminable)
+//	 */
+//	public void illuminate(SurfacePointGeometry x, VisibilityFunction3 vf,
+//			Illuminable target) {
+//
+//		if (categorical == null) {
+//			double[] weights = new double[components.size()];
+//			for (int i = 0; i < components.size(); i++) {
+//				weights[i] = components.get(i).getArea();
+//			}
+//			categorical = new CategoricalRandom(weights);
+//		}
+//
+//		Component component = this.components.get(categorical.next());
+//		component.illuminate(x, vf, target);
+//
+//	}
 
 	private Point3 pointAt(Point2 uv) {
 		return this.origin.plus(basis.u().times(uv.x())).plus(basis.v().times(uv.y()));
@@ -338,39 +332,38 @@ public final class PolygonGeometry extends SingleMaterialGeometry implements Lig
 			return area;
 		}
 
-		public void illuminate(SurfacePoint x, VisibilityFunction3 vf,
-				Illuminable target) {
-
-			Point2 uv;
-			do {
-				uv = bound.interpolate(random.next(), random.next());
-			} while (!PolygonGeometry.this.inside(uv, this));
-
-			Point3 p = PolygonGeometry.this.pointAt(uv);
-
-			if (vf.visibility(p, x.location())) {
-
-				// FIXME Select from appropriate side when two-sided.
-				Intersection sp = PolygonGeometry.super.newIntersection(null, 0.0, true, POLYGON_SURFACE_TOP)
-					.setLocation(p)
-					.setTextureCoordinates(uv)
-					.setNormal(PolygonGeometry.this.plane.normal());
-
-				/* Compute the attenuation according to distance. */
-				Vector3 from = x.location().vectorTo(p);
-				double r = from.length();
-				double attenuation = PolygonGeometry.this.area / (4.0 * Math.PI * r * r);
-				from = from.divide(r);
-
-				/* Sample the material radiance. */
-				Color radiance = sp.material().emission(sp, from.opposite());
-
-				/* Illuminate the point. */
-				target.illuminate(from, radiance.times(attenuation));
-
-			}
-
-		}
+//		public Color illuminate(Intersection x, VisibilityFunction3 vf) {
+//
+//			Point2 uv;
+//			do {
+//				uv = bound.interpolate(random.next(), random.next());
+//			} while (!PolygonGeometry.this.inside(uv, this));
+//
+//			Point3 p = PolygonGeometry.this.pointAt(uv);
+//
+//			if (vf.visibility(p, x.location())) {
+//
+//				// FIXME Select from appropriate side when two-sided.
+//				IntersectionGeometry sp = PolygonGeometry.super.newIntersection(null, 0.0, true, POLYGON_SURFACE_TOP)
+//					.setLocation(p)
+//					.setTextureCoordinates(uv)
+//					.setNormal(PolygonGeometry.this.plane.normal());
+//
+//				/* Compute the attenuation according to distance. */
+//				Vector3 from = x.location().vectorTo(p);
+//				double r = from.length();
+//				double attenuation = PolygonGeometry.this.area / (4.0 * Math.PI * r * r);
+//				from = from.divide(r);
+//
+//				/* Sample the material radiance. */
+//				Color radiance = sp.material().emission(sp, from.opposite());
+//
+//				/* Illuminate the point. */
+//				target.illuminate(from, radiance.times(attenuation));
+//
+//			}
+//
+//		}
 
 		private final Box2 bound;
 		private final int[] indices;

@@ -4,8 +4,7 @@
 package ca.eandb.jmist.framework.geometry.primitive;
 
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.Material;
-import ca.eandb.jmist.framework.geometry.SingleMaterialGeometry;
+import ca.eandb.jmist.framework.geometry.AbstractGeometry;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Interval;
@@ -20,15 +19,14 @@ import ca.eandb.jmist.math.Vector3;
  * A spherical <code>Geometry</code>.
  * @author Brad Kimmel
  */
-public final class SphereGeometry extends SingleMaterialGeometry {
+public final class SphereGeometry extends AbstractGeometry {
 
 	/**
 	 * Creates a new <code>SphereGeometry</code>.
 	 * @param sphere The <code>Sphere</code> describing to be rendered.
 	 * @param material The <code>Material</code> to apply to the sphere.
 	 */
-	public SphereGeometry(Sphere sphere, Material material) {
-		super(material);
+	public SphereGeometry(Sphere sphere) {
 		this.sphere = sphere;
 	}
 
@@ -36,10 +34,8 @@ public final class SphereGeometry extends SingleMaterialGeometry {
 	 * Creates a new <code>SphereGeometry</code>.
 	 * @param center The <code>Point3</code> at the center of the sphere.
 	 * @param radius The radius of the sphere.
-	 * @param material The <code>Material</code> to apply to the sphere.
 	 */
-	public SphereGeometry(Point3 center, double radius, Material material) {
-		super(material);
+	public SphereGeometry(Point3 center, double radius) {
 		this.sphere = new Sphere(center, radius);
 	}
 

@@ -4,10 +4,11 @@
 package ca.eandb.jmist.framework.light;
 
 import ca.eandb.jmist.framework.DirectionalTexture3;
-import ca.eandb.jmist.framework.Illuminable;
+import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.Light;
-import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.VisibilityFunction3;
+import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.math.RandomUtil;
@@ -61,18 +62,21 @@ public final class HemisphericalLight implements Light {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.VisibilityFunction3, ca.eandb.jmist.framework.Illuminable)
+	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.framework.VisibilityFunction3)
 	 */
 	@Override
-	public void illuminate(SurfacePoint x, VisibilityFunction3 vf,
-			Illuminable target) {
+	public Color illuminate(Intersection x, VisibilityFunction3 vf) {
 
 		Vector3	source = RandomUtil.uniformOnUpperHemisphere().toCartesian(Basis3.fromW(zenith));
 		Ray3	ray = new Ray3(x.location(), source);
 
 		if (source.dot(x.normal()) > 0.0 && (!shadows || vf.visibility(ray, Interval.POSITIVE))) {
-			target.illuminate(source, environment.evaluate(source));
+			double sdotn = source.dot(x.shadingNormal());
+			Color bsdf = x.material().scattering(x, source);
+			return environment.evaluate(source).times(bsdf).times(sdotn);
 		}
+
+		return ColorModel.getInstance().getBlack();
 
 	}
 

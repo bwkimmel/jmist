@@ -4,10 +4,9 @@
 package ca.eandb.jmist.framework.geometry;
 
 import ca.eandb.jmist.framework.Geometry;
-import ca.eandb.jmist.framework.Intersection;
-import ca.eandb.jmist.framework.Material;
-import ca.eandb.jmist.framework.Medium;
+import ca.eandb.jmist.framework.IntersectionGeometry;
 import ca.eandb.jmist.framework.NearestIntersectionRecorder;
+import ca.eandb.jmist.framework.SurfacePointGeometry;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Interval;
@@ -27,7 +26,7 @@ public abstract class AbstractGeometry implements Geometry {
 	 * @author Brad Kimmel
 	 *
 	 */
-	protected static class GeometryIntersection implements Intersection {
+	protected static class GeometryIntersection implements IntersectionGeometry {
 
 		/**
 		 * @param geometry
@@ -35,16 +34,14 @@ public abstract class AbstractGeometry implements Geometry {
 		 * @param distance
 		 * @param front
 		 * @param surfaceId
-		 * @param material
 		 */
 		private GeometryIntersection(AbstractGeometry geometry, Ray3 ray,
-				double distance, boolean front, int surfaceId, Material material) {
+				double distance, boolean front, int surfaceId) {
 			this.geometry = geometry;
 			this.ray = ray;
 			this.distance = distance;
 			this.front = front;
 			this.surfaceId = surfaceId;
-			this.material = material;
 		}
 
 		public int surfaceId() {
@@ -52,35 +49,28 @@ public abstract class AbstractGeometry implements Geometry {
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.Intersection#distance()
+		 * @see ca.eandb.jmist.framework.IntersectionGeometry#distance()
 		 */
 		public double distance() {
 			return this.distance;
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.Intersection#front()
+		 * @see ca.eandb.jmist.framework.IntersectionGeometry#front()
 		 */
 		public boolean front() {
 			return this.front;
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.Intersection#incident()
+		 * @see ca.eandb.jmist.framework.IntersectionGeometry#incident()
 		 */
 		public Vector3 incident() {
 			return this.ray.direction();
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.SurfacePoint#ambientMedium()
-		 */
-		public Medium ambientMedium() {
-			return Medium.VACUUM;
-		}
-
-		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.SurfacePoint#basis()
+		 * @see ca.eandb.jmist.framework.SurfacePointGeometry#basis()
 		 */
 		public Basis3 basis() {
 			if (this.basis == null) {
@@ -97,7 +87,7 @@ public abstract class AbstractGeometry implements Geometry {
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.SurfacePoint#location()
+		 * @see ca.eandb.jmist.framework.SurfacePointGeometry#location()
 		 */
 		public Point3 location() {
 			if (this.location == null) {
@@ -113,33 +103,21 @@ public abstract class AbstractGeometry implements Geometry {
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.SurfacePoint#material()
-		 */
-		public Material material() {
-			return this.material;
-		}
-
-		public GeometryIntersection setMaterial(Material material) {
-			this.material = material;
-			return this;
-		}
-
-		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.SurfacePoint#shadingBasis()
+		 * @see ca.eandb.jmist.framework.SurfacePointGeometry#shadingBasis()
 		 */
 		public Basis3 shadingBasis() {
 			return this.basis();
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.SurfacePoint#shadingNormal()
+		 * @see ca.eandb.jmist.framework.SurfacePointGeometry#shadingNormal()
 		 */
 		public Vector3 shadingNormal() {
 			return this.normal();
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.SurfacePoint#normal()
+		 * @see ca.eandb.jmist.framework.SurfacePointGeometry#normal()
 		 */
 		public Vector3 normal() {
 			if (this.normal == null) {
@@ -155,14 +133,14 @@ public abstract class AbstractGeometry implements Geometry {
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.SurfacePoint#tangent()
+		 * @see ca.eandb.jmist.framework.SurfacePointGeometry#tangent()
 		 */
 		public Vector3 tangent() {
 			return this.basis().u();
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.SurfacePoint#textureCoordinates()
+		 * @see ca.eandb.jmist.framework.SurfacePointGeometry#textureCoordinates()
 		 */
 		public Point2 textureCoordinates() {
 			if (this.textureCoordinates == null) {
@@ -178,7 +156,7 @@ public abstract class AbstractGeometry implements Geometry {
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.SurfacePoint#closed()
+		 * @see ca.eandb.jmist.framework.SurfacePointGeometry#closed()
 		 */
 		public boolean closed() {
 			return this.geometry.isClosed();
@@ -191,24 +169,23 @@ public abstract class AbstractGeometry implements Geometry {
 		private int					surfaceId;
 		private Point3				location				= null;
 		private Basis3				basis					= null;
-		private Material			material				= null;
 		private Vector3				normal					= null;
 		private Point2				textureCoordinates		= null;
 
 	}
 
 	protected final GeometryIntersection newIntersection(Ray3 ray,
-			double distance, boolean front, int surfaceId, Material material) {
+			double distance, boolean front, int surfaceId) {
 
 		return new GeometryIntersection(this, ray, distance,
-				front, surfaceId, material);
+				front, surfaceId);
 
 	}
 
 	protected final GeometryIntersection newIntersection(Ray3 ray,
-			double distance, boolean front, Material material) {
+			double distance, boolean front) {
 
-		return this.newIntersection(ray, distance, front, 0, material);
+		return this.newIntersection(ray, distance, front, 0);
 
 	}
 
@@ -237,6 +214,16 @@ public abstract class AbstractGeometry implements Geometry {
 
 	}
 
+	public boolean visibility(Ray3 ray) {
+
+		NearestIntersectionRecorder recorder = new NearestIntersectionRecorder();
+
+		this.intersect(ray, recorder);
+
+		return recorder.isEmpty();
+
+	}
+
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.VisibilityFunction3#visibility(ca.eandb.jmist.toolkit.Point3, ca.eandb.jmist.toolkit.Point3)
 	 */
@@ -259,6 +246,22 @@ public abstract class AbstractGeometry implements Geometry {
 	 */
 	public boolean surfaceMayIntersect(Box3 box) {
 		return this.boundingBox().intersects(box);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Geometry#generateRandomSurfacePoint()
+	 */
+	@Override
+	public SurfacePointGeometry generateRandomSurfacePoint() {
+		throw new UnsupportedOperationException();
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Geometry#getSurfaceArea()
+	 */
+	@Override
+	public double getSurfaceArea() {
+		throw new UnsupportedOperationException();
 	}
 
 }

@@ -36,7 +36,7 @@ import ca.eandb.jmist.math.Vector3;
 public final class PhotonMap {
 
 	/**	A compact array for storing photons */
-	private final CompactPhotonBuffer photons;
+	private final PhotonBuffer photons;
 
 	/**
 	 * The photons are stored in an array representing a balanced binary tree.
@@ -51,13 +51,13 @@ public final class PhotonMap {
 	 * The coordinates of the corner of the bounding box that is closest to the
 	 * origin.
 	 */
-	private final float[] bbox_min = { Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY };
+	private final double[] bbox_min = { Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY };
 
 	/**
 	 * The coordinates of the corner of the bounding box that is farthest from
 	 * the origin.
 	 */
-	private final float[] bbox_max = { Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY };
+	private final double[] bbox_max = { Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY };
 
 	/**
 	 * Creates a new photon map with the capacity to store a given number of
@@ -81,7 +81,7 @@ public final class PhotonMap {
 		float x = (float) position.x();
 		float y = (float) position.y();
 		float z = (float) position.z();
-		photons.store(x, y, z, (float) power, direction.toCompactDirection(),
+		photons.store(position, (float) power, direction,
 				(short) 0);
 		if (x > bbox_max[0]) bbox_max[0] = x;
 		if (y > bbox_max[1]) bbox_max[1] = y;
@@ -157,7 +157,7 @@ public final class PhotonMap {
 	 */
 	public double getIrradianceEstimate(Point3 position, Vector3 normal, double maxDistance, int numPhotons) {
 		NearestPhotons np = new NearestPhotons();
-		np.squaredDistance = new float[numPhotons + 1];
+		np.squaredDistance = new double[numPhotons + 1];
 		np.index = new int[numPhotons + 1];
 		np.x = (float) position.x();
 		np.y = (float) position.y();
@@ -182,7 +182,7 @@ public final class PhotonMap {
 			int index = np.index[i];
 			// the following check can be omitted (for speed) if the scene does
 			// not have any thin surfaces.
-			Vector3 pdir = Vector3.fromCompactDirection(photons.getDir(index));
+			Vector3 pdir = photons.getDir(index);
 			if (pdir.dot(normal) < 0.0) {
 				irrad += photons.getPower(index);
 			}
@@ -199,11 +199,11 @@ public final class PhotonMap {
 	 * @param index The index of the node whose subtree to search.
 	 */
 	private void locatePhotons(NearestPhotons np, int index) {
-		float dist1;
+		double dist1;
 
 		if (index < leafStart) {
 			short plane = photons.getPlane(index);
-			float pos = photons.getPosition(index, plane);
+			double pos = photons.getPosition(index, plane);
 			dist1 = np.getPosition(plane) - pos;
 
 			if (dist1 > 0.0) {	// if dist1 is positive search right plane
@@ -221,7 +221,7 @@ public final class PhotonMap {
 
 		// compute squared distance between current photon and position from np
 		dist1 = photons.getX(index) - np.x;
-		float dist2 = dist1 * dist1;
+		double dist2 = dist1 * dist1;
 		dist1 = photons.getY(index) - np.y;
 		dist2 += dist1 * dist1;
 		dist1 = photons.getZ(index) - np.z;
@@ -239,7 +239,7 @@ public final class PhotonMap {
 
 				if (!np.gotHeap) {	// do we need to build the heap?
 					// build heap
-					float dst2;
+					double dst2;
 					int phot;
 					int half_found = np.found / 2;
 					for (int k = half_found; k >= 1; k--) {
@@ -306,7 +306,7 @@ public final class PhotonMap {
 		int right = end;
 
 		while (right > left) {
-			float v = photons.getPosition(p[right], axis);
+			double v = photons.getPosition(p[right], axis);
 			int i = left - 1;
 			int j = right;
 			for (;;) {
@@ -390,7 +390,7 @@ public final class PhotonMap {
 		if (median > start) {
 			// balance left segment
 			if (start < median - 1) {
-				float tmp = bbox_max[axis];
+				double tmp = bbox_max[axis];
 				bbox_max[axis] = photons.getPosition(pbal[index], axis);
 				balanceSegment(pbal, porg, 2 * index, start, median - 1);
 				bbox_max[axis] = tmp;
@@ -402,7 +402,7 @@ public final class PhotonMap {
 		if (median < end) {
 			// balance right segment
 			if (median + 1 < end) {
-				float tmp = bbox_min[axis];
+				double tmp = bbox_min[axis];
 				bbox_min[axis] = photons.getPosition(pbal[index], axis);
 				balanceSegment(pbal, porg, 2 * index + 1, median + 1, end);
 				bbox_min[axis] = tmp;
@@ -420,11 +420,11 @@ public final class PhotonMap {
 		private int maximum;
 		private int found;
 		private boolean gotHeap;
-		private float x, y, z;
-		private float[] squaredDistance;
+		private double x, y, z;
+		private double[] squaredDistance;
 		private int[] index;
 
-		public float getPosition(int axis) {
+		public double getPosition(int axis) {
 			switch (axis) {
 			case 0: return x;
 			case 1: return y;

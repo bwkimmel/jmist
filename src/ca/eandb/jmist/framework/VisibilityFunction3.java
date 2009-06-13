@@ -23,6 +23,13 @@ public interface VisibilityFunction3 {
 	 */
 	boolean visibility(Ray3 ray, Interval I);
 
+	/**
+	 * Determines whether the given ray intersects
+	 * an object within the interval [0, infinity).
+	 * @param ray The ray with which to check for an intersection.
+	 * @return True if no intersection was found, false otherwise.
+	 */
+	boolean visibility(Ray3 ray);
 
 	/**
 	 * Determines whether the line segment between two

@@ -44,9 +44,9 @@ public abstract class IntersectionRecorderDecorator implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.IntersectionRecorder#record(ca.eandb.jmist.framework.Intersection)
+	 * @see ca.eandb.jmist.framework.IntersectionRecorder#record(ca.eandb.jmist.framework.IntersectionGeometry)
 	 */
-	public abstract void record(Intersection intersection);
+	public abstract void record(IntersectionGeometry intersection);
 
 	/** The decorated <code>IntersectionRecorder</code>. */
 	protected final IntersectionRecorder inner;

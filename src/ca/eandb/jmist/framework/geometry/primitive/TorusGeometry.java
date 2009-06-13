@@ -6,8 +6,7 @@ package ca.eandb.jmist.framework.geometry.primitive;
 import java.util.Arrays;
 
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.Material;
-import ca.eandb.jmist.framework.geometry.SingleMaterialGeometry;
+import ca.eandb.jmist.framework.geometry.AbstractGeometry;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Point2;
@@ -21,7 +20,7 @@ import ca.eandb.jmist.math.Vector3;
  * A torus primitive <code>Geometry</code>.
  * @author Brad Kimmel
  */
-public final class TorusGeometry extends SingleMaterialGeometry {
+public final class TorusGeometry extends AbstractGeometry {
 
 	/**
 	 * Creates a new <code>TorusGeometry</code>.
@@ -29,11 +28,8 @@ public final class TorusGeometry extends SingleMaterialGeometry {
 	 * 		center of the torus to a point in the center of the tube.
 	 * @param minor The minor radius of the torus (i.e., the radius of the
 	 * 		tube).
-	 * @param material The <code>Material</code> to apply to this
-	 * 		<code>TorusGeometry</code>.
 	 */
-	public TorusGeometry(double major, double minor, Material material) {
-		super(material);
+	public TorusGeometry(double major, double minor) {
 		this.major = major;
 		this.minor = minor;
 	}

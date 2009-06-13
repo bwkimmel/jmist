@@ -6,9 +6,8 @@ package ca.eandb.jmist.framework.geometry.primitive;
 import java.util.Arrays;
 
 import ca.eandb.jmist.framework.BoundingBoxBuilder3;
-import ca.eandb.jmist.framework.Intersection;
+import ca.eandb.jmist.framework.IntersectionGeometry;
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.geometry.AbstractGeometry;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
@@ -31,15 +30,14 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	 * @param faces An array of faces.  Each face is an array of indices into
 	 * 		the <code>vertices</code> array.  The front side of the face is the
 	 * 		side from which the vertices appear in counter-clockwise order.
-	 * @param material The material to apply to the polyhedron.
 	 */
-	public PolyhedronGeometry(Point3[] vertices, int[][] faces, Material material) {
+	public PolyhedronGeometry(Point3[] vertices, int[][] faces) {
 
 		this.vertices = vertices;
 		this.faces = new Face[faces.length];
 
 		for (int i = 0; i < this.faces.length; i++) {
-			this.faces[i] = new Face(faces[i], material);
+			this.faces[i] = new Face(faces[i]);
 		}
 
 		this.closed = true;
@@ -88,7 +86,7 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 				}
 			}
 
-			Intersection x = super.newIntersection(ray, t, ray.direction().dot(n) < 0.0, faceIndex, face.material)
+			IntersectionGeometry x = super.newIntersection(ray, t, ray.direction().dot(n) < 0.0, faceIndex)
 				.setLocation(p)
 				.setBasis(Basis3.fromW(n, Basis3.Orientation.RIGHT_HANDED));
 
@@ -137,12 +135,10 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 		 * Creates a new <code>Face</code>.
 		 * @param indices The indices into {@link PolyhedronGeometry#vertices}
 		 * 		of the vertices of the face.
-		 * @param material The <code>Material</code> to apply to the face.
 		 */
-		public Face(int[] indices, Material material) {
+		public Face(int[] indices) {
 			this.indices = indices;
 			this.plane = this.computePlane();
-			this.material = material;
 		}
 
 		/**
@@ -172,9 +168,6 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 
 		/** The <code>Plane3</code> in which this face lies. */
 		public Plane3 plane;
-
-		/** The <code>Material</code> applied to this face. */
-		public Material material;
 
 		/**
 		 * The indices into {@link PolyhedronGeometry#vertices} of the vertices

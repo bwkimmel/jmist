@@ -3,7 +3,7 @@
  */
 package ca.eandb.jmist.framework.material;
 
-import ca.eandb.jmist.framework.Intersection;
+import ca.eandb.jmist.framework.IntersectionGeometry;
 import ca.eandb.jmist.framework.ScatterRecorder;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
@@ -31,19 +31,19 @@ public final class CookTorranceMaterial extends AbstractMaterial {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.framework.ScatterRecorder)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.IntersectionGeometry, ca.eandb.jmist.framework.ScatterRecorder)
 	 */
 	@Override
-	public void scatter(Intersection x, ScatterRecorder recorder) {
+	public void scatter(IntersectionGeometry x, ScatterRecorder recorder) {
 		// TODO Auto-generated method stub
 		super.scatter(x, recorder);
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scattering(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.math.Vector3)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scattering(ca.eandb.jmist.framework.IntersectionGeometry, ca.eandb.jmist.math.Vector3)
 	 */
 	@Override
-	public Color scattering(Intersection x, Vector3 in) {
+	public Color scattering(IntersectionGeometry x, Vector3 in) {
 		Vector3		E = x.incident().opposite();
 		Vector3		L = in;
 		Vector3		H = E.plus(E).times(0.5).unit();

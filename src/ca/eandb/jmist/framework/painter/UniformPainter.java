@@ -4,7 +4,7 @@
 package ca.eandb.jmist.framework.painter;
 
 import ca.eandb.jmist.framework.Painter;
-import ca.eandb.jmist.framework.SurfacePoint;
+import ca.eandb.jmist.framework.SurfacePointGeometry;
 import ca.eandb.jmist.framework.color.Color;
 
 /**
@@ -20,10 +20,10 @@ public final class UniformPainter implements Painter {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Painter#getColor(ca.eandb.jmist.framework.SurfacePoint)
+	 * @see ca.eandb.jmist.framework.Painter#getColor(ca.eandb.jmist.framework.SurfacePointGeometry)
 	 */
 	@Override
-	public Color getColor(SurfacePoint p) {
+	public Color getColor(SurfacePointGeometry p) {
 		return color;
 	}
 

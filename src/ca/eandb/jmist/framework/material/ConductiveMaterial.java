@@ -3,7 +3,7 @@
  */
 package ca.eandb.jmist.framework.material;
 
-import ca.eandb.jmist.framework.Intersection;
+import ca.eandb.jmist.framework.IntersectionGeometry;
 import ca.eandb.jmist.framework.ScatterRecorder;
 import ca.eandb.jmist.framework.ScatterResult;
 import ca.eandb.jmist.framework.color.Color;
@@ -56,10 +56,10 @@ public final class ConductiveMaterial extends AbstractMaterial {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.framework.ScatterRecorder)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.IntersectionGeometry, ca.eandb.jmist.framework.ScatterRecorder)
 	 */
 	@Override
-	public void scatter(Intersection x, ScatterRecorder recorder) {
+	public void scatter(IntersectionGeometry x, ScatterRecorder recorder) {
 
 		ColorModel	cm			= ColorModel.getInstance();
 		Point3		p			= x.location();
@@ -81,7 +81,7 @@ public final class ConductiveMaterial extends AbstractMaterial {
 		}
 
 		{
-			Color		imp		= T; // TODO: make this importance * T, where importance is a property of the Intersection
+			Color		imp		= T; // TODO: make this importance * T, where importance is a property of the IntersectionGeometry
 			int			channel	= -1;
 
 			double		total	= ColorUtil.getTotalChannelValue(imp);

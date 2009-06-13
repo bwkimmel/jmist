@@ -119,8 +119,9 @@ public final class WavefrontObjectReader {
 			PolygonGeometry face = new PolygonGeometry(p, this.activeMaterial);
 			this.geometry.addChild(face);
 
+			// FIXME reimplement
 			if (this.activeMaterial.isEmissive()) {
-				this.light.addChild(face);
+				//this.light.addChild(face);
 			}
 		}
 

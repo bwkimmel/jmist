@@ -3,12 +3,11 @@
  */
 package ca.eandb.jmist.framework.shader.ray;
 
-import ca.eandb.jmist.framework.Intersection;
+import ca.eandb.jmist.framework.IntersectionGeometry;
 import ca.eandb.jmist.framework.RayCaster;
 import ca.eandb.jmist.framework.RayShader;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
-import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.math.Ray3;
 
 /**
@@ -41,7 +40,7 @@ public final class DistanceRayShader implements RayShader {
 	 * @see ca.eandb.jmist.framework.RayShader#shadeRay(ca.eandb.jmist.math.Ray3)
 	 */
 	public Color shadeRay(Ray3 ray) {
-		Intersection x = this.caster.castRay(ray, Interval.POSITIVE);
+		IntersectionGeometry x = this.caster.castRay(ray);
 
 		return (x != null) ? ColorModel.getInstance().getGray(x.distance()) : missValue;
 	}

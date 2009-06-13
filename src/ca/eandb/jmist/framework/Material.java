@@ -15,13 +15,13 @@ import ca.eandb.jmist.math.Vector3;
  */
 public interface Material extends Medium {
 
-	Color scattering(Intersection x, Vector3 in);
-	Color emission(SurfacePoint x, Vector3 out);
+	Color scattering(IntersectionGeometry x, Vector3 lightIn);
+	Color emission(SurfacePointGeometry x, Vector3 out);
 
 	boolean isEmissive();
 
-	void scatter(Intersection x, ScatterRecorder recorder);
-	void emit(SurfacePoint x, ScatterRecorder recorder);
+	void scatter(IntersectionGeometry x, ScatterRecorder recorder);
+	void emit(SurfacePointGeometry x, ScatterRecorder recorder);
 
 	/**
 	 * A <code>Material</code> that absorbs all light and does not
@@ -30,12 +30,12 @@ public interface Material extends Medium {
 	public static final Material BLACK = new Material() {
 
 		@Override
-		public Color emission(SurfacePoint x, Vector3 out) {
+		public Color emission(SurfacePointGeometry x, Vector3 out) {
 			return ColorModel.getInstance().getBlack();
 		}
 
 		@Override
-		public void emit(SurfacePoint x, ScatterRecorder recorder) {
+		public void emit(SurfacePointGeometry x, ScatterRecorder recorder) {
 			/* nothing to do. */
 		}
 
@@ -45,12 +45,12 @@ public interface Material extends Medium {
 		}
 
 		@Override
-		public void scatter(Intersection x, ScatterRecorder recorder) {
+		public void scatter(IntersectionGeometry x, ScatterRecorder recorder) {
 			/* nothing to do. */
 		}
 
 		@Override
-		public Color scattering(Intersection x, Vector3 out) {
+		public Color scattering(IntersectionGeometry x, Vector3 out) {
 			return ColorModel.getInstance().getBlack();
 		}
 

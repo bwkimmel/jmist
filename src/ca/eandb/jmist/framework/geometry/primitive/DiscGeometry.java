@@ -5,8 +5,7 @@ package ca.eandb.jmist.framework.geometry.primitive;
 
 import ca.eandb.jmist.framework.BoundingBoxBuilder3;
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.Material;
-import ca.eandb.jmist.framework.geometry.SingleMaterialGeometry;
+import ca.eandb.jmist.framework.geometry.AbstractGeometry;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Plane3;
@@ -20,7 +19,7 @@ import ca.eandb.jmist.math.Vector3;
  * A circular plane <code>Geometry</code>.
  * @author Brad Kimmel
  */
-public final class DiscGeometry extends SingleMaterialGeometry {
+public final class DiscGeometry extends AbstractGeometry {
 
 	/**
 	 * Creates a new <code>DiscGeometry</code>.
@@ -29,10 +28,8 @@ public final class DiscGeometry extends SingleMaterialGeometry {
 	 * 		disc.
 	 * @param radius The radius of the disc (in meters).
 	 * @param twoSided A value indicating whether the disc is two sided.
-	 * @param material The <code>Material</code> to apply to the disc.
 	 */
-	public DiscGeometry(Point3 center, Vector3 normal, double radius, boolean twoSided, Material material) {
-		super(material);
+	public DiscGeometry(Point3 center, Vector3 normal, double radius, boolean twoSided) {
 		this.plane = new Plane3(center, normal);
 		this.boundingSphere = new Sphere(center, radius);
 		this.twoSided = twoSided;

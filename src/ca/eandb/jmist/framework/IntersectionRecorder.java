@@ -12,12 +12,12 @@ public interface IntersectionRecorder {
 	 * Record an intersection.
 	 * @param intersection The intersection to record.
 	 */
-	void record(Intersection intersection);
+	void record(IntersectionGeometry intersection);
 
 	/**
 	 * Gets the <code>Interval</code> that this
 	 * <code>IntersectionRecorder</code> expects recorded
-	 * <code>Intersection</code>s to fall within.
+	 * <code>IntersectionGeometry</code>s to fall within.
 	 * @return The <code>Interval</code> in which to record intersections.
 	 */
 	Interval interval();

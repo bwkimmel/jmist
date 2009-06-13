@@ -3,10 +3,9 @@
  */
 package ca.eandb.jmist.framework.geometry.primitive;
 
-import ca.eandb.jmist.framework.Intersection;
+import ca.eandb.jmist.framework.IntersectionGeometry;
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.Material;
-import ca.eandb.jmist.framework.geometry.SingleMaterialGeometry;
+import ca.eandb.jmist.framework.geometry.AbstractGeometry;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box2;
 import ca.eandb.jmist.math.Box3;
@@ -21,15 +20,13 @@ import ca.eandb.jmist.math.Vector3;
  * An axis aligned box <code>Geometry</code>.
  * @author Brad Kimmel
  */
-public final class BoxGeometry extends SingleMaterialGeometry {
+public final class BoxGeometry extends AbstractGeometry {
 
 	/**
 	 * Creates a new <code>BoxGeometry</code>.
 	 * @param box The axis aligned <code>Box3</code> to be rendered.
-	 * @param material The <code>Material</code> to apply to the box.
 	 */
-	public BoxGeometry(Box3 box, Material material) {
-		super(material);
+	public BoxGeometry(Box3 box) {
 		this.box = box;
 	}
 
@@ -53,7 +50,7 @@ public final class BoxGeometry extends SingleMaterialGeometry {
 				if (t > 0.0) {
 					p = ray.pointAt(t);
 					if (box.minimumY() < p.y() && p.y() < box.maximumY() && box.minimumZ() < p.z() && p.z() < box.maximumZ()) {
-						Intersection x = super.newIntersection(ray, t, ray.direction().x() > 0.0, BOX_SURFACE_MIN_X)
+						IntersectionGeometry x = super.newIntersection(ray, t, ray.direction().x() > 0.0, BOX_SURFACE_MIN_X)
 							.setLocation(p);
 						recorder.record(x);
 						if (++n == 2) return;
@@ -64,7 +61,7 @@ public final class BoxGeometry extends SingleMaterialGeometry {
 				if (t > 0.0) {
 					p = ray.pointAt(t);
 					if (box.minimumY() < p.y() && p.y() < box.maximumY() && box.minimumZ() < p.z() && p.z() < box.maximumZ()) {
-						Intersection x = super.newIntersection(ray, t, ray.direction().x() < 0.0, BOX_SURFACE_MAX_X)
+						IntersectionGeometry x = super.newIntersection(ray, t, ray.direction().x() < 0.0, BOX_SURFACE_MAX_X)
 							.setLocation(p);
 						recorder.record(x);
 						if (++n == 2) return;
@@ -77,7 +74,7 @@ public final class BoxGeometry extends SingleMaterialGeometry {
 				if (t > 0.0) {
 					p = ray.pointAt(t);
 					if (box.minimumX() < p.x() && p.x() < box.maximumX() && box.minimumZ() < p.z() && p.z() < box.maximumZ()) {
-						Intersection x = super.newIntersection(ray, t, ray.direction().y() > 0.0, BOX_SURFACE_MIN_Y)
+						IntersectionGeometry x = super.newIntersection(ray, t, ray.direction().y() > 0.0, BOX_SURFACE_MIN_Y)
 							.setLocation(p);
 						recorder.record(x);
 						if (++n == 2) return;
@@ -88,7 +85,7 @@ public final class BoxGeometry extends SingleMaterialGeometry {
 				if (t > 0.0) {
 					p = ray.pointAt(t);
 					if (box.minimumX() < p.x() && p.x() < box.maximumX() && box.minimumZ() < p.z() && p.z() < box.maximumZ()) {
-						Intersection x = super.newIntersection(ray, t, ray.direction().y() < 0.0, BOX_SURFACE_MAX_Y)
+						IntersectionGeometry x = super.newIntersection(ray, t, ray.direction().y() < 0.0, BOX_SURFACE_MAX_Y)
 							.setLocation(p);
 						recorder.record(x);
 						if (++n == 2) return;
@@ -101,7 +98,7 @@ public final class BoxGeometry extends SingleMaterialGeometry {
 				if (t > 0.0) {
 					p = ray.pointAt(t);
 					if (box.minimumX() < p.x() && p.x() < box.maximumX() && box.minimumY() < p.y() && p.y() < box.maximumY()) {
-						Intersection x = super.newIntersection(ray, t, ray.direction().z() > 0.0, BOX_SURFACE_MIN_Z)
+						IntersectionGeometry x = super.newIntersection(ray, t, ray.direction().z() > 0.0, BOX_SURFACE_MIN_Z)
 							.setLocation(p);
 						recorder.record(x);
 						if (++n == 2) return;
@@ -112,7 +109,7 @@ public final class BoxGeometry extends SingleMaterialGeometry {
 				if (t > 0.0) {
 					p = ray.pointAt(t);
 					if (box.minimumX() < p.x() && p.x() < box.maximumX() && box.minimumY() < p.y() && p.y() < box.maximumY()) {
-						Intersection x = super.newIntersection(ray, t, ray.direction().z() < 0.0, BOX_SURFACE_MAX_Z)
+						IntersectionGeometry x = super.newIntersection(ray, t, ray.direction().z() < 0.0, BOX_SURFACE_MAX_Z)
 							.setLocation(p);
 						recorder.record(x);
 						if (++n == 2) return;

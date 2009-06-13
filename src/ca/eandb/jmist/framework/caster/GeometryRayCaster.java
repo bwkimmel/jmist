@@ -4,7 +4,7 @@
 package ca.eandb.jmist.framework.caster;
 
 import ca.eandb.jmist.framework.Geometry;
-import ca.eandb.jmist.framework.Intersection;
+import ca.eandb.jmist.framework.IntersectionGeometry;
 import ca.eandb.jmist.framework.NearestIntersectionRecorder;
 import ca.eandb.jmist.framework.RayCaster;
 import ca.eandb.jmist.math.Interval;
@@ -27,13 +27,20 @@ public final class GeometryRayCaster implements RayCaster {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.RayCaster#castRay(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.math.Interval)
+	 * @see ca.eandb.jmist.framework.RayCaster#castRay(ca.eandb.jmist.math.Ray3, double)
 	 */
 	@Override
-	public Intersection castRay(Ray3 ray, Interval I) {
-		ray = new Ray3(ray.pointAt(I.minimum()), ray.direction());
-		Intersection x = NearestIntersectionRecorder.computeNearestIntersection(ray, geometry);
-		return x != null && x.distance() < I.length() ? x : null;
+	public IntersectionGeometry castRay(Ray3 ray, double maximumDistance) {
+		IntersectionGeometry x = NearestIntersectionRecorder.computeNearestIntersection(ray, geometry);
+		return x != null && x.distance() < maximumDistance ? x : null;
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.RayCaster#castRay(ca.eandb.jmist.math.Ray3, double)
+	 */
+	@Override
+	public IntersectionGeometry castRay(Ray3 ray) {
+		return castRay(ray, Double.POSITIVE_INFINITY);
 	}
 
 	/* (non-Javadoc)
@@ -42,6 +49,14 @@ public final class GeometryRayCaster implements RayCaster {
 	@Override
 	public boolean visibility(Ray3 ray, Interval I) {
 		return geometry.visibility(ray, I);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.VisibilityFunction3#visibility(ca.eandb.jmist.math.Ray3)
+	 */
+	@Override
+	public boolean visibility(Ray3 ray) {
+		return geometry.visibility(ray);
 	}
 
 	/* (non-Javadoc)

@@ -3,8 +3,7 @@
  */
 package ca.eandb.jmist.framework.shader.ray;
 
-import ca.eandb.jmist.framework.Illuminable;
-import ca.eandb.jmist.framework.Intersection;
+import ca.eandb.jmist.framework.IntersectionGeometry;
 import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.ListScatterRecorder;
 import ca.eandb.jmist.framework.Material;
@@ -13,9 +12,7 @@ import ca.eandb.jmist.framework.RayShader;
 import ca.eandb.jmist.framework.ScatterResult;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
-import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.math.Ray3;
-import ca.eandb.jmist.math.Vector3;
 
 /**
  * @author Brad
@@ -49,7 +46,7 @@ public final class WhittedRayShader implements RayShader {
 		Color shade = ColorModel.getInstance().getBlack();
 		ListScatterRecorder recorder = new ListScatterRecorder();
 
-		Intersection x = caster.castRay(ray, Interval.POSITIVE);
+		IntersectionGeometry x = caster.castRay(ray);
 		if (x == null) {
 			return shade;
 		}
@@ -86,46 +83,12 @@ public final class WhittedRayShader implements RayShader {
 		if (!specularOnly) {
 
 			// Compute direct illumination
-			IlluminationTarget target = new IlluminationTarget(x);
-			light.illuminate(x, caster, target);
-			shade = shade.plus(target.getResult());
+			Color direct = light.illuminate(x, caster);
+			shade = shade.plus(direct);
 
 		}
 
 		return shade;
-	}
-
-	private static final class IlluminationTarget implements Illuminable {
-
-		private final Intersection x;
-
-		private Color result = ColorModel.getInstance().getBlack();
-
-		/**
-		 * @param x
-		 */
-		public IlluminationTarget(Intersection x) {
-			this.x = x;
-		}
-
-		/**
-		 * @return the result
-		 */
-		public final Color getResult() {
-			return result;
-		}
-
-		@Override
-		public void illuminate(Vector3 from, Color radiance) {
-			Material material = x.material();
-			Vector3 normal = x.shadingNormal();
-			double ndotv = from.dot(normal);
-			if (ndotv > 0.0) {
-				Color brdf = material.scattering(x, from);
-				result = result.plus(radiance.times(ndotv).times(brdf));
-			}
-		}
-
 	}
 
 }

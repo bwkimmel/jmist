@@ -4,7 +4,7 @@
 package ca.eandb.jmist.framework.model;
 
 import ca.eandb.jmist.framework.Bounded3;
-import ca.eandb.jmist.framework.SurfacePoint;
+import ca.eandb.jmist.framework.SurfacePointGeometry;
 import ca.eandb.jmist.framework.VisibilityFunction3;
 import ca.eandb.jmist.math.Point3;
 
@@ -16,7 +16,7 @@ public interface ModelElement extends VisibilityFunction3, Bounded3 {
 
 	boolean contains(Point3 p);
 
-	SurfacePoint generateRandomSurfacePoint();
+	SurfacePointGeometry generateRandomSurfacePoint();
 
 
 

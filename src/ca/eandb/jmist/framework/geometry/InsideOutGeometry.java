@@ -4,8 +4,8 @@
 package ca.eandb.jmist.framework.geometry;
 
 import ca.eandb.jmist.framework.Geometry;
-import ca.eandb.jmist.framework.Intersection;
-import ca.eandb.jmist.framework.IntersectionDecorator;
+import ca.eandb.jmist.framework.IntersectionGeometry;
+import ca.eandb.jmist.framework.IntersectionGeometryDecorator;
 import ca.eandb.jmist.framework.IntersectionRecorderDecorator;
 import ca.eandb.jmist.framework.IntersectionRecorder;
 import ca.eandb.jmist.math.Basis3;
@@ -60,8 +60,8 @@ public final class InsideOutGeometry extends AbstractGeometry {
 
 	/**
 	 * An <code>IntersectionRecorder</code> decorator that flips the normals,
-	 * bases, tangents and the {@link Intersection#front()} property of all
-	 * <code>Intersection</code>s recorded to it.
+	 * bases, tangents and the {@link IntersectionGeometry#front()} property of all
+	 * <code>IntersectionGeometry</code>s recorded to it.
 	 * @author Brad Kimmel
 	 */
 	private static final class InsideOutIntersectionRecorder extends
@@ -76,31 +76,31 @@ public final class InsideOutGeometry extends AbstractGeometry {
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.IntersectionRecorderDecorator#record(ca.eandb.jmist.framework.Intersection)
+		 * @see ca.eandb.jmist.framework.IntersectionRecorderDecorator#record(ca.eandb.jmist.framework.IntersectionGeometry)
 		 */
 		@Override
-		public void record(Intersection intersection) {
+		public void record(IntersectionGeometry intersection) {
 			this.inner.record(new InsideOutIntersection(intersection));
 		}
 
 		/**
-		 * An <code>Intersection</code> decorator that flips the normals,
-		 * bases, tangents, and the {@link Intersection#front()} properties of
-		 * the decorated <code>Intersection</code>.
+		 * An <code>IntersectionGeometry</code> decorator that flips the normals,
+		 * bases, tangents, and the {@link IntersectionGeometry#front()} properties of
+		 * the decorated <code>IntersectionGeometry</code>.
 		 * @author Brad Kimmel
 		 */
-		private static final class InsideOutIntersection extends IntersectionDecorator {
+		private static final class InsideOutIntersection extends IntersectionGeometryDecorator {
 
 			/**
 			 * Creates a new <code>InsideOutIntersection</code>.
-			 * @param inner The decorated <code>Intersection</code>.
+			 * @param inner The decorated <code>IntersectionGeometry</code>.
 			 */
-			public InsideOutIntersection(Intersection inner) {
+			public InsideOutIntersection(IntersectionGeometry inner) {
 				super(inner);
 			}
 
 			/* (non-Javadoc)
-			 * @see ca.eandb.jmist.framework.IntersectionDecorator#front()
+			 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#front()
 			 */
 			@Override
 			public boolean front() {
@@ -108,7 +108,7 @@ public final class InsideOutGeometry extends AbstractGeometry {
 			}
 
 			/* (non-Javadoc)
-			 * @see ca.eandb.jmist.framework.IntersectionDecorator#basis()
+			 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#basis()
 			 */
 			@Override
 			public Basis3 basis() {
@@ -116,7 +116,7 @@ public final class InsideOutGeometry extends AbstractGeometry {
 			}
 
 			/* (non-Javadoc)
-			 * @see ca.eandb.jmist.framework.IntersectionDecorator#shadingBasis()
+			 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#shadingBasis()
 			 */
 			@Override
 			public Basis3 shadingBasis() {
@@ -124,7 +124,7 @@ public final class InsideOutGeometry extends AbstractGeometry {
 			}
 
 			/* (non-Javadoc)
-			 * @see ca.eandb.jmist.framework.IntersectionDecorator#shadingNormal()
+			 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#shadingNormal()
 			 */
 			@Override
 			public Vector3 shadingNormal() {
@@ -132,7 +132,7 @@ public final class InsideOutGeometry extends AbstractGeometry {
 			}
 
 			/* (non-Javadoc)
-			 * @see ca.eandb.jmist.framework.IntersectionDecorator#normal()
+			 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#normal()
 			 */
 			@Override
 			public Vector3 normal() {
@@ -140,7 +140,7 @@ public final class InsideOutGeometry extends AbstractGeometry {
 			}
 
 			/* (non-Javadoc)
-			 * @see ca.eandb.jmist.framework.IntersectionDecorator#tangent()
+			 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#tangent()
 			 */
 			@Override
 			public Vector3 tangent() {

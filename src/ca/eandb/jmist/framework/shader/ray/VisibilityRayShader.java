@@ -7,7 +7,6 @@ import ca.eandb.jmist.framework.RayShader;
 import ca.eandb.jmist.framework.VisibilityFunction3;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
-import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.math.Ray3;
 
 /**
@@ -46,7 +45,7 @@ public final class VisibilityRayShader implements RayShader {
 	 * @see ca.eandb.jmist.framework.RayShader#shadeRay(ca.eandb.jmist.math.Ray3)
 	 */
 	public Color shadeRay(Ray3 ray) {
-		if (ray == null || this.visibilityFunction.visibility(ray, Interval.POSITIVE)) {
+		if (ray == null || this.visibilityFunction.visibility(ray)) {
 			return missValue;
 		} else {
 			return hitValue;

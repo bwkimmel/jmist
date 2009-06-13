@@ -3,7 +3,7 @@
  */
 package ca.eandb.jmist.framework.measurement;
 
-import ca.eandb.jmist.framework.Intersection;
+import ca.eandb.jmist.framework.IntersectionGeometry;
 import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.Medium;
 import ca.eandb.jmist.framework.RandomScatterRecorder;
@@ -125,7 +125,7 @@ public final class Photometer {
 	private Tuple wavelengths;
 	private boolean front;
 
-	private final Intersection x = new Intersection() {
+	private final IntersectionGeometry x = new IntersectionGeometry() {
 
 		public Point3 location() {
 			return Point3.ORIGIN;

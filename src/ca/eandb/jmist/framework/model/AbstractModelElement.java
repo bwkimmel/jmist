@@ -3,7 +3,7 @@
  */
 package ca.eandb.jmist.framework.model;
 
-import ca.eandb.jmist.framework.SurfacePoint;
+import ca.eandb.jmist.framework.SurfacePointGeometry;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.math.Point3;
@@ -56,7 +56,7 @@ public abstract class AbstractModelElement implements ModelElement {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.model.ModelElement#generateRandomSurfacePoint()
 	 */
-	public SurfacePoint generateRandomSurfacePoint() {
+	public SurfacePointGeometry generateRandomSurfacePoint() {
 		return null;
 	}
 
@@ -77,6 +77,13 @@ public abstract class AbstractModelElement implements ModelElement {
 	 * @see ca.eandb.jmist.framework.VisibilityFunction3#visibility(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.toolkit.Interval)
 	 */
 	public boolean visibility(Ray3 ray, Interval I) {
+		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.VisibilityFunction3#visibility(ca.eandb.jmist.math.Ray3)
+	 */
+	public boolean visibility(Ray3 ray) {
 		return true;
 	}
 

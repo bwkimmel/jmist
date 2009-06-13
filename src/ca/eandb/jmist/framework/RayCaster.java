@@ -3,7 +3,7 @@
  */
 package ca.eandb.jmist.framework;
 
-import ca.eandb.jmist.math.Interval;
+import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.math.Ray3;
 
 /**
@@ -12,6 +12,14 @@ import ca.eandb.jmist.math.Ray3;
  */
 public interface RayCaster extends VisibilityFunction3 {
 
-	Intersection castRay(Ray3 ray, Interval I);
+	IntersectionGeometry castRay(Ray3 ray, PathContext pc, RenderContext rc);
+
+	Color shadeRay(Ray3 ray, PathContext pc, RenderContext rc);
+
+	boolean castShadowRay(Ray3 ray, double distance);
+
+	boolean castShadowRay(Ray3 ray);
+
+	Scene getScene();
 
 }

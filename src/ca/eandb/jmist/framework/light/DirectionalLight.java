@@ -3,11 +3,11 @@
  */
 package ca.eandb.jmist.framework.light;
 
-import ca.eandb.jmist.framework.Illuminable;
+import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.Light;
-import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.VisibilityFunction3;
 import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
@@ -33,21 +33,22 @@ public final class DirectionalLight implements Light {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.VisibilityFunction3, ca.eandb.jmist.framework.Illuminable)
+	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.framework.VisibilityFunction3)
 	 */
-	public void illuminate(SurfacePoint x, VisibilityFunction3 vf, Illuminable target) {
+	public Color illuminate(Intersection x, VisibilityFunction3 vf) {
 
 		if (this.shadows) {
 
 			Ray3 shadowRay = new Ray3(x.location(), this.from);
 
 			if (!vf.visibility(shadowRay, Interval.POSITIVE)) {
-				return;
+				return ColorModel.getInstance().getBlack();
 			}
 
 		}
 
-		target.illuminate(this.from, this.irradiance);
+		double ndotv = x.shadingNormal().dot(from);
+		return x.material().scattering(x, from).times(irradiance).times(ndotv);
 
 	}
 

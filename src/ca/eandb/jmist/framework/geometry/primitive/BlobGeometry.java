@@ -1,11 +1,10 @@
 /**
- * 
+ *
  */
 package ca.eandb.jmist.framework.geometry.primitive;
 
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.Material;
-import ca.eandb.jmist.framework.geometry.SingleMaterialGeometry;
+import ca.eandb.jmist.framework.geometry.AbstractGeometry;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
@@ -14,13 +13,12 @@ import ca.eandb.jmist.math.Sphere;
  * @author Brad Kimmel
  *
  */
-public final class BlobGeometry extends SingleMaterialGeometry {
+public final class BlobGeometry extends AbstractGeometry {
 
 	/**
-	 * @param material
+	 *
 	 */
-	public BlobGeometry(Material material) {
-		super(material);
+	public BlobGeometry() {
 		// TODO Auto-generated constructor stub
 	}
 

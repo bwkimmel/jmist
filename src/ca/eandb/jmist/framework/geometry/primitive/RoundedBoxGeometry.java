@@ -1,11 +1,10 @@
 /**
- * 
+ *
  */
 package ca.eandb.jmist.framework.geometry.primitive;
 
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.Material;
-import ca.eandb.jmist.framework.geometry.SingleMaterialGeometry;
+import ca.eandb.jmist.framework.geometry.AbstractGeometry;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
@@ -14,13 +13,12 @@ import ca.eandb.jmist.math.Sphere;
  * @author Brad Kimmel
  *
  */
-public final class RoundedBoxGeometry extends SingleMaterialGeometry {
+public final class RoundedBoxGeometry extends AbstractGeometry {
 
 	/**
-	 * @param material
+	 *
 	 */
-	public RoundedBoxGeometry(Material material) {
-		super(material);
+	public RoundedBoxGeometry() {
 		// TODO Auto-generated constructor stub
 	}
 

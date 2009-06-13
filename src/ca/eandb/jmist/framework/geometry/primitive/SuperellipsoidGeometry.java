@@ -8,8 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.Material;
-import ca.eandb.jmist.framework.geometry.SingleMaterialGeometry;
+import ca.eandb.jmist.framework.geometry.AbstractGeometry;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Interval;
@@ -26,17 +25,14 @@ import ca.eandb.jmist.math.Vector3;
  * A superellipsoid <code>Geometry</code>.
  * @author Brad Kimmel
  */
-public final class SuperellipsoidGeometry extends SingleMaterialGeometry {
+public final class SuperellipsoidGeometry extends AbstractGeometry {
 
 	/**
 	 * Creates a new <code>SuperellipsoidGeometry</code>.
 	 * @param e
 	 * @param n
-	 * @param material
 	 */
-	public SuperellipsoidGeometry(double e, double n, Material material) {
-		super(material);
-
+	public SuperellipsoidGeometry(double e, double n) {
 		if (e < 0.0 || n < 0.0) {
 			throw new IllegalArgumentException("e and n must be non-negative.");
 		}

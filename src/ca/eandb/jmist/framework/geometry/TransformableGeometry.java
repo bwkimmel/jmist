@@ -8,8 +8,8 @@ import java.util.List;
 
 import ca.eandb.jmist.framework.AffineTransformable3;
 import ca.eandb.jmist.framework.Geometry;
-import ca.eandb.jmist.framework.Intersection;
-import ca.eandb.jmist.framework.IntersectionDecorator;
+import ca.eandb.jmist.framework.IntersectionGeometry;
+import ca.eandb.jmist.framework.IntersectionGeometryDecorator;
 import ca.eandb.jmist.framework.IntersectionRecorderDecorator;
 import ca.eandb.jmist.framework.IntersectionRecorder;
 import ca.eandb.jmist.framework.InvertibleAffineTransformation3;
@@ -131,30 +131,30 @@ public final class TransformableGeometry extends CompositeGeometry implements
 		 *
 		 */
 		@Override
-		public void record(Intersection intersection) {
+		public void record(IntersectionGeometry intersection) {
 			this.inner.record(new TransformedIntersection(intersection));
 		}
 
 	}
 
 	/**
-	 * An <code>Intersection</code> that has been transformed according to the
+	 * An <code>IntersectionGeometry</code> that has been transformed according to the
 	 * transformation applied to this <code>TransformableGeometry</code>.
 	 * @author Brad Kimmel
 	 */
-	private final class TransformedIntersection extends IntersectionDecorator {
+	private final class TransformedIntersection extends IntersectionGeometryDecorator {
 
 		/**
 		 * Creates a new <code>TransformedIntersection</code>.
-		 * @param local The <code>Intersection</code> in local coordinate
+		 * @param local The <code>IntersectionGeometry</code> in local coordinate
 		 * 		space.
 		 */
-		public TransformedIntersection(Intersection local) {
+		public TransformedIntersection(IntersectionGeometry local) {
 			super(local);
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.IntersectionDecorator#incident()
+		 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#incident()
 		 */
 		@Override
 		public Vector3 incident() {
@@ -162,7 +162,7 @@ public final class TransformableGeometry extends CompositeGeometry implements
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.IntersectionDecorator#basis()
+		 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#basis()
 		 */
 		@Override
 		public Basis3 basis() {
@@ -175,7 +175,7 @@ public final class TransformableGeometry extends CompositeGeometry implements
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.IntersectionDecorator#location()
+		 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#location()
 		 */
 		@Override
 		public Point3 location() {
@@ -183,7 +183,7 @@ public final class TransformableGeometry extends CompositeGeometry implements
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.IntersectionDecorator#shadingBasis()
+		 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#shadingBasis()
 		 */
 		@Override
 		public Basis3 shadingBasis() {
@@ -196,7 +196,7 @@ public final class TransformableGeometry extends CompositeGeometry implements
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.IntersectionDecorator#shadingNormal()
+		 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#shadingNormal()
 		 */
 		@Override
 		public Vector3 shadingNormal() {
@@ -205,7 +205,7 @@ public final class TransformableGeometry extends CompositeGeometry implements
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.IntersectionDecorator#normal()
+		 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#normal()
 		 */
 		@Override
 		public Vector3 normal() {
@@ -214,7 +214,7 @@ public final class TransformableGeometry extends CompositeGeometry implements
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.IntersectionDecorator#tangent()
+		 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#tangent()
 		 */
 		@Override
 		public Vector3 tangent() {
