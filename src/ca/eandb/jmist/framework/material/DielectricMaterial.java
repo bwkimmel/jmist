@@ -73,8 +73,6 @@ public class DielectricMaterial extends AbstractMaterial {
 			boolean		toSide	= x.normal().dot(out) >= 0.0;
 
 			if (fromSide == toSide) {
-				// FIXME: should weight reflected and refracted ray according to
-				// some measure of R and T, rather than equally.
 				recorder.record(ScatterResult.specular(new Ray3(p, out), R));
 			}
 		}
