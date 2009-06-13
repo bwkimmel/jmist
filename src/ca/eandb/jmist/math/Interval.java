@@ -37,6 +37,24 @@ public final class Interval implements Serializable {
 	}
 
 	/**
+	 * Creates an <code>Interval</code> representing [a, infinity).
+	 * @param a The lower bound of the interval.
+	 * @return The new <code>Interval</code>.
+	 */
+	public static Interval greaterThan(double a) {
+		return new Interval(a, Double.POSITIVE_INFINITY);
+	}
+
+	/**
+	 * Creates an <code>Interval</code> representing (-infinity, b].
+	 * @param a The lower bound of the interval.
+	 * @return The new <code>Interval</code>.
+	 */
+	public static Interval lessThan(double b) {
+		return new Interval(Double.NEGATIVE_INFINITY, b);
+	}
+
+	/**
 	 * Gets the lower bound of this interval.
 	 * @return The lower bound of this interval.
 	 */
