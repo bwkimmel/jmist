@@ -23,14 +23,32 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package ca.eandb.jmist.framework;
+package ca.eandb.jmist.framework.shader;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import ca.eandb.jmist.framework.Shader;
 
 /**
  * @author brad
  *
  */
-public interface Scene extends Bounded3 {
+public abstract class CompositeShader implements Shader {
 
-	Light getLight();
+	protected List<Shader> shaders;
+
+	protected CompositeShader() {
+		shaders = new ArrayList<Shader>();
+	}
+
+	protected CompositeShader(List<Shader> shaders) {
+		this.shaders = shaders;
+	}
+
+	public CompositeShader addShader(Shader shader) {
+		shaders.add(shader);
+		return this;
+	}
 
 }

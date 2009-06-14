@@ -37,4 +37,8 @@ public interface SceneObject extends Bounded3, VisibilityFunction3 {
 
 	Intersection intersect(Ray3 ray);
 
+	double getSurfaceArea();
+
+	SurfacePoint generateRandomSurfacePoint();
+
 }

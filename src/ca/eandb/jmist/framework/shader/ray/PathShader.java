@@ -9,7 +9,7 @@ import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.RandomScatterRecorder;
 import ca.eandb.jmist.framework.RayCaster;
 import ca.eandb.jmist.framework.RayShader;
-import ca.eandb.jmist.framework.ScatterResult;
+import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.math.Ray3;
@@ -63,10 +63,10 @@ public final class PathShader implements RayShader {
 
 			// Compute indirect illumination
 			mat.scatter(x, recorder);
-			ScatterResult sr = recorder.getScatterResult();
+			ScatteredRay sr = recorder.getScatterResult();
 
 			if (sr != null) {
-				ray = sr.getScatteredRay();
+				ray = sr.getRay();
 				importance = importance.times(sr.getColor());
 				depth++;
 			} else {

@@ -5,6 +5,7 @@ package ca.eandb.jmist.framework.geometry.primitive;
 
 import ca.eandb.jmist.framework.IntersectionGeometry;
 import ca.eandb.jmist.framework.IntersectionRecorder;
+import ca.eandb.jmist.framework.SurfacePointGeometry;
 import ca.eandb.jmist.framework.geometry.AbstractGeometry;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box2;
@@ -12,6 +13,7 @@ import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
+import ca.eandb.jmist.math.RandomUtil;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
 import ca.eandb.jmist.math.Vector3;
@@ -238,6 +240,51 @@ public final class BoxGeometry extends AbstractGeometry {
 	 */
 	public Sphere boundingSphere() {
 		return new Sphere(this.box.center(), this.box.diagonal() / 2.0);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#generateRandomSurfacePoint()
+	 */
+	@Override
+	public SurfacePointGeometry generateRandomSurfacePoint() {
+		double xyArea = box.lengthX() * box.lengthY();
+		double xzArea = box.lengthX() * box.lengthZ();
+		double yzArea = box.lengthY() * box.lengthZ();
+
+		double total = xyArea + xzArea + yzArea;
+		double random = Math.random() * total;
+		boolean dir = RandomUtil.coin();
+		int id;
+		Point3 p;
+
+		if (random < xyArea) {
+			id = dir ? BOX_SURFACE_MAX_Z : BOX_SURFACE_MIN_Z;
+			p = new Point3(
+					RandomUtil.uniform(box.spanX()),
+					RandomUtil.uniform(box.spanY()),
+					dir ? box.maximumZ() : box.minimumZ());
+		} else if (random < xyArea + xzArea) {
+			id = dir ? BOX_SURFACE_MAX_Y : BOX_SURFACE_MIN_Y;
+			p = new Point3(RandomUtil.uniform(box.spanX()),
+					dir ? box.maximumY() : box.minimumY(),
+					RandomUtil.uniform(box.spanZ()));
+
+		} else {
+			id = dir ? BOX_SURFACE_MAX_X : BOX_SURFACE_MIN_X;
+			p = new Point3(dir ? box.maximumX() : box.minimumX(),
+					RandomUtil.uniform(box.spanY()),
+					RandomUtil.uniform(box.spanZ()));
+		}
+
+		return this.newSurfacePoint(p, id);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getSurfaceArea()
+	 */
+	@Override
+	public double getSurfaceArea() {
+		return box.surfaceArea();
 	}
 
 	/** The surface id for the side facing toward the positive x-axis. */

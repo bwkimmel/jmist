@@ -7,8 +7,8 @@ import java.io.Serializable;
 
 import ca.eandb.jmist.framework.IntersectionGeometry;
 import ca.eandb.jmist.framework.Painter;
-import ca.eandb.jmist.framework.ScatterRecorder;
-import ca.eandb.jmist.framework.ScatterResult;
+import ca.eandb.jmist.framework.ScatteredRayRecorder;
+import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.SurfacePointGeometry;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
@@ -67,10 +67,10 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#emit(ca.eandb.jmist.framework.SurfacePointGeometry, ca.eandb.jmist.framework.ScatterRecorder)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#emit(ca.eandb.jmist.framework.SurfacePointGeometry, ca.eandb.jmist.framework.ScatteredRayRecorder)
 	 */
 	@Override
-	public void emit(SurfacePointGeometry x, ScatterRecorder recorder) {
+	public void emit(SurfacePointGeometry x, ScatteredRayRecorder recorder) {
 
 		if (this.emittance != null) {
 
@@ -78,7 +78,7 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 			Ray3 ray = new Ray3(x.location(), out.toCartesian(x.shadingBasis()));
 
 			if (x.normal().dot(ray.direction()) > 0.0) {
-				recorder.record(ScatterResult.diffuse(ray, emittance.getColor(x)));
+				recorder.add(ScatteredRay.diffuse(ray, emittance.getColor(x)));
 			}
 
 		}
@@ -86,10 +86,10 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.IntersectionGeometry, ca.eandb.jmist.framework.ScatterRecorder)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.IntersectionGeometry, ca.eandb.jmist.framework.ScatteredRayRecorder)
 	 */
 	@Override
-	public void scatter(IntersectionGeometry x, ScatterRecorder recorder) {
+	public void scatter(IntersectionGeometry x, ScatteredRayRecorder recorder) {
 
 		if (this.reflectance != null) {
 
@@ -97,7 +97,7 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 			Ray3 ray = new Ray3(x.location(), out.toCartesian(x.shadingBasis()));
 
 			if (ray.direction().dot(x.normal()) > 0.0) {
-				recorder.record(ScatterResult.diffuse(ray, reflectance.getColor(x)));
+				recorder.add(ScatteredRay.diffuse(ray, reflectance.getColor(x)));
 			}
 
 		}

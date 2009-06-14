@@ -6,6 +6,7 @@ package ca.eandb.jmist.framework.geometry.primitive;
 import ca.eandb.jmist.framework.BoundingBoxBuilder3;
 import ca.eandb.jmist.framework.IntersectionGeometry;
 import ca.eandb.jmist.framework.IntersectionRecorder;
+import ca.eandb.jmist.framework.SurfacePointGeometry;
 import ca.eandb.jmist.framework.geometry.AbstractGeometry;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
@@ -13,6 +14,7 @@ import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Plane3;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
+import ca.eandb.jmist.math.RandomUtil;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
 import ca.eandb.jmist.math.Vector3;
@@ -177,6 +179,30 @@ public final class RectangleGeometry extends AbstractGeometry {
 //		}
 //
 //	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#generateRandomSurfacePoint()
+	 */
+	@Override
+	public SurfacePointGeometry generateRandomSurfacePoint() {
+		Point3 p = center
+				.plus(basis.u().times(RandomUtil.uniform(-ru, ru)))
+				.plus(basis.v().times(RandomUtil.uniform(-rv, rv)));
+
+		int id = (twoSided && RandomUtil.coin())
+				? RECTANGLE_SURFACE_BOTTOM
+				: RECTANGLE_SURFACE_TOP;
+
+		return this.newSurfacePoint(p, id);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getSurfaceArea()
+	 */
+	@Override
+	public double getSurfaceArea() {
+		return (twoSided ? 8.0 : 4.0) * ru * rv;
+	}
 
 	/**
 	 * The surface id for the side of the rectangle toward which the normal

@@ -38,6 +38,10 @@ public final class PathContext {
 		throw new UnimplementedException();
 	}
 
+	public int getDepthByType(ScatteredRay.Type type) {
+		throw new UnimplementedException();
+	}
+
 	public Color getImportance() {
 		throw new UnimplementedException();
 	}
@@ -46,15 +50,15 @@ public final class PathContext {
 		throw new UnimplementedException();
 	}
 
-	public PathContext createChildContext(Color importance, boolean exiting, Medium medium) {
-		throw new UnimplementedException();
-	}
-
-	public PathContext createChildContext(Color importance, boolean exiting) {
+	public PathContext createChildContext(Intersection x, ScatteredRay sr) {
 		throw new UnimplementedException();
 	}
 
 	public boolean isLightPath() {
+		throw new UnimplementedException();
+	}
+
+	public boolean isEyePath() {
 		throw new UnimplementedException();
 	}
 

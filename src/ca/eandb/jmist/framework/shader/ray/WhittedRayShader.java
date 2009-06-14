@@ -9,7 +9,7 @@ import ca.eandb.jmist.framework.ListScatterRecorder;
 import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.RayCaster;
 import ca.eandb.jmist.framework.RayShader;
-import ca.eandb.jmist.framework.ScatterResult;
+import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.math.Ray3;
@@ -62,13 +62,13 @@ public final class WhittedRayShader implements RayShader {
 		recorder.clear();
 		mat.scatter(x, recorder);
 		boolean specularOnly = true;
-		for (ScatterResult sr : recorder.getScatterResults()) {
+		for (ScatteredRay sr : recorder.getScatterResults()) {
 
-			// TODO: Modify ScatterRecorder so that the Material knows that
+			// TODO: Modify ScatteredRayRecorder so that the Material knows that
 			// certain types of ScatterResults are unwanted.  This way the
 			// material wont waste time generating those scattering events.
-			if (sr.getType() == ScatterResult.Type.SPECULAR) {
-				Ray3 reflRay = sr.getScatteredRay();
+			if (sr.getType() == ScatteredRay.Type.SPECULAR) {
+				Ray3 reflRay = sr.getRay();
 				Color reflImp = importance.times(sr.getColor());
 				Color reflShade = shadeRay(reflRay, depth + 1, reflImp);
 				shade = shade.plus(reflShade.times(sr.getColor()));

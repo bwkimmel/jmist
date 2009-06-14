@@ -4,7 +4,7 @@
 package ca.eandb.jmist.framework.material;
 
 import ca.eandb.jmist.framework.IntersectionGeometry;
-import ca.eandb.jmist.framework.ScatterRecorder;
+import ca.eandb.jmist.framework.ScatteredRayRecorder;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.math.Optics;
@@ -31,10 +31,10 @@ public final class CookTorranceMaterial extends AbstractMaterial {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.IntersectionGeometry, ca.eandb.jmist.framework.ScatterRecorder)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.IntersectionGeometry, ca.eandb.jmist.framework.ScatteredRayRecorder)
 	 */
 	@Override
-	public void scatter(IntersectionGeometry x, ScatterRecorder recorder) {
+	public void scatter(IntersectionGeometry x, ScatteredRayRecorder recorder) {
 		// TODO Auto-generated method stub
 		super.scatter(x, recorder);
 	}

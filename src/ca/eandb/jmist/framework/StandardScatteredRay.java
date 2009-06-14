@@ -25,12 +25,57 @@
 
 package ca.eandb.jmist.framework;
 
+import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.math.Ray3;
+
 /**
  * @author brad
  *
  */
-public interface Scene extends Bounded3 {
+public final class StandardScatteredRay extends ScatteredRay {
 
-	Light getLight();
+	private final Ray3 scatteredRay;
+	private final Color color;
+	private final Type type;
+	private final boolean transmitted;
+
+	public StandardScatteredRay(Ray3 scatteredRay, Color color, Type type, boolean transmitted) {
+
+		assert(scatteredRay != null);
+
+		this.scatteredRay = scatteredRay;
+		this.color = color;
+		this.transmitted = transmitted;
+		this.type = type;
+
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.ScatteredRay#getRay()
+	 */
+	public final Ray3 getRay() {
+		return scatteredRay;
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.ScatteredRay#getColor()
+	 */
+	public final Color getColor() {
+		return color;
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.ScatteredRay#getType()
+	 */
+	public final Type getType() {
+		return type;
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.ScatteredRay#isTransmitted()
+	 */
+	public final boolean isTransmitted() {
+		return transmitted;
+	}
 
 }

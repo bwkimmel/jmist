@@ -29,7 +29,7 @@ import ca.eandb.jmist.framework.IntersectionGeometry;
 import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.RandomScatterRecorder;
 import ca.eandb.jmist.framework.RayCaster;
-import ca.eandb.jmist.framework.ScatterResult;
+import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Tuple;
@@ -63,7 +63,7 @@ public final class PhotonTracer {
 				if (x != null) {
 					recorder.reset();
 					x.material().scatter(x, wavelengths, recorder);
-					ScatterResult sr = recorder.getScatterResult();
+					ScatteredRay sr = recorder.getScatterResult();
 					if (sr != null) {
 						if (sr.specularity() < 0.99) {
 							map.store(x.location(), ray.direction(), sr.weightAt(0));

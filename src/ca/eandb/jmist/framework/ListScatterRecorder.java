@@ -29,54 +29,54 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A <code>ScatterRecorder</code> that appends <code>ScatterResult</code>s to a
+ * A <code>ScatteredRayRecorder</code> that appends <code>ScatteredRay</code>s to a
  * <code>List</code>
  * @author brad
  */
-public final class ListScatterRecorder implements ScatterRecorder {
+public final class ListScatterRecorder implements ScatteredRayRecorder {
 
-	/** The <code>List</code> to append <code>ScatterResult</code>s to. */
-	private final List<ScatterResult> results;
+	/** The <code>List</code> to append <code>ScatteredRay</code>s to. */
+	private final List<ScatteredRay> results;
 
 	/**
 	 * Creates a new <code>ListScatterRecorder</code>.
 	 * @param results The <code>List</code> to append
-	 * 		<code>ScatterResult</code>s to
+	 * 		<code>ScatteredRay</code>s to
 	 */
-	public ListScatterRecorder(List<ScatterResult> results) {
+	public ListScatterRecorder(List<ScatteredRay> results) {
 		this.results = results;
 	}
 
 	/**
 	 * Creates a new <code>ListScatterRecorder</code>.  A <code>List</code>
-	 * to store the <code>ScatterResult</code>s is created automatically.
+	 * to store the <code>ScatteredRay</code>s is created automatically.
 	 */
 	public ListScatterRecorder() {
-		this(new ArrayList<ScatterResult>());
+		this(new ArrayList<ScatteredRay>());
 	}
 
 	/**
 	 * Obtains the <code>List</code> containing the
-	 * <code>ScatterResult</code>s.
+	 * <code>ScatteredRay</code>s.
 	 * @return The <code>List</code> containing the.
-	 * 		<code>ScatterResult</code>s.
+	 * 		<code>ScatteredRay</code>s.
 	 */
-	public List<ScatterResult> getScatterResults() {
+	public List<ScatteredRay> getScatterResults() {
 		return results;
 	}
 
 	/**
-	 * Clears the <code>List</code> of <code>ScatterResult</code>s.
+	 * Clears the <code>List</code> of <code>ScatteredRay</code>s.
 	 */
 	public void clear() {
 		results.clear();
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.ScatterRecorder#record(ca.eandb.jmist.framework.ScatterResult)
+	 * @see ca.eandb.jmist.framework.ScatteredRayRecorder#record(ca.eandb.jmist.framework.ScatteredRay)
 	 */
 	@Override
-	public void record(ScatterResult sr) {
+	public void add(ScatteredRay sr) {
 		results.add(sr);
 	}
 

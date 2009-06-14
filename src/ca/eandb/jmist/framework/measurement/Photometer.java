@@ -7,7 +7,7 @@ import ca.eandb.jmist.framework.IntersectionGeometry;
 import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.Medium;
 import ca.eandb.jmist.framework.RandomScatterRecorder;
-import ca.eandb.jmist.framework.ScatterResult;
+import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
@@ -104,12 +104,12 @@ public final class Photometer {
 			scattering.reset();
 			this.specimen.scatter(this.x, scattering);
 
-			ScatterResult sr = scattering.getScatterResult();
+			ScatteredRay sr = scattering.getScatterResult();
 
 			if (sr != null) {
 				//assert(MathUtil.equal(sr.getWeight(), 1.0));
 				// FIXME: Account for color.
-				this.collectorSphere.record(sr.getScatteredRay().direction());
+				this.collectorSphere.record(sr.getRay().direction());
 			}
 
 		}

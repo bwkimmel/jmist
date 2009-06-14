@@ -5,8 +5,8 @@ package ca.eandb.jmist.framework.material;
 
 import ca.eandb.jmist.framework.IntersectionGeometry;
 import ca.eandb.jmist.framework.Painter;
-import ca.eandb.jmist.framework.ScatterRecorder;
-import ca.eandb.jmist.framework.ScatterResult;
+import ca.eandb.jmist.framework.ScatteredRayRecorder;
+import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.math.Optics;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
@@ -26,14 +26,14 @@ public final class MirrorMaterial extends OpaqueMaterial {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.IntersectionGeometry, ca.eandb.jmist.framework.ScatterRecorder)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.IntersectionGeometry, ca.eandb.jmist.framework.ScatteredRayRecorder)
 	 */
 	@Override
-	public void scatter(IntersectionGeometry x, ScatterRecorder recorder) {
+	public void scatter(IntersectionGeometry x, ScatteredRayRecorder recorder) {
 
 		Vector3 out = Optics.reflect(x.incident(), x.shadingNormal());
 
-		recorder.record(ScatterResult.specular(new Ray3(x.location(), out),
+		recorder.add(ScatteredRay.specular(new Ray3(x.location(), out),
 				reflectance.getColor(x)));
 
 	}

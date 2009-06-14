@@ -23,14 +23,35 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package ca.eandb.jmist.framework;
+package ca.eandb.jmist.framework.shader;
+
+import ca.eandb.jmist.framework.Intersection;
+import ca.eandb.jmist.framework.PathContext;
+import ca.eandb.jmist.framework.RayCaster;
+import ca.eandb.jmist.framework.RenderContext;
+import ca.eandb.jmist.framework.ScatteredRays;
+import ca.eandb.jmist.framework.Shader;
+import ca.eandb.jmist.framework.color.Color;
 
 /**
  * @author brad
  *
  */
-public interface Scene extends Bounded3 {
+public final class StandardCompositeShader extends CompositeShader {
 
-	Light getLight();
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.framework.RayCaster, ca.eandb.jmist.framework.ScatteredRays, ca.eandb.jmist.framework.PathContext, ca.eandb.jmist.framework.RenderContext)
+	 */
+	@Override
+	public Color shade(Intersection x, RayCaster caster, ScatteredRays rays,
+			PathContext pc, RenderContext rc) {
+
+		Color result = null;
+		for (Shader shader : shaders) {
+			Color color = shader.shade(x, caster, rays, pc, rc);
+			result = (result != null ? result.plus(color) : color);
+		}
+		return result;
+	}
 
 }

@@ -20,8 +20,8 @@ public interface Material extends Medium {
 
 	boolean isEmissive();
 
-	void scatter(IntersectionGeometry x, ScatterRecorder recorder);
-	void emit(SurfacePointGeometry x, ScatterRecorder recorder);
+	void scatter(IntersectionGeometry x, ScatteredRayRecorder recorder);
+	void emit(SurfacePointGeometry x, ScatteredRayRecorder recorder);
 
 	/**
 	 * A <code>Material</code> that absorbs all light and does not
@@ -35,7 +35,7 @@ public interface Material extends Medium {
 		}
 
 		@Override
-		public void emit(SurfacePointGeometry x, ScatterRecorder recorder) {
+		public void emit(SurfacePointGeometry x, ScatteredRayRecorder recorder) {
 			/* nothing to do. */
 		}
 
@@ -45,7 +45,7 @@ public interface Material extends Medium {
 		}
 
 		@Override
-		public void scatter(IntersectionGeometry x, ScatterRecorder recorder) {
+		public void scatter(IntersectionGeometry x, ScatteredRayRecorder recorder) {
 			/* nothing to do. */
 		}
 

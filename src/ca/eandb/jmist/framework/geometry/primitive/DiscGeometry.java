@@ -5,14 +5,17 @@ package ca.eandb.jmist.framework.geometry.primitive;
 
 import ca.eandb.jmist.framework.BoundingBoxBuilder3;
 import ca.eandb.jmist.framework.IntersectionRecorder;
+import ca.eandb.jmist.framework.SurfacePointGeometry;
 import ca.eandb.jmist.framework.geometry.AbstractGeometry;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Plane3;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
+import ca.eandb.jmist.math.RandomUtil;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
+import ca.eandb.jmist.math.Vector2;
 import ca.eandb.jmist.math.Vector3;
 
 /**
@@ -136,6 +139,34 @@ public final class DiscGeometry extends AbstractGeometry {
 	 */
 	public Sphere boundingSphere() {
 		return this.boundingSphere;
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#generateRandomSurfacePoint()
+	 */
+	@Override
+	public SurfacePointGeometry generateRandomSurfacePoint() {
+		Vector2 uv = RandomUtil.uniformOnDisc(boundingSphere.radius()).toCartesian();
+		Basis3 basis = Basis3.fromW(this.plane.normal(), Basis3.Orientation.RIGHT_HANDED);
+
+		Point3 p = boundingSphere.center()
+				.plus(basis.u().times(uv.x()))
+				.plus(basis.v().times(uv.y()));
+
+		int id = (twoSided && RandomUtil.coin())
+				? DISC_SURFACE_BOTTOM
+				: DISC_SURFACE_TOP;
+
+		return this.newSurfacePoint(p, id);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getSurfaceArea()
+	 */
+	@Override
+	public double getSurfaceArea() {
+		double r = boundingSphere.radius();
+		return (twoSided ? 2.0 : 1.0) * Math.PI * r * r;
 	}
 
 	/**

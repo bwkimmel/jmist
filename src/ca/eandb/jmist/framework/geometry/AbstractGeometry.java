@@ -189,6 +189,31 @@ public abstract class AbstractGeometry implements Geometry {
 
 	}
 
+	protected final GeometryIntersection newSurfacePoint(Point3 p, boolean front, int surfaceId) {
+
+		return new GeometryIntersection(this, new Ray3(p, Vector3.ZERO), 0.0,
+				front, surfaceId);
+
+	}
+
+	protected final GeometryIntersection newSurfacePoint(Point3 p, boolean front) {
+
+		return this.newSurfacePoint(p, front, 0);
+
+	}
+
+	protected final GeometryIntersection newSurfacePoint(Point3 p, int surfaceId) {
+
+		return this.newSurfacePoint(p, true, surfaceId);
+
+	}
+
+	protected final GeometryIntersection newSurfacePoint(Point3 p) {
+
+		return this.newSurfacePoint(p, true, 0);
+
+	}
+
 	protected Basis3 getBasis(GeometryIntersection x) {
 		throw new UnsupportedOperationException();
 	}

@@ -4,8 +4,8 @@
 package ca.eandb.jmist.framework.material;
 
 import ca.eandb.jmist.framework.IntersectionGeometry;
-import ca.eandb.jmist.framework.ScatterRecorder;
-import ca.eandb.jmist.framework.ScatterResult;
+import ca.eandb.jmist.framework.ScatteredRayRecorder;
+import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.ColorUtil;
@@ -56,10 +56,10 @@ public final class ConductiveMaterial extends AbstractMaterial {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.IntersectionGeometry, ca.eandb.jmist.framework.ScatterRecorder)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.IntersectionGeometry, ca.eandb.jmist.framework.ScatteredRayRecorder)
 	 */
 	@Override
-	public void scatter(IntersectionGeometry x, ScatterRecorder recorder) {
+	public void scatter(IntersectionGeometry x, ScatteredRayRecorder recorder) {
 
 		ColorModel	cm			= ColorModel.getInstance();
 		Point3		p			= x.location();
@@ -76,7 +76,7 @@ public final class ConductiveMaterial extends AbstractMaterial {
 			boolean		toSide	= x.normal().dot(out) >= 0.0;
 
 			if (fromSide == toSide) {
-				recorder.record(ScatterResult.specular(new Ray3(p, out), R));
+				recorder.add(ScatteredRay.specular(new Ray3(p, out), R));
 			}
 		}
 
@@ -110,7 +110,7 @@ public final class ConductiveMaterial extends AbstractMaterial {
 			T					= T.disperse(channel);
 
 			if (fromSide != toSide) {
-				recorder.record(ScatterResult.transmitSpecular(new Ray3(p, out), T));
+				recorder.add(ScatteredRay.transmitSpecular(new Ray3(p, out), T));
 			}
 		}
 

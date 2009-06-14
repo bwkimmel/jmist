@@ -5,7 +5,7 @@ package ca.eandb.jmist.framework.material;
 
 import ca.eandb.jmist.framework.IntersectionGeometry;
 import ca.eandb.jmist.framework.Material;
-import ca.eandb.jmist.framework.ScatterRecorder;
+import ca.eandb.jmist.framework.ScatteredRayRecorder;
 import ca.eandb.jmist.framework.SurfacePointGeometry;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
@@ -26,10 +26,10 @@ public abstract class AbstractMaterial implements Material {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Material#emit(ca.eandb.jmist.framework.SurfacePointGeometry, ca.eandb.jmist.framework.ScatterRecorder)
+	 * @see ca.eandb.jmist.framework.Material#emit(ca.eandb.jmist.framework.SurfacePointGeometry, ca.eandb.jmist.framework.ScatteredRayRecorder)
 	 */
 	@Override
-	public void emit(SurfacePointGeometry x, ScatterRecorder recorder) {
+	public void emit(SurfacePointGeometry x, ScatteredRayRecorder recorder) {
 		/* nothing to do. */
 	}
 
@@ -42,10 +42,10 @@ public abstract class AbstractMaterial implements Material {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Material#scatter(ca.eandb.jmist.framework.IntersectionGeometry, ca.eandb.jmist.framework.ScatterRecorder)
+	 * @see ca.eandb.jmist.framework.Material#scatter(ca.eandb.jmist.framework.IntersectionGeometry, ca.eandb.jmist.framework.ScatteredRayRecorder)
 	 */
 	@Override
-	public void scatter(IntersectionGeometry x, ScatterRecorder recorder) {
+	public void scatter(IntersectionGeometry x, ScatteredRayRecorder recorder) {
 		/* nothing to do. */
 	}
 
