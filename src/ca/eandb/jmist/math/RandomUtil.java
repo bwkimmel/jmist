@@ -12,7 +12,7 @@ package ca.eandb.jmist.math;
 public final class RandomUtil {
 
 	public static SphericalCoordinates diffuse() {
-		return diffuse(random.nextDouble(), random.nextDouble());
+		return diffuse(canonical(), canonical());
 	}
 
 	public static SphericalCoordinates diffuse(double xi1, double xi2) {
@@ -28,11 +28,11 @@ public final class RandomUtil {
 	}
 
 	public static SphericalCoordinates uniformOnUpperHemisphere() {
-		return uniformOnUpperHemisphere(1.0, random.nextDouble(), random.nextDouble());
+		return uniformOnUpperHemisphere(1.0, canonical(), canonical());
 	}
 
 	public static SphericalCoordinates uniformOnUpperHemisphere(double radius) {
-		return uniformOnUpperHemisphere(radius, random.nextDouble(), random.nextDouble());
+		return uniformOnUpperHemisphere(radius, canonical(), canonical());
 	}
 
 	public static SphericalCoordinates uniformOnUpperHemisphere(double radius, double xi1, double xi2) {
@@ -48,11 +48,11 @@ public final class RandomUtil {
 	}
 
 	public static SphericalCoordinates uniformOnSphere() {
-		return uniformOnSphere(1.0, random.nextDouble(), random.nextDouble());
+		return uniformOnSphere(1.0, canonical(), canonical());
 	}
 
 	public static SphericalCoordinates uniformOnSphere(double radius) {
-		return uniformOnSphere(radius, random.nextDouble(), random.nextDouble());
+		return uniformOnSphere(radius, canonical(), canonical());
 	}
 
 	public static SphericalCoordinates uniformOnSphere(double radius, double xi1, double xi2) {
@@ -69,11 +69,11 @@ public final class RandomUtil {
 	}
 
 	public static PolarCoordinates uniformOnDisc() {
-		return uniformOnDisc(1.0, random.nextDouble(), random.nextDouble());
+		return uniformOnDisc(1.0, canonical(), canonical());
 	}
 
 	public static PolarCoordinates uniformOnDisc(double radius) {
-		return uniformOnDisc(radius, random.nextDouble(), random.nextDouble());
+		return uniformOnDisc(radius, canonical(), canonical());
 	}
 
 	public static PolarCoordinates uniformOnDisc(double radius, double xi1, double xi2) {
@@ -116,7 +116,40 @@ public final class RandomUtil {
 	}
 
 	public static int discrete(int minimum, int maximum, double seed) {
-		return minimum + (int) Math.floor(random.nextDouble() * (double) (maximum - minimum + 1));
+		return minimum + (int) Math.floor(canonical() * (double) (maximum - minimum + 1));
+	}
+
+	public static double canonical() {
+		return random.nextDouble();
+	}
+
+	public static Point2 canonical2() {
+		return new Point2(canonical(), canonical());
+	}
+
+	public static Point3 canonical3() {
+		return new Point3(canonical(), canonical(), canonical());
+	}
+
+	public static double uniform(double minimum, double maximum) {
+		return minimum + canonical() * (maximum - minimum);
+	}
+
+	public static double uniform(Interval I) {
+		return uniform(I.minimum(), I.maximum());
+	}
+
+	public static Point2 uniform(Box2 box) {
+		return new Point2(
+				uniform(box.minimumX(), box.maximumX()),
+				uniform(box.minimumY(), box.maximumY()));
+	}
+
+	public static Point3 uniform(Box3 box) {
+		return new Point3(
+				uniform(box.minimumX(), box.maximumX()),
+				uniform(box.minimumY(), box.maximumY()),
+				uniform(box.minimumZ(), box.maximumZ()));
 	}
 
 	private static final java.util.Random random = new java.util.Random();
