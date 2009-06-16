@@ -3,10 +3,9 @@
  */
 package ca.eandb.jmist.framework.caster;
 
-import ca.eandb.jmist.framework.Geometry;
-import ca.eandb.jmist.framework.IntersectionGeometry;
-import ca.eandb.jmist.framework.NearestIntersectionRecorder;
+import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.RayCaster;
+import ca.eandb.jmist.framework.SceneObject;
 import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
@@ -17,30 +16,21 @@ import ca.eandb.jmist.math.Ray3;
  */
 public final class GeometryRayCaster implements RayCaster {
 
-	private final Geometry geometry;
+	private final SceneObject sceneObject;
 
 	/**
-	 * @param geometry
+	 * @param sceneObject
 	 */
-	public GeometryRayCaster(Geometry geometry) {
-		this.geometry = geometry;
+	public GeometryRayCaster(SceneObject sceneObject) {
+		this.sceneObject = sceneObject;
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.RayCaster#castRay(ca.eandb.jmist.math.Ray3, double)
+	 * @see ca.eandb.jmist.framework.RayCaster#castRay(ca.eandb.jmist.math.Ray3)
 	 */
 	@Override
-	public IntersectionGeometry castRay(Ray3 ray, double maximumDistance) {
-		IntersectionGeometry x = NearestIntersectionRecorder.computeNearestIntersection(ray, geometry);
-		return x != null && x.distance() < maximumDistance ? x : null;
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.RayCaster#castRay(ca.eandb.jmist.math.Ray3, double)
-	 */
-	@Override
-	public IntersectionGeometry castRay(Ray3 ray) {
-		return castRay(ray, Double.POSITIVE_INFINITY);
+	public Intersection castRay(Ray3 ray) {
+		return sceneObject.intersect(ray);
 	}
 
 	/* (non-Javadoc)
@@ -48,7 +38,7 @@ public final class GeometryRayCaster implements RayCaster {
 	 */
 	@Override
 	public boolean visibility(Ray3 ray, Interval I) {
-		return geometry.visibility(ray, I);
+		return sceneObject.visibility(ray, I);
 	}
 
 	/* (non-Javadoc)
@@ -56,7 +46,7 @@ public final class GeometryRayCaster implements RayCaster {
 	 */
 	@Override
 	public boolean visibility(Ray3 ray) {
-		return geometry.visibility(ray);
+		return sceneObject.visibility(ray);
 	}
 
 	/* (non-Javadoc)
@@ -64,7 +54,7 @@ public final class GeometryRayCaster implements RayCaster {
 	 */
 	@Override
 	public boolean visibility(Point3 p, Point3 q) {
-		return geometry.visibility(p, q);
+		return sceneObject.visibility(p, q);
 	}
 
 }

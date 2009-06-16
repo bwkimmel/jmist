@@ -60,7 +60,7 @@ public final class SphereGeometry extends AbstractGeometry {
 	 */
 	@Override
 	protected Basis3 getBasis(GeometryIntersection x) {
-		return Basis3.fromW(x.normal(), Basis3.Orientation.RIGHT_HANDED);
+		return Basis3.fromW(x.getNormal(), Basis3.Orientation.RIGHT_HANDED);
 	}
 
 	/* (non-Javadoc)
@@ -68,7 +68,7 @@ public final class SphereGeometry extends AbstractGeometry {
 	 */
 	@Override
 	protected Vector3 getNormal(GeometryIntersection x) {
-		return this.sphere.normalAt(x.location());
+		return this.sphere.normalAt(x.getPosition());
 	}
 
 	/* (non-Javadoc)
@@ -76,7 +76,7 @@ public final class SphereGeometry extends AbstractGeometry {
 	 */
 	@Override
 	protected Point2 getTextureCoordinates(GeometryIntersection x) {
-		Vector3					n = x.normal();
+		Vector3					n = x.getNormal();
 		SphericalCoordinates	sc = SphericalCoordinates.fromCartesian(new Vector3(n.x(), -n.z(), n.y()));
 
 		return new Point2(

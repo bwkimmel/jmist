@@ -169,7 +169,7 @@ public final class HeightFieldGeometry extends AbstractGeometry {
 	 */
 	@Override
 	protected Point2 getTextureCoordinates(GeometryIntersection x) {
-		Point3 p = x.location();
+		Point3 p = x.getPosition();
 		Box3 bounds = grid.getBoundingBox();
 		return new Point2(
 				(p.x() - bounds.minimumX()) / (bounds.maximumX() - bounds.minimumX()),

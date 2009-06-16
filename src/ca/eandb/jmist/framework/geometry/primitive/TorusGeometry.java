@@ -73,7 +73,7 @@ public final class TorusGeometry extends AbstractGeometry {
 	@Override
 	protected Vector3 getNormal(GeometryIntersection x) {
 
-		Point3	p = x.location();
+		Point3	p = x.getPosition();
 		Vector3	rel = new Vector3(p.x(), 0.0, p.z());
 
 		double	length = rel.length();
@@ -94,10 +94,10 @@ public final class TorusGeometry extends AbstractGeometry {
 	@Override
 	protected Basis3 getBasis(GeometryIntersection x) {
 
-		Point3	p	= x.location();
+		Point3	p	= x.getPosition();
 		Vector3	u	= new Vector3(-p.z(), 0.0, p.x()).unit();
 
-		return Basis3.fromWU(x.normal(), u, Basis3.Orientation.RIGHT_HANDED);
+		return Basis3.fromWU(x.getNormal(), u, Basis3.Orientation.RIGHT_HANDED);
 
 	}
 
@@ -107,7 +107,7 @@ public final class TorusGeometry extends AbstractGeometry {
 	@Override
 	protected Point2 getTextureCoordinates(GeometryIntersection x) {
 
-		Vector3	cp	= x.location().vectorFrom(Point3.ORIGIN);
+		Vector3	cp	= x.getPosition().vectorFrom(Point3.ORIGIN);
 		Vector3	R	= new Vector3(cp.x(), 0.0, cp.z()).unit();
 		Vector3	r	= cp.minus(R.times(major)).unit();
 

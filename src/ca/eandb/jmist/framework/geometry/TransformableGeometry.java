@@ -157,16 +157,16 @@ public final class TransformableGeometry extends CompositeGeometry implements
 		 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#incident()
 		 */
 		@Override
-		public Vector3 incident() {
-			return model.apply(this.inner.incident());
+		public Vector3 getIncident() {
+			return model.apply(this.inner.getIncident());
 		}
 
 		/* (non-Javadoc)
 		 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#basis()
 		 */
 		@Override
-		public Basis3 basis() {
-			Basis3 localBasis = this.inner.basis();
+		public Basis3 getBasis() {
+			Basis3 localBasis = this.inner.getBasis();
 			return Basis3.fromUV(
 					model.apply(localBasis.u()),
 					model.apply(localBasis.v()),
@@ -178,16 +178,16 @@ public final class TransformableGeometry extends CompositeGeometry implements
 		 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#location()
 		 */
 		@Override
-		public Point3 location() {
-			return model.apply(this.inner.location());
+		public Point3 getPosition() {
+			return model.apply(this.inner.getPosition());
 		}
 
 		/* (non-Javadoc)
 		 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#shadingBasis()
 		 */
 		@Override
-		public Basis3 shadingBasis() {
-			Basis3 localShadingBasis = this.inner.shadingBasis();
+		public Basis3 getShadingBasis() {
+			Basis3 localShadingBasis = this.inner.getShadingBasis();
 			return Basis3.fromUV(
 					model.apply(localShadingBasis.u()),
 					model.apply(localShadingBasis.v()),
@@ -199,26 +199,26 @@ public final class TransformableGeometry extends CompositeGeometry implements
 		 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#shadingNormal()
 		 */
 		@Override
-		public Vector3 shadingNormal() {
+		public Vector3 getShadingNormal() {
 			// TODO implement this directly for better performance.
-			return this.shadingBasis().w();
+			return this.getShadingBasis().w();
 		}
 
 		/* (non-Javadoc)
 		 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#normal()
 		 */
 		@Override
-		public Vector3 normal() {
+		public Vector3 getNormal() {
 			// TODO implement this directly for better performance.
-			return this.basis().w();
+			return this.getBasis().w();
 		}
 
 		/* (non-Javadoc)
 		 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#tangent()
 		 */
 		@Override
-		public Vector3 tangent() {
-			return model.apply(this.inner.tangent());
+		public Vector3 getTangent() {
+			return model.apply(this.inner.getTangent());
 		}
 
 	}

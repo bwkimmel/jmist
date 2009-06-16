@@ -128,7 +128,7 @@ public final class BoxGeometry extends AbstractGeometry {
 	 */
 	@Override
 	protected Basis3 getBasis(GeometryIntersection x) {
-		return Basis3.fromW(x.normal(), Basis3.Orientation.RIGHT_HANDED);
+		return Basis3.fromW(x.getNormal(), Basis3.Orientation.RIGHT_HANDED);
 	}
 
 	/* (non-Javadoc)
@@ -155,7 +155,7 @@ public final class BoxGeometry extends AbstractGeometry {
 	protected Point2 getTextureCoordinates(GeometryIntersection x) {
 
 		Point2	facePoint;
-		Point3	p = x.location();
+		Point3	p = x.getPosition();
 
 		switch (x.surfaceId())
 		{

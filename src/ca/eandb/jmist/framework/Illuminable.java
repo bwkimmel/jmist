@@ -25,14 +25,12 @@
 
 package ca.eandb.jmist.framework;
 
-import ca.eandb.jmist.framework.color.ColorModel;
-
 /**
  * @author brad
  *
  */
-public interface RenderContext {
+public interface Illuminable {
 
-	ColorModel getColorModel();
+	void addLightSample(LightSample sample);
 
 }

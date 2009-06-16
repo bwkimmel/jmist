@@ -31,9 +31,9 @@ public final class MirrorMaterial extends OpaqueMaterial {
 	@Override
 	public void scatter(IntersectionGeometry x, ScatteredRayRecorder recorder) {
 
-		Vector3 out = Optics.reflect(x.incident(), x.shadingNormal());
+		Vector3 out = Optics.reflect(x.getIncident(), x.getShadingNormal());
 
-		recorder.add(ScatteredRay.specular(new Ray3(x.location(), out),
+		recorder.add(ScatteredRay.specular(new Ray3(x.getPosition(), out),
 				reflectance.getColor(x)));
 
 	}

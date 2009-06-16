@@ -25,42 +25,67 @@
 
 package ca.eandb.jmist.framework.light;
 
-import ca.eandb.jmist.framework.EmissionPoint;
-import ca.eandb.jmist.framework.SurfacePointGeometry;
+import ca.eandb.jmist.framework.LightSample;
+import ca.eandb.jmist.framework.VisibilityFunction3;
 import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.math.Point3;
-import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
 
 /**
  * @author brad
  *
  */
-public final class SurfaceEmissionPoint implements EmissionPoint {
+public final class ScaledLightSample implements LightSample {
 
-	private final SurfacePointGeometry surfacePoint;
-	
-	@Override
-	public Ray3 emit() {
-		surfacePoint.material();
+	private final double factor;
+
+	private final LightSample sample;
+
+	/**
+	 * @param factor
+	 * @param sample
+	 */
+	private ScaledLightSample(double factor, LightSample sample) {
+		this.factor = factor;
+		this.sample = sample;
 	}
 
-	@Override
-	public Color getEmittedRadiance(Vector3 v) {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 *
+	 * @param factor
+	 * @param sample
+	 * @return
+	 */
+	public static ScaledLightSample create(double factor, LightSample sample) {
+		if (sample instanceof ScaledLightSample) {
+			ScaledLightSample other = (ScaledLightSample) sample;
+			return new ScaledLightSample(factor * other.factor, other.sample);
+		} else {
+			return new ScaledLightSample(factor, sample);
+		}
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.LightSample#castShadowRay(ca.eandb.jmist.framework.VisibilityFunction3)
+	 */
 	@Override
-	public Color getRadiantExitance() {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean castShadowRay(VisibilityFunction3 vf) {
+		return sample.castShadowRay(vf);
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.LightSample#getDirToLight()
+	 */
 	@Override
-	public boolean isAtInfinity() {
-		// TODO Auto-generated method stub
-		return false;
+	public Vector3 getDirToLight() {
+		return sample.getDirToLight();
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.LightSample#getRadiantIntensity()
+	 */
+	@Override
+	public Color getRadiantIntensity() {
+		return sample.getRadiantIntensity().times(factor);
 	}
 
 }

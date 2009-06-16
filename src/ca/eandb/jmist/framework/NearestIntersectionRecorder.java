@@ -59,8 +59,8 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
 	 * @see ca.eandb.jmist.framework.IntersectionRecorder#record(ca.eandb.jmist.framework.IntersectionGeometry)
 	 */
 	public void record(IntersectionGeometry intersection) {
-		if (this.interval().contains(intersection.distance())) {
-			if (this.nearest == null || intersection.distance() < this.nearest.distance()) {
+		if (this.interval().contains(intersection.getDistance())) {
+			if (this.nearest == null || intersection.getDistance() < this.nearest.getDistance()) {
 				this.nearest = intersection;
 			}
 		}

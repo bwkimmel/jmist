@@ -23,34 +23,33 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package ca.eandb.jmist.framework.shader;
+package ca.eandb.jmist.framework.shader.ray;
 
-import ca.eandb.jmist.framework.LightSample;
-import ca.eandb.jmist.framework.Material;
-import ca.eandb.jmist.framework.Shader;
-import ca.eandb.jmist.framework.ShadingContext;
+import ca.eandb.jmist.framework.RayShader;
 import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.math.Vector3;
+import ca.eandb.jmist.math.Ray3;
 
 /**
  * @author brad
  *
  */
-public final class DirectLightingShader implements Shader {
+public final class UniformRayShader implements RayShader {
+
+	private final Color color;
+
+	/**
+	 * @param color
+	 */
+	public UniformRayShader(Color color) {
+		this.color = color;
+	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
+	 * @see ca.eandb.jmist.framework.RayShader#shadeRay(ca.eandb.jmist.math.Ray3)
 	 */
 	@Override
-	public Color shade(ShadingContext sc) {
-		Material mat = sc.material();
-		Color sum = sc.getColorModel().getBlack();
-		for (LightSample sample : sc.getLightSamples()) {
-			Vector3 toLight = sample.getDirToLight();
-			Color bsdf = mat.scattering(sc, toLight);
-			sum = sum.plus(sample.getRadiantIntensity().times(bsdf));
-		}
-		return sum;
+	public Color shadeRay(Ray3 ray) {
+		return color;
 	}
 
 }

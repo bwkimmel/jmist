@@ -27,15 +27,11 @@ package ca.eandb.jmist.framework.shader;
 
 import java.util.EnumSet;
 
-import ca.eandb.jmist.framework.Intersection;
-import ca.eandb.jmist.framework.PathContext;
-import ca.eandb.jmist.framework.RayCaster;
-import ca.eandb.jmist.framework.RenderContext;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.ScatteredRays;
 import ca.eandb.jmist.framework.Shader;
+import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.math.Ray3;
 
 /**
  * @author brad
@@ -64,20 +60,18 @@ public final class DistributionShader implements Shader {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.framework.RayCaster, ca.eandb.jmist.framework.ScatteredRays, ca.eandb.jmist.framework.PathContext, ca.eandb.jmist.framework.RenderContext)
+	 * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
 	 */
 	@Override
-	public Color shade(Intersection x, RayCaster caster, ScatteredRays rays,
-			PathContext pc, RenderContext rc) {
+	public Color shade(ShadingContext sc) {
 
-		Color result = rc.getColorModel().getBlack();
+		Color result = sc.getColorModel().getBlack();
+		ScatteredRays rays = sc.getScatteredRays();
 
 		for (int i = 0; i < rays.size(); i++) {
-			ScatteredRay sr = rays.get(i);
-			if (filter.contains(sr.getType())) {
-				PathContext childContext = pc.createChildContext(x, sr);
-				Ray3 ray = sr.getRay();
-				result = result.plus(caster.shadeRay(ray, childContext, rc));
+			ScatteredRay ray = rays.get(i);
+			if (filter.contains(ray.getType())) {
+				result = result.plus(sc.castRay(ray));
 			}
 		}
 

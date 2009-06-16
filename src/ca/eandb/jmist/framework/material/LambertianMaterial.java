@@ -57,11 +57,11 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 	@Override
 	public Color emission(SurfacePointGeometry x, Vector3 out) {
 
-		if (this.emittance == null || x.normal().dot(out) < 0.0) {
+		if (this.emittance == null || x.getNormal().dot(out) < 0.0) {
 			return ColorModel.getInstance().getBlack();
 		}
 
-		double ndotv = x.shadingNormal().dot(out);
+		double ndotv = x.getShadingNormal().dot(out);
 		return ndotv > 0.0 ? emittance.getColor(x).times(ndotv) : ColorModel.getInstance().getBlack();
 
 	}
@@ -75,9 +75,9 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 		if (this.emittance != null) {
 
 			SphericalCoordinates out = RandomUtil.uniformOnUpperHemisphere();
-			Ray3 ray = new Ray3(x.location(), out.toCartesian(x.shadingBasis()));
+			Ray3 ray = new Ray3(x.getPosition(), out.toCartesian(x.getShadingBasis()));
 
-			if (x.normal().dot(ray.direction()) > 0.0) {
+			if (x.getNormal().dot(ray.direction()) > 0.0) {
 				recorder.add(ScatteredRay.diffuse(ray, emittance.getColor(x)));
 			}
 
@@ -94,9 +94,9 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 		if (this.reflectance != null) {
 
 			SphericalCoordinates out = RandomUtil.diffuse();
-			Ray3 ray = new Ray3(x.location(), out.toCartesian(x.shadingBasis()));
+			Ray3 ray = new Ray3(x.getPosition(), out.toCartesian(x.getShadingBasis()));
 
-			if (ray.direction().dot(x.normal()) > 0.0) {
+			if (ray.direction().dot(x.getNormal()) > 0.0) {
 				recorder.add(ScatteredRay.diffuse(ray, reflectance.getColor(x)));
 			}
 
@@ -110,9 +110,9 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 	@Override
 	public Color scattering(IntersectionGeometry x, Vector3 in) {
 
-		boolean toFront = (x.normal().dot(in) > 0.0);
+		boolean toFront = (x.getNormal().dot(in) > 0.0);
 
-		if (this.reflectance != null && x.front() == toFront) {
+		if (this.reflectance != null && x.isFront() == toFront) {
 			return reflectance.getColor(x);
 		} else {
 			return ColorModel.getInstance().getBlack();

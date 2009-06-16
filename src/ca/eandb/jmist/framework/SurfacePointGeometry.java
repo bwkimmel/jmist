@@ -14,16 +14,16 @@ import ca.eandb.jmist.math.Vector3;
  */
 public interface SurfacePointGeometry {
 
-	Point3 location();
-	Vector3 normal();
-	Basis3 basis();
-	Vector3 shadingNormal();
-	Basis3 shadingBasis();
+	Point3 getPosition();
+	Vector3 getNormal();
+	Basis3 getBasis();
+	Vector3 getShadingNormal();
+	Basis3 getShadingBasis();
 
-	Vector3 tangent();
+	Vector3 getTangent();
 
-	Point2 textureCoordinates();
+	Point2 getUV();
 
-	boolean closed();
+	boolean isSurfaceClosed();
 
 }

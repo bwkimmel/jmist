@@ -33,6 +33,6 @@ import ca.eandb.jmist.framework.color.Color;
  */
 public interface Shader {
 
-	Color shade(Intersection x, RayCaster caster, ScatteredRays rays, PathContext pc, RenderContext rc);
+	Color shade(ShadingContext sc);
 
 }

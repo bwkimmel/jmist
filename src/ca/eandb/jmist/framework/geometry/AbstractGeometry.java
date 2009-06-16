@@ -51,28 +51,28 @@ public abstract class AbstractGeometry implements Geometry {
 		/* (non-Javadoc)
 		 * @see ca.eandb.jmist.framework.IntersectionGeometry#distance()
 		 */
-		public double distance() {
+		public double getDistance() {
 			return this.distance;
 		}
 
 		/* (non-Javadoc)
 		 * @see ca.eandb.jmist.framework.IntersectionGeometry#front()
 		 */
-		public boolean front() {
+		public boolean isFront() {
 			return this.front;
 		}
 
 		/* (non-Javadoc)
 		 * @see ca.eandb.jmist.framework.IntersectionGeometry#incident()
 		 */
-		public Vector3 incident() {
+		public Vector3 getIncident() {
 			return this.ray.direction();
 		}
 
 		/* (non-Javadoc)
 		 * @see ca.eandb.jmist.framework.SurfacePointGeometry#basis()
 		 */
-		public Basis3 basis() {
+		public Basis3 getBasis() {
 			if (this.basis == null) {
 				this.setBasis(this.geometry.getBasis(this));
 			}
@@ -89,7 +89,7 @@ public abstract class AbstractGeometry implements Geometry {
 		/* (non-Javadoc)
 		 * @see ca.eandb.jmist.framework.SurfacePointGeometry#location()
 		 */
-		public Point3 location() {
+		public Point3 getPosition() {
 			if (this.location == null) {
 				this.setLocation(this.ray.pointAt(this.distance));
 			}
@@ -105,21 +105,21 @@ public abstract class AbstractGeometry implements Geometry {
 		/* (non-Javadoc)
 		 * @see ca.eandb.jmist.framework.SurfacePointGeometry#shadingBasis()
 		 */
-		public Basis3 shadingBasis() {
-			return this.basis();
+		public Basis3 getShadingBasis() {
+			return this.getBasis();
 		}
 
 		/* (non-Javadoc)
 		 * @see ca.eandb.jmist.framework.SurfacePointGeometry#shadingNormal()
 		 */
-		public Vector3 shadingNormal() {
-			return this.normal();
+		public Vector3 getShadingNormal() {
+			return this.getNormal();
 		}
 
 		/* (non-Javadoc)
 		 * @see ca.eandb.jmist.framework.SurfacePointGeometry#normal()
 		 */
-		public Vector3 normal() {
+		public Vector3 getNormal() {
 			if (this.normal == null) {
 				this.setNormal(this.geometry.getNormal(this));
 			}
@@ -135,14 +135,14 @@ public abstract class AbstractGeometry implements Geometry {
 		/* (non-Javadoc)
 		 * @see ca.eandb.jmist.framework.SurfacePointGeometry#tangent()
 		 */
-		public Vector3 tangent() {
-			return this.basis().u();
+		public Vector3 getTangent() {
+			return this.getBasis().u();
 		}
 
 		/* (non-Javadoc)
 		 * @see ca.eandb.jmist.framework.SurfacePointGeometry#textureCoordinates()
 		 */
-		public Point2 textureCoordinates() {
+		public Point2 getUV() {
 			if (this.textureCoordinates == null) {
 				this.setTextureCoordinates(this.geometry.getTextureCoordinates(this));
 			}
@@ -158,7 +158,7 @@ public abstract class AbstractGeometry implements Geometry {
 		/* (non-Javadoc)
 		 * @see ca.eandb.jmist.framework.SurfacePointGeometry#closed()
 		 */
-		public boolean closed() {
+		public boolean isSurfaceClosed() {
 			return this.geometry.isClosed();
 		}
 
@@ -235,7 +235,7 @@ public abstract class AbstractGeometry implements Geometry {
 
 		this.intersect(ray, recorder);
 
-		return recorder.isEmpty() || !I.contains(recorder.nearestIntersection().distance());
+		return recorder.isEmpty() || !I.contains(recorder.nearestIntersection().getDistance());
 
 	}
 

@@ -97,8 +97,8 @@ public final class DiscGeometry extends AbstractGeometry {
 	@Override
 	protected Point2 getTextureCoordinates(GeometryIntersection x) {
 
-		Basis3 basis = x.basis();
-		Vector3 r = x.location().vectorFrom(this.boundingSphere.center());
+		Basis3 basis = x.getBasis();
+		Vector3 r = x.getPosition().vectorFrom(this.boundingSphere.center());
 
 		return new Point2(
 				r.dot(basis.u()) / this.boundingSphere.radius(),

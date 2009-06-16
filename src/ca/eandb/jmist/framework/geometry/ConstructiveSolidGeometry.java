@@ -138,9 +138,9 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 				assert(x.getArgumentIndex() < nArgs);
 
 				/* Ignore intersections on non-closed geometries. */
-				if (inner.closed()) {
+				if (inner.isSurfaceClosed()) {
 
-					args.set(x.getArgumentIndex(), inner.front());
+					args.set(x.getArgumentIndex(), inner.isFront());
 					toInside = isInside(nArgs, args);
 
 					/* If the intersection represents the traversal from
@@ -150,7 +150,7 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 					 * range expected by the recorder.
 					 */
 					if (fromInside != toInside
-							&& recorder.interval().contains(inner.distance())) {
+							&& recorder.interval().contains(inner.getDistance())) {
 
 						/* The intersection is a front intersection if the ray
 						 * is passing into the geometry.
@@ -187,7 +187,7 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 		 * An <code>IntersectionGeometry</code> decorator that adds functionality
 		 * needed to support constructive solid geometry.  This decorator
 		 * keeps track of which child geometry the intersection is for, and it
-		 * can be flipped, which toggles the {@link IntersectionGeometry#front()}
+		 * can be flipped, which toggles the {@link IntersectionGeometry#isFront()}
 		 * property and negates the basis and normal.
 		 * @author Brad Kimmel
 		 */
@@ -207,16 +207,16 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 			 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#front()
 			 */
 			@Override
-			public boolean front() {
-				return this.flipped ? !this.inner.front() : this.inner.front();
+			public boolean isFront() {
+				return this.flipped ? !this.inner.isFront() : this.inner.isFront();
 			}
 
 			/* (non-Javadoc)
 			 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#basis()
 			 */
 			@Override
-			public Basis3 basis() {
-				Basis3 basis = this.inner.basis();
+			public Basis3 getBasis() {
+				Basis3 basis = this.inner.getBasis();
 				return this.flipped ? basis.opposite() : basis;
 			}
 
@@ -224,7 +224,7 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 			 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#closed()
 			 */
 			@Override
-			public boolean closed() {
+			public boolean isSurfaceClosed() {
 				return true;
 			}
 
@@ -232,8 +232,8 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 			 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#shadingBasis()
 			 */
 			@Override
-			public Basis3 shadingBasis() {
-				Basis3 basis = this.inner.shadingBasis();
+			public Basis3 getShadingBasis() {
+				Basis3 basis = this.inner.getShadingBasis();
 				return this.flipped ? basis.opposite() : basis;
 			}
 
@@ -241,8 +241,8 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 			 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#shadingNormal()
 			 */
 			@Override
-			public Vector3 shadingNormal() {
-				Vector3 n = this.inner.shadingNormal();
+			public Vector3 getShadingNormal() {
+				Vector3 n = this.inner.getShadingNormal();
 				return this.flipped ? n.opposite() : n;
 			}
 
@@ -250,8 +250,8 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 			 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#normal()
 			 */
 			@Override
-			public Vector3 normal() {
-				Vector3 n = this.inner.normal();
+			public Vector3 getNormal() {
+				Vector3 n = this.inner.getNormal();
 				return this.flipped ? n.opposite() : n;
 			}
 
@@ -259,8 +259,8 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 			 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#tangent()
 			 */
 			@Override
-			public Vector3 tangent() {
-				return this.inner.tangent();
+			public Vector3 getTangent() {
+				return this.inner.getTangent();
 			}
 
 			/**
@@ -291,7 +291,7 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 			 * 		with the outside of the geometry.
 			 */
 			public void setFront(boolean front) {
-				this.flipped = (front != inner.front());
+				this.flipped = (front != inner.isFront());
 			}
 
 			/**
@@ -322,7 +322,7 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 				new Comparator<IntersectionGeometry>() {
 
 					public int compare(IntersectionGeometry arg0, IntersectionGeometry arg1) {
-						return Double.compare(arg0.distance(), arg1.distance());
+						return Double.compare(arg0.getDistance(), arg1.getDistance());
 					}
 
 				});

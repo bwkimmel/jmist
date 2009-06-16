@@ -23,34 +23,35 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package ca.eandb.jmist.framework.shader;
+package ca.eandb.jmist.framework;
 
-import ca.eandb.jmist.framework.LightSample;
-import ca.eandb.jmist.framework.Material;
-import ca.eandb.jmist.framework.Shader;
-import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.math.Vector3;
+import ca.eandb.jmist.framework.color.ColorModel;
 
 /**
  * @author brad
  *
  */
-public final class DirectLightingShader implements Shader {
+public interface ShadingContext extends Intersection, VisibilityFunction3 {
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
-	 */
-	@Override
-	public Color shade(ShadingContext sc) {
-		Material mat = sc.material();
-		Color sum = sc.getColorModel().getBlack();
-		for (LightSample sample : sc.getLightSamples()) {
-			Vector3 toLight = sample.getDirToLight();
-			Color bsdf = mat.scattering(sc, toLight);
-			sum = sum.plus(sample.getRadiantIntensity().times(bsdf));
-		}
-		return sum;
-	}
+	int getPathDepth();
+
+	Color getImportance();
+
+	boolean isEyePath();
+
+	boolean isLightPath();
+
+	int getPathDepthByType(ScatteredRay.Type type);
+
+	ColorModel getColorModel();
+
+	ScatteredRays getScatteredRays();
+
+	Color castRay(ScatteredRay ray);
+
+	Color shade();
+
+	Iterable<LightSample> getLightSamples();
 
 }

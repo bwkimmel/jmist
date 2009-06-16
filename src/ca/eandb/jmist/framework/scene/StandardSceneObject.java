@@ -68,7 +68,7 @@ public final class StandardSceneObject implements SceneObject {
 	 * @param ambientMedium
 	 * @param epsilon
 	 */
-	private StandardSceneObject(Geometry geometry, Material material,
+	public StandardSceneObject(Geometry geometry, Material material,
 			Shader shader, Medium ambientMedium, double epsilon) {
 		this.geometry = geometry;
 		this.material = material;
@@ -83,7 +83,7 @@ public final class StandardSceneObject implements SceneObject {
 	 * @param shader
 	 * @param ambientMedium
 	 */
-	private StandardSceneObject(Geometry geometry, Material material,
+	public StandardSceneObject(Geometry geometry, Material material,
 			Shader shader, Medium ambientMedium) {
 		this(geometry, material, shader, ambientMedium, MathUtil.EPSILON);
 	}
@@ -94,7 +94,7 @@ public final class StandardSceneObject implements SceneObject {
 	 * @param shader
 	 * @param ambientMedium
 	 */
-	private StandardSceneObject(Geometry geometry, Material material,
+	public StandardSceneObject(Geometry geometry, Material material,
 			Shader shader) {
 		this(geometry, material, shader, null);
 	}
@@ -128,43 +128,43 @@ public final class StandardSceneObject implements SceneObject {
 		}
 
 		@Override
-		public Basis3 basis() {
-			return geom.basis();
+		public Basis3 getBasis() {
+			return geom.getBasis();
 		}
 
 		@Override
-		public boolean closed() {
-			return geom.closed();
+		public boolean isSurfaceClosed() {
+			return geom.isSurfaceClosed();
 		}
 
 		@Override
-		public Point3 location() {
-			return geom.location();
+		public Point3 getPosition() {
+			return geom.getPosition();
 		}
 
 		@Override
-		public Vector3 normal() {
-			return geom.normal();
+		public Vector3 getNormal() {
+			return geom.getNormal();
 		}
 
 		@Override
-		public Basis3 shadingBasis() {
-			return geom.shadingBasis();
+		public Basis3 getShadingBasis() {
+			return geom.getShadingBasis();
 		}
 
 		@Override
-		public Vector3 shadingNormal() {
-			return geom.shadingNormal();
+		public Vector3 getShadingNormal() {
+			return geom.getShadingNormal();
 		}
 
 		@Override
-		public Vector3 tangent() {
-			return geom.tangent();
+		public Vector3 getTangent() {
+			return geom.getTangent();
 		}
 
 		@Override
-		public Point2 textureCoordinates() {
-			return geom.textureCoordinates();
+		public Point2 getUV() {
+			return geom.getUV();
 		}
 
 	}
@@ -176,18 +176,18 @@ public final class StandardSceneObject implements SceneObject {
 		}
 
 		@Override
-		public double distance() {
-			return ((IntersectionGeometry) geom).distance();
+		public double getDistance() {
+			return ((IntersectionGeometry) geom).getDistance();
 		}
 
 		@Override
-		public boolean front() {
-			return ((IntersectionGeometry) geom).front();
+		public boolean isFront() {
+			return ((IntersectionGeometry) geom).isFront();
 		}
 
 		@Override
-		public Vector3 incident() {
-			return ((IntersectionGeometry) geom).incident();
+		public Vector3 getIncident() {
+			return ((IntersectionGeometry) geom).getIncident();
 		}
 
 	}

@@ -60,7 +60,7 @@ public final class InsideOutGeometry extends AbstractGeometry {
 
 	/**
 	 * An <code>IntersectionRecorder</code> decorator that flips the normals,
-	 * bases, tangents and the {@link IntersectionGeometry#front()} property of all
+	 * bases, tangents and the {@link IntersectionGeometry#isFront()} property of all
 	 * <code>IntersectionGeometry</code>s recorded to it.
 	 * @author Brad Kimmel
 	 */
@@ -85,7 +85,7 @@ public final class InsideOutGeometry extends AbstractGeometry {
 
 		/**
 		 * An <code>IntersectionGeometry</code> decorator that flips the normals,
-		 * bases, tangents, and the {@link IntersectionGeometry#front()} properties of
+		 * bases, tangents, and the {@link IntersectionGeometry#isFront()} properties of
 		 * the decorated <code>IntersectionGeometry</code>.
 		 * @author Brad Kimmel
 		 */
@@ -103,48 +103,48 @@ public final class InsideOutGeometry extends AbstractGeometry {
 			 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#front()
 			 */
 			@Override
-			public boolean front() {
-				return !this.inner.front();
+			public boolean isFront() {
+				return !this.inner.isFront();
 			}
 
 			/* (non-Javadoc)
 			 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#basis()
 			 */
 			@Override
-			public Basis3 basis() {
-				return this.inner.basis().opposite();
+			public Basis3 getBasis() {
+				return this.inner.getBasis().opposite();
 			}
 
 			/* (non-Javadoc)
 			 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#shadingBasis()
 			 */
 			@Override
-			public Basis3 shadingBasis() {
-				return this.inner.shadingBasis().opposite();
+			public Basis3 getShadingBasis() {
+				return this.inner.getShadingBasis().opposite();
 			}
 
 			/* (non-Javadoc)
 			 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#shadingNormal()
 			 */
 			@Override
-			public Vector3 shadingNormal() {
-				return this.inner.shadingNormal().opposite();
+			public Vector3 getShadingNormal() {
+				return this.inner.getShadingNormal().opposite();
 			}
 
 			/* (non-Javadoc)
 			 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#normal()
 			 */
 			@Override
-			public Vector3 normal() {
-				return this.inner.normal().opposite();
+			public Vector3 getNormal() {
+				return this.inner.getNormal().opposite();
 			}
 
 			/* (non-Javadoc)
 			 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#tangent()
 			 */
 			@Override
-			public Vector3 tangent() {
-				return this.inner.tangent().opposite();
+			public Vector3 getTangent() {
+				return this.inner.getTangent().opposite();
 			}
 
 		}

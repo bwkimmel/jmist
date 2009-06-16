@@ -4,17 +4,15 @@
 package ca.eandb.jmist.framework.light;
 
 import ca.eandb.jmist.framework.DirectionalTexture3;
+import ca.eandb.jmist.framework.Illuminable;
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.Light;
-import ca.eandb.jmist.framework.VisibilityFunction3;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.spectrum.AbstractSpectrum;
 import ca.eandb.jmist.math.Basis3;
-import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.RandomUtil;
-import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
 import ca.eandb.jmist.util.ArrayUtil;
 
@@ -141,31 +139,22 @@ public final class DayLight implements Light, DirectionalTexture3 {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.framework.VisibilityFunction3)
+	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.framework.Illuminable)
 	 */
-	public Color illuminate(Intersection x, VisibilityFunction3 vf) {
+	public void illuminate(Intersection x, Illuminable target) {
 
 		Vector3	source = RandomUtil.uniformOnUpperHemisphere().toCartesian(Basis3.fromW(zenith));
-		Ray3	ray = new Ray3(x.location(), source);
 
-		if (source.dot(x.normal()) > 0.0 && (!shadows || vf.visibility(ray, Interval.POSITIVE))) {
-			double sdotn = source.dot(x.shadingNormal());
-			Color bsdf = x.material().scattering(x, source);
+		if (source.dot(x.getNormal()) > 0.0) {
+			double sdotn = source.dot(x.getShadingNormal());
 			Color radiance = ColorModel.getInstance().fromSpectrum(new SkyRadianceSpectrum(source));
-			return radiance.times(bsdf).times(sdotn);
+			target.addLightSample(new DirectionalLightSample(x, source, radiance.times(sdotn), shadows));
 		}
 
-		if (daytime && sun.dot(x.normal()) > 0.0) {
-			ray = new Ray3(x.location(), sun);
-
-			if (!shadows || vf.visibility(ray, Interval.POSITIVE)) {
-				double sdotn = sun.dot(x.shadingNormal());
-				Color bsdf = x.material().scattering(x, sun);
-				return solarRadiance.times(bsdf).times(sdotn);
-			}
+		if (daytime && sun.dot(x.getNormal()) > 0.0) {
+			double sdotn = sun.dot(x.getShadingNormal());
+			target.addLightSample(new DirectionalLightSample(x, sun, solarRadiance.times(sdotn), shadows));
 		}
-
-		return ColorModel.getInstance().getBlack();
 
 	}
 /*

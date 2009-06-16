@@ -25,15 +25,10 @@
 
 package ca.eandb.jmist.framework.shader;
 
-import ca.eandb.jmist.framework.Intersection;
-import ca.eandb.jmist.framework.PathContext;
-import ca.eandb.jmist.framework.RayCaster;
-import ca.eandb.jmist.framework.RenderContext;
 import ca.eandb.jmist.framework.ScatteredRay;
-import ca.eandb.jmist.framework.ScatteredRays;
 import ca.eandb.jmist.framework.Shader;
+import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.math.Ray3;
 
 /**
  * @author brad
@@ -42,23 +37,18 @@ import ca.eandb.jmist.math.Ray3;
 public final class PathTracingShader implements Shader {
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.framework.RayCaster, ca.eandb.jmist.framework.ScatteredRays, ca.eandb.jmist.framework.PathContext, ca.eandb.jmist.framework.RenderContext)
+	 * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
 	 */
 	@Override
-	public Color shade(Intersection x, RayCaster caster, ScatteredRays rays,
-			PathContext pc, RenderContext rc) {
+	public Color shade(ShadingContext sc) {
 
-		ScatteredRay sr = rays.getRandomScatteredRay(true);
+		ScatteredRay ray = sc.getScatteredRays().getRandomScatteredRay(true);
 
-		if (sr == null) {
-			return rc.getColorModel().getBlack();
+		if (ray == null) {
+			return sc.getColorModel().getBlack();
 		}
 
-		x.material().emission(x, x.incident().opposite());
-
-		PathContext childContext = pc.createChildContext(x, sr);
-		Ray3 ray = sr.getRay();
-		return caster.shadeRay(ray, childContext, rc);
+		return sc.castRay(ray);
 
 	}
 

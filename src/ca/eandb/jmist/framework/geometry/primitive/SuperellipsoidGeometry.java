@@ -309,7 +309,7 @@ public final class SuperellipsoidGeometry extends AbstractGeometry {
 	 */
 	@Override
 	protected Basis3 getBasis(GeometryIntersection x) {
-		return Basis3.fromW(x.normal(), Basis3.Orientation.RIGHT_HANDED);
+		return Basis3.fromW(x.getNormal(), Basis3.Orientation.RIGHT_HANDED);
 	}
 
 	/* (non-Javadoc)
@@ -318,7 +318,7 @@ public final class SuperellipsoidGeometry extends AbstractGeometry {
 	@Override
 	protected Vector3 getNormal(GeometryIntersection x) {
 
-		Point3	p = x.location();
+		Point3	p = x.getPosition();
 		double	A = Math.pow(Math.pow(Math.abs(p.x()), 2.0 / e) + Math.pow(Math.abs(p.y()), 2.0 / e), e / n - 1.0);
 		double	X = A * Math.pow(Math.abs(p.x()), 2.0 / e - 1.0);
 		double	Y = A * Math.pow(Math.abs(p.y()), 2.0 / e - 1.0);
@@ -337,7 +337,7 @@ public final class SuperellipsoidGeometry extends AbstractGeometry {
 	 */
 	@Override
 	protected Point2 getTextureCoordinates(GeometryIntersection x) {
-		SphericalCoordinates sc = SphericalCoordinates.fromCartesian(x.location().vectorFromOrigin());
+		SphericalCoordinates sc = SphericalCoordinates.fromCartesian(x.getPosition().vectorFromOrigin());
 		return new Point2((Math.PI + sc.azimuthal()) / (2.0 * Math.PI), sc.polar() / Math.PI);
 	}
 

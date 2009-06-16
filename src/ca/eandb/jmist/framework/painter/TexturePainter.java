@@ -83,7 +83,7 @@ public final class TexturePainter implements Painter {
 	 */
 	@Override
 	public Color getColor(SurfacePointGeometry p) {
-		Point2 uv = p.textureCoordinates();
+		Point2 uv = p.getUV();
 		int x = (int) Math.floor(uv.x() * texture.getWidth());
 		int y = (int) Math.floor(uv.y() * texture.getHeight());
 		return getPixel(x, y);

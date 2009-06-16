@@ -15,14 +15,14 @@ public interface IntersectionGeometry extends SurfacePointGeometry {
 	 * Gets the incident direction.
 	 * @return The incident direction.
 	 */
-	Vector3 incident();
+	Vector3 getIncident();
 
 	/**
 	 * Gets the distance from the ray origin to the intersection
 	 * point.
 	 * @return The distance from the ray origin to the intersection.
 	 */
-	double distance();
+	double getDistance();
 
 	/**
 	 * Indicates whether the incident ray approaches the interface from the
@@ -30,6 +30,6 @@ public interface IntersectionGeometry extends SurfacePointGeometry {
 	 * @return A value indicating whether the ray approaches the interface
 	 * 		from the front.
 	 */
-	boolean front();
+	boolean isFront();
 
 }

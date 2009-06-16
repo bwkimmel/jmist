@@ -5,15 +5,11 @@ package ca.eandb.jmist.framework.light;
 
 import java.io.Serializable;
 
-import ca.eandb.jmist.framework.EmissionPoint;
+import ca.eandb.jmist.framework.Illuminable;
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.Light;
-import ca.eandb.jmist.framework.Material;
-import ca.eandb.jmist.framework.VisibilityFunction3;
 import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.math.Point3;
-import ca.eandb.jmist.math.RandomUtil;
 import ca.eandb.jmist.math.Vector3;
 
 /**
@@ -37,34 +33,20 @@ public final class PointLight implements Light, Serializable {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.framework.VisibilityFunction3)
+	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.framework.Illuminable)
 	 */
-	public Color illuminate(Intersection x, VisibilityFunction3 vf) {
+	public void illuminate(Intersection x, Illuminable target) {
 
-		if (!this.shadows || vf.visibility(x.location(), this.location)) {
+		Vector3		lightIn			= x.getPosition().vectorTo(this.location);
+		double		dSquared		= lightIn.squaredLength();
 
-			Vector3		lightIn			= x.location().vectorTo(this.location);
-			double		dSquared		= lightIn.squaredLength();
-			double		attenuation		= 1.0 / (4.0 * Math.PI * dSquared);
+		lightIn = lightIn.divide(Math.sqrt(dSquared));
 
-			// normalize light vector
-			lightIn = lightIn.divide(Math.sqrt(dSquared));
+		double		ndotl			= x.getShadingNormal().dot(lightIn);
+		double		attenuation		= ndotl / (4.0 * Math.PI * dSquared);
 
-			Material	m = x.material();
-			Color		bsdf = m.scattering(x, lightIn);
-			double		cost = lightIn.dot(x.shadingNormal());
+		target.addLightSample(new PointLightSample(x, location, emittedPower.times(attenuation), shadows));
 
-			return bsdf.times(emittedPower).times(attenuation * cost);
-
-		}
-
-		return ColorModel.getInstance().getBlack();
-
-	}
-
-	public EmissionPoint emit() {
-		Vector3 direction = RandomUtil.uniformOnSphere().toCartesian();
-		return VolumeEmissionPoint.create(location, direction, emittedPower, emittedPower.divide(4.0 * Math.PI));
 	}
 
 	/** The <code>Point3</code> where the light is to emit from. */

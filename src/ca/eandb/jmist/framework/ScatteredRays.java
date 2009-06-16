@@ -46,7 +46,7 @@ public final class ScatteredRays extends AbstractList<ScatteredRay> {
 	/**
 	 * @param intersection
 	 */
-	private ScatteredRays(Intersection intersection) {
+	public ScatteredRays(Intersection intersection) {
 		this.intersection = intersection;
 	}
 

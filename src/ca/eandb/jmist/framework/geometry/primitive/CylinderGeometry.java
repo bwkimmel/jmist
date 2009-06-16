@@ -157,7 +157,7 @@ public final class CylinderGeometry extends AbstractGeometry {
 	protected Basis3 getBasis(GeometryIntersection x) {
 
 		Vector3 n = this.getNormal(x);
-		Vector3 r = this.base.vectorTo(x.location());
+		Vector3 r = this.base.vectorTo(x.getPosition());
 		Vector3 u = new Vector3(-r.z(), 0.0, r.x());
 
 		return Basis3.fromWU(n, u, Basis3.Orientation.RIGHT_HANDED);
@@ -179,7 +179,7 @@ public final class CylinderGeometry extends AbstractGeometry {
 			return Vector3.J;
 
 		case CYLINDER_SURFACE_BODY:
-			Point3 p = x.location();
+			Point3 p = x.getPosition();
 			return new Vector3(p.x() - this.base.x(), 0.0, p.z()
 					- this.base.z()).unit();
 
@@ -196,7 +196,7 @@ public final class CylinderGeometry extends AbstractGeometry {
 	@Override
 	protected Point2 getTextureCoordinates(GeometryIntersection x) {
 
-		Vector3		r		= this.base.vectorTo(x.location());
+		Vector3		r		= this.base.vectorTo(x.getPosition());
 		double		tx		= (Math.PI + Math.atan2(r.z(), r.x())) / (2.0 * Math.PI);
 		double		ty;
 

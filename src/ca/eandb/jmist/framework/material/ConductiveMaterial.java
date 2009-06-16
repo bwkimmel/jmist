@@ -62,18 +62,18 @@ public final class ConductiveMaterial extends AbstractMaterial {
 	public void scatter(IntersectionGeometry x, ScatteredRayRecorder recorder) {
 
 		ColorModel	cm			= ColorModel.getInstance();
-		Point3		p			= x.location();
+		Point3		p			= x.getPosition();
 		Color		n1			= x.ambientMedium().refractiveIndex(p);
 		Color		k1			= x.ambientMedium().extinctionIndex(p);
-		Vector3		in			= x.incident();
-		Vector3		normal		= x.shadingNormal();
-		boolean		fromSide	= x.normal().dot(in) < 0.0;
+		Vector3		in			= x.getIncident();
+		Vector3		normal		= x.getShadingNormal();
+		boolean		fromSide	= x.getNormal().dot(in) < 0.0;
 		Color		R			= Optics.reflectance(in, normal, n1, k1, n, k);
 		Color		T			= cm.getWhite().minus(R);
 
 		{
 			Vector3		out		= Optics.reflect(in, normal);
-			boolean		toSide	= x.normal().dot(out) >= 0.0;
+			boolean		toSide	= x.getNormal().dot(out) >= 0.0;
 
 			if (fromSide == toSide) {
 				recorder.add(ScatteredRay.specular(new Ray3(p, out), R));
@@ -105,7 +105,7 @@ public final class ConductiveMaterial extends AbstractMaterial {
 			Complex		eta1	= new Complex(n1.getValue(channel), k1.getValue(channel));
 			Complex		eta2	= new Complex(n.getValue(channel), k.getValue(channel));
 			Vector3		out		= Optics.refract(in, eta1, eta2, normal);
-			boolean		toSide	= x.normal().dot(out) >= 0.0;
+			boolean		toSide	= x.getNormal().dot(out) >= 0.0;
 
 			T					= T.disperse(channel);
 

@@ -42,7 +42,7 @@ public final class DistanceRayShader implements RayShader {
 	public Color shadeRay(Ray3 ray) {
 		IntersectionGeometry x = this.caster.castRay(ray);
 
-		return (x != null) ? ColorModel.getInstance().getGray(x.distance()) : missValue;
+		return (x != null) ? ColorModel.getInstance().getGray(x.getDistance()) : missValue;
 	}
 
 	/** The ray caster to use. */

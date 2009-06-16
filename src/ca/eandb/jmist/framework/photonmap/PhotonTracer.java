@@ -66,12 +66,12 @@ public final class PhotonTracer {
 					ScatteredRay sr = recorder.getScatterResult();
 					if (sr != null) {
 						if (sr.specularity() < 0.99) {
-							map.store(x.location(), ray.direction(), sr.weightAt(0));
+							map.store(x.getPosition(), ray.direction(), sr.weightAt(0));
 							storedPhotons++;
 						}
 						ray = sr.scatteredRay();
 					} else {
-						map.store(x.location(), ray.direction(), sr.weightAt(0));
+						map.store(x.getPosition(), ray.direction(), sr.weightAt(0));
 						storedPhotons++;
 						ray = null;
 					}

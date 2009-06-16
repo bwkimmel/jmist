@@ -25,66 +25,72 @@
 
 package ca.eandb.jmist.framework.light;
 
-import ca.eandb.jmist.framework.EmissionPoint;
+import ca.eandb.jmist.framework.Intersection;
+import ca.eandb.jmist.framework.LightSample;
+import ca.eandb.jmist.framework.VisibilityFunction3;
 import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.framework.color.ColorModel;
-import ca.eandb.jmist.math.Ray3;
-import ca.eandb.jmist.math.Sphere;
+import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Vector3;
-import ca.eandb.util.UnexpectedException;
 
 /**
  * @author brad
  *
  */
-public final class DirectionalEmissionPoint implements EmissionPoint {
+public final class PointLightSample implements LightSample {
 
-	private final Vector3 direction;
+	private final Intersection x;
 
-	private final Color radiance;
+	private final Point3 position;
 
-	private final Sphere sceneBoundingVolume;
+	private final Color intensity;
 
-	private DirectionalEmissionPoint(Vector3 direction, Color radiance, Sphere sceneBoundingVolume) {
-		this.direction = direction;
-		this.radiance = radiance;
-		this.sceneBoundingVolume = sceneBoundingVolume;
+	private final boolean shadows;
+
+	/**
+	 * @param x
+	 * @param position
+	 * @param intensity
+	 * @param shadows
+	 */
+	public PointLightSample(Intersection x, Point3 position, Color intensity,
+			boolean shadows) {
+		this.x = x;
+		this.position = position;
+		this.intensity = intensity;
+		this.shadows = shadows;
 	}
 
-	public static DirectionalEmissionPoint create(Vector3 direction, Color radiance, Sphere sceneBoundingVolume) {
-		return new DirectionalEmissionPoint(direction, radiance, sceneBoundingVolume);
+	/**
+	 * @param x
+	 * @param position
+	 * @param intensity
+	 */
+	public PointLightSample(Intersection x, Point3 position, Color intensity) {
+		this(x, position, intensity, true);
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.EmissionPoint#emit()
+	 * @see ca.eandb.jmist.framework.LightSample#castShadowRay(ca.eandb.jmist.framework.VisibilityFunction3)
 	 */
 	@Override
-	public Ray3 emit() {
-		throw new UnexpectedException("not implemented");
+	public boolean castShadowRay(VisibilityFunction3 vf) {
+		return shadows && !vf.visibility(x.getPosition(), position);
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.EmissionPoint#getEmittedRadiance(ca.eandb.jmist.math.Vector3)
+	 * @see ca.eandb.jmist.framework.LightSample#getRadiantIntensity()
 	 */
 	@Override
-	public Color getEmittedRadiance(Vector3 v) {
-		return radiance;
+	public Color getRadiantIntensity() {
+		return intensity;
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.EmissionPoint#getRadiantExitance()
+	 * @see ca.eandb.jmist.framework.LightSample#getDirToLight()
 	 */
 	@Override
-	public Color getRadiantExitance() {
-		return ColorModel.getInstance().getBlack();
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.EmissionPoint#isAtInfinity()
-	 */
-	@Override
-	public boolean isAtInfinity() {
-		return true;
+	public Vector3 getDirToLight() {
+		return x.getPosition().vectorTo(position).unit();
 	}
 
 }

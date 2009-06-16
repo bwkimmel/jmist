@@ -29,78 +29,78 @@ public abstract class IntersectionGeometryDecorator implements IntersectionGeome
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.IntersectionGeometry#distance()
 	 */
-	public double distance() {
-		return this.inner.distance();
+	public double getDistance() {
+		return this.inner.getDistance();
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.IntersectionGeometry#front()
 	 */
-	public boolean front() {
-		return this.inner.front();
+	public boolean isFront() {
+		return this.inner.isFront();
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.IntersectionGeometry#incident()
 	 */
-	public Vector3 incident() {
-		return this.inner.incident();
+	public Vector3 getIncident() {
+		return this.inner.getIncident();
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SurfacePointGeometry#basis()
 	 */
-	public Basis3 basis() {
-		return this.inner.basis();
+	public Basis3 getBasis() {
+		return this.inner.getBasis();
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SurfacePointGeometry#closed()
 	 */
-	public boolean closed() {
-		return this.inner.closed();
+	public boolean isSurfaceClosed() {
+		return this.inner.isSurfaceClosed();
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SurfacePointGeometry#location()
 	 */
-	public Point3 location() {
-		return this.inner.location();
+	public Point3 getPosition() {
+		return this.inner.getPosition();
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SurfacePointGeometry#shadingBasis()
 	 */
-	public Basis3 shadingBasis() {
-		return this.inner.shadingBasis();
+	public Basis3 getShadingBasis() {
+		return this.inner.getShadingBasis();
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SurfacePointGeometry#shadingNormal()
 	 */
-	public Vector3 shadingNormal() {
-		return this.inner.shadingNormal();
+	public Vector3 getShadingNormal() {
+		return this.inner.getShadingNormal();
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SurfacePointGeometry#normal()
 	 */
-	public Vector3 normal() {
-		return this.inner.normal();
+	public Vector3 getNormal() {
+		return this.inner.getNormal();
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SurfacePointGeometry#tangent()
 	 */
-	public Vector3 tangent() {
-		return this.inner.tangent();
+	public Vector3 getTangent() {
+		return this.inner.getTangent();
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SurfacePointGeometry#textureCoordinates()
 	 */
-	public Point2 textureCoordinates() {
-		return this.inner.textureCoordinates();
+	public Point2 getUV() {
+		return this.inner.getUV();
 	}
 
 	/** The decorated <code>IntersectionGeometry</code>. */

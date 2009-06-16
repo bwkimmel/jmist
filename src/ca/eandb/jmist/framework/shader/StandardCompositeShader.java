@@ -25,12 +25,8 @@
 
 package ca.eandb.jmist.framework.shader;
 
-import ca.eandb.jmist.framework.Intersection;
-import ca.eandb.jmist.framework.PathContext;
-import ca.eandb.jmist.framework.RayCaster;
-import ca.eandb.jmist.framework.RenderContext;
-import ca.eandb.jmist.framework.ScatteredRays;
 import ca.eandb.jmist.framework.Shader;
+import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.color.Color;
 
 /**
@@ -40,15 +36,14 @@ import ca.eandb.jmist.framework.color.Color;
 public final class StandardCompositeShader extends CompositeShader {
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.framework.RayCaster, ca.eandb.jmist.framework.ScatteredRays, ca.eandb.jmist.framework.PathContext, ca.eandb.jmist.framework.RenderContext)
+	 * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
 	 */
 	@Override
-	public Color shade(Intersection x, RayCaster caster, ScatteredRays rays,
-			PathContext pc, RenderContext rc) {
+	public Color shade(ShadingContext sc) {
 
 		Color result = null;
 		for (Shader shader : shaders) {
-			Color color = shader.shade(x, caster, rays, pc, rc);
+			Color color = shader.shade(sc);
 			result = (result != null ? result.plus(color) : color);
 		}
 		return result;

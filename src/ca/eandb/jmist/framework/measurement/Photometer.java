@@ -127,7 +127,7 @@ public final class Photometer {
 
 	private final IntersectionGeometry x = new IntersectionGeometry() {
 
-		public Point3 location() {
+		public Point3 getPosition() {
 			return Point3.ORIGIN;
 		}
 
@@ -139,43 +139,43 @@ public final class Photometer {
 			return Medium.VACUUM;
 		}
 
-		public Vector3 shadingNormal() {
+		public Vector3 getShadingNormal() {
 			return Vector3.K;
 		}
 
-		public Vector3 normal() {
+		public Vector3 getNormal() {
 			return Vector3.K;
 		}
 
-		public Vector3 tangent() {
+		public Vector3 getTangent() {
 			return Vector3.I;
 		}
 
-		public Point2 textureCoordinates() {
+		public Point2 getUV() {
 			return Point2.ORIGIN;
 		}
 
-		public double distance() {
+		public double getDistance() {
 			return 1.0;
 		}
 
-		public boolean front() {
+		public boolean isFront() {
 			return front;
 		}
 
-		public Vector3 incident() {
+		public Vector3 getIncident() {
 			return in;
 		}
 
-		public Basis3 basis() {
+		public Basis3 getBasis() {
 			return Basis3.STANDARD;
 		}
 
-		public Basis3 shadingBasis() {
+		public Basis3 getShadingBasis() {
 			return Basis3.STANDARD;
 		}
 
-		public boolean closed() {
+		public boolean isSurfaceClosed() {
 			return false;
 		}
 

@@ -3,7 +3,6 @@
  */
 package ca.eandb.jmist.framework;
 
-import ca.eandb.jmist.framework.color.Color;
 
 /**
  * @author Brad Kimmel
@@ -11,6 +10,6 @@ import ca.eandb.jmist.framework.color.Color;
  */
 public interface Light {
 
-	Color illuminate(Intersection x, VisibilityFunction3 vf);
+	void illuminate(Intersection x, Illuminable target);
 
 }

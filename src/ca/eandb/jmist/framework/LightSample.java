@@ -26,40 +26,18 @@
 package ca.eandb.jmist.framework;
 
 import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.util.UnimplementedException;
+import ca.eandb.jmist.math.Vector3;
 
 /**
  * @author brad
  *
  */
-public final class PathContext {
+public interface LightSample {
 
-	public int getDepth() {
-		throw new UnimplementedException();
-	}
+	Vector3 getDirToLight();
 
-	public int getDepthByType(ScatteredRay.Type type) {
-		throw new UnimplementedException();
-	}
+	Color getRadiantIntensity();
 
-	public Color getImportance() {
-		throw new UnimplementedException();
-	}
-
-	public Medium getMedium() {
-		throw new UnimplementedException();
-	}
-
-	public PathContext createChildContext(Intersection x, ScatteredRay sr) {
-		throw new UnimplementedException();
-	}
-
-	public boolean isLightPath() {
-		throw new UnimplementedException();
-	}
-
-	public boolean isEyePath() {
-		throw new UnimplementedException();
-	}
+	boolean castShadowRay(VisibilityFunction3 vf);
 
 }
