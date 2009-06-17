@@ -89,7 +89,7 @@ public final class RandomUtil {
 	}
 
 	public static boolean bernoulli(double probability) {
-		return Math.random() < probability;
+		return canonical() < probability;
 	}
 
 	public static boolean coin() {
@@ -98,7 +98,7 @@ public final class RandomUtil {
 
 	public static int categorical(double[] weights) {
 
-		double	x		= Math.random() / MathUtil.sum(weights);
+		double	x		= canonical() / MathUtil.sum(weights);
 		double	mark	= 0.0;
 
 		for (int i = 0; i < weights.length; i++) {

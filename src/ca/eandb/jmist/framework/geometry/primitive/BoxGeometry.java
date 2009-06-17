@@ -252,7 +252,7 @@ public final class BoxGeometry extends AbstractGeometry {
 		double yzArea = box.lengthY() * box.lengthZ();
 
 		double total = xyArea + xzArea + yzArea;
-		double random = Math.random() * total;
+		double random = RandomUtil.canonical() * total;
 		boolean dir = RandomUtil.coin();
 		int id;
 		Point3 p;

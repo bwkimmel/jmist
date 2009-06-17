@@ -52,7 +52,7 @@ public final class CategoricalRandom {
 	 * @return The next sample.
 	 */
 	public int next() {
-		int index = Arrays.binarySearch(this.cpf, source != null ? source.next() : Math.random());
+		int index = Arrays.binarySearch(this.cpf, source != null ? source.next() : RandomUtil.canonical());
 		return index >= 0 ? index : -(index + 1);
 	}
 

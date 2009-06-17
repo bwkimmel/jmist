@@ -12,6 +12,7 @@ import ca.eandb.jmist.framework.color.ColorUtil;
 import ca.eandb.jmist.math.Complex;
 import ca.eandb.jmist.math.Optics;
 import ca.eandb.jmist.math.Point3;
+import ca.eandb.jmist.math.RandomUtil;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
 
@@ -83,7 +84,7 @@ public class DielectricMaterial extends AbstractMaterial {
 			int			channel	= -1;
 
 			double		total	= ColorUtil.getTotalChannelValue(imp);
-			double		rnd		= Math.random() * total;
+			double		rnd		= RandomUtil.canonical() * total;
 			double		sum		= 0.0;
 
 			for (int i = 0; i < cm.getNumChannels(); i++) {

@@ -32,6 +32,7 @@ import java.util.List;
 
 import ca.eandb.jmist.framework.color.ColorUtil;
 import ca.eandb.jmist.math.MathUtil;
+import ca.eandb.jmist.math.RandomUtil;
 
 /**
  * @author brad
@@ -90,15 +91,15 @@ public final class ScatteredRays extends AbstractList<ScatteredRay> {
 	}
 
 	public ScatteredRay getRandomScatteredRay(double rnd, boolean allowNone) {
-		return getRandomScatteredRay(Math.random(), EnumSet.allOf(ScatteredRay.Type.class), allowNone);
+		return getRandomScatteredRay(RandomUtil.canonical(), EnumSet.allOf(ScatteredRay.Type.class), allowNone);
 	}
 
 	public ScatteredRay getRandomScatteredRay(EnumSet<ScatteredRay.Type> filter, boolean allowNone) {
-		return getRandomScatteredRay(Math.random(), filter, allowNone);
+		return getRandomScatteredRay(RandomUtil.canonical(), filter, allowNone);
 	}
 
 	public ScatteredRay getRandomScatteredRay(boolean allowNone) {
-		return getRandomScatteredRay(Math.random(), EnumSet.allOf(ScatteredRay.Type.class), allowNone);
+		return getRandomScatteredRay(RandomUtil.canonical(), EnumSet.allOf(ScatteredRay.Type.class), allowNone);
 	}
 
 	public ScatteredRay getRandomScatteredRay(double rnd, EnumSet<ScatteredRay.Type> filter) {
@@ -106,15 +107,15 @@ public final class ScatteredRays extends AbstractList<ScatteredRay> {
 	}
 
 	public ScatteredRay getRandomScatteredRay(double rnd) {
-		return getRandomScatteredRay(Math.random(), EnumSet.allOf(ScatteredRay.Type.class), false);
+		return getRandomScatteredRay(RandomUtil.canonical(), EnumSet.allOf(ScatteredRay.Type.class), false);
 	}
 
 	public ScatteredRay getRandomScatteredRay(EnumSet<ScatteredRay.Type> filter) {
-		return getRandomScatteredRay(Math.random(), filter, false);
+		return getRandomScatteredRay(RandomUtil.canonical(), filter, false);
 	}
 
 	public ScatteredRay getRandomScatteredRay() {
-		return getRandomScatteredRay(Math.random(), EnumSet.allOf(ScatteredRay.Type.class), false);
+		return getRandomScatteredRay(RandomUtil.canonical(), EnumSet.allOf(ScatteredRay.Type.class), false);
 	}
 
 	/* (non-Javadoc)

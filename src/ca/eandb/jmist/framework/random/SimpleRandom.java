@@ -4,11 +4,13 @@
 package ca.eandb.jmist.framework.random;
 
 import ca.eandb.jmist.framework.Random;
+import ca.eandb.jmist.math.RandomUtil;
 
 /**
- * Adapts java.util.Random to the ca.eandb.jmist.framework.Random interface
+ * A <code>ca.eandb.jmist.framework.Random</code> that generates random numbers
+ * using <code>{@link RandomUtil#canonical()}</code>.
  * @author Brad Kimmel
- * @see {@link java.util.Random}.
+ * @see ca.eandb.jmist.math.RandomUtil#canonical()
  */
 public class SimpleRandom implements Random {
 
@@ -17,7 +19,7 @@ public class SimpleRandom implements Random {
 	 * @see ca.eandb.jmist.framework.Random#next()
 	 */
 	public double next() {
-		return rnd.nextDouble();
+		return RandomUtil.canonical();
 	}
 
 	/*
@@ -34,8 +36,5 @@ public class SimpleRandom implements Random {
 	public SimpleRandom createCompatibleRandom() {
 		return this;
 	}
-
-	/** The random number generator. */
-	private final java.util.Random rnd = new java.util.Random();
 
 }
