@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.geometry.AbstractGeometry;
+import ca.eandb.jmist.framework.geometry.PrimitiveGeometry;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Interval;
@@ -25,7 +25,7 @@ import ca.eandb.jmist.math.Vector3;
  * A superellipsoid <code>Geometry</code>.
  * @author Brad Kimmel
  */
-public final class SuperellipsoidGeometry extends AbstractGeometry {
+public final class SuperellipsoidGeometry extends PrimitiveGeometry {
 
 	/**
 	 * Creates a new <code>SuperellipsoidGeometry</code>.
@@ -42,7 +42,7 @@ public final class SuperellipsoidGeometry extends AbstractGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#intersect(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+	 * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 

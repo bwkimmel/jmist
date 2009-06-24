@@ -25,18 +25,12 @@
 
 package ca.eandb.jmist.framework;
 
-import ca.eandb.jmist.math.Ray3;
-
 /**
  * @author brad
  *
  */
-public interface SceneObject extends Bounded3, VisibilityFunction3 {
+public interface Modifier {
 
-	Intersection intersect(Ray3 ray);
-
-	boolean isEmissive();
-
-	Light createLight();
+	void modify(ShadingContext context);
 
 }

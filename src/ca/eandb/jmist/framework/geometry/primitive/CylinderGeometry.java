@@ -3,9 +3,9 @@
  */
 package ca.eandb.jmist.framework.geometry.primitive;
 
-import ca.eandb.jmist.framework.IntersectionGeometry;
+import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.geometry.AbstractGeometry;
+import ca.eandb.jmist.framework.geometry.PrimitiveGeometry;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Interval;
@@ -22,7 +22,7 @@ import ca.eandb.jmist.math.Vector3;
  *
  * @author Brad Kimmel
  */
-public final class CylinderGeometry extends AbstractGeometry {
+public final class CylinderGeometry extends PrimitiveGeometry {
 
 	/**
 	 * Initializes the dimensions of this cylinder.
@@ -37,7 +37,7 @@ public final class CylinderGeometry extends AbstractGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#intersect(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.toolkit.Interval, ca.eandb.jmist.framework.IntersectionRecorder)
+	 * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 
@@ -55,7 +55,7 @@ public final class CylinderGeometry extends AbstractGeometry {
 
 			if (this.base.squaredDistanceTo(p) < this.radius * this.radius)
 			{
-				IntersectionGeometry x = super.newIntersection(ray, t, (ray.direction().y() > 0.0), CYLINDER_SURFACE_BASE)
+				Intersection x = super.newIntersection(ray, t, (ray.direction().y() > 0.0), CYLINDER_SURFACE_BASE)
 					.setLocation(p);
 
 				recorder.record(x);
@@ -72,7 +72,7 @@ public final class CylinderGeometry extends AbstractGeometry {
 
 			if (r < this.radius * this.radius)
 			{
-				IntersectionGeometry x = super.newIntersection(ray, t, (ray.direction().y() < 0.0), CYLINDER_SURFACE_TOP)
+				Intersection x = super.newIntersection(ray, t, (ray.direction().y() < 0.0), CYLINDER_SURFACE_TOP)
 					.setLocation(p);
 
 				recorder.record(x);
@@ -96,7 +96,7 @@ public final class CylinderGeometry extends AbstractGeometry {
 			p = ray.pointAt(x[0]);
 			if (MathUtil.inRangeOO(p.y(), this.base.y(), this.base.y() + this.height))
 			{
-				IntersectionGeometry isect = super.newIntersection(ray, x[0], (x[0] < x[1]), CYLINDER_SURFACE_BODY)
+				Intersection isect = super.newIntersection(ray, x[0], (x[0] < x[1]), CYLINDER_SURFACE_BODY)
 					.setLocation(p);
 
 				recorder.record(isect);
@@ -105,7 +105,7 @@ public final class CylinderGeometry extends AbstractGeometry {
 			p = ray.pointAt(x[1]);
 			if (MathUtil.inRangeOO(p.y(), this.base.y(), this.base.y() + this.height))
 			{
-				IntersectionGeometry isect = super.newIntersection(ray, x[1], (x[0] > x[1]), CYLINDER_SURFACE_BODY)
+				Intersection isect = super.newIntersection(ray, x[1], (x[0] > x[1]), CYLINDER_SURFACE_BODY)
 					.setLocation(p);
 
 				recorder.record(isect);
@@ -170,7 +170,7 @@ public final class CylinderGeometry extends AbstractGeometry {
 	@Override
 	protected Vector3 getNormal(GeometryIntersection x) {
 
-		switch (x.surfaceId()) {
+		switch (x.getTag()) {
 
 		case CYLINDER_SURFACE_BASE:
 			return Vector3.J.opposite();
@@ -200,7 +200,7 @@ public final class CylinderGeometry extends AbstractGeometry {
 		double		tx		= (Math.PI + Math.atan2(r.z(), r.x())) / (2.0 * Math.PI);
 		double		ty;
 
-		switch (x.surfaceId()) {
+		switch (x.getTag()) {
 
 		case CYLINDER_SURFACE_BASE:
 			ty = Math.sqrt(r.x() * r.x() + r.z() * r.z()) / (4.0 * this.radius);

@@ -23,20 +23,51 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package ca.eandb.jmist.framework;
+package ca.eandb.jmist.framework.scene;
 
+import ca.eandb.jmist.framework.Light;
+import ca.eandb.jmist.framework.SceneObject;
+import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
 
 /**
  * @author brad
  *
  */
-public interface SceneObject extends Bounded3, VisibilityFunction3 {
+public abstract class AbstractSceneObject implements SceneObject {
 
-	Intersection intersect(Ray3 ray);
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.SceneObject#createLight()
+	 */
+	@Override
+	public Light createLight() {
+		return null;
+	}
 
-	boolean isEmissive();
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.SceneObject#isEmissive()
+	 */
+	@Override
+	public boolean isEmissive() {
+		return false;
+	}
 
-	Light createLight();
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.VisibilityFunction3#visibility(ca.eandb.jmist.math.Ray3)
+	 */
+	@Override
+	public boolean visibility(Ray3 ray) {
+		return visibility(ray, Double.POSITIVE_INFINITY);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.VisibilityFunction3#visibility(ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Point3)
+	 */
+	@Override
+	public boolean visibility(Point3 p, Point3 q) {
+		double d = p.distanceTo(q);
+		Ray3 ray = new Ray3(p, p.vectorTo(q).divide(d));
+		return visibility(ray, d);
+	}
 
 }

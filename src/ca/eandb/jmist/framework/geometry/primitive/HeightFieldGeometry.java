@@ -6,11 +6,11 @@ package ca.eandb.jmist.framework.geometry.primitive;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.eandb.jmist.framework.IntersectionGeometry;
+import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
 import ca.eandb.jmist.framework.accel.Grid3;
 import ca.eandb.jmist.framework.accel.Grid3.Cell;
-import ca.eandb.jmist.framework.geometry.AbstractGeometry;
+import ca.eandb.jmist.framework.geometry.PrimitiveGeometry;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box2;
 import ca.eandb.jmist.math.Box3;
@@ -28,7 +28,7 @@ import ca.eandb.jmist.math.Sphere;
  * and <code>z</code> coordinates of the verticies.
  * @author Brad Kimmel
  */
-public final class HeightFieldGeometry extends AbstractGeometry {
+public final class HeightFieldGeometry extends PrimitiveGeometry {
 
 	/**
 	 * Creates a new <code>HeightFieldGeometry</code>.
@@ -58,7 +58,7 @@ public final class HeightFieldGeometry extends AbstractGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#intersect(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+	 * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
 	public void intersect(Ray3 ray, final IntersectionRecorder recorder) {
 
@@ -116,7 +116,7 @@ public final class HeightFieldGeometry extends AbstractGeometry {
 						double cz = (p.z() - p10.z()) / (p11.z() - p10.z());
 
 						if (cx > cz) {
-							IntersectionGeometry x = newIntersection(ray, t, ray.direction().dot(plane.normal()) < 0.0)
+							Intersection x = newIntersection(ray, t, ray.direction().dot(plane.normal()) < 0.0)
 								.setBasis(Basis3.fromW(plane.normal(), Basis3.Orientation.RIGHT_HANDED))
 								.setLocation(p);
 
@@ -141,7 +141,7 @@ public final class HeightFieldGeometry extends AbstractGeometry {
 						double cz = (p.z() - p10.z()) / (p11.z() - p10.z());
 
 						if (cx < cz) {
-							IntersectionGeometry x = newIntersection(ray, t, ray.direction().dot(plane.normal()) < 0.0)
+							Intersection x = newIntersection(ray, t, ray.direction().dot(plane.normal()) < 0.0)
 								.setBasis(Basis3.fromW(plane.normal(), Basis3.Orientation.RIGHT_HANDED))
 								.setLocation(p);
 

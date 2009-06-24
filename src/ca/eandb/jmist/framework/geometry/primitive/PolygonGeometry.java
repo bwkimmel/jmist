@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.eandb.jmist.framework.BoundingBoxBuilder2;
-import ca.eandb.jmist.framework.IntersectionGeometry;
+import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
 import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.Random;
-import ca.eandb.jmist.framework.geometry.AbstractGeometry;
+import ca.eandb.jmist.framework.geometry.PrimitiveGeometry;
 import ca.eandb.jmist.framework.random.SimpleRandom;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box2;
@@ -29,7 +29,7 @@ import ca.eandb.jmist.util.ArrayUtil;
  * @author Brad Kimmel
  *
  */
-public final class PolygonGeometry extends AbstractGeometry {
+public final class PolygonGeometry extends PrimitiveGeometry {
 
 	/**
 	 * @param material
@@ -191,7 +191,7 @@ public final class PolygonGeometry extends AbstractGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#intersect(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+	 * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 
@@ -220,9 +220,9 @@ public final class PolygonGeometry extends AbstractGeometry {
 		double			ndotv		= N.dot(ray.direction());
 		int				surfaceId	= (ndotv < 0.0) ? POLYGON_SURFACE_TOP : POLYGON_SURFACE_BOTTOM;
 
-		IntersectionGeometry	x = super.newIntersection(ray, t, ndotv < 0.0, surfaceId)
+		Intersection	x = super.newIntersection(ray, t, ndotv < 0.0, surfaceId)
 								.setLocation(p)
-								.setTextureCoordinates(inversion)
+								.setUV(inversion)
 								.setBasis((surfaceId == POLYGON_SURFACE_TOP) ? this.basis : this.basis.opposite())
 								.setNormal((surfaceId == POLYGON_SURFACE_TOP) ? N : N.opposite());
 
@@ -252,9 +252,9 @@ public final class PolygonGeometry extends AbstractGeometry {
 	}
 
 //	/* (non-Javadoc)
-//	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.SurfacePointGeometry, ca.eandb.jmist.framework.VisibilityFunction3, ca.eandb.jmist.framework.Illuminable)
+//	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.VisibilityFunction3, ca.eandb.jmist.framework.Illuminable)
 //	 */
-//	public void illuminate(SurfacePointGeometry x, VisibilityFunction3 vf,
+//	public void illuminate(SurfacePoint x, VisibilityFunction3 vf,
 //			Illuminable target) {
 //
 //		if (categorical == null) {
@@ -344,7 +344,7 @@ public final class PolygonGeometry extends AbstractGeometry {
 //			if (vf.visibility(p, x.location())) {
 //
 //				// FIXME Select from appropriate side when two-sided.
-//				IntersectionGeometry sp = PolygonGeometry.super.newIntersection(null, 0.0, true, POLYGON_SURFACE_TOP)
+//				Intersection sp = PolygonGeometry.super.newIntersection(null, 0.0, true, POLYGON_SURFACE_TOP)
 //					.setLocation(p)
 //					.setTextureCoordinates(uv)
 //					.setNormal(PolygonGeometry.this.plane.normal());

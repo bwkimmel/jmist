@@ -27,6 +27,9 @@ package ca.eandb.jmist.framework;
 
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
+import ca.eandb.jmist.math.Basis3;
+import ca.eandb.jmist.math.Point2;
+import ca.eandb.jmist.math.Vector3;
 
 /**
  * @author brad
@@ -53,5 +56,35 @@ public interface ShadingContext extends Intersection, VisibilityFunction3 {
 	Color shade();
 
 	Iterable<LightSample> getLightSamples();
+
+	Material getMaterial();
+
+	Medium getAmbientMedium();
+
+	Shader getShader();
+
+	Modifier getModifier();
+
+	SceneObject getSceneObject();
+
+	void setShadingBasis(Basis3 basis);
+
+	void setShadingNormal(Vector3 normal);
+
+	void setUV(Point2 uv);
+
+	void setMaterial(Material material);
+
+	void setAmbientMedium(Medium medium);
+
+	void setModifier(Modifier modifier);
+
+	void setShader(Shader shader);
+
+	/**
+	 * Gets the index of the primitive that this intersection is located on.
+	 * @return The index of the primitive that this intersection is located on.
+	 */
+	int getPrimitiveIndex();
 
 }

@@ -25,7 +25,7 @@
 
 package ca.eandb.jmist.framework.photonmap;
 
-import ca.eandb.jmist.framework.IntersectionGeometry;
+import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.RandomScatterRecorder;
 import ca.eandb.jmist.framework.RayCaster;
@@ -59,7 +59,7 @@ public final class PhotonTracer {
 		for (; emittedPhotons < maxEmittedPhotons && storedPhotons < maxPhotons; emittedPhotons++) {
 			Ray3 ray = light.emit(wavelengths, radiance);
 			while (ray != null && storedPhotons < maxPhotons) {
-				IntersectionGeometry x = caster.castRay(ray, Interval.POSITIVE);
+				Intersection x = caster.castRay(ray, Interval.POSITIVE);
 				if (x != null) {
 					recorder.reset();
 					x.material().scatter(x, wavelengths, recorder);

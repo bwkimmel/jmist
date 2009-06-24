@@ -5,11 +5,11 @@ package ca.eandb.jmist.framework.material;
 
 import java.io.Serializable;
 
-import ca.eandb.jmist.framework.IntersectionGeometry;
+import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.Painter;
 import ca.eandb.jmist.framework.ScatteredRayRecorder;
 import ca.eandb.jmist.framework.ScatteredRay;
-import ca.eandb.jmist.framework.SurfacePointGeometry;
+import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.math.RandomUtil;
@@ -52,10 +52,10 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#emission(ca.eandb.jmist.framework.SurfacePointGeometry, ca.eandb.jmist.math.Vector3)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#emission(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3)
 	 */
 	@Override
-	public Color emission(SurfacePointGeometry x, Vector3 out) {
+	public Color emission(SurfacePoint x, Vector3 out) {
 
 		if (this.emittance == null || x.getNormal().dot(out) < 0.0) {
 			return ColorModel.getInstance().getBlack();
@@ -67,10 +67,10 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#emit(ca.eandb.jmist.framework.SurfacePointGeometry, ca.eandb.jmist.framework.ScatteredRayRecorder)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#emit(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ScatteredRayRecorder)
 	 */
 	@Override
-	public void emit(SurfacePointGeometry x, ScatteredRayRecorder recorder) {
+	public void emit(SurfacePoint x, ScatteredRayRecorder recorder) {
 
 		if (this.emittance != null) {
 
@@ -86,10 +86,10 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.IntersectionGeometry, ca.eandb.jmist.framework.ScatteredRayRecorder)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.framework.ScatteredRayRecorder)
 	 */
 	@Override
-	public void scatter(IntersectionGeometry x, ScatteredRayRecorder recorder) {
+	public void scatter(Intersection x, ScatteredRayRecorder recorder) {
 
 		if (this.reflectance != null) {
 
@@ -105,10 +105,10 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scattering(ca.eandb.jmist.framework.IntersectionGeometry, ca.eandb.jmist.math.Vector3)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scattering(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.math.Vector3)
 	 */
 	@Override
-	public Color scattering(IntersectionGeometry x, Vector3 in) {
+	public Color scattering(Intersection x, Vector3 in) {
 
 		boolean toFront = (x.getNormal().dot(in) > 0.0);
 

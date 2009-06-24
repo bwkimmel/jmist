@@ -7,11 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.eandb.jmist.framework.AffineTransformable3;
+import ca.eandb.jmist.framework.BoundingBoxBuilder3;
 import ca.eandb.jmist.framework.Geometry;
-import ca.eandb.jmist.framework.IntersectionGeometry;
-import ca.eandb.jmist.framework.IntersectionGeometryDecorator;
-import ca.eandb.jmist.framework.IntersectionRecorderDecorator;
+import ca.eandb.jmist.framework.Intersection;
+import ca.eandb.jmist.framework.IntersectionDecorator;
 import ca.eandb.jmist.framework.IntersectionRecorder;
+import ca.eandb.jmist.framework.IntersectionRecorderDecorator;
 import ca.eandb.jmist.framework.InvertibleAffineTransformation3;
 import ca.eandb.jmist.math.AffineMatrix3;
 import ca.eandb.jmist.math.Basis3;
@@ -26,49 +27,27 @@ import ca.eandb.jmist.math.Vector3;
  * A <code>CompositeGeometry</code> that may be transformed.
  * @author Brad Kimmel
  */
-public final class TransformableGeometry extends CompositeGeometry implements
+public final class TransformableGeometry extends AbstractGeometry implements
 		AffineTransformable3 {
-
-	/**
-	 * Creates a new <code>TransformableGeometry</code>.
-	 */
-	public TransformableGeometry() {
-		/* do nothing */
-	}
 
 	/**
 	 * Creates a new <code>TransformableGeometry</code>.
 	 * @param geometry The <code>Geometry</code> to make transformable.
 	 */
 	public TransformableGeometry(Geometry geometry) {
-		this.addChild(geometry);
+		this.geometry = geometry;
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#intersect(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+	 * @see ca.eandb.jmist.framework.Geometry#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
-	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
+	public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
 
 		ray			= this.model.applyInverse(ray);
 		recorder	= new TransformedIntersectionRecorder(recorder);
 
-		for (Geometry geometry : this.children()) {
-			geometry.intersect(ray, recorder);
-		}
+		geometry.intersect(index, ray, recorder);
 
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#isClosed()
-	 */
-	@Override
-	public boolean isClosed() {
-		for (Geometry geometry : this.children()) {
-			if (!geometry.isClosed()) {
-				return false;
-			}
-		}
-		return true;
 	}
 
 	/* (non-Javadoc)
@@ -77,16 +56,14 @@ public final class TransformableGeometry extends CompositeGeometry implements
 	@Override
 	public Box3 boundingBox() {
 
-		List<Point3> corners = new ArrayList<Point3>(8 * this.children().size());
+		BoundingBoxBuilder3 builder = new BoundingBoxBuilder3();
 
-		for (Geometry geometry : this.children()) {
-			Box3 childBoundingBox = geometry.boundingBox();
-			for (int i = 0; i < 8; i++) {
-				corners.add(this.model.apply(childBoundingBox.corner(i)));
-			}
+		Box3 childBoundingBox = geometry.boundingBox();
+		for (int i = 0; i < 8; i++) {
+			builder.add(this.model.apply(childBoundingBox.corner(i)));
 		}
 
-		return Box3.smallestContainingPoints(corners);
+		return builder.getBoundingBox();
 
 	}
 
@@ -96,17 +73,57 @@ public final class TransformableGeometry extends CompositeGeometry implements
 	@Override
 	public Sphere boundingSphere() {
 
-		List<Point3> corners = new ArrayList<Point3>(8 * this.children().size());
+		List<Point3> corners = new ArrayList<Point3>(8);
 
-		for (Geometry geometry : this.children()) {
-			Box3 childBoundingBox = geometry.boundingBox();
-			for (int i = 0; i < 8; i++) {
-				corners.add(this.model.apply(childBoundingBox.corner(i)));
-			}
+		Box3 childBoundingBox = geometry.boundingBox();
+		for (int i = 0; i < 8; i++) {
+			corners.add(this.model.apply(childBoundingBox.corner(i)));
 		}
 
 		return Sphere.smallestContaining(corners);
 
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Geometry#getBoundingBox(int)
+	 */
+	@Override
+	public Box3 getBoundingBox(int index) {
+
+		BoundingBoxBuilder3 builder = new BoundingBoxBuilder3();
+
+		Box3 childBoundingBox = geometry.getBoundingBox(index);
+		for (int i = 0; i < 8; i++) {
+			builder.add(this.model.apply(childBoundingBox.corner(i)));
+		}
+
+		return builder.getBoundingBox();
+
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Geometry#getBoundingSphere(int)
+	 */
+	@Override
+	public Sphere getBoundingSphere(int index) {
+
+		List<Point3> corners = new ArrayList<Point3>(8);
+
+		Box3 childBoundingBox = geometry.getBoundingBox(index);
+		for (int i = 0; i < 8; i++) {
+			corners.add(this.model.apply(childBoundingBox.corner(i)));
+		}
+
+		return Sphere.smallestContaining(corners);
+
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Geometry#getNumPrimitives()
+	 */
+	@Override
+	public int getNumPrimitives() {
+		return geometry.getNumPrimitives();
 	}
 
 	/**
@@ -127,34 +144,34 @@ public final class TransformableGeometry extends CompositeGeometry implements
 			super(inner);
 		}
 
-		/*
-		 *
+		/* (non-Javadoc)
+		 * @see ca.eandb.jmist.framework.IntersectionRecorderDecorator#record(ca.eandb.jmist.framework.Intersection)
 		 */
 		@Override
-		public void record(IntersectionGeometry intersection) {
+		public void record(Intersection intersection) {
 			this.inner.record(new TransformedIntersection(intersection));
 		}
 
 	}
 
 	/**
-	 * An <code>IntersectionGeometry</code> that has been transformed according to the
+	 * An <code>Intersection</code> that has been transformed according to the
 	 * transformation applied to this <code>TransformableGeometry</code>.
 	 * @author Brad Kimmel
 	 */
-	private final class TransformedIntersection extends IntersectionGeometryDecorator {
+	private final class TransformedIntersection extends IntersectionDecorator {
 
 		/**
 		 * Creates a new <code>TransformedIntersection</code>.
-		 * @param local The <code>IntersectionGeometry</code> in local coordinate
+		 * @param local The <code>Intersection</code> in local coordinate
 		 * 		space.
 		 */
-		public TransformedIntersection(IntersectionGeometry local) {
+		public TransformedIntersection(Intersection local) {
 			super(local);
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#incident()
+		 * @see ca.eandb.jmist.framework.IntersectionDecorator#incident()
 		 */
 		@Override
 		public Vector3 getIncident() {
@@ -162,7 +179,7 @@ public final class TransformableGeometry extends CompositeGeometry implements
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#basis()
+		 * @see ca.eandb.jmist.framework.IntersectionDecorator#basis()
 		 */
 		@Override
 		public Basis3 getBasis() {
@@ -175,7 +192,7 @@ public final class TransformableGeometry extends CompositeGeometry implements
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#location()
+		 * @see ca.eandb.jmist.framework.IntersectionDecorator#location()
 		 */
 		@Override
 		public Point3 getPosition() {
@@ -183,7 +200,7 @@ public final class TransformableGeometry extends CompositeGeometry implements
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#shadingBasis()
+		 * @see ca.eandb.jmist.framework.IntersectionDecorator#shadingBasis()
 		 */
 		@Override
 		public Basis3 getShadingBasis() {
@@ -196,7 +213,7 @@ public final class TransformableGeometry extends CompositeGeometry implements
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#shadingNormal()
+		 * @see ca.eandb.jmist.framework.IntersectionDecorator#shadingNormal()
 		 */
 		@Override
 		public Vector3 getShadingNormal() {
@@ -205,7 +222,7 @@ public final class TransformableGeometry extends CompositeGeometry implements
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#normal()
+		 * @see ca.eandb.jmist.framework.IntersectionDecorator#normal()
 		 */
 		@Override
 		public Vector3 getNormal() {
@@ -214,11 +231,16 @@ public final class TransformableGeometry extends CompositeGeometry implements
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.IntersectionGeometryDecorator#tangent()
+		 * @see ca.eandb.jmist.framework.IntersectionDecorator#tangent()
 		 */
 		@Override
 		public Vector3 getTangent() {
 			return model.apply(this.inner.getTangent());
+		}
+
+		@Override
+		public int getPrimitiveIndex() {
+			return inner.getPrimitiveIndex();
 		}
 
 	}
@@ -313,6 +335,9 @@ public final class TransformableGeometry extends CompositeGeometry implements
 	public void stretchZ(double cz) {
 		this.model.stretchZ(cz);
 	}
+
+	/** The <code>Geometry</code> to be made transformable. */
+	private final Geometry geometry;
 
 	/** The transformation to apply to this <code>Geometry</code>. */
 	private final InvertibleAffineTransformation3 model = new InvertibleAffineTransformation3();

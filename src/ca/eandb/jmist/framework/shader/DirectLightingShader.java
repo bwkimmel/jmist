@@ -43,7 +43,7 @@ public final class DirectLightingShader implements Shader {
 	 */
 	@Override
 	public Color shade(ShadingContext sc) {
-		Material mat = sc.material();
+		Material mat = sc.getMaterial();
 		Color sum = sc.getColorModel().getBlack();
 		for (LightSample sample : sc.getLightSamples()) {
 			Vector3 toLight = sample.getDirToLight();

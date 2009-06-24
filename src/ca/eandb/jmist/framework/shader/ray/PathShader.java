@@ -3,7 +3,7 @@
  */
 package ca.eandb.jmist.framework.shader.ray;
 
-import ca.eandb.jmist.framework.IntersectionGeometry;
+import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.RandomScatterRecorder;
@@ -45,7 +45,7 @@ public final class PathShader implements RayShader {
 
 		int depth = 0;
 		while (true) {
-			IntersectionGeometry x = caster.castRay(ray);
+			Intersection x = caster.castRay(ray);
 			if (x == null) {
 				break;
 			}

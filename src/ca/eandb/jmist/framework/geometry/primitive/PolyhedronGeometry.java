@@ -5,9 +5,11 @@ package ca.eandb.jmist.framework.geometry.primitive;
 
 import java.util.Arrays;
 
+import ca.eandb.jmist.framework.Bounded3;
 import ca.eandb.jmist.framework.BoundingBoxBuilder3;
-import ca.eandb.jmist.framework.IntersectionGeometry;
+import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
+import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.geometry.AbstractGeometry;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
@@ -45,12 +47,10 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#intersect(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+	 * @see ca.eandb.jmist.framework.Geometry#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
-	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
-		for (int i = 0; i < this.faces.length; i++) {
-			this.intersectFace(i, ray, recorder);
-		}
+	public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
+		intersectFace(index, ray, recorder);
 	}
 
 	/**
@@ -86,7 +86,7 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 				}
 			}
 
-			IntersectionGeometry x = super.newIntersection(ray, t, ray.direction().dot(n) < 0.0, faceIndex)
+			Intersection x = super.newIntersection(ray, t, ray.direction().dot(n) < 0.0, faceIndex)
 				.setLocation(p)
 				.setBasis(Basis3.fromW(n, Basis3.Orientation.RIGHT_HANDED));
 
@@ -94,6 +94,30 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 
 		}
 
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Geometry#getBoundingBox(int)
+	 */
+	@Override
+	public Box3 getBoundingBox(int index) {
+		return faces[index].boundingBox();
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Geometry#getBoundingSphere(int)
+	 */
+	@Override
+	public Sphere getBoundingSphere(int index) {
+		return faces[index].boundingSphere();
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Geometry#getNumPrimitives()
+	 */
+	@Override
+	public int getNumPrimitives() {
+		return faces.length;
 	}
 
 	/* (non-Javadoc)
@@ -125,11 +149,19 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 		return Sphere.smallestContaining(Arrays.asList(this.vertices));
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Geometry#generateRandomSurfacePoint()
+	 */
+	public SurfacePoint generateRandomSurfacePoint() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	/**
 	 * A face of a polyhedron.
 	 * @author Brad Kimmel
 	 */
-	private final class Face {
+	private final class Face implements Bounded3 {
 
 		/**
 		 * Creates a new <code>Face</code>.
@@ -164,6 +196,28 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 
 			return u.cross(v).unit();
 
+		}
+
+		/* (non-Javadoc)
+		 * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
+		 */
+		public Box3 boundingBox() {
+			BoundingBoxBuilder3 builder = new BoundingBoxBuilder3();
+			for (int i = 0; i < indices.length; i++) {
+				builder.add(vertices[indices[i]]);
+			}
+			return builder.getBoundingBox();
+		}
+
+		/* (non-Javadoc)
+		 * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
+		 */
+		public Sphere boundingSphere() {
+			Point3[] verts = new Point3[indices.length];
+			for (int i = 0; i < indices.length; i++) {
+				verts[i] = vertices[indices[i]];
+			}
+			return Sphere.smallestContaining(Arrays.asList(verts));
 		}
 
 		/** The <code>Plane3</code> in which this face lies. */

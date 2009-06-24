@@ -3,7 +3,7 @@
  */
 package ca.eandb.jmist.framework.material;
 
-import ca.eandb.jmist.framework.IntersectionGeometry;
+import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.ScatteredRayRecorder;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.color.Color;
@@ -54,10 +54,10 @@ public class DielectricMaterial extends AbstractMaterial {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.IntersectionGeometry, ca.eandb.jmist.framework.ScatteredRayRecorder)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.framework.ScatteredRayRecorder)
 	 */
 	@Override
-	public void scatter(IntersectionGeometry x, ScatteredRayRecorder recorder) {
+	public void scatter(Intersection x, ScatteredRayRecorder recorder) {
 
 		ColorModel	cm			= ColorModel.getInstance();
 		Point3		p			= x.getPosition();
@@ -80,7 +80,7 @@ public class DielectricMaterial extends AbstractMaterial {
 
 
 		{
-			Color		imp		= T; // TODO: make this importance * T, where importance is a property of the IntersectionGeometry
+			Color		imp		= T; // TODO: make this importance * T, where importance is a property of the Intersection
 			int			channel	= -1;
 
 			double		total	= ColorUtil.getTotalChannelValue(imp);

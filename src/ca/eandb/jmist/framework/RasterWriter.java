@@ -25,18 +25,18 @@
 
 package ca.eandb.jmist.framework;
 
-import ca.eandb.jmist.math.Ray3;
+import ca.eandb.jmist.framework.color.Color;
 
 /**
  * @author brad
  *
  */
-public interface SceneObject extends Bounded3, VisibilityFunction3 {
+public interface RasterWriter {
 
-	Intersection intersect(Ray3 ray);
+	int getWidth();
 
-	boolean isEmissive();
+	int getHeight();
 
-	Light createLight();
+	void setPixel(int x, int y, Color color);
 
 }

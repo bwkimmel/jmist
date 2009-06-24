@@ -44,7 +44,7 @@ public final class DirectEmissionShader implements Shader {
 	public Color shade(ShadingContext sc) {
 
 		if (sc.isEyePath() && sc.getPathDepth() == sc.getPathDepthByType(ScatteredRay.Type.SPECULAR)) {
-			Material mat = sc.material();
+			Material mat = sc.getMaterial();
 			if (mat.isEmissive()) {
 				return mat.emission(sc, sc.getIncident().opposite());
 			}

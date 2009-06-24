@@ -1,9 +1,10 @@
 /**
- * 
+ *
  */
 package ca.eandb.jmist.framework.geometry.primitive;
 
 import ca.eandb.jmist.framework.IntersectionRecorder;
+import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.geometry.AbstractGeometry;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Ray3;
@@ -44,6 +45,44 @@ public final class PolygonalSurfaceOfRevolutionGeometry extends
 	 * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
 	 */
 	public Sphere boundingSphere() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Geometry#getBoundingBox(int)
+	 */
+	public Box3 getBoundingBox(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Geometry#getBoundingSphere(int)
+	 */
+	public Sphere getBoundingSphere(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Geometry#getNumPrimitives()
+	 */
+	public int getNumPrimitives() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Geometry#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+	 */
+	public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public SurfacePoint generateRandomSurfacePoint() {
 		// TODO Auto-generated method stub
 		return null;
 	}

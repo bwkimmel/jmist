@@ -3,7 +3,7 @@
  */
 package ca.eandb.jmist.framework.model;
 
-import ca.eandb.jmist.framework.SurfacePointGeometry;
+import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.math.Point3;
@@ -56,7 +56,7 @@ public abstract class AbstractModelElement implements ModelElement {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.model.ModelElement#generateRandomSurfacePoint()
 	 */
-	public SurfacePointGeometry generateRandomSurfacePoint() {
+	public SurfacePoint generateRandomSurfacePoint() {
 		return null;
 	}
 

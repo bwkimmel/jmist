@@ -4,8 +4,8 @@
 package ca.eandb.jmist.framework.geometry.primitive;
 
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.SurfacePointGeometry;
-import ca.eandb.jmist.framework.geometry.AbstractGeometry;
+import ca.eandb.jmist.framework.SurfacePoint;
+import ca.eandb.jmist.framework.geometry.PrimitiveGeometry;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Interval;
@@ -21,7 +21,7 @@ import ca.eandb.jmist.math.Vector3;
  * A spherical <code>Geometry</code>.
  * @author Brad Kimmel
  */
-public final class SphereGeometry extends AbstractGeometry {
+public final class SphereGeometry extends PrimitiveGeometry {
 
 	/**
 	 * Creates a new <code>SphereGeometry</code>.
@@ -42,8 +42,9 @@ public final class SphereGeometry extends AbstractGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#intersect(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+	 * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
+	@Override
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 
 		Interval I = this.sphere.intersect(ray);
@@ -72,7 +73,7 @@ public final class SphereGeometry extends AbstractGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.AbstractGeometry#getTextureCoordinates(ca.eandb.jmist.framework.AbstractGeometry.GeometryIntersection)
+	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getTextureCoordinates(ca.eandb.jmist.framework.geometry.AbstractGeometry.GeometryIntersection)
 	 */
 	@Override
 	protected Point2 getTextureCoordinates(GeometryIntersection x) {
@@ -83,14 +84,6 @@ public final class SphereGeometry extends AbstractGeometry {
 				(Math.PI + sc.azimuthal()) / (2.0 * Math.PI),
 				sc.polar() / Math.PI
 		);
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.AbstractGeometry#visibility(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.toolkit.Interval)
-	 */
-	@Override
-	public boolean visibility(Ray3 ray, Interval I) {
-		return !I.intersects(this.sphere.intersect(ray));
 	}
 
 	/* (non-Javadoc)
@@ -115,10 +108,10 @@ public final class SphereGeometry extends AbstractGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.AbstractGeometry#surfaceMayIntersect(ca.eandb.jmist.toolkit.Box3)
+	 * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersects(ca.eandb.jmist.math.Box3)
 	 */
 	@Override
-	public boolean surfaceMayIntersect(Box3 box) {
+	public boolean intersects(Box3 box) {
 
 		boolean foundCornerInside = false;
 		boolean foundCornerOutside = false;
@@ -166,7 +159,7 @@ public final class SphereGeometry extends AbstractGeometry {
 	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#generateRandomSurfacePoint()
 	 */
 	@Override
-	public SurfacePointGeometry generateRandomSurfacePoint() {
+	public SurfacePoint generateRandomSurfacePoint() {
 		Point3 p = sphere.center().plus(RandomUtil.uniformOnSphere(sphere.radius()).toCartesian());
 		return this.newSurfacePoint(p);
 	}

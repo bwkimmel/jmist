@@ -11,6 +11,6 @@ import ca.eandb.jmist.framework.color.Color;
  */
 public interface Painter {
 
-	Color getColor(SurfacePointGeometry p);
+	Color getColor(SurfacePoint p);
 
 }

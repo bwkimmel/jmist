@@ -3,18 +3,27 @@
  */
 package ca.eandb.jmist.framework;
 
+import ca.eandb.jmist.math.Basis3;
+import ca.eandb.jmist.math.Point2;
+import ca.eandb.jmist.math.Point3;
+import ca.eandb.jmist.math.Vector3;
+
 /**
  * @author Brad Kimmel
  *
  */
-public interface SurfacePoint extends SurfacePointGeometry {
+public interface SurfacePoint {
 
-	Material material();
+	Point3 getPosition();
+	Vector3 getNormal();
+	Basis3 getBasis();
+	Vector3 getShadingNormal();
+	Basis3 getShadingBasis();
 
-	Medium ambientMedium();
+	Vector3 getTangent();
 
-	Shader shader();
+	Point2 getUV();
 
-	SceneObject sceneObject();
+	int getPrimitiveIndex();
 
 }

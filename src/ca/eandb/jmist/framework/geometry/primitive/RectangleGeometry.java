@@ -4,10 +4,10 @@
 package ca.eandb.jmist.framework.geometry.primitive;
 
 import ca.eandb.jmist.framework.BoundingBoxBuilder3;
-import ca.eandb.jmist.framework.IntersectionGeometry;
+import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.SurfacePointGeometry;
-import ca.eandb.jmist.framework.geometry.AbstractGeometry;
+import ca.eandb.jmist.framework.SurfacePoint;
+import ca.eandb.jmist.framework.geometry.PrimitiveGeometry;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.MathUtil;
@@ -23,7 +23,7 @@ import ca.eandb.jmist.math.Vector3;
  * A plane rectangle <code>Geometry</code>.
  * @author Brad Kimmel
  */
-public final class RectangleGeometry extends AbstractGeometry {
+public final class RectangleGeometry extends PrimitiveGeometry {
 
 	/**
 	 * Creates a new <code>RectangleGeometry</code>.
@@ -48,7 +48,7 @@ public final class RectangleGeometry extends AbstractGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#intersect(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+	 * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 
@@ -78,9 +78,9 @@ public final class RectangleGeometry extends AbstractGeometry {
 						u += 0.5;
 				}
 
-				IntersectionGeometry x = super.newIntersection(ray, t, true, fromTop ? RECTANGLE_SURFACE_TOP : RECTANGLE_SURFACE_BOTTOM)
+				Intersection x = super.newIntersection(ray, t, true, fromTop ? RECTANGLE_SURFACE_TOP : RECTANGLE_SURFACE_BOTTOM)
 					.setLocation(p)
-					.setTextureCoordinates(new Point2(u, v));
+					.setUV(new Point2(u, v));
 
 				recorder.record(x);
 
@@ -95,7 +95,7 @@ public final class RectangleGeometry extends AbstractGeometry {
 	 */
 	@Override
 	protected Basis3 getBasis(GeometryIntersection x) {
-		switch (x.surfaceId())
+		switch (x.getTag())
 		{
 		case RECTANGLE_SURFACE_TOP:		return this.basis;
 		case RECTANGLE_SURFACE_BOTTOM:	return this.basis.opposite();
@@ -108,7 +108,7 @@ public final class RectangleGeometry extends AbstractGeometry {
 	 */
 	@Override
 	protected Vector3 getNormal(GeometryIntersection x) {
-		switch (x.surfaceId())
+		switch (x.getTag())
 		{
 		case RECTANGLE_SURFACE_TOP:		return this.plane.normal();
 		case RECTANGLE_SURFACE_BOTTOM:	return this.plane.normal().opposite();
@@ -143,9 +143,9 @@ public final class RectangleGeometry extends AbstractGeometry {
 	}
 
 //	/* (non-Javadoc)
-//	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.SurfacePointGeometry, ca.eandb.jmist.framework.VisibilityFunction3, ca.eandb.jmist.framework.Illuminable)
+//	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.VisibilityFunction3, ca.eandb.jmist.framework.Illuminable)
 //	 */
-//	public void illuminate(SurfacePointGeometry x, VisibilityFunction3 vf,
+//	public void illuminate(SurfacePoint x, VisibilityFunction3 vf,
 //			Illuminable target) {
 //
 //		/* Pick a point at random on the surface of the rectangle. */
@@ -160,7 +160,7 @@ public final class RectangleGeometry extends AbstractGeometry {
 //		if (vf.visibility(p, x.location())) {
 //
 //			// FIXME Select from appropriate side when two-sided.
-//			IntersectionGeometry sp = super.newIntersection(null, 0.0, true, RECTANGLE_SURFACE_TOP)
+//			Intersection sp = super.newIntersection(null, 0.0, true, RECTANGLE_SURFACE_TOP)
 //				.setLocation(p)
 //				.setTextureCoordinates(new Point2(u, v)); // FIXME correct texture coordinates.
 //
@@ -184,7 +184,7 @@ public final class RectangleGeometry extends AbstractGeometry {
 	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#generateRandomSurfacePoint()
 	 */
 	@Override
-	public SurfacePointGeometry generateRandomSurfacePoint() {
+	public SurfacePoint generateRandomSurfacePoint() {
 		Point3 p = center
 				.plus(basis.u().times(RandomUtil.uniform(-ru, ru)))
 				.plus(basis.v().times(RandomUtil.uniform(-rv, rv)));

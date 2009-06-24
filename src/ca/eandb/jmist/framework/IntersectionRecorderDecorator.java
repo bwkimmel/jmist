@@ -3,6 +3,7 @@
  */
 package ca.eandb.jmist.framework;
 
+import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.math.Interval;
 
 /**
@@ -44,9 +45,9 @@ public abstract class IntersectionRecorderDecorator implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.IntersectionRecorder#record(ca.eandb.jmist.framework.IntersectionGeometry)
+	 * @see ca.eandb.jmist.framework.IntersectionRecorder#record(ca.eandb.jmist.framework.Intersection)
 	 */
-	public abstract void record(IntersectionGeometry intersection);
+	public abstract void record(Intersection intersection);
 
 	/** The decorated <code>IntersectionRecorder</code>. */
 	protected final IntersectionRecorder inner;

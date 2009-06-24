@@ -42,18 +42,21 @@ public final class ScatteredRays extends AbstractList<ScatteredRay> {
 
 	private final Intersection intersection;
 
+	private final Material material;
+
 	private List<ScatteredRay> rays = new ArrayList<ScatteredRay>(10);
 
 	/**
 	 * @param intersection
+	 * @param material
 	 */
-	public ScatteredRays(Intersection intersection) {
+	public ScatteredRays(Intersection intersection, Material material) {
 		this.intersection = intersection;
+		this.material = material;
 	}
 
 	private synchronized void ensureReady() {
 		if (modCount == 0) {
-			Material material = intersection.material();
 			material.scatter(intersection, new ScatteredRayRecorder() {
 				public void add(ScatteredRay sr) {
 					rays.add(sr);

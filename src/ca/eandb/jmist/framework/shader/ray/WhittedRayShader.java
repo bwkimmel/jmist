@@ -3,7 +3,7 @@
  */
 package ca.eandb.jmist.framework.shader.ray;
 
-import ca.eandb.jmist.framework.IntersectionGeometry;
+import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.ListScatterRecorder;
 import ca.eandb.jmist.framework.Material;
@@ -46,7 +46,7 @@ public final class WhittedRayShader implements RayShader {
 		Color shade = ColorModel.getInstance().getBlack();
 		ListScatterRecorder recorder = new ListScatterRecorder();
 
-		IntersectionGeometry x = caster.castRay(ray);
+		Intersection x = caster.castRay(ray);
 		if (x == null) {
 			return shade;
 		}

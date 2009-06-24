@@ -16,7 +16,7 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
 
 	/**
 	 * Creates a new <code>NearestIntersectionRecorder</code> that records
-	 * <code>IntersectionGeometry</code>s with a non-negligible positive distance.
+	 * <code>Intersection</code>s with a non-negligible positive distance.
 	 */
 	public NearestIntersectionRecorder() {
 		this.interval = new Interval(MathUtil.EPSILON, Double.POSITIVE_INFINITY);
@@ -24,7 +24,7 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
 
 	/**
 	 * Creates a new <code>NearestIntersectionRecorder</code> that records
-	 * <code>IntersectionGeometry</code>s with a distance greater than that specified.
+	 * <code>Intersection</code>s with a distance greater than that specified.
 	 * @param epsilon The minimum distance to accept.
 	 */
 	public NearestIntersectionRecorder(double epsilon) {
@@ -33,9 +33,9 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
 
 	/**
 	 * Creates a new <code>NearestIntersectionRecorder</code> that records
-	 * <code>IntersectionGeometry</code>s within the specified <code>Interval</code>.
+	 * <code>Intersection</code>s within the specified <code>Interval</code>.
 	 * @param interval The <code>Interval</code> within which to accept
-	 * 		<code>IntersectionGeometry</code>s.
+	 * 		<code>Intersection</code>s.
 	 */
 	public NearestIntersectionRecorder(Interval interval) {
 		this.interval = interval;
@@ -56,9 +56,9 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.IntersectionRecorder#record(ca.eandb.jmist.framework.IntersectionGeometry)
+	 * @see ca.eandb.jmist.framework.IntersectionRecorder#record(ca.eandb.jmist.framework.Intersection)
 	 */
-	public void record(IntersectionGeometry intersection) {
+	public void record(Intersection intersection) {
 		if (this.interval().contains(intersection.getDistance())) {
 			if (this.nearest == null || intersection.getDistance() < this.nearest.getDistance()) {
 				this.nearest = intersection;
@@ -78,7 +78,7 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
 	 * been recorded.
 	 * @return The nearest intersection that has been recorded.
 	 */
-	public IntersectionGeometry nearestIntersection() {
+	public Intersection nearestIntersection() {
 		return this.nearest;
 	}
 
@@ -88,21 +88,37 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
 	 * @param ray The <code>Ray3</code> to intersect with.
 	 * @param geometry The <code>Geometry</code> to test for an intersection
 	 * 		with.
-	 * @return The nearest <code>IntersectionGeometry</code>, or <code>null</code> if
+	 * @param index The index of the primitive to intersect the ray with.
+	 * @return The nearest <code>Intersection</code>, or <code>null</code> if
 	 * 		none exists.
 	 */
-	public static IntersectionGeometry computeNearestIntersection(Ray3 ray, Geometry geometry) {
+	public static Intersection computeNearestIntersection(Ray3 ray, Geometry geometry, int index) {
+		NearestIntersectionRecorder recorder = new NearestIntersectionRecorder();
+		geometry.intersect(index, ray, recorder);
+		return recorder.nearestIntersection();
+	}
+
+	/**
+	 * Computes the nearest intersection of a <code>Ray3</code> with a
+	 * <code>Geometry</code>.
+	 * @param ray The <code>Ray3</code> to intersect with.
+	 * @param geometry The <code>Geometry</code> to test for an intersection
+	 * 		with.
+	 * @return The nearest <code>Intersection</code>, or <code>null</code> if
+	 * 		none exists.
+	 */
+	public static Intersection computeNearestIntersection(Ray3 ray, Geometry geometry) {
 		NearestIntersectionRecorder recorder = new NearestIntersectionRecorder();
 		geometry.intersect(ray, recorder);
 		return recorder.nearestIntersection();
 	}
 
 	/** The nearest intersection that has been recorded so far. */
-	private IntersectionGeometry nearest = null;
+	private Intersection nearest = null;
 
 	/**
 	 * The <code>Interval</code> within which to accept
-	 * <code>IntersectionGeometry</code>s.
+	 * <code>Intersection</code>s.
 	 */
 	private final Interval interval;
 

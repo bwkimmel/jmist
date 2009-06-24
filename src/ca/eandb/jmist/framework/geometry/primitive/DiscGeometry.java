@@ -5,8 +5,8 @@ package ca.eandb.jmist.framework.geometry.primitive;
 
 import ca.eandb.jmist.framework.BoundingBoxBuilder3;
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.SurfacePointGeometry;
-import ca.eandb.jmist.framework.geometry.AbstractGeometry;
+import ca.eandb.jmist.framework.SurfacePoint;
+import ca.eandb.jmist.framework.geometry.PrimitiveGeometry;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Plane3;
@@ -22,7 +22,7 @@ import ca.eandb.jmist.math.Vector3;
  * A circular plane <code>Geometry</code>.
  * @author Brad Kimmel
  */
-public final class DiscGeometry extends AbstractGeometry {
+public final class DiscGeometry extends PrimitiveGeometry {
 
 	/**
 	 * Creates a new <code>DiscGeometry</code>.
@@ -39,7 +39,7 @@ public final class DiscGeometry extends AbstractGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#intersect(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+	 * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 
@@ -72,7 +72,7 @@ public final class DiscGeometry extends AbstractGeometry {
 	 */
 	@Override
 	protected Basis3 getBasis(GeometryIntersection x) {
-		switch (x.surfaceId()) {
+		switch (x.getTag()) {
 		case DISC_SURFACE_TOP:		return Basis3.fromW(this.plane.normal(), Basis3.Orientation.RIGHT_HANDED);
 		case DISC_SURFACE_BOTTOM:	return Basis3.fromW(this.plane.normal().opposite(), Basis3.Orientation.RIGHT_HANDED);
 		default:					assert(false); return null;
@@ -84,7 +84,7 @@ public final class DiscGeometry extends AbstractGeometry {
 	 */
 	@Override
 	protected Vector3 getNormal(GeometryIntersection x) {
-		switch (x.surfaceId()) {
+		switch (x.getTag()) {
 		case DISC_SURFACE_TOP:		return this.plane.normal();
 		case DISC_SURFACE_BOTTOM:	return this.plane.normal().opposite();
 		default:					assert(false); return null;
@@ -145,7 +145,7 @@ public final class DiscGeometry extends AbstractGeometry {
 	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#generateRandomSurfacePoint()
 	 */
 	@Override
-	public SurfacePointGeometry generateRandomSurfacePoint() {
+	public SurfacePoint generateRandomSurfacePoint() {
 		Vector2 uv = RandomUtil.uniformOnDisc(boundingSphere.radius()).toCartesian();
 		Basis3 basis = Basis3.fromW(this.plane.normal(), Basis3.Orientation.RIGHT_HANDED);
 

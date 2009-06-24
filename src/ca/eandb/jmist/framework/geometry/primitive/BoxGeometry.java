@@ -3,14 +3,13 @@
  */
 package ca.eandb.jmist.framework.geometry.primitive;
 
-import ca.eandb.jmist.framework.IntersectionGeometry;
+import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.SurfacePointGeometry;
-import ca.eandb.jmist.framework.geometry.AbstractGeometry;
+import ca.eandb.jmist.framework.SurfacePoint;
+import ca.eandb.jmist.framework.geometry.PrimitiveGeometry;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box2;
 import ca.eandb.jmist.math.Box3;
-import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.RandomUtil;
@@ -22,7 +21,7 @@ import ca.eandb.jmist.math.Vector3;
  * An axis aligned box <code>Geometry</code>.
  * @author Brad Kimmel
  */
-public final class BoxGeometry extends AbstractGeometry {
+public final class BoxGeometry extends PrimitiveGeometry {
 
 	/**
 	 * Creates a new <code>BoxGeometry</code>.
@@ -33,7 +32,7 @@ public final class BoxGeometry extends AbstractGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#intersect(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+	 * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 
@@ -52,7 +51,7 @@ public final class BoxGeometry extends AbstractGeometry {
 				if (t > 0.0) {
 					p = ray.pointAt(t);
 					if (box.minimumY() < p.y() && p.y() < box.maximumY() && box.minimumZ() < p.z() && p.z() < box.maximumZ()) {
-						IntersectionGeometry x = super.newIntersection(ray, t, ray.direction().x() > 0.0, BOX_SURFACE_MIN_X)
+						Intersection x = super.newIntersection(ray, t, ray.direction().x() > 0.0, BOX_SURFACE_MIN_X)
 							.setLocation(p);
 						recorder.record(x);
 						if (++n == 2) return;
@@ -63,7 +62,7 @@ public final class BoxGeometry extends AbstractGeometry {
 				if (t > 0.0) {
 					p = ray.pointAt(t);
 					if (box.minimumY() < p.y() && p.y() < box.maximumY() && box.minimumZ() < p.z() && p.z() < box.maximumZ()) {
-						IntersectionGeometry x = super.newIntersection(ray, t, ray.direction().x() < 0.0, BOX_SURFACE_MAX_X)
+						Intersection x = super.newIntersection(ray, t, ray.direction().x() < 0.0, BOX_SURFACE_MAX_X)
 							.setLocation(p);
 						recorder.record(x);
 						if (++n == 2) return;
@@ -76,7 +75,7 @@ public final class BoxGeometry extends AbstractGeometry {
 				if (t > 0.0) {
 					p = ray.pointAt(t);
 					if (box.minimumX() < p.x() && p.x() < box.maximumX() && box.minimumZ() < p.z() && p.z() < box.maximumZ()) {
-						IntersectionGeometry x = super.newIntersection(ray, t, ray.direction().y() > 0.0, BOX_SURFACE_MIN_Y)
+						Intersection x = super.newIntersection(ray, t, ray.direction().y() > 0.0, BOX_SURFACE_MIN_Y)
 							.setLocation(p);
 						recorder.record(x);
 						if (++n == 2) return;
@@ -87,7 +86,7 @@ public final class BoxGeometry extends AbstractGeometry {
 				if (t > 0.0) {
 					p = ray.pointAt(t);
 					if (box.minimumX() < p.x() && p.x() < box.maximumX() && box.minimumZ() < p.z() && p.z() < box.maximumZ()) {
-						IntersectionGeometry x = super.newIntersection(ray, t, ray.direction().y() < 0.0, BOX_SURFACE_MAX_Y)
+						Intersection x = super.newIntersection(ray, t, ray.direction().y() < 0.0, BOX_SURFACE_MAX_Y)
 							.setLocation(p);
 						recorder.record(x);
 						if (++n == 2) return;
@@ -100,7 +99,7 @@ public final class BoxGeometry extends AbstractGeometry {
 				if (t > 0.0) {
 					p = ray.pointAt(t);
 					if (box.minimumX() < p.x() && p.x() < box.maximumX() && box.minimumY() < p.y() && p.y() < box.maximumY()) {
-						IntersectionGeometry x = super.newIntersection(ray, t, ray.direction().z() > 0.0, BOX_SURFACE_MIN_Z)
+						Intersection x = super.newIntersection(ray, t, ray.direction().z() > 0.0, BOX_SURFACE_MIN_Z)
 							.setLocation(p);
 						recorder.record(x);
 						if (++n == 2) return;
@@ -111,7 +110,7 @@ public final class BoxGeometry extends AbstractGeometry {
 				if (t > 0.0) {
 					p = ray.pointAt(t);
 					if (box.minimumX() < p.x() && p.x() < box.maximumX() && box.minimumY() < p.y() && p.y() < box.maximumY()) {
-						IntersectionGeometry x = super.newIntersection(ray, t, ray.direction().z() < 0.0, BOX_SURFACE_MAX_Z)
+						Intersection x = super.newIntersection(ray, t, ray.direction().z() < 0.0, BOX_SURFACE_MAX_Z)
 							.setLocation(p);
 						recorder.record(x);
 						if (++n == 2) return;
@@ -136,7 +135,7 @@ public final class BoxGeometry extends AbstractGeometry {
 	 */
 	@Override
 	protected Vector3 getNormal(GeometryIntersection x) {
-		switch (x.surfaceId())
+		switch (x.getTag())
 		{
 		case BOX_SURFACE_MAX_X:	return Vector3.I;
 		case BOX_SURFACE_MIN_X:	return Vector3.NEGATIVE_I;
@@ -157,7 +156,7 @@ public final class BoxGeometry extends AbstractGeometry {
 		Point2	facePoint;
 		Point3	p = x.getPosition();
 
-		switch (x.surfaceId())
+		switch (x.getTag())
 		{
 		case BOX_SURFACE_MAX_X:
 			facePoint = new Point2(
@@ -207,18 +206,10 @@ public final class BoxGeometry extends AbstractGeometry {
 		}
 
 		return new Point2(
-			FACE_DOMAIN[x.surfaceId() - 1].minimumX() + facePoint.x() * FACE_DOMAIN[x.surfaceId() - 1].lengthX(),
-			FACE_DOMAIN[x.surfaceId() - 1].minimumY() + facePoint.y() * FACE_DOMAIN[x.surfaceId() - 1].lengthY()
+			FACE_DOMAIN[x.getTag() - 1].minimumX() + facePoint.x() * FACE_DOMAIN[x.getTag() - 1].lengthX(),
+			FACE_DOMAIN[x.getTag() - 1].minimumY() + facePoint.y() * FACE_DOMAIN[x.getTag() - 1].lengthY()
 		);
 
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.AbstractGeometry#visibility(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.toolkit.Interval)
-	 */
-	@Override
-	public boolean visibility(Ray3 ray, Interval I) {
-		return I.intersects(this.box.intersect(ray));
 	}
 
 	/* (non-Javadoc)
@@ -246,7 +237,7 @@ public final class BoxGeometry extends AbstractGeometry {
 	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#generateRandomSurfacePoint()
 	 */
 	@Override
-	public SurfacePointGeometry generateRandomSurfacePoint() {
+	public SurfacePoint generateRandomSurfacePoint() {
 		double xyArea = box.lengthX() * box.lengthY();
 		double xzArea = box.lengthX() * box.lengthZ();
 		double yzArea = box.lengthY() * box.lengthZ();

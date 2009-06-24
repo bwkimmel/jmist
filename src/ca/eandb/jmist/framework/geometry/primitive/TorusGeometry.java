@@ -6,7 +6,7 @@ package ca.eandb.jmist.framework.geometry.primitive;
 import java.util.Arrays;
 
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.geometry.AbstractGeometry;
+import ca.eandb.jmist.framework.geometry.PrimitiveGeometry;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Point2;
@@ -20,7 +20,7 @@ import ca.eandb.jmist.math.Vector3;
  * A torus primitive <code>Geometry</code>.
  * @author Brad Kimmel
  */
-public final class TorusGeometry extends AbstractGeometry {
+public final class TorusGeometry extends PrimitiveGeometry {
 
 	/**
 	 * Creates a new <code>TorusGeometry</code>.
@@ -35,7 +35,7 @@ public final class TorusGeometry extends AbstractGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#intersect(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+	 * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 

@@ -6,7 +6,6 @@ package ca.eandb.jmist.framework.caster;
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.RayCaster;
 import ca.eandb.jmist.framework.SceneObject;
-import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
 
@@ -34,11 +33,11 @@ public final class GeometryRayCaster implements RayCaster {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.VisibilityFunction3#visibility(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.math.Interval)
+	 * @see ca.eandb.jmist.framework.VisibilityFunction3#visibility(ca.eandb.jmist.math.Ray3, double)
 	 */
 	@Override
-	public boolean visibility(Ray3 ray, Interval I) {
-		return sceneObject.visibility(ray, I);
+	public boolean visibility(Ray3 ray, double maximumDistance) {
+		return sceneObject.visibility(ray, maximumDistance);
 	}
 
 	/* (non-Javadoc)
