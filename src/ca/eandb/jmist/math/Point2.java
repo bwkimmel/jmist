@@ -66,12 +66,32 @@ public final class Point2 implements Serializable {
 	}
 
 	/**
+	 * Computes the unit vector from this point to the specified point.
+	 * @param p The point at the end of the vector.
+	 * @return The unit vector from this point to p.
+	 */
+	public Vector2 unitVectorTo(Point2 p) {
+		double d = distanceTo(p);
+		return new Vector2((p.x - x) / d, (p.y - y) / d);
+	}
+
+	/**
 	 * Computes the vector from this point to the specified point.
 	 * @param p The point at the end of the vector.
 	 * @return The vector from this point to p.
 	 */
 	public Vector2 vectorTo(Point2 p) {
 		return new Vector2(p.x - x, p.y - y);
+	}
+
+	/**
+	 * Computes the unit vector from the specified point to this point.
+	 * @param p The point at the start of the vector.
+	 * @return The unit vector from p to this point.
+	 */
+	public Vector2 unitVectorFrom(Point2 p) {
+		double d = distanceTo(p);
+		return new Vector2((x - p.x) / d, (y - p.y) / d);
 	}
 
 	/**
