@@ -18,7 +18,7 @@ import ca.eandb.jmist.math.Sphere;
 import ca.eandb.jmist.math.Vector3;
 
 /**
- * An axis aligned box <code>Geometry</code>.
+ * An axis aligned box <code>SceneElement</code>.
  * @author Brad Kimmel
  */
 public final class BoxGeometry extends PrimitiveGeometry {
@@ -213,7 +213,7 @@ public final class BoxGeometry extends PrimitiveGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#isClosed()
+	 * @see ca.eandb.jmist.framework.SceneElement#isClosed()
 	 */
 	public boolean isClosed() {
 		return true;
@@ -309,7 +309,7 @@ public final class BoxGeometry extends PrimitiveGeometry {
 			new Box2(1.0 / 3.0, 3.0 / 4.0, 2.0 / 3.0, 1.0)
 	};
 
-	/** The <code>Box3</code> that represents this <code>Geometry</code>. */
+	/** The <code>Box3</code> that represents this <code>SceneElement</code>. */
 	private final Box3 box;
 
 }

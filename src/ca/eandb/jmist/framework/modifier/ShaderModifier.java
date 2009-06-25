@@ -23,51 +23,33 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package ca.eandb.jmist.framework.scene;
+package ca.eandb.jmist.framework.modifier;
 
-import ca.eandb.jmist.framework.Light;
-import ca.eandb.jmist.framework.SceneObject;
-import ca.eandb.jmist.math.Point3;
-import ca.eandb.jmist.math.Ray3;
+import ca.eandb.jmist.framework.Modifier;
+import ca.eandb.jmist.framework.Shader;
+import ca.eandb.jmist.framework.ShadingContext;
 
 /**
  * @author brad
  *
  */
-public abstract class AbstractSceneObject implements SceneObject {
+public final class ShaderModifier implements Modifier {
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SceneObject#createLight()
+	private final Shader shader;
+
+	/**
+	 * @param shader
 	 */
-	@Override
-	public Light createLight() {
-		return null;
+	public ShaderModifier(Shader shader) {
+		this.shader = shader;
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SceneObject#isEmissive()
+	 * @see ca.eandb.jmist.framework.Modifier#modify(ca.eandb.jmist.framework.ShadingContext)
 	 */
 	@Override
-	public boolean isEmissive() {
-		return false;
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.VisibilityFunction3#visibility(ca.eandb.jmist.math.Ray3)
-	 */
-	@Override
-	public boolean visibility(Ray3 ray) {
-		return visibility(ray, Double.POSITIVE_INFINITY);
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.VisibilityFunction3#visibility(ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Point3)
-	 */
-	@Override
-	public boolean visibility(Point3 p, Point3 q) {
-		double d = p.distanceTo(q);
-		Ray3 ray = new Ray3(p, p.vectorTo(q).divide(d));
-		return visibility(ray, d);
+	public void modify(ShadingContext context) {
+		context.setShader(shader);
 	}
 
 }

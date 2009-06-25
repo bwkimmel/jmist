@@ -3,9 +3,10 @@
  */
 package ca.eandb.jmist.framework.material;
 
-import ca.eandb.jmist.framework.Intersection;
-import ca.eandb.jmist.framework.ScatteredRayRecorder;
+import ca.eandb.jmist.framework.Medium;
 import ca.eandb.jmist.framework.ScatteredRay;
+import ca.eandb.jmist.framework.ScatteredRayRecorder;
+import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.ColorUtil;
@@ -57,20 +58,20 @@ public class DielectricMaterial extends AbstractMaterial {
 	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.framework.ScatteredRayRecorder)
 	 */
 	@Override
-	public void scatter(Intersection x, ScatteredRayRecorder recorder) {
+	public void scatter(SurfacePoint x, Vector3 v, ScatteredRayRecorder recorder) {
 
 		ColorModel	cm			= ColorModel.getInstance();
 		Point3		p			= x.getPosition();
-		Color		n1			= x.ambientMedium().refractiveIndex(p);
-		Color		k1			= x.ambientMedium().extinctionIndex(p);
-		Vector3		in			= x.getIncident();
+		Medium		medium		= x.getAmbientMedium();
+		Color		n1			= medium.refractiveIndex(p);
+		Color		k1			= medium.extinctionIndex(p);
 		Vector3		normal		= x.getShadingNormal();
-		boolean		fromSide	= x.getNormal().dot(in) < 0.0;
-		Color		R			= Optics.reflectance(in, normal, n1, k1, refractiveIndex, null);
+		boolean		fromSide	= x.getNormal().dot(v) < 0.0;
+		Color		R			= Optics.reflectance(v, normal, n1, k1, refractiveIndex, null);
 		Color		T			= cm.getWhite().minus(R);
 
 		{
-			Vector3		out		= Optics.reflect(in, normal);
+			Vector3		out		= Optics.reflect(v, normal);
 			boolean		toSide	= x.getNormal().dot(out) >= 0.0;
 
 			if (fromSide == toSide) {
@@ -103,7 +104,7 @@ public class DielectricMaterial extends AbstractMaterial {
 
 			Complex		eta1	= new Complex(n1.getValue(channel), k1.getValue(channel));
 			Complex		eta2	= new Complex(refractiveIndex.getValue(channel));
-			Vector3		out		= Optics.refract(in, eta1, eta2, normal);
+			Vector3		out		= Optics.refract(v, eta1, eta2, normal);
 			boolean		toSide	= x.getNormal().dot(out) >= 0.0;
 
 			T					= T.disperse(channel);

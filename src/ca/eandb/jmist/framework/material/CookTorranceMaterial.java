@@ -3,8 +3,9 @@
  */
 package ca.eandb.jmist.framework.material;
 
-import ca.eandb.jmist.framework.Intersection;
+import ca.eandb.jmist.framework.Medium;
 import ca.eandb.jmist.framework.ScatteredRayRecorder;
+import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.math.Optics;
@@ -31,20 +32,20 @@ public final class CookTorranceMaterial extends AbstractMaterial {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.framework.ScatteredRayRecorder)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.ScatteredRayRecorder)
 	 */
 	@Override
-	public void scatter(Intersection x, ScatteredRayRecorder recorder) {
+	public void scatter(SurfacePoint x, Vector3 v, ScatteredRayRecorder recorder) {
 		// TODO Auto-generated method stub
-		super.scatter(x, recorder);
+		super.scatter(x, v, recorder);
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scattering(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.math.Vector3)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scattering(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Vector3)
 	 */
 	@Override
-	public Color scattering(Intersection x, Vector3 in) {
-		Vector3		E = x.getIncident().opposite();
+	public Color scattering(SurfacePoint x, Vector3 in, Vector3 out) {
+		Vector3		E = in.opposite();
 		Vector3		L = in;
 		Vector3		H = E.plus(E).times(0.5).unit();
 		Vector3		N = x.getShadingNormal();
@@ -55,8 +56,9 @@ public final class CookTorranceMaterial extends AbstractMaterial {
 		double		tanAlpha = Math.tan(Math.acos(HdotN));
 		double		cos4Alpha = HdotN * HdotN * HdotN * HdotN;
 
-		Color		n1 = x.ambientMedium().refractiveIndex(x.getPosition());
-		Color		k1 = x.ambientMedium().extinctionIndex(x.getPosition());
+		Medium		medium = x.getAmbientMedium();
+		Color		n1 = medium.refractiveIndex(x.getPosition());
+		Color		k1 = medium.extinctionIndex(x.getPosition());
 		Color		F = Optics.reflectance(E, N, n1, k1, n, k);
 		double		D = Math.exp(-(tanAlpha * tanAlpha / mSquared)) / (4.0 * mSquared * cos4Alpha);
 		double		G = Math.min(1.0, Math.min(2.0 * HdotN * EdotN / EdotH, 2.0 * HdotN * LdotN / EdotH));

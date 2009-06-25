@@ -25,8 +25,6 @@
 
 package ca.eandb.jmist.framework;
 
-import java.util.List;
-
 /**
  * @author brad
  *
@@ -35,6 +33,6 @@ public interface Scene extends Bounded3 {
 
 	Light getLight();
 
-	List<SceneObject> getSceneObjects();
+	SceneElement getRoot();
 
 }

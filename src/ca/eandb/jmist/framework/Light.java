@@ -10,6 +10,6 @@ package ca.eandb.jmist.framework;
  */
 public interface Light {
 
-	void illuminate(Intersection x, Illuminable target);
+	void illuminate(SurfacePoint x, Illuminable target);
 
 }

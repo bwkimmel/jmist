@@ -25,8 +25,8 @@
 
 package ca.eandb.jmist.framework.light;
 
-import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.LightSample;
+import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.VisibilityFunction3;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.math.Point3;
@@ -38,7 +38,7 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class PointLightSample implements LightSample {
 
-	private final Intersection x;
+	private final SurfacePoint x;
 
 	private final Point3 position;
 
@@ -52,7 +52,7 @@ public final class PointLightSample implements LightSample {
 	 * @param intensity
 	 * @param shadows
 	 */
-	public PointLightSample(Intersection x, Point3 position, Color intensity,
+	public PointLightSample(SurfacePoint x, Point3 position, Color intensity,
 			boolean shadows) {
 		this.x = x;
 		this.position = position;
@@ -65,7 +65,7 @@ public final class PointLightSample implements LightSample {
 	 * @param position
 	 * @param intensity
 	 */
-	public PointLightSample(Intersection x, Point3 position, Color intensity) {
+	public PointLightSample(SurfacePoint x, Point3 position, Color intensity) {
 		this(x, position, intensity, true);
 	}
 

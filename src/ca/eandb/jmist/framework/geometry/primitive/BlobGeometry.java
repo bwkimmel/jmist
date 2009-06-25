@@ -31,7 +31,7 @@ public final class BlobGeometry extends PrimitiveGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#isClosed()
+	 * @see ca.eandb.jmist.framework.SceneElement#isClosed()
 	 */
 	public boolean isClosed() {
 		// TODO Auto-generated method stub

@@ -25,8 +25,8 @@
 
 package ca.eandb.jmist.framework.light;
 
-import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.LightSample;
+import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.VisibilityFunction3;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.math.Ray3;
@@ -38,7 +38,7 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class DirectionalLightSample implements LightSample {
 
-	private final Intersection x;
+	private final SurfacePoint x;
 
 	private final Vector3 direction;
 
@@ -52,7 +52,7 @@ public final class DirectionalLightSample implements LightSample {
 	 * @param radiance
 	 * @param shadows
 	 */
-	public DirectionalLightSample(Intersection x, Vector3 direction,
+	public DirectionalLightSample(SurfacePoint x, Vector3 direction,
 			Color radiance, boolean shadows) {
 		this.x = x;
 		this.direction = direction;
@@ -65,7 +65,7 @@ public final class DirectionalLightSample implements LightSample {
 	 * @param direction
 	 * @param radiance
 	 */
-	public DirectionalLightSample(Intersection x, Vector3 direction,
+	public DirectionalLightSample(SurfacePoint x, Vector3 direction,
 			Color radiance) {
 		this(x, direction, radiance, true);
 	}

@@ -10,10 +10,10 @@ package ca.eandb.jmist.framework;
 public interface Model {
 
 	/**
-	 * Gets the model's <code>Geometry</code>.
-	 * @return The model's <code>Geometry</code>.
+	 * Gets the model's <code>SceneElement</code>.
+	 * @return The model's <code>SceneElement</code>.
 	 */
-	Geometry getGeometry();
+	SceneElement getGeometry();
 
 	/**
 	 * Gets the <code>Light</code> that illuminates the scene.

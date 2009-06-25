@@ -4,9 +4,9 @@
 package ca.eandb.jmist.framework.light;
 
 import ca.eandb.jmist.framework.Illuminable;
-import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.LightSample;
 import ca.eandb.jmist.framework.Random;
+import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.random.SimpleRandom;
 import ca.eandb.jmist.math.RandomUtil;
 
@@ -25,9 +25,9 @@ public final class RandomCompositeLight extends CompositeLight {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.framework.Illuminable)
+	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.Illuminable)
 	 */
-	public void illuminate(Intersection x, final Illuminable target) {
+	public void illuminate(SurfacePoint x, final Illuminable target) {
 		children().get(this.select()).illuminate(x, new Illuminable() {
 			public void addLightSample(LightSample sample) {
 				target.addLightSample(ScaledLightSample.create(children().size(), sample));

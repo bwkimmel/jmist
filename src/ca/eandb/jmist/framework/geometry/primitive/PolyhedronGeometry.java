@@ -21,7 +21,7 @@ import ca.eandb.jmist.math.Sphere;
 import ca.eandb.jmist.math.Vector3;
 
 /**
- * A polyhedron <code>Geometry</code>.
+ * A polyhedron <code>SceneElement</code>.
  * @author Brad Kimmel
  */
 public final class PolyhedronGeometry extends AbstractGeometry {
@@ -47,7 +47,7 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+	 * @see ca.eandb.jmist.framework.SceneElement#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
 	public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
 		intersectFace(index, ray, recorder);
@@ -97,7 +97,7 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#getBoundingBox(int)
+	 * @see ca.eandb.jmist.framework.SceneElement#getBoundingBox(int)
 	 */
 	@Override
 	public Box3 getBoundingBox(int index) {
@@ -105,7 +105,7 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#getBoundingSphere(int)
+	 * @see ca.eandb.jmist.framework.SceneElement#getBoundingSphere(int)
 	 */
 	@Override
 	public Sphere getBoundingSphere(int index) {
@@ -113,7 +113,7 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#getNumPrimitives()
+	 * @see ca.eandb.jmist.framework.SceneElement#getNumPrimitives()
 	 */
 	@Override
 	public int getNumPrimitives() {
@@ -121,7 +121,7 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#isClosed()
+	 * @see ca.eandb.jmist.framework.SceneElement#isClosed()
 	 */
 	public boolean isClosed() {
 		return this.closed;
@@ -150,7 +150,7 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#generateRandomSurfacePoint()
+	 * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint()
 	 */
 	public SurfacePoint generateRandomSurfacePoint() {
 		// TODO Auto-generated method stub

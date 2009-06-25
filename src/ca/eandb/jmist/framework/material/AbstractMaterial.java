@@ -3,7 +3,6 @@
  */
 package ca.eandb.jmist.framework.material;
 
-import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.ScatteredRayRecorder;
 import ca.eandb.jmist.framework.SurfacePoint;
@@ -42,18 +41,18 @@ public abstract class AbstractMaterial implements Material {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Material#scatter(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.framework.ScatteredRayRecorder)
+	 * @see ca.eandb.jmist.framework.Material#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.ScatteredRayRecorder)
 	 */
 	@Override
-	public void scatter(Intersection x, ScatteredRayRecorder recorder) {
+	public void scatter(SurfacePoint x, Vector3 v, ScatteredRayRecorder recorder) {
 		/* nothing to do. */
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Material#scattering(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.math.Vector3)
+	 * @see ca.eandb.jmist.framework.Material#scattering(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Vector3)
 	 */
 	@Override
-	public Color scattering(Intersection x, Vector3 in) {
+	public Color scattering(SurfacePoint x, Vector3 in, Vector3 out) {
 		return ColorModel.getInstance().getBlack();
 	}
 

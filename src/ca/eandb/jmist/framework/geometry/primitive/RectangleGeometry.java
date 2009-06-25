@@ -20,7 +20,7 @@ import ca.eandb.jmist.math.Sphere;
 import ca.eandb.jmist.math.Vector3;
 
 /**
- * A plane rectangle <code>Geometry</code>.
+ * A plane rectangle <code>SceneElement</code>.
  * @author Brad Kimmel
  */
 public final class RectangleGeometry extends PrimitiveGeometry {
@@ -117,7 +117,7 @@ public final class RectangleGeometry extends PrimitiveGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#isClosed()
+	 * @see ca.eandb.jmist.framework.SceneElement#isClosed()
 	 */
 	public boolean isClosed() {
 		return false;

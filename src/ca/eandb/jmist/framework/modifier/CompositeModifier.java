@@ -23,20 +23,46 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package ca.eandb.jmist.framework;
+package ca.eandb.jmist.framework.modifier;
 
-import ca.eandb.jmist.math.Ray3;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import ca.eandb.jmist.framework.Modifier;
+import ca.eandb.jmist.framework.ShadingContext;
 
 /**
  * @author brad
  *
  */
-public interface SceneObject extends Bounded3, VisibilityFunction3 {
+public final class CompositeModifier implements Modifier {
 
-	Intersection intersect(Ray3 ray);
+	private final Collection<Modifier> modifiers;
 
-	boolean isEmissive();
+	/**
+	 * @param modifiers
+	 */
+	public CompositeModifier(Collection<Modifier> modifiers) {
+		this.modifiers = modifiers;
+	}
 
-	Light createLight();
+	public CompositeModifier() {
+		this(new ArrayList<Modifier>());
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Modifier#modify(ca.eandb.jmist.framework.ShadingContext)
+	 */
+	@Override
+	public void modify(ShadingContext context) {
+		for (Modifier modifier : modifiers) {
+			modifier.modify(context);
+		}
+	}
+
+	public final CompositeModifier addModifier(Modifier modifier) {
+		modifiers.add(modifier);
+		return this;
+	}
 
 }

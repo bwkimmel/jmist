@@ -19,7 +19,7 @@ import ca.eandb.jmist.math.Vector2;
 import ca.eandb.jmist.math.Vector3;
 
 /**
- * A circular plane <code>Geometry</code>.
+ * A circular plane <code>SceneElement</code>.
  * @author Brad Kimmel
  */
 public final class DiscGeometry extends PrimitiveGeometry {
@@ -108,7 +108,7 @@ public final class DiscGeometry extends PrimitiveGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#isClosed()
+	 * @see ca.eandb.jmist.framework.SceneElement#isClosed()
 	 */
 	public boolean isClosed() {
 		return false;

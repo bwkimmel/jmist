@@ -3,7 +3,7 @@
  */
 package ca.eandb.jmist.framework.model;
 
-import ca.eandb.jmist.framework.Geometry;
+import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.Lens;
 import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.Material;
@@ -42,7 +42,7 @@ public final class CornellBoxModel implements Model {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Model#getGeometry()
 	 */
-	public Geometry getGeometry() {
+	public SceneElement getGeometry() {
 		return this.cornellBox;
 	}
 
@@ -158,8 +158,8 @@ public final class CornellBoxModel implements Model {
 	/** The <code>Lens</code> to use to view the box. */
 	private Lens lens = createLens();
 
-	/** The <code>Geometry</code> for the floor. */
-	private Geometry floor = new PolygonGeometry(
+	/** The <code>SceneElement</code> for the floor. */
+	private SceneElement floor = new PolygonGeometry(
 			new Point3[]{
 					new Point3(552.8, 0.0,   0.0),
 					new Point3(  0.0, 0.0,   0.0),
@@ -184,8 +184,8 @@ public final class CornellBoxModel implements Model {
 			matteWhite
 	);
 
-	/** The <code>Geometry</code> for the light box. */
-	private Geometry lightBox = new RectangleGeometry(
+	/** The <code>SceneElement</code> for the light box. */
+	private SceneElement lightBox = new RectangleGeometry(
 			new Point3(278.0, 548.8, 279.5),		// center
 			Basis3.fromUV(Vector3.I, Vector3.K),	// basis
 			130.0, 105.0,							// su, sv
@@ -193,8 +193,8 @@ public final class CornellBoxModel implements Model {
 			matteEmissive							// material
 	);
 
-	/** The <code>Geometry</code> for the ceiling. */
-	private Geometry ceiling = new PolygonGeometry(
+	/** The <code>SceneElement</code> for the ceiling. */
+	private SceneElement ceiling = new PolygonGeometry(
 			new Point3[]{
 					new Point3(556.0, 548.8,   0.0),
 					new Point3(556.0, 548.8, 559.2),
@@ -212,8 +212,8 @@ public final class CornellBoxModel implements Model {
 			matteWhite
 	);
 
-	/** The <code>Geometry</code> for the back wall. */
-	private Geometry backWall = new PolygonGeometry(
+	/** The <code>SceneElement</code> for the back wall. */
+	private SceneElement backWall = new PolygonGeometry(
 			new Point3[]{
 					new Point3(549.6,   0.0, 559.2),
 					new Point3(  0.0,   0.0, 559.2),
@@ -223,8 +223,8 @@ public final class CornellBoxModel implements Model {
 			matteWhite
 	);
 
-	/** The <code>Geometry</code> for the right wall. */
-	private Geometry rightWall = new PolygonGeometry(
+	/** The <code>SceneElement</code> for the right wall. */
+	private SceneElement rightWall = new PolygonGeometry(
 			new Point3[]{
 					new Point3(0.0,   0.0, 559.2),
 					new Point3(0.0,   0.0,   0.0),
@@ -234,8 +234,8 @@ public final class CornellBoxModel implements Model {
 			matteGreen
 	);
 
-	/** The <code>Geometry</code> for the left wall. */
-	private Geometry leftWall = new PolygonGeometry(
+	/** The <code>SceneElement</code> for the left wall. */
+	private SceneElement leftWall = new PolygonGeometry(
 			new Point3[]{
 					new Point3(552.8,   0.0,   0.0),
 					new Point3(549.6,   0.0, 559.2),
@@ -245,8 +245,8 @@ public final class CornellBoxModel implements Model {
 			matteRed
 	);
 
-	/** The <code>Geometry</code> for the short block. */
-	private Geometry shortBlock = new PolyhedronGeometry(
+	/** The <code>SceneElement</code> for the short block. */
+	private SceneElement shortBlock = new PolyhedronGeometry(
 			new Point3[]{
 					new Point3(130.0, 165.0,  65.0),
 					new Point3( 82.0, 165.0, 225.0),
@@ -267,8 +267,8 @@ public final class CornellBoxModel implements Model {
 			matteWhite
 	);
 
-	/** The <code>Geometry</code> for the tall block. */
-	private Geometry tallBlock = new PolyhedronGeometry(
+	/** The <code>SceneElement</code> for the tall block. */
+	private SceneElement tallBlock = new PolyhedronGeometry(
 			new Point3[]{
 					new Point3(423.0, 330.0, 247.0),
 					new Point3(265.0, 330.0, 296.0),
@@ -289,8 +289,8 @@ public final class CornellBoxModel implements Model {
 			matteWhite
 	);
 
-	/** The <code>Geometry</code> for the entire Cornell Box. */
-	private Geometry cornellBox = new BoundingBoxHierarchyGeometry()
+	/** The <code>SceneElement</code> for the entire Cornell Box. */
+	private SceneElement cornellBox = new BoundingBoxHierarchyGeometry()
 		.addChild(floor)
 		.addChild(lightBox)
 		.addChild(ceiling)

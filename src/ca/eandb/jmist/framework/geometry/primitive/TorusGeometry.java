@@ -17,7 +17,7 @@ import ca.eandb.jmist.math.Sphere;
 import ca.eandb.jmist.math.Vector3;
 
 /**
- * A torus primitive <code>Geometry</code>.
+ * A torus primitive <code>SceneElement</code>.
  * @author Brad Kimmel
  */
 public final class TorusGeometry extends PrimitiveGeometry {
@@ -119,7 +119,7 @@ public final class TorusGeometry extends PrimitiveGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#isClosed()
+	 * @see ca.eandb.jmist.framework.SceneElement#isClosed()
 	 */
 	public boolean isClosed() {
 		return true;

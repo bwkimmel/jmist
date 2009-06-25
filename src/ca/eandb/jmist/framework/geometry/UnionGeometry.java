@@ -7,7 +7,7 @@ import java.util.BitSet;
 
 
 /**
- * A <code>Geometry</code> that is the union of all its component geometries.
+ * A <code>SceneElement</code> that is the union of all its component geometries.
  * @author Brad Kimmel
  */
 public final class UnionGeometry extends ConstructiveSolidGeometry {

@@ -8,14 +8,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import ca.eandb.jmist.framework.Geometry;
+import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.IntersectionRecorder;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
 
 /**
- * A <code>Geometry</code> that is composed of component geometries.
+ * A <code>SceneElement</code> that is composed of component geometries.
  * @author Brad Kimmel
  */
 public class CompositeGeometry extends AbstractGeometry {
@@ -25,13 +25,13 @@ public class CompositeGeometry extends AbstractGeometry {
 	}
 
 	/**
-	 * Adds a child <code>Geometry</code> to this
+	 * Adds a child <code>SceneElement</code> to this
 	 * <code>CompositeGeometry</code>.
-	 * @param child The child <code>Geometry</code> to add.
+	 * @param child The child <code>SceneElement</code> to add.
 	 * @return A reference to this <code>CompositeGeometry</code> so that calls
 	 * 		to this method may be chained.
 	 */
-	public CompositeGeometry addChild(Geometry child) {
+	public CompositeGeometry addChild(SceneElement child) {
 		offsets.add(getNumPrimitives() + child.getNumPrimitives());
 		children.add(child);
 		return this;
@@ -47,7 +47,7 @@ public class CompositeGeometry extends AbstractGeometry {
 		 */
 		Collection<Box3> boxes = new ArrayList<Box3>();
 
-		for (Geometry child : this.children) {
+		for (SceneElement child : this.children) {
 			boxes.add(child.boundingBox());
 		}
 
@@ -73,34 +73,34 @@ public class CompositeGeometry extends AbstractGeometry {
 	 * Gets the list of child geometries.
 	 * @return The <code>List</code> of child geometries.
 	 */
-	protected final List<Geometry> children() {
+	protected final List<SceneElement> children() {
 		return this.children;
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#getBoundingBox(int)
+	 * @see ca.eandb.jmist.framework.SceneElement#getBoundingBox(int)
 	 */
 	@Override
 	public Box3 getBoundingBox(int index) {
 		int childIndex = getChildIndex(index);
 		int offset = offsets.get(childIndex);
-		Geometry child = children.get(childIndex);
+		SceneElement child = children.get(childIndex);
 		return child.getBoundingBox(index - offset);
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#getBoundingSphere(int)
+	 * @see ca.eandb.jmist.framework.SceneElement#getBoundingSphere(int)
 	 */
 	@Override
 	public Sphere getBoundingSphere(int index) {
 		int childIndex = getChildIndex(index);
 		int offset = offsets.get(childIndex);
-		Geometry child = children.get(childIndex);
+		SceneElement child = children.get(childIndex);
 		return child.getBoundingSphere(index - offset);
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#getNumPrimitives()
+	 * @see ca.eandb.jmist.framework.SceneElement#getNumPrimitives()
 	 */
 	@Override
 	public int getNumPrimitives() {
@@ -121,18 +121,18 @@ public class CompositeGeometry extends AbstractGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+	 * @see ca.eandb.jmist.framework.SceneElement#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
 	@Override
 	public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
 		int childIndex = getChildIndex(index);
 		int offset = offsets.get(childIndex);
-		Geometry child = children.get(childIndex);
+		SceneElement child = children.get(childIndex);
 		child.intersect(index - offset, ray, recorder);
 	}
 
 	/** The child geometries. */
-	private final List<Geometry> children = new ArrayList<Geometry>();
+	private final List<SceneElement> children = new ArrayList<SceneElement>();
 
 	private final List<Integer> offsets = new ArrayList<Integer>();
 

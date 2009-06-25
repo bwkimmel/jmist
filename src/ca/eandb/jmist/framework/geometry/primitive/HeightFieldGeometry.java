@@ -24,7 +24,7 @@ import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
 
 /**
- * A polygonal <code>Geometry</code> with a uniform grid for the <code>x</code>
+ * A polygonal <code>SceneElement</code> with a uniform grid for the <code>x</code>
  * and <code>z</code> coordinates of the verticies.
  * @author Brad Kimmel
  */
@@ -178,7 +178,7 @@ public final class HeightFieldGeometry extends PrimitiveGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#isClosed()
+	 * @see ca.eandb.jmist.framework.SceneElement#isClosed()
 	 */
 	public boolean isClosed() {
 		return false;

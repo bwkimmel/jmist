@@ -18,7 +18,7 @@ public final class PolygonalSurfaceOfRevolutionGeometry extends
 		AbstractGeometry {
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#intersect(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+	 * @see ca.eandb.jmist.framework.SceneElement#intersect(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 		// TODO Auto-generated method stub
@@ -26,7 +26,7 @@ public final class PolygonalSurfaceOfRevolutionGeometry extends
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#isClosed()
+	 * @see ca.eandb.jmist.framework.SceneElement#isClosed()
 	 */
 	public boolean isClosed() {
 		// TODO Auto-generated method stub
@@ -50,7 +50,7 @@ public final class PolygonalSurfaceOfRevolutionGeometry extends
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#getBoundingBox(int)
+	 * @see ca.eandb.jmist.framework.SceneElement#getBoundingBox(int)
 	 */
 	public Box3 getBoundingBox(int index) {
 		// TODO Auto-generated method stub
@@ -58,7 +58,7 @@ public final class PolygonalSurfaceOfRevolutionGeometry extends
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#getBoundingSphere(int)
+	 * @see ca.eandb.jmist.framework.SceneElement#getBoundingSphere(int)
 	 */
 	public Sphere getBoundingSphere(int index) {
 		// TODO Auto-generated method stub
@@ -66,7 +66,7 @@ public final class PolygonalSurfaceOfRevolutionGeometry extends
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#getNumPrimitives()
+	 * @see ca.eandb.jmist.framework.SceneElement#getNumPrimitives()
 	 */
 	public int getNumPrimitives() {
 		// TODO Auto-generated method stub
@@ -74,7 +74,7 @@ public final class PolygonalSurfaceOfRevolutionGeometry extends
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+	 * @see ca.eandb.jmist.framework.SceneElement#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
 	public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
 		// TODO Auto-generated method stub

@@ -33,7 +33,7 @@ import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
 
 /**
- * A <code>Geometry</code> composed of a single primitive.
+ * A <code>SceneElement</code> composed of a single primitive.
  * @author brad
  */
 public abstract class PrimitiveGeometry extends AbstractGeometry {
@@ -53,7 +53,7 @@ public abstract class PrimitiveGeometry extends AbstractGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#generateRandomSurfacePoint(int)
+	 * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(int)
 	 */
 	@Override
 	public final SurfacePoint generateRandomSurfacePoint(int index) {
@@ -71,7 +71,7 @@ public abstract class PrimitiveGeometry extends AbstractGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#getBoundingBox(int)
+	 * @see ca.eandb.jmist.framework.SceneElement#getBoundingBox(int)
 	 */
 	@Override
 	public final Box3 getBoundingBox(int index) {
@@ -80,7 +80,7 @@ public abstract class PrimitiveGeometry extends AbstractGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#getBoundingSphere(int)
+	 * @see ca.eandb.jmist.framework.SceneElement#getBoundingSphere(int)
 	 */
 	@Override
 	public final Sphere getBoundingSphere(int index) {
@@ -89,7 +89,7 @@ public abstract class PrimitiveGeometry extends AbstractGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#getNumPrimitives()
+	 * @see ca.eandb.jmist.framework.SceneElement#getNumPrimitives()
 	 */
 	@Override
 	public final int getNumPrimitives() {
@@ -97,7 +97,7 @@ public abstract class PrimitiveGeometry extends AbstractGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#getSurfaceArea(int)
+	 * @see ca.eandb.jmist.framework.SceneElement#getSurfaceArea(int)
 	 */
 	@Override
 	public final double getSurfaceArea(int index) {
@@ -115,7 +115,7 @@ public abstract class PrimitiveGeometry extends AbstractGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+	 * @see ca.eandb.jmist.framework.SceneElement#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
 	@Override
 	public final void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {

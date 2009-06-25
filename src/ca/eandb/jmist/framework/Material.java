@@ -15,12 +15,12 @@ import ca.eandb.jmist.math.Vector3;
  */
 public interface Material extends Medium {
 
-	Color scattering(Intersection x, Vector3 lightIn);
+	Color scattering(SurfacePoint x, Vector3 in, Vector3 out);
 	Color emission(SurfacePoint x, Vector3 out);
 
 	boolean isEmissive();
 
-	void scatter(Intersection x, ScatteredRayRecorder recorder);
+	void scatter(SurfacePoint x, Vector3 v, ScatteredRayRecorder recorder);
 	void emit(SurfacePoint x, ScatteredRayRecorder recorder);
 
 	/**
@@ -45,12 +45,12 @@ public interface Material extends Medium {
 		}
 
 		@Override
-		public void scatter(Intersection x, ScatteredRayRecorder recorder) {
+		public void scatter(SurfacePoint x, Vector3 in, ScatteredRayRecorder recorder) {
 			/* nothing to do. */
 		}
 
 		@Override
-		public Color scattering(Intersection x, Vector3 out) {
+		public Color scattering(SurfacePoint x, Vector3 v, Vector3 out) {
 			return ColorModel.getInstance().getBlack();
 		}
 

@@ -5,8 +5,8 @@ package ca.eandb.jmist.framework.light;
 
 import ca.eandb.jmist.framework.DirectionalTexture3;
 import ca.eandb.jmist.framework.Illuminable;
-import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.Light;
+import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.RandomUtil;
 import ca.eandb.jmist.math.Vector3;
@@ -58,10 +58,10 @@ public final class HemisphericalLight implements Light {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.framework.Illuminable)
+	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.Illuminable)
 	 */
 	@Override
-	public void illuminate(Intersection x, Illuminable target) {
+	public void illuminate(SurfacePoint x, Illuminable target) {
 
 		Vector3	source = RandomUtil.uniformOnUpperHemisphere().toCartesian(Basis3.fromW(zenith));
 		double	dot = x.getShadingNormal().dot(source);

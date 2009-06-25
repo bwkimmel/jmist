@@ -8,12 +8,13 @@ import java.util.List;
 
 import ca.eandb.jmist.framework.AffineTransformable3;
 import ca.eandb.jmist.framework.BoundingBoxBuilder3;
-import ca.eandb.jmist.framework.Geometry;
+import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionDecorator;
 import ca.eandb.jmist.framework.IntersectionRecorder;
 import ca.eandb.jmist.framework.IntersectionRecorderDecorator;
 import ca.eandb.jmist.framework.InvertibleAffineTransformation3;
+import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.math.AffineMatrix3;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
@@ -32,14 +33,14 @@ public final class TransformableGeometry extends AbstractGeometry implements
 
 	/**
 	 * Creates a new <code>TransformableGeometry</code>.
-	 * @param geometry The <code>Geometry</code> to make transformable.
+	 * @param geometry The <code>SceneElement</code> to make transformable.
 	 */
-	public TransformableGeometry(Geometry geometry) {
+	public TransformableGeometry(SceneElement geometry) {
 		this.geometry = geometry;
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+	 * @see ca.eandb.jmist.framework.SceneElement#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
 	public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
 
@@ -85,7 +86,7 @@ public final class TransformableGeometry extends AbstractGeometry implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#getBoundingBox(int)
+	 * @see ca.eandb.jmist.framework.SceneElement#getBoundingBox(int)
 	 */
 	@Override
 	public Box3 getBoundingBox(int index) {
@@ -102,7 +103,7 @@ public final class TransformableGeometry extends AbstractGeometry implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#getBoundingSphere(int)
+	 * @see ca.eandb.jmist.framework.SceneElement#getBoundingSphere(int)
 	 */
 	@Override
 	public Sphere getBoundingSphere(int index) {
@@ -119,7 +120,7 @@ public final class TransformableGeometry extends AbstractGeometry implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#getNumPrimitives()
+	 * @see ca.eandb.jmist.framework.SceneElement#getNumPrimitives()
 	 */
 	@Override
 	public int getNumPrimitives() {
@@ -171,76 +172,20 @@ public final class TransformableGeometry extends AbstractGeometry implements
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.IntersectionDecorator#incident()
+		 * @see ca.eandb.jmist.framework.IntersectionDecorator#transformShadingContext(ca.eandb.jmist.framework.ShadingContext)
 		 */
 		@Override
-		public Vector3 getIncident() {
-			return model.apply(this.inner.getIncident());
+		protected void transformShadingContext(ShadingContext context) {
+			context.setPosition(model.apply(context.getPosition()));
+			context.setBasis(transformBasis(context.getBasis()));
+			context.setShadingBasis(transformBasis(context.getShadingBasis()));
 		}
 
-		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.IntersectionDecorator#basis()
-		 */
-		@Override
-		public Basis3 getBasis() {
-			Basis3 localBasis = this.inner.getBasis();
+		private Basis3 transformBasis(Basis3 basis) {
 			return Basis3.fromUV(
-					model.apply(localBasis.u()),
-					model.apply(localBasis.v()),
-					localBasis.orientation()
-			);
-		}
-
-		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.IntersectionDecorator#location()
-		 */
-		@Override
-		public Point3 getPosition() {
-			return model.apply(this.inner.getPosition());
-		}
-
-		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.IntersectionDecorator#shadingBasis()
-		 */
-		@Override
-		public Basis3 getShadingBasis() {
-			Basis3 localShadingBasis = this.inner.getShadingBasis();
-			return Basis3.fromUV(
-					model.apply(localShadingBasis.u()),
-					model.apply(localShadingBasis.v()),
-					localShadingBasis.orientation()
-			);
-		}
-
-		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.IntersectionDecorator#shadingNormal()
-		 */
-		@Override
-		public Vector3 getShadingNormal() {
-			// TODO implement this directly for better performance.
-			return this.getShadingBasis().w();
-		}
-
-		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.IntersectionDecorator#normal()
-		 */
-		@Override
-		public Vector3 getNormal() {
-			// TODO implement this directly for better performance.
-			return this.getBasis().w();
-		}
-
-		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.IntersectionDecorator#tangent()
-		 */
-		@Override
-		public Vector3 getTangent() {
-			return model.apply(this.inner.getTangent());
-		}
-
-		@Override
-		public int getPrimitiveIndex() {
-			return inner.getPrimitiveIndex();
+					model.apply(basis.u()),
+					model.apply(basis.v()),
+					basis.orientation());
 		}
 
 	}
@@ -336,10 +281,10 @@ public final class TransformableGeometry extends AbstractGeometry implements
 		this.model.stretchZ(cz);
 	}
 
-	/** The <code>Geometry</code> to be made transformable. */
-	private final Geometry geometry;
+	/** The <code>SceneElement</code> to be made transformable. */
+	private final SceneElement geometry;
 
-	/** The transformation to apply to this <code>Geometry</code>. */
+	/** The transformation to apply to this <code>SceneElement</code>. */
 	private final InvertibleAffineTransformation3 model = new InvertibleAffineTransformation3();
 
 }

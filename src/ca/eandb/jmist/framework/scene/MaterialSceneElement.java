@@ -23,35 +23,60 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package ca.eandb.jmist.framework.shader;
+package ca.eandb.jmist.framework.scene;
 
-import ca.eandb.jmist.framework.LightSample;
+import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.Material;
-import ca.eandb.jmist.framework.Shader;
+import ca.eandb.jmist.framework.Modifier;
+import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.ShadingContext;
-import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.math.Vector3;
+import ca.eandb.util.UnimplementedException;
 
 /**
  * @author brad
  *
  */
-public final class DirectLightingShader implements Shader {
+public final class MaterialSceneElement extends ModifierSceneElement {
+
+	private final Material material;
+
+	public MaterialSceneElement(Material material, SceneElement inner) {
+		super(new MaterialModifier(material), inner);
+		this.material = material;
+	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
+	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#createLight()
 	 */
 	@Override
-	public Color shade(ShadingContext sc) {
-		Material mat = sc.getMaterial();
-		Color sum = sc.getColorModel().getBlack();
-		for (LightSample sample : sc.getLightSamples()) {
-			Vector3 in = sample.getDirToLight().opposite();
-			Vector3 out = sc.getIncident().opposite();
-			Color bsdf = mat.scattering(sc, in, out);
-			sum = sum.plus(sample.getRadiantIntensity().times(bsdf));
+	public Light createLight() {
+		throw new UnimplementedException();
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#isEmissive()
+	 */
+	@Override
+	public boolean isEmissive() {
+		return material.isEmissive();
+	}
+
+	private static final class MaterialModifier implements Modifier {
+
+		private final Material material;
+
+		/**
+		 * @param material
+		 */
+		public MaterialModifier(Material material) {
+			this.material = material;
 		}
-		return sum;
+
+		@Override
+		public void modify(ShadingContext context) {
+			context.setMaterial(material);
+		}
+
 	}
 
 }

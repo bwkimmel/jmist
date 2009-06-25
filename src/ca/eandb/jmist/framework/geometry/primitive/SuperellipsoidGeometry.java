@@ -22,7 +22,7 @@ import ca.eandb.jmist.math.SphericalCoordinates;
 import ca.eandb.jmist.math.Vector3;
 
 /**
- * A superellipsoid <code>Geometry</code>.
+ * A superellipsoid <code>SceneElement</code>.
  * @author Brad Kimmel
  */
 public final class SuperellipsoidGeometry extends PrimitiveGeometry {
@@ -342,7 +342,7 @@ public final class SuperellipsoidGeometry extends PrimitiveGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#isClosed()
+	 * @see ca.eandb.jmist.framework.SceneElement#isClosed()
 	 */
 	public boolean isClosed() {
 		return true;

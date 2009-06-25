@@ -23,35 +23,32 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package ca.eandb.jmist.framework.shader;
+package ca.eandb.jmist.framework.modifier;
 
-import ca.eandb.jmist.framework.LightSample;
-import ca.eandb.jmist.framework.Material;
-import ca.eandb.jmist.framework.Shader;
+import ca.eandb.jmist.framework.Modifier;
 import ca.eandb.jmist.framework.ShadingContext;
-import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.math.Vector3;
 
 /**
  * @author brad
  *
  */
-public final class DirectLightingShader implements Shader {
+public final class ModifierModifier implements Modifier {
+
+	private final Modifier modifier;
+
+	/**
+	 * @param modifier
+	 */
+	public ModifierModifier(Modifier modifier) {
+		this.modifier = modifier;
+	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
+	 * @see ca.eandb.jmist.framework.Modifier#modify(ca.eandb.jmist.framework.ShadingContext)
 	 */
 	@Override
-	public Color shade(ShadingContext sc) {
-		Material mat = sc.getMaterial();
-		Color sum = sc.getColorModel().getBlack();
-		for (LightSample sample : sc.getLightSamples()) {
-			Vector3 in = sample.getDirToLight().opposite();
-			Vector3 out = sc.getIncident().opposite();
-			Color bsdf = mat.scattering(sc, in, out);
-			sum = sum.plus(sample.getRadiantIntensity().times(bsdf));
-		}
-		return sum;
+	public void modify(ShadingContext context) {
+		context.setModifier(modifier);
 	}
 
 }

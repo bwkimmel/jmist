@@ -18,7 +18,7 @@ import ca.eandb.jmist.math.SphericalCoordinates;
 import ca.eandb.jmist.math.Vector3;
 
 /**
- * A spherical <code>Geometry</code>.
+ * A spherical <code>SceneElement</code>.
  * @author Brad Kimmel
  */
 public final class SphereGeometry extends PrimitiveGeometry {
@@ -87,7 +87,7 @@ public final class SphereGeometry extends PrimitiveGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#isClosed()
+	 * @see ca.eandb.jmist.framework.SceneElement#isClosed()
 	 */
 	public boolean isClosed() {
 		return true;
@@ -172,7 +172,7 @@ public final class SphereGeometry extends PrimitiveGeometry {
 		return sphere.surfaceArea();
 	}
 
-	/** The <code>Sphere</code> describing this <code>Geometry</code>. */
+	/** The <code>Sphere</code> describing this <code>SceneElement</code>. */
 	private final Sphere sphere;
 
 }

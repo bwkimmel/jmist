@@ -29,13 +29,23 @@ import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Point2;
+import ca.eandb.jmist.math.Point3;
+import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
 
 /**
  * @author brad
  *
  */
-public interface ShadingContext extends Intersection, VisibilityFunction3 {
+public interface ShadingContext extends SurfacePoint, VisibilityFunction3 {
+
+	Ray3 getRay();
+
+	Vector3 getIncident();
+
+	double getDistance();
+
+	boolean isFront();
 
 	int getPathDepth();
 
@@ -57,15 +67,17 @@ public interface ShadingContext extends Intersection, VisibilityFunction3 {
 
 	Iterable<LightSample> getLightSamples();
 
-	Material getMaterial();
-
-	Medium getAmbientMedium();
-
 	Shader getShader();
 
 	Modifier getModifier();
 
-	SceneObject getSceneObject();
+	void setPosition(Point3 position);
+
+	void setNormal(Vector3 normal);
+
+	void setBasis(Basis3 basis);
+
+	void setPrimitiveIndex(int index);
 
 	void setShadingBasis(Basis3 basis);
 
@@ -77,14 +89,8 @@ public interface ShadingContext extends Intersection, VisibilityFunction3 {
 
 	void setAmbientMedium(Medium medium);
 
-	void setModifier(Modifier modifier);
-
 	void setShader(Shader shader);
 
-	/**
-	 * Gets the index of the primitive that this intersection is located on.
-	 * @return The index of the primitive that this intersection is located on.
-	 */
-	int getPrimitiveIndex();
+	void setModifier(Modifier modifier);
 
 }

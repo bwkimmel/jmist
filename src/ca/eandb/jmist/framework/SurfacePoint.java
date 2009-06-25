@@ -26,4 +26,8 @@ public interface SurfacePoint {
 
 	int getPrimitiveIndex();
 
+	Material getMaterial();
+
+	Medium getAmbientMedium();
+
 }

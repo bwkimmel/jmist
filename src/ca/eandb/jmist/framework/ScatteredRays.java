@@ -33,6 +33,7 @@ import java.util.List;
 import ca.eandb.jmist.framework.color.ColorUtil;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.RandomUtil;
+import ca.eandb.jmist.math.Vector3;
 
 /**
  * @author brad
@@ -40,24 +41,29 @@ import ca.eandb.jmist.math.RandomUtil;
  */
 public final class ScatteredRays extends AbstractList<ScatteredRay> {
 
-	private final Intersection intersection;
+	private final SurfacePoint x;
+
+	private final Vector3 v;
 
 	private final Material material;
 
 	private List<ScatteredRay> rays = new ArrayList<ScatteredRay>(10);
 
 	/**
-	 * @param intersection
+	 * @param x
+	 * @param v
 	 * @param material
+	 * @param medium
 	 */
-	public ScatteredRays(Intersection intersection, Material material) {
-		this.intersection = intersection;
+	public ScatteredRays(SurfacePoint x, Vector3 v, Material material) {
+		this.x = x;
+		this.v = v;
 		this.material = material;
 	}
 
 	private synchronized void ensureReady() {
 		if (modCount == 0) {
-			material.scatter(intersection, new ScatteredRayRecorder() {
+			material.scatter(x, v, new ScatteredRayRecorder() {
 				public void add(ScatteredRay sr) {
 					rays.add(sr);
 				}

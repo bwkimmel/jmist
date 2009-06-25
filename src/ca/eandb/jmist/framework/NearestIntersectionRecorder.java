@@ -84,15 +84,15 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
 
 	/**
 	 * Computes the nearest intersection of a <code>Ray3</code> with a
-	 * <code>Geometry</code>.
+	 * <code>SceneElement</code>.
 	 * @param ray The <code>Ray3</code> to intersect with.
-	 * @param geometry The <code>Geometry</code> to test for an intersection
+	 * @param geometry The <code>SceneElement</code> to test for an intersection
 	 * 		with.
 	 * @param index The index of the primitive to intersect the ray with.
 	 * @return The nearest <code>Intersection</code>, or <code>null</code> if
 	 * 		none exists.
 	 */
-	public static Intersection computeNearestIntersection(Ray3 ray, Geometry geometry, int index) {
+	public static Intersection computeNearestIntersection(Ray3 ray, SceneElement geometry, int index) {
 		NearestIntersectionRecorder recorder = new NearestIntersectionRecorder();
 		geometry.intersect(index, ray, recorder);
 		return recorder.nearestIntersection();
@@ -100,14 +100,14 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
 
 	/**
 	 * Computes the nearest intersection of a <code>Ray3</code> with a
-	 * <code>Geometry</code>.
+	 * <code>SceneElement</code>.
 	 * @param ray The <code>Ray3</code> to intersect with.
-	 * @param geometry The <code>Geometry</code> to test for an intersection
+	 * @param geometry The <code>SceneElement</code> to test for an intersection
 	 * 		with.
 	 * @return The nearest <code>Intersection</code>, or <code>null</code> if
 	 * 		none exists.
 	 */
-	public static Intersection computeNearestIntersection(Ray3 ray, Geometry geometry) {
+	public static Intersection computeNearestIntersection(Ray3 ray, SceneElement geometry) {
 		NearestIntersectionRecorder recorder = new NearestIntersectionRecorder();
 		geometry.intersect(ray, recorder);
 		return recorder.nearestIntersection();

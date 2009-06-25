@@ -3,10 +3,14 @@
  */
 package ca.eandb.jmist.framework.geometry;
 
-import ca.eandb.jmist.framework.Geometry;
+import ca.eandb.jmist.framework.Light;
+import ca.eandb.jmist.framework.Material;
+import ca.eandb.jmist.framework.Medium;
+import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
 import ca.eandb.jmist.framework.NearestIntersectionRecorder;
+import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
@@ -21,13 +25,13 @@ import ca.eandb.jmist.math.Vector3;
  * Base class for geometry classes.
  * @author Brad Kimmel
  */
-public abstract class AbstractGeometry implements Geometry {
+public abstract class AbstractGeometry implements SceneElement {
 
 	/**
 	 * @author Brad Kimmel
 	 *
 	 */
-	protected static class GeometryIntersection implements Intersection {
+	protected static class GeometryIntersection implements Intersection, SurfacePoint {
 
 		/**
 		 * @param geometry
@@ -168,6 +172,25 @@ public abstract class AbstractGeometry implements Geometry {
 			return this;
 		}
 
+		@Override
+		public void prepareShadingContext(ShadingContext context) {
+			context.setPosition(getPosition());
+			context.setPrimitiveIndex(getPrimitiveIndex());
+			context.setBasis(getBasis());
+			context.setShadingBasis(getBasis());
+			context.setUV(getUV());
+		}
+
+		@Override
+		public Medium getAmbientMedium() {
+			return null;
+		}
+
+		@Override
+		public Material getMaterial() {
+			return null;
+		}
+
 		private AbstractGeometry	geometry;
 		private Ray3				ray;
 		private double				distance;
@@ -215,7 +238,7 @@ public abstract class AbstractGeometry implements Geometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#generateRandomSurfacePoint(int)
+	 * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(int)
 	 */
 	@Override
 	public SurfacePoint generateRandomSurfacePoint(int index) {
@@ -223,7 +246,7 @@ public abstract class AbstractGeometry implements Geometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#generateRandomSurfacePoint()
+	 * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint()
 	 */
 	@Override
 	public SurfacePoint generateRandomSurfacePoint() {
@@ -231,7 +254,7 @@ public abstract class AbstractGeometry implements Geometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#getSurfaceArea(int)
+	 * @see ca.eandb.jmist.framework.SceneElement#getSurfaceArea(int)
 	 */
 	@Override
 	public double getSurfaceArea(int index) {
@@ -239,7 +262,7 @@ public abstract class AbstractGeometry implements Geometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#intersects(int, ca.eandb.jmist.math.Box3)
+	 * @see ca.eandb.jmist.framework.SceneElement#intersects(int, ca.eandb.jmist.math.Box3)
 	 */
 	@Override
 	public boolean intersects(int index, Box3 box) {
@@ -247,7 +270,7 @@ public abstract class AbstractGeometry implements Geometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#intersects(int, ca.eandb.jmist.math.Ray3, double)
+	 * @see ca.eandb.jmist.framework.SceneElement#intersects(int, ca.eandb.jmist.math.Ray3, double)
 	 */
 	@Override
 	public boolean visibility(int index, Ray3 ray, double maximumDistance) {
@@ -258,7 +281,7 @@ public abstract class AbstractGeometry implements Geometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#intersects(int, ca.eandb.jmist.math.Ray3)
+	 * @see ca.eandb.jmist.framework.SceneElement#intersects(int, ca.eandb.jmist.math.Ray3)
 	 */
 	@Override
 	public boolean visibility(int index, Ray3 ray) {
@@ -266,7 +289,7 @@ public abstract class AbstractGeometry implements Geometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#getSurfaceArea()
+	 * @see ca.eandb.jmist.framework.SceneElement#getSurfaceArea()
 	 */
 	@Override
 	public double getSurfaceArea() {
@@ -279,7 +302,7 @@ public abstract class AbstractGeometry implements Geometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+	 * @see ca.eandb.jmist.framework.SceneElement#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
 	@Override
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
@@ -300,7 +323,7 @@ public abstract class AbstractGeometry implements Geometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#visibility(ca.eandb.jmist.math.Ray3, double)
+	 * @see ca.eandb.jmist.framework.SceneElement#visibility(ca.eandb.jmist.math.Ray3, double)
 	 */
 	@Override
 	public boolean visibility(Ray3 ray, double maximumDistance) {
@@ -309,11 +332,27 @@ public abstract class AbstractGeometry implements Geometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#visibility(ca.eandb.jmist.math.Ray3)
+	 * @see ca.eandb.jmist.framework.SceneElement#visibility(ca.eandb.jmist.math.Ray3)
 	 */
 	@Override
 	public boolean visibility(Ray3 ray) {
 		return visibility(ray, Double.POSITIVE_INFINITY);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.SceneElement#createLight()
+	 */
+	@Override
+	public Light createLight() {
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.SceneElement#isEmissive()
+	 */
+	@Override
+	public boolean isEmissive() {
+		return false;
 	}
 
 }

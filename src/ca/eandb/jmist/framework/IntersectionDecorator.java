@@ -3,11 +3,6 @@
  */
 package ca.eandb.jmist.framework;
 
-import ca.eandb.jmist.framework.Intersection;
-import ca.eandb.jmist.math.Basis3;
-import ca.eandb.jmist.math.Point2;
-import ca.eandb.jmist.math.Point3;
-import ca.eandb.jmist.math.Vector3;
 
 /**
  * An abstract <code>Intersection</code> that decorates another (e.g., by
@@ -42,60 +37,14 @@ public abstract class IntersectionDecorator implements Intersection {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Intersection#incident()
+	 * @see ca.eandb.jmist.framework.Intersection#prepareShadingContext(ca.eandb.jmist.framework.ShadingContext)
 	 */
-	public Vector3 getIncident() {
-		return this.inner.getIncident();
+	public final void prepareShadingContext(ShadingContext context) {
+		inner.prepareShadingContext(context);
+		transformShadingContext(context);
 	}
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SurfacePoint#basis()
-	 */
-	public Basis3 getBasis() {
-		return this.inner.getBasis();
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SurfacePoint#location()
-	 */
-	public Point3 getPosition() {
-		return this.inner.getPosition();
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SurfacePoint#shadingBasis()
-	 */
-	public Basis3 getShadingBasis() {
-		return this.inner.getShadingBasis();
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SurfacePoint#shadingNormal()
-	 */
-	public Vector3 getShadingNormal() {
-		return this.inner.getShadingNormal();
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SurfacePoint#normal()
-	 */
-	public Vector3 getNormal() {
-		return this.inner.getNormal();
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SurfacePoint#tangent()
-	 */
-	public Vector3 getTangent() {
-		return this.inner.getTangent();
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SurfacePoint#textureCoordinates()
-	 */
-	public Point2 getUV() {
-		return this.inner.getUV();
-	}
+	protected abstract void transformShadingContext(ShadingContext context);
 
 	/** The decorated <code>Intersection</code>. */
 	protected final Intersection inner;

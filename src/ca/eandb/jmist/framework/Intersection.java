@@ -3,19 +3,11 @@
  */
 package ca.eandb.jmist.framework;
 
-import ca.eandb.jmist.math.Vector3;
-
 /**
  * @author Brad Kimmel
  *
  */
-public interface Intersection extends SurfacePoint {
-
-	/**
-	 * Gets the incident direction.
-	 * @return The incident direction.
-	 */
-	Vector3 getIncident();
+public interface Intersection {
 
 	/**
 	 * Gets the distance from the ray origin to the intersection
@@ -31,5 +23,7 @@ public interface Intersection extends SurfacePoint {
 	 * 		from the front.
 	 */
 	boolean isFront();
+
+	void prepareShadingContext(ShadingContext context);
 
 }

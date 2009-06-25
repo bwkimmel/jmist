@@ -6,8 +6,8 @@ package ca.eandb.jmist.framework.light;
 import java.io.Serializable;
 
 import ca.eandb.jmist.framework.Illuminable;
-import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.Light;
+import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Vector3;
@@ -33,9 +33,9 @@ public final class PointLight implements Light, Serializable {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.framework.Illuminable)
+	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.Illuminable)
 	 */
-	public void illuminate(Intersection x, Illuminable target) {
+	public void illuminate(SurfacePoint x, Illuminable target) {
 
 		Vector3		lightIn			= x.getPosition().vectorTo(this.location);
 		double		dSquared		= lightIn.squaredLength();

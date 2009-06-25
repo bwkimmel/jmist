@@ -11,12 +11,12 @@ import ca.eandb.jmist.math.Sphere;
  * @author Brad Kimmel
  *
  */
-public interface Geometry extends Bounded3, VisibilityFunction3 {
+public interface SceneElement extends Bounded3, VisibilityFunction3 {
 
 	/**
-	 * Gets the number of primitives contained in this <code>Geometry</code>.
+	 * Gets the number of primitives contained in this <code>SceneElement</code>.
 	 * @return The number of primitives contained in this
-	 * 		<code>Geometry</code>.
+	 * 		<code>SceneElement</code>.
 	 */
 	int getNumPrimitives();
 
@@ -115,7 +115,7 @@ public interface Geometry extends Bounded3, VisibilityFunction3 {
 	 * operation).
 	 * @return The surface area of the primitive.
 	 * @throws UnsupportedOperationException If the operation is not
-	 * 		supported by this <code>Geometry</code>.
+	 * 		supported by this <code>SceneElement</code>.
 	 */
 	double getSurfaceArea(int index);
 
@@ -123,7 +123,7 @@ public interface Geometry extends Bounded3, VisibilityFunction3 {
 	 * Computes the surface area of this geometry (optional operation).
 	 * @return The surface area of this geometry.
 	 * @throws UnsupportedOperationException If the operation is not
-	 * 		supported by this <code>Geometry</code>.
+	 * 		supported by this <code>SceneElement</code>.
 	 */
 	double getSurfaceArea();
 
@@ -133,7 +133,7 @@ public interface Geometry extends Bounded3, VisibilityFunction3 {
 	 * operation).
 	 * @return The randomly generated <code>SurfacePoint</code>.
 	 * @throws UnsupportedOperationException If the operation is not supported
-	 * 		by this <code>Geometry</code>.
+	 * 		by this <code>SceneElement</code>.
 	 */
 	SurfacePoint generateRandomSurfacePoint(int index);
 
@@ -142,8 +142,12 @@ public interface Geometry extends Bounded3, VisibilityFunction3 {
 	 * distributed over the surface of this geometry (optional operation).
 	 * @return The randomly generated <code>SurfacePoint</code>.
 	 * @throws UnsupportedOperationException If the operation is not supported
-	 * 		by this <code>Geometry</code>.
+	 * 		by this <code>SceneElement</code>.
 	 */
 	SurfacePoint generateRandomSurfacePoint();
+
+	boolean isEmissive();
+
+	Light createLight();
 
 }

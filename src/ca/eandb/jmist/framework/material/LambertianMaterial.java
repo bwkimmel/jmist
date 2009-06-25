@@ -5,10 +5,9 @@ package ca.eandb.jmist.framework.material;
 
 import java.io.Serializable;
 
-import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.Painter;
-import ca.eandb.jmist.framework.ScatteredRayRecorder;
 import ca.eandb.jmist.framework.ScatteredRay;
+import ca.eandb.jmist.framework.ScatteredRayRecorder;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
@@ -86,10 +85,10 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.framework.ScatteredRayRecorder)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.ScatteredRayRecorder)
 	 */
 	@Override
-	public void scatter(Intersection x, ScatteredRayRecorder recorder) {
+	public void scatter(SurfacePoint x, Vector3 v, ScatteredRayRecorder recorder) {
 
 		if (this.reflectance != null) {
 
@@ -105,14 +104,16 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scattering(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.math.Vector3)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scattering(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Vector3)
 	 */
 	@Override
-	public Color scattering(Intersection x, Vector3 in) {
+	public Color scattering(SurfacePoint x, Vector3 in, Vector3 out) {
 
-		boolean toFront = (x.getNormal().dot(in) > 0.0);
+		Vector3 n = x.getNormal();
+		boolean fromFront = (n.dot(in) < 0.0);
+		boolean toFront = (n.dot(out) > 0.0);
 
-		if (this.reflectance != null && x.isFront() == toFront) {
+		if (this.reflectance != null && toFront == fromFront) {
 			return reflectance.getColor(x);
 		} else {
 			return ColorModel.getInstance().getBlack();

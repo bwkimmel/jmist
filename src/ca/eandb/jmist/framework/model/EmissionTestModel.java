@@ -3,7 +3,7 @@
  */
 package ca.eandb.jmist.framework.model;
 
-import ca.eandb.jmist.framework.Geometry;
+import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.Lens;
 import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.Material;
@@ -36,7 +36,7 @@ public final class EmissionTestModel implements Model {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Model#getGeometry()
 	 */
-	public Geometry getGeometry() {
+	public SceneElement getGeometry() {
 		if (geometry == null) {
 			this.initialize();
 		}
