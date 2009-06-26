@@ -92,6 +92,27 @@ public final class Box3 implements Serializable {
 	}
 
 	/**
+	 * Gets the lower bound along the specified axis.
+	 * @param axis The axis along which to get the lower bound (0 - x-axis,
+	 * 		1 - y-axis, or 2 - z-axis).
+	 * @return The lower bound along the specified axis.
+	 * @throws IllegalArgumentException if <code>axis</code> is negative or
+	 * 		greater than 2.
+	 */
+	public double minimum(int axis) {
+		switch (axis) {
+		case 0:
+			return minimumX;
+		case 1:
+			return minimumY;
+		case 2:
+			return minimumZ;
+		default:
+			throw new IllegalArgumentException();
+		}
+	}
+
+	/**
 	 * Gets the upper bound of this box along the x-axis.
 	 * @return The upper bound of this box along the x-axis.
 	 */
@@ -113,6 +134,27 @@ public final class Box3 implements Serializable {
 	 */
 	public double maximumZ() {
 		return maximumZ;
+	}
+
+	/**
+	 * Gets the upper bound along the specified axis.
+	 * @param axis The axis along which to get the upper bound (0 - x-axis,
+	 * 		1 - y-axis, or 2 - z-axis).
+	 * @return The upper bound along the specified axis.
+	 * @throws IllegalArgumentException if <code>axis</code> is negative or
+	 * 		greater than 2.
+	 */
+	public double maximum(int axis) {
+		switch (axis) {
+		case 0:
+			return maximumX;
+		case 1:
+			return maximumY;
+		case 2:
+			return maximumZ;
+		default:
+			throw new IllegalArgumentException();
+		}
 	}
 
 	/**
