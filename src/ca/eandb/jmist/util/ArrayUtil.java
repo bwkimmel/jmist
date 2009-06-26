@@ -290,6 +290,42 @@ public final class ArrayUtil {
 	}
 
 	/**
+	 * Swaps two elements of an array.
+	 * @param arr The array whose elements to swap.
+	 * @param a The index of the first element.
+	 * @param b The index of the second element.
+	 */
+	public static void swap(int[] arr, int a, int b) {
+		int temp = arr[a];
+		arr[a] = arr[b];
+		arr[b] = temp;
+	}
+
+	/**
+	 * Swaps two elements of an array.
+	 * @param arr The array whose elements to swap.
+	 * @param a The index of the first element.
+	 * @param b The index of the second element.
+	 */
+	public static void swap(float[] arr, int a, int b) {
+		float temp = arr[a];
+		arr[a] = arr[b];
+		arr[b] = temp;
+	}
+
+	/**
+	 * Swaps two elements of an array.
+	 * @param arr The array whose elements to swap.
+	 * @param a The index of the first element.
+	 * @param b The index of the second element.
+	 */
+	public static void swap(double[] arr, int a, int b) {
+		double temp = arr[a];
+		arr[a] = arr[b];
+		arr[b] = temp;
+	}
+
+	/**
 	 * Default constructor.  This constructor is private because this class
 	 * cannot be instantiated.
 	 */
