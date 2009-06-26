@@ -66,6 +66,24 @@ public class ModifierSceneElement extends SceneElementDecorator {
 		super.intersect(ray, new ModifierIntersectionRecorder(recorder));
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#generateRandomSurfacePoint(int, ca.eandb.jmist.framework.ShadingContext)
+	 */
+	@Override
+	public void generateRandomSurfacePoint(int index, ShadingContext context) {
+		super.generateRandomSurfacePoint(index, context);
+		modifier.modify(context);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext)
+	 */
+	@Override
+	public void generateRandomSurfacePoint(ShadingContext context) {
+		super.generateRandomSurfacePoint(context);
+		modifier.modify(context);
+	}
+
 	private final class ModifierIntersectionRecorder extends
 			IntersectionRecorderDecorator {
 		private ModifierIntersectionRecorder(IntersectionRecorder inner) {

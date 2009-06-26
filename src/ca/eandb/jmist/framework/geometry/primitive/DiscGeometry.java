@@ -4,8 +4,9 @@
 package ca.eandb.jmist.framework.geometry.primitive;
 
 import ca.eandb.jmist.framework.BoundingBoxBuilder3;
+import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.SurfacePoint;
+import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.geometry.PrimitiveGeometry;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
@@ -142,10 +143,10 @@ public final class DiscGeometry extends PrimitiveGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#generateRandomSurfacePoint()
+	 * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext)
 	 */
 	@Override
-	public SurfacePoint generateRandomSurfacePoint() {
+	public void generateRandomSurfacePoint(ShadingContext context) {
 		Vector2 uv = RandomUtil.uniformOnDisc(boundingSphere.radius()).toCartesian();
 		Basis3 basis = Basis3.fromW(this.plane.normal(), Basis3.Orientation.RIGHT_HANDED);
 
@@ -157,7 +158,8 @@ public final class DiscGeometry extends PrimitiveGeometry {
 				? DISC_SURFACE_BOTTOM
 				: DISC_SURFACE_TOP;
 
-		return this.newSurfacePoint(p, id);
+		Intersection x = newSurfacePoint(p, id);
+		x.prepareShadingContext(context);
 	}
 
 	/* (non-Javadoc)

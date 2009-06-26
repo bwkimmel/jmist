@@ -135,7 +135,7 @@ public interface SceneElement extends Bounded3, VisibilityFunction3 {
 	 * @throws UnsupportedOperationException If the operation is not supported
 	 * 		by this <code>SceneElement</code>.
 	 */
-	SurfacePoint generateRandomSurfacePoint(int index);
+	void generateRandomSurfacePoint(int index, ShadingContext context);
 
 	/**
 	 * Generates a <code>SurfacePoint</code> randomly that is uniformly
@@ -144,9 +144,26 @@ public interface SceneElement extends Bounded3, VisibilityFunction3 {
 	 * @throws UnsupportedOperationException If the operation is not supported
 	 * 		by this <code>SceneElement</code>.
 	 */
-	SurfacePoint generateRandomSurfacePoint();
+	void generateRandomSurfacePoint(ShadingContext context);
 
-	boolean isEmissive();
+	/**
+	 * Generates a <code>SurfacePoint</code> randomly that is uniformly
+	 * distributed over the surface of the specified primitive (optional
+	 * operation).
+	 * @return The randomly generated <code>SurfacePoint</code>.
+	 * @throws UnsupportedOperationException If the operation is not supported
+	 * 		by this <code>SceneElement</code>.
+	 */
+	double generateImportanceSampledSurfacePoint(int index, SurfacePoint x, ShadingContext context);
+
+	/**
+	 * Generates a <code>SurfacePoint</code> randomly that is uniformly
+	 * distributed over the surface of this geometry (optional operation).
+	 * @return The randomly generated <code>SurfacePoint</code>.
+	 * @throws UnsupportedOperationException If the operation is not supported
+	 * 		by this <code>SceneElement</code>.
+	 */
+	double generateImportanceSampledSurfacePoint(SurfacePoint x, ShadingContext context);
 
 	Light createLight();
 

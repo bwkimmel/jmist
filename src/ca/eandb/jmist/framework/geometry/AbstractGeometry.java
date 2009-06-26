@@ -3,7 +3,9 @@
  */
 package ca.eandb.jmist.framework.geometry;
 
+import ca.eandb.jmist.framework.Illuminable;
 import ca.eandb.jmist.framework.Light;
+import ca.eandb.jmist.framework.LightSample;
 import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.Medium;
 import ca.eandb.jmist.framework.SceneElement;
@@ -12,8 +14,12 @@ import ca.eandb.jmist.framework.IntersectionRecorder;
 import ca.eandb.jmist.framework.NearestIntersectionRecorder;
 import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.SurfacePoint;
+import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.ColorModel;
+import ca.eandb.jmist.framework.light.PointLightSample;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
+import ca.eandb.jmist.math.CategoricalRandom;
 import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
@@ -238,22 +244,6 @@ public abstract class AbstractGeometry implements SceneElement {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(int)
-	 */
-	@Override
-	public SurfacePoint generateRandomSurfacePoint(int index) {
-		throw new UnsupportedOperationException();
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint()
-	 */
-	@Override
-	public SurfacePoint generateRandomSurfacePoint() {
-		throw new UnsupportedOperationException();
-	}
-
-	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SceneElement#getSurfaceArea(int)
 	 */
 	@Override
@@ -348,11 +338,39 @@ public abstract class AbstractGeometry implements SceneElement {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SceneElement#isEmissive()
+	 * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(int, ca.eandb.jmist.framework.ShadingContext)
 	 */
 	@Override
-	public boolean isEmissive() {
-		return false;
+	public void generateRandomSurfacePoint(int index, ShadingContext context) {
+		throw new UnsupportedOperationException();
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext)
+	 */
+	@Override
+	public void generateRandomSurfacePoint(ShadingContext context) {
+		throw new UnsupportedOperationException();
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.SceneElement#generateImportanceSampledSurfacePoint(int, ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext)
+	 */
+	@Override
+	public double generateImportanceSampledSurfacePoint(int index,
+			SurfacePoint x, ShadingContext context) {
+		generateRandomSurfacePoint(index, context);
+		return 1.0;
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.SceneElement#generateImportanceSampledSurfacePoint(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext)
+	 */
+	@Override
+	public double generateImportanceSampledSurfacePoint(SurfacePoint x,
+			ShadingContext context) {
+		generateRandomSurfacePoint(context);
+		return 1.0;
 	}
 
 }

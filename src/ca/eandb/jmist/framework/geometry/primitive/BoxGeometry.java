@@ -5,7 +5,7 @@ package ca.eandb.jmist.framework.geometry.primitive;
 
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.SurfacePoint;
+import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.geometry.PrimitiveGeometry;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box2;
@@ -234,10 +234,10 @@ public final class BoxGeometry extends PrimitiveGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#generateRandomSurfacePoint()
+	 * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext)
 	 */
 	@Override
-	public SurfacePoint generateRandomSurfacePoint() {
+	public void generateRandomSurfacePoint(ShadingContext context) {
 		double xyArea = box.lengthX() * box.lengthY();
 		double xzArea = box.lengthX() * box.lengthZ();
 		double yzArea = box.lengthY() * box.lengthZ();
@@ -267,7 +267,8 @@ public final class BoxGeometry extends PrimitiveGeometry {
 					RandomUtil.uniform(box.spanZ()));
 		}
 
-		return this.newSurfacePoint(p, id);
+		Intersection x = newSurfacePoint(p, id);
+		x.prepareShadingContext(context);
 	}
 
 	/* (non-Javadoc)

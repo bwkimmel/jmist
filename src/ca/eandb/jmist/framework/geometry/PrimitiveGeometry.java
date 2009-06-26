@@ -26,7 +26,7 @@
 package ca.eandb.jmist.framework.geometry;
 
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.SurfacePoint;
+import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
@@ -53,12 +53,12 @@ public abstract class PrimitiveGeometry extends AbstractGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(int)
+	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#generateRandomSurfacePoint(int, ca.eandb.jmist.framework.ShadingContext)
 	 */
 	@Override
-	public final SurfacePoint generateRandomSurfacePoint(int index) {
+	public final void generateRandomSurfacePoint(int index, ShadingContext context) {
 		validate(index);
-		return generateRandomSurfacePoint();
+		generateRandomSurfacePoint(context);
 	}
 
 	/**
@@ -66,7 +66,7 @@ public abstract class PrimitiveGeometry extends AbstractGeometry {
 	 * this <code>PrimitiveGeometry</code> (optional operation).
 	 * @return A random <code>SurfacePoint</code>.
 	 */
-	public SurfacePoint generateRandomSurfacePoint() {
+	public void generateRandomSurfacePoint(ShadingContext context) {
 		throw new UnsupportedOperationException();
 	}
 

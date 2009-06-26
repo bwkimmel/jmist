@@ -6,7 +6,7 @@ package ca.eandb.jmist.framework.geometry.primitive;
 import ca.eandb.jmist.framework.BoundingBoxBuilder3;
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.SurfacePoint;
+import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.geometry.PrimitiveGeometry;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
@@ -180,11 +180,11 @@ public final class RectangleGeometry extends PrimitiveGeometry {
 //
 //	}
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#generateRandomSurfacePoint()
+	/*
+	 *
 	 */
 	@Override
-	public SurfacePoint generateRandomSurfacePoint() {
+	public void generateRandomSurfacePoint(ShadingContext context) {
 		Point3 p = center
 				.plus(basis.u().times(RandomUtil.uniform(-ru, ru)))
 				.plus(basis.v().times(RandomUtil.uniform(-rv, rv)));
@@ -193,7 +193,8 @@ public final class RectangleGeometry extends PrimitiveGeometry {
 				? RECTANGLE_SURFACE_BOTTOM
 				: RECTANGLE_SURFACE_TOP;
 
-		return this.newSurfacePoint(p, id);
+		Intersection x = newSurfacePoint(p, id);
+		x.prepareShadingContext(context);
 	}
 
 	/* (non-Javadoc)

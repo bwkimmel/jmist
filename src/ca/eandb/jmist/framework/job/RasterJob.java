@@ -5,10 +5,8 @@ package ca.eandb.jmist.framework.job;
 
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.color.ColorSpace;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
-import java.awt.image.ComponentColorModel;
 import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferDouble;
 import java.awt.image.DirectColorModel;

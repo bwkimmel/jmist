@@ -3,8 +3,9 @@
  */
 package ca.eandb.jmist.framework.geometry.primitive;
 
+import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.SurfacePoint;
+import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.geometry.PrimitiveGeometry;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
@@ -156,12 +157,13 @@ public final class SphereGeometry extends PrimitiveGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#generateRandomSurfacePoint()
+	 * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext)
 	 */
 	@Override
-	public SurfacePoint generateRandomSurfacePoint() {
+	public void generateRandomSurfacePoint(ShadingContext context) {
 		Point3 p = sphere.center().plus(RandomUtil.uniformOnSphere(sphere.radius()).toCartesian());
-		return this.newSurfacePoint(p);
+		Intersection x = newSurfacePoint(p);
+		x.prepareShadingContext(context);
 	}
 
 	/* (non-Javadoc)

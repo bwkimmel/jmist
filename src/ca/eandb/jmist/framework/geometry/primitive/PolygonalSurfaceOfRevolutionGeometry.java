@@ -81,10 +81,4 @@ public final class PolygonalSurfaceOfRevolutionGeometry extends
 
 	}
 
-	@Override
-	public SurfacePoint generateRandomSurfacePoint() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

@@ -28,6 +28,7 @@ package ca.eandb.jmist.framework.scene;
 import ca.eandb.jmist.framework.IntersectionRecorder;
 import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.SceneElement;
+import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Point3;
@@ -65,21 +66,55 @@ public abstract class SceneElementDecorator implements SceneElement {
 		return inner.boundingSphere();
 	}
 
-	/**
-	 * @return
-	 * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint()
+//	/**
+//	 * @return
+//	 * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint()
+//	 */
+//	public SurfacePoint generateRandomSurfacePoint() {
+//		return inner.generateRandomSurfacePoint();
+//	}
+//
+//	/**
+//	 * @param index
+//	 * @return
+//	 * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(int)
+//	 */
+//	public SurfacePoint generateRandomSurfacePoint(int index) {
+//		return inner.generateRandomSurfacePoint(index);
+//	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(int, ca.eandb.jmist.framework.ShadingContext)
 	 */
-	public SurfacePoint generateRandomSurfacePoint() {
-		return inner.generateRandomSurfacePoint();
+	@Override
+	public void generateRandomSurfacePoint(int index, ShadingContext context) {
+		inner.generateRandomSurfacePoint(index, context);
 	}
 
-	/**
-	 * @param index
-	 * @return
-	 * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(int)
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext)
 	 */
-	public SurfacePoint generateRandomSurfacePoint(int index) {
-		return inner.generateRandomSurfacePoint(index);
+	@Override
+	public void generateRandomSurfacePoint(ShadingContext context) {
+		inner.generateRandomSurfacePoint(context);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.SceneElement#generateImportanceSampledSurfacePoint(int, ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext)
+	 */
+	@Override
+	public double generateImportanceSampledSurfacePoint(int index,
+			SurfacePoint x, ShadingContext context) {
+		return inner.generateImportanceSampledSurfacePoint(index, x, context);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.SceneElement#generateImportanceSampledSurfacePoint(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext)
+	 */
+	@Override
+	public double generateImportanceSampledSurfacePoint(SurfacePoint x,
+			ShadingContext context) {
+		return inner.generateImportanceSampledSurfacePoint(x, context);
 	}
 
 	/**
@@ -212,12 +247,12 @@ public abstract class SceneElementDecorator implements SceneElement {
 		return inner.createLight();
 	}
 
-	/**
-	 * @return
-	 * @see ca.eandb.jmist.framework.SceneElement#isEmissive()
-	 */
-	public boolean isEmissive() {
-		return inner.isEmissive();
-	}
+//	/**
+//	 * @return
+//	 * @see ca.eandb.jmist.framework.SceneElement#isEmissive()
+//	 */
+//	public boolean isEmissive() {
+//		return inner.isEmissive();
+//	}
 
 }
