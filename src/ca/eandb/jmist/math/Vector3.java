@@ -55,6 +55,25 @@ public final class Vector3 implements Serializable {
 	}
 
 	/**
+	 * Gets the specified element of this vector.
+	 * @param index The index of the element to get.
+	 * @return The specified element.
+	 * @throws IllegalArgumentException if <code>index</code> is negative or
+	 * 		greater than 2.
+	 */
+	public double get(int index) {
+		switch (index) {
+		case 0:
+			return x;
+		case 1:
+			return y;
+		case 2:
+			return z;
+		}
+		throw new IllegalArgumentException();
+	}
+
+	/**
 	 * Computes the magnitude of the vector.
 	 * @return The magnitude of the vector.
 	 */
