@@ -488,7 +488,13 @@ public final class Box3 implements Serializable {
 			}
 		}
 
-		// If we didn't find two intersection points, then the
+		// If we found only one intersection point, then the ray originates
+		// from inside the box.
+		if (n == 1) {
+			return new Interval(0.0, t[0]);
+		}
+
+		// If we didn't find any intersection points, then the
 		// ray does not intersect the box.
 		return Interval.EMPTY;
 
