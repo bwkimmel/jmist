@@ -472,6 +472,7 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
 	 */
 	@Override
 	public boolean visibility(Ray3 ray, double maximumDistance) {
+		// FIXME fix and use nodeVisibility -- it always seems to return false.
 		NearestIntersectionRecorder recorder = new NearestIntersectionRecorder(new Interval(MathUtil.EPSILON, maximumDistance));
 		intersect(ray, recorder);
 		return recorder.isEmpty();
