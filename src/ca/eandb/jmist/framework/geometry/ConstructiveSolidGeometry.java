@@ -135,7 +135,7 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 				 * range expected by the recorder.
 				 */
 				if (fromInside != toInside
-						&& recorder.interval().contains(inner.getDistance())) {
+						&& recorder.interval().contains(inner.getDistance(), inner.getTolerance())) {
 
 					/* The intersection is a front intersection if the ray
 					 * is passing into the geometry.

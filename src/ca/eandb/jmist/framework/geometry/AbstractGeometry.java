@@ -178,6 +178,18 @@ public abstract class AbstractGeometry implements SceneElement {
 			return this;
 		}
 
+		/* (non-Javadoc)
+		 * @see ca.eandb.jmist.framework.Intersection#getTolerance()
+		 */
+		public double getTolerance() {
+			return tolerance;
+		}
+
+		public GeometryIntersection setTolerance(double tolerance) {
+			this.tolerance = tolerance;
+			return this;
+		}
+
 		@Override
 		public void prepareShadingContext(ShadingContext context) {
 			context.setPosition(getPosition());
@@ -197,6 +209,8 @@ public abstract class AbstractGeometry implements SceneElement {
 			return null;
 		}
 
+		private static final double DEFAULT_TOLERANCE = MathUtil.TINY_EPSILON;
+
 		private AbstractGeometry	geometry;
 		private Ray3				ray;
 		private double				distance;
@@ -207,6 +221,7 @@ public abstract class AbstractGeometry implements SceneElement {
 		private Basis3				basis			= null;
 		private Vector3				normal			= null;
 		private Point2				uv				= null;
+		private double				tolerance		= DEFAULT_TOLERANCE;
 
 	}
 

@@ -4,7 +4,6 @@
 package ca.eandb.jmist.framework;
 
 import ca.eandb.jmist.math.Interval;
-import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Ray3;
 
 /**
@@ -19,16 +18,7 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
 	 * <code>Intersection</code>s with a non-negligible positive distance.
 	 */
 	public NearestIntersectionRecorder() {
-		this.interval = new Interval(MathUtil.EPSILON, Double.POSITIVE_INFINITY);
-	}
-
-	/**
-	 * Creates a new <code>NearestIntersectionRecorder</code> that records
-	 * <code>Intersection</code>s with a distance greater than that specified.
-	 * @param epsilon The minimum distance to accept.
-	 */
-	public NearestIntersectionRecorder(double epsilon) {
-		this.interval = new Interval(epsilon, Double.POSITIVE_INFINITY);
+		this.interval = Interval.POSITIVE;
 	}
 
 	/**
@@ -59,7 +49,7 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
 	 * @see ca.eandb.jmist.framework.IntersectionRecorder#record(ca.eandb.jmist.framework.Intersection)
 	 */
 	public void record(Intersection intersection) {
-		if (this.interval.contains(intersection.getDistance())) {
+		if (this.interval.contains(intersection.getDistance(), intersection.getTolerance())) {
 			this.nearest = intersection;
 			this.interval = new Interval(interval.minimum(), nearest.getDistance());
 		}

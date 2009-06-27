@@ -30,6 +30,13 @@ public abstract class IntersectionDecorator implements Intersection {
 	}
 
 	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Intersection#getTolerance()
+	 */
+	public double getTolerance() {
+		return this.inner.getTolerance();
+	}
+
+	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Intersection#front()
 	 */
 	public boolean isFront() {

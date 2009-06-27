@@ -17,6 +17,16 @@ public interface Intersection {
 	double getDistance();
 
 	/**
+	 * Gets the margin of error for the distance computed by the ray
+	 * intersection computation.  The actual ray intersection is guaranteed
+	 * to be within the interval
+	 * <code>(getDistance() - getTolerance(), getDistance() + getTolerance()</code>.
+	 * @return The margin of error for the distance computed by the ray
+	 * 		intersection computation.
+	 */
+	double getTolerance();
+
+	/**
 	 * Indicates whether the incident ray approaches the interface from the
 	 * front (the side toward which the normal points).
 	 * @return A value indicating whether the ray approaches the interface
