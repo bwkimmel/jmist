@@ -9,7 +9,6 @@ import java.util.List;
 import ca.eandb.jmist.framework.BoundingBoxBuilder2;
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.geometry.PrimitiveGeometry;
 import ca.eandb.jmist.framework.random.SimpleRandom;
@@ -34,7 +33,7 @@ public final class PolygonGeometry extends PrimitiveGeometry {
 	/**
 	 * @param material
 	 */
-	public PolygonGeometry(Point3[] vertices, int[][] components, Material material) {
+	public PolygonGeometry(Point3[] vertices, int[][] components) {
 
 		if (vertices.length < 3) {
 			throw new IllegalArgumentException("vertices.length < 3");
@@ -186,8 +185,8 @@ public final class PolygonGeometry extends PrimitiveGeometry {
 	/**
 	 * @param material
 	 */
-	public PolygonGeometry(Point3[] vertices, Material material) {
-		this(vertices, new int[][]{ ArrayUtil.range(0, vertices.length - 1) }, material);
+	public PolygonGeometry(Point3[] vertices) {
+		this(vertices, new int[][]{ ArrayUtil.range(0, vertices.length - 1) });
 	}
 
 	/* (non-Javadoc)
