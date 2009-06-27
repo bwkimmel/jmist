@@ -265,7 +265,7 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 			return RandomUtil.uniformOnTriangle(a, b, c);
 		}
 
-		private void decompose() {
+		private synchronized void decompose() {
 			if (decomp != null) {
 				return;
 			}
@@ -288,7 +288,7 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 			rnd = new CategoricalRandom(weight);
 		}
 
-		private int[] decomp;
+		private int[] decomp = null;
 
 		private CategoricalRandom rnd;
 
