@@ -88,6 +88,34 @@ public final class RandomUtil {
 
 	}
 
+	public static Point3 uniformOnTriangle(Point3 a, Point3 b, Point3 c) {
+		return uniformOnTriangle(a, b, c, canonical(), canonical());
+	}
+
+	public static Point3 uniformOnTriangle(Point3 a, Point3 b, Point3 c, double alpha, double beta) {
+		if (alpha + beta > 1.0) {
+			alpha = 1.0 - alpha;
+			beta = 1.0 - beta;
+		}
+		Vector3 ab = a.vectorTo(b).times(alpha);
+		Vector3 ac = a.vectorTo(c).times(beta);
+		return a.plus(ab).plus(ac);
+	}
+
+	public static Point2 uniformOnTriangle(Point2 a, Point2 b, Point2 c) {
+		return uniformOnTriangle(a, b, c, canonical(), canonical());
+	}
+
+	public static Point2 uniformOnTriangle(Point2 a, Point2 b, Point2 c, double alpha, double beta) {
+		if (alpha + beta > 1.0) {
+			alpha = 1.0 - alpha;
+			beta = 1.0 - beta;
+		}
+		Vector2 ab = a.vectorTo(b).times(alpha);
+		Vector2 ac = a.vectorTo(c).times(beta);
+		return a.plus(ab).plus(ac);
+	}
+
 	public static boolean bernoulli(double probability) {
 		return canonical() < probability;
 	}
