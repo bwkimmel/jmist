@@ -35,6 +35,7 @@ public class BoundingBoxBuilder3 implements Serializable {
 			return Box3.EMPTY;
 		}
 
+		// FIXME epsilon checks should not be done at this level.
 		return new Box3(minimumX - MathUtil.EPSILON, minimumY - MathUtil.EPSILON, minimumZ - MathUtil.EPSILON, maximumX + MathUtil.EPSILON, maximumY + MathUtil.EPSILON, maximumZ + MathUtil.EPSILON);
 	}
 
