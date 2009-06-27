@@ -144,7 +144,7 @@ public final class SceneRayShader implements RayShader {
 
 			if (x != null) {
 				totalDepth++;
-				depth.put(type, depth.get(type) + 1);
+				depth.put(type, getPathDepthByType(type) + 1);
 
 				LocalContext local = new LocalContext();
 				local.ray = ray;
@@ -197,7 +197,8 @@ public final class SceneRayShader implements RayShader {
 
 		@Override
 		public int getPathDepthByType(Type type) {
-			return depth.get(type);
+			Integer d = depth.get(type);
+			return (d != null ? d.intValue() : 0);
 		}
 
 		@Override
