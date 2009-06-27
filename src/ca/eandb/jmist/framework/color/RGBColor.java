@@ -3,6 +3,8 @@
  */
 package ca.eandb.jmist.framework.color;
 
+import ca.eandb.jmist.math.MathUtil;
+
 
 /**
  * @author Brad
@@ -141,6 +143,25 @@ public final class RGBColor implements Color {
 	@Override
 	public Color times(double c) {
 		return new RGBColor(r * c, g * c, b * c);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.Color#clamp(double, double)
+	 */
+	@Override
+	public Color clamp(double min, double max) {
+		return new RGBColor(
+				MathUtil.threshold(r, min, max),
+				MathUtil.threshold(g, min, max),
+				MathUtil.threshold(b, min, max));
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.Color#clamp(double)
+	 */
+	@Override
+	public Color clamp(double max) {
+		return new RGBColor(Math.min(r, max), Math.min(g, max), Math.min(b, max));
 	}
 
 	/* (non-Javadoc)

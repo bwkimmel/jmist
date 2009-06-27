@@ -4,6 +4,7 @@
 package ca.eandb.jmist.framework.color;
 
 import ca.eandb.jmist.framework.Spectrum;
+import ca.eandb.jmist.math.MathUtil;
 
 /**
  * @author Brad
@@ -143,6 +144,22 @@ public final class MonochromaticColorModel extends ColorModel {
 		@Override
 		public Color times(double c) {
 			return new Sample(value * c);
+		}
+
+		/* (non-Javadoc)
+		 * @see ca.eandb.jmist.framework.color.Color#clamp(double, double)
+		 */
+		@Override
+		public Color clamp(double min, double max) {
+			return new Sample(MathUtil.threshold(value, min, max));
+		}
+
+		/* (non-Javadoc)
+		 * @see ca.eandb.jmist.framework.color.Color#clamp(double)
+		 */
+		@Override
+		public Color clamp(double max) {
+			return new Sample(Math.min(value, max));
 		}
 
 		/* (non-Javadoc)

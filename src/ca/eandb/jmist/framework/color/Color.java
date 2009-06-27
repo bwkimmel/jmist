@@ -35,6 +35,10 @@ public interface Color {
 
 	Color pow(double e);
 
+	Color clamp(double max);
+
+	Color clamp(double min, double max);
+
 	double getValue(int channel);
 
 	ColorModel getColorModel();
