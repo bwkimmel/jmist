@@ -29,7 +29,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.eandb.jmist.framework.BoundingBoxBuilder3;
+import ca.eandb.jmist.framework.Intersection;
+import ca.eandb.jmist.framework.IntersectionDecorator;
 import ca.eandb.jmist.framework.IntersectionRecorder;
+import ca.eandb.jmist.framework.IntersectionRecorderDecorator;
+import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
@@ -75,8 +79,17 @@ public final class PrimitiveListGeometry extends AbstractGeometry {
 	 * @see ca.eandb.jmist.framework.SceneElement#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
 	@Override
-	public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
-		primitives.get(index).intersect(ray, recorder);
+	public void intersect(final int index, Ray3 ray, IntersectionRecorder recorder) {
+		primitives.get(index).intersect(ray, new IntersectionRecorderDecorator(recorder) {
+			public void record(Intersection intersection) {
+				inner.record(new IntersectionDecorator(intersection) {
+					protected void transformShadingContext(
+							ShadingContext context) {
+						context.setPrimitiveIndex(index);
+					}
+				});
+			}
+		});
 	}
 
 	/* (non-Javadoc)
