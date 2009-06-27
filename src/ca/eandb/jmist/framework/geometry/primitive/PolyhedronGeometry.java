@@ -9,13 +9,16 @@ import ca.eandb.jmist.framework.Bounded3;
 import ca.eandb.jmist.framework.BoundingBoxBuilder3;
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.SurfacePoint;
+import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.geometry.AbstractGeometry;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
+import ca.eandb.jmist.math.CategoricalRandom;
+import ca.eandb.jmist.math.GeometryUtil;
 import ca.eandb.jmist.math.Plane3;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
+import ca.eandb.jmist.math.RandomUtil;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
 import ca.eandb.jmist.math.Vector3;
@@ -88,12 +91,22 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 
 			Intersection x = super.newIntersection(ray, t, ray.direction().dot(n) < 0.0, faceIndex)
 				.setLocation(p)
-				.setBasis(Basis3.fromW(n, Basis3.Orientation.RIGHT_HANDED));
+				.setPrimitiveIndex(faceIndex);
 
 			recorder.record(x);
 
 		}
 
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getBasis(ca.eandb.jmist.framework.geometry.AbstractGeometry.GeometryIntersection)
+	 */
+	@Override
+	protected Basis3 getBasis(GeometryIntersection x) {
+		Face face = faces[x.getTag()];
+		Vector3 n = face.plane.normal();
+		return Basis3.fromW(n, Basis3.Orientation.RIGHT_HANDED);
 	}
 
 	/* (non-Javadoc)
@@ -150,11 +163,21 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint()
+	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#generateRandomSurfacePoint(int, ca.eandb.jmist.framework.ShadingContext)
 	 */
-	public SurfacePoint generateRandomSurfacePoint() {
-		// TODO Auto-generated method stub
-		return null;
+	@Override
+	public void generateRandomSurfacePoint(int index, ShadingContext context) {
+		Point3 p = faces[index].generateRandomSurfacePoint();
+		Intersection x = super.newSurfacePoint(p, index).setPrimitiveIndex(index);
+		x.prepareShadingContext(context);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getSurfaceArea(int)
+	 */
+	@Override
+	public double getSurfaceArea(int index) {
+		return faces[index].getSurfaceArea();
 	}
 
 	/**
@@ -219,6 +242,55 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 			}
 			return Sphere.smallestContaining(Arrays.asList(verts));
 		}
+
+		public double getSurfaceArea() {
+			Vector3 n = computeFaceNormal();
+			Vector3 v0 = vertices[indices[0]].vectorFromOrigin();
+			Vector3 v1;
+			Vector3 r = Vector3.ZERO;
+			for (int i = 1; i < indices.length; i++) {
+				v1 = vertices[indices[i]].vectorFromOrigin();
+				r = r.plus(v0.cross(v1));
+				v0 = v1;
+			}
+			return 0.5 * n.dot(r);
+		}
+
+		public Point3 generateRandomSurfacePoint() {
+			decompose();
+			int tri = 3 * rnd.next();
+			Point3 a = vertices[decomp[tri]];
+			Point3 b = vertices[decomp[tri + 1]];
+			Point3 c = vertices[decomp[tri + 2]];
+			return RandomUtil.uniformOnTriangle(a, b, c);
+		}
+
+		private void decompose() {
+			if (decomp != null) {
+				return;
+			}
+			decomp = new int[3 * (indices.length - 2)];
+			double[] weight = new double[indices.length - 2];
+
+			// FIXME This does not work for a general polygon.  It will work
+			// for all convex polygons (or polygons where the lines between
+			// the first vertex and each other vertex are contained inside the
+			// polygon).
+			for (int i = 0; i < indices.length - 2; i++) {
+				decomp[3 * i] = indices[0];
+				decomp[3 * i + 1] = indices[i + 1];
+				decomp[3 * i + 2] = indices[i + 2];
+				weight[i] = GeometryUtil.areaOfTriangle(
+						vertices[decomp[3 * i]],
+						vertices[decomp[3 * i + 1]],
+						vertices[decomp[3 * i + 2]]);
+			}
+			rnd = new CategoricalRandom(weight);
+		}
+
+		private int[] decomp;
+
+		private CategoricalRandom rnd;
 
 		/** The <code>Plane3</code> in which this face lies. */
 		public Plane3 plane;

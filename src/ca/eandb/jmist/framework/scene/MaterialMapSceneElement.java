@@ -5,7 +5,9 @@ package ca.eandb.jmist.framework.scene;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ca.eandb.jmist.framework.Illuminable;
 import ca.eandb.jmist.framework.Intersection;
@@ -44,6 +46,8 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 
 	private List<Material> materials = new ArrayList<Material>();
 
+	private HashMap<String, Integer> nameLookup = null;
+
 	/**
 	 * @param modifier
 	 * @param inner
@@ -68,11 +72,7 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 		public void record(Intersection intersection) {
 			inner.record(new IntersectionDecorator(intersection) {
 				protected void transformShadingContext(ShadingContext context) {
-					int primIndex = context.getPrimitiveIndex();
-					Material mat = lookup(primIndex);
-					if (mat != null) {
-						context.setMaterial(mat);
-					}
+					applyMaterial(context);
 				}
 			});
 		}
@@ -88,18 +88,46 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 		return key;
 	}
 
+	public MaterialMapSceneElement addMaterial(String key, Material material) {
+		if (nameLookup == null) {
+			nameLookup = new HashMap<String, Integer>();
+		}
+		nameLookup.put(key, addMaterial(material));
+		return this;
+	}
+
 	public void setMaterial(int primitive, int materialKey) {
+		setMaterialRange(primitive, 1, materialKey);
+	}
+
+	public void setMaterialRange(int start, int length, int materialKey) {
 		if (materialKey < 0 || materialKey >= materials.size()) {
 			throw new IllegalArgumentException();
 		}
-		if (primitive >= map.capacity()) {
-			int newSize = Math.min(2 * map.capacity(), primitive + 1);
+		if (start + length > map.capacity()) {
+			int newSize = Math.min(2 * map.capacity(), start + length);
 			ByteBuffer newMap = ByteBuffer.allocate(newSize);
 			map.clear();
 			newMap.put(map);
 			map = newMap;
 		}
-		map.put(primitive, (byte) materialKey);
+		map.position(start);
+		for (int i = 0; i < length; i++) {
+			map.put((byte) materialKey);
+		}
+	}
+
+	public MaterialMapSceneElement setMaterialRange(int start, int length, String name) {
+		if (nameLookup == null || !nameLookup.containsKey(name)) {
+			throw new IllegalArgumentException();
+		}
+		int materialKey = nameLookup.get(name);
+		setMaterialRange(start, length, materialKey);
+		return this;
+	}
+
+	public MaterialMapSceneElement setMaterial(int primitive, String name) {
+		return setMaterialRange(primitive, 1, name);
 	}
 
 	/* (non-Javadoc)
@@ -116,6 +144,34 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 	@Override
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 		super.intersect(ray, new MaterialIntersectionRecorder(recorder));
+	}
+
+	@Override
+	public double generateImportanceSampledSurfacePoint(int index,
+			SurfacePoint x, ShadingContext context) {
+		double weight = super.generateImportanceSampledSurfacePoint(index, x, context);
+		applyMaterial(context);
+		return weight;
+	}
+
+	@Override
+	public double generateImportanceSampledSurfacePoint(SurfacePoint x,
+			ShadingContext context) {
+		double weight = super.generateImportanceSampledSurfacePoint(x, context);
+		applyMaterial(context);
+		return weight;
+	}
+
+	@Override
+	public void generateRandomSurfacePoint(int index, ShadingContext context) {
+		super.generateRandomSurfacePoint(index, context);
+		applyMaterial(context);
+	}
+
+	@Override
+	public void generateRandomSurfacePoint(ShadingContext context) {
+		super.generateRandomSurfacePoint(context);
+		applyMaterial(context);
 	}
 
 	/* (non-Javadoc)
@@ -370,7 +426,7 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 				double prob = rnd.getProbability(index);
 
 				generateImportanceSampledSurfacePoint(primitive, x, context);
-				context.getModifier().modify(context);
+				if (context.getModifier() != null) context.getModifier().modify(context);
 
 				Point3 p = context.getPosition();
 				Material mat = context.getMaterial();
@@ -396,6 +452,17 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * @param context
+	 */
+	private void applyMaterial(ShadingContext context) {
+		int primIndex = context.getPrimitiveIndex();
+		Material mat = lookup(primIndex);
+		if (mat != null) {
+			context.setMaterial(mat);
+		}
 	}
 
 

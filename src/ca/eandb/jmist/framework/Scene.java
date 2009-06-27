@@ -35,4 +35,6 @@ public interface Scene extends Bounded3 {
 
 	SceneElement getRoot();
 
+	Lens getLens();
+
 }

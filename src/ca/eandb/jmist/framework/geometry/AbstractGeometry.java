@@ -240,7 +240,7 @@ public abstract class AbstractGeometry implements SceneElement {
 	}
 
 	protected Point2 getTextureCoordinates(GeometryIntersection x) {
-		throw new UnsupportedOperationException();
+		return Point2.ORIGIN;
 	}
 
 	/* (non-Javadoc)

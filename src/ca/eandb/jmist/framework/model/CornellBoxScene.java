@@ -3,14 +3,15 @@
  */
 package ca.eandb.jmist.framework.model;
 
-import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.Lens;
 import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.Model;
+import ca.eandb.jmist.framework.Scene;
+import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.Spectrum;
+import ca.eandb.jmist.framework.accel.BoundingIntervalHierarchy;
 import ca.eandb.jmist.framework.color.ColorModel;
-import ca.eandb.jmist.framework.geometry.BoundingBoxHierarchyGeometry;
 import ca.eandb.jmist.framework.geometry.primitive.PolygonGeometry;
 import ca.eandb.jmist.framework.geometry.primitive.PolyhedronGeometry;
 import ca.eandb.jmist.framework.geometry.primitive.RectangleGeometry;
@@ -18,10 +19,13 @@ import ca.eandb.jmist.framework.lens.PinholeLens;
 import ca.eandb.jmist.framework.lens.TransformableLens;
 import ca.eandb.jmist.framework.material.LambertianMaterial;
 import ca.eandb.jmist.framework.painter.UniformPainter;
+import ca.eandb.jmist.framework.scene.MaterialMapSceneElement;
 import ca.eandb.jmist.framework.spectrum.PiecewiseLinearSpectrum;
 import ca.eandb.jmist.framework.spectrum.ScaledSpectrum;
 import ca.eandb.jmist.math.Basis3;
+import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Point3;
+import ca.eandb.jmist.math.Sphere;
 import ca.eandb.jmist.math.Vector3;
 import ca.eandb.jmist.util.ArrayUtil;
 
@@ -29,20 +33,20 @@ import ca.eandb.jmist.util.ArrayUtil;
  * A <code>Model</code> of the Cornell Box.
  * @author Brad Kimmel
  */
-public final class CornellBoxModel implements Model {
+public final class CornellBoxScene implements Scene {
 
 	/**
 	 * Creates a new <code>CornellBoxModel</code>.  This constructor is private
 	 * because this class is a singleton.
 	 */
-	private CornellBoxModel() {
+	private CornellBoxScene() {
 		/* nothing to do. */
 	}
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Model#getGeometry()
+	/*
+	 *
 	 */
-	public SceneElement getGeometry() {
+	public SceneElement getRoot() {
 		return this.cornellBox;
 	}
 
@@ -50,7 +54,10 @@ public final class CornellBoxModel implements Model {
 	 * @see ca.eandb.jmist.framework.Model#getLight()
 	 */
 	public Light getLight() {
-		return (Light) lightBox;
+		if (light == null) {
+			light = cornellBox.createLight();
+		}
+		return light;
 		//return new PointLight(new Point3(278.0, 540.8, 279.5), emission, true);
 	}
 
@@ -59,6 +66,16 @@ public final class CornellBoxModel implements Model {
 	 */
 	public Lens getLens() {
 		return this.lens;
+	}
+
+	@Override
+	public Box3 boundingBox() {
+		return getRoot().boundingBox();
+	}
+
+	@Override
+	public Sphere boundingSphere() {
+		return getRoot().boundingSphere();
 	}
 
 	/**
@@ -80,15 +97,15 @@ public final class CornellBoxModel implements Model {
 	 * Gets the single instance of <code>CornellBoxModel</code>.
 	 * @return The single instance of <code>CornellBoxModel</code>.
 	 */
-	public static Model getInstance() {
+	public static Scene getInstance() {
 		if (instance == null) {
-			instance = new CornellBoxModel();
+			instance = new CornellBoxScene();
 		}
 		return instance;
 	}
 
 	/** The single <code>CornellBoxModel</code> instance. */
-	private static CornellBoxModel instance = null;
+	private static CornellBoxScene instance = null;
 
 	/** The wavelengths at which the reflectance spectra are given. */
 	private static double[] WAVELENGTHS = ArrayUtil.range(400.0e-9, 700.0e-9, 76);
@@ -136,7 +153,7 @@ public final class CornellBoxModel implements Model {
 	});
 
 	/** The emission <code>Spectrum</code> for the light box. */
-	private Spectrum emission = new ScaledSpectrum(5e16, new PiecewiseLinearSpectrum(
+	private Spectrum emission = new ScaledSpectrum(1e7, new PiecewiseLinearSpectrum(
 			new double[]{ 400.0e-9, 500.0e-9, 600.0e-9, 700.0e-9 },
 			new double[]{   0.0   ,   8.0   ,  15.6   ,  18.4    }
 	));
@@ -158,146 +175,106 @@ public final class CornellBoxModel implements Model {
 	/** The <code>Lens</code> to use to view the box. */
 	private Lens lens = createLens();
 
-	/** The <code>SceneElement</code> for the floor. */
-	private SceneElement floor = new PolygonGeometry(
+	/** The <code>SceneElement</code> for the light box. */
+	private Light light = null;
+
+	/** The <code>SceneElement</code> for the ceiling. */
+	private SceneElement geometry = new PolyhedronGeometry(
 			new Point3[]{
-					new Point3(552.8, 0.0,   0.0),
+					new Point3(556.0, 548.8,   0.0), // ceiling (0-3)
+					new Point3(556.0, 548.8, 559.2),
+					new Point3(  0.0, 548.8, 559.2),
+					new Point3(  0.0, 548.8,   0.0),
+
+					new Point3(343.0, 548.8, 227.0), // light (4-7)
+					new Point3(343.0, 548.8, 332.0),
+					new Point3(213.0, 548.8, 332.0),
+					new Point3(213.0, 548.8, 227.0),
+
+					new Point3(552.8, 0.0,   0.0), // floor (8-11)
 					new Point3(  0.0, 0.0,   0.0),
 					new Point3(  0.0, 0.0, 559.2),
 					new Point3(549.6, 0.0, 559.2),
 
-					new Point3(130.0, 0.0,  65.0),
+					new Point3(130.0, 0.0,  65.0), // bottom of short block (12-15)
 					new Point3( 82.0, 0.0, 225.0),
 					new Point3(240.0, 0.0, 272.0),
 					new Point3(290.0, 0.0, 114.0),
 
-					new Point3(423.0, 0.0, 247.0),
+					new Point3(423.0, 0.0, 247.0), // bottom for tall block (16-19)
 					new Point3(265.0, 0.0, 296.0),
 					new Point3(314.0, 0.0, 456.0),
-					new Point3(472.0, 0.0, 406.0)
-			},
-			new int[][]{
-					new int[]{  0,  1,  2,  3 },
-					new int[]{  7,  6,  5,  4 },
-					new int[]{ 11, 10,  9,  8 }
-			},
-			matteWhite
-	);
+					new Point3(472.0, 0.0, 406.0),
 
-	/** The <code>SceneElement</code> for the light box. */
-	private SceneElement lightBox = new RectangleGeometry(
-			new Point3(278.0, 548.8, 279.5),		// center
-			Basis3.fromUV(Vector3.I, Vector3.K),	// basis
-			130.0, 105.0,							// su, sv
-			false,									// twoSided
-			matteEmissive							// material
-	);
-
-	/** The <code>SceneElement</code> for the ceiling. */
-	private SceneElement ceiling = new PolygonGeometry(
-			new Point3[]{
-					new Point3(556.0, 548.8,   0.0),
-					new Point3(556.0, 548.8, 559.2),
-					new Point3(  0.0, 548.8, 559.2),
-					new Point3(  0.0, 548.8,   0.0),
-					new Point3(343.0, 548.8, 227.0),
-					new Point3(343.0, 548.8, 332.0),
-					new Point3(213.0, 548.8, 332.0),
-					new Point3(213.0, 548.8, 227.0)
-			},
-			new int[][]{
-					new int[]{ 0, 1, 2, 3 },
-					new int[]{ 7, 6, 5, 4 }
-			},
-			matteWhite
-	);
-
-	/** The <code>SceneElement</code> for the back wall. */
-	private SceneElement backWall = new PolygonGeometry(
-			new Point3[]{
-					new Point3(549.6,   0.0, 559.2),
-					new Point3(  0.0,   0.0, 559.2),
-					new Point3(  0.0, 548.8, 559.2),
-					new Point3(556.0, 548.8, 559.2)
-			},
-			matteWhite
-	);
-
-	/** The <code>SceneElement</code> for the right wall. */
-	private SceneElement rightWall = new PolygonGeometry(
-			new Point3[]{
-					new Point3(0.0,   0.0, 559.2),
-					new Point3(0.0,   0.0,   0.0),
-					new Point3(0.0, 548.8,   0.0),
-					new Point3(0.0, 548.8, 559.2)
-			},
-			matteGreen
-	);
-
-	/** The <code>SceneElement</code> for the left wall. */
-	private SceneElement leftWall = new PolygonGeometry(
-			new Point3[]{
-					new Point3(552.8,   0.0,   0.0),
-					new Point3(549.6,   0.0, 559.2),
-					new Point3(556.0, 548.8, 559.2),
-					new Point3(556.0, 548.8,   0.0)
-			},
-			matteRed
-	);
-
-	/** The <code>SceneElement</code> for the short block. */
-	private SceneElement shortBlock = new PolyhedronGeometry(
-			new Point3[]{
-					new Point3(130.0, 165.0,  65.0),
+					new Point3(130.0, 165.0,  65.0), // top of short block (20-23)
 					new Point3( 82.0, 165.0, 225.0),
 					new Point3(240.0, 165.0, 272.0),
 					new Point3(290.0, 165.0, 114.0),
-					new Point3(290.0,   0.0, 114.0),
-					new Point3(240.0,   0.0, 272.0),
-					new Point3(130.0,   0.0,  65.0),
-					new Point3( 82.0,   0.0, 225.0)
-			},
-			new int[][]{
-					new int[]{ 0, 1, 2, 3 },
-					new int[]{ 4, 3, 2, 5 },
-					new int[]{ 6, 0, 3, 4 },
-					new int[]{ 7, 1, 0, 6 },
-					new int[]{ 5, 2, 1, 7 }
-			},
-			matteWhite
-	);
 
-	/** The <code>SceneElement</code> for the tall block. */
-	private SceneElement tallBlock = new PolyhedronGeometry(
-			new Point3[]{
-					new Point3(423.0, 330.0, 247.0),
+					new Point3(423.0, 330.0, 247.0), // top of tall block (24-27)
 					new Point3(265.0, 330.0, 296.0),
 					new Point3(314.0, 330.0, 456.0),
-					new Point3(472.0, 330.0, 406.0),
-					new Point3(423.0,   0.0, 247.0),
-					new Point3(472.0,   0.0, 406.0),
-					new Point3(314.0,   0.0, 456.0),
-					new Point3(265.0,   0.0, 296.0)
+					new Point3(472.0, 330.0, 406.0)
+
 			},
 			new int[][]{
-					new int[]{ 0, 1, 2, 3 },
-					new int[]{ 4, 0, 3, 5 },
-					new int[]{ 5, 3, 2, 6 },
-					new int[]{ 6, 2, 1, 7 },
-					new int[]{ 7, 1, 0, 4 }
-			},
-			matteWhite
+					new int[]{ 0, 1, 5, 4 }, // ceiling
+					new int[]{ 1, 2, 6, 5 },
+					new int[]{ 2, 3, 7, 6 },
+					new int[]{ 3, 0, 4, 7 },
+
+					new int[]{ 4, 5, 6, 7 }, // light
+
+					new int[]{  8,  9, 12 }, // floor
+					new int[]{  8, 12, 15 },
+					new int[]{  8, 15, 16 },
+					new int[]{  8, 16, 19 },
+					new int[]{  8, 19, 11 },
+					new int[]{ 10, 11, 18 },
+					new int[]{ 10, 18, 17 },
+					new int[]{ 10, 17, 14 },
+					new int[]{ 10, 14, 13 },
+					new int[]{ 10, 13,  9 },
+					new int[]{  9, 13, 12 },
+					new int[]{ 11, 19, 18 },
+					new int[]{ 15, 17, 16 },
+					new int[]{ 14, 17, 15 },
+
+					new int[]{ 2, 1, 11, 10 }, // back wall
+
+					new int[]{ 3, 2, 10,  9 }, // right wall
+
+					new int[]{ 1, 0,  8, 11 }, // left wall
+
+					new int[]{ 20, 21, 22, 23 }, // short block
+					new int[]{ 12, 13, 21, 20 },
+					new int[]{ 13, 14, 22, 21 },
+					new int[]{ 14, 15, 23, 22 },
+					new int[]{ 15, 12, 20, 23 },
+
+					new int[]{ 16, 17, 18, 19 }, // tall block
+					new int[]{ 16, 17, 25, 24 },
+					new int[]{ 17, 18, 26, 25 },
+					new int[]{ 18, 19, 27, 26 },
+					new int[]{ 19, 16, 24, 27 }
+
+			}
 	);
 
-	/** The <code>SceneElement</code> for the entire Cornell Box. */
-	private SceneElement cornellBox = new BoundingBoxHierarchyGeometry()
-		.addChild(floor)
-		.addChild(lightBox)
-		.addChild(ceiling)
-		.addChild(backWall)
-		.addChild(rightWall)
-		.addChild(leftWall)
-		.addChild(shortBlock)
-		.addChild(tallBlock);
+	private SceneElement materialMap = new MaterialMapSceneElement(geometry)
+			.addMaterial("white", matteWhite)
+			.addMaterial("red", matteRed)
+			.addMaterial("green", matteGreen)
+			.addMaterial("emissive", matteEmissive)
+			.setMaterialRange(0, 4, "white")		// ceiling
+			.setMaterialRange(4, 1, "emissive")		// light
+			.setMaterialRange(5, 14, "white")		// floor
+			.setMaterialRange(19, 1, "white") 		// back wall
+			.setMaterialRange(20, 1, "green") 		// right wall
+			.setMaterialRange(21, 1, "red") 		// left wall
+			.setMaterialRange(22, 5, "white") 		// short block
+			.setMaterialRange(27, 5, "white"); 		// tall block
+
+	private SceneElement cornellBox = new BoundingIntervalHierarchy(materialMap);
 
 }
