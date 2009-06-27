@@ -56,6 +56,22 @@ public final class CategoricalRandom {
 		return index >= 0 ? index : -(index + 1);
 	}
 
+	/**
+	 * Gets the probability that this <code>CategoricalRandom</code> yields
+	 * the specified number.
+	 * @param value The value to get the probability of.
+	 * @return The probability for the specified value.
+	 */
+	public double getProbability(int value) {
+		if (value < 0 || value >= cpf.length) {
+			return 0.0;
+		} else if (value == 0) {
+			return cpf[0];
+		} else {
+			return cpf[value] - cpf[value - 1];
+		}
+	}
+
 	/** The cumulative probability function. */
 	private final double[] cpf;
 
