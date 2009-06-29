@@ -3,7 +3,7 @@
  */
 package ca.eandb.jmist.framework.color;
 
-import ca.eandb.jmist.framework.Spectrum;
+import ca.eandb.jmist.framework.Function1;
 import ca.eandb.jmist.math.MathUtil;
 
 /**
@@ -213,24 +213,24 @@ public final class MonochromaticColorModel extends ColorModel {
 	 * @see ca.eandb.jmist.framework.color.ColorModel#fromRGB(double, double, double)
 	 */
 	@Override
-	public Color fromRGB(double r, double g, double b) {
+	public Spectrum fromRGB(double r, double g, double b) {
 		// FIXME
 		return new Sample(g);
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.color.ColorModel#fromSpectrum(ca.eandb.jmist.framework.Spectrum)
+	 * @see ca.eandb.jmist.framework.color.ColorModel#fromSpectrum(ca.eandb.jmist.framework.Function1)
 	 */
 	@Override
-	public Color fromSpectrum(Spectrum spectrum) {
-		return new Sample(spectrum.sample(wavelength));
+	public Spectrum getContinuous(Function1 spectrum) {
+		return new Sample(spectrum.evaluate(wavelength));
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.ColorModel#getBlack()
 	 */
 	@Override
-	public Color getBlack() {
+	public Spectrum getBlack() {
 		return BLACK;
 	}
 
@@ -238,7 +238,7 @@ public final class MonochromaticColorModel extends ColorModel {
 	 * @see ca.eandb.jmist.framework.color.ColorModel#getGray(double)
 	 */
 	@Override
-	public Color getGray(double value) {
+	public Spectrum getGray(double value) {
 		return new Sample(value);
 	}
 
@@ -246,7 +246,7 @@ public final class MonochromaticColorModel extends ColorModel {
 	 * @see ca.eandb.jmist.framework.color.ColorModel#getUnit()
 	 */
 	@Override
-	public Color getWhite() {
+	public Spectrum getWhite() {
 		return UNIT;
 	}
 

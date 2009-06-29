@@ -5,7 +5,7 @@ package ca.eandb.jmist.framework.painter;
 
 import ca.eandb.jmist.framework.Painter;
 import ca.eandb.jmist.framework.SurfacePoint;
-import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.Spectrum;
 
 /**
  * @author Brad
@@ -13,9 +13,9 @@ import ca.eandb.jmist.framework.color.Color;
  */
 public final class UniformPainter implements Painter {
 
-	private final Color color;
+	private final Spectrum color;
 
-	public UniformPainter(Color color) {
+	public UniformPainter(Spectrum color) {
 		this.color = color;
 	}
 
@@ -23,7 +23,7 @@ public final class UniformPainter implements Painter {
 	 * @see ca.eandb.jmist.framework.Painter#getColor(ca.eandb.jmist.framework.SurfacePoint)
 	 */
 	@Override
-	public Color getColor(SurfacePoint p) {
+	public Spectrum getColor(SurfacePoint p) {
 		return color;
 	}
 

@@ -52,7 +52,7 @@ public final class RasterTexture2 implements Texture2 {
 		double[]	pixel	= this.raster.getPixel(x, y, (double[]) null);
 
 		if (factory != null) {
-			return ColorModel.getInstance().fromSpectrum(factory.createSpectrum(pixel));
+			return ColorModel.getInstance().getContinuous(factory.createSpectrum(pixel));
 		} else {
 			switch (pixel.length) {
 			case 1:

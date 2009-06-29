@@ -3,7 +3,7 @@
  */
 package ca.eandb.jmist.framework.color;
 
-import ca.eandb.jmist.framework.Spectrum;
+import ca.eandb.jmist.framework.Function1;
 
 /**
  * @author Brad
@@ -15,15 +15,17 @@ public abstract class ColorModel {
 		return RGBColorModel.getInstance();
 	}
 
-	public abstract Color getBlack();
+	public abstract Spectrum getBlack();
 
-	public abstract Color getWhite();
+	public abstract Spectrum getWhite();
 
-	public abstract Color fromRGB(double r, double g, double b);
+	public abstract Spectrum fromRGB(double r, double g, double b);
 
-	public abstract Color getGray(double value);
+	public abstract Spectrum getGray(double value);
 
-	public abstract Color fromSpectrum(Spectrum spectrum);
+	public abstract Spectrum getContinuous(Function1 spectrum);
+	
+	public abstract Color sample();
 
 	public abstract int getNumChannels();
 

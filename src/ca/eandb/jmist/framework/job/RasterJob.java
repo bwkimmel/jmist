@@ -333,7 +333,7 @@ public final class RasterJob extends AbstractParallelizableJob implements
 
 					bounds	= new Box2(x0, y0, x1, y1);
 
-					pixel = shader.shadePixel(bounds);
+					pixel = shader.shadePixel(bounds).clamp(255.0);
 					image.setPixel(x, y, pixel.toArray());
 
 				}

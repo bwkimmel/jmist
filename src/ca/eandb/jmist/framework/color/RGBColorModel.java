@@ -3,7 +3,7 @@
  */
 package ca.eandb.jmist.framework.color;
 
-import ca.eandb.jmist.framework.Spectrum;
+import ca.eandb.jmist.framework.Function1;
 
 /**
  * A three channel <code>ColorModel</code>.
@@ -37,7 +37,7 @@ public final class RGBColorModel extends ColorModel {
 	 * @see ca.eandb.jmist.framework.color.ColorModel#fromRGB(double, double, double)
 	 */
 	@Override
-	public Color fromRGB(double r, double g, double b) {
+	public Spectrum fromRGB(double r, double g, double b) {
 		return new RGBColor(r, g, b);
 	}
 
@@ -45,7 +45,7 @@ public final class RGBColorModel extends ColorModel {
 	 * @see ca.eandb.jmist.framework.color.ColorModel#getBlack()
 	 */
 	@Override
-	public Color getBlack() {
+	public Spectrum getBlack() {
 		return RGBColor.BLACK;
 	}
 
@@ -53,7 +53,7 @@ public final class RGBColorModel extends ColorModel {
 	 * @see ca.eandb.jmist.framework.color.ColorModel#getGray(double)
 	 */
 	@Override
-	public Color getGray(double value) {
+	public Spectrum getGray(double value) {
 		return new RGBColor(value, value, value);
 	}
 
@@ -61,13 +61,13 @@ public final class RGBColorModel extends ColorModel {
 	 * @see ca.eandb.jmist.framework.color.ColorModel#getUnit()
 	 */
 	@Override
-	public Color getWhite() {
+	public Spectrum getWhite() {
 		return RGBColor.WHITE;
 	}
 
 	@Override
-	public Color fromSpectrum(Spectrum spectrum) {
-		return new RGBColor(spectrum.sample(650e-9), spectrum.sample(550e-9), spectrum.sample(450e-9));
+	public Spectrum getContinuous(Function1 spectrum) {
+		return new RGBColor(spectrum.evaluate(650e-9), spectrum.evaluate(550e-9), spectrum.evaluate(450e-9));
 	}
 
 	/* (non-Javadoc)
