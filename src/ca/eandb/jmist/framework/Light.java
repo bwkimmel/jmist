@@ -3,6 +3,8 @@
  */
 package ca.eandb.jmist.framework;
 
+import ca.eandb.jmist.framework.color.WavelengthPacket;
+
 
 /**
  * @author Brad Kimmel
@@ -10,6 +12,6 @@ package ca.eandb.jmist.framework;
  */
 public interface Light {
 
-	void illuminate(SurfacePoint x, Illuminable target);
+	void illuminate(SurfacePoint x, WavelengthPacket lambda, Illuminable target);
 
 }

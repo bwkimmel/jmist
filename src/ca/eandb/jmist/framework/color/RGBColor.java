@@ -10,7 +10,17 @@ import ca.eandb.jmist.math.MathUtil;
  * @author Brad
  *
  */
-public final class RGBColor implements Color {
+public final class RGBColor implements Color, Spectrum {
+
+	public static final RGBColor BLACK = new RGBColor(0, 0, 0);
+
+	public static final RGBColor WHITE = new RGBColor(1, 1, 1);
+
+	private static final WavelengthPacket WAVELENGTH_PACKET = new WavelengthPacket() {
+		public ColorModel getColorModel() {
+			return RGBColorModel.getInstance();
+		}
+	};
 
 	private final double r;
 
@@ -214,8 +224,20 @@ public final class RGBColor implements Color {
 		return new double[]{ r, g, b };
 	}
 
-	public static final RGBColor BLACK = new RGBColor(0, 0, 0);
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.Color#getWavelengthPacket()
+	 */
+	@Override
+	public WavelengthPacket getWavelengthPacket() {
+		return WAVELENGTH_PACKET;
+	}
 
-	public static final RGBColor WHITE = new RGBColor(1, 1, 1);
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.Spectrum#sample(ca.eandb.jmist.framework.color.WavelengthPacket)
+	 */
+	@Override
+	public Color sample(WavelengthPacket lambda) {
+		return this;
+	}
 
 }

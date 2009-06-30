@@ -27,6 +27,8 @@ package ca.eandb.jmist.framework.shader.ray;
 
 import ca.eandb.jmist.framework.RayShader;
 import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.Spectrum;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Ray3;
 
 /**
@@ -35,21 +37,21 @@ import ca.eandb.jmist.math.Ray3;
  */
 public final class UniformRayShader implements RayShader {
 
-	private final Color color;
+	private final Spectrum value;
 
 	/**
 	 * @param color
 	 */
-	public UniformRayShader(Color color) {
-		this.color = color;
+	public UniformRayShader(Spectrum value) {
+		this.value = value;
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.RayShader#shadeRay(ca.eandb.jmist.math.Ray3)
+	 * @see ca.eandb.jmist.framework.RayShader#shadeRay(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
 	@Override
-	public Color shadeRay(Ray3 ray) {
-		return color;
+	public Color shadeRay(Ray3 ray, WavelengthPacket lambda) {
+		return value.sample(lambda);
 	}
 
 }

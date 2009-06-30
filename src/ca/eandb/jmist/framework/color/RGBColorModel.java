@@ -71,6 +71,38 @@ public final class RGBColorModel extends ColorModel {
 	}
 
 	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.ColorModel#getBlack(ca.eandb.jmist.framework.color.WavelengthPacket)
+	 */
+	@Override
+	public Color getBlack(WavelengthPacket lambda) {
+		return RGBColor.BLACK;
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.ColorModel#getGray(double, ca.eandb.jmist.framework.color.WavelengthPacket)
+	 */
+	@Override
+	public Color getGray(double value, WavelengthPacket lambda) {
+		return new RGBColor(value, value, value);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.ColorModel#getWhite(ca.eandb.jmist.framework.color.WavelengthPacket)
+	 */
+	@Override
+	public Color getWhite(WavelengthPacket lambda) {
+		return RGBColor.WHITE;
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.ColorModel#sample()
+	 */
+	@Override
+	public Color sample() {
+		return RGBColor.WHITE;
+	}
+
+	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.ColorModel#getNumBands()
 	 */
 	@Override

@@ -3,7 +3,8 @@
  */
 package ca.eandb.jmist.framework;
 
-import ca.eandb.jmist.framework.color.Spectrum;
+import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 
 /**
  * @author Brad
@@ -11,6 +12,6 @@ import ca.eandb.jmist.framework.color.Spectrum;
  */
 public interface Painter {
 
-	Spectrum getColor(SurfacePoint p);
+	Color getColor(SurfacePoint p, WavelengthPacket lambda);
 
 }

@@ -12,6 +12,7 @@ import ca.eandb.jmist.framework.RayShader;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Ray3;
 
 /**
@@ -34,14 +35,15 @@ public final class PathShader implements RayShader {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.RayShader#shadeRay(ca.eandb.jmist.math.Ray3)
+	 * @see ca.eandb.jmist.framework.RayShader#shadeRay(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
 	@Override
-	public Color shadeRay(Ray3 ray) {
+	public Color shadeRay(Ray3 ray, WavelengthPacket lambda) {
 
-		Color shade = ColorModel.getInstance().getBlack();
+		ColorModel cm = lambda.getColorModel();
+		Color shade = cm.getBlack(lambda);
 		RandomScatterRecorder recorder = new RandomScatterRecorder();
-		Color importance = ColorModel.getInstance().getWhite();
+		Color importance = cm.getWhite(lambda);
 
 		int depth = 0;
 		while (true) {
@@ -54,11 +56,11 @@ public final class PathShader implements RayShader {
 
 			// Add emission for primary ray
 			if (depth == 0 && mat.isEmissive()) {
-				shade = shade.plus(mat.emission(x, ray.direction().opposite()));
+				shade = shade.plus(mat.emission(x, ray.direction().opposite(), lambda));
 			}
 
 			// Compute direct illumination
-			Color direct = light.illuminate(x, caster);
+			Color direct = light.illuminate(x, lambda, caster);
 			shade = shade.plus(direct.times(importance));
 
 			// Compute indirect illumination

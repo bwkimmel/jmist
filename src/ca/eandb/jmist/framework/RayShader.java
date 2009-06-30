@@ -4,6 +4,7 @@
 package ca.eandb.jmist.framework;
 
 import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Ray3;
 
 /**
@@ -18,8 +19,10 @@ public interface RayShader {
 	 * the ray.
 	 * @param ray The ray indicating the point and direction along which to
 	 * 		compute the colour channel responses.
+	 * @param lambda The wavelengths at which to compute the color channel
+	 * 		responses.
 	 * @return The colour channel responses.
 	 */
-	Color shadeRay(Ray3 ray);
+	Color shadeRay(Ray3 ray, WavelengthPacket lambda);
 
 }

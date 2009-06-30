@@ -24,7 +24,13 @@ public abstract class ColorModel {
 	public abstract Spectrum getGray(double value);
 
 	public abstract Spectrum getContinuous(Function1 spectrum);
-	
+
+	public abstract Color getBlack(WavelengthPacket lambda);
+
+	public abstract Color getWhite(WavelengthPacket lambda);
+
+	public abstract Color getGray(double value, WavelengthPacket lambda);
+
 	public abstract Color sample();
 
 	public abstract int getNumChannels();

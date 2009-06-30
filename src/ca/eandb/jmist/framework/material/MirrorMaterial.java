@@ -7,6 +7,7 @@ import ca.eandb.jmist.framework.Painter;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.ScatteredRayRecorder;
 import ca.eandb.jmist.framework.SurfacePoint;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Optics;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
@@ -29,12 +30,12 @@ public final class MirrorMaterial extends OpaqueMaterial {
 	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.ScatteredRayRecorder)
 	 */
 	@Override
-	public void scatter(SurfacePoint x, Vector3 v, ScatteredRayRecorder recorder) {
+	public void scatter(SurfacePoint x, Vector3 v, WavelengthPacket lambda, ScatteredRayRecorder recorder) {
 
 		Vector3 out = Optics.reflect(v, x.getShadingNormal());
 
 		recorder.add(ScatteredRay.specular(new Ray3(x.getPosition(), out),
-				reflectance.getColor(x)));
+				reflectance.getColor(x, lambda)));
 
 	}
 

@@ -33,7 +33,7 @@ public final class AveragingPixelShader implements PixelShader {
 	 * @see ca.eandb.jmist.framework.PixelShader#shadePixel(ca.eandb.jmist.math.Box2)
 	 */
 	public Color shadePixel(Box2 bounds) {
-		Color pixel = ColorModel.getInstance().getBlack();
+		Color pixel = ColorModel.getInstance().getBlack(null);
 
 		for (int i = 0; i < this.numSamples; i++) {
 			pixel = pixel.plus(pixelShader.shadePixel(bounds));

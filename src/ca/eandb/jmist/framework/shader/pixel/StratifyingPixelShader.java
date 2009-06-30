@@ -33,7 +33,7 @@ public final class StratifyingPixelShader implements PixelShader {
 	 */
 	public Color shadePixel(Box2 bounds) {
 		double x0, x1, y0, y1;
-		Color pixel = ColorModel.getInstance().getBlack();
+		Color pixel = ColorModel.getInstance().getBlack(null);
 		Color sample;
 		Box2 subpixel;
 

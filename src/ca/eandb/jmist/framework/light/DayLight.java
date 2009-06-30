@@ -10,6 +10,8 @@ import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
+import ca.eandb.jmist.framework.color.Spectrum;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.RandomUtil;
@@ -131,29 +133,29 @@ public final class DayLight implements Light, DirectionalTexture3 {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.DirectionalTexture3#evaluate(ca.eandb.jmist.math.Vector3)
+	 * @see ca.eandb.jmist.framework.DirectionalTexture3#evaluate(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
 	@Override
-	public Color evaluate(Vector3 v) {
-		return ColorModel.getInstance().getContinuous(new SkyRadianceSpectrum(v));
+	public Color evaluate(Vector3 v, WavelengthPacket lambda) {
+		return lambda.getColorModel().getContinuous(new SkyRadianceSpectrum(v)).sample(lambda);
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.Illuminable)
 	 */
-	public void illuminate(SurfacePoint x, Illuminable target) {
+	public void illuminate(SurfacePoint x, WavelengthPacket lambda, Illuminable target) {
 
 		Vector3	source = RandomUtil.uniformOnUpperHemisphere().toCartesian(Basis3.fromW(zenith));
 
 		if (source.dot(x.getNormal()) > 0.0) {
 			double sdotn = source.dot(x.getShadingNormal());
-			Color radiance = ColorModel.getInstance().getContinuous(new SkyRadianceSpectrum(source));
+			Color radiance = lambda.getColorModel().getContinuous(new SkyRadianceSpectrum(source)).sample(lambda);
 			target.addLightSample(new DirectionalLightSample(x, source, radiance.times(sdotn), shadows));
 		}
 
 		if (daytime && sun.dot(x.getNormal()) > 0.0) {
 			double sdotn = sun.dot(x.getShadingNormal());
-			target.addLightSample(new DirectionalLightSample(x, sun, solarRadiance.times(sdotn), shadows));
+			target.addLightSample(new DirectionalLightSample(x, sun, solarRadiance.sample(lambda).times(sdotn), shadows));
 		}
 
 	}

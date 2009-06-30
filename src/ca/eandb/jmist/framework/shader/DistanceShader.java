@@ -29,6 +29,8 @@ import ca.eandb.jmist.framework.Shader;
 import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
+import ca.eandb.jmist.framework.color.Spectrum;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Interval;
 
 /**
@@ -39,37 +41,37 @@ public final class DistanceShader implements Shader {
 
 	private final Interval distanceInterval;
 
-	private final Color minDistanceColor;
+	private final Spectrum minDistanceValue;
 
-	private final Color maxDistanceColor;
+	private final Spectrum maxDistanceValue;
 
-	private final Color nearColor;
+	private final Spectrum nearValue;
 
-	private final Color farColor;
+	private final Spectrum farValue;
 
 	/**
 	 * @param distanceInterval
-	 * @param minDistanceColor
-	 * @param maxDistanceColor
-	 * @param nearColor
-	 * @param farColor
+	 * @param minDistanceValue
+	 * @param maxDistanceValue
+	 * @param nearValue
+	 * @param farValue
 	 */
-	public DistanceShader(Interval distanceInterval, Color minDistanceColor, Color maxDistanceColor,
-			Color nearColor, Color farColor) {
+	public DistanceShader(Interval distanceInterval, Spectrum minDistanceValue, Spectrum maxDistanceValue,
+			Spectrum nearValue, Spectrum farValue) {
 		this.distanceInterval = distanceInterval;
-		this.minDistanceColor = minDistanceColor;
-		this.maxDistanceColor = maxDistanceColor;
-		this.nearColor = nearColor;
-		this.farColor = farColor;
+		this.minDistanceValue = minDistanceValue;
+		this.maxDistanceValue = maxDistanceValue;
+		this.nearValue = nearValue;
+		this.farValue = farValue;
 	}
 
 	/**
 	 * @param distanceInterval
-	 * @param minDistanceColor
-	 * @param maxDistanceColor
+	 * @param minDistanceValue
+	 * @param maxDistanceValue
 	 */
-	public DistanceShader(Interval distanceInterval, Color minDistanceColor, Color maxDistanceColor) {
-		this(distanceInterval, minDistanceColor, maxDistanceColor, minDistanceColor, maxDistanceColor);
+	public DistanceShader(Interval distanceInterval, Spectrum minDistanceValue, Spectrum maxDistanceValue) {
+		this(distanceInterval, minDistanceValue, maxDistanceValue, minDistanceValue, maxDistanceValue);
 	}
 
 	/**
@@ -92,14 +94,15 @@ public final class DistanceShader implements Shader {
 	@Override
 	public Color shade(ShadingContext sc) {
 
+		WavelengthPacket lambda = sc.getWavelengthPacket();
 		double d = sc.getDistance();
 		if (distanceInterval.contains(d)) {
 			double t = (d - distanceInterval.minimum()) / distanceInterval.length();
-			return minDistanceColor.times(1.0 - t).plus(maxDistanceColor.times(t));
+			return minDistanceValue.sample(lambda).times(1.0 - t).plus(maxDistanceValue.sample(lambda).times(t));
 		} else if (d < distanceInterval.minimum()) {
-			return nearColor;
+			return nearValue.sample(lambda);
 		} else {
-			return farColor;
+			return farValue.sample(lambda);
 		}
 
 	}

@@ -37,8 +37,10 @@ import javax.imageio.stream.ImageInputStream;
 
 import ca.eandb.jmist.framework.Painter;
 import ca.eandb.jmist.framework.SurfacePoint;
+import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.Spectrum;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Point2;
 
 /**
@@ -79,14 +81,14 @@ public final class TexturePainter implements Painter {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Painter#getColor(ca.eandb.jmist.framework.SurfacePoint)
+	 * @see ca.eandb.jmist.framework.Painter#getColor(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
 	@Override
-	public Spectrum getColor(SurfacePoint p) {
+	public Color getColor(SurfacePoint p, WavelengthPacket lambda) {
 		Point2 uv = p.getUV();
 		int x = (int) Math.floor(uv.x() * texture.getWidth());
 		int y = (int) Math.floor(uv.y() * texture.getHeight());
-		return getPixel(x, y);
+		return getPixel(x, y).sample(lambda);
 	}
 
 	private synchronized Spectrum getPixel(int x, int y) {

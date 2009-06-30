@@ -29,10 +29,8 @@ package ca.eandb.jmist.framework.color;
  * @author brad
  *
  */
-public interface Spectrum {
+public interface WavelengthPacket {
 
 	ColorModel getColorModel();
-
-	Color sample(WavelengthPacket lambda);
 
 }

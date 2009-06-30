@@ -40,6 +40,7 @@ import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.ScatteredRay.Type;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.light.PointLightSample;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Point2;
@@ -72,7 +73,7 @@ public final class MaterialSceneElement extends ModifierSceneElement {
 		return new Light() {
 
 			@Override
-			public void illuminate(SurfacePoint x, Illuminable target) {
+			public void illuminate(SurfacePoint x, final WavelengthPacket lambda, Illuminable target) {
 
 				ShadingContext context = new ShadingContext() {
 
@@ -103,7 +104,12 @@ public final class MaterialSceneElement extends ModifierSceneElement {
 
 					@Override
 					public Color getImportance() {
-						return getColorModel().getWhite();
+						return getColorModel().getWhite(lambda);
+					}
+
+					@Override
+					public WavelengthPacket getWavelengthPacket() {
+						return lambda;
 					}
 
 					@Override
@@ -296,7 +302,7 @@ public final class MaterialSceneElement extends ModifierSceneElement {
 				Vector3 v = x.getPosition().unitVectorFrom(p);
 				double d2 = x.getPosition().squaredDistanceTo(p);
 				double atten = 1.0 / (4.0 * Math.PI * d2);
-				Color ri = mat.emission(context, v).times(atten);
+				Color ri = mat.emission(context, v, lambda).times(atten);
 
 				LightSample sample = new PointLightSample(x, p, ri);
 
