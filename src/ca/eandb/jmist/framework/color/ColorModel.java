@@ -4,6 +4,7 @@
 package ca.eandb.jmist.framework.color;
 
 import ca.eandb.jmist.framework.Function1;
+import ca.eandb.jmist.framework.color.rgb.RGBColorModel;
 
 /**
  * @author Brad

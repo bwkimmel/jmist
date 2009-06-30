@@ -1,8 +1,12 @@
 /**
  *
  */
-package ca.eandb.jmist.framework.color;
+package ca.eandb.jmist.framework.color.rgb;
 
+import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.ColorModel;
+import ca.eandb.jmist.framework.color.Spectrum;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.MathUtil;
 
 

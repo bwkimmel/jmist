@@ -1,9 +1,13 @@
 /**
  *
  */
-package ca.eandb.jmist.framework.color;
+package ca.eandb.jmist.framework.color.rgb;
 
 import ca.eandb.jmist.framework.Function1;
+import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.ColorModel;
+import ca.eandb.jmist.framework.color.Spectrum;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 
 /**
  * A three channel <code>ColorModel</code>.
