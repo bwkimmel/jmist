@@ -23,14 +23,44 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package ca.eandb.jmist.framework.color;
+package ca.eandb.jmist.framework.color.xyz;
+
+import ca.eandb.jmist.framework.Function1;
+import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.Spectrum;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 
 /**
  * @author brad
  *
  */
-public interface Spectrum {
+public final class XYZContinuousSpectrum implements Spectrum {
 
-	Color sample(WavelengthPacket lambda);
+	private final Function1 spectrum;
+
+	/**
+	 * @param spectrum
+	 */
+	public XYZContinuousSpectrum(Function1 spectrum) {
+		this.spectrum = spectrum;
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.Spectrum#sample(ca.eandb.jmist.framework.color.WavelengthPacket)
+	 */
+	@Override
+	public Color sample(WavelengthPacket lambda) {
+		return sample((XYZWavelengthPacket) lambda);
+	}
+
+	public Color sample(XYZWavelengthPacket lambda) {
+		if (lambda == null || spectrum == null) {
+			lambda = null;
+		}
+		double x = spectrum.evaluate(lambda.getLambdaX());
+		double y = spectrum.evaluate(lambda.getLambdaY());
+		double z = spectrum.evaluate(lambda.getLambdaZ());
+		return new XYZColor(x, y, z, lambda);
+	}
 
 }

@@ -18,16 +18,16 @@ public final class RGBColorModel extends ColorModel {
 	/** The single <code>RGBColorModel</code> instance. */
 	private static RGBColorModel instance;
 
-	/**
-	 * Gets the single <code>RGBColorModel</code> instance.
-	 * @return The <code>RGBColorModel</code>.
-	 */
-	public static RGBColorModel getInstance() {
-		if (instance == null) {
-			instance = new RGBColorModel();
-		}
-		return instance;
-	}
+//	/**
+//	 * Gets the single <code>RGBColorModel</code> instance.
+//	 * @return The <code>RGBColorModel</code>.
+//	 */
+//	public static RGBColorModel getInstance() {
+//		if (instance == null) {
+//			instance = new RGBColorModel();
+//		}
+//		return instance;
+//	}
 
 	/**
 	 * Creates a new <code>RGBColorModel</code>.
