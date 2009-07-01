@@ -148,6 +148,14 @@ public final class XYZColorModel extends ColorModel {
 	}
 
 	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.ColorModel#fromXYZ(double, double, double)
+	 */
+	@Override
+	public Spectrum fromXYZ(double x, double y, double z) {
+		return new XYZColor(x, y, z, null);
+	}
+
+	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.ColorModel#getBlack()
 	 */
 	@Override
