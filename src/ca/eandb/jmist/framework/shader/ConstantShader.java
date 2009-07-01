@@ -28,6 +28,8 @@ package ca.eandb.jmist.framework.shader;
 import ca.eandb.jmist.framework.Shader;
 import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.Spectrum;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 
 /**
  * @author brad
@@ -35,13 +37,13 @@ import ca.eandb.jmist.framework.color.Color;
  */
 public final class ConstantShader implements Shader {
 
-	private final Color color;
+	private final Spectrum value;
 
 	/**
-	 * @param color
+	 * @param value
 	 */
-	public ConstantShader(Color color) {
-		this.color = color;
+	public ConstantShader(Spectrum value) {
+		this.value = value;
 	}
 
 	/* (non-Javadoc)
@@ -49,7 +51,8 @@ public final class ConstantShader implements Shader {
 	 */
 	@Override
 	public Color shade(ShadingContext sc) {
-		return color;
+		WavelengthPacket lambda = sc.getWavelengthPacket();
+		return value.sample(lambda);
 	}
 
 }

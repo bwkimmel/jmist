@@ -28,6 +28,8 @@ package ca.eandb.jmist.framework.shader;
 import ca.eandb.jmist.framework.Shader;
 import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.Spectrum;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Vector3;
 
 /**
@@ -36,9 +38,9 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class EdgeShader implements Shader {
 
-	private final Color edgeColor;
+	private final Spectrum edgeColor;
 
-	private final Color interiorColor;
+	private final Spectrum interiorColor;
 
 	private final double threshold;
 
@@ -47,7 +49,7 @@ public final class EdgeShader implements Shader {
 	 * @param interiorColor
 	 * @param threshold
 	 */
-	public EdgeShader(Color edgeColor, Color interiorColor, double threshold) {
+	public EdgeShader(Spectrum edgeColor, Spectrum interiorColor, double threshold) {
 		this.edgeColor = edgeColor;
 		this.interiorColor = interiorColor;
 		this.threshold = threshold;
@@ -58,9 +60,10 @@ public final class EdgeShader implements Shader {
 	 */
 	@Override
 	public Color shade(ShadingContext sc) {
+		WavelengthPacket lambda = sc.getWavelengthPacket();
 		Vector3 n = sc.getNormal();
 		Vector3 v = sc.getIncident().opposite();
-		return Math.abs(n.dot(v)) < threshold ? edgeColor : interiorColor;
+		return Math.abs(n.dot(v)) < threshold ? edgeColor.sample(lambda) : interiorColor.sample(lambda);
 	}
 
 }
