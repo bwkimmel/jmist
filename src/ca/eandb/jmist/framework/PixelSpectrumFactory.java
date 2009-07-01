@@ -10,10 +10,10 @@ package ca.eandb.jmist.framework;
 public interface PixelSpectrumFactory {
 
 	/**
-	 * Creates a <code>Spectrum</code> extrapolated from the specified pixel.
+	 * Creates a <code>Function1</code> extrapolated from the specified pixel.
 	 * @param pixel The <code>Pixel</code> to extrapolate.
-	 * @return The extrapolated <code>Spectrum</code>.
+	 * @return The extrapolated <code>Function1</code>.
 	 */
-	Spectrum createSpectrum(double[] pixel);
+	Function1 createSpectrum(double[] pixel);
 
 }

@@ -32,6 +32,7 @@ import ca.eandb.jmist.framework.ScatteredRays;
 import ca.eandb.jmist.framework.Shader;
 import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 
 /**
  * @author brad
@@ -65,7 +66,8 @@ public final class DistributionShader implements Shader {
 	@Override
 	public Color shade(ShadingContext sc) {
 
-		Color result = sc.getColorModel().getBlack();
+		WavelengthPacket lambda = sc.getWavelengthPacket();
+		Color result = sc.getColorModel().getBlack(lambda);
 		ScatteredRays rays = sc.getScatteredRays();
 
 		for (int i = 0; i < rays.size(); i++) {

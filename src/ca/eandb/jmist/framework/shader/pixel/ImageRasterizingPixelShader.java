@@ -7,6 +7,8 @@ import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.framework.ImageShader;
 import ca.eandb.jmist.framework.PixelShader;
 import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.ColorModel;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 
 /**
  * Represents a pixel shader that rasterizes an image represented by
@@ -18,10 +20,13 @@ public abstract class ImageRasterizingPixelShader implements PixelShader {
 
 	/**
 	 * Initializes the image shader to use for this pixel shader.
-	 * @param shader The image shader to use for this pixel shader.
+	 * @param shader The <code>ImageShader</code> to use for this pixel shader.
+	 * @param model The <code>ColorModel</code> to use for sampling in te
+	 * 		wavelength domain.
 	 */
-	protected ImageRasterizingPixelShader(ImageShader shader) {
+	protected ImageRasterizingPixelShader(ImageShader shader, ColorModel model) {
 		this.shader = shader;
+		this.model = model;
 	}
 
 	/**
@@ -30,10 +35,19 @@ public abstract class ImageRasterizingPixelShader implements PixelShader {
 	 * @return The shaded pixel.
 	 */
 	protected Color shadeAt(Point2 p) {
-		return this.shader.shadeAt(p);
+		Color				sample = model.sample();
+		WavelengthPacket	lambda = sample.getWavelengthPacket();
+
+		return shader.shadeAt(p, lambda).times(sample);
 	}
 
-	/** The image shader to use for shading points. */
+	/** The <code>ImageShader</code> to use for shading points. */
 	private final ImageShader shader;
+
+	/**
+	 * The <code>ColorModel</code> to use for sampling in the wavelength
+	 * domain.
+	 */
+	private final ColorModel model;
 
 }

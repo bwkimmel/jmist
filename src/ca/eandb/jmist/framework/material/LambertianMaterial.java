@@ -10,7 +10,7 @@ import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.ScatteredRayRecorder;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.framework.color.ColorModel;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.RandomUtil;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.SphericalCoordinates;
@@ -51,25 +51,25 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#emission(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#emission(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
 	@Override
-	public Color emission(SurfacePoint x, Vector3 out) {
+	public Color emission(SurfacePoint x, Vector3 out, WavelengthPacket lambda) {
 
 		if (this.emittance == null || x.getNormal().dot(out) < 0.0) {
-			return ColorModel.getInstance().getBlack();
+			return lambda.getColorModel().getBlack(lambda);
 		}
 
 		double ndotv = x.getShadingNormal().dot(out);
-		return ndotv > 0.0 ? emittance.getColor(x).times(ndotv) : ColorModel.getInstance().getBlack();
+		return ndotv > 0.0 ? emittance.getColor(x, lambda).times(ndotv) : lambda.getColorModel().getBlack(lambda);
 
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#emit(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ScatteredRayRecorder)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#emit(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.ScatteredRayRecorder)
 	 */
 	@Override
-	public void emit(SurfacePoint x, ScatteredRayRecorder recorder) {
+	public void emit(SurfacePoint x, WavelengthPacket lambda, ScatteredRayRecorder recorder) {
 
 		if (this.emittance != null) {
 
@@ -77,7 +77,7 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 			Ray3 ray = new Ray3(x.getPosition(), out.toCartesian(x.getShadingBasis()));
 
 			if (x.getNormal().dot(ray.direction()) > 0.0) {
-				recorder.add(ScatteredRay.diffuse(ray, emittance.getColor(x)));
+				recorder.add(ScatteredRay.diffuse(ray, emittance.getColor(x, lambda)));
 			}
 
 		}
@@ -85,10 +85,10 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.ScatteredRayRecorder)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.ScatteredRayRecorder)
 	 */
 	@Override
-	public void scatter(SurfacePoint x, Vector3 v, ScatteredRayRecorder recorder) {
+	public void scatter(SurfacePoint x, Vector3 v, WavelengthPacket lambda, ScatteredRayRecorder recorder) {
 
 		if (this.reflectance != null) {
 
@@ -96,7 +96,7 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 			Ray3 ray = new Ray3(x.getPosition(), out.toCartesian(x.getShadingBasis()));
 
 			if (ray.direction().dot(x.getNormal()) > 0.0) {
-				recorder.add(ScatteredRay.diffuse(ray, reflectance.getColor(x)));
+				recorder.add(ScatteredRay.diffuse(ray, reflectance.getColor(x, lambda)));
 			}
 
 		}
@@ -104,19 +104,19 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scattering(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Vector3)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scattering(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
 	@Override
-	public Color scattering(SurfacePoint x, Vector3 in, Vector3 out) {
+	public Color scattering(SurfacePoint x, Vector3 in, Vector3 out, WavelengthPacket lambda) {
 
 		Vector3 n = x.getNormal();
 		boolean fromFront = (n.dot(in) < 0.0);
 		boolean toFront = (n.dot(out) > 0.0);
 
 		if (this.reflectance != null && toFront == fromFront) {
-			return reflectance.getColor(x);
+			return reflectance.getColor(x, lambda);
 		} else {
-			return ColorModel.getInstance().getBlack();
+			return lambda.getColorModel().getBlack(lambda);
 		}
 
 	}

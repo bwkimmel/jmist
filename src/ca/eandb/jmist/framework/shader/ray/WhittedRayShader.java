@@ -12,6 +12,7 @@ import ca.eandb.jmist.framework.RayShader;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Ray3;
 
 /**
@@ -34,16 +35,18 @@ public final class WhittedRayShader implements RayShader {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.RayShader#shadeRay(ca.eandb.jmist.math.Ray3)
+	 * @see ca.eandb.jmist.framework.RayShader#shadeRay(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
 	@Override
-	public Color shadeRay(Ray3 ray) {
-		return shadeRay(ray, 0, ColorModel.getInstance().getWhite());
+	public Color shadeRay(Ray3 ray, WavelengthPacket lambda) {
+		return shadeRay(ray, 0, lambda.getColorModel().getWhite(lambda));
 	}
 
 	private Color shadeRay(Ray3 ray, int depth, Color importance) {
 
-		Color shade = ColorModel.getInstance().getBlack();
+		ColorModel cm = importance.getColorModel();
+		WavelengthPacket lambda = importance.getWavelengthPacket();
+		Color shade = cm.getBlack(lambda);
 		ListScatterRecorder recorder = new ListScatterRecorder();
 
 		Intersection x = caster.castRay(ray);
@@ -60,7 +63,7 @@ public final class WhittedRayShader implements RayShader {
 
 		// Compute indirect illumination
 		recorder.clear();
-		mat.scatter(x, recorder);
+		mat.scatter(x, lambda, recorder);
 		boolean specularOnly = true;
 		for (ScatteredRay sr : recorder.getScatterResults()) {
 
@@ -83,7 +86,7 @@ public final class WhittedRayShader implements RayShader {
 		if (!specularOnly) {
 
 			// Compute direct illumination
-			Color direct = light.illuminate(x, caster);
+			Color direct = light.illuminate(x, lambda, caster);
 			shade = shade.plus(direct);
 
 		}

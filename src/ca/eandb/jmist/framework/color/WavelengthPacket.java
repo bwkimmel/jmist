@@ -23,39 +23,14 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package ca.eandb.jmist.framework.shader;
-
-import ca.eandb.jmist.framework.LightSample;
-import ca.eandb.jmist.framework.Material;
-import ca.eandb.jmist.framework.Shader;
-import ca.eandb.jmist.framework.ShadingContext;
-import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.framework.color.WavelengthPacket;
-import ca.eandb.jmist.math.Vector3;
+package ca.eandb.jmist.framework.color;
 
 /**
  * @author brad
  *
  */
-public final class DirectLightingShader implements Shader {
+public interface WavelengthPacket {
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
-	 */
-	@Override
-	public Color shade(ShadingContext sc) {
-		Material mat = sc.getMaterial();
-		WavelengthPacket lambda = sc.getWavelengthPacket();
-		Color sum = sc.getColorModel().getBlack(lambda);
-		for (LightSample sample : sc.getLightSamples()) {
-			if (!sample.castShadowRay(sc)) {
-				Vector3 in = sample.getDirToLight().opposite();
-				Vector3 out = sc.getIncident().opposite();
-				Color bsdf = mat.scattering(sc, in, out, lambda);
-				sum = sum.plus(sample.getRadiantIntensity().times(bsdf));
-			}
-		}
-		return sum;
-	}
+	ColorModel getColorModel();
 
 }

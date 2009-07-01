@@ -23,39 +23,26 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package ca.eandb.jmist.framework.shader;
+package ca.eandb.jmist.framework.function;
 
-import ca.eandb.jmist.framework.LightSample;
-import ca.eandb.jmist.framework.Material;
-import ca.eandb.jmist.framework.Shader;
-import ca.eandb.jmist.framework.ShadingContext;
-import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.framework.color.WavelengthPacket;
-import ca.eandb.jmist.math.Vector3;
+import ca.eandb.jmist.framework.Function1;
 
 /**
+ * A <code>CompositeFunction1</code> that represents the composition of its
+ * children.
  * @author brad
- *
  */
-public final class DirectLightingShader implements Shader {
+public final class ComposedFunction1 extends CompositeFunction1 {
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
+	 * @see ca.eandb.jmist.framework.Function1#evaluate(double)
 	 */
 	@Override
-	public Color shade(ShadingContext sc) {
-		Material mat = sc.getMaterial();
-		WavelengthPacket lambda = sc.getWavelengthPacket();
-		Color sum = sc.getColorModel().getBlack(lambda);
-		for (LightSample sample : sc.getLightSamples()) {
-			if (!sample.castShadowRay(sc)) {
-				Vector3 in = sample.getDirToLight().opposite();
-				Vector3 out = sc.getIncident().opposite();
-				Color bsdf = mat.scattering(sc, in, out, lambda);
-				sum = sum.plus(sample.getRadiantIntensity().times(bsdf));
-			}
+	public double evaluate(double x) {
+		for (Function1 f : children()) {
+			x = f.evaluate(x);
 		}
-		return sum;
+		return x;
 	}
 
 }

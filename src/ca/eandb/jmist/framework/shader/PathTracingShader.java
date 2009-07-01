@@ -29,6 +29,7 @@ import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.Shader;
 import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 
 /**
  * @author brad
@@ -45,7 +46,8 @@ public final class PathTracingShader implements Shader {
 		ScatteredRay ray = sc.getScatteredRays().getRandomScatteredRay(true);
 
 		if (ray == null) {
-			return sc.getColorModel().getBlack();
+			WavelengthPacket lambda = sc.getWavelengthPacket();
+			return sc.getColorModel().getBlack(lambda);
 		}
 
 		return sc.castRay(ray);

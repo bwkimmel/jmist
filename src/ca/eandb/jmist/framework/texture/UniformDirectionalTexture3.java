@@ -27,6 +27,8 @@ package ca.eandb.jmist.framework.texture;
 
 import ca.eandb.jmist.framework.DirectionalTexture3;
 import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.Spectrum;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Vector3;
 
 /**
@@ -36,26 +38,26 @@ import ca.eandb.jmist.math.Vector3;
 public final class UniformDirectionalTexture3 implements DirectionalTexture3 {
 
 	/**
-	 * The <code>Color</code> assigned to this
+	 * The <code>Spectrum</code> assigned to this
 	 * <code>UniformDirectionalTexture3</code>.
 	 */
-	private final Color color;
+	private final Spectrum value;
 
 	/**
 	 * Creates a new <code>UniformDirectionalTexture3</code>.
-	 * @param color The <code>Color</code> assigned to this
+	 * @param value The <code>Spectrum</code> assigned to this
 	 * 		<code>UniformDirectionalTexture3</code>.
 	 */
-	public UniformDirectionalTexture3(Color color) {
-		this.color = color;
+	public UniformDirectionalTexture3(Spectrum value) {
+		this.value = value;
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.DirectionalTexture3#evaluate(ca.eandb.jmist.math.Vector3)
+	 * @see ca.eandb.jmist.framework.DirectionalTexture3#evaluate(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
 	@Override
-	public Color evaluate(Vector3 v) {
-		return color;
+	public Color evaluate(Vector3 v, WavelengthPacket lambda) {
+		return value.sample(lambda);
 	}
 
 }

@@ -23,77 +23,61 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package ca.eandb.jmist.framework;
+package ca.eandb.jmist.framework.color.xyz;
 
-import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
-import ca.eandb.jmist.math.Basis3;
-import ca.eandb.jmist.math.Point2;
-import ca.eandb.jmist.math.Point3;
-import ca.eandb.jmist.math.Ray3;
-import ca.eandb.jmist.math.Vector3;
 
 /**
  * @author brad
  *
  */
-public interface ShadingContext extends SurfacePoint, VisibilityFunction3 {
+public final class XYZWavelengthPacket implements WavelengthPacket {
 
-	WavelengthPacket getWavelengthPacket();
+	private final double lambdaX;
 
-	Ray3 getRay();
+	private final double lambdaY;
 
-	Vector3 getIncident();
+	private final double lambdaZ;
 
-	double getDistance();
+	/**
+	 * @param lambdaX
+	 * @param lambdaY
+	 * @param lambdaZ
+	 */
+	public XYZWavelengthPacket(double lambdaX, double lambdaY, double lambdaZ) {
+		this.lambdaX = lambdaX;
+		this.lambdaY = lambdaY;
+		this.lambdaZ = lambdaZ;
+	}
 
-	boolean isFront();
+	/**
+	 * @return the lambdaX
+	 */
+	public double getLambdaX() {
+		return lambdaX;
+	}
 
-	int getPathDepth();
+	/**
+	 * @return the lambdaY
+	 */
+	public double getLambdaY() {
+		return lambdaY;
+	}
 
-	Color getImportance();
+	/**
+	 * @return the lambdaZ
+	 */
+	public double getLambdaZ() {
+		return lambdaZ;
+	}
 
-	boolean isEyePath();
-
-	boolean isLightPath();
-
-	int getPathDepthByType(ScatteredRay.Type type);
-
-	ColorModel getColorModel();
-
-	ScatteredRays getScatteredRays();
-
-	Color castRay(ScatteredRay ray);
-
-	Color shade();
-
-	Iterable<LightSample> getLightSamples();
-
-	Shader getShader();
-
-	Modifier getModifier();
-
-	void setPosition(Point3 position);
-
-	void setNormal(Vector3 normal);
-
-	void setBasis(Basis3 basis);
-
-	void setPrimitiveIndex(int index);
-
-	void setShadingBasis(Basis3 basis);
-
-	void setShadingNormal(Vector3 normal);
-
-	void setUV(Point2 uv);
-
-	void setMaterial(Material material);
-
-	void setAmbientMedium(Medium medium);
-
-	void setShader(Shader shader);
-
-	void setModifier(Modifier modifier);
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.WavelengthPacket#getColorModel()
+	 */
+	@Override
+	public ColorModel getColorModel() {
+		return XYZColorModel.getInstance();
+	}
 
 }

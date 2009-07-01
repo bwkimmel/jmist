@@ -31,6 +31,7 @@ import java.util.EnumSet;
 import java.util.List;
 
 import ca.eandb.jmist.framework.color.ColorUtil;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.RandomUtil;
 import ca.eandb.jmist.math.Vector3;
@@ -45,6 +46,8 @@ public final class ScatteredRays extends AbstractList<ScatteredRay> {
 
 	private final Vector3 v;
 
+	private final WavelengthPacket lambda;
+
 	private final Material material;
 
 	private List<ScatteredRay> rays = new ArrayList<ScatteredRay>(10);
@@ -52,18 +55,19 @@ public final class ScatteredRays extends AbstractList<ScatteredRay> {
 	/**
 	 * @param x
 	 * @param v
+	 * @param lambda
 	 * @param material
-	 * @param medium
 	 */
-	public ScatteredRays(SurfacePoint x, Vector3 v, Material material) {
+	public ScatteredRays(SurfacePoint x, Vector3 v, WavelengthPacket lambda, Material material) {
 		this.x = x;
 		this.v = v;
+		this.lambda = lambda;
 		this.material = material;
 	}
 
 	private synchronized void ensureReady() {
 		if (modCount == 0) {
-			material.scatter(x, v, new ScatteredRayRecorder() {
+			material.scatter(x, v, lambda, new ScatteredRayRecorder() {
 				public void add(ScatteredRay sr) {
 					rays.add(sr);
 				}

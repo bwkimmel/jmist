@@ -7,6 +7,7 @@ import ca.eandb.jmist.framework.ImageShader;
 import ca.eandb.jmist.framework.PixelShader;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.math.Box2;
 
 /**
@@ -22,9 +23,11 @@ public final class RandomPixelShader extends ImageRasterizingPixelShader impleme
 	 * @param random The source of random numbers to use.
 	 * @param camera The camera to use to shade points on the image
 	 * 		plane.
+	 * @param model The color model to use for sampling in the wavelength
+	 * 		domain.
 	 */
-	public RandomPixelShader(Random random, ImageShader camera) {
-		super(camera);
+	public RandomPixelShader(Random random, ImageShader camera, ColorModel model) {
+		super(camera, model);
 		this.random = random;
 	}
 

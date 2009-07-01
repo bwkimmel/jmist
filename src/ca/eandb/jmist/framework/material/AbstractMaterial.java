@@ -7,7 +7,7 @@ import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.ScatteredRayRecorder;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.framework.color.ColorModel;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Vector3;
 
 /**
@@ -17,18 +17,18 @@ import ca.eandb.jmist.math.Vector3;
 public abstract class AbstractMaterial implements Material {
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Material#emission(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3)
+	 * @see ca.eandb.jmist.framework.Material#emission(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
 	@Override
-	public Color emission(SurfacePoint x, Vector3 out) {
-		return ColorModel.getInstance().getBlack();
+	public Color emission(SurfacePoint x, Vector3 out, WavelengthPacket lambda) {
+		return lambda.getColorModel().getBlack(lambda);
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Material#emit(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ScatteredRayRecorder)
+	 * @see ca.eandb.jmist.framework.Material#emit(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.ScatteredRayRecorder)
 	 */
 	@Override
-	public void emit(SurfacePoint x, ScatteredRayRecorder recorder) {
+	public void emit(SurfacePoint x, WavelengthPacket lambda, ScatteredRayRecorder recorder) {
 		/* nothing to do. */
 	}
 
@@ -41,19 +41,19 @@ public abstract class AbstractMaterial implements Material {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Material#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.ScatteredRayRecorder)
+	 * @see ca.eandb.jmist.framework.Material#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.ScatteredRayRecorder)
 	 */
 	@Override
-	public void scatter(SurfacePoint x, Vector3 v, ScatteredRayRecorder recorder) {
+	public void scatter(SurfacePoint x, Vector3 v, WavelengthPacket lambda, ScatteredRayRecorder recorder) {
 		/* nothing to do. */
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Material#scattering(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Vector3)
+	 * @see ca.eandb.jmist.framework.Material#scattering(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
 	@Override
-	public Color scattering(SurfacePoint x, Vector3 in, Vector3 out) {
-		return ColorModel.getInstance().getBlack();
+	public Color scattering(SurfacePoint x, Vector3 in, Vector3 out, WavelengthPacket lambda) {
+		return lambda.getColorModel().getBlack(lambda);
 	}
 
 }

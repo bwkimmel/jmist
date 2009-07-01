@@ -1,16 +1,17 @@
 /**
  *
  */
-package ca.eandb.jmist.framework.spectrum;
+package ca.eandb.jmist.framework.function;
 
+import ca.eandb.jmist.framework.Function1;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Physics;
 
 /**
- * A blackbody emission <code>Spectrum</code>.
+ * A <code>Function1</code> representing a blackbody emission spectrum.
  * @author Brad Kimmel
  */
-public final class BlackbodySpectrum extends AbstractSpectrum {
+public final class BlackbodySpectrum implements Function1 {
 
 	/**
 	 * Creates a new <code>BlackbodySpectrum</code>.
@@ -23,10 +24,10 @@ public final class BlackbodySpectrum extends AbstractSpectrum {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.AbstractSpectrum#sample(double)
+	 * @see ca.eandb.jmist.framework.Function1#evaluate(double)
 	 */
 	@Override
-	public double sample(double wavelength) {
+	public double evaluate(double wavelength) {
 
 		if (MathUtil.isZero(temperature)) {
 			return 0.0;

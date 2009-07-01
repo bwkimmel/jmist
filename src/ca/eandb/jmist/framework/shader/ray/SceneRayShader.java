@@ -47,6 +47,7 @@ import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.ScatteredRay.Type;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
@@ -77,12 +78,12 @@ public final class SceneRayShader implements RayShader {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.RayShader#shadeRay(ca.eandb.jmist.math.Ray3)
+	 * @see ca.eandb.jmist.framework.RayShader#shadeRay(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
 	@Override
-	public Color shadeRay(Ray3 ray) {
+	public Color shadeRay(Ray3 ray, WavelengthPacket lambda) {
 		Context context = new Context();
-		return context.castPrimaryRay(ray);
+		return context.castPrimaryRay(ray, lambda);
 	}
 
 	private final class LocalContext {
@@ -111,7 +112,7 @@ public final class SceneRayShader implements RayShader {
 		private final EnumMap<ScatteredRay.Type, Integer> depth = new EnumMap<ScatteredRay.Type, Integer>(ScatteredRay.Type.class);
 		private int totalDepth = 0;
 
-		public Color castPrimaryRay(Ray3 ray) {
+		public Color castPrimaryRay(Ray3 ray, WavelengthPacket lambda) {
 			Intersection x = NearestIntersectionRecorder.computeNearestIntersection(ray, root);
 
 			if (x != null) {
@@ -120,19 +121,19 @@ public final class SceneRayShader implements RayShader {
 				local.distance = x.getDistance();
 				local.front = x.isFront();
 				local.medium = Medium.VACUUM;
-				local.importance = getColorModel().getWhite();
+				local.importance = lambda.getColorModel().getWhite(lambda);
 
 				stack.push(local);
 				x.prepareShadingContext(this);
 
-				local.scatteredRays = new ScatteredRays(this, ray.direction(), local.material);
+				local.scatteredRays = new ScatteredRays(this, ray.direction(), getWavelengthPacket(), local.material);
 
 				Color color = shade();
 
 				stack.pop();
 				return color;
 			} else {
-				return background.shadeRay(ray);
+				return background.shadeRay(ray, lambda);
 			}
 		}
 
@@ -156,7 +157,7 @@ public final class SceneRayShader implements RayShader {
 				stack.push(local);
 				x.prepareShadingContext(this);
 
-				local.scatteredRays = new ScatteredRays(this, ray.direction(), local.material);
+				local.scatteredRays = new ScatteredRays(this, ray.direction(), getWavelengthPacket(), local.material);
 
 				Color color = shade();
 
@@ -165,13 +166,18 @@ public final class SceneRayShader implements RayShader {
 				totalDepth--;
 				return color;
 			} else {
-				return background.shadeRay(ray);
+				return background.shadeRay(ray, getWavelengthPacket());
 			}
 		}
 
 		@Override
 		public ColorModel getColorModel() {
-			return ColorModel.getInstance();
+			return getImportance().getColorModel();
+		}
+
+		@Override
+		public WavelengthPacket getWavelengthPacket() {
+			return getImportance().getWavelengthPacket();
 		}
 
 		@Override
@@ -185,7 +191,7 @@ public final class SceneRayShader implements RayShader {
 			if (samples == null) {
 				samples = new ArrayList<LightSample>();
 				stack.peek().samples = samples;
-				light.illuminate(this, this);
+				light.illuminate(this, getWavelengthPacket(), this);
 			}
 			return samples;
 		}

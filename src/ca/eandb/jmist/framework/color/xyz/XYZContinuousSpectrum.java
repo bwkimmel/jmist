@@ -23,77 +23,44 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package ca.eandb.jmist.framework;
+package ca.eandb.jmist.framework.color.xyz;
 
+import ca.eandb.jmist.framework.Function1;
 import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.framework.color.ColorModel;
+import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
-import ca.eandb.jmist.math.Basis3;
-import ca.eandb.jmist.math.Point2;
-import ca.eandb.jmist.math.Point3;
-import ca.eandb.jmist.math.Ray3;
-import ca.eandb.jmist.math.Vector3;
 
 /**
  * @author brad
  *
  */
-public interface ShadingContext extends SurfacePoint, VisibilityFunction3 {
+public final class XYZContinuousSpectrum implements Spectrum {
 
-	WavelengthPacket getWavelengthPacket();
+	private final Function1 spectrum;
 
-	Ray3 getRay();
+	/**
+	 * @param spectrum
+	 */
+	public XYZContinuousSpectrum(Function1 spectrum) {
+		this.spectrum = spectrum;
+	}
 
-	Vector3 getIncident();
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.Spectrum#sample(ca.eandb.jmist.framework.color.WavelengthPacket)
+	 */
+	@Override
+	public Color sample(WavelengthPacket lambda) {
+		return sample((XYZWavelengthPacket) lambda);
+	}
 
-	double getDistance();
-
-	boolean isFront();
-
-	int getPathDepth();
-
-	Color getImportance();
-
-	boolean isEyePath();
-
-	boolean isLightPath();
-
-	int getPathDepthByType(ScatteredRay.Type type);
-
-	ColorModel getColorModel();
-
-	ScatteredRays getScatteredRays();
-
-	Color castRay(ScatteredRay ray);
-
-	Color shade();
-
-	Iterable<LightSample> getLightSamples();
-
-	Shader getShader();
-
-	Modifier getModifier();
-
-	void setPosition(Point3 position);
-
-	void setNormal(Vector3 normal);
-
-	void setBasis(Basis3 basis);
-
-	void setPrimitiveIndex(int index);
-
-	void setShadingBasis(Basis3 basis);
-
-	void setShadingNormal(Vector3 normal);
-
-	void setUV(Point2 uv);
-
-	void setMaterial(Material material);
-
-	void setAmbientMedium(Medium medium);
-
-	void setShader(Shader shader);
-
-	void setModifier(Modifier modifier);
+	public Color sample(XYZWavelengthPacket lambda) {
+		if (lambda == null || spectrum == null) {
+			lambda = null;
+		}
+		double x = spectrum.evaluate(lambda.getLambdaX());
+		double y = spectrum.evaluate(lambda.getLambdaY());
+		double z = spectrum.evaluate(lambda.getLambdaZ());
+		return new XYZColor(x, y, z, lambda);
+	}
 
 }
