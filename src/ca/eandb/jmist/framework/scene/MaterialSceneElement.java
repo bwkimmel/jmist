@@ -70,6 +70,8 @@ public final class MaterialSceneElement extends ModifierSceneElement {
 			return null;
 		}
 
+		final double surfaceArea = getSurfaceArea();
+
 		return new Light() {
 
 			@Override
@@ -306,7 +308,7 @@ public final class MaterialSceneElement extends ModifierSceneElement {
 				Material mat = context.getMaterial();
 				Vector3 v = x.getPosition().unitVectorFrom(p);
 				double d2 = x.getPosition().squaredDistanceTo(p);
-				double atten = 1.0 / (4.0 * Math.PI * d2);
+				double atten = surfaceArea / (4.0 * Math.PI * d2);
 				Color ri = mat.emission(context, v, lambda).times(atten);
 
 				LightSample sample = new PointLightSample(x, p, ri);

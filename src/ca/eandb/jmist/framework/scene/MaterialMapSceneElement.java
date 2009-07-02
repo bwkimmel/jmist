@@ -194,12 +194,15 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 
 		final int[] primIndex = new int[emissive.size()];
 		final double[] weight = new double[emissive.size()];
+		double totalSurfaceArea = 0.0;
 
 		for (int i = 0; i < emissive.size(); i++) {
 			primIndex[i] = emissive.get(i);
 			weight[i] = super.getSurfaceArea(primIndex[i]); // TODO Factor in radiant exitance of material
+			totalSurfaceArea += weight[i];
 		}
 
+		final double scale = totalSurfaceArea / emissive.size();
 		final CategoricalRandom rnd = new CategoricalRandom(weight);
 
 		return new Light() {
@@ -433,7 +436,6 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 
 				int index = rnd.next();
 				int primitive = primIndex[index];
-				double prob = rnd.getProbability(index);
 
 				generateImportanceSampledSurfacePoint(primitive, x, context);
 				if (context.getModifier() != null) context.getModifier().modify(context);
@@ -442,7 +444,7 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 				Material mat = context.getMaterial();
 				Vector3 v = x.getPosition().unitVectorFrom(p);
 				double d2 = x.getPosition().squaredDistanceTo(p);
-				double atten = 1.0 / (4.0 * Math.PI * d2 * prob);
+				double atten = scale / (4.0 * Math.PI * d2);
 				Color ri = mat.emission(context, v, lambda).times(atten);
 
 				LightSample sample = new PointLightSample(x, p, ri);
