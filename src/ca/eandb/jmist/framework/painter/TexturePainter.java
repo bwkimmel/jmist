@@ -41,6 +41,7 @@ import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
 
 /**
@@ -86,8 +87,15 @@ public final class TexturePainter implements Painter {
 	@Override
 	public Color getColor(SurfacePoint p, WavelengthPacket lambda) {
 		Point2 uv = p.getUV();
-		int x = (int) Math.floor(uv.x() * texture.getWidth());
-		int y = (int) Math.floor(uv.y() * texture.getHeight());
+		double u = uv.x() - Math.floor(uv.x());
+		double v = uv.y() - Math.floor(uv.y());
+
+		int w = texture.getWidth();
+		int h = texture.getHeight();
+
+		int x = MathUtil.threshold((int) Math.floor(u * w), 0, w - 1);
+		int y = MathUtil.threshold((int) Math.floor(v * h), 0, h - 1);
+
 		return getPixel(x, y).sample(lambda);
 	}
 
