@@ -48,7 +48,7 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
 
 	private final NodeBuffer buffer = new NodeBuffer();
 
-	private final int maxItemsPerLeaf = 1;
+	private final int maxItemsPerLeaf = 2;
 
 	private int root;
 
