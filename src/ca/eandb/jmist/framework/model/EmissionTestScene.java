@@ -40,9 +40,9 @@ public final class EmissionTestScene extends AbstractScene {
 		this.root = new MaterialMapSceneElement(geometry)
 				.addMaterial("diffuse50", diffuse50)
 				.addMaterial("diffuseLuminaire1", diffuseLuminaire1)
-				.setMaterial(0, "diffuseLuminaire1")
-				.setMaterial(1, "diffuse50")
-				.setMaterialRange(2, 100, "diffuseLuminaire1");
+				.setMaterial(0, "diffuseLuminaire1")				// large light source
+				.setMaterial(1, "diffuse50")						// floor
+				.setMaterialRange(2, 100, "diffuseLuminaire1");		// small light sources
 	}
 
 	/* (non-Javadoc)
@@ -69,19 +69,19 @@ public final class EmissionTestScene extends AbstractScene {
 	static {
 
 		geometry = new PrimitiveListGeometry()
-			.addPrimitive(
+			.addPrimitive( // large light source
 				new RectangleGeometry(
 					new Point3(-200.0, 50.0, 0.0),
 					Basis3.fromW(Vector3.I),
 					100.0, 100.0,
 					false))
-			.addPrimitive(
+			.addPrimitive( // floor
 				new BoxGeometry(
 					new Box3(-200.0, -10.0, -200.0, 200.0, 0.0, 200.0)));
 
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
-				geometry.addPrimitive(new RectangleGeometry(
+				geometry.addPrimitive(new RectangleGeometry( // small light source
 						new Point3(200.0, (double) (5 + (10 * i)), (double) (-45 + (10 * j))),
 						Basis3.fromW(Vector3.NEGATIVE_I),
 						10.0, 10.0,
