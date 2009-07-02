@@ -6,8 +6,7 @@ package ca.eandb.jmist.framework.geometry.primitive;
 import java.util.Arrays;
 
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.Material;
-import ca.eandb.jmist.framework.geometry.SingleMaterialGeometry;
+import ca.eandb.jmist.framework.geometry.PrimitiveGeometry;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Point2;
@@ -18,10 +17,10 @@ import ca.eandb.jmist.math.Sphere;
 import ca.eandb.jmist.math.Vector3;
 
 /**
- * A torus primitive <code>Geometry</code>.
+ * A torus primitive <code>SceneElement</code>.
  * @author Brad Kimmel
  */
-public final class TorusGeometry extends SingleMaterialGeometry {
+public final class TorusGeometry extends PrimitiveGeometry {
 
 	/**
 	 * Creates a new <code>TorusGeometry</code>.
@@ -29,17 +28,14 @@ public final class TorusGeometry extends SingleMaterialGeometry {
 	 * 		center of the torus to a point in the center of the tube.
 	 * @param minor The minor radius of the torus (i.e., the radius of the
 	 * 		tube).
-	 * @param material The <code>Material</code> to apply to this
-	 * 		<code>TorusGeometry</code>.
 	 */
-	public TorusGeometry(double major, double minor, Material material) {
-		super(material);
+	public TorusGeometry(double major, double minor) {
 		this.major = major;
 		this.minor = minor;
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#intersect(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+	 * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 
@@ -77,7 +73,7 @@ public final class TorusGeometry extends SingleMaterialGeometry {
 	@Override
 	protected Vector3 getNormal(GeometryIntersection x) {
 
-		Point3	p = x.location();
+		Point3	p = x.getPosition();
 		Vector3	rel = new Vector3(p.x(), 0.0, p.z());
 
 		double	length = rel.length();
@@ -98,10 +94,10 @@ public final class TorusGeometry extends SingleMaterialGeometry {
 	@Override
 	protected Basis3 getBasis(GeometryIntersection x) {
 
-		Point3	p	= x.location();
+		Point3	p	= x.getPosition();
 		Vector3	u	= new Vector3(-p.z(), 0.0, p.x()).unit();
 
-		return Basis3.fromWU(x.normal(), u, Basis3.Orientation.RIGHT_HANDED);
+		return Basis3.fromWU(x.getNormal(), u, Basis3.Orientation.RIGHT_HANDED);
 
 	}
 
@@ -111,7 +107,7 @@ public final class TorusGeometry extends SingleMaterialGeometry {
 	@Override
 	protected Point2 getTextureCoordinates(GeometryIntersection x) {
 
-		Vector3	cp	= x.location().vectorFrom(Point3.ORIGIN);
+		Vector3	cp	= x.getPosition().vectorFrom(Point3.ORIGIN);
 		Vector3	R	= new Vector3(cp.x(), 0.0, cp.z()).unit();
 		Vector3	r	= cp.minus(R.times(major)).unit();
 
@@ -123,7 +119,7 @@ public final class TorusGeometry extends SingleMaterialGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#isClosed()
+	 * @see ca.eandb.jmist.framework.SceneElement#isClosed()
 	 */
 	public boolean isClosed() {
 		return true;

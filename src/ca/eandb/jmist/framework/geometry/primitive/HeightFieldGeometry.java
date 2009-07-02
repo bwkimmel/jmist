@@ -8,10 +8,9 @@ import java.util.List;
 
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.accel.Grid3;
 import ca.eandb.jmist.framework.accel.Grid3.Cell;
-import ca.eandb.jmist.framework.geometry.SingleMaterialGeometry;
+import ca.eandb.jmist.framework.geometry.PrimitiveGeometry;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box2;
 import ca.eandb.jmist.math.Box3;
@@ -25,11 +24,11 @@ import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
 
 /**
- * A polygonal <code>Geometry</code> with a uniform grid for the <code>x</code>
+ * A polygonal <code>SceneElement</code> with a uniform grid for the <code>x</code>
  * and <code>z</code> coordinates of the verticies.
  * @author Brad Kimmel
  */
-public final class HeightFieldGeometry extends SingleMaterialGeometry {
+public final class HeightFieldGeometry extends PrimitiveGeometry {
 
 	/**
 	 * Creates a new <code>HeightFieldGeometry</code>.
@@ -43,12 +42,8 @@ public final class HeightFieldGeometry extends SingleMaterialGeometry {
 	 * 		<code>z == xz.interpolateY(j / (height.columns() - 1))</code> for
 	 * 		<code>0 &lt;= i &lt; height.rows()</code> and
 	 * 		<code>0 &lt;= j &lt; height.columns()</code>.
-	 * @param material The <code>Material</code> to apply to this
-	 * 		<code>Geometry</code>.
 	 */
-	public HeightFieldGeometry(Box2 xz, Matrix height, Material material) {
-		super(material);
-
+	public HeightFieldGeometry(Box2 xz, Matrix height) {
 		if (xz.isEmpty()) {
 			throw new IllegalArgumentException("xz must be non-empty");
 		}
@@ -63,7 +58,7 @@ public final class HeightFieldGeometry extends SingleMaterialGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#intersect(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+	 * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
 	public void intersect(Ray3 ray, final IntersectionRecorder recorder) {
 
@@ -174,7 +169,7 @@ public final class HeightFieldGeometry extends SingleMaterialGeometry {
 	 */
 	@Override
 	protected Point2 getTextureCoordinates(GeometryIntersection x) {
-		Point3 p = x.location();
+		Point3 p = x.getPosition();
 		Box3 bounds = grid.getBoundingBox();
 		return new Point2(
 				(p.x() - bounds.minimumX()) / (bounds.maximumX() - bounds.minimumX()),
@@ -183,7 +178,7 @@ public final class HeightFieldGeometry extends SingleMaterialGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#isClosed()
+	 * @see ca.eandb.jmist.framework.SceneElement#isClosed()
 	 */
 	public boolean isClosed() {
 		return false;

@@ -5,13 +5,14 @@ package ca.eandb.jmist.framework.material;
 
 import java.io.Serializable;
 
-import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.Painter;
-import ca.eandb.jmist.framework.ScatterRecorder;
-import ca.eandb.jmist.framework.ScatterResult;
+import ca.eandb.jmist.framework.ScatteredRay;
+import ca.eandb.jmist.framework.ScatteredRayRecorder;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.framework.color.ColorModel;
+import ca.eandb.jmist.framework.color.Spectrum;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.framework.painter.UniformPainter;
 import ca.eandb.jmist.math.RandomUtil;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.SphericalCoordinates;
@@ -43,6 +44,23 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 		this.emittance = emittance;
 	}
 
+	/**
+	 * Creates a new <code>LambertianMaterial</code> that does not emit light.
+	 * @param reflectance The reflectance <code>Spectrum</code>.
+	 */
+	public LambertianMaterial(Spectrum reflectance) {
+		this(reflectance != null ? new UniformPainter(reflectance) : null);
+	}
+
+	/**
+	 * Creates a new <code>LambertianMaterial</code> that emits light.
+	 * @param reflectance The reflectance <code>Spectrum</code>.
+	 * @param emittance The emission <code>Spectrum</code>.
+	 */
+	public LambertianMaterial(Spectrum reflectance, Spectrum emittance) {
+		this(reflectance != null ? new UniformPainter(reflectance) : null, emittance != null ? new UniformPainter(emittance) : null);
+	}
+
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.AbstractMaterial#isEmissive()
 	 */
@@ -52,33 +70,33 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#emission(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#emission(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
 	@Override
-	public Color emission(SurfacePoint x, Vector3 out) {
+	public Color emission(SurfacePoint x, Vector3 out, WavelengthPacket lambda) {
 
-		if (this.emittance == null || x.normal().dot(out) < 0.0) {
-			return ColorModel.getInstance().getBlack();
+		if (this.emittance == null || x.getNormal().dot(out) < 0.0) {
+			return lambda.getColorModel().getBlack(lambda);
 		}
 
-		double ndotv = x.shadingNormal().dot(out);
-		return ndotv > 0.0 ? emittance.getColor(x).times(ndotv) : ColorModel.getInstance().getBlack();
+		double ndotv = x.getShadingNormal().dot(out);
+		return ndotv > 0.0 ? emittance.getColor(x, lambda).times(ndotv) : lambda.getColorModel().getBlack(lambda);
 
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#emit(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ScatterRecorder)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#emit(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.ScatteredRayRecorder)
 	 */
 	@Override
-	public void emit(SurfacePoint x, ScatterRecorder recorder) {
+	public void emit(SurfacePoint x, WavelengthPacket lambda, ScatteredRayRecorder recorder) {
 
 		if (this.emittance != null) {
 
 			SphericalCoordinates out = RandomUtil.uniformOnUpperHemisphere();
-			Ray3 ray = new Ray3(x.location(), out.toCartesian(x.shadingBasis()));
+			Ray3 ray = new Ray3(x.getPosition(), out.toCartesian(x.getShadingBasis()));
 
-			if (x.normal().dot(ray.direction()) > 0.0) {
-				recorder.record(ScatterResult.diffuse(ray, emittance.getColor(x)));
+			if (x.getNormal().dot(ray.direction()) > 0.0) {
+				recorder.add(ScatteredRay.diffuse(ray, emittance.getColor(x, lambda)));
 			}
 
 		}
@@ -86,18 +104,18 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.framework.ScatterRecorder)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.ScatteredRayRecorder)
 	 */
 	@Override
-	public void scatter(Intersection x, ScatterRecorder recorder) {
+	public void scatter(SurfacePoint x, Vector3 v, WavelengthPacket lambda, ScatteredRayRecorder recorder) {
 
 		if (this.reflectance != null) {
 
 			SphericalCoordinates out = RandomUtil.diffuse();
-			Ray3 ray = new Ray3(x.location(), out.toCartesian(x.shadingBasis()));
+			Ray3 ray = new Ray3(x.getPosition(), out.toCartesian(x.getShadingBasis()));
 
-			if (ray.direction().dot(x.normal()) > 0.0) {
-				recorder.record(ScatterResult.diffuse(ray, reflectance.getColor(x)));
+			if (ray.direction().dot(x.getNormal()) > 0.0) {
+				recorder.add(ScatteredRay.diffuse(ray, reflectance.getColor(x, lambda)));
 			}
 
 		}
@@ -105,17 +123,19 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scattering(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.math.Vector3)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scattering(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
 	@Override
-	public Color scattering(Intersection x, Vector3 in) {
+	public Color scattering(SurfacePoint x, Vector3 in, Vector3 out, WavelengthPacket lambda) {
 
-		boolean toFront = (x.normal().dot(in) > 0.0);
+		Vector3 n = x.getNormal();
+		boolean fromFront = (n.dot(in) < 0.0);
+		boolean toFront = (n.dot(out) > 0.0);
 
-		if (this.reflectance != null && x.front() == toFront) {
-			return reflectance.getColor(x);
+		if (this.reflectance != null && toFront == fromFront) {
+			return reflectance.getColor(x, lambda);
 		} else {
-			return ColorModel.getInstance().getBlack();
+			return lambda.getColorModel().getBlack(lambda);
 		}
 
 	}

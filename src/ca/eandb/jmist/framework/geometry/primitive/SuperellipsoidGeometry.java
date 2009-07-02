@@ -8,8 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.Material;
-import ca.eandb.jmist.framework.geometry.SingleMaterialGeometry;
+import ca.eandb.jmist.framework.geometry.PrimitiveGeometry;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Interval;
@@ -23,20 +22,17 @@ import ca.eandb.jmist.math.SphericalCoordinates;
 import ca.eandb.jmist.math.Vector3;
 
 /**
- * A superellipsoid <code>Geometry</code>.
+ * A superellipsoid <code>SceneElement</code>.
  * @author Brad Kimmel
  */
-public final class SuperellipsoidGeometry extends SingleMaterialGeometry {
+public final class SuperellipsoidGeometry extends PrimitiveGeometry {
 
 	/**
 	 * Creates a new <code>SuperellipsoidGeometry</code>.
 	 * @param e
 	 * @param n
-	 * @param material
 	 */
-	public SuperellipsoidGeometry(double e, double n, Material material) {
-		super(material);
-
+	public SuperellipsoidGeometry(double e, double n) {
 		if (e < 0.0 || n < 0.0) {
 			throw new IllegalArgumentException("e and n must be non-negative.");
 		}
@@ -46,7 +42,7 @@ public final class SuperellipsoidGeometry extends SingleMaterialGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#intersect(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+	 * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 
@@ -313,7 +309,7 @@ public final class SuperellipsoidGeometry extends SingleMaterialGeometry {
 	 */
 	@Override
 	protected Basis3 getBasis(GeometryIntersection x) {
-		return Basis3.fromW(x.normal(), Basis3.Orientation.RIGHT_HANDED);
+		return Basis3.fromW(x.getNormal(), Basis3.Orientation.RIGHT_HANDED);
 	}
 
 	/* (non-Javadoc)
@@ -322,7 +318,7 @@ public final class SuperellipsoidGeometry extends SingleMaterialGeometry {
 	@Override
 	protected Vector3 getNormal(GeometryIntersection x) {
 
-		Point3	p = x.location();
+		Point3	p = x.getPosition();
 		double	A = Math.pow(Math.pow(Math.abs(p.x()), 2.0 / e) + Math.pow(Math.abs(p.y()), 2.0 / e), e / n - 1.0);
 		double	X = A * Math.pow(Math.abs(p.x()), 2.0 / e - 1.0);
 		double	Y = A * Math.pow(Math.abs(p.y()), 2.0 / e - 1.0);
@@ -341,12 +337,12 @@ public final class SuperellipsoidGeometry extends SingleMaterialGeometry {
 	 */
 	@Override
 	protected Point2 getTextureCoordinates(GeometryIntersection x) {
-		SphericalCoordinates sc = SphericalCoordinates.fromCartesian(x.location().vectorFromOrigin());
+		SphericalCoordinates sc = SphericalCoordinates.fromCartesian(x.getPosition().vectorFromOrigin());
 		return new Point2((Math.PI + sc.azimuthal()) / (2.0 * Math.PI), sc.polar() / Math.PI);
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#isClosed()
+	 * @see ca.eandb.jmist.framework.SceneElement#isClosed()
 	 */
 	public boolean isClosed() {
 		return true;

@@ -7,12 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.eandb.jmist.framework.AffineTransformable3;
-import ca.eandb.jmist.framework.Geometry;
+import ca.eandb.jmist.framework.BoundingBoxBuilder3;
+import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionDecorator;
-import ca.eandb.jmist.framework.IntersectionRecorderDecorator;
 import ca.eandb.jmist.framework.IntersectionRecorder;
+import ca.eandb.jmist.framework.IntersectionRecorderDecorator;
 import ca.eandb.jmist.framework.InvertibleAffineTransformation3;
+import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.math.AffineMatrix3;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
@@ -26,49 +28,27 @@ import ca.eandb.jmist.math.Vector3;
  * A <code>CompositeGeometry</code> that may be transformed.
  * @author Brad Kimmel
  */
-public final class TransformableGeometry extends CompositeGeometry implements
+public final class TransformableGeometry extends AbstractGeometry implements
 		AffineTransformable3 {
 
 	/**
 	 * Creates a new <code>TransformableGeometry</code>.
+	 * @param geometry The <code>SceneElement</code> to make transformable.
 	 */
-	public TransformableGeometry() {
-		/* do nothing */
-	}
-
-	/**
-	 * Creates a new <code>TransformableGeometry</code>.
-	 * @param geometry The <code>Geometry</code> to make transformable.
-	 */
-	public TransformableGeometry(Geometry geometry) {
-		this.addChild(geometry);
+	public TransformableGeometry(SceneElement geometry) {
+		this.geometry = geometry;
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#intersect(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+	 * @see ca.eandb.jmist.framework.SceneElement#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
-	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
+	public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
 
 		ray			= this.model.applyInverse(ray);
 		recorder	= new TransformedIntersectionRecorder(recorder);
 
-		for (Geometry geometry : this.children()) {
-			geometry.intersect(ray, recorder);
-		}
+		geometry.intersect(index, ray, recorder);
 
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#isClosed()
-	 */
-	@Override
-	public boolean isClosed() {
-		for (Geometry geometry : this.children()) {
-			if (!geometry.isClosed()) {
-				return false;
-			}
-		}
-		return true;
 	}
 
 	/* (non-Javadoc)
@@ -77,16 +57,14 @@ public final class TransformableGeometry extends CompositeGeometry implements
 	@Override
 	public Box3 boundingBox() {
 
-		List<Point3> corners = new ArrayList<Point3>(8 * this.children().size());
+		BoundingBoxBuilder3 builder = new BoundingBoxBuilder3();
 
-		for (Geometry geometry : this.children()) {
-			Box3 childBoundingBox = geometry.boundingBox();
-			for (int i = 0; i < 8; i++) {
-				corners.add(this.model.apply(childBoundingBox.corner(i)));
-			}
+		Box3 childBoundingBox = geometry.boundingBox();
+		for (int i = 0; i < 8; i++) {
+			builder.add(this.model.apply(childBoundingBox.corner(i)));
 		}
 
-		return Box3.smallestContainingPoints(corners);
+		return builder.getBoundingBox();
 
 	}
 
@@ -96,17 +74,57 @@ public final class TransformableGeometry extends CompositeGeometry implements
 	@Override
 	public Sphere boundingSphere() {
 
-		List<Point3> corners = new ArrayList<Point3>(8 * this.children().size());
+		List<Point3> corners = new ArrayList<Point3>(8);
 
-		for (Geometry geometry : this.children()) {
-			Box3 childBoundingBox = geometry.boundingBox();
-			for (int i = 0; i < 8; i++) {
-				corners.add(this.model.apply(childBoundingBox.corner(i)));
-			}
+		Box3 childBoundingBox = geometry.boundingBox();
+		for (int i = 0; i < 8; i++) {
+			corners.add(this.model.apply(childBoundingBox.corner(i)));
 		}
 
 		return Sphere.smallestContaining(corners);
 
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.SceneElement#getBoundingBox(int)
+	 */
+	@Override
+	public Box3 getBoundingBox(int index) {
+
+		BoundingBoxBuilder3 builder = new BoundingBoxBuilder3();
+
+		Box3 childBoundingBox = geometry.getBoundingBox(index);
+		for (int i = 0; i < 8; i++) {
+			builder.add(this.model.apply(childBoundingBox.corner(i)));
+		}
+
+		return builder.getBoundingBox();
+
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.SceneElement#getBoundingSphere(int)
+	 */
+	@Override
+	public Sphere getBoundingSphere(int index) {
+
+		List<Point3> corners = new ArrayList<Point3>(8);
+
+		Box3 childBoundingBox = geometry.getBoundingBox(index);
+		for (int i = 0; i < 8; i++) {
+			corners.add(this.model.apply(childBoundingBox.corner(i)));
+		}
+
+		return Sphere.smallestContaining(corners);
+
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.SceneElement#getNumPrimitives()
+	 */
+	@Override
+	public int getNumPrimitives() {
+		return geometry.getNumPrimitives();
 	}
 
 	/**
@@ -127,8 +145,8 @@ public final class TransformableGeometry extends CompositeGeometry implements
 			super(inner);
 		}
 
-		/*
-		 *
+		/* (non-Javadoc)
+		 * @see ca.eandb.jmist.framework.IntersectionRecorderDecorator#record(ca.eandb.jmist.framework.Intersection)
 		 */
 		@Override
 		public void record(Intersection intersection) {
@@ -154,71 +172,20 @@ public final class TransformableGeometry extends CompositeGeometry implements
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.IntersectionDecorator#incident()
+		 * @see ca.eandb.jmist.framework.IntersectionDecorator#transformShadingContext(ca.eandb.jmist.framework.ShadingContext)
 		 */
 		@Override
-		public Vector3 incident() {
-			return model.apply(this.inner.incident());
+		protected void transformShadingContext(ShadingContext context) {
+			context.setPosition(model.apply(context.getPosition()));
+			context.setBasis(transformBasis(context.getBasis()));
+			context.setShadingBasis(transformBasis(context.getShadingBasis()));
 		}
 
-		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.IntersectionDecorator#basis()
-		 */
-		@Override
-		public Basis3 basis() {
-			Basis3 localBasis = this.inner.basis();
+		private Basis3 transformBasis(Basis3 basis) {
 			return Basis3.fromUV(
-					model.apply(localBasis.u()),
-					model.apply(localBasis.v()),
-					localBasis.orientation()
-			);
-		}
-
-		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.IntersectionDecorator#location()
-		 */
-		@Override
-		public Point3 location() {
-			return model.apply(this.inner.location());
-		}
-
-		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.IntersectionDecorator#shadingBasis()
-		 */
-		@Override
-		public Basis3 shadingBasis() {
-			Basis3 localShadingBasis = this.inner.shadingBasis();
-			return Basis3.fromUV(
-					model.apply(localShadingBasis.u()),
-					model.apply(localShadingBasis.v()),
-					localShadingBasis.orientation()
-			);
-		}
-
-		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.IntersectionDecorator#shadingNormal()
-		 */
-		@Override
-		public Vector3 shadingNormal() {
-			// TODO implement this directly for better performance.
-			return this.shadingBasis().w();
-		}
-
-		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.IntersectionDecorator#normal()
-		 */
-		@Override
-		public Vector3 normal() {
-			// TODO implement this directly for better performance.
-			return this.basis().w();
-		}
-
-		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.IntersectionDecorator#tangent()
-		 */
-		@Override
-		public Vector3 tangent() {
-			return model.apply(this.inner.tangent());
+					model.apply(basis.u()),
+					model.apply(basis.v()),
+					basis.orientation());
 		}
 
 	}
@@ -314,7 +281,10 @@ public final class TransformableGeometry extends CompositeGeometry implements
 		this.model.stretchZ(cz);
 	}
 
-	/** The transformation to apply to this <code>Geometry</code>. */
+	/** The <code>SceneElement</code> to be made transformable. */
+	private final SceneElement geometry;
+
+	/** The transformation to apply to this <code>SceneElement</code>. */
 	private final InvertibleAffineTransformation3 model = new InvertibleAffineTransformation3();
 
 }

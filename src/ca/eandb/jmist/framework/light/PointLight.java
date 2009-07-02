@@ -8,8 +8,8 @@ import java.io.Serializable;
 import ca.eandb.jmist.framework.Illuminable;
 import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.SurfacePoint;
-import ca.eandb.jmist.framework.VisibilityFunction3;
-import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.Spectrum;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Vector3;
 
@@ -22,38 +22,39 @@ public final class PointLight implements Light, Serializable {
 	/**
 	 * Creates a new <code>PointLight</code>.
 	 * @param location The <code>Point3</code> where the light is to emit from.
-	 * @param emission The emission <code>Color</code> of the light.
+	 * @param emission The <code>Spectrum</code> representing the emitted power
+	 * 		of the light.
 	 * @param shadows A value indicating whether the light should be affected
 	 * 		by shadows.
 	 */
-	public PointLight(Point3 location, Color emission, boolean shadows) {
+	public PointLight(Point3 location, Spectrum emittedPower, boolean shadows) {
 		this.location = location;
-		this.emission = emission;
+		this.emittedPower = emittedPower;
 		this.shadows = shadows;
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.VisibilityFunction3, ca.eandb.jmist.framework.Illuminable)
+	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Illuminable)
 	 */
-	public void illuminate(SurfacePoint x, VisibilityFunction3 vf, Illuminable target) {
+	public void illuminate(SurfacePoint x, WavelengthPacket lambda, Illuminable target) {
 
-		if (!this.shadows || vf.visibility(x.location(), this.location)) {
+		Vector3		lightIn			= x.getPosition().vectorTo(this.location);
+		double		dSquared		= lightIn.squaredLength();
 
-			Vector3		from			= x.location().vectorTo(this.location);
-			double		dSquared		= from.squaredLength();
-			double		attenuation		= 1.0 / (4.0 * Math.PI * dSquared);
+		lightIn = lightIn.divide(Math.sqrt(dSquared));
 
-			target.illuminate(from.unit(), emission.times(attenuation));
+		double		ndotl			= x.getShadingNormal().dot(lightIn);
+		double		attenuation		= ndotl / (4.0 * Math.PI * dSquared);
 
-		}
+		target.addLightSample(new PointLightSample(x, location, emittedPower.sample(lambda).times(attenuation), shadows));
 
 	}
 
 	/** The <code>Point3</code> where the light is to emit from. */
 	private final Point3 location;
 
-	/** The emission <code>Color</code> of the light. */
-	private final Color emission;
+	/** The emission <code>Spectrum</code> of the light. */
+	private final Spectrum emittedPower;
 
 	/** A value indicating whether the light should be affected by shadows. */
 	private final boolean shadows;

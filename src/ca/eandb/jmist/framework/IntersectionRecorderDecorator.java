@@ -3,6 +3,7 @@
  */
 package ca.eandb.jmist.framework;
 
+import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.math.Interval;
 
 /**

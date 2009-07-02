@@ -4,32 +4,26 @@
 package ca.eandb.jmist.framework.geometry.primitive;
 
 import ca.eandb.jmist.framework.BoundingBoxBuilder3;
-import ca.eandb.jmist.framework.Illuminable;
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.Light;
-import ca.eandb.jmist.framework.Material;
-import ca.eandb.jmist.framework.Random;
-import ca.eandb.jmist.framework.SurfacePoint;
-import ca.eandb.jmist.framework.VisibilityFunction3;
-import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.framework.geometry.SingleMaterialGeometry;
-import ca.eandb.jmist.framework.random.SimpleRandom;
+import ca.eandb.jmist.framework.ShadingContext;
+import ca.eandb.jmist.framework.geometry.PrimitiveGeometry;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Plane3;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
+import ca.eandb.jmist.math.RandomUtil;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
 import ca.eandb.jmist.math.Vector3;
 
 /**
- * A plane rectangle <code>Geometry</code>.
+ * A plane rectangle <code>SceneElement</code>.
  * @author Brad Kimmel
  */
-public final class RectangleGeometry extends SingleMaterialGeometry implements Light {
+public final class RectangleGeometry extends PrimitiveGeometry {
 
 	/**
 	 * Creates a new <code>RectangleGeometry</code>.
@@ -41,12 +35,10 @@ public final class RectangleGeometry extends SingleMaterialGeometry implements L
 	 * @param sv The length of the side of the rectangle along the axis
 	 * 		parallel to <code>basis.v()</code>.
 	 * @param twoSided A value indicating whether the rectangle is two sided.
-	 * @param material The <code>Material</code> to apply to this rectangle.
 	 * @see Basis3#u()
 	 * @see Basis3#v()
 	 */
-	public RectangleGeometry(Point3 center, Basis3 basis, double su, double sv, boolean twoSided, Material material) {
-		super(material);
+	public RectangleGeometry(Point3 center, Basis3 basis, double su, double sv, boolean twoSided) {
 		this.plane = new Plane3(center, basis.w());
 		this.center = center;
 		this.basis = basis;
@@ -56,7 +48,7 @@ public final class RectangleGeometry extends SingleMaterialGeometry implements L
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#intersect(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+	 * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 
@@ -88,7 +80,7 @@ public final class RectangleGeometry extends SingleMaterialGeometry implements L
 
 				Intersection x = super.newIntersection(ray, t, true, fromTop ? RECTANGLE_SURFACE_TOP : RECTANGLE_SURFACE_BOTTOM)
 					.setLocation(p)
-					.setTextureCoordinates(new Point2(u, v));
+					.setUV(new Point2(u, v));
 
 				recorder.record(x);
 
@@ -103,7 +95,7 @@ public final class RectangleGeometry extends SingleMaterialGeometry implements L
 	 */
 	@Override
 	protected Basis3 getBasis(GeometryIntersection x) {
-		switch (x.surfaceId())
+		switch (x.getTag())
 		{
 		case RECTANGLE_SURFACE_TOP:		return this.basis;
 		case RECTANGLE_SURFACE_BOTTOM:	return this.basis.opposite();
@@ -116,7 +108,7 @@ public final class RectangleGeometry extends SingleMaterialGeometry implements L
 	 */
 	@Override
 	protected Vector3 getNormal(GeometryIntersection x) {
-		switch (x.surfaceId())
+		switch (x.getTag())
 		{
 		case RECTANGLE_SURFACE_TOP:		return this.plane.normal();
 		case RECTANGLE_SURFACE_BOTTOM:	return this.plane.normal().opposite();
@@ -125,7 +117,7 @@ public final class RectangleGeometry extends SingleMaterialGeometry implements L
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#isClosed()
+	 * @see ca.eandb.jmist.framework.SceneElement#isClosed()
 	 */
 	public boolean isClosed() {
 		return false;
@@ -150,42 +142,67 @@ public final class RectangleGeometry extends SingleMaterialGeometry implements L
 		return new Sphere(this.center, Math.sqrt(ru * ru * rv * rv));
 	}
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.VisibilityFunction3, ca.eandb.jmist.framework.Illuminable)
+//	/* (non-Javadoc)
+//	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.VisibilityFunction3, ca.eandb.jmist.framework.Illuminable)
+//	 */
+//	public void illuminate(SurfacePoint x, VisibilityFunction3 vf,
+//			Illuminable target) {
+//
+//		/* Pick a point at random on the surface of the rectangle. */
+//		double u = 2.0 * random.next() - 1.0;
+//		double v = 2.0 * random.next() - 1.0;
+//
+//		Point3 p = center.plus(basis.u().times(u * ru)).plus(basis.v().times(v * rv));
+//
+//		/* Check for visibility between the point being illuminated and the
+//		 * point on the rectangle.
+//		 */
+//		if (vf.visibility(p, x.location())) {
+//
+//			// FIXME Select from appropriate side when two-sided.
+//			Intersection sp = super.newIntersection(null, 0.0, true, RECTANGLE_SURFACE_TOP)
+//				.setLocation(p)
+//				.setTextureCoordinates(new Point2(u, v)); // FIXME correct texture coordinates.
+//
+//			/* Compute the attenuation according to distance. */
+//			Vector3 from = x.location().vectorTo(p);
+//			double r = from.length();
+//			double attenuation = (ru * rv) / (Math.PI * r * r);
+//			from = from.divide(r);
+//
+//			/* Sample the material radiance. */
+//			Color radiance = sp.material().emission(sp, from.opposite());
+//
+//			/* Illuminate the point. */
+//			target.illuminate(from, radiance.times(attenuation));
+//
+//		}
+//
+//	}
+
+	/*
+	 *
 	 */
-	public void illuminate(SurfacePoint x, VisibilityFunction3 vf,
-			Illuminable target) {
+	@Override
+	public void generateRandomSurfacePoint(ShadingContext context) {
+		Point3 p = center
+				.plus(basis.u().times(RandomUtil.uniform(-ru, ru)))
+				.plus(basis.v().times(RandomUtil.uniform(-rv, rv)));
 
-		/* Pick a point at random on the surface of the rectangle. */
-		double u = 2.0 * random.next() - 1.0;
-		double v = 2.0 * random.next() - 1.0;
+		int id = (twoSided && RandomUtil.coin())
+				? RECTANGLE_SURFACE_BOTTOM
+				: RECTANGLE_SURFACE_TOP;
 
-		Point3 p = center.plus(basis.u().times(u * ru)).plus(basis.v().times(v * rv));
+		Intersection x = newSurfacePoint(p, id);
+		x.prepareShadingContext(context);
+	}
 
-		/* Check for visibility between the point being illuminated and the
-		 * point on the rectangle.
-		 */
-		if (vf.visibility(p, x.location())) {
-
-			// FIXME Select from appropriate side when two-sided.
-			Intersection sp = super.newIntersection(null, 0.0, true, RECTANGLE_SURFACE_TOP)
-				.setLocation(p)
-				.setTextureCoordinates(new Point2(u, v)); // FIXME correct texture coordinates.
-
-			/* Compute the attenuation according to distance. */
-			Vector3 from = x.location().vectorTo(p);
-			double r = from.length();
-			double attenuation = (ru * rv) / (Math.PI * r * r);
-			from = from.divide(r);
-
-			/* Sample the material radiance. */
-			Color radiance = sp.material().emission(sp, from.opposite());
-
-			/* Illuminate the point. */
-			target.illuminate(from, radiance.times(attenuation));
-
-		}
-
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getSurfaceArea()
+	 */
+	@Override
+	public double getSurfaceArea() {
+		return (twoSided ? 8.0 : 4.0) * ru * rv;
 	}
 
 	/**
@@ -226,7 +243,5 @@ public final class RectangleGeometry extends SingleMaterialGeometry implements L
 
 	/** A value indicating whether this rectangle is two sided. */
 	private final boolean twoSided;
-
-	private final Random random = new SimpleRandom();
 
 }

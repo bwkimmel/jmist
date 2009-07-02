@@ -18,11 +18,18 @@ public interface VisibilityFunction3 {
 	 * Determines whether the given ray intersects
 	 * an object within the given interval.
 	 * @param ray The ray with which to check for an intersection.
-	 * @param I The interval along the ray to consider.
+	 * @param maximumDistance The maximumDistance along the ray to consider.
 	 * @return True if no intersection was found, false otherwise.
 	 */
-	boolean visibility(Ray3 ray, Interval I);
+	boolean visibility(Ray3 ray, double maximumDistance);
 
+	/**
+	 * Determines whether the given ray intersects
+	 * an object within the interval [0, infinity).
+	 * @param ray The ray with which to check for an intersection.
+	 * @return True if no intersection was found, false otherwise.
+	 */
+	boolean visibility(Ray3 ray);
 
 	/**
 	 * Determines whether the line segment between two

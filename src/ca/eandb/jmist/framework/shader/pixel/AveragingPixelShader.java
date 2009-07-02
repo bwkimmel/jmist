@@ -5,7 +5,6 @@ package ca.eandb.jmist.framework.shader.pixel;
 
 import ca.eandb.jmist.framework.PixelShader;
 import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.math.Box2;
 
 /**
@@ -33,13 +32,23 @@ public final class AveragingPixelShader implements PixelShader {
 	 * @see ca.eandb.jmist.framework.PixelShader#shadePixel(ca.eandb.jmist.math.Box2)
 	 */
 	public Color shadePixel(Box2 bounds) {
-		Color pixel = ColorModel.getInstance().getBlack();
+		Color pixel = null;
 
 		for (int i = 0; i < this.numSamples; i++) {
-			pixel = pixel.plus(pixelShader.shadePixel(bounds));
+			pixel = add(pixel, pixelShader.shadePixel(bounds));
 		}
 
 		return pixel.divide(numSamples);
+	}
+
+	/**
+	 * Adds two <code>Color</code>s.
+	 * @param a The first <code>Color</code> (may be null).
+	 * @param b The second <code>Color</code>.
+	 * @return The sum of the two <code>Color</code>s.
+	 */
+	public Color add(Color a, Color b) {
+		return (a != null) ? a.plus(b) : b;
 	}
 
 	/**

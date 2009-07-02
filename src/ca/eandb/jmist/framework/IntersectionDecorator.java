@@ -3,10 +3,6 @@
  */
 package ca.eandb.jmist.framework;
 
-import ca.eandb.jmist.math.Basis3;
-import ca.eandb.jmist.math.Point2;
-import ca.eandb.jmist.math.Point3;
-import ca.eandb.jmist.math.Vector3;
 
 /**
  * An abstract <code>Intersection</code> that decorates another (e.g., by
@@ -29,93 +25,33 @@ public abstract class IntersectionDecorator implements Intersection {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Intersection#distance()
 	 */
-	public double distance() {
-		return this.inner.distance();
+	public double getDistance() {
+		return this.inner.getDistance();
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Intersection#getTolerance()
+	 */
+	public double getTolerance() {
+		return this.inner.getTolerance();
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Intersection#front()
 	 */
-	public boolean front() {
-		return this.inner.front();
+	public boolean isFront() {
+		return this.inner.isFront();
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Intersection#incident()
+	 * @see ca.eandb.jmist.framework.Intersection#prepareShadingContext(ca.eandb.jmist.framework.ShadingContext)
 	 */
-	public Vector3 incident() {
-		return this.inner.incident();
+	public final void prepareShadingContext(ShadingContext context) {
+		inner.prepareShadingContext(context);
+		transformShadingContext(context);
 	}
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SurfacePoint#ambientMedium()
-	 */
-	public Medium ambientMedium() {
-		return this.inner.ambientMedium();
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SurfacePoint#basis()
-	 */
-	public Basis3 basis() {
-		return this.inner.basis();
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SurfacePoint#closed()
-	 */
-	public boolean closed() {
-		return this.inner.closed();
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SurfacePoint#location()
-	 */
-	public Point3 location() {
-		return this.inner.location();
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SurfacePoint#material()
-	 */
-	public Material material() {
-		return this.inner.material();
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SurfacePoint#shadingBasis()
-	 */
-	public Basis3 shadingBasis() {
-		return this.inner.shadingBasis();
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SurfacePoint#shadingNormal()
-	 */
-	public Vector3 shadingNormal() {
-		return this.inner.shadingNormal();
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SurfacePoint#normal()
-	 */
-	public Vector3 normal() {
-		return this.inner.normal();
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SurfacePoint#tangent()
-	 */
-	public Vector3 tangent() {
-		return this.inner.tangent();
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SurfacePoint#textureCoordinates()
-	 */
-	public Point2 textureCoordinates() {
-		return this.inner.textureCoordinates();
-	}
+	protected abstract void transformShadingContext(ShadingContext context);
 
 	/** The decorated <code>Intersection</code>. */
 	protected final Intersection inner;

@@ -4,7 +4,6 @@
 package ca.eandb.jmist.math;
 
 import java.io.Serializable;
-import java.util.Random;
 
 /**
  * @author Brad Kimmel
@@ -80,11 +79,10 @@ public final class Permutation implements Serializable {
 
 	public static Permutation random(int size) {
 		Permutation p = Permutation.identity(size);
-		Random rnd = new Random();
 		int j, temp;
 
 		for (int i = size - 1; i > 0; i--) {
-			j = rnd.nextInt(i + 1);
+			j = RandomUtil.discrete(0, i);
 
 			temp = p.sequence[i];
 			p.sequence[i] = p.sequence[j];

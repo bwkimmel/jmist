@@ -11,6 +11,10 @@ package ca.eandb.jmist.framework.color;
  */
 public interface Color {
 
+	WavelengthPacket getWavelengthPacket();
+
+	ColorModel getColorModel();
+
 	Color times(Color other);
 
 	Color times(double c);
@@ -35,9 +39,11 @@ public interface Color {
 
 	Color pow(double e);
 
-	double getValue(int channel);
+	Color clamp(double max);
 
-	ColorModel getColorModel();
+	Color clamp(double min, double max);
+
+	double getValue(int channel);
 
 	Color disperse(int channel);
 

@@ -9,7 +9,7 @@ import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Sphere;
 
 /**
- * A <code>Geometry</code> that is the first component geometry minus the union
+ * A <code>SceneElement</code> that is the first component geometry minus the union
  * of all subsequent component geometries.
  * @author Brad Kimmel
  */

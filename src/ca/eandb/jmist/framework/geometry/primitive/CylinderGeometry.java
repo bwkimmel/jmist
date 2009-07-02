@@ -3,14 +3,9 @@
  */
 package ca.eandb.jmist.framework.geometry.primitive;
 
-import java.io.Serializable;
-
-import ca.eandb.jmist.framework.Geometry;
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.Material;
-import ca.eandb.jmist.framework.WeightedSurfacePoint;
-import ca.eandb.jmist.framework.geometry.SingleMaterialGeometry;
+import ca.eandb.jmist.framework.geometry.PrimitiveGeometry;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Interval;
@@ -27,34 +22,22 @@ import ca.eandb.jmist.math.Vector3;
  *
  * @author Brad Kimmel
  */
-public final class CylinderGeometry extends SingleMaterialGeometry implements
-		Geometry, Serializable {
+public final class CylinderGeometry extends PrimitiveGeometry {
 
 	/**
 	 * Initializes the dimensions of this cylinder.
 	 * @param base		the center of the base of the cylinder
 	 * @param radius	the radius of the cylinder
 	 * @param height	the height of the cylinder
-	 * @param material	the <code>Material</code> to apply to this
-	 * 					<code>CylinderGeometry</code>.
 	 */
-	public CylinderGeometry(Point3 base, double radius, double height, Material material) {
-		super(material);
+	public CylinderGeometry(Point3 base, double radius, double height) {
 		this.base = base;
 		this.radius = radius;
 		this.height = height;
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#generateRandomSurfacePoint()
-	 */
-	public WeightedSurfacePoint generateRandomSurfacePoint() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#intersect(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.toolkit.Interval, ca.eandb.jmist.framework.IntersectionRecorder)
+	 * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 
@@ -132,7 +115,7 @@ public final class CylinderGeometry extends SingleMaterialGeometry implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#isClosed()
+	 * @see ca.eandb.jmist.framework.SceneElement#isClosed()
 	 */
 	public boolean isClosed() {
 		return true;
@@ -174,7 +157,7 @@ public final class CylinderGeometry extends SingleMaterialGeometry implements
 	protected Basis3 getBasis(GeometryIntersection x) {
 
 		Vector3 n = this.getNormal(x);
-		Vector3 r = this.base.vectorTo(x.location());
+		Vector3 r = this.base.vectorTo(x.getPosition());
 		Vector3 u = new Vector3(-r.z(), 0.0, r.x());
 
 		return Basis3.fromWU(n, u, Basis3.Orientation.RIGHT_HANDED);
@@ -187,7 +170,7 @@ public final class CylinderGeometry extends SingleMaterialGeometry implements
 	@Override
 	protected Vector3 getNormal(GeometryIntersection x) {
 
-		switch (x.surfaceId()) {
+		switch (x.getTag()) {
 
 		case CYLINDER_SURFACE_BASE:
 			return Vector3.J.opposite();
@@ -196,7 +179,7 @@ public final class CylinderGeometry extends SingleMaterialGeometry implements
 			return Vector3.J;
 
 		case CYLINDER_SURFACE_BODY:
-			Point3 p = x.location();
+			Point3 p = x.getPosition();
 			return new Vector3(p.x() - this.base.x(), 0.0, p.z()
 					- this.base.z()).unit();
 
@@ -213,11 +196,11 @@ public final class CylinderGeometry extends SingleMaterialGeometry implements
 	@Override
 	protected Point2 getTextureCoordinates(GeometryIntersection x) {
 
-		Vector3		r		= this.base.vectorTo(x.location());
+		Vector3		r		= this.base.vectorTo(x.getPosition());
 		double		tx		= (Math.PI + Math.atan2(r.z(), r.x())) / (2.0 * Math.PI);
 		double		ty;
 
-		switch (x.surfaceId()) {
+		switch (x.getTag()) {
 
 		case CYLINDER_SURFACE_BASE:
 			ty = Math.sqrt(r.x() * r.x() + r.z() * r.z()) / (4.0 * this.radius);

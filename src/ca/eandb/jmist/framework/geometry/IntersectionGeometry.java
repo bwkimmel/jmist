@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Collection;
 
-import ca.eandb.jmist.framework.Geometry;
+import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Sphere;
 
 /**
- * A <code>Geometry</code> that it the intersection of its component
+ * A <code>SceneElement</code> that it the intersection of its component
  * geometries.
  * @author Brad Kimmel
  */
@@ -34,7 +34,7 @@ public final class IntersectionGeometry extends ConstructiveSolidGeometry {
 
 		Collection<Box3> boxes = new ArrayList<Box3>();
 
-		for (Geometry geometry : this.children()) {
+		for (SceneElement geometry : this.children()) {
 			boxes.add(geometry.boundingBox());
 		}
 

@@ -59,6 +59,25 @@ public final class Point3 implements Serializable {
 	}
 
 	/**
+	 * Gets the specified element of this point.
+	 * @param index The index of the element to get.
+	 * @return The specified element.
+	 * @throws IllegalArgumentException if <code>index</code> is negative or
+	 * 		greater than 2.
+	 */
+	public double get(int index) {
+		switch (index) {
+		case 0:
+			return x;
+		case 1:
+			return y;
+		case 2:
+			return z;
+		}
+		throw new IllegalArgumentException();
+	}
+
+	/**
 	 * Computes the square of the distance from this point to the
 	 * specified point.
 	 * @param p The point to compute the square of the distance to.
@@ -79,12 +98,32 @@ public final class Point3 implements Serializable {
 	}
 
 	/**
+	 * Computes the unit vector from this point to the specified point.
+	 * @param p The point at the end of the vector.
+	 * @return The unit vector from this point to p.
+	 */
+	public Vector3 unitVectorTo(Point3 p) {
+		double d = distanceTo(p);
+		return new Vector3((p.x - x) / d, (p.y - y) / d, (p.z - z) / d);
+	}
+
+	/**
 	 * Computes the vector from this point to the specified point.
 	 * @param p The point at the end of the vector.
 	 * @return The vector from this point to p.
 	 */
 	public Vector3 vectorTo(Point3 p) {
 		return new Vector3(p.x - x, p.y - y, p.z - z);
+	}
+
+	/**
+	 * Computes the unit vector from the specified point to this point.
+	 * @param p The point at the start of the vector.
+	 * @return The unit vector from p to this point.
+	 */
+	public Vector3 unitVectorFrom(Point3 p) {
+		double d = distanceTo(p);
+		return new Vector3((x - p.x) / d, (y - p.y) / d, (z - p.z) / d);
 	}
 
 	/**

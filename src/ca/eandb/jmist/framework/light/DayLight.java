@@ -4,18 +4,17 @@
 package ca.eandb.jmist.framework.light;
 
 import ca.eandb.jmist.framework.DirectionalTexture3;
+import ca.eandb.jmist.framework.Function1;
 import ca.eandb.jmist.framework.Illuminable;
 import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.SurfacePoint;
-import ca.eandb.jmist.framework.VisibilityFunction3;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
-import ca.eandb.jmist.framework.spectrum.AbstractSpectrum;
+import ca.eandb.jmist.framework.color.Spectrum;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Basis3;
-import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.RandomUtil;
-import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
 import ca.eandb.jmist.util.ArrayUtil;
 
@@ -28,27 +27,30 @@ public final class DayLight implements Light, DirectionalTexture3 {
 	/**
 	 * Creates a new <code>DayLight</code> with the sun and zenith in the
 	 * positive Y direction.
+	 * @param colorModel The <code>ColorModel</code> to use.
 	 */
-	public DayLight() {
-		this(Vector3.J);
+	public DayLight(ColorModel colorModel) {
+		this(Vector3.J, colorModel);
 	}
 
 	/**
 	 * Creates a new <code>DayLight</code> with zenith in the positive Y
 	 * direction.
 	 * @param sun The direction toward the sun.
+	 * @param colorModel The <code>ColorModel</code> to use.
 	 */
-	public DayLight(Vector3 sun) {
-		this(sun, Vector3.J);
+	public DayLight(Vector3 sun, ColorModel colorModel) {
+		this(sun, Vector3.J, colorModel);
 	}
 
 	/**
 	 * Creates a new <code>DayLight</code>.
 	 * @param sun The direction toward the sun.
 	 * @param zenith The direction toward the center of the sky.
+	 * @param colorModel The <code>ColorModel</code> to use.
 	 */
-	public DayLight(Vector3 sun, Vector3 zenith) {
-		this(sun, zenith, 2.0, true);
+	public DayLight(Vector3 sun, Vector3 zenith, ColorModel colorModel) {
+		this(sun, zenith, 2.0, true, colorModel);
 	}
 
 	/**
@@ -57,8 +59,9 @@ public final class DayLight implements Light, DirectionalTexture3 {
 	 * @param zenith The direction toward the center of the sky.
 	 * @param turbidity The turbidity (haziness) in the atmosphere.
 	 * @param shadows A value indicating whether shadows should be simulated.
+	 * @param colorModel The <code>ColorModel</code> to use.
 	 */
-	public DayLight(Vector3 sun, Vector3 zenith, double turbidity, boolean shadows) {
+	public DayLight(Vector3 sun, Vector3 zenith, double turbidity, boolean shadows, ColorModel colorModel) {
 
 		this.sun = sun.unit();
 		this.zenith = zenith.unit();
@@ -71,7 +74,7 @@ public final class DayLight implements Light, DirectionalTexture3 {
 		this.Fy = new double[5];
 
 		this.shadows = shadows;
-		this.solarRadiance = ColorModel.getInstance().fromSpectrum(new SunRadianceSpectrum());
+		this.solarRadiance = colorModel.getContinuous(new SunRadianceSpectrum());
 
 		double	sdotz = sun.dot(zenith);
 		double	theta_s = Math.acos(sdotz);
@@ -134,32 +137,29 @@ public final class DayLight implements Light, DirectionalTexture3 {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.DirectionalTexture3#evaluate(ca.eandb.jmist.math.Vector3)
+	 * @see ca.eandb.jmist.framework.DirectionalTexture3#evaluate(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
 	@Override
-	public Color evaluate(Vector3 v) {
-		return ColorModel.getInstance().fromSpectrum(new SkyRadianceSpectrum(v));
+	public Color evaluate(Vector3 v, WavelengthPacket lambda) {
+		return lambda.getColorModel().getContinuous(new SkyRadianceSpectrum(v)).sample(lambda);
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.VisibilityFunction3, ca.eandb.jmist.framework.Illuminable)
+	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.Illuminable)
 	 */
-	public void illuminate(SurfacePoint x, VisibilityFunction3 vf,
-			Illuminable target) {
+	public void illuminate(SurfacePoint x, WavelengthPacket lambda, Illuminable target) {
 
 		Vector3	source = RandomUtil.uniformOnUpperHemisphere().toCartesian(Basis3.fromW(zenith));
-		Ray3	ray = new Ray3(x.location(), source);
 
-		if (source.dot(x.normal()) > 0.0 && (!shadows || vf.visibility(ray, Interval.POSITIVE))) {
-			target.illuminate(source, ColorModel.getInstance().fromSpectrum(new SkyRadianceSpectrum(source)));
+		if (source.dot(x.getNormal()) > 0.0) {
+			double sdotn = source.dot(x.getShadingNormal());
+			Color radiance = lambda.getColorModel().getContinuous(new SkyRadianceSpectrum(source)).sample(lambda);
+			target.addLightSample(new DirectionalLightSample(x, source, radiance.times(sdotn), shadows));
 		}
 
-		if (daytime && sun.dot(x.normal()) > 0.0) {
-			ray = new Ray3(x.location(), sun);
-
-			if (!shadows || vf.visibility(ray, Interval.POSITIVE)) {
-				target.illuminate(sun, this.solarRadiance);
-			}
+		if (daytime && sun.dot(x.getNormal()) > 0.0) {
+			double sdotn = sun.dot(x.getShadingNormal());
+			target.addLightSample(new DirectionalLightSample(x, sun, solarRadiance.sample(lambda).times(sdotn), shadows));
 		}
 
 	}
@@ -227,7 +227,7 @@ public final class DayLight implements Light, DirectionalTexture3 {
 			for (int polar = 0; polar <= 90; polar++) {
 				for (int azimuthal = 0; azimuthal <= 360; azimuthal++) {
 					Vector3 source = new SphericalCoordinates(Math.toRadians(polar), Math.toRadians(azimuthal)).toCartesian();
-					Spectrum radiance = light.evaluate(source);
+					Function1 radiance = light.evaluate(source);
 					sample = radiance.sample(wavelengths, sample);
 
 					for (int k = 0; k < wavelengths.size(); k++) {
@@ -247,11 +247,11 @@ public final class DayLight implements Light, DirectionalTexture3 {
 */
 
 	/**
-	 * A <code>Spectrum</code> representing the indirect radiance from a
+	 * A <code>Function1</code> representing the indirect radiance from a
 	 * direction toward the sky.
 	 * @author Brad Kimmel
 	 */
-	private final class SkyRadianceSpectrum extends AbstractSpectrum {
+	private final class SkyRadianceSpectrum implements Function1 {
 
 		/**
 		 * Creates a new <code>SkyRadianceSpectrum</code>.
@@ -262,10 +262,10 @@ public final class DayLight implements Light, DirectionalTexture3 {
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.AbstractSpectrum#sample(double)
+		 * @see ca.eandb.jmist.framework.Function1#evaluate(double)
 		 */
 		@Override
-		public double sample(double wavelength) {
+		public double evaluate(double wavelength) {
 
 			this.ensureReady();
 			double	S0_lambda = MathUtil.interpolate(DL_WAVELENGTHS, S0, wavelength);
@@ -278,7 +278,7 @@ public final class DayLight implements Light, DirectionalTexture3 {
 
 		/**
 		 * Performs common computation prior to sampling this
-		 * <code>Spectrum</code>.
+		 * <code>Function1</code>.
 		 */
 		private void ensureReady() {
 			if (!ready) {
@@ -303,16 +303,16 @@ public final class DayLight implements Light, DirectionalTexture3 {
 	}
 
 	/**
-	 * A <code>Spectrum</code> representing the direct radiance from the sun.
+	 * A <code>Function1</code> representing the direct radiance from the sun.
 	 * @author Brad Kimmel
 	 */
-	private final class SunRadianceSpectrum extends AbstractSpectrum {
+	private final class SunRadianceSpectrum implements Function1 {
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.AbstractSpectrum#sample(double)
+		 * @see ca.eandb.jmist.framework.Function1#evaluate(double)
 		 */
 		@Override
-		public double sample(double wavelength) {
+		public double evaluate(double wavelength) {
 
 			double	H0 = MathUtil.interpolate(DL_WAVELENGTHS, SOLAR_RADIANCE, wavelength);
 			double	tau_r = Math.exp(-0.008735 * Math.pow(wavelength, -4.08 * airmass));
@@ -420,6 +420,6 @@ public final class DayLight implements Light, DirectionalTexture3 {
 	private final double	alpha, beta;
 	private final double	w, l;
 	private final boolean	shadows;
-	private final Color		solarRadiance;
+	private final Spectrum	solarRadiance;
 
 }

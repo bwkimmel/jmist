@@ -37,6 +37,24 @@ public final class Interval implements Serializable {
 	}
 
 	/**
+	 * Creates an <code>Interval</code> representing [a, infinity).
+	 * @param a The lower bound of the interval.
+	 * @return The new <code>Interval</code>.
+	 */
+	public static Interval greaterThan(double a) {
+		return new Interval(a, Double.POSITIVE_INFINITY);
+	}
+
+	/**
+	 * Creates an <code>Interval</code> representing (-infinity, b].
+	 * @param a The lower bound of the interval.
+	 * @return The new <code>Interval</code>.
+	 */
+	public static Interval lessThan(double b) {
+		return new Interval(Double.NEGATIVE_INFINITY, b);
+	}
+
+	/**
 	 * Gets the lower bound of this interval.
 	 * @return The lower bound of this interval.
 	 */
@@ -64,10 +82,33 @@ public final class Interval implements Serializable {
 	/**
 	 * Determines if the interval contains a particular value.
 	 * @param t The value to check for containment.
-	 * @return True if {@code this.getMinimum() <= t <= this.getMaximum()}, false otherwise.
+	 * @return True if {@code this.minimum() <= t <= this.maximum()}, false otherwise.
 	 */
 	public boolean contains(double t) {
 		return minimum <= t && t <= maximum;
+	}
+
+	/**
+	 * Determines if this interval contains a given interval.
+	 * @param I The <code>Interval</code> to check for containment.
+	 * @return True if <code>I</code> is empty or if
+	 * 		{@code this.minimum() <= I.minimum() < I.maximum() <= this.maximum()},
+	 * 		false otherwise.
+	 */
+	public boolean contains(Interval I) {
+		return I.isEmpty() || (minimum <= I.minimum && I.maximum <= maximum);
+	}
+
+	/**
+	 * Determines if this interval contains the interval
+	 * <code>(t - epsilon, t + epsilon)</code>.
+	 * @param t The center of the interval to check for containment.
+	 * @param epsilon Half the width of the interval to check for containment.
+	 * @return True if {@code minimum() <= t - epsilon < t + epsilon <= maximum()},
+	 * 		false otherwise.
+	 */
+	public boolean contains(double t, double epsilon) {
+		return (minimum <= t - epsilon) && (t + epsilon <= maximum);
 	}
 
 	/**

@@ -9,24 +9,23 @@ import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import ca.eandb.jmist.framework.Geometry;
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionDecorator;
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.math.Basis3;
+import ca.eandb.jmist.framework.SceneElement;
+import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.math.Ray3;
-import ca.eandb.jmist.math.Vector3;
 
 /**
- * An abstract <code>Geometry</code> that combines other geometries using a
+ * An abstract <code>SceneElement</code> that combines other geometries using a
  * boolean expression.
  * @author Brad Kimmel
  */
 public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#intersect(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+	 * @see ca.eandb.jmist.framework.SceneElement#intersect(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 
@@ -38,12 +37,9 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 		/* Compute the ray-geometry intersections for each child geometry in
 		 * turn.
 		 */
-		for (Geometry geometry : this.children()) {
+		for (SceneElement geometry : this.children()) {
 
-			/* Ignore open geometries. */
-			if (geometry.isClosed()) {
-				geometry.intersect(ray, csg);
-			}
+			geometry.intersect(ray, csg);
 
 			/* Advance to next argument. */
 			csg.advance();
@@ -55,14 +51,6 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 		 */
 		csg.transfer(recorder);
 
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#isClosed()
-	 */
-	@Override
-	public boolean isClosed() {
-		return true;
 	}
 
 	/**
@@ -137,39 +125,34 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 
 				assert(x.getArgumentIndex() < nArgs);
 
-				/* Ignore intersections on non-closed geometries. */
-				if (inner.closed()) {
+				args.set(x.getArgumentIndex(), inner.isFront());
+				toInside = isInside(nArgs, args);
 
-					args.set(x.getArgumentIndex(), inner.front());
-					toInside = isInside(nArgs, args);
+				/* If the intersection represents the traversal from
+				 * outside the geometry to inside, or vice versa, then the
+				 * intersection is at the boundary of the combined geometry.
+				 * Only consider this intersection if it is within the
+				 * range expected by the recorder.
+				 */
+				if (fromInside != toInside
+						&& recorder.interval().contains(inner.getDistance(), inner.getTolerance())) {
 
-					/* If the intersection represents the traversal from
-					 * outside the geometry to inside, or vice versa, then the
-					 * intersection is at the boundary of the combined geometry.
-					 * Only consider this intersection if it is within the
-					 * range expected by the recorder.
+					/* The intersection is a front intersection if the ray
+					 * is passing into the geometry.
 					 */
-					if (fromInside != toInside
-							&& recorder.interval().contains(inner.distance())) {
+					x.setFront(toInside);
+					recorder.record(x);
 
-						/* The intersection is a front intersection if the ray
-						 * is passing into the geometry.
-						 */
-						x.setFront(toInside);
-						recorder.record(x);
-
-						/* If we don't need all intersections, then we're
-						 * done.
-						 */
-						if (!recorder.needAllIntersections()) {
-							break;
-						}
-
+					/* If we don't need all intersections, then we're
+					 * done.
+					 */
+					if (!recorder.needAllIntersections()) {
+						break;
 					}
 
-					fromInside = toInside;
+				}
 
-				} /* inner.closed() */
+				fromInside = toInside;
 
 			} /* i.hasNext() */
 
@@ -187,7 +170,7 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 		 * An <code>Intersection</code> decorator that adds functionality
 		 * needed to support constructive solid geometry.  This decorator
 		 * keeps track of which child geometry the intersection is for, and it
-		 * can be flipped, which toggles the {@link Intersection#front()}
+		 * can be flipped, which toggles the {@link Intersection#isFront()}
 		 * property and negates the basis and normal.
 		 * @author Brad Kimmel
 		 */
@@ -207,60 +190,20 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 			 * @see ca.eandb.jmist.framework.IntersectionDecorator#front()
 			 */
 			@Override
-			public boolean front() {
-				return this.flipped ? !this.inner.front() : this.inner.front();
+			public boolean isFront() {
+				return this.flipped ? !this.inner.isFront() : this.inner.isFront();
 			}
 
 			/* (non-Javadoc)
-			 * @see ca.eandb.jmist.framework.IntersectionDecorator#basis()
+			 * @see ca.eandb.jmist.framework.IntersectionDecorator#transformShadingContext(ca.eandb.jmist.framework.ShadingContext)
 			 */
 			@Override
-			public Basis3 basis() {
-				Basis3 basis = this.inner.basis();
-				return this.flipped ? basis.opposite() : basis;
-			}
-
-			/* (non-Javadoc)
-			 * @see ca.eandb.jmist.framework.IntersectionDecorator#closed()
-			 */
-			@Override
-			public boolean closed() {
-				return true;
-			}
-
-			/* (non-Javadoc)
-			 * @see ca.eandb.jmist.framework.IntersectionDecorator#shadingBasis()
-			 */
-			@Override
-			public Basis3 shadingBasis() {
-				Basis3 basis = this.inner.shadingBasis();
-				return this.flipped ? basis.opposite() : basis;
-			}
-
-			/* (non-Javadoc)
-			 * @see ca.eandb.jmist.framework.IntersectionDecorator#shadingNormal()
-			 */
-			@Override
-			public Vector3 shadingNormal() {
-				Vector3 n = this.inner.shadingNormal();
-				return this.flipped ? n.opposite() : n;
-			}
-
-			/* (non-Javadoc)
-			 * @see ca.eandb.jmist.framework.IntersectionDecorator#normal()
-			 */
-			@Override
-			public Vector3 normal() {
-				Vector3 n = this.inner.normal();
-				return this.flipped ? n.opposite() : n;
-			}
-
-			/* (non-Javadoc)
-			 * @see ca.eandb.jmist.framework.IntersectionDecorator#tangent()
-			 */
-			@Override
-			public Vector3 tangent() {
-				return this.inner.tangent();
+			protected void transformShadingContext(ShadingContext context) {
+				context.setPrimitiveIndex(0);
+				if (flipped) {
+					context.setBasis(context.getBasis().opposite());
+					context.setShadingBasis(context.getShadingBasis().opposite());
+				}
 			}
 
 			/**
@@ -291,7 +234,7 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 			 * 		with the outside of the geometry.
 			 */
 			public void setFront(boolean front) {
-				this.flipped = (front != inner.front());
+				this.flipped = (front != inner.isFront());
 			}
 
 			/**
@@ -322,7 +265,7 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 				new Comparator<Intersection>() {
 
 					public int compare(Intersection arg0, Intersection arg1) {
-						return Double.compare(arg0.distance(), arg1.distance());
+						return Double.compare(arg0.getDistance(), arg1.getDistance());
 					}
 
 				});

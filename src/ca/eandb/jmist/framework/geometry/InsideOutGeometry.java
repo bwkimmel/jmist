@@ -3,19 +3,18 @@
  */
 package ca.eandb.jmist.framework.geometry;
 
-import ca.eandb.jmist.framework.Geometry;
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionDecorator;
-import ca.eandb.jmist.framework.IntersectionRecorderDecorator;
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.math.Basis3;
+import ca.eandb.jmist.framework.IntersectionRecorderDecorator;
+import ca.eandb.jmist.framework.SceneElement;
+import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
-import ca.eandb.jmist.math.Vector3;
 
 /**
- * A <code>Geometry</code> decorator that flips another <code>Geometry</code>
+ * A <code>SceneElement</code> decorator that flips another <code>SceneElement</code>
  * inside out.
  * @author Brad Kimmel
  */
@@ -23,25 +22,18 @@ public final class InsideOutGeometry extends AbstractGeometry {
 
 	/**
 	 * Creates a new <code>InsideOutGeometry</code>.
-	 * @param inner The <code>Geometry</code> to turn inside out.
+	 * @param inner The <code>SceneElement</code> to turn inside out.
 	 */
-	public InsideOutGeometry(Geometry inner) {
+	public InsideOutGeometry(SceneElement inner) {
 		this.inner = inner;
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#intersect(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+	 * @see ca.eandb.jmist.framework.SceneElement#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
-	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
+	public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
 		recorder = new InsideOutIntersectionRecorder(recorder);
-		this.inner.intersect(ray, recorder);
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#isClosed()
-	 */
-	public boolean isClosed() {
-		return this.inner.isClosed();
+		this.inner.intersect(index, ray, recorder);
 	}
 
 	/* (non-Javadoc)
@@ -58,9 +50,33 @@ public final class InsideOutGeometry extends AbstractGeometry {
 		return this.inner.boundingSphere();
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.SceneElement#getBoundingBox(int)
+	 */
+	@Override
+	public Box3 getBoundingBox(int index) {
+		return inner.getBoundingBox(index);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.SceneElement#getBoundingSphere(int)
+	 */
+	@Override
+	public Sphere getBoundingSphere(int index) {
+		return inner.getBoundingSphere(index);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.SceneElement#getNumPrimitives()
+	 */
+	@Override
+	public int getNumPrimitives() {
+		return inner.getNumPrimitives();
+	}
+
 	/**
 	 * An <code>IntersectionRecorder</code> decorator that flips the normals,
-	 * bases, tangents and the {@link Intersection#front()} property of all
+	 * bases, tangents and the {@link Intersection#isFront()} property of all
 	 * <code>Intersection</code>s recorded to it.
 	 * @author Brad Kimmel
 	 */
@@ -85,7 +101,7 @@ public final class InsideOutGeometry extends AbstractGeometry {
 
 		/**
 		 * An <code>Intersection</code> decorator that flips the normals,
-		 * bases, tangents, and the {@link Intersection#front()} properties of
+		 * bases, tangents, and the {@link Intersection#isFront()} properties of
 		 * the decorated <code>Intersection</code>.
 		 * @author Brad Kimmel
 		 */
@@ -103,55 +119,21 @@ public final class InsideOutGeometry extends AbstractGeometry {
 			 * @see ca.eandb.jmist.framework.IntersectionDecorator#front()
 			 */
 			@Override
-			public boolean front() {
-				return !this.inner.front();
+			public boolean isFront() {
+				return !this.inner.isFront();
 			}
 
-			/* (non-Javadoc)
-			 * @see ca.eandb.jmist.framework.IntersectionDecorator#basis()
-			 */
 			@Override
-			public Basis3 basis() {
-				return this.inner.basis().opposite();
-			}
-
-			/* (non-Javadoc)
-			 * @see ca.eandb.jmist.framework.IntersectionDecorator#shadingBasis()
-			 */
-			@Override
-			public Basis3 shadingBasis() {
-				return this.inner.shadingBasis().opposite();
-			}
-
-			/* (non-Javadoc)
-			 * @see ca.eandb.jmist.framework.IntersectionDecorator#shadingNormal()
-			 */
-			@Override
-			public Vector3 shadingNormal() {
-				return this.inner.shadingNormal().opposite();
-			}
-
-			/* (non-Javadoc)
-			 * @see ca.eandb.jmist.framework.IntersectionDecorator#normal()
-			 */
-			@Override
-			public Vector3 normal() {
-				return this.inner.normal().opposite();
-			}
-
-			/* (non-Javadoc)
-			 * @see ca.eandb.jmist.framework.IntersectionDecorator#tangent()
-			 */
-			@Override
-			public Vector3 tangent() {
-				return this.inner.tangent().opposite();
+			protected void transformShadingContext(ShadingContext context) {
+				context.setBasis(context.getBasis().opposite());
+				context.setShadingBasis(context.getShadingBasis().opposite());
 			}
 
 		}
 
 	}
 
-	/** The decorated <code>Geometry</code>. */
-	private final Geometry inner;
+	/** The decorated <code>SceneElement</code>. */
+	private final SceneElement inner;
 
 }

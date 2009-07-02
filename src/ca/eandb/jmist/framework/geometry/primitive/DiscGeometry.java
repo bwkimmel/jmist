@@ -4,23 +4,26 @@
 package ca.eandb.jmist.framework.geometry.primitive;
 
 import ca.eandb.jmist.framework.BoundingBoxBuilder3;
+import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.Material;
-import ca.eandb.jmist.framework.geometry.SingleMaterialGeometry;
+import ca.eandb.jmist.framework.ShadingContext;
+import ca.eandb.jmist.framework.geometry.PrimitiveGeometry;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Plane3;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
+import ca.eandb.jmist.math.RandomUtil;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
+import ca.eandb.jmist.math.Vector2;
 import ca.eandb.jmist.math.Vector3;
 
 /**
- * A circular plane <code>Geometry</code>.
+ * A circular plane <code>SceneElement</code>.
  * @author Brad Kimmel
  */
-public final class DiscGeometry extends SingleMaterialGeometry {
+public final class DiscGeometry extends PrimitiveGeometry {
 
 	/**
 	 * Creates a new <code>DiscGeometry</code>.
@@ -29,17 +32,15 @@ public final class DiscGeometry extends SingleMaterialGeometry {
 	 * 		disc.
 	 * @param radius The radius of the disc (in meters).
 	 * @param twoSided A value indicating whether the disc is two sided.
-	 * @param material The <code>Material</code> to apply to the disc.
 	 */
-	public DiscGeometry(Point3 center, Vector3 normal, double radius, boolean twoSided, Material material) {
-		super(material);
+	public DiscGeometry(Point3 center, Vector3 normal, double radius, boolean twoSided) {
 		this.plane = new Plane3(center, normal);
 		this.boundingSphere = new Sphere(center, radius);
 		this.twoSided = twoSided;
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#intersect(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+	 * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 
@@ -72,7 +73,7 @@ public final class DiscGeometry extends SingleMaterialGeometry {
 	 */
 	@Override
 	protected Basis3 getBasis(GeometryIntersection x) {
-		switch (x.surfaceId()) {
+		switch (x.getTag()) {
 		case DISC_SURFACE_TOP:		return Basis3.fromW(this.plane.normal(), Basis3.Orientation.RIGHT_HANDED);
 		case DISC_SURFACE_BOTTOM:	return Basis3.fromW(this.plane.normal().opposite(), Basis3.Orientation.RIGHT_HANDED);
 		default:					assert(false); return null;
@@ -84,7 +85,7 @@ public final class DiscGeometry extends SingleMaterialGeometry {
 	 */
 	@Override
 	protected Vector3 getNormal(GeometryIntersection x) {
-		switch (x.surfaceId()) {
+		switch (x.getTag()) {
 		case DISC_SURFACE_TOP:		return this.plane.normal();
 		case DISC_SURFACE_BOTTOM:	return this.plane.normal().opposite();
 		default:					assert(false); return null;
@@ -97,8 +98,8 @@ public final class DiscGeometry extends SingleMaterialGeometry {
 	@Override
 	protected Point2 getTextureCoordinates(GeometryIntersection x) {
 
-		Basis3 basis = x.basis();
-		Vector3 r = x.location().vectorFrom(this.boundingSphere.center());
+		Basis3 basis = x.getBasis();
+		Vector3 r = x.getPosition().vectorFrom(this.boundingSphere.center());
 
 		return new Point2(
 				r.dot(basis.u()) / this.boundingSphere.radius(),
@@ -108,7 +109,7 @@ public final class DiscGeometry extends SingleMaterialGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#isClosed()
+	 * @see ca.eandb.jmist.framework.SceneElement#isClosed()
 	 */
 	public boolean isClosed() {
 		return false;
@@ -139,6 +140,35 @@ public final class DiscGeometry extends SingleMaterialGeometry {
 	 */
 	public Sphere boundingSphere() {
 		return this.boundingSphere;
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext)
+	 */
+	@Override
+	public void generateRandomSurfacePoint(ShadingContext context) {
+		Vector2 uv = RandomUtil.uniformOnDisc(boundingSphere.radius()).toCartesian();
+		Basis3 basis = Basis3.fromW(this.plane.normal(), Basis3.Orientation.RIGHT_HANDED);
+
+		Point3 p = boundingSphere.center()
+				.plus(basis.u().times(uv.x()))
+				.plus(basis.v().times(uv.y()));
+
+		int id = (twoSided && RandomUtil.coin())
+				? DISC_SURFACE_BOTTOM
+				: DISC_SURFACE_TOP;
+
+		Intersection x = newSurfacePoint(p, id);
+		x.prepareShadingContext(context);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getSurfaceArea()
+	 */
+	@Override
+	public double getSurfaceArea() {
+		double r = boundingSphere.radius();
+		return (twoSided ? 2.0 : 1.0) * Math.PI * r * r;
 	}
 
 	/**

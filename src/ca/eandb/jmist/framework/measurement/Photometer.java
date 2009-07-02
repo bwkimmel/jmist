@@ -3,19 +3,21 @@
  */
 package ca.eandb.jmist.framework.measurement;
 
-import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.Medium;
-import ca.eandb.jmist.framework.RandomScatterRecorder;
-import ca.eandb.jmist.framework.ScatterResult;
+import ca.eandb.jmist.framework.ScatteredRay;
+import ca.eandb.jmist.framework.ScatteredRays;
+import ca.eandb.jmist.framework.SurfacePoint;
+import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.ColorModel;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.framework.color.monochrome.MonochromeColorModel;
 import ca.eandb.jmist.math.Basis3;
-import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.SphericalCoordinates;
 import ca.eandb.jmist.math.Tuple;
 import ca.eandb.jmist.math.Vector3;
-
 import ca.eandb.util.progress.DummyProgressMonitor;
 import ca.eandb.util.progress.ProgressMonitor;
 
@@ -40,7 +42,6 @@ public final class Photometer {
 	public void setIncidentAngle(SphericalCoordinates incident) {
 		this.incident = incident;
 		this.in = incident.unit().opposite().toCartesian();
-		this.front = (in.z() < 0.0);
 	}
 
 	public void setWavelength(double wavelength) {
@@ -84,7 +85,9 @@ public final class Photometer {
 			return;
 		}
 
-		RandomScatterRecorder scattering = new RandomScatterRecorder();
+		ColorModel colorModel = new MonochromeColorModel(wavelengths.at(0));
+		Color sample = colorModel.sample();
+		WavelengthPacket lambda = sample.getWavelengthPacket();
 
 		for (int i = 0; i < n; i++) {
 
@@ -101,15 +104,13 @@ public final class Photometer {
 
 			}
 
-			scattering.reset();
-			this.specimen.scatter(this.x, scattering);
-
-			ScatterResult sr = scattering.getScatterResult();
+			ScatteredRays scattering = new ScatteredRays(x, in, lambda, specimen);
+			ScatteredRay sr = scattering.getRandomScatteredRay(true);
 
 			if (sr != null) {
 				//assert(MathUtil.equal(sr.getWeight(), 1.0));
 				// FIXME: Account for color.
-				this.collectorSphere.record(sr.getScatteredRay().direction());
+				this.collectorSphere.record(sr.getRay().direction());
 			}
 
 		}
@@ -123,60 +124,50 @@ public final class Photometer {
 	private SphericalCoordinates incident;
 	private Vector3 in;
 	private Tuple wavelengths;
-	private boolean front;
 
-	private final Intersection x = new Intersection() {
+	private final SurfacePoint x = new SurfacePoint() {
 
-		public Point3 location() {
+		public Point3 getPosition() {
 			return Point3.ORIGIN;
 		}
 
-		public Material material() {
-			return specimen;
-		}
-
-		public Medium ambientMedium() {
-			return Medium.VACUUM;
-		}
-
-		public Vector3 shadingNormal() {
+		public Vector3 getShadingNormal() {
 			return Vector3.K;
 		}
 
-		public Vector3 normal() {
+		public Vector3 getNormal() {
 			return Vector3.K;
 		}
 
-		public Vector3 tangent() {
+		public Vector3 getTangent() {
 			return Vector3.I;
 		}
 
-		public Point2 textureCoordinates() {
+		public Point2 getUV() {
 			return Point2.ORIGIN;
 		}
 
-		public double distance() {
-			return 1.0;
-		}
-
-		public boolean front() {
-			return front;
-		}
-
-		public Vector3 incident() {
-			return in;
-		}
-
-		public Basis3 basis() {
+		public Basis3 getBasis() {
 			return Basis3.STANDARD;
 		}
 
-		public Basis3 shadingBasis() {
+		public Basis3 getShadingBasis() {
 			return Basis3.STANDARD;
 		}
 
-		public boolean closed() {
-			return false;
+		@Override
+		public Medium getAmbientMedium() {
+			return Medium.VACUUM;
+		}
+
+		@Override
+		public Material getMaterial() {
+			return specimen;
+		}
+
+		@Override
+		public int getPrimitiveIndex() {
+			return 0;
 		}
 
 	};

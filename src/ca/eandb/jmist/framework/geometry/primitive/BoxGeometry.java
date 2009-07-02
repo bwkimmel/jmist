@@ -5,36 +5,34 @@ package ca.eandb.jmist.framework.geometry.primitive;
 
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.Material;
-import ca.eandb.jmist.framework.geometry.SingleMaterialGeometry;
+import ca.eandb.jmist.framework.ShadingContext;
+import ca.eandb.jmist.framework.geometry.PrimitiveGeometry;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box2;
 import ca.eandb.jmist.math.Box3;
-import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
+import ca.eandb.jmist.math.RandomUtil;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
 import ca.eandb.jmist.math.Vector3;
 
 /**
- * An axis aligned box <code>Geometry</code>.
+ * An axis aligned box <code>SceneElement</code>.
  * @author Brad Kimmel
  */
-public final class BoxGeometry extends SingleMaterialGeometry {
+public final class BoxGeometry extends PrimitiveGeometry {
 
 	/**
 	 * Creates a new <code>BoxGeometry</code>.
 	 * @param box The axis aligned <code>Box3</code> to be rendered.
-	 * @param material The <code>Material</code> to apply to the box.
 	 */
-	public BoxGeometry(Box3 box, Material material) {
-		super(material);
+	public BoxGeometry(Box3 box) {
 		this.box = box;
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#intersect(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+	 * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 
@@ -129,7 +127,7 @@ public final class BoxGeometry extends SingleMaterialGeometry {
 	 */
 	@Override
 	protected Basis3 getBasis(GeometryIntersection x) {
-		return Basis3.fromW(x.normal(), Basis3.Orientation.RIGHT_HANDED);
+		return Basis3.fromW(x.getNormal(), Basis3.Orientation.RIGHT_HANDED);
 	}
 
 	/* (non-Javadoc)
@@ -137,7 +135,7 @@ public final class BoxGeometry extends SingleMaterialGeometry {
 	 */
 	@Override
 	protected Vector3 getNormal(GeometryIntersection x) {
-		switch (x.surfaceId())
+		switch (x.getTag())
 		{
 		case BOX_SURFACE_MAX_X:	return Vector3.I;
 		case BOX_SURFACE_MIN_X:	return Vector3.NEGATIVE_I;
@@ -156,9 +154,9 @@ public final class BoxGeometry extends SingleMaterialGeometry {
 	protected Point2 getTextureCoordinates(GeometryIntersection x) {
 
 		Point2	facePoint;
-		Point3	p = x.location();
+		Point3	p = x.getPosition();
 
-		switch (x.surfaceId())
+		switch (x.getTag())
 		{
 		case BOX_SURFACE_MAX_X:
 			facePoint = new Point2(
@@ -208,22 +206,14 @@ public final class BoxGeometry extends SingleMaterialGeometry {
 		}
 
 		return new Point2(
-			FACE_DOMAIN[x.surfaceId() - 1].minimumX() + facePoint.x() * FACE_DOMAIN[x.surfaceId() - 1].lengthX(),
-			FACE_DOMAIN[x.surfaceId() - 1].minimumY() + facePoint.y() * FACE_DOMAIN[x.surfaceId() - 1].lengthY()
+			FACE_DOMAIN[x.getTag() - 1].minimumX() + facePoint.x() * FACE_DOMAIN[x.getTag() - 1].lengthX(),
+			FACE_DOMAIN[x.getTag() - 1].minimumY() + facePoint.y() * FACE_DOMAIN[x.getTag() - 1].lengthY()
 		);
 
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.AbstractGeometry#visibility(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.toolkit.Interval)
-	 */
-	@Override
-	public boolean visibility(Ray3 ray, Interval I) {
-		return I.intersects(this.box.intersect(ray));
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#isClosed()
+	 * @see ca.eandb.jmist.framework.SceneElement#isClosed()
 	 */
 	public boolean isClosed() {
 		return true;
@@ -241,6 +231,52 @@ public final class BoxGeometry extends SingleMaterialGeometry {
 	 */
 	public Sphere boundingSphere() {
 		return new Sphere(this.box.center(), this.box.diagonal() / 2.0);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext)
+	 */
+	@Override
+	public void generateRandomSurfacePoint(ShadingContext context) {
+		double xyArea = box.lengthX() * box.lengthY();
+		double xzArea = box.lengthX() * box.lengthZ();
+		double yzArea = box.lengthY() * box.lengthZ();
+
+		double total = xyArea + xzArea + yzArea;
+		double random = RandomUtil.canonical() * total;
+		boolean dir = RandomUtil.coin();
+		int id;
+		Point3 p;
+
+		if (random < xyArea) {
+			id = dir ? BOX_SURFACE_MAX_Z : BOX_SURFACE_MIN_Z;
+			p = new Point3(
+					RandomUtil.uniform(box.spanX()),
+					RandomUtil.uniform(box.spanY()),
+					dir ? box.maximumZ() : box.minimumZ());
+		} else if (random < xyArea + xzArea) {
+			id = dir ? BOX_SURFACE_MAX_Y : BOX_SURFACE_MIN_Y;
+			p = new Point3(RandomUtil.uniform(box.spanX()),
+					dir ? box.maximumY() : box.minimumY(),
+					RandomUtil.uniform(box.spanZ()));
+
+		} else {
+			id = dir ? BOX_SURFACE_MAX_X : BOX_SURFACE_MIN_X;
+			p = new Point3(dir ? box.maximumX() : box.minimumX(),
+					RandomUtil.uniform(box.spanY()),
+					RandomUtil.uniform(box.spanZ()));
+		}
+
+		Intersection x = newSurfacePoint(p, id);
+		x.prepareShadingContext(context);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getSurfaceArea()
+	 */
+	@Override
+	public double getSurfaceArea() {
+		return box.surfaceArea();
 	}
 
 	/** The surface id for the side facing toward the positive x-axis. */
@@ -274,7 +310,7 @@ public final class BoxGeometry extends SingleMaterialGeometry {
 			new Box2(1.0 / 3.0, 3.0 / 4.0, 2.0 / 3.0, 1.0)
 	};
 
-	/** The <code>Box3</code> that represents this <code>Geometry</code>. */
+	/** The <code>Box3</code> that represents this <code>SceneElement</code>. */
 	private final Box3 box;
 
 }

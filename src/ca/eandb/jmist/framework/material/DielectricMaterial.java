@@ -3,15 +3,19 @@
  */
 package ca.eandb.jmist.framework.material;
 
-import ca.eandb.jmist.framework.Intersection;
-import ca.eandb.jmist.framework.ScatterRecorder;
-import ca.eandb.jmist.framework.ScatterResult;
+import ca.eandb.jmist.framework.Medium;
+import ca.eandb.jmist.framework.ScatteredRay;
+import ca.eandb.jmist.framework.ScatteredRayRecorder;
+import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.ColorUtil;
+import ca.eandb.jmist.framework.color.Spectrum;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Complex;
 import ca.eandb.jmist.math.Optics;
 import ca.eandb.jmist.math.Point3;
+import ca.eandb.jmist.math.RandomUtil;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
 
@@ -24,56 +28,57 @@ public class DielectricMaterial extends AbstractMaterial {
 
 	/**
 	 * Creates a new <code>DielectricMaterial</code>.
-	 * @param refractiveIndex The refractive index <code>Color</code> of
+	 * @param refractiveIndex The refractive index <code>Spectrum</code> of
 	 * 		this dielectric material.
 	 */
-	public DielectricMaterial(Color refractiveIndex) {
+	public DielectricMaterial(Spectrum refractiveIndex) {
 		this.refractiveIndex = refractiveIndex;
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Medium#extinctionIndex(ca.eandb.jmist.toolkit.Point3)
+	 * @see ca.eandb.jmist.framework.Medium#extinctionIndex(ca.eandb.jmist.math.Point3, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
-	public Color extinctionIndex(Point3 p) {
-		return ColorModel.getInstance().getBlack();
+	public Color extinctionIndex(Point3 p, WavelengthPacket lambda) {
+		return lambda.getColorModel().getBlack(lambda);
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Medium#refractiveIndex(ca.eandb.jmist.toolkit.Point3)
+	 * @see ca.eandb.jmist.framework.Medium#refractiveIndex(ca.eandb.jmist.math.Point3, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
-	public Color refractiveIndex(Point3 p) {
-		return this.refractiveIndex;
+	public Color refractiveIndex(Point3 p, WavelengthPacket lambda) {
+		return refractiveIndex.sample(lambda);
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Medium#transmittance(ca.eandb.jmist.math.Ray3, double)
+	 * @see ca.eandb.jmist.framework.Medium#transmittance(ca.eandb.jmist.math.Ray3, double, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
-	public Color transmittance(Ray3 ray, double distance) {
-		return ColorModel.getInstance().getWhite();
+	public Color transmittance(Ray3 ray, double distance, WavelengthPacket lambda) {
+		return lambda.getColorModel().getWhite(lambda);
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.framework.ScatterRecorder)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.ScatteredRayRecorder)
 	 */
 	@Override
-	public void scatter(Intersection x, ScatterRecorder recorder) {
+	public void scatter(SurfacePoint x, Vector3 v, WavelengthPacket lambda, ScatteredRayRecorder recorder) {
 
-		ColorModel	cm			= ColorModel.getInstance();
-		Point3		p			= x.location();
-		Color		n1			= x.ambientMedium().refractiveIndex(p);
-		Color		k1			= x.ambientMedium().extinctionIndex(p);
-		Vector3		in			= x.incident();
-		Vector3		normal		= x.shadingNormal();
-		boolean		fromSide	= x.normal().dot(in) < 0.0;
-		Color		R			= Optics.reflectance(in, normal, n1, k1, refractiveIndex, null);
-		Color		T			= cm.getWhite().minus(R);
+		ColorModel	cm			= lambda.getColorModel();
+		Point3		p			= x.getPosition();
+		Medium		medium		= x.getAmbientMedium();
+		Color		n1			= medium.refractiveIndex(p, lambda);
+		Color		k1			= medium.extinctionIndex(p, lambda);
+		Color		n2			= refractiveIndex.sample(lambda);
+		Vector3		normal		= x.getShadingNormal();
+		boolean		fromSide	= x.getNormal().dot(v) < 0.0;
+		Color		R			= Optics.reflectance(v, normal, n1, k1, n2, null);
+		Color		T			= cm.getWhite(lambda).minus(R);
 
 		{
-			Vector3		out		= Optics.reflect(in, normal);
-			boolean		toSide	= x.normal().dot(out) >= 0.0;
+			Vector3		out		= Optics.reflect(v, normal);
+			boolean		toSide	= x.getNormal().dot(out) >= 0.0;
 
 			if (fromSide == toSide) {
-				recorder.record(ScatterResult.specular(new Ray3(p, out), R));
+				recorder.add(ScatteredRay.specular(new Ray3(p, out), R));
 			}
 		}
 
@@ -83,7 +88,7 @@ public class DielectricMaterial extends AbstractMaterial {
 			int			channel	= -1;
 
 			double		total	= ColorUtil.getTotalChannelValue(imp);
-			double		rnd		= Math.random() * total;
+			double		rnd		= RandomUtil.canonical() * total;
 			double		sum		= 0.0;
 
 			for (int i = 0; i < cm.getNumChannels(); i++) {
@@ -101,20 +106,20 @@ public class DielectricMaterial extends AbstractMaterial {
 			}
 
 			Complex		eta1	= new Complex(n1.getValue(channel), k1.getValue(channel));
-			Complex		eta2	= new Complex(refractiveIndex.getValue(channel));
-			Vector3		out		= Optics.refract(in, eta1, eta2, normal);
-			boolean		toSide	= x.normal().dot(out) >= 0.0;
+			Complex		eta2	= new Complex(n2.getValue(channel));
+			Vector3		out		= Optics.refract(v, eta1, eta2, normal);
+			boolean		toSide	= x.getNormal().dot(out) >= 0.0;
 
 			T					= T.disperse(channel);
 
 			if (fromSide != toSide) {
-				recorder.record(ScatterResult.transmitSpecular(new Ray3(p, out), T));
+				recorder.add(ScatteredRay.transmitSpecular(new Ray3(p, out), T));
 			}
 		}
 
 	}
 
 	/** The refractive index <code>Color</code> of this dielectric. */
-	private final Color refractiveIndex;
+	private final Spectrum refractiveIndex;
 
 }

@@ -13,11 +13,11 @@ public interface ProbabilityDensityFunction {
 	/**
 	 * Generates a random value distributed according to this
 	 * <code>ProbabilityDensityFunction</code>.  Equivalent to
-	 * <code>this.warp(Math.random())</code>.
+	 * <code>this.warp(RandomUtil.canonical())</code>.
 	 * @return A random value distributed according to this
 	 * 		<code>ProbabilityDensityFunction</code>.
 	 * @see #warp(double)
-	 * @see Math#random()
+	 * @see ca.eandb.jmist.math.RandomUtil#canonical()
 	 */
 	double sample();
 

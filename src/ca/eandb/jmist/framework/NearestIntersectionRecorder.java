@@ -4,7 +4,6 @@
 package ca.eandb.jmist.framework;
 
 import ca.eandb.jmist.math.Interval;
-import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Ray3;
 
 /**
@@ -19,16 +18,7 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
 	 * <code>Intersection</code>s with a non-negligible positive distance.
 	 */
 	public NearestIntersectionRecorder() {
-		this.interval = new Interval(MathUtil.EPSILON, Double.POSITIVE_INFINITY);
-	}
-
-	/**
-	 * Creates a new <code>NearestIntersectionRecorder</code> that records
-	 * <code>Intersection</code>s with a distance greater than that specified.
-	 * @param epsilon The minimum distance to accept.
-	 */
-	public NearestIntersectionRecorder(double epsilon) {
-		this.interval = new Interval(epsilon, Double.POSITIVE_INFINITY);
+		this.interval = Interval.POSITIVE;
 	}
 
 	/**
@@ -59,10 +49,9 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
 	 * @see ca.eandb.jmist.framework.IntersectionRecorder#record(ca.eandb.jmist.framework.Intersection)
 	 */
 	public void record(Intersection intersection) {
-		if (this.interval().contains(intersection.distance())) {
-			if (this.nearest == null || intersection.distance() < this.nearest.distance()) {
-				this.nearest = intersection;
-			}
+		if (this.interval.contains(intersection.getDistance(), intersection.getTolerance())) {
+			this.nearest = intersection;
+			this.interval = new Interval(interval.minimum(), nearest.getDistance());
 		}
 	}
 
@@ -84,14 +73,30 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
 
 	/**
 	 * Computes the nearest intersection of a <code>Ray3</code> with a
-	 * <code>Geometry</code>.
+	 * <code>SceneElement</code>.
 	 * @param ray The <code>Ray3</code> to intersect with.
-	 * @param geometry The <code>Geometry</code> to test for an intersection
+	 * @param geometry The <code>SceneElement</code> to test for an intersection
+	 * 		with.
+	 * @param index The index of the primitive to intersect the ray with.
+	 * @return The nearest <code>Intersection</code>, or <code>null</code> if
+	 * 		none exists.
+	 */
+	public static Intersection computeNearestIntersection(Ray3 ray, SceneElement geometry, int index) {
+		NearestIntersectionRecorder recorder = new NearestIntersectionRecorder();
+		geometry.intersect(index, ray, recorder);
+		return recorder.nearestIntersection();
+	}
+
+	/**
+	 * Computes the nearest intersection of a <code>Ray3</code> with a
+	 * <code>SceneElement</code>.
+	 * @param ray The <code>Ray3</code> to intersect with.
+	 * @param geometry The <code>SceneElement</code> to test for an intersection
 	 * 		with.
 	 * @return The nearest <code>Intersection</code>, or <code>null</code> if
 	 * 		none exists.
 	 */
-	public static Intersection computeNearestIntersection(Ray3 ray, Geometry geometry) {
+	public static Intersection computeNearestIntersection(Ray3 ray, SceneElement geometry) {
 		NearestIntersectionRecorder recorder = new NearestIntersectionRecorder();
 		geometry.intersect(ray, recorder);
 		return recorder.nearestIntersection();
@@ -104,6 +109,6 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
 	 * The <code>Interval</code> within which to accept
 	 * <code>Intersection</code>s.
 	 */
-	private final Interval interval;
+	private Interval interval;
 
 }

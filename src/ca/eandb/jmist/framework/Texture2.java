@@ -4,6 +4,7 @@
 package ca.eandb.jmist.framework;
 
 import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Point2;
 
 /**
@@ -16,8 +17,10 @@ public interface Texture2 {
 	 * Computes the spectrum at the specified <code>Point2</code> in the
 	 * domain.
 	 * @param p The <code>Point2</code> in the domain.
-	 * @return The <code>Spectrum</code> at <code>p</code>.
+	 * @param lambda The <code>WavelengthPacket</code> denoting the wavelengths
+	 * 		at which to evaluate the texture.
+	 * @return The <code>Function1</code> at <code>p</code>.
 	 */
-	Color evaluate(Point2 p);
+	Color evaluate(Point2 p, WavelengthPacket lambda);
 
 }

@@ -28,11 +28,14 @@ package ca.eandb.jmist.framework.photonmap;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
+import ca.eandb.jmist.math.Point3;
+import ca.eandb.jmist.math.Vector3;
+
 /**
  * Represents a compact array of photons used for photon mapping.
  * @author brad
  */
-final class CompactPhotonBuffer {
+final class CompactPhotonBuffer implements PhotonBuffer {
 
 	/** The <code>ByteBuffer</code> in which to store the photons. */
 	private final ByteBuffer buffer;
@@ -114,50 +117,48 @@ final class CompactPhotonBuffer {
 	 * @see #moveTo(int)
 	 * @see ca.eandb.jmist.math.Vector3#toCompactDirection()
 	 */
-	public void store(float x, float y, float z, float power, short dir, short plane) {
-		buffer.putFloat(x);
-		buffer.putFloat(y);
-		buffer.putFloat(z);
-		buffer.putFloat(power);
-		buffer.putShort(dir);
+	public void store(Point3 p, double power, Vector3 dir, short plane) {
+		buffer.putFloat((float) p.x());
+		buffer.putFloat((float) p.y());
+		buffer.putFloat((float) p.z());
+		buffer.putFloat((float) power);
+		buffer.putShort(dir.toCompactDirection());
 		buffer.putShort(plane);
 	}
 
-	/**
-	 * Gets a single coordinate for the location of the photon.
-	 * @param index The index of the photon for which to get the coordinate.
-	 * @param element The coordinate to get (0 for the power, 1 for the
-	 * 		y-coordinate, or 2 for the z-coordinate).
-	 * @return The value of the coordinate for the specified photon.
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.photonmap.PhotonBuffer#getPosition(int)
 	 */
-	public float getPosition(int index, int element) {
+	public Point3 getPosition(int index) {
+		int offset = index * ELEMENT_SIZE;
+		return new Point3(buffer.getFloat(offset + OFFSET_X), buffer.getFloat(offset + OFFSET_Y), buffer.getFloat(offset + OFFSET_Z));
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.photonmap.PhotonBuffer#getPosition(int, int)
+	 */
+	public double getPosition(int index, int element) {
 		return buffer.getFloat(index * ELEMENT_SIZE + OFFSET_X + (element * 4));
 	}
 
-	/**
-	 * Gets the power of the specified photon.
-	 * @param index The index of the photon to obtain the power of.
-	 * @return The power of the specified photon.
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.photonmap.PhotonBuffer#getX(int)
 	 */
-	public float getX(int index) {
+	public double getX(int index) {
 		return buffer.getFloat(index * ELEMENT_SIZE + OFFSET_X);
 	}
 
-	/**
-	 * Gets the y-coordinate of the specified photon.
-	 * @param index The index of the photon to obtain the y-coordinate of.
-	 * @return The y-coordinate of the specified photon.
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.photonmap.PhotonBuffer#getY(int)
 	 */
-	public float getY(int index) {
+	public double getY(int index) {
 		return buffer.getFloat(index * ELEMENT_SIZE + OFFSET_Y);
 	}
 
-	/**
-	 * Gets the z-coordinate of the specified photon.
-	 * @param index The index of the photon to obtain the z-coordinate of.
-	 * @return The z-coordinate of the specified photon.
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.photonmap.PhotonBuffer#getZ(int)
 	 */
-	public float getZ(int index) {
+	public double getZ(int index) {
 		return buffer.getFloat(index * ELEMENT_SIZE + OFFSET_Z);
 	}
 
@@ -166,7 +167,7 @@ final class CompactPhotonBuffer {
 	 * @param index The index of the photon to obtain the power of.
 	 * @return The power of the specified photon.
 	 */
-	public float getPower(int index) {
+	public double getPower(int index) {
 		return buffer.getFloat(index * ELEMENT_SIZE + OFFSET_POWER);
 	}
 
@@ -177,17 +178,12 @@ final class CompactPhotonBuffer {
 	 * @return The direction of the specified photon.
 	 * @see ca.eandb.jmist.math.Vector3#toCompactDirection()
 	 */
-	public short getDir(int index) {
-		return buffer.getShort(index * ELEMENT_SIZE + OFFSET_DIR);
+	public Vector3 getDir(int index) {
+		return Vector3.fromCompactDirection(buffer.getShort(index * ELEMENT_SIZE + OFFSET_DIR));
 	}
 
-	/**
-	 * Gets the orientation of the dividing plane for the specified photon.
-	 * This value is either 0 - perpendicular to the x-axis, 1 - perpendicular
-	 * to the y-axis, or 2 - perpendicular to the z-axis.
-	 * @param index The index of the photon for which to orientation of the
-	 * 		dividing plane.
-	 * @return The orientation of the dividing plane for the specified photon.
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.photonmap.PhotonBuffer#getPlane(int)
 	 */
 	public short getPlane(int index) {
 		return buffer.getShort(index * ELEMENT_SIZE + OFFSET_PLANE);
@@ -198,8 +194,8 @@ final class CompactPhotonBuffer {
 	 * @param index The index of the photon to set the power of.
 	 * @param power The power to assign to the photon.
 	 */
-	public void setPower(int index, float power) {
-		buffer.putFloat(index * ELEMENT_SIZE + OFFSET_POWER, power);
+	public void setPower(int index, double power) {
+		buffer.putFloat(index * ELEMENT_SIZE + OFFSET_POWER, (float) power);
 	}
 
 	/**
@@ -207,28 +203,20 @@ final class CompactPhotonBuffer {
 	 * @param index The index of the photon whose power to scale.
 	 * @param scale The factor by which to scale the photon's power.
 	 */
-	public void scalePower(int index, float scale) {
+	public void scalePower(int index, double scale) {
 		int offset = index * ELEMENT_SIZE + OFFSET_POWER;
-		buffer.putFloat(offset, scale * buffer.getFloat(offset));
+		buffer.putFloat(offset, (float) scale * buffer.getFloat(offset));
 	}
 
-	/**
-	 * Sets the orientation of the dividiing plane for the specified photon.
-	 * @param index The index of the photon for which to set the orientation of
-	 * 		the dividing plane.
-	 * @param plane The orientation of the dividing plane: 0 - perpendicular to
-	 * 		the x-axis, 1 - perpendicular to the y-axis, or 2 - perpendicular
-	 * 		to the z-axis.
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.photonmap.PhotonBuffer#setPlane(int, short)
 	 */
 	public void setPlane(int index, short plane) {
 		buffer.putShort(index * ELEMENT_SIZE + OFFSET_PLANE, plane);
 	}
 
-	/**
-	 * Copies the photon at a given index to another location in the photon
-	 * buffer.
-	 * @param src The index of the photon the copy.
-	 * @param dst The index of the location to copy the photon to.
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.photonmap.PhotonBuffer#copyPhoton(int, int)
 	 */
 	public void copyPhoton(int src, int dst) {
 		buffer.position(src * ELEMENT_SIZE);

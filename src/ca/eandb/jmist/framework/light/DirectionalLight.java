@@ -6,10 +6,8 @@ package ca.eandb.jmist.framework.light;
 import ca.eandb.jmist.framework.Illuminable;
 import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.SurfacePoint;
-import ca.eandb.jmist.framework.VisibilityFunction3;
-import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.math.Interval;
-import ca.eandb.jmist.math.Ray3;
+import ca.eandb.jmist.framework.color.Spectrum;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Vector3;
 
 /**
@@ -23,32 +21,21 @@ public final class DirectionalLight implements Light {
 	 * Creates a new <code>DirectionalLight</code>.
 	 * @param from The <code>Vector3</code> indicating the direction from which
 	 * 		the light originates.
-	 * @param irradiance The irradiance <code>Color</code>.
+	 * @param irradiance The irradiance <code>Spectrum</code>.
 	 * @param shadows A value indicating whether shadows should be applied.
 	 */
-	public DirectionalLight(Vector3 from, Color irradiance, boolean shadows) {
+	public DirectionalLight(Vector3 from, Spectrum irradiance, boolean shadows) {
 		this.from = from.unit();
 		this.irradiance = irradiance;
 		this.shadows = shadows;
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.VisibilityFunction3, ca.eandb.jmist.framework.Illuminable)
+	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Illuminable)
 	 */
-	public void illuminate(SurfacePoint x, VisibilityFunction3 vf, Illuminable target) {
-
-		if (this.shadows) {
-
-			Ray3 shadowRay = new Ray3(x.location(), this.from);
-
-			if (!vf.visibility(shadowRay, Interval.POSITIVE)) {
-				return;
-			}
-
-		}
-
-		target.illuminate(this.from, this.irradiance);
-
+	public void illuminate(SurfacePoint x, WavelengthPacket lambda, Illuminable target) {
+		double dot = x.getShadingNormal().dot(from);
+		target.addLightSample(new DirectionalLightSample(x, from, irradiance.sample(lambda).times(dot), shadows));
 	}
 
 	/**
@@ -57,8 +44,8 @@ public final class DirectionalLight implements Light {
 	 */
 	private final Vector3 from;
 
-	/** The irradiance <code>Color</code>. */
-	private final Color irradiance;
+	/** The irradiance <code>Spectrum</code>. */
+	private final Spectrum irradiance;
 
 	/** A value indicating whether shadows should be applied. */
 	private final boolean shadows;

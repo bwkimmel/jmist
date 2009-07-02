@@ -4,7 +4,7 @@
 package ca.eandb.jmist.framework;
 
 import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.framework.color.ColorModel;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
@@ -15,13 +15,13 @@ import ca.eandb.jmist.math.Vector3;
  */
 public interface Material extends Medium {
 
-	Color scattering(Intersection x, Vector3 in);
-	Color emission(SurfacePoint x, Vector3 out);
+	Color scattering(SurfacePoint x, Vector3 in, Vector3 out, WavelengthPacket lambda);
+	Color emission(SurfacePoint x, Vector3 out, WavelengthPacket lambda);
 
 	boolean isEmissive();
 
-	void scatter(Intersection x, ScatterRecorder recorder);
-	void emit(SurfacePoint x, ScatterRecorder recorder);
+	void scatter(SurfacePoint x, Vector3 v, WavelengthPacket lambda, ScatteredRayRecorder recorder);
+	void emit(SurfacePoint x, WavelengthPacket lambda, ScatteredRayRecorder recorder);
 
 	/**
 	 * A <code>Material</code> that absorbs all light and does not
@@ -30,12 +30,12 @@ public interface Material extends Medium {
 	public static final Material BLACK = new Material() {
 
 		@Override
-		public Color emission(SurfacePoint x, Vector3 out) {
-			return ColorModel.getInstance().getBlack();
+		public Color emission(SurfacePoint x, Vector3 out, WavelengthPacket lambda) {
+			return lambda.getColorModel().getBlack(lambda);
 		}
 
 		@Override
-		public void emit(SurfacePoint x, ScatterRecorder recorder) {
+		public void emit(SurfacePoint x, WavelengthPacket lambda, ScatteredRayRecorder recorder) {
 			/* nothing to do. */
 		}
 
@@ -45,28 +45,28 @@ public interface Material extends Medium {
 		}
 
 		@Override
-		public void scatter(Intersection x, ScatterRecorder recorder) {
+		public void scatter(SurfacePoint x, Vector3 in, WavelengthPacket lambda, ScatteredRayRecorder recorder) {
 			/* nothing to do. */
 		}
 
 		@Override
-		public Color scattering(Intersection x, Vector3 out) {
-			return ColorModel.getInstance().getBlack();
+		public Color scattering(SurfacePoint x, Vector3 v, Vector3 out, WavelengthPacket lambda) {
+			return lambda.getColorModel().getBlack().sample(lambda);
 		}
 
 		@Override
-		public Color extinctionIndex(Point3 p) {
-			return ColorModel.getInstance().getGray(Double.POSITIVE_INFINITY);
+		public Color extinctionIndex(Point3 p, WavelengthPacket lambda) {
+			return lambda.getColorModel().getGray(Double.POSITIVE_INFINITY, lambda);
 		}
 
 		@Override
-		public Color refractiveIndex(Point3 p) {
-			return ColorModel.getInstance().getWhite();
+		public Color refractiveIndex(Point3 p, WavelengthPacket lambda) {
+			return lambda.getColorModel().getWhite(lambda);
 		}
 
 		@Override
-		public Color transmittance(Ray3 ray, double distance) {
-			return ColorModel.getInstance().getBlack();
+		public Color transmittance(Ray3 ray, double distance, WavelengthPacket lambda) {
+			return lambda.getColorModel().getBlack(lambda);
 		}
 
 	};

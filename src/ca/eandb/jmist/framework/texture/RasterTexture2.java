@@ -9,6 +9,7 @@ import ca.eandb.jmist.framework.PixelSpectrumFactory;
 import ca.eandb.jmist.framework.Texture2;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
 
@@ -41,24 +42,25 @@ public final class RasterTexture2 implements Texture2 {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Texture2#evaluate(ca.eandb.jmist.toolkit.Point2)
+	 * @see ca.eandb.jmist.framework.Texture2#evaluate(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
-	public Color evaluate(Point2 p) {
+	public Color evaluate(Point2 p, WavelengthPacket lambda) {
 
 		int			w		= raster.getWidth();
 		int			h		= raster.getHeight();
 		int			x		= MathUtil.threshold((int) Math.floor(p.x() * (double) w), 0, w - 1);
 		int			y		= MathUtil.threshold((int) Math.floor(p.y() * (double) h), 0, h - 1);
 		double[]	pixel	= this.raster.getPixel(x, y, (double[]) null);
+		ColorModel	cm		= lambda.getColorModel();
 
 		if (factory != null) {
-			return ColorModel.getInstance().fromSpectrum(factory.createSpectrum(pixel));
+			return cm.getContinuous(factory.createSpectrum(pixel)).sample(lambda);
 		} else {
 			switch (pixel.length) {
 			case 1:
-				return ColorModel.getInstance().getGray(pixel[0]);
+				return cm.getGray(pixel[0], lambda);
 			case 3:
-				return ColorModel.getInstance().fromRGB(pixel[0], pixel[1], pixel[2]);
+				return cm.fromRGB(pixel[0], pixel[1], pixel[2]).sample(lambda);
 			default:
 				throw new RuntimeException("Raster has unrecognized number of bands.");
 			}

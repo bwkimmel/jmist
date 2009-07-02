@@ -6,6 +6,7 @@ package ca.eandb.jmist.framework;
 import java.io.Serializable;
 
 import ca.eandb.jmist.math.Box3;
+import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Sphere;
 
@@ -34,7 +35,8 @@ public class BoundingBoxBuilder3 implements Serializable {
 			return Box3.EMPTY;
 		}
 
-		return new Box3(minimumX, minimumY, minimumZ, maximumX, maximumY, maximumZ);
+		// FIXME epsilon checks should not be done at this level.
+		return new Box3(minimumX - MathUtil.EPSILON, minimumY - MathUtil.EPSILON, minimumZ - MathUtil.EPSILON, maximumX + MathUtil.EPSILON, maximumY + MathUtil.EPSILON, maximumZ + MathUtil.EPSILON);
 	}
 
 	/**

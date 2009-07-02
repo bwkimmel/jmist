@@ -39,6 +39,9 @@ import ca.eandb.jmist.framework.Painter;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
+import ca.eandb.jmist.framework.color.Spectrum;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
 
 /**
@@ -53,6 +56,7 @@ public final class TexturePainter implements Painter {
 
 	/**
 	 * @param texture
+	 * @param colorModel
 	 */
 	public TexturePainter(Raster texture) {
 		this.texture = texture;
@@ -79,25 +83,32 @@ public final class TexturePainter implements Painter {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Painter#getColor(ca.eandb.jmist.framework.SurfacePoint)
+	 * @see ca.eandb.jmist.framework.Painter#getColor(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
 	@Override
-	public Color getColor(SurfacePoint p) {
-		Point2 uv = p.textureCoordinates();
-		int x = (int) Math.floor(uv.x() * texture.getWidth());
-		int y = (int) Math.floor(uv.y() * texture.getHeight());
-		return getPixel(x, y);
+	public Color getColor(SurfacePoint p, WavelengthPacket lambda) {
+		Point2 uv = p.getUV();
+		double u = uv.x() - Math.floor(uv.x());
+		double v = uv.y() - Math.floor(uv.y());
+
+		int w = texture.getWidth();
+		int h = texture.getHeight();
+
+		int x = MathUtil.threshold((int) Math.floor(u * w), 0, w - 1);
+		int y = MathUtil.threshold((int) Math.floor(v * h), 0, h - 1);
+
+		return getPixel(x, y, lambda.getColorModel()).sample(lambda);
 	}
 
-	private synchronized Color getPixel(int x, int y) {
+	private synchronized Spectrum getPixel(int x, int y, ColorModel colorModel) {
 		pixel = texture.getPixel(x, y, pixel);
 
 		// FIXME: Maximum channel value should not be hard coded.
 		switch (pixel.length) {
 		case 1:
-			return ColorModel.getInstance().getGray(pixel[0]/255.0);
+			return colorModel.getGray(pixel[0]/255.0);
 		case 3:
-			return ColorModel.getInstance().fromRGB(pixel[0]/255.0, pixel[1]/255.0, pixel[2]/255.0);
+			return colorModel.fromRGB(pixel[0]/255.0, pixel[1]/255.0, pixel[2]/255.0);
 		default:
 			throw new UnsupportedOperationException();
 		}

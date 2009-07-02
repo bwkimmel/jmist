@@ -3,32 +3,33 @@
  */
 package ca.eandb.jmist.framework.geometry.primitive;
 
+import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.Material;
-import ca.eandb.jmist.framework.geometry.SingleMaterialGeometry;
+import ca.eandb.jmist.framework.ShadingContext;
+import ca.eandb.jmist.framework.geometry.PrimitiveGeometry;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
+import ca.eandb.jmist.math.RandomUtil;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
 import ca.eandb.jmist.math.SphericalCoordinates;
 import ca.eandb.jmist.math.Vector3;
 
 /**
- * A spherical <code>Geometry</code>.
+ * A spherical <code>SceneElement</code>.
  * @author Brad Kimmel
  */
-public final class SphereGeometry extends SingleMaterialGeometry {
+public final class SphereGeometry extends PrimitiveGeometry {
 
 	/**
 	 * Creates a new <code>SphereGeometry</code>.
 	 * @param sphere The <code>Sphere</code> describing to be rendered.
 	 * @param material The <code>Material</code> to apply to the sphere.
 	 */
-	public SphereGeometry(Sphere sphere, Material material) {
-		super(material);
+	public SphereGeometry(Sphere sphere) {
 		this.sphere = sphere;
 	}
 
@@ -36,16 +37,15 @@ public final class SphereGeometry extends SingleMaterialGeometry {
 	 * Creates a new <code>SphereGeometry</code>.
 	 * @param center The <code>Point3</code> at the center of the sphere.
 	 * @param radius The radius of the sphere.
-	 * @param material The <code>Material</code> to apply to the sphere.
 	 */
-	public SphereGeometry(Point3 center, double radius, Material material) {
-		super(material);
+	public SphereGeometry(Point3 center, double radius) {
 		this.sphere = new Sphere(center, radius);
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#intersect(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+	 * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
+	@Override
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 
 		Interval I = this.sphere.intersect(ray);
@@ -62,7 +62,7 @@ public final class SphereGeometry extends SingleMaterialGeometry {
 	 */
 	@Override
 	protected Basis3 getBasis(GeometryIntersection x) {
-		return Basis3.fromW(x.normal(), Basis3.Orientation.RIGHT_HANDED);
+		return Basis3.fromW(x.getNormal(), Basis3.Orientation.RIGHT_HANDED);
 	}
 
 	/* (non-Javadoc)
@@ -70,15 +70,15 @@ public final class SphereGeometry extends SingleMaterialGeometry {
 	 */
 	@Override
 	protected Vector3 getNormal(GeometryIntersection x) {
-		return this.sphere.normalAt(x.location());
+		return this.sphere.normalAt(x.getPosition());
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.AbstractGeometry#getTextureCoordinates(ca.eandb.jmist.framework.AbstractGeometry.GeometryIntersection)
+	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getTextureCoordinates(ca.eandb.jmist.framework.geometry.AbstractGeometry.GeometryIntersection)
 	 */
 	@Override
 	protected Point2 getTextureCoordinates(GeometryIntersection x) {
-		Vector3					n = x.normal();
+		Vector3					n = x.getNormal();
 		SphericalCoordinates	sc = SphericalCoordinates.fromCartesian(new Vector3(n.x(), -n.z(), n.y()));
 
 		return new Point2(
@@ -88,15 +88,7 @@ public final class SphereGeometry extends SingleMaterialGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.AbstractGeometry#visibility(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.toolkit.Interval)
-	 */
-	@Override
-	public boolean visibility(Ray3 ray, Interval I) {
-		return !I.intersects(this.sphere.intersect(ray));
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Geometry#isClosed()
+	 * @see ca.eandb.jmist.framework.SceneElement#isClosed()
 	 */
 	public boolean isClosed() {
 		return true;
@@ -117,10 +109,10 @@ public final class SphereGeometry extends SingleMaterialGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.AbstractGeometry#surfaceMayIntersect(ca.eandb.jmist.toolkit.Box3)
+	 * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersects(ca.eandb.jmist.math.Box3)
 	 */
 	@Override
-	public boolean surfaceMayIntersect(Box3 box) {
+	public boolean intersects(Box3 box) {
 
 		boolean foundCornerInside = false;
 		boolean foundCornerOutside = false;
@@ -164,7 +156,25 @@ public final class SphereGeometry extends SingleMaterialGeometry {
 
 	}
 
-	/** The <code>Sphere</code> describing this <code>Geometry</code>. */
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext)
+	 */
+	@Override
+	public void generateRandomSurfacePoint(ShadingContext context) {
+		Point3 p = sphere.center().plus(RandomUtil.uniformOnSphere(sphere.radius()).toCartesian());
+		Intersection x = newSurfacePoint(p);
+		x.prepareShadingContext(context);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getSurfaceArea()
+	 */
+	@Override
+	public double getSurfaceArea() {
+		return sphere.surfaceArea();
+	}
+
+	/** The <code>Sphere</code> describing this <code>SceneElement</code>. */
 	private final Sphere sphere;
 
 }

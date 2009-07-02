@@ -3,15 +3,19 @@
  */
 package ca.eandb.jmist.framework.material;
 
-import ca.eandb.jmist.framework.Intersection;
-import ca.eandb.jmist.framework.ScatterRecorder;
-import ca.eandb.jmist.framework.ScatterResult;
+import ca.eandb.jmist.framework.Medium;
+import ca.eandb.jmist.framework.ScatteredRay;
+import ca.eandb.jmist.framework.ScatteredRayRecorder;
+import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.ColorUtil;
+import ca.eandb.jmist.framework.color.Spectrum;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Complex;
 import ca.eandb.jmist.math.Optics;
 import ca.eandb.jmist.math.Point3;
+import ca.eandb.jmist.math.RandomUtil;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
 
@@ -23,60 +27,62 @@ public final class ConductiveMaterial extends AbstractMaterial {
 
 	/**
 	 * Creates a new <code>ConductiveMaterial</code>.
-	 * @param n The real part of the refractive index <code>Color</code>.
+	 * @param n The real part of the refractive index <code>Spectrum</code>.
 	 * @param k The imaginary part of the refractive index
-	 * 		<code>Color</code>.
-	 * @param alpha The absorption coefficient.
+	 * 		<code>Spectrum</code>.
+	 * @param alpha The absorption coefficient <code>Spectrum</code>.
 	 */
-	public ConductiveMaterial(Color n, Color k, Color alpha) {
+	public ConductiveMaterial(Spectrum n, Spectrum k, Spectrum alpha) {
 		this.n = n;
 		this.k = k;
 		this.alpha = alpha;
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Medium#extinctionIndex(ca.eandb.jmist.toolkit.Point3)
+	 * @see ca.eandb.jmist.framework.Medium#extinctionIndex(ca.eandb.jmist.math.Point3, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
-	public Color extinctionIndex(Point3 p) {
-		return this.k;
+	public Color extinctionIndex(Point3 p, WavelengthPacket lambda) {
+		return k.sample(lambda);
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Medium#refractiveIndex(ca.eandb.jmist.toolkit.Point3)
+	 * @see ca.eandb.jmist.framework.Medium#refractiveIndex(ca.eandb.jmist.math.Point3, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
-	public Color refractiveIndex(Point3 p) {
-		return this.n;
+	public Color refractiveIndex(Point3 p, WavelengthPacket lambda) {
+		return n.sample(lambda);
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Medium#transmittance(ca.eandb.jmist.toolkit.Ray3, double)
+	 * @see ca.eandb.jmist.framework.Medium#transmittance(ca.eandb.jmist.math.Ray3, double, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
-	public Color transmittance(Ray3 ray, final double distance) {
-		return alpha != null ? alpha.times(-distance).exp() : ColorModel.getInstance().getBlack();
+	public Color transmittance(Ray3 ray, final double distance, WavelengthPacket lambda) {
+		return alpha != null ? alpha.sample(lambda).times(-distance).exp() : lambda.getColorModel().getBlack(lambda);
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.Intersection, ca.eandb.jmist.framework.ScatterRecorder)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.ScatteredRayRecorder)
 	 */
 	@Override
-	public void scatter(Intersection x, ScatterRecorder recorder) {
+	public void scatter(SurfacePoint x, Vector3 v, WavelengthPacket lambda, ScatteredRayRecorder recorder) {
 
-		ColorModel	cm			= ColorModel.getInstance();
-		Point3		p			= x.location();
-		Color		n1			= x.ambientMedium().refractiveIndex(p);
-		Color		k1			= x.ambientMedium().extinctionIndex(p);
-		Vector3		in			= x.incident();
-		Vector3		normal		= x.shadingNormal();
-		boolean		fromSide	= x.normal().dot(in) < 0.0;
-		Color		R			= Optics.reflectance(in, normal, n1, k1, n, k);
-		Color		T			= cm.getWhite().minus(R);
+		ColorModel	cm			= lambda.getColorModel();
+		Point3		p			= x.getPosition();
+		Medium		medium		= x.getAmbientMedium();
+		Color		n1			= medium.refractiveIndex(p, lambda);
+		Color		k1			= medium.extinctionIndex(p, lambda);
+		Color		n2			= n.sample(lambda);
+		Color		k2			= k.sample(lambda);
+		Vector3		normal		= x.getShadingNormal();
+		boolean		fromSide	= x.getNormal().dot(v) < 0.0;
+		Color		R			= Optics.reflectance(v, normal, n1, k1, n2, k2);
+		Color		T			= cm.getWhite(lambda).minus(R);
 
 		{
-			Vector3		out		= Optics.reflect(in, normal);
-			boolean		toSide	= x.normal().dot(out) >= 0.0;
+			Vector3		out		= Optics.reflect(v, normal);
+			boolean		toSide	= x.getNormal().dot(out) >= 0.0;
 
 			if (fromSide == toSide) {
-				recorder.record(ScatterResult.specular(new Ray3(p, out), R));
+				recorder.add(ScatteredRay.specular(new Ray3(p, out), R));
 			}
 		}
 
@@ -85,7 +91,7 @@ public final class ConductiveMaterial extends AbstractMaterial {
 			int			channel	= -1;
 
 			double		total	= ColorUtil.getTotalChannelValue(imp);
-			double		rnd		= Math.random() * total;
+			double		rnd		= RandomUtil.canonical() * total;
 			double		sum		= 0.0;
 
 			for (int i = 0; i < cm.getNumChannels(); i++) {
@@ -103,26 +109,26 @@ public final class ConductiveMaterial extends AbstractMaterial {
 			}
 
 			Complex		eta1	= new Complex(n1.getValue(channel), k1.getValue(channel));
-			Complex		eta2	= new Complex(n.getValue(channel), k.getValue(channel));
-			Vector3		out		= Optics.refract(in, eta1, eta2, normal);
-			boolean		toSide	= x.normal().dot(out) >= 0.0;
+			Complex		eta2	= new Complex(n2.getValue(channel), k2.getValue(channel));
+			Vector3		out		= Optics.refract(v, eta1, eta2, normal);
+			boolean		toSide	= x.getNormal().dot(out) >= 0.0;
 
 			T					= T.disperse(channel);
 
 			if (fromSide != toSide) {
-				recorder.record(ScatterResult.transmitSpecular(new Ray3(p, out), T));
+				recorder.add(ScatteredRay.transmitSpecular(new Ray3(p, out), T));
 			}
 		}
 
 	}
 
 	/** The real part of the refractive index. */
-	private final Color n;
+	private final Spectrum n;
 
 	/** The imaginary part of the refractive index. */
-	private final Color k;
+	private final Spectrum k;
 
 	/** The absorption coefficient. */
-	private final Color alpha;
+	private final Spectrum alpha;
 
 }
