@@ -74,6 +74,8 @@ public interface ShadingContext extends SurfacePoint, VisibilityFunction3 {
 
 	Modifier getModifier();
 
+	Color getAmbientLight();
+
 	void setPosition(Point3 position);
 
 	void setNormal(Vector3 normal);

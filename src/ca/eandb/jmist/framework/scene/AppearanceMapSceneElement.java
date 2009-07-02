@@ -40,11 +40,11 @@ import ca.eandb.jmist.math.Vector3;
  * @author Brad
  *
  */
-public final class MaterialMapSceneElement extends SceneElementDecorator {
+public final class AppearanceMapSceneElement extends SceneElementDecorator {
 
 	private ByteBuffer map = ByteBuffer.allocate(256);
 
-	private List<Material> materials = new ArrayList<Material>();
+	private List<Appearance> app = new ArrayList<Appearance>();
 
 	private HashMap<String, Integer> nameLookup = null;
 
@@ -52,16 +52,26 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 	 * @param modifier
 	 * @param inner
 	 */
-	public MaterialMapSceneElement(SceneElement inner) {
+	public AppearanceMapSceneElement(SceneElement inner) {
 		super(inner);
 	}
 
-	private class MaterialIntersectionRecorder extends IntersectionRecorderDecorator {
+	private static final class Appearance {
+		public final Material material;
+		public final Shader shader;
+
+		public Appearance(Material material, Shader shader) {
+			this.material = material;
+			this.shader = shader;
+		}
+	}
+
+	private class AppearanceIntersectionRecorder extends IntersectionRecorderDecorator {
 
 		/**
 		 * @param inner
 		 */
-		public MaterialIntersectionRecorder(IntersectionRecorder inner) {
+		public AppearanceIntersectionRecorder(IntersectionRecorder inner) {
 			super(inner);
 		}
 
@@ -72,36 +82,36 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 		public void record(Intersection intersection) {
 			inner.record(new IntersectionDecorator(intersection) {
 				protected void transformShadingContext(ShadingContext context) {
-					applyMaterial(context);
+					applyAppearance(context);
 				}
 			});
 		}
 
 	}
 
-	public int addMaterial(Material material) {
-		if (materials.size() >= 256) {
-			throw new IllegalStateException("Material map is full");
+	public int addAppearance(Material material, Shader shader) {
+		if (app.size() >= 256) {
+			throw new IllegalStateException("Material/Shader map is full");
 		}
-		int key = materials.size();
-		materials.add(material);
+		int key = app.size();
+		app.add(new Appearance(material, shader));
 		return key;
 	}
 
-	public MaterialMapSceneElement addMaterial(String key, Material material) {
+	public AppearanceMapSceneElement addAppearance(String key, Material material, Shader shader) {
 		if (nameLookup == null) {
 			nameLookup = new HashMap<String, Integer>();
 		}
-		nameLookup.put(key, addMaterial(material));
+		nameLookup.put(key, addAppearance(material, shader));
 		return this;
 	}
 
-	public void setMaterial(int primitive, int materialKey) {
-		setMaterialRange(primitive, 1, materialKey);
+	public void setAppearance(int primitive, int key) {
+		setAppearanceRange(primitive, 1, key);
 	}
 
-	public void setMaterialRange(int start, int length, int materialKey) {
-		if (materialKey < 0 || materialKey >= materials.size()) {
+	public void setAppearanceRange(int start, int length, int key) {
+		if (key < 0 || key >= app.size()) {
 			throw new IllegalArgumentException();
 		}
 		if (start + length > map.capacity()) {
@@ -113,21 +123,21 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 		}
 		map.position(start);
 		for (int i = 0; i < length; i++) {
-			map.put((byte) materialKey);
+			map.put((byte) key);
 		}
 	}
 
-	public MaterialMapSceneElement setMaterialRange(int start, int length, String name) {
+	public AppearanceMapSceneElement setAppearanceRange(int start, int length, String name) {
 		if (nameLookup == null || !nameLookup.containsKey(name)) {
 			throw new IllegalArgumentException();
 		}
-		int materialKey = nameLookup.get(name);
-		setMaterialRange(start, length, materialKey);
+		int key = nameLookup.get(name);
+		setAppearanceRange(start, length, key);
 		return this;
 	}
 
-	public MaterialMapSceneElement setMaterial(int primitive, String name) {
-		return setMaterialRange(primitive, 1, name);
+	public AppearanceMapSceneElement setAppearance(int primitive, String name) {
+		return setAppearanceRange(primitive, 1, name);
 	}
 
 	/* (non-Javadoc)
@@ -135,7 +145,7 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 	 */
 	@Override
 	public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
-		super.intersect(index, ray, new MaterialIntersectionRecorder(recorder));
+		super.intersect(index, ray, new AppearanceIntersectionRecorder(recorder));
 	}
 
 	/* (non-Javadoc)
@@ -143,14 +153,14 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 	 */
 	@Override
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
-		super.intersect(ray, new MaterialIntersectionRecorder(recorder));
+		super.intersect(ray, new AppearanceIntersectionRecorder(recorder));
 	}
 
 	@Override
 	public double generateImportanceSampledSurfacePoint(int index,
 			SurfacePoint x, ShadingContext context) {
 		double weight = super.generateImportanceSampledSurfacePoint(index, x, context);
-		applyMaterial(context);
+		applyAppearance(context);
 		return weight;
 	}
 
@@ -158,20 +168,20 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 	public double generateImportanceSampledSurfacePoint(SurfacePoint x,
 			ShadingContext context) {
 		double weight = super.generateImportanceSampledSurfacePoint(x, context);
-		applyMaterial(context);
+		applyAppearance(context);
 		return weight;
 	}
 
 	@Override
 	public void generateRandomSurfacePoint(int index, ShadingContext context) {
 		super.generateRandomSurfacePoint(index, context);
-		applyMaterial(context);
+		applyAppearance(context);
 	}
 
 	@Override
 	public void generateRandomSurfacePoint(ShadingContext context) {
 		super.generateRandomSurfacePoint(context);
-		applyMaterial(context);
+		applyAppearance(context);
 	}
 
 	/* (non-Javadoc)
@@ -183,7 +193,7 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 		int numPrim = super.getNumPrimitives();
 		ArrayList<Integer> emissive = new ArrayList<Integer>();
 		for (int i = 0; i < numPrim; i++) {
-			if (lookup(i).isEmissive()) {
+			if (lookup(i).material.isEmissive()) {
 				emissive.add(i);
 			}
 		}
@@ -454,11 +464,11 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 		};
 	}
 
-	private Material lookup(int primIndex) {
+	private Appearance lookup(int primIndex) {
 		if (primIndex >= 0 && primIndex < map.capacity()) {
 			int matIndex = (int) map.get(primIndex);
-			if (0 <= matIndex && matIndex < materials.size()) {
-				return materials.get(matIndex);
+			if (0 <= matIndex && matIndex < app.size()) {
+				return app.get(matIndex);
 			}
 		}
 		return null;
@@ -467,11 +477,12 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 	/**
 	 * @param context
 	 */
-	private void applyMaterial(ShadingContext context) {
+	private void applyAppearance(ShadingContext context) {
 		int primIndex = context.getPrimitiveIndex();
-		Material mat = lookup(primIndex);
-		if (mat != null) {
-			context.setMaterial(mat);
+		Appearance a = lookup(primIndex);
+		if (a != null) {
+			context.setMaterial(a.material);
+			context.setShader(a.shader);
 		}
 	}
 
