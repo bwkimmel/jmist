@@ -35,8 +35,11 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class PhotonMap {
 
-	/**	A compact array for storing photons */
-	private final PhotonBuffer photons;
+	/**
+	 * A compact array for storing photons.
+	 * TODO Use <code>PhotonBuffer</code> interface.
+	 */
+	private final CompactPhotonBuffer photons;
 
 	/**
 	 * The photons are stored in an array representing a balanced binary tree.
@@ -51,13 +54,13 @@ public final class PhotonMap {
 	 * The coordinates of the corner of the bounding box that is closest to the
 	 * origin.
 	 */
-	private final double[] bbox_min = { Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY };
+	private final double[] bbox_min = { Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY };
 
 	/**
 	 * The coordinates of the corner of the bounding box that is farthest from
 	 * the origin.
 	 */
-	private final double[] bbox_max = { Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY };
+	private final double[] bbox_max = { Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY };
 
 	/**
 	 * Creates a new photon map with the capacity to store a given number of
@@ -78,11 +81,10 @@ public final class PhotonMap {
 	 * @param power The power of the photon.
 	 */
 	public void store(Point3 position, Vector3 direction, double power) {
-		float x = (float) position.x();
-		float y = (float) position.y();
-		float z = (float) position.z();
-		photons.store(position, (float) power, direction,
-				(short) 0);
+		double x = position.x();
+		double y = position.y();
+		double z = position.z();
+		photons.store(position, power, direction, (short) 0);
 		if (x > bbox_max[0]) bbox_max[0] = x;
 		if (y > bbox_max[1]) bbox_max[1] = y;
 		if (z > bbox_max[2]) bbox_max[2] = z;
@@ -139,7 +141,7 @@ public final class PhotonMap {
 	 */
 	public void scalePhotons(double scale) {
 		for (int i = 1; i <= storedPhotons; i++) {
-			photons.scalePower(i, (float) scale);
+			photons.scalePower(i, scale);
 		}
 	}
 
@@ -159,13 +161,13 @@ public final class PhotonMap {
 		NearestPhotons np = new NearestPhotons();
 		np.squaredDistance = new double[numPhotons + 1];
 		np.index = new int[numPhotons + 1];
-		np.x = (float) position.x();
-		np.y = (float) position.y();
-		np.z = (float) position.z();
+		np.x = position.x();
+		np.y = position.y();
+		np.z = position.z();
 		np.maximum = numPhotons;
 		np.found = 0;
 		np.gotHeap = false;
-		np.squaredDistance[0] = (float) (maxDistance * maxDistance);
+		np.squaredDistance[0] = (maxDistance * maxDistance);
 
 		// locate the nearest photons.
 		locatePhotons(np, 1);
@@ -429,7 +431,7 @@ public final class PhotonMap {
 			case 0: return x;
 			case 1: return y;
 			case 2: return z;
-			default: return Float.NaN;
+			default: return Double.NaN;
 			}
 		}
 
