@@ -9,7 +9,6 @@ import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.LinearMatrix3;
-import ca.eandb.jmist.math.Matrix;
 import ca.eandb.jmist.math.Vector3;
 
 /**
@@ -43,6 +42,17 @@ public final class RGBColorModel extends ColorModel {
 	 */
 	private RGBColorModel() {
 		/* nothing to do. */
+	}
+
+	/**
+	 * Gets the single <code>RGBColorModel</code> instance.
+	 * @return The single <code>RGBColorModel</code> instance.
+	 */
+	public static RGBColorModel getInstance() {
+		if (instance == null) {
+			instance = new RGBColorModel();
+		}
+		return instance;
 	}
 
 	/* (non-Javadoc)
