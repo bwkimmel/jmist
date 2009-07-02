@@ -171,6 +171,12 @@ public final class SceneRayShader implements RayShader {
 		}
 
 		@Override
+		public Color getAmbientLight() {
+			// TODO add ambient illumination from scene
+			return getColorModel().getBlack(getWavelengthPacket());
+		}
+
+		@Override
 		public ColorModel getColorModel() {
 			return getImportance().getColorModel();
 		}
