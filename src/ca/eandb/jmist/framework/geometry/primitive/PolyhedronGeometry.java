@@ -3,7 +3,9 @@
  */
 package ca.eandb.jmist.framework.geometry.primitive;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import ca.eandb.jmist.framework.Bounded3;
 import ca.eandb.jmist.framework.BoundingBoxBuilder3;
@@ -37,16 +39,53 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	 * 		side from which the vertices appear in counter-clockwise order.
 	 */
 	public PolyhedronGeometry(Point3[] vertices, int[][] faces) {
+		this.vertices = new ArrayList<Point3>(vertices.length);
+		this.vertices.addAll(Arrays.asList(vertices));
 
-		this.vertices = vertices;
-		this.faces = new Face[faces.length];
+		this.texCoords = new ArrayList<Point2>();
+		this.normals = new ArrayList<Vector3>();
 
-		for (int i = 0; i < this.faces.length; i++) {
-			this.faces[i] = new Face(faces[i]);
+		for (int i = 0; i < faces.length; i++) {
+			this.faces.add(new Face(faces[i], null, null));
 		}
+	}
 
-		this.closed = true;
+	public PolyhedronGeometry(List<Point3> vertices, List<Point2> texCoords, List<Vector3> normals) {
+		this.vertices = vertices;
+		this.texCoords = texCoords;
+		this.normals = normals;
+	}
 
+	public PolyhedronGeometry() {
+		this(new ArrayList<Point3>(), new ArrayList<Point2>(), new ArrayList<Vector3>());
+	}
+
+	public PolyhedronGeometry addVertex(Point3 v) {
+		vertices.add(v);
+		return this;
+	}
+
+	public PolyhedronGeometry addNormal(Vector3 vn) {
+		normals.add(vn);
+		return this;
+	}
+
+	public PolyhedronGeometry addTexCoord(Point2 vt) {
+		texCoords.add(vt);
+		return this;
+	}
+
+	public PolyhedronGeometry addFace(int[] vi) {
+		return addFace(vi, null, null);
+	}
+
+	public PolyhedronGeometry addFace(int[] vi, int[] vti) {
+		return addFace(vi, vti, null);
+	}
+
+	public PolyhedronGeometry addFace(int[] vi, int[] vti, int[] vni) {
+		faces.add(new Face(vi, vti, vni));
+		return this;
 	}
 
 	/* (non-Javadoc)
@@ -66,7 +105,7 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	 */
 	private void intersectFace(int faceIndex, Ray3 ray, IntersectionRecorder recorder) {
 
-		Face			face = this.faces[faceIndex];
+		Face			face = this.faces.get(faceIndex);
 		double			t = face.plane.intersect(ray);
 
 		if (recorder.interval().contains(t)) {
@@ -77,8 +116,8 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 
 			for (int i = 0; i < face.indices.length; i++)
 			{
-				Point3	a = this.vertices[face.indices[i]];
-				Point3	b = this.vertices[face.indices[(i + 1) % face.indices.length]];
+				Point3	a = this.vertices.get(face.indices[i]);
+				Point3	b = this.vertices.get(face.indices[(i + 1) % face.indices.length]);
 				Vector3	ab = a.vectorTo(b);
 
 				u = n.cross(ab);
@@ -104,7 +143,7 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	 */
 	@Override
 	protected Basis3 getBasis(GeometryIntersection x) {
-		Face face = faces[x.getTag()];
+		Face face = faces.get(x.getTag());
 		Vector3 n = face.plane.normal();
 		return Basis3.fromW(n, Basis3.Orientation.RIGHT_HANDED);
 	}
@@ -114,7 +153,7 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	 */
 	@Override
 	public Box3 getBoundingBox(int index) {
-		return faces[index].boundingBox();
+		return faces.get(index).boundingBox();
 	}
 
 	/* (non-Javadoc)
@@ -122,7 +161,7 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	 */
 	@Override
 	public Sphere getBoundingSphere(int index) {
-		return faces[index].boundingSphere();
+		return faces.get(index).boundingSphere();
 	}
 
 	/* (non-Javadoc)
@@ -130,14 +169,7 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	 */
 	@Override
 	public int getNumPrimitives() {
-		return faces.length;
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SceneElement#isClosed()
-	 */
-	public boolean isClosed() {
-		return this.closed;
+		return faces.size();
 	}
 
 	/* (non-Javadoc)
@@ -159,7 +191,7 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	 * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
 	 */
 	public Sphere boundingSphere() {
-		return Sphere.smallestContaining(Arrays.asList(this.vertices));
+		return Sphere.smallestContaining(this.vertices);
 	}
 
 	/* (non-Javadoc)
@@ -167,7 +199,7 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	 */
 	@Override
 	public void generateRandomSurfacePoint(int index, ShadingContext context) {
-		Point3 p = faces[index].generateRandomSurfacePoint();
+		Point3 p = faces.get(index).generateRandomSurfacePoint();
 		Intersection x = super.newSurfacePoint(p, index).setPrimitiveIndex(index);
 		x.prepareShadingContext(context);
 	}
@@ -177,7 +209,16 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	 */
 	@Override
 	public double getSurfaceArea(int index) {
-		return faces[index].getSurfaceArea();
+		return faces.get(index).getSurfaceArea();
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getTextureCoordinates(ca.eandb.jmist.framework.geometry.AbstractGeometry.GeometryIntersection)
+	 */
+	@Override
+	protected Point2 getTextureCoordinates(GeometryIntersection x) {
+		Face face = faces.get(x.getTag());
+		return face.getUV(x.getPosition());
 	}
 
 	/**
@@ -191,8 +232,10 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 		 * @param indices The indices into {@link PolyhedronGeometry#vertices}
 		 * 		of the vertices of the face.
 		 */
-		public Face(int[] indices) {
+		public Face(int[] indices, int[] texIndices, int[] normalIndices) {
 			this.indices = indices;
+			this.texIndices = texIndices;
+			this.normalIndices = normalIndices;
 			this.plane = this.computePlane();
 		}
 
@@ -203,7 +246,7 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 		 * 		lies.
 		 */
 		public Plane3 computePlane() {
-			return new Plane3(vertices[indices[0]], this.computeFaceNormal());
+			return new Plane3(vertices.get(indices[0]), this.computeFaceNormal());
 		}
 
 		/**
@@ -214,8 +257,8 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 		 */
 		public Vector3 computeFaceNormal() {
 
-			Vector3	u = vertices[indices[0]].vectorTo(vertices[indices[1]]);
-			Vector3	v = vertices[indices[0]].vectorTo(vertices[indices[indices.length - 1]]);
+			Vector3	u = vertices.get(indices[0]).vectorTo(vertices.get(indices[1]));
+			Vector3	v = vertices.get(indices[0]).vectorTo(vertices.get(indices[indices.length - 1]));
 
 			return u.cross(v).unit();
 
@@ -227,7 +270,7 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 		public Box3 boundingBox() {
 			BoundingBoxBuilder3 builder = new BoundingBoxBuilder3();
 			for (int i = 0; i < indices.length; i++) {
-				builder.add(vertices[indices[i]]);
+				builder.add(vertices.get(indices[i]));
 			}
 			return builder.getBoundingBox();
 		}
@@ -236,20 +279,20 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 		 * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
 		 */
 		public Sphere boundingSphere() {
-			Point3[] verts = new Point3[indices.length];
+			List<Point3> verts = new ArrayList<Point3>(indices.length);
 			for (int i = 0; i < indices.length; i++) {
-				verts[i] = vertices[indices[i]];
+				verts.add(vertices.get(indices[i]));
 			}
-			return Sphere.smallestContaining(Arrays.asList(verts));
+			return Sphere.smallestContaining(verts);
 		}
 
 		public double getSurfaceArea() {
 			Vector3 n = computeFaceNormal();
-			Vector3 v0 = vertices[indices[0]].vectorFromOrigin();
+			Vector3 v0 = vertices.get(indices[0]).vectorFromOrigin();
 			Vector3 v1;
 			Vector3 r = Vector3.ZERO;
 			for (int i = 1; i < indices.length; i++) {
-				v1 = vertices[indices[i]].vectorFromOrigin();
+				v1 = vertices.get(indices[i]).vectorFromOrigin();
 				r = r.plus(v0.cross(v1));
 				v0 = v1;
 			}
@@ -259,10 +302,57 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 		public Point3 generateRandomSurfacePoint() {
 			decompose();
 			int tri = 3 * rnd.next();
-			Point3 a = vertices[decomp[tri]];
-			Point3 b = vertices[decomp[tri + 1]];
-			Point3 c = vertices[decomp[tri + 2]];
+			Point3 a = vertices.get(decomp[tri]);
+			Point3 b = vertices.get(decomp[tri + 1]);
+			Point3 c = vertices.get(decomp[tri + 2]);
 			return RandomUtil.uniformOnTriangle(a, b, c);
+		}
+
+		private Point2 getUV(Point3 p) {
+			if (this.texIndices == null) {
+				return Point2.ORIGIN;
+			}
+
+			decompose();
+
+			Vector3 n = plane.normal();
+			p = plane.project(p);
+
+
+			for (int i = 0; i < decomp.length; i += 3) {
+				Point3 a = vertices.get(decomp[i]);
+				Point3 b = vertices.get(decomp[i + 1]);
+				Point3 c = vertices.get(decomp[i + 2]);
+				Vector3 ab = a.vectorTo(b);
+				Vector3 ac = a.vectorTo(c);
+				Vector3 pa = p.vectorTo(a);
+				Vector3 pb = p.vectorTo(b);
+				Vector3 pc = p.vectorTo(c);
+
+				double area = n.dot(ab.cross(ac));
+				double A = n.dot(pb.cross(pc)) / area;
+				if (A < 0.0) continue;
+				double B = n.dot(pc.cross(pa)) / area;
+				if (B < 0.0) continue;
+				double C = 1.0 - A - B;
+				if (C < 0.0) continue;
+
+				// XXX oops.. i guess decomp shouldn't refer directly to the vertex array.
+				Point2 ta = null, tb = null, tc = null;
+				for (int j = 0; j < indices.length; j++) {
+					if (indices[j] == decomp[i]) {
+						ta = texCoords.get(texIndices[j]);
+					} else if (indices[j] == decomp[i + 1]) {
+						tb = texCoords.get(texIndices[j]);
+					} else if (indices[j] == decomp[i + 2]) {
+						tc = texCoords.get(texIndices[j]);
+					}
+				}
+
+				return new Point2(ta.x() * A + tb.x() * B + tc.x() * C, ta.y() * A + tb.y() * B + tc.y() * C);
+			}
+
+			return Point2.ORIGIN;
 		}
 
 		private synchronized void decompose() {
@@ -281,9 +371,9 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 				decomp[3 * i + 1] = indices[i + 1];
 				decomp[3 * i + 2] = indices[i + 2];
 				weight[i] = GeometryUtil.areaOfTriangle(
-						vertices[decomp[3 * i]],
-						vertices[decomp[3 * i + 1]],
-						vertices[decomp[3 * i + 2]]);
+						vertices.get(decomp[3 * i]),
+						vertices.get(decomp[3 * i + 1]),
+						vertices.get(decomp[3 * i + 2]));
 			}
 			rnd = new CategoricalRandom(weight);
 		}
@@ -299,32 +389,35 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 		 * The indices into {@link PolyhedronGeometry#vertices} of the vertices
 		 * of this face.
 		 */
-		public int[] indices;
+		public final int[] indices;
 
 		/**
-		 * The indices into {@link PolyhedronGeometry#textureVertices} of the
+		 * The indices into {@link PolyhedronGeometry#texCoords} of the
 		 * texture vertices of this face.
 		 */
-		public int[] textureIndices;
+		public final int[] texIndices;
+
+		/**
+		 * The indices into {@link PolyhedronGeometry#normals} of the normals
+		 * for corresponding to the vertices on this face.
+		 */
+		public final int[] normalIndices;
 
 	}
 
 	/** The array of the vertices of this polyhedron. */
-	private Point3[] vertices;
+	private final List<Point3> vertices;
 
 	/**
 	 * The array of vertex normals corresponding to the vertices in
 	 * {@link #vertices}.
 	 */
-	private Vector3[] normals;
+	private final List<Vector3> normals;
 
 	/** An array of texture coordinates. */
-	private Point2[] textureVertices;
+	private final List<Point2> texCoords;
 
 	/** An array of the <code>Face</code>s of this polyhedron. */
-	private Face[] faces;
-
-	/** A value indicating whether this polyhedron is closed. */
-	private boolean closed;
+	private final List<Face> faces = new ArrayList<Face>();
 
 }
