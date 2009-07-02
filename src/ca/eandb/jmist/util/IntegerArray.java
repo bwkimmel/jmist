@@ -57,12 +57,28 @@ public final class IntegerArray {
 
 	/**
 	 * Creates an <code>IntegerArray</code> containing the specified elements.
-	 * @param elements An array of elements to initialize the new
-	 * 		<code>IntegerArray</code> with.
+	 * @param elements An array of elements to initialize the new array with.
 	 */
 	public IntegerArray(int[] elements) {
 		this.elements = elements.clone();
 		this.size = elements.length;
+	}
+
+	/**
+	 * Creates a copy of an <code>IntegerArray</code>.
+	 * @param other The array to copy.
+	 */
+	private IntegerArray(IntegerArray other) {
+		this.elements = other.elements.clone();
+		this.size = other.size;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 */
+	@Override
+	public IntegerArray clone() throws CloneNotSupportedException {
+		return new IntegerArray(this);
 	}
 
 	/**
@@ -103,7 +119,7 @@ public final class IntegerArray {
 	 * expanded to accommodate the new elements and the new space is zero-
 	 * filled before setting the elements.
 	 * @param index The index of the first element to set.
-	 * @param items The array of values to set.
+	 * @param items The values to set.
 	 * @throws IndexOutOfBoundsException if <code>index</code> is negative.
 	 */
 	public void setAll(int index, int[] items) {
@@ -116,6 +132,27 @@ public final class IntegerArray {
 		}
 		for (int i = index, j = 0; j < items.length; i++, j++) {
 			elements[i] = items[j];
+		}
+	}
+
+	/**
+	 * Sets a range of elements of this array.  If necessary, the array is
+	 * expanded to accommodate the new elements and the new space is zero-
+	 * filled before setting the elements.
+	 * @param index The index of the first element to set.
+	 * @param items The values to set.
+	 * @throws IndexOutOfBoundsException if <code>index</code> is negative.
+	 */
+	public void setAll(int index, IntegerArray items) {
+		if (index < 0) {
+			throw new IndexOutOfBoundsException();
+		}
+		if (index + items.size > size) {
+			size = index + items.size;
+			ensureCapacity(size);
+		}
+		for (int i = index, j = 0; j < items.size; i++, j++) {
+			elements[i] = items.elements[j];
 		}
 	}
 
@@ -136,6 +173,17 @@ public final class IntegerArray {
 		ensureCapacity(size + items.length);
 		for (int i = 0; i < items.length; i++) {
 			elements[size++] = items[i];
+		}
+	}
+
+	/**
+	 * Appends a range of values to the end of this array.
+	 * @param items The values to append.
+	 */
+	public void addAll(IntegerArray items) {
+		ensureCapacity(size + items.size);
+		for (int i = 0; i < items.size; i++) {
+			elements[size++] = items.elements[i];
 		}
 	}
 
