@@ -10,7 +10,9 @@ import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.ScatteredRayRecorder;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.framework.painter.UniformPainter;
 import ca.eandb.jmist.math.RandomUtil;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.SphericalCoordinates;
@@ -40,6 +42,23 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 	public LambertianMaterial(Painter reflectance, Painter emittance) {
 		this.reflectance = reflectance;
 		this.emittance = emittance;
+	}
+
+	/**
+	 * Creates a new <code>LambertianMaterial</code> that does not emit light.
+	 * @param reflectance The reflectance <code>Spectrum</code>.
+	 */
+	public LambertianMaterial(Spectrum reflectance) {
+		this(new UniformPainter(reflectance));
+	}
+
+	/**
+	 * Creates a new <code>LambertianMaterial</code> that emits light.
+	 * @param reflectance The reflectance <code>Spectrum</code>.
+	 * @param emittance The emission <code>Spectrum</code>.
+	 */
+	public LambertianMaterial(Spectrum reflectance, Spectrum emittance) {
+		this(new UniformPainter(reflectance), new UniformPainter(emittance));
 	}
 
 	/* (non-Javadoc)
