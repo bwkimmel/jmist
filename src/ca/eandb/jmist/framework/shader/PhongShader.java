@@ -48,29 +48,29 @@ public final class PhongShader implements Shader {
 
 	private final Painter ambient;
 
-	private final double n;
+	private final Painter exponent;
 
 	/**
 	 * @param diffuse
 	 * @param specular
 	 * @param ambient
-	 * @param n
+	 * @param exponent
 	 */
-	public PhongShader(Painter kd, Painter ks, Painter ka, double n) {
+	public PhongShader(Painter kd, Painter ks, Painter ka, Painter n) {
 		this.diffuse = kd;
 		this.specular = ks;
 		this.ambient = ka;
-		this.n = n;
+		this.exponent = n;
 	}
 
 	/**
 	 * @param diffuse
 	 * @param specular
 	 * @param ambient
-	 * @param n
+	 * @param exponent
 	 */
-	public PhongShader(Spectrum kd, Spectrum ks, Spectrum ka, double n) {
-		this(new UniformPainter(kd), new UniformPainter(ks), new UniformPainter(ka), n);
+	public PhongShader(Spectrum kd, Spectrum ks, Spectrum ka, Spectrum n) {
+		this(new UniformPainter(kd), new UniformPainter(ks), new UniformPainter(ka), new UniformPainter(n));
 	}
 
 	/* (non-Javadoc)
@@ -85,6 +85,7 @@ public final class PhongShader implements Shader {
 		Color kd = diffuse.getColor(sc, lambda);
 		Color ks = specular.getColor(sc, lambda);
 		Color ka = ambient.getColor(sc, lambda);
+		Color n = exponent.getColor(sc, lambda);
 
 		Vector3 N = sc.getShadingNormal();
 		Vector3 V = sc.getIncident().opposite();
@@ -99,7 +100,7 @@ public final class PhongShader implements Shader {
 			Color I = sample.getRadiantIntensity();
 
 			d = d.plus(I.times(N.dot(L)));
-			s = s.plus(I.times(Math.pow(N.dot(H), n)));
+			s = s.plus(I.times(cm.getGray(N.dot(H), lambda).pow(n)));
 		}
 
 		d = d.times(kd);

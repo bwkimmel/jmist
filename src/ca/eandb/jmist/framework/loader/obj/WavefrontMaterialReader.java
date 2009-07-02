@@ -245,7 +245,7 @@ final class WavefrontMaterialReader {
 					kd = getPainter("Kd");
 					ks = getPainter("Ks");
 					material = new LambertianMaterial(kd); // FIXME should be phong material
-					shader = new PhongShader(kd, ks, ka, exponent);
+					shader = new PhongShader(kd, ks, ka, new UniformPainter(colorModel.getGray(exponent)));
 					break;
 
 				case 3:
