@@ -3,23 +3,17 @@
  */
 package ca.eandb.jmist.framework.geometry;
 
-import ca.eandb.jmist.framework.Illuminable;
-import ca.eandb.jmist.framework.Light;
-import ca.eandb.jmist.framework.LightSample;
-import ca.eandb.jmist.framework.Material;
-import ca.eandb.jmist.framework.Medium;
-import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
+import ca.eandb.jmist.framework.Light;
+import ca.eandb.jmist.framework.Material;
+import ca.eandb.jmist.framework.Medium;
 import ca.eandb.jmist.framework.NearestIntersectionRecorder;
+import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.SurfacePoint;
-import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.framework.color.ColorModel;
-import ca.eandb.jmist.framework.light.PointLightSample;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
-import ca.eandb.jmist.math.CategoricalRandom;
 import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
