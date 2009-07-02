@@ -28,11 +28,9 @@ package ca.eandb.jmist.framework.loader.obj;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import ca.eandb.jmist.framework.Material;
@@ -47,6 +45,7 @@ import ca.eandb.jmist.framework.painter.UniformPainter;
 import ca.eandb.jmist.framework.shader.ConstantShader;
 import ca.eandb.jmist.framework.shader.DirectLightingShader;
 import ca.eandb.jmist.framework.shader.PhongShader;
+import ca.eandb.jmist.framework.texture.RasterTexture2;
 import ca.eandb.util.UnimplementedException;
 
 /**
@@ -207,7 +206,7 @@ final class WavefrontMaterialReader {
 			Spectrum color = getColor(name);
 			if (maps.containsKey(name)) {
 				File file = new File(directory, maps.get(name));
-				return new ProductPainter(color, new TexturePainter(file));
+				return new ProductPainter(color, new TexturePainter(new RasterTexture2(file)));
 			}
 			return new UniformPainter(color);
 		}

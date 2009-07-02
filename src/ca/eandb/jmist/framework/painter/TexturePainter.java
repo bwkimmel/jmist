@@ -25,24 +25,11 @@
 
 package ca.eandb.jmist.framework.painter;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.Raster;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-
-import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageInputStream;
-
 import ca.eandb.jmist.framework.Painter;
 import ca.eandb.jmist.framework.SurfacePoint;
+import ca.eandb.jmist.framework.Texture2;
 import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.framework.color.ColorModel;
-import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
-import ca.eandb.jmist.math.MathUtil;
-import ca.eandb.jmist.math.Point2;
 
 /**
  * @author brad
@@ -50,36 +37,13 @@ import ca.eandb.jmist.math.Point2;
  */
 public final class TexturePainter implements Painter {
 
-	private final Raster texture;
-
-	private transient double[] pixel = null;
+	private final Texture2 texture;
 
 	/**
 	 * @param texture
-	 * @param colorModel
 	 */
-	public TexturePainter(Raster texture) {
+	public TexturePainter(Texture2 texture) {
 		this.texture = texture;
-	}
-
-	public TexturePainter(BufferedImage image) {
-		this(image.getRaster());
-	}
-
-	public TexturePainter(File file) throws IOException {
-		this(ImageIO.read(file));
-	}
-
-	public TexturePainter(URL input) throws IOException {
-		this(ImageIO.read(input));
-	}
-
-	public TexturePainter(ImageInputStream stream) throws IOException {
-		this(ImageIO.read(stream));
-	}
-
-	public TexturePainter(InputStream input) throws IOException {
-		this(ImageIO.read(input));
 	}
 
 	/* (non-Javadoc)
@@ -87,33 +51,7 @@ public final class TexturePainter implements Painter {
 	 */
 	@Override
 	public Color getColor(SurfacePoint p, WavelengthPacket lambda) {
-		Point2 uv = p.getUV();
-		double u = uv.x() - Math.floor(uv.x());
-		double v = uv.y() - Math.floor(uv.y());
-
-		int w = texture.getWidth();
-		int h = texture.getHeight();
-
-		int x = MathUtil.threshold((int) Math.floor(u * w), 0, w - 1);
-		int y = MathUtil.threshold((int) Math.floor(v * h), 0, h - 1);
-
-		return getPixel(x, y, lambda.getColorModel()).sample(lambda);
+		return texture.evaluate(p.getUV(), lambda);
 	}
-
-	private synchronized Spectrum getPixel(int x, int y, ColorModel colorModel) {
-		pixel = texture.getPixel(x, y, pixel);
-
-		// FIXME: Maximum channel value should not be hard coded.
-		switch (pixel.length) {
-		case 1:
-			return colorModel.getGray(pixel[0]/255.0);
-		case 3:
-			return colorModel.fromRGB(pixel[0]/255.0, pixel[1]/255.0, pixel[2]/255.0);
-		default:
-			throw new UnsupportedOperationException();
-		}
-	}
-
-
 
 }

@@ -3,7 +3,15 @@
  */
 package ca.eandb.jmist.framework.texture;
 
+import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageInputStream;
 
 import ca.eandb.jmist.framework.PixelSpectrumFactory;
 import ca.eandb.jmist.framework.Texture2;
@@ -41,15 +49,37 @@ public final class RasterTexture2 implements Texture2 {
 		this.factory = factory;
 	}
 
+	public RasterTexture2(BufferedImage image) {
+		this(image.getRaster());
+	}
+
+	public RasterTexture2(File file) throws IOException {
+		this(ImageIO.read(file));
+	}
+
+	public RasterTexture2(URL input) throws IOException {
+		this(ImageIO.read(input));
+	}
+
+	public RasterTexture2(ImageInputStream stream) throws IOException {
+		this(ImageIO.read(stream));
+	}
+
+	public RasterTexture2(InputStream input) throws IOException {
+		this(ImageIO.read(input));
+	}
+
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Texture2#evaluate(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
 	public Color evaluate(Point2 p, WavelengthPacket lambda) {
 
+		double		u		= p.x() - Math.floor(p.x());
+		double		v		= p.y() - Math.floor(p.y());
 		int			w		= raster.getWidth();
 		int			h		= raster.getHeight();
-		int			x		= MathUtil.threshold((int) Math.floor(p.x() * (double) w), 0, w - 1);
-		int			y		= MathUtil.threshold((int) Math.floor(p.y() * (double) h), 0, h - 1);
+		int			x		= MathUtil.threshold((int) Math.floor(u * (double) w), 0, w - 1);
+		int			y		= MathUtil.threshold((int) Math.floor(v * (double) h), 0, h - 1);
 		double[]	pixel	= this.raster.getPixel(x, y, (double[]) null);
 		ColorModel	cm		= lambda.getColorModel();
 
