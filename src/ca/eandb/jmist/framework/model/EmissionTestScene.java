@@ -27,7 +27,7 @@ import ca.eandb.jmist.math.Vector3;
  * @author Brad Kimmel
  *
  */
-public final class EmissionTestModel implements Scene {
+public final class EmissionTestScene implements Scene {
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Model#getGeometry()
@@ -55,7 +55,7 @@ public final class EmissionTestModel implements Scene {
 
 	public static Scene getInstance() {
 		if (instance == null) {
-			instance = new EmissionTestModel();
+			instance = new EmissionTestScene();
 		}
 
 		return instance;
