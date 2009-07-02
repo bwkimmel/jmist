@@ -35,14 +35,14 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
  * @author brad
  *
  */
-public final class TexturePainter implements Painter {
+public final class Texture2Painter implements Painter {
 
 	private final Texture2 texture;
 
 	/**
 	 * @param texture
 	 */
-	public TexturePainter(Texture2 texture) {
+	public Texture2Painter(Texture2 texture) {
 		this.texture = texture;
 	}
 

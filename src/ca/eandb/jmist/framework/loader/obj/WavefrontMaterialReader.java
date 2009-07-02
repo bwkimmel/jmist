@@ -40,7 +40,7 @@ import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.material.LambertianMaterial;
 import ca.eandb.jmist.framework.painter.ProductPainter;
-import ca.eandb.jmist.framework.painter.TexturePainter;
+import ca.eandb.jmist.framework.painter.Texture2Painter;
 import ca.eandb.jmist.framework.painter.UniformPainter;
 import ca.eandb.jmist.framework.shader.ConstantShader;
 import ca.eandb.jmist.framework.shader.DirectLightingShader;
@@ -206,7 +206,7 @@ final class WavefrontMaterialReader {
 			Spectrum color = getColor(name);
 			if (maps.containsKey(name)) {
 				File file = new File(directory, maps.get(name));
-				return new ProductPainter(color, new TexturePainter(new RasterTexture2(file)));
+				return new ProductPainter(color, new Texture2Painter(new RasterTexture2(file)));
 			}
 			return new UniformPainter(color);
 		}
