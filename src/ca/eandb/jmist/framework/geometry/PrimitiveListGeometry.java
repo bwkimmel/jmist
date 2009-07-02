@@ -113,4 +113,21 @@ public final class PrimitiveListGeometry extends AbstractGeometry {
 		return new Sphere(box.center(), 0.5 * box.diagonal());
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getSurfaceArea(int)
+	 */
+	@Override
+	public double getSurfaceArea(int index) {
+		return primitives.get(index).getSurfaceArea();
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#generateRandomSurfacePoint(int, ca.eandb.jmist.framework.ShadingContext)
+	 */
+	@Override
+	public void generateRandomSurfacePoint(int index, ShadingContext context) {
+		primitives.get(index).generateRandomSurfacePoint(context);
+		context.setPrimitiveIndex(index);
+	}
+
 }
