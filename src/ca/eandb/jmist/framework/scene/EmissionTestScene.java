@@ -1,7 +1,7 @@
 /**
  *
  */
-package ca.eandb.jmist.framework.model;
+package ca.eandb.jmist.framework.scene;
 
 import ca.eandb.jmist.framework.Lens;
 import ca.eandb.jmist.framework.Light;
@@ -14,8 +14,6 @@ import ca.eandb.jmist.framework.geometry.primitive.RectangleGeometry;
 import ca.eandb.jmist.framework.lens.PinholeLens;
 import ca.eandb.jmist.framework.lens.TransformableLens;
 import ca.eandb.jmist.framework.material.LambertianMaterial;
-import ca.eandb.jmist.framework.scene.AbstractScene;
-import ca.eandb.jmist.framework.scene.MaterialMapSceneElement;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Point3;
