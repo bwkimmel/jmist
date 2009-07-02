@@ -1,28 +1,38 @@
 /**
  *
  */
-package ca.eandb.jmist.framework.color;
+package ca.eandb.jmist.framework.color.monochrome;
 
 import ca.eandb.jmist.framework.Function1;
+import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.ColorModel;
+import ca.eandb.jmist.framework.color.Spectrum;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.MathUtil;
 
 /**
  * @author Brad
  *
  */
-public final class MonochromaticColorModel extends ColorModel {
+public final class MonochromeColorModel extends ColorModel {
 
 	private final double wavelength;
 
-	private final Sample BLACK = new Sample(0);
+	private final Sample black = new Sample(0);
 
-	private final Sample UNIT = new Sample(1);
+	private final Sample white = new Sample(1);
+
+	private final WavelengthPacket lambda = new WavelengthPacket() {
+		public ColorModel getColorModel() {
+			return MonochromeColorModel.this;
+		}
+	};
 
 	/**
 	 * @author Brad
 	 *
 	 */
-	private final class Sample implements Color {
+	private final class Sample implements Color, Spectrum {
 
 		private final double value;
 
@@ -178,7 +188,7 @@ public final class MonochromaticColorModel extends ColorModel {
 		 */
 		@Override
 		public ColorModel getColorModel() {
-			return MonochromaticColorModel.this;
+			return MonochromeColorModel.this;
 		}
 
 		/* (non-Javadoc)
@@ -200,12 +210,28 @@ public final class MonochromaticColorModel extends ColorModel {
 			return new double[]{ value };
 		}
 
+		/* (non-Javadoc)
+		 * @see ca.eandb.jmist.framework.color.Color#getWavelengthPacket()
+		 */
+		@Override
+		public WavelengthPacket getWavelengthPacket() {
+			return lambda;
+		}
+
+		/* (non-Javadoc)
+		 * @see ca.eandb.jmist.framework.color.Spectrum#sample(ca.eandb.jmist.framework.color.WavelengthPacket)
+		 */
+		@Override
+		public Color sample(WavelengthPacket lambda) {
+			return this;
+		}
+
 	}
 
 	/**
 	 * @param wavelength
 	 */
-	public MonochromaticColorModel(double wavelength) {
+	public MonochromeColorModel(double wavelength) {
 		this.wavelength = wavelength;
 	}
 
@@ -214,8 +240,13 @@ public final class MonochromaticColorModel extends ColorModel {
 	 */
 	@Override
 	public Spectrum fromRGB(double r, double g, double b) {
-		// FIXME
+		// TODO choose reflectance at wavelength from RGB triple.
 		return new Sample(g);
+	}
+
+	public Spectrum fromXYZ(double x, double y, double z) {
+		// TODO choose reflectance at wavelength from XYZ triple.
+		return new Sample(y);
 	}
 
 	/* (non-Javadoc)
@@ -231,7 +262,7 @@ public final class MonochromaticColorModel extends ColorModel {
 	 */
 	@Override
 	public Spectrum getBlack() {
-		return BLACK;
+		return black;
 	}
 
 	/* (non-Javadoc)
@@ -247,7 +278,7 @@ public final class MonochromaticColorModel extends ColorModel {
 	 */
 	@Override
 	public Spectrum getWhite() {
-		return UNIT;
+		return white;
 	}
 
 	/* (non-Javadoc)
@@ -256,6 +287,38 @@ public final class MonochromaticColorModel extends ColorModel {
 	@Override
 	public int getNumChannels() {
 		return 1;
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.ColorModel#getBlack(ca.eandb.jmist.framework.color.WavelengthPacket)
+	 */
+	@Override
+	public Color getBlack(WavelengthPacket lambda) {
+		return black;
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.ColorModel#getGray(double, ca.eandb.jmist.framework.color.WavelengthPacket)
+	 */
+	@Override
+	public Color getGray(double value, WavelengthPacket lambda) {
+		return new Sample(value);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.ColorModel#getWhite(ca.eandb.jmist.framework.color.WavelengthPacket)
+	 */
+	@Override
+	public Color getWhite(WavelengthPacket lambda) {
+		return white;
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.ColorModel#sample()
+	 */
+	@Override
+	public Color sample() {
+		return white;
 	}
 
 }

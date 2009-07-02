@@ -14,7 +14,7 @@ import ca.eandb.jmist.framework.color.xyz.XYZColorModel;
 public abstract class ColorModel {
 
 	public static ColorModel getInstance() {
-		return XYZColorModel.getInstance();
+		return RGBColorModel.getInstance();
 	}
 
 	public abstract Spectrum getBlack();
