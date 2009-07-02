@@ -7,7 +7,6 @@ import ca.eandb.jmist.framework.Function1;
 import ca.eandb.jmist.framework.Lens;
 import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.Material;
-import ca.eandb.jmist.framework.Scene;
 import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.accel.BoundingIntervalHierarchy;
 import ca.eandb.jmist.framework.color.ColorModel;
@@ -17,11 +16,9 @@ import ca.eandb.jmist.framework.geometry.primitive.PolyhedronGeometry;
 import ca.eandb.jmist.framework.lens.PinholeLens;
 import ca.eandb.jmist.framework.lens.TransformableLens;
 import ca.eandb.jmist.framework.material.LambertianMaterial;
-import ca.eandb.jmist.framework.painter.UniformPainter;
+import ca.eandb.jmist.framework.scene.AbstractScene;
 import ca.eandb.jmist.framework.scene.MaterialMapSceneElement;
-import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Point3;
-import ca.eandb.jmist.math.Sphere;
 import ca.eandb.jmist.math.Vector3;
 import ca.eandb.jmist.util.ArrayUtil;
 
@@ -29,49 +26,54 @@ import ca.eandb.jmist.util.ArrayUtil;
  * A <code>Model</code> of the Cornell Box.
  * @author Brad Kimmel
  */
-public final class CornellBoxScene implements Scene {
+public final class CornellBoxScene extends AbstractScene {
 
 	/**
-	 * Creates a new <code>CornellBoxModel</code>.  This constructor is private
-	 * because this class is a singleton.
+	 * Creates a new <code>CornellBoxModel</code>.
 	 */
-	private CornellBoxScene() {
-		/* nothing to do. */
+	public CornellBoxScene(ColorModel colorModel) {
+		Material matteWhite = new LambertianMaterial(colorModel.getContinuous(white));
+		Material matteGreen = new LambertianMaterial(colorModel.getContinuous(green));
+		Material matteRed = new LambertianMaterial(colorModel.getContinuous(red));
+		Material matteEmissive = new LambertianMaterial(colorModel.getGray(0.78), colorModel.getContinuous(emission));
+
+		SceneElement materialMap = new MaterialMapSceneElement(geometry)
+				.addMaterial("white", matteWhite)
+				.addMaterial("red", matteRed)
+				.addMaterial("green", matteGreen)
+				.addMaterial("emissive", matteEmissive)
+				.setMaterialRange(0, 4, "white")		// ceiling
+				.setMaterialRange(4, 1, "emissive")		// light
+				.setMaterialRange(5, 14, "white")		// floor
+				.setMaterialRange(19, 1, "white") 		// back wall
+				.setMaterialRange(20, 1, "green") 		// right wall
+				.setMaterialRange(21, 1, "red") 		// left wall
+				.setMaterialRange(22, 5, "white") 		// short block
+				.setMaterialRange(27, 5, "white"); 		// tall block
+
+		this.cornellBox = new BoundingIntervalHierarchy(materialMap);
+		this.light = cornellBox.createLight();
 	}
 
-	/*
-	 *
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Scene#getRoot()
 	 */
 	public SceneElement getRoot() {
-		return this.cornellBox;
+		return cornellBox;
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Model#getLight()
 	 */
 	public Light getLight() {
-		if (light == null) {
-			light = cornellBox.createLight();
-		}
 		return light;
-		//return new PointLight(new Point3(278.0, 540.8, 279.5), emission, true);
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Model#getLens()
 	 */
 	public Lens getLens() {
-		return this.lens;
-	}
-
-	@Override
-	public Box3 boundingBox() {
-		return getRoot().boundingBox();
-	}
-
-	@Override
-	public Sphere boundingSphere() {
-		return getRoot().boundingSphere();
+		return lens;
 	}
 
 	/**
@@ -89,25 +91,11 @@ public final class CornellBoxScene implements Scene {
 
 	}
 
-	/**
-	 * Gets the single instance of <code>CornellBoxModel</code>.
-	 * @return The single instance of <code>CornellBoxModel</code>.
-	 */
-	public static Scene getInstance() {
-		if (instance == null) {
-			instance = new CornellBoxScene();
-		}
-		return instance;
-	}
-
-	/** The single <code>CornellBoxModel</code> instance. */
-	private static CornellBoxScene instance = null;
-
 	/** The wavelengths at which the reflectance spectra are given. */
-	private static double[] WAVELENGTHS = ArrayUtil.range(400.0e-9, 700.0e-9, 76);
+	private static final double[] WAVELENGTHS = ArrayUtil.range(400.0e-9, 700.0e-9, 76);
 
 	/** The reflectance spectrum for the white walls. */
-	private Function1 white = new PiecewiseLinearFunction1(WAVELENGTHS, new double[]{
+	private static final Function1 white = new PiecewiseLinearFunction1(WAVELENGTHS, new double[]{
 
 			0.343,0.445,0.551,0.624,0.665,0.687,0.708,0.723,0.715,0.710, /* 400 - 436 */
 			0.745,0.758,0.739,0.767,0.777,0.765,0.751,0.745,0.748,0.729, /* 440 - 476 */
@@ -121,7 +109,7 @@ public final class CornellBoxScene implements Scene {
 	});
 
 	/** The reflectance spectrum for the green wall. */
-	private Function1 green = new PiecewiseLinearFunction1(WAVELENGTHS, new double[]{
+	private static final Function1 green = new PiecewiseLinearFunction1(WAVELENGTHS, new double[]{
 
 			0.092,0.096,0.098,0.097,0.098,0.095,0.095,0.097,0.095,0.094, /* 400 - 436 */
 			0.097,0.098,0.096,0.101,0.103,0.104,0.107,0.109,0.112,0.115, /* 440 - 476 */
@@ -135,7 +123,7 @@ public final class CornellBoxScene implements Scene {
 	});
 
 	/** The reflectance spectrum for the red wall. */
-	private Function1 red = new PiecewiseLinearFunction1(WAVELENGTHS, new double[]{
+	private static final Function1 red = new PiecewiseLinearFunction1(WAVELENGTHS, new double[]{
 
 			0.040,0.046,0.048,0.053,0.049,0.050,0.053,0.055,0.057,0.056, /* 400 - 436 */
 			0.059,0.057,0.061,0.061,0.060,0.062,0.062,0.062,0.061,0.062, /* 440 - 476 */
@@ -149,33 +137,16 @@ public final class CornellBoxScene implements Scene {
 	});
 
 	/** The emission spectrum for the light box. */
-	private Function1 emission = new ScaledFunction1(1e7, new PiecewiseLinearFunction1(
+	private static final Function1 emission = new ScaledFunction1(1e7, new PiecewiseLinearFunction1(
 			new double[]{ 400.0e-9, 500.0e-9, 600.0e-9, 700.0e-9 },
 			new double[]{   0.0   ,   8.0   ,  15.6   ,  18.4    }
 	));
 
-	private ColorModel cm = ColorModel.getInstance();
-
-	/** The <code>Material</code> for the white walls. */
-	private Material matteWhite = new LambertianMaterial(new UniformPainter(cm.getContinuous(white)));
-
-	/** The <code>Material</code> for the green wall. */
-	private Material matteGreen = new LambertianMaterial(new UniformPainter(cm.getContinuous(green)));
-
-	/** The <code>Material</code> for the red wall. */
-	private Material matteRed = new LambertianMaterial(new UniformPainter(cm.getContinuous(red)));
-
-	/** The <code>Material</code> for the light box. */
-	private Material matteEmissive = new LambertianMaterial(new UniformPainter(cm.getGray(0.78)), new UniformPainter(cm.getContinuous(emission)));
-
 	/** The <code>Lens</code> to use to view the box. */
-	private Lens lens = createLens();
-
-	/** The <code>SceneElement</code> for the light box. */
-	private Light light = null;
+	private static final Lens lens = createLens();
 
 	/** The <code>SceneElement</code> for the ceiling. */
-	private SceneElement geometry = new PolyhedronGeometry(
+	private static final SceneElement geometry = new PolyhedronGeometry(
 			new Point3[]{
 					new Point3(556.0, 548.8,   0.0), // ceiling (0-3)
 					new Point3(556.0, 548.8, 559.2),
@@ -257,20 +228,10 @@ public final class CornellBoxScene implements Scene {
 			}
 	);
 
-	private SceneElement materialMap = new MaterialMapSceneElement(geometry)
-			.addMaterial("white", matteWhite)
-			.addMaterial("red", matteRed)
-			.addMaterial("green", matteGreen)
-			.addMaterial("emissive", matteEmissive)
-			.setMaterialRange(0, 4, "white")		// ceiling
-			.setMaterialRange(4, 1, "emissive")		// light
-			.setMaterialRange(5, 14, "white")		// floor
-			.setMaterialRange(19, 1, "white") 		// back wall
-			.setMaterialRange(20, 1, "green") 		// right wall
-			.setMaterialRange(21, 1, "red") 		// left wall
-			.setMaterialRange(22, 5, "white") 		// short block
-			.setMaterialRange(27, 5, "white"); 		// tall block
+	/** The <code>SceneElement</code> for the light box. */
+	private final Light light;
 
-	private SceneElement cornellBox = new BoundingIntervalHierarchy(materialMap);
+	/** The root <code>SceneElement</code> for the Cornell box scene. */
+	private final SceneElement cornellBox;
 
 }

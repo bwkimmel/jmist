@@ -6,7 +6,6 @@ package ca.eandb.jmist.framework.model;
 import ca.eandb.jmist.framework.Lens;
 import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.Material;
-import ca.eandb.jmist.framework.Scene;
 import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.geometry.PrimitiveListGeometry;
@@ -15,25 +14,41 @@ import ca.eandb.jmist.framework.geometry.primitive.RectangleGeometry;
 import ca.eandb.jmist.framework.lens.PinholeLens;
 import ca.eandb.jmist.framework.lens.TransformableLens;
 import ca.eandb.jmist.framework.material.LambertianMaterial;
-import ca.eandb.jmist.framework.painter.UniformPainter;
+import ca.eandb.jmist.framework.scene.AbstractScene;
 import ca.eandb.jmist.framework.scene.MaterialMapSceneElement;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Point3;
-import ca.eandb.jmist.math.Sphere;
 import ca.eandb.jmist.math.Vector3;
 
 /**
  * @author Brad Kimmel
  *
  */
-public final class EmissionTestScene implements Scene {
+public final class EmissionTestScene extends AbstractScene {
+
+	private static final PrimitiveListGeometry geometry;
+
+	private static final TransformableLens lens;
+
+	private final SceneElement root;
+
+	public EmissionTestScene(ColorModel colorModel) {
+		Material diffuse50 = new LambertianMaterial(colorModel.getGray(0.5));
+		Material diffuseLuminaire1 = new LambertianMaterial(null, colorModel.getGray(2e5));
+
+		this.root = new MaterialMapSceneElement(geometry)
+				.addMaterial("diffuse50", diffuse50)
+				.addMaterial("diffuseLuminaire1", diffuseLuminaire1)
+				.setMaterial(0, "diffuseLuminaire1")
+				.setMaterial(1, "diffuse50")
+				.setMaterialRange(2, 100, "diffuseLuminaire1");
+	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Model#getGeometry()
 	 */
 	public SceneElement getRoot() {
-		initialize();
 		return root;
 	}
 
@@ -41,7 +56,6 @@ public final class EmissionTestScene implements Scene {
 	 * @see ca.eandb.jmist.framework.Model#getLens()
 	 */
 	public Lens getLens() {
-		initialize();
 		return lens;
 	}
 
@@ -49,25 +63,12 @@ public final class EmissionTestScene implements Scene {
 	 * @see ca.eandb.jmist.framework.Model#getLight()
 	 */
 	public Light getLight() {
-		initialize();
 		return root.createLight();
 	}
 
-	public static Scene getInstance() {
-		if (instance == null) {
-			instance = new EmissionTestScene();
-		}
+	static {
 
-		return instance;
-	}
-
-	private synchronized void initialize() {
-
-		if (root != null) {
-			return;
-		}
-
-		PrimitiveListGeometry geometry = new PrimitiveListGeometry()
+		geometry = new PrimitiveListGeometry()
 			.addPrimitive(
 				new RectangleGeometry(
 					new Point3(-200.0, 50.0, 0.0),
@@ -88,41 +89,11 @@ public final class EmissionTestScene implements Scene {
 			}
 		}
 
-		MaterialMapSceneElement materials = new MaterialMapSceneElement(geometry)
-			.addMaterial("diffuse50", diffuse50)
-			.addMaterial("diffuseLuminaire1", diffuseLuminaire1)
-			.setMaterial(0, "diffuseLuminaire1")
-			.setMaterial(1, "diffuse50")
-			.setMaterialRange(2, 100, "diffuseLuminaire1");
-
-		root = materials;
-
 		lens = PinholeLens.fromHfovAndAspect(0.785398, 1.0);
 
 		lens.rotateX(-Math.PI / 2.0);
 		lens.translate(new Vector3(0.0, 550.0, 50.0));
 
 	}
-
-	@Override
-	public Box3 boundingBox() {
-		initialize();
-		return root.boundingBox();
-	}
-
-	@Override
-	public Sphere boundingSphere() {
-		initialize();
-		return root.boundingSphere();
-	}
-
-	private static Scene instance = null;
-
-	private final ColorModel cm = ColorModel.getInstance();
-	private final Material diffuse50 = new LambertianMaterial(new UniformPainter(cm.getGray(0.5)));
-	private final Material diffuseLuminaire1 = new LambertianMaterial(null, new UniformPainter(cm.getGray(2e5)));
-
-	private SceneElement root = null;
-	private TransformableLens lens = null;
 
 }

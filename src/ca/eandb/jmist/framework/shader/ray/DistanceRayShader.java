@@ -24,7 +24,7 @@ public final class DistanceRayShader implements RayShader {
 	 * @param caster The <code>RayCaster</code> to use.
 	 */
 	public DistanceRayShader(RayCaster caster) {
-		this(caster, ColorModel.getInstance().getBlack());
+		this(caster, null);
 	}
 
 	/**
@@ -43,8 +43,9 @@ public final class DistanceRayShader implements RayShader {
 	 */
 	public Color shadeRay(Ray3 ray, WavelengthPacket lambda) {
 		Intersection x = this.caster.castRay(ray);
+		ColorModel cm = lambda.getColorModel();
 
-		return (x != null) ? lambda.getColorModel().getGray(x.getDistance(), lambda) : missValue.sample(lambda);
+		return (x != null) ? cm.getGray(x.getDistance(), lambda) : (missValue != null) ? missValue.sample(lambda) : cm.getBlack(lambda);
 	}
 
 	/** The ray caster to use. */

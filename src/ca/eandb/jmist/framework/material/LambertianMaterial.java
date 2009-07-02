@@ -49,7 +49,7 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 	 * @param reflectance The reflectance <code>Spectrum</code>.
 	 */
 	public LambertianMaterial(Spectrum reflectance) {
-		this(new UniformPainter(reflectance));
+		this(reflectance != null ? new UniformPainter(reflectance) : null);
 	}
 
 	/**
@@ -58,7 +58,7 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 	 * @param emittance The emission <code>Spectrum</code>.
 	 */
 	public LambertianMaterial(Spectrum reflectance, Spectrum emittance) {
-		this(new UniformPainter(reflectance), new UniformPainter(emittance));
+		this(reflectance != null ? new UniformPainter(reflectance) : null, emittance != null ? new UniformPainter(emittance) : null);
 	}
 
 	/* (non-Javadoc)

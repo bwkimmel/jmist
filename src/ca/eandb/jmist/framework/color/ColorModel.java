@@ -4,18 +4,12 @@
 package ca.eandb.jmist.framework.color;
 
 import ca.eandb.jmist.framework.Function1;
-import ca.eandb.jmist.framework.color.rgb.RGBColorModel;
-import ca.eandb.jmist.framework.color.xyz.XYZColorModel;
 
 /**
  * @author Brad
  *
  */
 public abstract class ColorModel {
-
-	public static ColorModel getInstance() {
-		return RGBColorModel.getInstance();
-	}
 
 	public abstract Spectrum getBlack();
 

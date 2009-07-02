@@ -53,7 +53,7 @@ public final class RasterJob extends AbstractParallelizableJob implements
 	 * @param rows The number of rows to divide the image into.
 	 */
 	public RasterJob(PixelShader shader, ColorModel colorModel, SampleModel sampleModel, String formatName, int cols, int rows) {
-		this.worker = new RasterTaskWorker(shader, sampleModel.getWidth(), sampleModel.getHeight());
+		this.worker = new RasterTaskWorker(shader, sampleModel.getWidth(), sampleModel.getHeight(), sampleModel.getNumBands());
 		this.colorModel = colorModel;
 		this.sampleModel = sampleModel;
 		this.cols = cols;
@@ -295,11 +295,13 @@ public final class RasterJob extends AbstractParallelizableJob implements
 		 * 		values of individual <code>Pixel</code>s.
 		 * @param width The width of the entire <code>Raster</code> image.
 		 * @param height The height of the entire <code>Raster</code> image.
+		 * @param bands The number of color channels.
 		 */
-		public RasterTaskWorker(PixelShader shader, int width, int height) {
+		public RasterTaskWorker(PixelShader shader, int width, int height, int bands) {
 			this.shader		= shader;
 			this.width		= width;
 			this.height		= height;
+			this.bands		= bands;
 		}
 
 		/* (non-Javadoc)
@@ -308,15 +310,14 @@ public final class RasterJob extends AbstractParallelizableJob implements
 		public Object performTask(Object task, ProgressMonitor monitor) {
 
 			Rectangle		cell				= (Rectangle) task;
-			ca.eandb.jmist.framework.color.ColorModel		cm					= ca.eandb.jmist.framework.color.ColorModel.getInstance();
 			int				numPixels			= cell.width * cell.height;
-			double[]		pixels				= new double[numPixels * cm.getNumChannels()];
+			double[]		pixels				= new double[numPixels * bands];
 			Color			pixel;
 			Box2			bounds;
 			double			x0, y0, x1, y1;
 			double			w					= this.width;
 			double			h					= this.height;
-			WritableRaster	image				= createCellWritableRaster(cell, cm.getNumChannels(), pixels);
+			WritableRaster	image				= createCellWritableRaster(cell, bands, pixels);
 
 			for (int n = 0, y = cell.y; y < cell.y + cell.height; y++) {
 
@@ -381,6 +382,9 @@ public final class RasterJob extends AbstractParallelizableJob implements
 
 		/** The height of the entire <code>Raster</code> image. */
 		private final int height;
+
+		/** The number of color channels. */
+		private final int bands;
 
 		/**
 		 * Serialization version ID.

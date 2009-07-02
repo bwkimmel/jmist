@@ -27,27 +27,30 @@ public final class DayLight implements Light, DirectionalTexture3 {
 	/**
 	 * Creates a new <code>DayLight</code> with the sun and zenith in the
 	 * positive Y direction.
+	 * @param colorModel The <code>ColorModel</code> to use.
 	 */
-	public DayLight() {
-		this(Vector3.J);
+	public DayLight(ColorModel colorModel) {
+		this(Vector3.J, colorModel);
 	}
 
 	/**
 	 * Creates a new <code>DayLight</code> with zenith in the positive Y
 	 * direction.
 	 * @param sun The direction toward the sun.
+	 * @param colorModel The <code>ColorModel</code> to use.
 	 */
-	public DayLight(Vector3 sun) {
-		this(sun, Vector3.J);
+	public DayLight(Vector3 sun, ColorModel colorModel) {
+		this(sun, Vector3.J, colorModel);
 	}
 
 	/**
 	 * Creates a new <code>DayLight</code>.
 	 * @param sun The direction toward the sun.
 	 * @param zenith The direction toward the center of the sky.
+	 * @param colorModel The <code>ColorModel</code> to use.
 	 */
-	public DayLight(Vector3 sun, Vector3 zenith) {
-		this(sun, zenith, 2.0, true);
+	public DayLight(Vector3 sun, Vector3 zenith, ColorModel colorModel) {
+		this(sun, zenith, 2.0, true, colorModel);
 	}
 
 	/**
@@ -56,8 +59,9 @@ public final class DayLight implements Light, DirectionalTexture3 {
 	 * @param zenith The direction toward the center of the sky.
 	 * @param turbidity The turbidity (haziness) in the atmosphere.
 	 * @param shadows A value indicating whether shadows should be simulated.
+	 * @param colorModel The <code>ColorModel</code> to use.
 	 */
-	public DayLight(Vector3 sun, Vector3 zenith, double turbidity, boolean shadows) {
+	public DayLight(Vector3 sun, Vector3 zenith, double turbidity, boolean shadows, ColorModel colorModel) {
 
 		this.sun = sun.unit();
 		this.zenith = zenith.unit();
@@ -70,7 +74,7 @@ public final class DayLight implements Light, DirectionalTexture3 {
 		this.Fy = new double[5];
 
 		this.shadows = shadows;
-		this.solarRadiance = ColorModel.getInstance().getContinuous(new SunRadianceSpectrum());
+		this.solarRadiance = colorModel.getContinuous(new SunRadianceSpectrum());
 
 		double	sdotz = sun.dot(zenith);
 		double	theta_s = Math.acos(sdotz);

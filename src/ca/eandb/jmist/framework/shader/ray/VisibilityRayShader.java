@@ -6,7 +6,6 @@ package ca.eandb.jmist.framework.shader.ray;
 import ca.eandb.jmist.framework.RayShader;
 import ca.eandb.jmist.framework.VisibilityFunction3;
 import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Ray3;
@@ -23,8 +22,7 @@ public final class VisibilityRayShader implements RayShader {
 	 * @param visibilityFunction The visibility function to evaluate.
 	 */
 	public VisibilityRayShader(VisibilityFunction3 visibilityFunction) {
-		this(visibilityFunction, ColorModel.getInstance().getWhite(), ColorModel
-				.getInstance().getBlack());
+		this(visibilityFunction, null, null);
 	}
 
 	/**
@@ -48,9 +46,9 @@ public final class VisibilityRayShader implements RayShader {
 	 */
 	public Color shadeRay(Ray3 ray, WavelengthPacket lambda) {
 		if (ray == null || this.visibilityFunction.visibility(ray)) {
-			return missValue.sample(lambda);
+			return (missValue != null) ? missValue.sample(lambda) : lambda.getColorModel().getBlack(lambda);
 		} else {
-			return hitValue.sample(lambda);
+			return (hitValue != null) ? hitValue.sample(lambda) : lambda.getColorModel().getWhite(lambda);
 		}
 	}
 

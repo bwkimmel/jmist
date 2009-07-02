@@ -101,7 +101,7 @@ public final class MaterialSceneElement extends ModifierSceneElement {
 
 					@Override
 					public ColorModel getColorModel() {
-						return ColorModel.getInstance();
+						return lambda.getColorModel();
 					}
 
 					@Override

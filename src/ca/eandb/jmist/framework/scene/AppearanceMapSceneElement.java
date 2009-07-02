@@ -245,7 +245,7 @@ public final class AppearanceMapSceneElement extends SceneElementDecorator {
 
 					@Override
 					public ColorModel getColorModel() {
-						return ColorModel.getInstance();
+						return lambda.getColorModel();
 					}
 
 					@Override

@@ -234,7 +234,7 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 
 					@Override
 					public ColorModel getColorModel() {
-						return ColorModel.getInstance();
+						return lambda.getColorModel();
 					}
 
 					@Override

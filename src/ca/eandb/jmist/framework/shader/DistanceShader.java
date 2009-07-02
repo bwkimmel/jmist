@@ -28,7 +28,6 @@ package ca.eandb.jmist.framework.shader;
 import ca.eandb.jmist.framework.Shader;
 import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Interval;
@@ -78,14 +77,14 @@ public final class DistanceShader implements Shader {
 	 * @param distanceInterval
 	 */
 	public DistanceShader(Interval distanceInterval) {
-		this(distanceInterval, ColorModel.getInstance().getWhite(), ColorModel.getInstance().getBlack());
+		this(distanceInterval, null, null);
 	}
 
 	/**
 	 * @param maxDistance
 	 */
 	public DistanceShader(double maxDistance) {
-		this(new Interval(0, maxDistance), ColorModel.getInstance().getWhite(), ColorModel.getInstance().getBlack());
+		this(new Interval(0, maxDistance));
 	}
 
 	/* (non-Javadoc)
@@ -98,13 +97,23 @@ public final class DistanceShader implements Shader {
 		double d = sc.getDistance();
 		if (distanceInterval.contains(d)) {
 			double t = (d - distanceInterval.minimum()) / distanceInterval.length();
-			return minDistanceValue.sample(lambda).times(1.0 - t).plus(maxDistanceValue.sample(lambda).times(t));
+			Color ncol = getColorWhiteDefault(minDistanceValue, lambda);
+			Color fcol = getColorBlackDefault(maxDistanceValue, lambda);
+			return ncol.times(1.0 - t).plus(fcol.times(t));
 		} else if (d < distanceInterval.minimum()) {
-			return nearValue.sample(lambda);
+			return getColorWhiteDefault(nearValue, lambda);
 		} else {
-			return farValue.sample(lambda);
+			return getColorBlackDefault(farValue, lambda);
 		}
 
+	}
+
+	public Color getColorWhiteDefault(Spectrum s, WavelengthPacket lambda) {
+		return (s != null) ? s.sample(lambda) : lambda.getColorModel().getWhite(lambda);
+	}
+
+	public Color getColorBlackDefault(Spectrum s, WavelengthPacket lambda) {
+		return (s != null) ? s.sample(lambda) : lambda.getColorModel().getBlack(lambda);
 	}
 
 }

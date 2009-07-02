@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
@@ -19,6 +18,7 @@ import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.Shader;
 import ca.eandb.jmist.framework.color.ColorModel;
+import ca.eandb.jmist.framework.color.rgb.RGBColorModel;
 import ca.eandb.jmist.framework.geometry.primitive.PolyhedronGeometry;
 import ca.eandb.jmist.framework.scene.AppearanceMapSceneElement;
 import ca.eandb.jmist.math.Point2;
@@ -31,19 +31,19 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class WavefrontObjectReader {
 
-	public synchronized SceneElement read(File in) throws IOException {
-		return read(in, 1.0);
+	public synchronized SceneElement read(File in, ColorModel cm) throws IOException {
+		return read(in, 1.0, cm);
 	}
 
-	public synchronized SceneElement read(File in, double scale) throws IOException {
-		return read(in, new HashMap<String, Material>(), scale);
+	public synchronized SceneElement read(File in, double scale, ColorModel cm) throws IOException {
+		return read(in, new HashMap<String, Material>(), scale, cm);
 	}
 
-	public synchronized SceneElement read(File in, Map<String, Material> materials, double scale) throws IOException {
+	public synchronized SceneElement read(File in, Map<String, Material> materials, double scale, ColorModel cm) throws IOException {
 
 		FileInputStream stream = new FileInputStream(in);
 		LineNumberReader reader = new LineNumberReader(new InputStreamReader(stream));
-		State state = new State(in.getParentFile(), scale);
+		State state = new State(in.getParentFile(), scale, cm);
 
 		for (Map.Entry<String, Material> entry : this.materials.entrySet()) {
 			state.addAppearance(entry.getKey(), entry.getValue(), null);
@@ -107,9 +107,10 @@ public final class WavefrontObjectReader {
 		/**
 		 * @param geometry
 		 */
-		public State(File directory, double scale) {
+		public State(File directory, double scale, ColorModel colorModel) {
 			this.directory = directory;
 			this.scale = scale;
+			this.colorModel = colorModel;
 		}
 
 		public void addErrorMessage(String format) {
@@ -192,6 +193,8 @@ public final class WavefrontObjectReader {
 		private final double scale;
 
 		private final File directory;
+
+		private final ColorModel colorModel;
 
 	}
 
@@ -332,7 +335,7 @@ public final class WavefrontObjectReader {
 			for (int i = 1; i < args.length; i++) {
 				File file = new File(state.directory, args[i]);
 				try {
-					reader.read(file, ColorModel.getInstance(), new AppearanceVisitor() {
+					reader.read(file, state.colorModel, new AppearanceVisitor() {
 						public void visit(String name, Material material,
 								Shader shader) {
 							state.addAppearance(name, material, shader);
