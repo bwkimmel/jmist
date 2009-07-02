@@ -25,4 +25,13 @@ public interface RayShader {
 	 */
 	Color shadeRay(Ray3 ray, WavelengthPacket lambda);
 
+	/**
+	 * A <code>RayShader</code> that shades all rays black.
+	 */
+	public static final RayShader BLACK = new RayShader() {
+		public Color shadeRay(Ray3 ray, WavelengthPacket lambda) {
+			return lambda.getColorModel().getBlack(lambda);
+		}
+	};
+
 }

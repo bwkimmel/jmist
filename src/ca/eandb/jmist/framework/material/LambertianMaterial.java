@@ -6,6 +6,7 @@ package ca.eandb.jmist.framework.material;
 import java.io.Serializable;
 
 import ca.eandb.jmist.framework.Painter;
+import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.ScatteredRayRecorder;
 import ca.eandb.jmist.framework.SurfacePoint;
@@ -85,14 +86,14 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#emit(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.ScatteredRayRecorder)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#emit(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random, ca.eandb.jmist.framework.ScatteredRayRecorder)
 	 */
 	@Override
-	public void emit(SurfacePoint x, WavelengthPacket lambda, ScatteredRayRecorder recorder) {
+	public void emit(SurfacePoint x, WavelengthPacket lambda, Random rng, ScatteredRayRecorder recorder) {
 
 		if (this.emittance != null) {
 
-			SphericalCoordinates out = RandomUtil.uniformOnUpperHemisphere();
+			SphericalCoordinates out = RandomUtil.uniformOnUpperHemisphere(1.0, rng.next(), rng.next());
 			Ray3 ray = new Ray3(x.getPosition(), out.toCartesian(x.getShadingBasis()));
 
 			if (x.getNormal().dot(ray.direction()) > 0.0) {
@@ -104,14 +105,14 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.ScatteredRayRecorder)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random, ca.eandb.jmist.framework.ScatteredRayRecorder)
 	 */
 	@Override
-	public void scatter(SurfacePoint x, Vector3 v, WavelengthPacket lambda, ScatteredRayRecorder recorder) {
+	public void scatter(SurfacePoint x, Vector3 v, WavelengthPacket lambda, Random rng, ScatteredRayRecorder recorder) {
 
 		if (this.reflectance != null) {
 
-			SphericalCoordinates out = RandomUtil.diffuse();
+			SphericalCoordinates out = RandomUtil.diffuse(rng.next(), rng.next());
 			Ray3 ray = new Ray3(x.getPosition(), out.toCartesian(x.getShadingBasis()));
 
 			if (ray.direction().dot(x.getNormal()) > 0.0) {

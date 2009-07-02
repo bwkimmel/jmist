@@ -5,6 +5,7 @@ package ca.eandb.jmist.framework.measurement;
 
 import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.Medium;
+import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.ScatteredRays;
 import ca.eandb.jmist.framework.SurfacePoint;
@@ -12,6 +13,7 @@ import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.color.monochrome.MonochromeColorModel;
+import ca.eandb.jmist.framework.random.SimpleRandom;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
@@ -88,6 +90,7 @@ public final class Photometer {
 		ColorModel colorModel = new MonochromeColorModel(wavelengths.at(0));
 		Color sample = colorModel.sample();
 		WavelengthPacket lambda = sample.getWavelengthPacket();
+		Random rng = new SimpleRandom();
 
 		for (int i = 0; i < n; i++) {
 
@@ -104,7 +107,7 @@ public final class Photometer {
 
 			}
 
-			ScatteredRays scattering = new ScatteredRays(x, in, lambda, specimen);
+			ScatteredRays scattering = new ScatteredRays(x, in, lambda, rng, specimen);
 			ScatteredRay sr = scattering.getRandomScatteredRay(true);
 
 			if (sr != null) {

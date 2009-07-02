@@ -48,6 +48,8 @@ public final class ScatteredRays extends AbstractList<ScatteredRay> {
 
 	private final WavelengthPacket lambda;
 
+	private final Random rng;
+
 	private final Material material;
 
 	private List<ScatteredRay> rays = new ArrayList<ScatteredRay>(10);
@@ -58,16 +60,17 @@ public final class ScatteredRays extends AbstractList<ScatteredRay> {
 	 * @param lambda
 	 * @param material
 	 */
-	public ScatteredRays(SurfacePoint x, Vector3 v, WavelengthPacket lambda, Material material) {
+	public ScatteredRays(SurfacePoint x, Vector3 v, WavelengthPacket lambda, Random rng, Material material) {
 		this.x = x;
 		this.v = v;
 		this.lambda = lambda;
+		this.rng = rng;
 		this.material = material;
 	}
 
 	private synchronized void ensureReady() {
 		if (modCount == 0) {
-			material.scatter(x, v, lambda, new ScatteredRayRecorder() {
+			material.scatter(x, v, lambda, rng, new ScatteredRayRecorder() {
 				public void add(ScatteredRay sr) {
 					rays.add(sr);
 				}

@@ -4,6 +4,7 @@
 package ca.eandb.jmist.framework.material;
 
 import ca.eandb.jmist.framework.Medium;
+import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ScatteredRayRecorder;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
@@ -33,12 +34,12 @@ public final class CookTorranceMaterial extends AbstractMaterial {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.ScatteredRayRecorder)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random, ca.eandb.jmist.framework.ScatteredRayRecorder)
 	 */
 	@Override
-	public void scatter(SurfacePoint x, Vector3 v, WavelengthPacket lambda, ScatteredRayRecorder recorder) {
+	public void scatter(SurfacePoint x, Vector3 v, WavelengthPacket lambda, Random rng, ScatteredRayRecorder recorder) {
 		// TODO Auto-generated method stub
-		super.scatter(x, v, lambda, recorder);
+		super.scatter(x, v, lambda, rng, recorder);
 	}
 
 	/* (non-Javadoc)

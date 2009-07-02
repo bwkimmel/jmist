@@ -38,9 +38,11 @@ import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.Medium;
 import ca.eandb.jmist.framework.Modifier;
 import ca.eandb.jmist.framework.NearestIntersectionRecorder;
+import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.RayShader;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.ScatteredRays;
+import ca.eandb.jmist.framework.Scene;
 import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.Shader;
 import ca.eandb.jmist.framework.ShadingContext;
@@ -48,6 +50,7 @@ import ca.eandb.jmist.framework.ScatteredRay.Type;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.framework.random.SimpleRandom;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
@@ -66,15 +69,46 @@ public final class SceneRayShader implements RayShader {
 
 	private final RayShader background;
 
+	private final Random rng;
+
+	/**
+	 * @param caster
+	 * @param light
+	 * @param background
+	 * @param rng
+	 */
+	public SceneRayShader(SceneElement root, Light light, RayShader background, Random rng) {
+		this.root = root;
+		this.light = light;
+		this.background = background;
+		this.rng = rng;
+	}
+
 	/**
 	 * @param caster
 	 * @param light
 	 * @param background
 	 */
 	public SceneRayShader(SceneElement root, Light light, RayShader background) {
-		this.root = root;
-		this.light = light;
-		this.background = background;
+		this(root, light, background, new SimpleRandom());
+	}
+
+	/**
+	 * @param caster
+	 * @param light
+	 * @param background
+	 */
+	public SceneRayShader(Scene scene, RayShader background) {
+		this(scene.getRoot(), scene.getLight(), background, new SimpleRandom());
+	}
+
+	/**
+	 * @param caster
+	 * @param light
+	 * @param background
+	 */
+	public SceneRayShader(Scene scene) {
+		this(scene.getRoot(), scene.getLight(), RayShader.BLACK, new SimpleRandom());
 	}
 
 	/* (non-Javadoc)
@@ -126,7 +160,7 @@ public final class SceneRayShader implements RayShader {
 				stack.push(local);
 				x.prepareShadingContext(this);
 
-				local.scatteredRays = new ScatteredRays(this, ray.direction(), getWavelengthPacket(), local.material);
+				local.scatteredRays = new ScatteredRays(this, ray.direction(), getWavelengthPacket(), rng, local.material);
 
 				Color color = shade();
 
@@ -157,7 +191,7 @@ public final class SceneRayShader implements RayShader {
 				stack.push(local);
 				x.prepareShadingContext(this);
 
-				local.scatteredRays = new ScatteredRays(this, ray.direction(), getWavelengthPacket(), local.material);
+				local.scatteredRays = new ScatteredRays(this, ray.direction(), getWavelengthPacket(), rng, local.material);
 
 				Color color = shade();
 

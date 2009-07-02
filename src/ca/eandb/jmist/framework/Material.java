@@ -20,8 +20,8 @@ public interface Material extends Medium {
 
 	boolean isEmissive();
 
-	void scatter(SurfacePoint x, Vector3 v, WavelengthPacket lambda, ScatteredRayRecorder recorder);
-	void emit(SurfacePoint x, WavelengthPacket lambda, ScatteredRayRecorder recorder);
+	void scatter(SurfacePoint x, Vector3 v, WavelengthPacket lambda, Random rng, ScatteredRayRecorder recorder);
+	void emit(SurfacePoint x, WavelengthPacket lambda, Random rng, ScatteredRayRecorder recorder);
 
 	/**
 	 * A <code>Material</code> that absorbs all light and does not
@@ -35,7 +35,7 @@ public interface Material extends Medium {
 		}
 
 		@Override
-		public void emit(SurfacePoint x, WavelengthPacket lambda, ScatteredRayRecorder recorder) {
+		public void emit(SurfacePoint x, WavelengthPacket lambda, Random rng, ScatteredRayRecorder recorder) {
 			/* nothing to do. */
 		}
 
@@ -45,7 +45,7 @@ public interface Material extends Medium {
 		}
 
 		@Override
-		public void scatter(SurfacePoint x, Vector3 in, WavelengthPacket lambda, ScatteredRayRecorder recorder) {
+		public void scatter(SurfacePoint x, Vector3 in, WavelengthPacket lambda, Random rng, ScatteredRayRecorder recorder) {
 			/* nothing to do. */
 		}
 
