@@ -7,8 +7,6 @@ Coding Conventions
  	- Lower case package names (e.g., ca.eandb.jmist.framework).
  	- Pascal casing on class names (e.g., PinholeCamera).
  	- Camel casing on method names (e.g, vectorFrom).
- 	- Avoid the use of the prefix "get" on method names.  For
- 	  example: use "length()" instead of "getLength()".
  	- Open braces to appear on same line as statement defining
  	  the block.  Close braces to appear on a near line, aligned
  	  with the opening statement.  Example:
