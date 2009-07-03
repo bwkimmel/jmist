@@ -89,12 +89,28 @@ public final class Point3 implements Serializable {
 	}
 
 	/**
+	 * Computes the square of the distance between this point and the origin.
+	 * @return The square of the distance between this point and the origin.
+	 */
+	public double squaredDistanceToOrigin() {
+		return x * x + y * y + z * z;
+	}
+
+	/**
 	 * Computes the distance between this point and the specified point.
 	 * @param p The point to compute the distance to.
 	 * @return The distance between this point and p.
 	 */
 	public double distanceTo(Point3 p) {
 		return Math.sqrt(squaredDistanceTo(p));
+	}
+
+	/**
+	 * Computes the distance between this point and the origin.
+	 * @return The distance between this point and the origin.
+	 */
+	public double distanceToOrigin() {
+		return Math.sqrt(squaredDistanceToOrigin());
 	}
 
 	/**
