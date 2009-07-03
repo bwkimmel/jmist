@@ -9,6 +9,7 @@ import ca.eandb.jmist.framework.RayShader;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Point2;
+import ca.eandb.jmist.math.Ray3;
 
 /**
  * An image shader that uses a Lens to shade rays corresponding to points
@@ -33,7 +34,8 @@ public final class CameraImageShader implements ImageShader {
 	 * @see ca.eandb.jmist.framework.ImageShader#shadeAt(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
 	public Color shadeAt(Point2 p, WavelengthPacket lambda) {
-		return this.rayShader.shadeRay(this.lens.rayAt(p), lambda);
+		Ray3 ray = lens.rayAt(p);
+		return ray != null ? rayShader.shadeRay(ray, lambda) : lambda.getColorModel().getBlack(lambda);
 	}
 
 	/**

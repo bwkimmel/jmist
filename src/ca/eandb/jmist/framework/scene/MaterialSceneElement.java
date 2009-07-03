@@ -302,10 +302,10 @@ public final class MaterialSceneElement extends ModifierSceneElement {
 				};
 
 				generateImportanceSampledSurfacePoint(x, context);
-				context.getModifier().modify(context);
+				if (context.getModifier() != null) context.getModifier().modify(context);
 
 				Point3 p = context.getPosition();
-				Material mat = context.getMaterial();
+				Material mat = material;//context.getMaterial();
 				Vector3 v = x.getPosition().unitVectorFrom(p);
 				double d2 = x.getPosition().squaredDistanceTo(p);
 				double atten = surfaceArea / (4.0 * Math.PI * d2);

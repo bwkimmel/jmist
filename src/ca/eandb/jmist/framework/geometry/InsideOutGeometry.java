@@ -9,23 +9,23 @@ import ca.eandb.jmist.framework.IntersectionRecorder;
 import ca.eandb.jmist.framework.IntersectionRecorderDecorator;
 import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.ShadingContext;
-import ca.eandb.jmist.math.Box3;
+import ca.eandb.jmist.framework.SurfacePoint;
+import ca.eandb.jmist.framework.scene.SceneElementDecorator;
 import ca.eandb.jmist.math.Ray3;
-import ca.eandb.jmist.math.Sphere;
 
 /**
  * A <code>SceneElement</code> decorator that flips another <code>SceneElement</code>
  * inside out.
  * @author Brad Kimmel
  */
-public final class InsideOutGeometry extends AbstractGeometry {
+public final class InsideOutGeometry extends SceneElementDecorator {
 
 	/**
 	 * Creates a new <code>InsideOutGeometry</code>.
 	 * @param inner The <code>SceneElement</code> to turn inside out.
 	 */
 	public InsideOutGeometry(SceneElement inner) {
-		this.inner = inner;
+		super(inner);
 	}
 
 	/* (non-Javadoc)
@@ -33,45 +33,61 @@ public final class InsideOutGeometry extends AbstractGeometry {
 	 */
 	public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
 		recorder = new InsideOutIntersectionRecorder(recorder);
-		this.inner.intersect(index, ray, recorder);
+		super.intersect(index, ray, recorder);
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
-	 */
-	public Box3 boundingBox() {
-		return this.inner.boundingBox();
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
-	 */
-	public Sphere boundingSphere() {
-		return this.inner.boundingSphere();
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SceneElement#getBoundingBox(int)
+	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
 	@Override
-	public Box3 getBoundingBox(int index) {
-		return inner.getBoundingBox(index);
+	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
+		recorder = new InsideOutIntersectionRecorder(recorder);
+		super.intersect(ray, recorder);
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SceneElement#getBoundingSphere(int)
+	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#generateImportanceSampledSurfacePoint(int, ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext)
 	 */
 	@Override
-	public Sphere getBoundingSphere(int index) {
-		return inner.getBoundingSphere(index);
+	public double generateImportanceSampledSurfacePoint(int index,
+			SurfacePoint x, ShadingContext context) {
+		double weight = super.generateImportanceSampledSurfacePoint(index, x, context);
+		flip(context);
+		return weight;
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SceneElement#getNumPrimitives()
+	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#generateImportanceSampledSurfacePoint(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext)
 	 */
 	@Override
-	public int getNumPrimitives() {
-		return inner.getNumPrimitives();
+	public double generateImportanceSampledSurfacePoint(SurfacePoint x,
+			ShadingContext context) {
+		double weight = super.generateImportanceSampledSurfacePoint(x, context);
+		flip(context);
+		return weight;
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#generateRandomSurfacePoint(int, ca.eandb.jmist.framework.ShadingContext)
+	 */
+	@Override
+	public void generateRandomSurfacePoint(int index, ShadingContext context) {
+		super.generateRandomSurfacePoint(index, context);
+		flip(context);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext)
+	 */
+	@Override
+	public void generateRandomSurfacePoint(ShadingContext context) {
+		super.generateRandomSurfacePoint(context);
+		flip(context);
+	}
+
+	private static void flip(ShadingContext context) {
+		context.setBasis(context.getBasis().opposite());
+		context.setShadingBasis(context.getShadingBasis().opposite());
 	}
 
 	/**
@@ -96,7 +112,7 @@ public final class InsideOutGeometry extends AbstractGeometry {
 		 */
 		@Override
 		public void record(Intersection intersection) {
-			this.inner.record(new InsideOutIntersection(intersection));
+			inner.record(new InsideOutIntersection(intersection));
 		}
 
 		/**
@@ -120,20 +136,16 @@ public final class InsideOutGeometry extends AbstractGeometry {
 			 */
 			@Override
 			public boolean isFront() {
-				return !this.inner.isFront();
+				return !inner.isFront();
 			}
 
 			@Override
 			protected void transformShadingContext(ShadingContext context) {
-				context.setBasis(context.getBasis().opposite());
-				context.setShadingBasis(context.getShadingBasis().opposite());
+				flip(context);
 			}
 
 		}
 
 	}
-
-	/** The decorated <code>SceneElement</code>. */
-	private final SceneElement inner;
 
 }

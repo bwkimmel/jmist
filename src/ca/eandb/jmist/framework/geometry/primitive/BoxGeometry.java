@@ -206,8 +206,8 @@ public final class BoxGeometry extends PrimitiveGeometry {
 		}
 
 		return new Point2(
-			FACE_DOMAIN[x.getTag() - 1].minimumX() + facePoint.x() * FACE_DOMAIN[x.getTag() - 1].lengthX(),
-			FACE_DOMAIN[x.getTag() - 1].minimumY() + facePoint.y() * FACE_DOMAIN[x.getTag() - 1].lengthY()
+			FACE_DOMAIN[x.getTag()].minimumX() + facePoint.x() * FACE_DOMAIN[x.getTag()].lengthX(),
+			FACE_DOMAIN[x.getTag()].minimumY() + facePoint.y() * FACE_DOMAIN[x.getTag()].lengthY()
 		);
 
 	}
