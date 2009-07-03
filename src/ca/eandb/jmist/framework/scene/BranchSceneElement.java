@@ -54,6 +54,11 @@ public final class BranchSceneElement implements SceneElement {
 
 	private CategoricalRandom rnd = null;
 
+	public BranchSceneElement addChild(SceneElement child) {
+		children.add(child);
+		return this;
+	}
+
 	private synchronized void buildChildSelector() {
 		if (rnd != null) {
 			return;
