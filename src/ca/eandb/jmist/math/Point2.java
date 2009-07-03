@@ -87,7 +87,7 @@ public final class Point2 implements Serializable {
 	 * @return The distance between this point and p.
 	 */
 	public double distanceTo(Point2 p) {
-		return Math.sqrt(squaredDistanceTo(p));
+		return Math.hypot(x - p.x, y - p.y);
 	}
 
 	/**
@@ -95,7 +95,7 @@ public final class Point2 implements Serializable {
 	 * @return The distance from this point to the origin.
 	 */
 	public double distanceToOrigin() {
-		return Math.sqrt(squaredDistanceToOrigin());
+		return Math.hypot(x, y);
 	}
 
 	/**

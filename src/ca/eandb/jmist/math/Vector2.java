@@ -64,7 +64,7 @@ public final class Vector2 implements Serializable {
 	 * @return The magnitude of the vector.
 	 */
 	public double length() {
-		return Math.sqrt(dot(this));
+		return Math.hypot(x, y);
 	}
 
 	/**
