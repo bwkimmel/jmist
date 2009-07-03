@@ -3,7 +3,6 @@
  */
 package ca.eandb.jmist.framework.geometry.primitive;
 
-import ca.eandb.jmist.framework.BoundingBoxBuilder3;
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
 import ca.eandb.jmist.framework.ShadingContext;
@@ -120,18 +119,25 @@ public final class DiscGeometry extends PrimitiveGeometry {
 	 */
 	public Box3 boundingBox() {
 
-		BoundingBoxBuilder3 builder = new BoundingBoxBuilder3();
 		Basis3 basis = Basis3.fromW(this.plane.normal(), Basis3.Orientation.RIGHT_HANDED);
-		Point3 center = this.boundingSphere.center();
-		Vector3 u = basis.u().times(this.boundingSphere.radius());
-		Vector3 v = basis.v().times(this.boundingSphere.radius());
+		Vector3 u = basis.u();
+		Vector3 v = basis.v();
 
-		builder.add(center.plus(u).plus(v));
-		builder.add(center.plus(u).minus(v));
-		builder.add(center.minus(u).minus(v));
-		builder.add(center.minus(u).plus(v));
+		double r = this.boundingSphere.radius();
+		double ri = r * Math.hypot(u.x(), v.x());
+		double rj = r * Math.hypot(u.y(), v.y());
+		double rk = r * Math.hypot(u.z(), v.z());
 
-		return builder.getBoundingBox();
+		Point3 c = this.boundingSphere.center();
+
+		return new Box3(
+				c.x() - ri,
+				c.y() - rj,
+				c.z() - rk,
+				c.x() + ri,
+				c.y() + rj,
+				c.z() + rk
+				);
 
 	}
 
