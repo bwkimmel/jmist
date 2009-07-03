@@ -69,6 +69,12 @@ public final class RasterTexture2 implements Texture2 {
 		this(ImageIO.read(input));
 	}
 
+	/**
+	 * A place holder to hold a double array for the pixel, so that one is not
+	 * allocated on every call to {@link #evaluate(Point2, WavelengthPacket)}.
+	 */
+	private final ThreadLocal<double[]> placeholder = new ThreadLocal<double[]>();
+
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Texture2#evaluate(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
@@ -80,8 +86,10 @@ public final class RasterTexture2 implements Texture2 {
 		int			h		= raster.getHeight();
 		int			x		= MathUtil.threshold((int) Math.floor(u * (double) w), 0, w - 1);
 		int			y		= MathUtil.threshold((int) Math.floor(v * (double) h), 0, h - 1);
-		double[]	pixel	= this.raster.getPixel(x, y, (double[]) null);
+		double[]	pixel	= this.raster.getPixel(x, y, placeholder.get());
 		ColorModel	cm		= lambda.getColorModel();
+
+		placeholder.set(pixel);
 
 		if (factory != null) {
 			return cm.getContinuous(factory.createSpectrum(pixel)).sample(lambda);
