@@ -165,6 +165,12 @@ public interface SceneElement extends Bounded3, VisibilityFunction3 {
 	 */
 	double generateImportanceSampledSurfacePoint(SurfacePoint x, ShadingContext context);
 
+	/**
+	 * Creates a <code>Light</code> from the emissive surfaces in this scene
+	 * element.
+	 * @return A <code>Light</code> representing the emissive surfaces in this
+	 * 		scene element.
+	 */
 	Light createLight();
 
 }
