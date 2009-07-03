@@ -4,6 +4,7 @@
 package ca.eandb.jmist.framework.light;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import ca.eandb.jmist.framework.Light;
@@ -13,6 +14,22 @@ import ca.eandb.jmist.framework.Light;
  *
  */
 public abstract class CompositeLight implements Light {
+
+	/**
+	 * Initializes this <code>CompositeLight</code> with no light sources.
+	 */
+	protected CompositeLight() {
+		/* nothing to do. */
+	}
+
+	/**
+	 * Initializes this <code>CompositeLight</code> with the specified child
+	 * light sources.
+	 * @param children
+	 */
+	protected CompositeLight(Collection<? extends Light> children) {
+		this.children.addAll(children);
+	}
 
 	/**
 	 * Adds a child <code>Light</code> to this <code>CompositeLight</code>.

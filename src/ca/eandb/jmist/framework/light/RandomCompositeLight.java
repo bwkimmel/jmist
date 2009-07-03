@@ -3,7 +3,10 @@
  */
 package ca.eandb.jmist.framework.light;
 
+import java.util.Collection;
+
 import ca.eandb.jmist.framework.Illuminable;
+import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.LightSample;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.SurfacePoint;
@@ -23,6 +26,15 @@ public final class RandomCompositeLight extends CompositeLight {
 
 	public RandomCompositeLight() {
 		this(new SimpleRandom());
+	}
+
+	public RandomCompositeLight(Random random, Collection<? extends Light> children) {
+		super(children);
+		this.random = random;
+	}
+
+	public RandomCompositeLight(Collection<? extends Light> children) {
+		this(new SimpleRandom(), children);
 	}
 
 	/* (non-Javadoc)
