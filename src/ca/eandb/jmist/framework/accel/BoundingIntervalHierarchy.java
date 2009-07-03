@@ -33,7 +33,6 @@ import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.scene.SceneElementDecorator;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Interval;
-import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.util.ArrayUtil;
@@ -44,23 +43,23 @@ import ca.eandb.jmist.util.ArrayUtil;
  */
 public final class BoundingIntervalHierarchy extends SceneElementDecorator {
 
-	private final int[] items;
+	private transient int[] items;
 
-	private final NodeBuffer buffer = new NodeBuffer();
+	private transient NodeBuffer buffer;
+
+	private transient int root;
+
+	private transient Box3 boundingBox;
+
+	private transient boolean ready = false;
 
 	private final int maxItemsPerLeaf = 2;
-
-	private int root;
-
-	private Box3 boundingBox;
 
 	/**
 	 * @param inner
 	 */
 	public BoundingIntervalHierarchy(SceneElement inner) {
 		super(inner);
-		items = ArrayUtil.range(0, inner.getNumPrimitives() - 1);
-		build();
 	}
 
 	public void dump() {
@@ -109,12 +108,22 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
 		}
 	}
 
-	private void build() {
-		boundingBox = boundingBox();
-		Bound bound = new Bound(boundingBox);
-		Clip clip = new Clip();
-		root = buffer.allocateInternal();
-		build(root, bound, 0, items.length, clip);
+	private void ensureReady() {
+		if (!ready) {
+			build();
+		}
+	}
+
+	private synchronized void build() {
+		if (!ready) {
+			items = ArrayUtil.range(0, super.getNumPrimitives() - 1);
+			boundingBox = boundingBox();
+			Bound bound = new Bound(boundingBox);
+			Clip clip = new Clip();
+			root = buffer.allocateInternal();
+			build(root, bound, 0, items.length, clip);
+			ready = true;
+		}
 	}
 
 	private void build(int offset, Bound bound, int start, int end, Clip clip) {
@@ -384,6 +393,7 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
 	 */
 	@Override
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
+		ensureReady();
 		Interval I = boundingBox.intersect(ray).intersect(recorder.interval());
 		if (!I.isEmpty()) {
 			intersectNode(root, I.minimum(), I.maximum(), ray, recorder);
