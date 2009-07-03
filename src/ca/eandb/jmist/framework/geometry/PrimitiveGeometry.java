@@ -27,6 +27,7 @@ package ca.eandb.jmist.framework.geometry;
 
 import ca.eandb.jmist.framework.IntersectionRecorder;
 import ca.eandb.jmist.framework.ShadingContext;
+import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
@@ -68,6 +69,16 @@ public abstract class PrimitiveGeometry extends AbstractGeometry {
 	 */
 	public void generateRandomSurfacePoint(ShadingContext context) {
 		throw new UnsupportedOperationException();
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#generateImportanceSampledSurfacePoint(int, ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext)
+	 */
+	@Override
+	public final double generateImportanceSampledSurfacePoint(int index,
+			SurfacePoint x, ShadingContext context) {
+		validate(index);
+		return generateImportanceSampledSurfacePoint(0, x, context);
 	}
 
 	/* (non-Javadoc)
