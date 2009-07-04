@@ -116,6 +116,7 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
 
 	private synchronized void build() {
 		if (!ready) {
+			buffer = new NodeBuffer();
 			items = ArrayUtil.range(0, super.getNumPrimitives() - 1);
 			boundingBox = boundingBox();
 			Bound bound = new Bound(boundingBox);
