@@ -11,7 +11,6 @@ import ca.eandb.jmist.framework.LightSample;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
-import ca.eandb.jmist.framework.random.SimpleRandom;
 import ca.eandb.jmist.math.RandomUtil;
 
 /**
@@ -20,38 +19,27 @@ import ca.eandb.jmist.math.RandomUtil;
  */
 public final class RandomCompositeLight extends CompositeLight {
 
-	public RandomCompositeLight(Random random) {
-		this.random = random;
-	}
-
 	public RandomCompositeLight() {
-		this(new SimpleRandom());
-	}
-
-	public RandomCompositeLight(Random random, Collection<? extends Light> children) {
-		super(children);
-		this.random = random;
+		super();
 	}
 
 	public RandomCompositeLight(Collection<? extends Light> children) {
-		this(new SimpleRandom(), children);
+		super(children);
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Illuminable)
+	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random, ca.eandb.jmist.framework.Illuminable)
 	 */
-	public void illuminate(SurfacePoint x, WavelengthPacket lambda, final Illuminable target) {
-		children().get(this.select()).illuminate(x, lambda, new Illuminable() {
+	public void illuminate(SurfacePoint x, WavelengthPacket lambda, Random rng, final Illuminable target) {
+		children().get(this.select(rng.next())).illuminate(x, lambda, rng, new Illuminable() {
 			public void addLightSample(LightSample sample) {
 				target.addLightSample(ScaledLightSample.create(children().size(), sample));
 			}
 		});
 	}
 
-	private int select() {
-		return RandomUtil.discrete(0, this.children().size() - 1, random.next());
+	private int select(double seed) {
+		return RandomUtil.discrete(0, this.children().size() - 1, seed);
 	}
-
-	private final Random random;
 
 }

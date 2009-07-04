@@ -7,6 +7,7 @@ import java.util.Collection;
 
 import ca.eandb.jmist.framework.Illuminable;
 import ca.eandb.jmist.framework.Light;
+import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 
@@ -31,11 +32,11 @@ public final class SimpleCompositeLight extends CompositeLight {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Illuminable)
+	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random, ca.eandb.jmist.framework.Illuminable)
 	 */
-	public void illuminate(SurfacePoint x, WavelengthPacket lambda, Illuminable target) {
+	public void illuminate(SurfacePoint x, WavelengthPacket lambda, Random rng, Illuminable target) {
 		for (Light light : this.children()) {
-			light.illuminate(x, lambda, target);
+			light.illuminate(x, lambda, rng, target);
 		}
 	}
 

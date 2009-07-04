@@ -5,6 +5,7 @@ package ca.eandb.jmist.framework.geometry.primitive;
 
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
+import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.geometry.PrimitiveGeometry;
 import ca.eandb.jmist.math.Basis3;
@@ -238,23 +239,25 @@ public final class BoxGeometry extends PrimitiveGeometry {
 	 */
 	@Override
 	public void generateRandomSurfacePoint(ShadingContext context) {
+		Random random = context.getRandom();
+
 		double xyArea = box.lengthX() * box.lengthY();
 		double xzArea = box.lengthX() * box.lengthZ();
 		double yzArea = box.lengthY() * box.lengthZ();
 
 		double total = xyArea + xzArea + yzArea;
-		double random = RandomUtil.canonical() * total;
-		boolean dir = RandomUtil.coin();
+		double rnd = random.next() * total;
+		boolean dir = RandomUtil.coin(rnd);
 		int id;
 		Point3 p;
 
-		if (random < xyArea) {
+		if (rnd < xyArea) {
 			id = dir ? BOX_SURFACE_MAX_Z : BOX_SURFACE_MIN_Z;
 			p = new Point3(
 					RandomUtil.uniform(box.spanX()),
 					RandomUtil.uniform(box.spanY()),
 					dir ? box.maximumZ() : box.minimumZ());
-		} else if (random < xyArea + xzArea) {
+		} else if (rnd < xyArea + xzArea) {
 			id = dir ? BOX_SURFACE_MAX_Y : BOX_SURFACE_MIN_Y;
 			p = new Point3(RandomUtil.uniform(box.spanX()),
 					dir ? box.maximumY() : box.minimumY(),

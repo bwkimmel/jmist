@@ -18,6 +18,7 @@ import ca.eandb.jmist.framework.LightSample;
 import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.Medium;
 import ca.eandb.jmist.framework.Modifier;
+import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.ScatteredRays;
 import ca.eandb.jmist.framework.SceneElement;
@@ -208,7 +209,7 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 		return new Light() {
 
 			@Override
-			public void illuminate(SurfacePoint x, final WavelengthPacket lambda, Illuminable target) {
+			public void illuminate(SurfacePoint x, final WavelengthPacket lambda, final Random rng, Illuminable target) {
 
 				ShadingContext context = new ShadingContext() {
 
@@ -275,6 +276,11 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 					@Override
 					public int getPathDepthByType(Type type) {
 						return 0;
+					}
+
+					@Override
+					public Random getRandom() {
+						return rng;
 					}
 
 					@Override
@@ -434,7 +440,7 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 
 				};
 
-				int index = rnd.next();
+				int index = rnd.next(rng.next());
 				int primitive = primIndex[index];
 
 				generateImportanceSampledSurfacePoint(primitive, x, context);

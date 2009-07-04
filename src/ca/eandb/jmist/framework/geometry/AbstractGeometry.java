@@ -276,7 +276,7 @@ public abstract class AbstractGeometry implements SceneElement {
 		Interval I = new Interval(MathUtil.EPSILON, maximumDistance);
 		NearestIntersectionRecorder recorder = new NearestIntersectionRecorder(I);
 		intersect(index, ray, recorder);
-		return !recorder.isEmpty();
+		return recorder.isEmpty();
 	}
 
 	/* (non-Javadoc)

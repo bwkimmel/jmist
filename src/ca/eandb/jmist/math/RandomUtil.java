@@ -120,8 +120,16 @@ public final class RandomUtil {
 		return canonical() < probability;
 	}
 
+	public static boolean bernoulli(double probability, double seed) {
+		return seed < probability;
+	}
+
 	public static boolean coin() {
 		return bernoulli(0.5);
+	}
+
+	public static boolean coin(double seed) {
+		return seed < 0.5;
 	}
 
 	public static int categorical(double[] weights) {
@@ -159,12 +167,20 @@ public final class RandomUtil {
 		return new Point3(canonical(), canonical(), canonical());
 	}
 
+	public static double uniform(double minimum, double maximum, double seed) {
+		return minimum + seed * (maximum - minimum);
+	}
+
 	public static double uniform(double minimum, double maximum) {
-		return minimum + canonical() * (maximum - minimum);
+		return uniform(minimum, maximum, canonical());
 	}
 
 	public static double uniform(Interval I) {
 		return uniform(I.minimum(), I.maximum());
+	}
+
+	public static double uniform(Interval I, double seed) {
+		return uniform(I.minimum(), I.maximum(), seed);
 	}
 
 	public static Point2 uniform(Box2 box) {

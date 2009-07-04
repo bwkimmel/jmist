@@ -231,7 +231,7 @@ public final class SceneRayShader implements RayShader {
 			if (samples == null) {
 				samples = new ArrayList<LightSample>();
 				stack.peek().samples = samples;
-				light.illuminate(this, getWavelengthPacket(), this);
+				light.illuminate(this, getWavelengthPacket(), rng, this);
 			}
 			return samples;
 		}
@@ -337,6 +337,11 @@ public final class SceneRayShader implements RayShader {
 		@Override
 		public Modifier getModifier() {
 			return stack.peek().modifier;
+		}
+
+		@Override
+		public Random getRandom() {
+			return rng;
 		}
 
 		@Override

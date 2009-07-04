@@ -12,6 +12,6 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
  */
 public interface Light {
 
-	void illuminate(SurfacePoint x, WavelengthPacket lambda, Illuminable target);
+	void illuminate(SurfacePoint x, WavelengthPacket lambda, Random rng, Illuminable target);
 
 }

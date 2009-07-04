@@ -52,7 +52,18 @@ public final class CategoricalRandom {
 	 * @return The next sample.
 	 */
 	public int next() {
-		int index = Arrays.binarySearch(this.cpf, source != null ? source.next() : RandomUtil.canonical());
+		return next(source != null ? source.next() : RandomUtil.canonical());
+	}
+
+	/**
+	 * Generates a new sample of this <code>CategoricalRandom</code>
+	 * variable.
+	 * @param seed The seed value.  This method is guaranteed to return the
+	 * 		same value given the same seed.
+	 * @return The next sample.
+	 */
+	public int next(double seed) {
+		int index = Arrays.binarySearch(this.cpf, seed);
 		return index >= 0 ? index : -(index + 1);
 	}
 

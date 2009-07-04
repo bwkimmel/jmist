@@ -33,7 +33,6 @@ import java.util.List;
 import ca.eandb.jmist.framework.color.ColorUtil;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.MathUtil;
-import ca.eandb.jmist.math.RandomUtil;
 import ca.eandb.jmist.math.Vector3;
 
 /**
@@ -107,15 +106,15 @@ public final class ScatteredRays extends AbstractList<ScatteredRay> {
 	}
 
 	public ScatteredRay getRandomScatteredRay(double rnd, boolean allowNone) {
-		return getRandomScatteredRay(RandomUtil.canonical(), EnumSet.allOf(ScatteredRay.Type.class), allowNone);
+		return getRandomScatteredRay(rnd, EnumSet.allOf(ScatteredRay.Type.class), allowNone);
 	}
 
 	public ScatteredRay getRandomScatteredRay(EnumSet<ScatteredRay.Type> filter, boolean allowNone) {
-		return getRandomScatteredRay(RandomUtil.canonical(), filter, allowNone);
+		return getRandomScatteredRay(rng.next(), filter, allowNone);
 	}
 
 	public ScatteredRay getRandomScatteredRay(boolean allowNone) {
-		return getRandomScatteredRay(RandomUtil.canonical(), EnumSet.allOf(ScatteredRay.Type.class), allowNone);
+		return getRandomScatteredRay(rng.next(), EnumSet.allOf(ScatteredRay.Type.class), allowNone);
 	}
 
 	public ScatteredRay getRandomScatteredRay(double rnd, EnumSet<ScatteredRay.Type> filter) {
@@ -123,15 +122,15 @@ public final class ScatteredRays extends AbstractList<ScatteredRay> {
 	}
 
 	public ScatteredRay getRandomScatteredRay(double rnd) {
-		return getRandomScatteredRay(RandomUtil.canonical(), EnumSet.allOf(ScatteredRay.Type.class), false);
+		return getRandomScatteredRay(rnd, EnumSet.allOf(ScatteredRay.Type.class), false);
 	}
 
 	public ScatteredRay getRandomScatteredRay(EnumSet<ScatteredRay.Type> filter) {
-		return getRandomScatteredRay(RandomUtil.canonical(), filter, false);
+		return getRandomScatteredRay(rng.next(), filter, false);
 	}
 
 	public ScatteredRay getRandomScatteredRay() {
-		return getRandomScatteredRay(RandomUtil.canonical(), EnumSet.allOf(ScatteredRay.Type.class), false);
+		return getRandomScatteredRay(rng.next(), EnumSet.allOf(ScatteredRay.Type.class), false);
 	}
 
 	/* (non-Javadoc)
