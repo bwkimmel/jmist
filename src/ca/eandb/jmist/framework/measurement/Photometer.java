@@ -88,7 +88,7 @@ public final class Photometer {
 		}
 
 		ColorModel colorModel = new MonochromeColorModel(wavelengths.at(0));
-		Color sample = colorModel.sample();
+		Color sample = colorModel.sample(Random.DEFAULT);
 		WavelengthPacket lambda = sample.getWavelengthPacket();
 		Random rng = new SimpleRandom();
 

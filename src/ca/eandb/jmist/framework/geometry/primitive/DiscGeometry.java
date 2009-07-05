@@ -8,12 +8,12 @@ import ca.eandb.jmist.framework.IntersectionRecorder;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.geometry.PrimitiveGeometry;
+import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Plane3;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
-import ca.eandb.jmist.math.RandomUtil;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
 import ca.eandb.jmist.math.Vector2;
@@ -155,14 +155,14 @@ public final class DiscGeometry extends PrimitiveGeometry {
 	@Override
 	public void generateRandomSurfacePoint(ShadingContext context) {
 		Random random = context.getRandom();
-		Vector2 uv = RandomUtil.uniformOnDisc(boundingSphere.radius(), random.next(), random.next()).toCartesian();
+		Vector2 uv = RandomUtil.uniformOnDisc(boundingSphere.radius(), random).toCartesian();
 		Basis3 basis = Basis3.fromW(this.plane.normal(), Basis3.Orientation.RIGHT_HANDED);
 
 		Point3 p = boundingSphere.center()
 				.plus(basis.u().times(uv.x()))
 				.plus(basis.v().times(uv.y()));
 
-		int id = (twoSided && RandomUtil.coin(random.next()))
+		int id = (twoSided && RandomUtil.coin(random))
 				? DISC_SURFACE_BOTTOM
 				: DISC_SURFACE_TOP;
 

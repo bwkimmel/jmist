@@ -4,7 +4,6 @@
 package ca.eandb.jmist.framework.random;
 
 import ca.eandb.jmist.framework.Random;
-import ca.eandb.jmist.math.RandomUtil;
 
 /**
  * A random number generator that stratifies the results into a
@@ -21,8 +20,30 @@ public final class StratifiedRandom implements Random {
 	 * a {@link SimpleRandom}.  Also equivalent to {@link #StratifiedRandom(int)}
 	 * with {@code n == 1}.
 	 */
+	public StratifiedRandom(Random inner) {
+		this(1, inner);
+	}
+
+	/**
+	 * Creates a random number generator that is guaranteed to generate one
+	 * value in each of the intervals {@code [i/n, (i+1)/n)}, where
+	 * {@code 0 <= i < n} for each block of {@code n} successive calls to
+	 * {@link #next()}.
+	 * @param n The number of intervals to divide the interval [0, 1) into.
+	 * @see {@link #next()}.
+	 */
+	public StratifiedRandom(int n, Random inner) {
+		this.inner = inner;
+		this.initialize(n);
+	}
+
+	/**
+	 * Default constructor.  Creates a random number generator equivalent to
+	 * a {@link SimpleRandom}.  Also equivalent to {@link #StratifiedRandom(int)}
+	 * with {@code n == 1}.
+	 */
 	public StratifiedRandom() {
-		this.initialize(1);
+		this(1, new SimpleRandom());
 	}
 
 	/**
@@ -34,7 +55,7 @@ public final class StratifiedRandom implements Random {
 	 * @see {@link #next()}.
 	 */
 	public StratifiedRandom(int n) {
-		this.initialize(n);
+		this(n, new SimpleRandom());
 	}
 
 	/*
@@ -44,7 +65,7 @@ public final class StratifiedRandom implements Random {
 	public double next() {
 
 		// Randomly pick a bucket from which to generate a random number.
-		int j							= RandomUtil.discrete(0, this.nextPartition);
+		int j							= RandomUtil.discrete(0, this.nextPartition, inner);
 
 		// Swap the bucket index to the back portion of the list so that
 		// we don't use it again (until the next block).
@@ -59,7 +80,7 @@ public final class StratifiedRandom implements Random {
 		}
 
 		// Generate a random number in the chosen bucket.
-		return (((double) temp) + RandomUtil.canonical()) / ((double) this.sequence.length);
+		return (((double) temp) + RandomUtil.canonical(inner)) / ((double) this.sequence.length);
 
 	}
 
@@ -111,6 +132,12 @@ public final class StratifiedRandom implements Random {
 		}
 
 	}
+
+	/**
+	 * This <code>Random</code> is used to permute the buckets and to select
+	 * a random number within each bucket.
+	 */
+	private final Random inner;
 
 	/**
 	 * This array will hold the indices {@code i}, where {@code 0 <= i < n},

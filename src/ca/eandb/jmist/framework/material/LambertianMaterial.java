@@ -14,7 +14,7 @@ import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.painter.UniformPainter;
-import ca.eandb.jmist.math.RandomUtil;
+import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.SphericalCoordinates;
 import ca.eandb.jmist.math.Vector3;
@@ -93,7 +93,7 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 
 		if (this.emittance != null) {
 
-			SphericalCoordinates out = RandomUtil.uniformOnUpperHemisphere(1.0, rng.next(), rng.next());
+			SphericalCoordinates out = RandomUtil.uniformOnUpperHemisphere(rng);
 			Ray3 ray = new Ray3(x.getPosition(), out.toCartesian(x.getShadingBasis()));
 
 			if (x.getNormal().dot(ray.direction()) > 0.0) {
@@ -112,7 +112,7 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 
 		if (this.reflectance != null) {
 
-			SphericalCoordinates out = RandomUtil.diffuse(rng.next(), rng.next());
+			SphericalCoordinates out = RandomUtil.diffuse(rng);
 			Ray3 ray = new Ray3(x.getPosition(), out.toCartesian(x.getShadingBasis()));
 
 			if (ray.direction().dot(x.getNormal()) > 0.0) {

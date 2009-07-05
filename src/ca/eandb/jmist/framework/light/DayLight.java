@@ -13,9 +13,9 @@ import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.MathUtil;
-import ca.eandb.jmist.math.RandomUtil;
 import ca.eandb.jmist.math.Vector3;
 import ca.eandb.jmist.util.ArrayUtil;
 
@@ -150,7 +150,7 @@ public final class DayLight implements Light, DirectionalTexture3 {
 	 */
 	public void illuminate(SurfacePoint x, WavelengthPacket lambda, Random rng, Illuminable target) {
 
-		Vector3	source = RandomUtil.uniformOnUpperHemisphere(1.0, rng.next(), rng.next()).toCartesian(Basis3.fromW(zenith));
+		Vector3	source = RandomUtil.uniformOnUpperHemisphere(rng).toCartesian(Basis3.fromW(zenith));
 
 		if (source.dot(x.getNormal()) > 0.0) {
 			double sdotn = source.dot(x.getShadingNormal());

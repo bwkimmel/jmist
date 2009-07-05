@@ -14,14 +14,14 @@ import ca.eandb.jmist.framework.IntersectionRecorder;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.geometry.AbstractGeometry;
+import ca.eandb.jmist.framework.random.CategoricalRandom;
+import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
-import ca.eandb.jmist.math.CategoricalRandom;
 import ca.eandb.jmist.math.GeometryUtil;
 import ca.eandb.jmist.math.Plane3;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
-import ca.eandb.jmist.math.RandomUtil;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
 import ca.eandb.jmist.math.Vector3;
@@ -303,11 +303,11 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 
 		public Point3 generateRandomSurfacePoint(Random random) {
 			decompose();
-			int tri = 3 * rnd.next(random.next());
+			int tri = 3 * rnd.next(random);
 			Point3 a = vertices.get(decomp[tri]);
 			Point3 b = vertices.get(decomp[tri + 1]);
 			Point3 c = vertices.get(decomp[tri + 2]);
-			return RandomUtil.uniformOnTriangle(a, b, c, random.next(), random.next());
+			return RandomUtil.uniformOnTriangle(a, b, c, random);
 		}
 
 		private Point2 getUV(Point3 p) {

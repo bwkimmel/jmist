@@ -30,8 +30,8 @@ import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.light.PointLightSample;
+import ca.eandb.jmist.framework.random.CategoricalRandom;
 import ca.eandb.jmist.math.Basis3;
-import ca.eandb.jmist.math.CategoricalRandom;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
@@ -440,7 +440,7 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 
 				};
 
-				int index = rnd.next(rng.next());
+				int index = rnd.next(rng);
 				int primitive = primIndex[index];
 
 				generateImportanceSampledSurfacePoint(primitive, x, context);

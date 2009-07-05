@@ -27,6 +27,7 @@ package ca.eandb.jmist.framework.color.xyz;
 
 import ca.eandb.jmist.framework.Function1;
 import ca.eandb.jmist.framework.ProbabilityDensityFunction;
+import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.Spectrum;
@@ -232,11 +233,11 @@ public final class XYZColorModel extends ColorModel {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.color.ColorModel#sample()
+	 * @see ca.eandb.jmist.framework.color.ColorModel#sample(ca.eandb.jmist.framework.Random)
 	 */
 	@Override
-	public Color sample() {
-		XYZWavelengthPacket lambda = new XYZWavelengthPacket(X_PDF.sample(), Y_PDF.sample(), Z_PDF.sample());
+	public Color sample(Random random) {
+		XYZWavelengthPacket lambda = new XYZWavelengthPacket(X_PDF.sample(random), Y_PDF.sample(random), Z_PDF.sample(random));
 		return new XYZColor(1, 1, 1, lambda);
 	}
 

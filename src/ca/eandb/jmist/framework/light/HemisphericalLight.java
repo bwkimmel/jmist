@@ -9,8 +9,8 @@ import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.math.Basis3;
-import ca.eandb.jmist.math.RandomUtil;
 import ca.eandb.jmist.math.Vector3;
 
 /**
@@ -65,7 +65,7 @@ public final class HemisphericalLight implements Light {
 	@Override
 	public void illuminate(SurfacePoint x, WavelengthPacket lambda, Random rng, Illuminable target) {
 
-		Vector3	source = RandomUtil.uniformOnUpperHemisphere(1.0, rng.next(), rng.next()).toCartesian(Basis3.fromW(zenith));
+		Vector3	source = RandomUtil.uniformOnUpperHemisphere(rng).toCartesian(Basis3.fromW(zenith));
 		double	dot = x.getShadingNormal().dot(source);
 
 		target.addLightSample(new DirectionalLightSample(x, source, environment.evaluate(source, lambda).times(dot), shadows));

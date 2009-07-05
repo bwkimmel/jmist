@@ -9,13 +9,13 @@ import ca.eandb.jmist.framework.IntersectionRecorder;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.geometry.PrimitiveGeometry;
+import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Plane3;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
-import ca.eandb.jmist.math.RandomUtil;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
 import ca.eandb.jmist.math.Vector3;
@@ -188,10 +188,10 @@ public final class RectangleGeometry extends PrimitiveGeometry {
 	public void generateRandomSurfacePoint(ShadingContext context) {
 		Random random = context.getRandom();
 		Point3 p = center
-				.plus(basis.u().times(RandomUtil.uniform(-ru, ru, random.next())))
-				.plus(basis.v().times(RandomUtil.uniform(-rv, rv, random.next())));
+				.plus(basis.u().times(RandomUtil.uniform(-ru, ru, random)))
+				.plus(basis.v().times(RandomUtil.uniform(-rv, rv, random)));
 
-		int id = (twoSided && RandomUtil.coin())
+		int id = (twoSided && RandomUtil.coin(random))
 				? RECTANGLE_SURFACE_BOTTOM
 				: RECTANGLE_SURFACE_TOP;
 

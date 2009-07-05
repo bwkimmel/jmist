@@ -4,6 +4,7 @@
 package ca.eandb.jmist.framework.color.monochrome;
 
 import ca.eandb.jmist.framework.Function1;
+import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.Spectrum;
@@ -314,10 +315,10 @@ public final class MonochromeColorModel extends ColorModel {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.color.ColorModel#sample()
+	 * @see ca.eandb.jmist.framework.color.ColorModel#sample(ca.eandb.jmist.framework.Random)
 	 */
 	@Override
-	public Color sample() {
+	public Color sample(Random random) {
 		return white;
 	}
 

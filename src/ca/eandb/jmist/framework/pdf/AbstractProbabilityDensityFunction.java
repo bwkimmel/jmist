@@ -4,7 +4,8 @@
 package ca.eandb.jmist.framework.pdf;
 
 import ca.eandb.jmist.framework.ProbabilityDensityFunction;
-import ca.eandb.jmist.math.RandomUtil;
+import ca.eandb.jmist.framework.Random;
+import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.util.ArrayUtil;
 
 /**
@@ -16,10 +17,10 @@ public abstract class AbstractProbabilityDensityFunction implements
 		ProbabilityDensityFunction {
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#sample()
+	 * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#sample(ca.eandb.jmist.framework.Random)
 	 */
-	public double sample() {
-		return this.warp(RandomUtil.canonical());
+	public double sample(Random random) {
+		return this.warp(RandomUtil.canonical(random));
 	}
 
 	/* (non-Javadoc)
@@ -38,12 +39,12 @@ public abstract class AbstractProbabilityDensityFunction implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#sample(double[])
+	 * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#sample(ca.eandb.jmist.framework.Random, double[])
 	 */
-	public double[] sample(double[] results) {
+	public double[] sample(Random random, double[] results) {
 
 		for (int i = 0; i < results.length; i++) {
-			results[i] = this.sample();
+			results[i] = this.sample(random);
 		}
 
 		return results;

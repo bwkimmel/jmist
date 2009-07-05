@@ -38,8 +38,8 @@ import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.light.RandomCompositeLight;
+import ca.eandb.jmist.framework.random.CategoricalRandom;
 import ca.eandb.jmist.math.Box3;
-import ca.eandb.jmist.math.CategoricalRandom;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
@@ -113,7 +113,7 @@ public final class BranchSceneElement implements SceneElement {
 		if (rnd == null) {
 			buildChildSelector();
 		}
-		return generateImportanceSampledSurfacePoint(rnd.next(), x, context);
+		return generateImportanceSampledSurfacePoint(rnd.next(context.getRandom()), x, context);
 	}
 
 	/* (non-Javadoc)
@@ -133,7 +133,7 @@ public final class BranchSceneElement implements SceneElement {
 		if (rnd == null) {
 			buildChildSelector();
 		}
-		generateRandomSurfacePoint(rnd.next(), context);
+		generateRandomSurfacePoint(rnd.next(context.getRandom()), context);
 	}
 
 	/* (non-Javadoc)

@@ -1,7 +1,7 @@
 /**
  *
  */
-package ca.eandb.jmist.math;
+package ca.eandb.jmist.framework.random;
 
 import java.util.Arrays;
 
@@ -51,8 +51,8 @@ public final class CategoricalRandom {
 	 * variable.
 	 * @return The next sample.
 	 */
-	public int next() {
-		return next(source != null ? source.next() : RandomUtil.canonical());
+	public int next(Random random) {
+		return next(source != null ? source.next() : RandomUtil.canonical(random));
 	}
 
 	/**
@@ -62,7 +62,7 @@ public final class CategoricalRandom {
 	 * 		same value given the same seed.
 	 * @return The next sample.
 	 */
-	public int next(double seed) {
+	private int next(double seed) {
 		int index = Arrays.binarySearch(this.cpf, seed);
 		return index >= 0 ? index : -(index + 1);
 	}

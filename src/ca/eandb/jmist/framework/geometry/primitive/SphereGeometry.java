@@ -8,12 +8,12 @@ import ca.eandb.jmist.framework.IntersectionRecorder;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.geometry.PrimitiveGeometry;
+import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
-import ca.eandb.jmist.math.RandomUtil;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
 import ca.eandb.jmist.math.SphericalCoordinates;
@@ -163,7 +163,7 @@ public final class SphereGeometry extends PrimitiveGeometry {
 	@Override
 	public void generateRandomSurfacePoint(ShadingContext context) {
 		Random random = context.getRandom();
-		Point3 p = sphere.center().plus(RandomUtil.uniformOnSphere(sphere.radius(), random.next(), random.next()).toCartesian());
+		Point3 p = sphere.center().plus(RandomUtil.uniformOnSphere(sphere.radius(), random).toCartesian());
 		Intersection x = newSurfacePoint(p);
 		x.prepareShadingContext(context);
 	}

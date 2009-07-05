@@ -3,10 +3,11 @@
  */
 package ca.eandb.jmist.framework.lens;
 
+import ca.eandb.jmist.framework.Random;
+import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
-import ca.eandb.jmist.math.RandomUtil;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector2;
 import ca.eandb.jmist.math.Vector3;
@@ -71,7 +72,7 @@ public final class ThinLens extends TransformableLens {
 	@Override
 	protected Ray3 viewRayAt(Point2 p) {
 
-		Vector2		ap				= RandomUtil.uniformOnDisc(aperatureRadius).toCartesian();
+		Vector2		ap				= RandomUtil.uniformOnDisc(aperatureRadius, Random.DEFAULT).toCartesian();
 		Point3		aperaturePoint	= new Point3(ap.x(), ap.y(), 0.0);
 		Point3		focalPoint		= new Point3(
 											objPlaneWidth * (p.x() - 0.5),
@@ -94,7 +95,7 @@ public final class ThinLens extends TransformableLens {
 			return null;
 		}
 
-		Vector2		ap				= RandomUtil.uniformOnDisc(aperatureRadius).toCartesian();
+		Vector2		ap				= RandomUtil.uniformOnDisc(aperatureRadius, Random.DEFAULT).toCartesian();
 		Point3		aperaturePoint	= new Point3(ap.x(), ap.y(), 0.0);
 		Vector3		dir				= aperaturePoint.vectorTo(p);
 		double		ratio			= -focusDistance / dir.z();

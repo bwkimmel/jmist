@@ -6,6 +6,7 @@ package ca.eandb.jmist.framework.shader.pixel;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.framework.ImageShader;
 import ca.eandb.jmist.framework.PixelShader;
+import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
@@ -35,7 +36,7 @@ public abstract class ImageRasterizingPixelShader implements PixelShader {
 	 * @return The shaded pixel.
 	 */
 	protected Color shadeAt(Point2 p) {
-		Color				sample = model.sample();
+		Color				sample = model.sample(Random.DEFAULT);
 		WavelengthPacket	lambda = sample.getWavelengthPacket();
 
 		return shader.shadeAt(p, lambda).times(sample);

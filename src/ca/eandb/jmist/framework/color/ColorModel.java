@@ -4,6 +4,7 @@
 package ca.eandb.jmist.framework.color;
 
 import ca.eandb.jmist.framework.Function1;
+import ca.eandb.jmist.framework.Random;
 
 /**
  * @author Brad
@@ -29,7 +30,7 @@ public abstract class ColorModel {
 
 	public abstract Color getGray(double value, WavelengthPacket lambda);
 
-	public abstract Color sample();
+	public abstract Color sample(Random random);
 
 	public abstract int getNumChannels();
 

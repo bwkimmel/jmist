@@ -14,12 +14,13 @@ public interface ProbabilityDensityFunction {
 	 * Generates a random value distributed according to this
 	 * <code>ProbabilityDensityFunction</code>.  Equivalent to
 	 * <code>this.warp(RandomUtil.canonical())</code>.
+	 * @param random The <code>Random</code> number generator to use.
 	 * @return A random value distributed according to this
 	 * 		<code>ProbabilityDensityFunction</code>.
 	 * @see #warp(double)
-	 * @see ca.eandb.jmist.math.RandomUtil#canonical()
+	 * @see ca.eandb.jmist.framework.random.RandomUtil#canonical()
 	 */
-	double sample();
+	double sample(Random random);
 
 	/**
 	 * Generates the domain value at which the cumulative density function
@@ -44,11 +45,12 @@ public interface ProbabilityDensityFunction {
 	/**
 	 * Populates an array with random values sampled from this
 	 * <code>ProbabilityDensityFunction</code>.
+	 * @param random The <code>Random</code> number generator to use.
 	 * @param results The array to populate (must not be null).
 	 * @return A reference to <code>results</code>.
 	 * @see #sample()
 	 */
-	double[] sample(double[] results);
+	double[] sample(Random random, double[] results);
 
 	/**
 	 * Generates the domain values at which the cumulative density function

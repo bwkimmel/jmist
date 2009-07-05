@@ -8,12 +8,12 @@ import ca.eandb.jmist.framework.IntersectionRecorder;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.geometry.PrimitiveGeometry;
+import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box2;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
-import ca.eandb.jmist.math.RandomUtil;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
 import ca.eandb.jmist.math.Vector3;
@@ -247,27 +247,27 @@ public final class BoxGeometry extends PrimitiveGeometry {
 
 		double total = xyArea + xzArea + yzArea;
 		double rnd = random.next() * total;
-		boolean dir = RandomUtil.coin(rnd);
+		boolean dir = RandomUtil.coin(random);
 		int id;
 		Point3 p;
 
 		if (rnd < xyArea) {
 			id = dir ? BOX_SURFACE_MAX_Z : BOX_SURFACE_MIN_Z;
 			p = new Point3(
-					RandomUtil.uniform(box.spanX()),
-					RandomUtil.uniform(box.spanY()),
+					RandomUtil.uniform(box.spanX(), random),
+					RandomUtil.uniform(box.spanY(), random),
 					dir ? box.maximumZ() : box.minimumZ());
 		} else if (rnd < xyArea + xzArea) {
 			id = dir ? BOX_SURFACE_MAX_Y : BOX_SURFACE_MIN_Y;
-			p = new Point3(RandomUtil.uniform(box.spanX()),
+			p = new Point3(RandomUtil.uniform(box.spanX(), random),
 					dir ? box.maximumY() : box.minimumY(),
-					RandomUtil.uniform(box.spanZ()));
+					RandomUtil.uniform(box.spanZ(), random));
 
 		} else {
 			id = dir ? BOX_SURFACE_MAX_X : BOX_SURFACE_MIN_X;
 			p = new Point3(dir ? box.maximumX() : box.minimumX(),
-					RandomUtil.uniform(box.spanY()),
-					RandomUtil.uniform(box.spanZ()));
+					RandomUtil.uniform(box.spanY(), random),
+					RandomUtil.uniform(box.spanZ(), random));
 		}
 
 		Intersection x = newSurfacePoint(p, id);
