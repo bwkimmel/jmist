@@ -4,8 +4,10 @@
 package ca.eandb.jmist.framework.random;
 
 import java.util.Arrays;
+import java.util.List;
 
 import ca.eandb.jmist.framework.Random;
+import ca.eandb.jmist.util.DoubleArray;
 
 /**
  * A categorical random variable (i.e., a discrete random variable that selects
@@ -21,20 +23,57 @@ public final class CategoricalRandom {
 	 * @param source The <code>Random</code> number generator to use to seed
 	 * 		this <code>CategoricalRandom</code>.
 	 */
-	public CategoricalRandom(double[] weights, Random source) {
+	public CategoricalRandom(DoubleArray weights, Random source) {
+		this.source = source;
+		this.cpf = weights.toDoubleArray();
+		initialize();
+	}
 
+	/**
+	 * Creates a new <code>CategoricalRandom</code>.
+	 * @param weights An array of the weights associated with each integer
+	 * 		from zero to <code>weights.length - 1</code>.
+	 */
+	public CategoricalRandom(DoubleArray weights) {
+		this(weights, null);
+	}
+
+	/**
+	 * Creates a new <code>CategoricalRandom</code>.
+	 * @param weights An array of the weights associated with each integer
+	 * 		from zero to <code>weights.length - 1</code>.
+	 * @param source The <code>Random</code> number generator to use to seed
+	 * 		this <code>CategoricalRandom</code>.
+	 */
+	public CategoricalRandom(List<Double> weights, Random source) {
+		this.source = source;
+		this.cpf = new double[weights.size()];
+		for (int i = 0; i < cpf.length; i++) {
+			cpf[i] = weights.get(i);
+		}
+		initialize();
+	}
+
+	/**
+	 * Creates a new <code>CategoricalRandom</code>.
+	 * @param weights An array of the weights associated with each integer
+	 * 		from zero to <code>weights.length - 1</code>.
+	 */
+	public CategoricalRandom(List<Double> weights) {
+		this(weights, null);
+	}
+
+	/**
+	 * Creates a new <code>CategoricalRandom</code>.
+	 * @param weights An array of the weights associated with each integer
+	 * 		from zero to <code>weights.length - 1</code>.
+	 * @param source The <code>Random</code> number generator to use to seed
+	 * 		this <code>CategoricalRandom</code>.
+	 */
+	public CategoricalRandom(double[] weights, Random source) {
 		this.source = source;
 		this.cpf = weights.clone();
-
-		/* Compute the cumulative probability function. */
-		for (int i = 1; i < cpf.length; i++) {
-			this.cpf[i] += this.cpf[i - 1];
-		}
-
-		for (int i = 0; i < cpf.length; i++) {
-			this.cpf[i] /= this.cpf[cpf.length - 1];
-		}
-
+		initialize();
 	}
 
 	/**
@@ -44,6 +83,21 @@ public final class CategoricalRandom {
 	 */
 	public CategoricalRandom(double[] weights) {
 		this(weights, null);
+	}
+
+	/**
+	 * Initializes the cumulative probability function for this
+	 * <code>CategoricalRandom</code>.
+	 */
+	private void initialize() {
+		/* Compute the cumulative probability function. */
+		for (int i = 1; i < cpf.length; i++) {
+			this.cpf[i] += this.cpf[i - 1];
+		}
+
+		for (int i = 0; i < cpf.length; i++) {
+			this.cpf[i] /= this.cpf[cpf.length - 1];
+		}
 	}
 
 	/**

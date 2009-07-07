@@ -154,7 +154,8 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 	 * @param logical A value indicating whether the array is to be used for
 	 * 		logical indexing.
 	 * @param dimensions An array describing the dimensions of the array (there
-	 * 		must be at least two dimensions).
+	 * 		must be at least two dimensions).  This may be null, in which case
+	 * 		the array will have the dimensions <code>{ elements, 1 }</code>.
 	 * @param elements The total number of elements in the array (must be equal
 	 * 		to the product of the dimensions).
 	 * @throws IOException if writing to the underlying stream fails.
@@ -169,7 +170,11 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 
 		assert(dataType.size > 0);
 
-		checkDimensions(dimensions, elements);
+		if (dimensions != null) {
+			checkDimensions(dimensions, elements);
+		} else {
+			dimensions = new int[]{ elements, 1 };
+		}
 
 		int bytes = 0;
 

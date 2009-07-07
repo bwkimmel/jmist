@@ -4,6 +4,7 @@
 package ca.eandb.jmist.math;
 
 import java.util.Arrays;
+import java.util.Collection;
 
 /**
  * Static mathematical utility methods.
@@ -28,6 +29,22 @@ public final class MathUtil {
 	}
 
 	/**
+	 * Returns the minimum value in an collection of <code>double</code>s.
+	 * @param values The collection of <code>double</code>s of which to find
+	 * 		the	minimum value.
+	 * @return The minimum value in <code>values</code>.
+	 */
+	public static double min(Iterable<Double> values) {
+		double min = Double.POSITIVE_INFINITY;
+		for (double x : values) {
+			if (x < min) {
+				min = x;
+			}
+		}
+		return min;
+	}
+
+	/**
 	 * Returns the maximum value in an array of <code>double</code>s.
 	 * @param array The array of <code>double</code>s of which to find the
 	 * 		maximum value.
@@ -44,6 +61,22 @@ public final class MathUtil {
 	}
 
 	/**
+	 * Returns the maximum value in an collection of <code>double</code>s.
+	 * @param values The collection of <code>double</code>s of which to find
+	 * 		the	maximum value.
+	 * @return The maximum value in <code>values</code>.
+	 */
+	public static double max(Iterable<Double> values) {
+		double max = Double.NEGATIVE_INFINITY;
+		for (double x : values) {
+			if (x > max) {
+				max = x;
+			}
+		}
+		return max;
+	}
+
+	/**
 	 * Computes the mean of the values in the given array of
 	 * <code>double</code>s.
 	 * @param array The array of <code>double</code>s to compute the mean of.
@@ -51,6 +84,17 @@ public final class MathUtil {
 	 */
 	public static double mean(double[] array) {
 		return MathUtil.sum(array) / (double) array.length;
+	}
+
+	/**
+	 * Computes the mean of the values in the given collection of
+	 * <code>double</code>s.
+	 * @param values The collection of <code>double</code>s to compute the mean
+	 * 		of.
+	 * @return The mean of the values in <code>values</code>.
+	 */
+	public static double mean(Collection<Double> values) {
+		return MathUtil.sum(values) / values.size();
 	}
 
 	/**
@@ -63,6 +107,19 @@ public final class MathUtil {
 	 */
 	public static boolean areEqual(double[] array) {
 		return areEqual(array, MathUtil.EPSILON);
+	}
+
+	/**
+	 * Determines whether the values in the given collection of
+	 * <code>double</code>s are all equal within a tolerance of
+	 * {@value MathUtil#EPSILON}.
+	 * @param values The collection of <code>double</code>s to compare.
+	 * @return A value indicating whether all values in <code>values</code> are
+	 * 		within {@value MathUtil#EPSILON} of one another.
+	 * @see MathUtil#EPSILON
+	 */
+	public static boolean areEqual(Iterable<Double> values) {
+		return areEqual(values, MathUtil.EPSILON);
 	}
 
 	/**
@@ -99,6 +156,35 @@ public final class MathUtil {
 	}
 
 	/**
+	 * Determines whether the values in the given collection of
+	 * <code>double</code>s are all equal within a specified tolerance.
+	 * @param values The collection of <code>double</code>s to compare.
+	 * @param epsilon The tolerance.
+	 * @return A value indicating whether all values in <code>values</code> are
+	 * 		within <code>epsilon</code> of one another.
+	 */
+	public static boolean areEqual(Iterable<Double> values, double epsilon) {
+
+		double min = Double.POSITIVE_INFINITY;
+		double max = Double.NEGATIVE_INFINITY;
+
+		for (double x : values) {
+			if (x < min) {
+				min = x;
+			}
+			if (x > max) {
+				max = x;
+			}
+			if (!equal(min, max, epsilon)) {
+				return false;
+			}
+		}
+
+		return true;
+
+	}
+
+	/**
 	 * Computes the sum of the values in an array of <code>double</code>s.
 	 * @param array The array of <code>double</code>s of which to compute the
 	 * 		sum.
@@ -107,7 +193,21 @@ public final class MathUtil {
 	public static double sum(double[] array) {
 		double sum = 0.0;
 		for (int i = 0; i < array.length; i++) {
-			sum += array.length;
+			sum += array[i];
+		}
+		return sum;
+	}
+
+	/**
+	 * Computes the sum of the values in a collection of <code>double</code>s.
+	 * @param values The collection of <code>double</code>s of which to compute
+	 * 		the	sum.
+	 * @return The sum of the values in <code>values</code>.
+	 */
+	public static double sum(Iterable<Double> values) {
+		double sum = 0.0;
+		for (double x : values) {
+			sum += x;
 		}
 		return sum;
 	}

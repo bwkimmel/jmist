@@ -31,68 +31,68 @@ import java.util.Collection;
 import java.util.RandomAccess;
 
 /**
- * A resizable array of doubles.
+ * A resizable array of shorts.
  * @author brad
  */
-public final class DoubleArray extends AbstractList<Double> implements RandomAccess {
+public final class ShortArray extends AbstractList<Short> implements RandomAccess {
 
 	/** The elements of this array. */
-	private double[] elements;
+	private short[] elements;
 
 	/** The number of elements in this array. */
 	private int size;
 
 	/**
-	 * Creates an empty <code>DoubleArray</code>.
+	 * Creates an empty <code>ShortArray</code>.
 	 */
-	public DoubleArray() {
+	public ShortArray() {
 		this(0);
 	}
 
 	/**
-	 * Creates an empty <code>DoubleArray</code>.
+	 * Creates an empty <code>ShortArray</code>.
 	 * @param capacity The initial capacity of the array.
 	 */
-	public DoubleArray(int capacity) {
-		elements = new double[capacity];
+	public ShortArray(int capacity) {
+		elements = new short[capacity];
 		size = 0;
 	}
 
 	/**
-	 * Creates an <code>DoubleArray</code> containing the specified elements.
+	 * Creates an <code>ShortArray</code> containing the specified elements.
 	 * @param elements An array of elements to initialize the new array with.
 	 */
-	public DoubleArray(double[] elements) {
+	public ShortArray(short[] elements) {
 		this.elements = elements.clone();
 		this.size = elements.length;
 	}
 
 	/**
-	 * Creates an <code>DoubleArray</code> containing the specified elements.
+	 * Creates an <code>ShortArray</code> containing the specified elements.
 	 * @param c A collection of elements to initialize the new array with.
 	 */
-	public DoubleArray(Collection<Double> c) {
-		this.elements = new double[c.size()];
+	public ShortArray(Collection<Short> c) {
+		this.elements = new short[c.size()];
 		this.size = 0;
-		for (double e : c) {
+		for (short e : c) {
 			elements[size++] = e;
 		}
 	}
 
 	/**
-	 * Creates a copy of an <code>DoubleArray</code>.
+	 * Creates a copy of an <code>ShortArray</code>.
 	 * @param other The array to copy.
 	 */
-	public DoubleArray(DoubleArray other) {
+	public ShortArray(ShortArray other) {
 		this.elements = other.elements.clone();
 		this.size = other.size;
 	}
 
 	/**
-	 * Converts this <code>DoubleArray</code> to an array of doubles.
-	 * @return An array of doubles containing the same elements as this array.
+	 * Converts this <code>ShortArray</code> to an array of shorts.
+	 * @return An array of shorts containing the same elements as this array.
 	 */
-	public double[] toDoubleArray() {
+	public short[] toShortArray() {
 		return Arrays.copyOf(elements, size);
 	}
 
@@ -100,8 +100,8 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
-	public DoubleArray clone() throws CloneNotSupportedException {
-		return new DoubleArray(this);
+	public ShortArray clone() throws CloneNotSupportedException {
+		return new ShortArray(this);
 	}
 
 	/* (non-Javadoc)
@@ -151,7 +151,7 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 * @return The indexed element.
 	 * @throws IndexOutOfBoundsException if <code>index &lt; 0 || index &gt;= size</code>.
 	 */
-	public Double get(int index) {
+	public Short get(int index) {
 		rangeCheck(index);
 		return elements[index];
 	}
@@ -164,9 +164,9 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 * @throws IndexOutOfBoundsException if
 	 * 		<code>index &lt; 0 || index &gt;= size()</code>.
 	 */
-	public double set(int index, double e) {
+	public short set(int index, short e) {
 		rangeCheck(index);
-		double value = elements[index];
+		short value = elements[index];
 		elements[index] = e;
 		return value;
 	}
@@ -175,8 +175,8 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 * @see java.util.AbstractList#set(int, java.lang.Object)
 	 */
 	@Override
-	public Double set(int index, Double element) {
-		return set(index, element.doubleValue());
+	public Short set(int index, Short element) {
+		return set(index, element.shortValue());
 	}
 
 	/**
@@ -186,7 +186,7 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 * @throws IndexOutOfBoundsException if
 	 * 		<code>index &lt; 0 || index + items.length &gt; size()</code>.
 	 */
-	public void setAll(int index, double[] items) {
+	public void setAll(int index, short[] items) {
 		rangeCheck(index, index + items.length);
 		for (int i = index, j = 0; j < items.length; i++, j++) {
 			elements[i] = items[j];
@@ -200,7 +200,7 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 * @throws IndexOutOfBoundsException if
 	 * 		<code>index &lt; 0 || index + items.size() &gt; size()</code>.
 	 */
-	public void setAll(int index, DoubleArray items) {
+	public void setAll(int index, ShortArray items) {
 		rangeCheck(index, index + items.size);
 		for (int i = index, j = 0; j < items.size; i++, j++) {
 			elements[i] = items.elements[j];
@@ -214,9 +214,9 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 * @throws IndexOutOfBoundsException if
 	 * 		<code>index &lt; 0 || index + items.size() &gt; size()</code>.
 	 */
-	public void setAll(int index, Collection<? extends Double> items) {
+	public void setAll(int index, Collection<? extends Short> items) {
 		rangeCheck(index, index + items.size());
-		for (double e : items) {
+		for (short e : items) {
 			elements[index++] = e;
 		}
 	}
@@ -226,7 +226,7 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 * @param e The value to append.
 	 * @return Always returns <code>true</code>.
 	 */
-	public boolean add(double e) {
+	public boolean add(short e) {
 		ensureCapacity(size + 1);
 		elements[size++] = e;
 		return true;
@@ -236,8 +236,8 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 * @see java.util.AbstractList#add(java.lang.Object)
 	 */
 	@Override
-	public boolean add(Double e) {
-		return add(e.doubleValue());
+	public boolean add(Short e) {
+		return add(e.shortValue());
 	}
 
 	/**
@@ -245,7 +245,7 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 * @param items The values to append.
 	 * @return A value indicating if the array has changed.
 	 */
-	public boolean addAll(double[] items) {
+	public boolean addAll(short[] items) {
 		ensureCapacity(size + items.length);
 		for (int i = 0; i < items.length; i++) {
 			elements[size++] = items[i];
@@ -258,7 +258,7 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 * @param items The values to append.
 	 * @return A value indicating if the array has changed.
 	 */
-	public boolean addAll(DoubleArray items) {
+	public boolean addAll(ShortArray items) {
 		ensureCapacity(size + items.size);
 		for (int i = 0; i < items.size; i++) {
 			elements[size++] = items.elements[i];
@@ -270,9 +270,9 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 * @see java.util.AbstractCollection#addAll(java.util.Collection)
 	 */
 	@Override
-	public boolean addAll(Collection<? extends Double> c) {
+	public boolean addAll(Collection<? extends Short> c) {
 		ensureCapacity(size + c.size());
-		for (double e : c) {
+		for (short e : c) {
 			elements[size++] = e;
 		}
 		return c.size() > 0;
@@ -285,7 +285,7 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 * @throws IndexOutOfBoundsException if
 	 * 		<code>index &lt; 0 || index &gt; size()</code>.
 	 */
-	public void add(int index, double e) {
+	public void add(int index, short e) {
 		if (index < 0 || index > size) {
 			throw new IndexOutOfBoundsException();
 		}
@@ -303,8 +303,8 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 * @see java.util.AbstractList#add(int, java.lang.Object)
 	 */
 	@Override
-	public void add(int index, Double element) {
-		add(index, element.doubleValue());
+	public void add(int index, Short element) {
+		add(index, element.shortValue());
 	}
 
 	/**
@@ -315,7 +315,7 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 * @throws IndexOutOfBoundsException if
 	 * 		<code>index &lt; 0 || index &gt; size()</code>.
 	 */
-	public boolean addAll(int index, double[] items) {
+	public boolean addAll(int index, short[] items) {
 		if (index < 0 || index > size) {
 			throw new IndexOutOfBoundsException();
 		}
@@ -325,7 +325,7 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 				elements[i + items.length] = elements[i];
 			}
 		}
-		for (double e : items) {
+		for (short e : items) {
 			elements[index++] = e;
 		}
 		size += items.length;
@@ -335,12 +335,12 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	/**
 	 * Inserts values into the array at the specified index.
 	 * @param index The index at which to insert the new values.
-	 * @param items A <code>DoubleArray</code> containing the values to insert.
+	 * @param items A <code>ShortArray</code> containing the values to insert.
 	 * @return A value indicating if the array has changed.
 	 * @throws IndexOutOfBoundsException if
 	 * 		<code>index &lt; 0 || index &gt; size()</code>.
 	 */
-	public boolean addAll(int index, DoubleArray items) {
+	public boolean addAll(int index, ShortArray items) {
 		if (index < 0 || index > size) {
 			throw new IndexOutOfBoundsException();
 		}
@@ -361,7 +361,7 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 * @see java.util.AbstractList#addAll(int, java.util.Collection)
 	 */
 	@Override
-	public boolean addAll(int index, Collection<? extends Double> c) {
+	public boolean addAll(int index, Collection<? extends Short> c) {
 		if (index < 0 || index > size) {
 			throw new IndexOutOfBoundsException();
 		}
@@ -370,7 +370,7 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 		for (int i = size + c.size() - 1, j = size - 1; j >= index; i--, j--) {
 			elements[i] = elements[j];
 		}
-		for (double e : c) {
+		for (short e : c) {
 			elements[index++] = e;
 		}
 		return c.size() > 0;
@@ -380,9 +380,9 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 * @see java.util.AbstractList#remove(int)
 	 */
 	@Override
-	public Double remove(int index) {
+	public Short remove(int index) {
 		rangeCheck(index);
-		double value = elements[index];
+		short value = elements[index];
 		for (int i = index + 1; i < size; i++) {
 			elements[i - 1] = elements[i];
 		}

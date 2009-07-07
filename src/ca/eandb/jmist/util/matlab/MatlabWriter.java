@@ -51,7 +51,7 @@ public final class MatlabWriter {
 
 	/**
 	 * Writes a <code>double</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param pr The real parts of the array elements.
 	 * @param pi The imaginary parts of the array elements (optional, must
 	 * 		be the same length as <code>pr</code> if provided).
@@ -69,15 +69,26 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes a <code>double</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param pr The real part of the value.
+	 * @param pi The imaginary part of the value.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void write(String name, double pr, double pi) throws IOException {
+		this.write(name, pr, pi, false);
+	}
+
+	/**
 	 * Writes a <code>double</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param pr The real parts of the array elements.
 	 * @param pi The imaginary parts of the array elements (optional, must
 	 * 		be the same length as <code>pr</code> if provided).
 	 * @param dimensions The array dimensions (there must be at least two
 	 * 		dimensions and the product of the dimensions must be
 	 * 		<code>pr.length</code>).
-	 * @param global A value indicating if the array is to have global scope.
+	 * @param global A value indicating if the variable is to have global scope.
 	 * @throws IOException if writing to the underlying stream fails.
 	 * @throws IllegalArgumentException if <code>pi != null</code> and
 	 * 		<code>pi.length != pr.length</code>.
@@ -101,8 +112,20 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes a <code>double</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param pr The real part of the value.
+	 * @param pi The imaginary parts of the value.
+	 * @param global A value indicating if the variable is to have global scope.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void write(String name, double pr, double pi, boolean global) throws IOException {
+		this.write(name, new double[]{ pr }, new double[]{ pi }, SINGLETON, global);
+	}
+
+	/**
 	 * Writes a <code>double</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param array The real parts of the array elements.
 	 * @param dimensions The array dimensions (there must be at least two
 	 * 		dimensions and the product of the dimensions must be
@@ -116,13 +139,23 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes a <code>double</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param value The real part of the value.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void write(String name, double value) throws IOException {
+		this.write(name, value, false);
+	}
+
+	/**
 	 * Writes a <code>double</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param array The real parts of the array elements.
 	 * @param dimensions The array dimensions (there must be at least two
 	 * 		dimensions and the product of the dimensions must be
 	 * 		<code>array.length</code>).
-	 * @param global A value indicating if the array is to have global scope.
+	 * @param global A value indicating if the variable is to have global scope.
 	 * @throws IOException if writing to the underlying stream fails.
 	 * @throws IllegalArgumentException if the product of
 	 * 		<code>dimensions</code> is not equal to <code>array.length</code>.
@@ -132,8 +165,19 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes a <code>double</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param value The real part of the value.
+	 * @param global A value indicating if the variable is to have global scope.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void write(String name, double value, boolean global) throws IOException {
+		this.write(name, new double[]{ value }, SINGLETON, global);
+	}
+
+	/**
 	 * Writes a <code>float</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param pr The real parts of the array elements.
 	 * @param pi The imaginary parts of the array elements (optional, must
 	 * 		be the same length as <code>pr</code> if provided).
@@ -151,15 +195,26 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes a <code>float</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param pr The real part of the value.
+	 * @param pi The imaginary part of the value.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void write(String name, float pr, float pi) throws IOException {
+		this.write(name, pr, pi, false);
+	}
+
+	/**
 	 * Writes a <code>float</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param pr The real parts of the array elements.
 	 * @param pi The imaginary parts of the array elements (optional, must
 	 * 		be the same length as <code>pr</code> if provided).
 	 * @param dimensions The array dimensions (there must be at least two
 	 * 		dimensions and the product of the dimensions must be
 	 * 		<code>pr.length</code>).
-	 * @param global A value indicating if the array is to have global scope.
+	 * @param global A value indicating if the variable is to have global scope.
 	 * @throws IOException if writing to the underlying stream fails.
 	 * @throws IllegalArgumentException if <code>pi != null</code> and
 	 * 		<code>pi.length != pr.length</code>.
@@ -183,8 +238,20 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes a <code>float</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param pr The real part of the value.
+	 * @param pi The imaginary part of the value.
+	 * @param global A value indicating if the variable is to have global scope.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void write(String name, float pr, float pi, boolean global) throws IOException {
+		this.write(name, new float[]{ pr }, new float[]{ pi }, SINGLETON, global);
+	}
+
+	/**
 	 * Writes a <code>float</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param array The real parts of the array elements.
 	 * @param dimensions The array dimensions (there must be at least two
 	 * 		dimensions and the product of the dimensions must be
@@ -198,13 +265,23 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes a <code>float</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param value The real part of the value.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void write(String name, float value) throws IOException {
+		this.write(name, value, false);
+	}
+
+	/**
 	 * Writes a <code>float</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param array The real parts of the array elements.
 	 * @param dimensions The array dimensions (there must be at least two
 	 * 		dimensions and the product of the dimensions must be
 	 * 		<code>array.length</code>).
-	 * @param global A value indicating if the array is to have global scope.
+	 * @param global A value indicating if the variable is to have global scope.
 	 * @throws IOException if writing to the underlying stream fails.
 	 * @throws IllegalArgumentException if the product of
 	 * 		<code>dimensions</code> is not equal to <code>array.length</code>.
@@ -214,8 +291,19 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes a <code>float</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param value The real part of the value.
+	 * @param global A value indicating if the variable is to have global scope.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void write(String name, float value, boolean global) throws IOException {
+		this.write(name, new float[]{ value }, SINGLETON, global);
+	}
+
+	/**
 	 * Writes an <code>int</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param pr The real parts of the array elements.
 	 * @param pi The imaginary parts of the array elements (optional, must
 	 * 		be the same length as <code>pr</code> if provided).
@@ -233,15 +321,26 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes an <code>int</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param pr The real part of the value.
+	 * @param pi The imaginary part of the value.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void write(String name, int pr, int pi) throws IOException {
+		this.write(name, pr, pi, false);
+	}
+
+	/**
 	 * Writes an <code>int</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param pr The real parts of the array elements.
 	 * @param pi The imaginary parts of the array elements (optional, must
 	 * 		be the same length as <code>pr</code> if provided).
 	 * @param dimensions The array dimensions (there must be at least two
 	 * 		dimensions and the product of the dimensions must be
 	 * 		<code>pr.length</code>).
-	 * @param global A value indicating if the array is to have global scope.
+	 * @param global A value indicating if the variable is to have global scope.
 	 * @throws IOException if writing to the underlying stream fails.
 	 * @throws IllegalArgumentException if <code>pi != null</code> and
 	 * 		<code>pi.length != pr.length</code>.
@@ -265,8 +364,20 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes an <code>int</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param pr The real part of the value.
+	 * @param pi The imaginary part of the value.
+	 * @param global A value indicating if the variable is to have global scope.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void write(String name, int pr, int pi, boolean global) throws IOException {
+		this.write(name, new int[]{ pr }, new int[]{ pi }, SINGLETON, global);
+	}
+
+	/**
 	 * Writes an <code>int</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param array The real parts of the array elements.
 	 * @param dimensions The array dimensions (there must be at least two
 	 * 		dimensions and the product of the dimensions must be
@@ -280,13 +391,23 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes an <code>int</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param value The real part of the value.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void write(String name, int value) throws IOException {
+		this.write(name, value, false);
+	}
+
+	/**
 	 * Writes an <code>int</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param array The real parts of the array elements.
 	 * @param dimensions The array dimensions (there must be at least two
 	 * 		dimensions and the product of the dimensions must be
 	 * 		<code>array.length</code>).
-	 * @param global A value indicating if the array is to have global scope.
+	 * @param global A value indicating if the variable is to have global scope.
 	 * @throws IOException if writing to the underlying stream fails.
 	 * @throws IllegalArgumentException if the product of
 	 * 		<code>dimensions</code> is not equal to <code>array.length</code>.
@@ -296,8 +417,19 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes an <code>int</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param value The real part of the value.
+	 * @param global A value indicating if the variable is to have global scope.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void write(String name, int value, boolean global) throws IOException {
+		this.write(name, new int[]{ value }, SINGLETON, global);
+	}
+
+	/**
 	 * Writes a <code>short</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param pr The real parts of the array elements.
 	 * @param pi The imaginary parts of the array elements (optional, must
 	 * 		be the same length as <code>pr</code> if provided).
@@ -315,15 +447,26 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes a <code>short</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param pr The real part of the value.
+	 * @param pi The imaginary part of the value.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void write(String name, short pr, short pi) throws IOException {
+		this.write(name, pr, pi, false);
+	}
+
+	/**
 	 * Writes a <code>short</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param pr The real parts of the array elements.
 	 * @param pi The imaginary parts of the array elements (optional, must
 	 * 		be the same length as <code>pr</code> if provided).
 	 * @param dimensions The array dimensions (there must be at least two
 	 * 		dimensions and the product of the dimensions must be
 	 * 		<code>pr.length</code>).
-	 * @param global A value indicating if the array is to have global scope.
+	 * @param global A value indicating if the variable is to have global scope.
 	 * @throws IOException if writing to the underlying stream fails.
 	 * @throws IllegalArgumentException if <code>pi != null</code> and
 	 * 		<code>pi.length != pr.length</code>.
@@ -347,8 +490,20 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes a <code>short</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param pr The real part of the value.
+	 * @param pi The imaginary part of the value.
+	 * @param global A value indicating if the variable is to have global scope.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void write(String name, short pr, short pi, boolean global) throws IOException {
+		this.write(name, new short[]{ pr }, new short[]{ pi }, SINGLETON, global);
+	}
+
+	/**
 	 * Writes a <code>short</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param array The real parts of the array elements.
 	 * @param dimensions The array dimensions (there must be at least two
 	 * 		dimensions and the product of the dimensions must be
@@ -362,13 +517,23 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes a <code>short</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param value The real part of the value.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void write(String name, short value) throws IOException {
+		this.write(name, value, false);
+	}
+
+	/**
 	 * Writes a <code>short</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param array The real parts of the array elements.
 	 * @param dimensions The array dimensions (there must be at least two
 	 * 		dimensions and the product of the dimensions must be
 	 * 		<code>array.length</code>).
-	 * @param global A value indicating if the array is to have global scope.
+	 * @param global A value indicating if the variable is to have global scope.
 	 * @throws IOException if writing to the underlying stream fails.
 	 * @throws IllegalArgumentException if the product of
 	 * 		<code>dimensions</code> is not equal to <code>array.length</code>.
@@ -378,8 +543,19 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes a <code>short</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param value The real part of the value.
+	 * @param global A value indicating if the variable is to have global scope.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void write(String name, short value, boolean global) throws IOException {
+		this.write(name, new short[]{ value }, SINGLETON, global);
+	}
+
+	/**
 	 * Writes a <code>byte</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param pr The real parts of the array elements.
 	 * @param pi The imaginary parts of the array elements (optional, must
 	 * 		be the same length as <code>pr</code> if provided).
@@ -397,15 +573,26 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes a <code>byte</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param pr The real part of the value.
+	 * @param pi The imaginary part of the value.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void write(String name, byte pr, byte pi) throws IOException {
+		this.write(name, pr, pi, false);
+	}
+
+	/**
 	 * Writes a <code>byte</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param pr The real parts of the array elements.
 	 * @param pi The imaginary parts of the array elements (optional, must
 	 * 		be the same length as <code>pr</code> if provided).
 	 * @param dimensions The array dimensions (there must be at least two
 	 * 		dimensions and the product of the dimensions must be
 	 * 		<code>pr.length</code>).
-	 * @param global A value indicating if the array is to have global scope.
+	 * @param global A value indicating if the variable is to have global scope.
 	 * @throws IOException if writing to the underlying stream fails.
 	 * @throws IllegalArgumentException if <code>pi != null</code> and
 	 * 		<code>pi.length != pr.length</code>.
@@ -429,8 +616,20 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes a <code>byte</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param pr The real part of the value.
+	 * @param pi The imaginary part of the value.
+	 * @param global A value indicating if the variable is to have global scope.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void write(String name, byte pr, byte pi, boolean global) throws IOException {
+		this.write(name, new byte[]{ pr }, new byte[]{ pi }, SINGLETON, global);
+	}
+
+	/**
 	 * Writes a <code>byte</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param array The real parts of the array elements.
 	 * @param dimensions The array dimensions (there must be at least two
 	 * 		dimensions and the product of the dimensions must be
@@ -444,13 +643,23 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes a <code>byte</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param value The real part of the value.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void write(String name, byte value) throws IOException {
+		this.write(name, value, false);
+	}
+
+	/**
 	 * Writes a <code>byte</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param array The real parts of the array elements.
 	 * @param dimensions The array dimensions (there must be at least two
 	 * 		dimensions and the product of the dimensions must be
 	 * 		<code>array.length</code>).
-	 * @param global A value indicating if the array is to have global scope.
+	 * @param global A value indicating if the variable is to have global scope.
 	 * @throws IOException if writing to the underlying stream fails.
 	 * @throws IllegalArgumentException if the product of
 	 * 		<code>dimensions</code> is not equal to <code>array.length</code>.
@@ -460,8 +669,19 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes a <code>byte</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param value The real part of the value.
+	 * @param global A value indicating if the variable is to have global scope.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void write(String name, byte value, boolean global) throws IOException {
+		this.write(name, new byte[]{ value }, SINGLETON, global);
+	}
+
+	/**
 	 * Writes an unsigned <code>int</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param pr The real parts of the array elements.
 	 * @param pi The imaginary parts of the array elements (optional, must
 	 * 		be the same length as <code>pr</code> if provided).
@@ -479,15 +699,26 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes an unsigned <code>int</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param pr The real part of the value.
+	 * @param pi The imaginary part of the value.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void writeUnsigned(String name, int pr, int pi) throws IOException {
+		this.writeUnsigned(name, pr, pi, false);
+	}
+
+	/**
 	 * Writes an unsigned <code>int</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param pr The real parts of the array elements.
 	 * @param pi The imaginary parts of the array elements (optional, must
 	 * 		be the same length as <code>pr</code> if provided).
 	 * @param dimensions The array dimensions (there must be at least two
 	 * 		dimensions and the product of the dimensions must be
 	 * 		<code>pr.length</code>).
-	 * @param global A value indicating if the array is to have global scope.
+	 * @param global A value indicating if the variable is to have global scope.
 	 * @throws IOException if writing to the underlying stream fails.
 	 * @throws IllegalArgumentException if <code>pi != null</code> and
 	 * 		<code>pi.length != pr.length</code>.
@@ -511,8 +742,20 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes an unsigned <code>int</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param pr The real part of the value.
+	 * @param pi The imaginary part of the value.
+	 * @param global A value indicating if the variable is to have global scope.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void writeUnsigned(String name, int pr, int pi, boolean global) throws IOException {
+		this.writeUnsigned(name, new int[]{ pr }, new int[]{ pi }, SINGLETON, global);
+	}
+
+	/**
 	 * Writes an unsigned <code>int</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param array The real parts of the array elements.
 	 * @param dimensions The array dimensions (there must be at least two
 	 * 		dimensions and the product of the dimensions must be
@@ -526,13 +769,23 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes an unsigned <code>int</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param value The real part of the value.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void writeUnsigned(String name, int value) throws IOException {
+		this.writeUnsigned(name, value, false);
+	}
+
+	/**
 	 * Writes an unsigned <code>int</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param array The real parts of the array elements.
 	 * @param dimensions The array dimensions (there must be at least two
 	 * 		dimensions and the product of the dimensions must be
 	 * 		<code>array.length</code>).
-	 * @param global A value indicating if the array is to have global scope.
+	 * @param global A value indicating if the variable is to have global scope.
 	 * @throws IOException if writing to the underlying stream fails.
 	 * @throws IllegalArgumentException if the product of
 	 * 		<code>dimensions</code> is not equal to <code>array.length</code>.
@@ -542,8 +795,19 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes an unsigned <code>int</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param value The real part of the value.
+	 * @param global A value indicating if the variable is to have global scope.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void writeUnsigned(String name, int value, boolean global) throws IOException {
+		this.writeUnsigned(name, new int[]{ value }, SINGLETON, global);
+	}
+
+	/**
 	 * Writes an unsigned <code>short</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param pr The real parts of the array elements.
 	 * @param pi The imaginary parts of the array elements (optional, must
 	 * 		be the same length as <code>pr</code> if provided).
@@ -561,15 +825,26 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes an unsigned <code>short</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param pr The real part of the value.
+	 * @param pi The imaginary part of the value.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void writeUnsigned(String name, short pr, short pi) throws IOException {
+		this.writeUnsigned(name, pr, pi, false);
+	}
+
+	/**
 	 * Writes an unsigned <code>short</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param pr The real parts of the array elements.
 	 * @param pi The imaginary parts of the array elements (optional, must
 	 * 		be the same length as <code>pr</code> if provided).
 	 * @param dimensions The array dimensions (there must be at least two
 	 * 		dimensions and the product of the dimensions must be
 	 * 		<code>pr.length</code>).
-	 * @param global A value indicating if the array is to have global scope.
+	 * @param global A value indicating if the variable is to have global scope.
 	 * @throws IOException if writing to the underlying stream fails.
 	 * @throws IllegalArgumentException if <code>pi != null</code> and
 	 * 		<code>pi.length != pr.length</code>.
@@ -593,8 +868,20 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes an unsigned <code>short</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param pr The real part of the value.
+	 * @param pi The imaginary part of the value.
+	 * @param global A value indicating if the variable is to have global scope.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void writeUnsigned(String name, short pr, short pi, boolean global) throws IOException {
+		this.writeUnsigned(name, new short[]{ pr }, new short[]{ pi }, SINGLETON, global);
+	}
+
+	/**
 	 * Writes an unsigned <code>short</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param array The real parts of the array elements.
 	 * @param dimensions The array dimensions (there must be at least two
 	 * 		dimensions and the product of the dimensions must be
@@ -608,13 +895,23 @@ public final class MatlabWriter {
 	}
 
 	/**
-	 * Writes an unsigned <code>int</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * Writes an unsigned <code>short</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param value The real part of the value.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void writeUnsigned(String name, short value) throws IOException {
+		this.writeUnsigned(name, value, false);
+	}
+
+	/**
+	 * Writes an unsigned <code>short</code> array variable to the MAT-file.
+	 * @param name The name of the variable.
 	 * @param array The real parts of the array elements.
 	 * @param dimensions The array dimensions (there must be at least two
 	 * 		dimensions and the product of the dimensions must be
 	 * 		<code>array.length</code>).
-	 * @param global A value indicating if the array is to have global scope.
+	 * @param global A value indicating if the variable is to have global scope.
 	 * @throws IOException if writing to the underlying stream fails.
 	 * @throws IllegalArgumentException if the product of
 	 * 		<code>dimensions</code> is not equal to <code>array.length</code>.
@@ -624,8 +921,19 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes an unsigned <code>short</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param value The real part of the value.
+	 * @param global A value indicating if the variable is to have global scope.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void writeUnsigned(String name, short value, boolean global) throws IOException {
+		this.writeUnsigned(name, new short[]{ value }, SINGLETON, global);
+	}
+
+	/**
 	 * Writes an unsigned <code>byte</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param pr The real parts of the array elements.
 	 * @param pi The imaginary parts of the array elements (optional, must
 	 * 		be the same length as <code>pr</code> if provided).
@@ -643,15 +951,26 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes an unsigned <code>byte</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param pr The real part of the value.
+	 * @param pi The imaginary part of the value.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void writeUnsigned(String name, byte pr, byte pi) throws IOException {
+		this.writeUnsigned(name, pr, pi, false);
+	}
+
+	/**
 	 * Writes an unsigned <code>byte</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param pr The real parts of the array elements.
 	 * @param pi The imaginary parts of the array elements (optional, must
 	 * 		be the same length as <code>pr</code> if provided).
 	 * @param dimensions The array dimensions (there must be at least two
 	 * 		dimensions and the product of the dimensions must be
 	 * 		<code>pr.length</code>).
-	 * @param global A value indicating if the array is to have global scope.
+	 * @param global A value indicating if the variable is to have global scope.
 	 * @throws IOException if writing to the underlying stream fails.
 	 * @throws IllegalArgumentException if <code>pi != null</code> and
 	 * 		<code>pi.length != pr.length</code>.
@@ -675,8 +994,20 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes an unsigned <code>byte</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param pr The real part of the value.
+	 * @param pi The imaginary part of the value.
+	 * @param global A value indicating if the variable is to have global scope.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void writeUnsigned(String name, byte pr, byte pi, boolean global) throws IOException {
+		this.writeUnsigned(name, new byte[]{ pr }, new byte[]{ pi }, SINGLETON, global);
+	}
+
+	/**
 	 * Writes an unsigned <code>byte</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param array The real parts of the array elements.
 	 * @param dimensions The array dimensions (there must be at least two
 	 * 		dimensions and the product of the dimensions must be
@@ -690,13 +1021,23 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes an unsigned <code>byte</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param value The real part of the value.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void writeUnsigned(String name, byte value) throws IOException {
+		this.writeUnsigned(name, value, false);
+	}
+
+	/**
 	 * Writes an unsigned <code>byte</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param array The real parts of the array elements.
 	 * @param dimensions The array dimensions (there must be at least two
 	 * 		dimensions and the product of the dimensions must be
 	 * 		<code>array.length</code>).
-	 * @param global A value indicating if the array is to have global scope.
+	 * @param global A value indicating if the variable is to have global scope.
 	 * @throws IOException if writing to the underlying stream fails.
 	 * @throws IllegalArgumentException if the product of
 	 * 		<code>dimensions</code> is not equal to <code>array.length</code>.
@@ -706,8 +1047,19 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes an unsigned <code>byte</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param value The real part of the value.
+	 * @param global A value indicating if the variable is to have global scope.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void writeUnsigned(String name, byte value, boolean global) throws IOException {
+		this.writeUnsigned(name, new byte[]{ value }, SINGLETON, global);
+	}
+
+	/**
 	 * Writes a <code>Complex</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param array The array elements.
 	 * @param dimensions The array dimensions (there must be at least two
 	 * 		dimensions and the product of the dimensions must be
@@ -721,13 +1073,23 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes a <code>Complex</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param value The value to write.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void write(String name, Complex value) throws IOException {
+		this.write(name, value, false);
+	}
+
+	/**
 	 * Writes a <code>Complex</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param array The array elements.
 	 * @param dimensions The array dimensions (there must be at least two
 	 * 		dimensions and the product of the dimensions must be
 	 * 		<code>array.length</code>).
-	 * @param global A value indicating if the array is to have global scope.
+	 * @param global A value indicating if the variable is to have global scope.
 	 * @throws IOException if writing to the underlying stream fails.
 	 * @throws IllegalArgumentException if the product of
 	 * 		<code>dimensions</code> is not equal to <code>array.length</code>.
@@ -746,8 +1108,19 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes a <code>Complex</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param value The value to write.
+	 * @param global A value indicating if the variable is to have global scope.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void write(String name, Complex value, boolean global) throws IOException {
+		this.write(name, value.re(), value.im(), global);
+	}
+
+	/**
 	 * Writes a <code>boolean</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param array The array elements.
 	 * @param dimensions The array dimensions (there must be at least two
 	 * 		dimensions and the product of the dimensions must be
@@ -761,13 +1134,23 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes a <code>boolean</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param value The value to write.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void write(String name, boolean value) throws IOException {
+		this.write(name, value, false);
+	}
+
+	/**
 	 * Writes a <code>boolean</code> array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param array The array elements.
 	 * @param dimensions The array dimensions (there must be at least two
 	 * 		dimensions and the product of the dimensions must be
 	 * 		<code>array.length</code>).
-	 * @param global A value indicating if the array is to have global scope.
+	 * @param global A value indicating if the variable is to have global scope.
 	 * @throws IOException if writing to the underlying stream fails.
 	 * @throws IllegalArgumentException if the product of
 	 * 		<code>dimensions</code> is not equal to <code>array.length</code>.
@@ -786,8 +1169,19 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes a <code>boolean</code> variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param value The value to write.
+	 * @param global A value indicating if the variable is to have global scope.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void write(String name, boolean value, boolean global) throws IOException {
+		this.write(name, new boolean[]{ value }, SINGLETON, global);
+	}
+
+	/**
 	 * Writes a character array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param value The <code>String</code> to write.
 	 * @throws IOException if writing to the underlying stream fails.
 	 */
@@ -797,9 +1191,9 @@ public final class MatlabWriter {
 
 	/**
 	 * Writes a character array variable to the MAT-file.
-	 * @param name The name of the array.
+	 * @param name The name of the variable.
 	 * @param value The <code>String</code> to write.
-	 * @param global A value indicating if the array is to have global scope.
+	 * @param global A value indicating if the variable is to have global scope.
 	 * @throws IOException if writing to the underlying stream fails.
 	 */
 	public void write(String name, String value, boolean global) throws IOException {
@@ -819,5 +1213,8 @@ public final class MatlabWriter {
 
 	/** The underlying <code>MatlabOutputStream</code> to write to. */
 	private final MatlabOutputStream out;
+
+	/** The dimensions for a single element array. */
+	private static final int[] SINGLETON = { 1, 1 };
 
 }

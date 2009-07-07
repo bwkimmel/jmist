@@ -31,68 +31,68 @@ import java.util.Collection;
 import java.util.RandomAccess;
 
 /**
- * A resizable array of doubles.
+ * A resizable array of chars.
  * @author brad
  */
-public final class DoubleArray extends AbstractList<Double> implements RandomAccess {
+public final class CharacterArray extends AbstractList<Character> implements RandomAccess {
 
 	/** The elements of this array. */
-	private double[] elements;
+	private char[] elements;
 
 	/** The number of elements in this array. */
 	private int size;
 
 	/**
-	 * Creates an empty <code>DoubleArray</code>.
+	 * Creates an empty <code>CharacterArray</code>.
 	 */
-	public DoubleArray() {
+	public CharacterArray() {
 		this(0);
 	}
 
 	/**
-	 * Creates an empty <code>DoubleArray</code>.
+	 * Creates an empty <code>CharacterArray</code>.
 	 * @param capacity The initial capacity of the array.
 	 */
-	public DoubleArray(int capacity) {
-		elements = new double[capacity];
+	public CharacterArray(int capacity) {
+		elements = new char[capacity];
 		size = 0;
 	}
 
 	/**
-	 * Creates an <code>DoubleArray</code> containing the specified elements.
+	 * Creates an <code>CharacterArray</code> containing the specified elements.
 	 * @param elements An array of elements to initialize the new array with.
 	 */
-	public DoubleArray(double[] elements) {
+	public CharacterArray(char[] elements) {
 		this.elements = elements.clone();
 		this.size = elements.length;
 	}
 
 	/**
-	 * Creates an <code>DoubleArray</code> containing the specified elements.
+	 * Creates an <code>CharacterArray</code> containing the specified elements.
 	 * @param c A collection of elements to initialize the new array with.
 	 */
-	public DoubleArray(Collection<Double> c) {
-		this.elements = new double[c.size()];
+	public CharacterArray(Collection<Character> c) {
+		this.elements = new char[c.size()];
 		this.size = 0;
-		for (double e : c) {
+		for (char e : c) {
 			elements[size++] = e;
 		}
 	}
 
 	/**
-	 * Creates a copy of an <code>DoubleArray</code>.
+	 * Creates a copy of an <code>CharacterArray</code>.
 	 * @param other The array to copy.
 	 */
-	public DoubleArray(DoubleArray other) {
+	public CharacterArray(CharacterArray other) {
 		this.elements = other.elements.clone();
 		this.size = other.size;
 	}
 
 	/**
-	 * Converts this <code>DoubleArray</code> to an array of doubles.
-	 * @return An array of doubles containing the same elements as this array.
+	 * Converts this <code>CharacterArray</code> to an array of chars.
+	 * @return An array of chars containing the same elements as this array.
 	 */
-	public double[] toDoubleArray() {
+	public char[] toCharacterArray() {
 		return Arrays.copyOf(elements, size);
 	}
 
@@ -100,8 +100,8 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
-	public DoubleArray clone() throws CloneNotSupportedException {
-		return new DoubleArray(this);
+	public CharacterArray clone() throws CloneNotSupportedException {
+		return new CharacterArray(this);
 	}
 
 	/* (non-Javadoc)
@@ -151,7 +151,7 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 * @return The indexed element.
 	 * @throws IndexOutOfBoundsException if <code>index &lt; 0 || index &gt;= size</code>.
 	 */
-	public Double get(int index) {
+	public Character get(int index) {
 		rangeCheck(index);
 		return elements[index];
 	}
@@ -164,9 +164,9 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 * @throws IndexOutOfBoundsException if
 	 * 		<code>index &lt; 0 || index &gt;= size()</code>.
 	 */
-	public double set(int index, double e) {
+	public char set(int index, char e) {
 		rangeCheck(index);
-		double value = elements[index];
+		char value = elements[index];
 		elements[index] = e;
 		return value;
 	}
@@ -175,8 +175,8 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 * @see java.util.AbstractList#set(int, java.lang.Object)
 	 */
 	@Override
-	public Double set(int index, Double element) {
-		return set(index, element.doubleValue());
+	public Character set(int index, Character element) {
+		return set(index, element.charValue());
 	}
 
 	/**
@@ -186,7 +186,7 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 * @throws IndexOutOfBoundsException if
 	 * 		<code>index &lt; 0 || index + items.length &gt; size()</code>.
 	 */
-	public void setAll(int index, double[] items) {
+	public void setAll(int index, char[] items) {
 		rangeCheck(index, index + items.length);
 		for (int i = index, j = 0; j < items.length; i++, j++) {
 			elements[i] = items[j];
@@ -200,7 +200,7 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 * @throws IndexOutOfBoundsException if
 	 * 		<code>index &lt; 0 || index + items.size() &gt; size()</code>.
 	 */
-	public void setAll(int index, DoubleArray items) {
+	public void setAll(int index, CharacterArray items) {
 		rangeCheck(index, index + items.size);
 		for (int i = index, j = 0; j < items.size; i++, j++) {
 			elements[i] = items.elements[j];
@@ -214,9 +214,9 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 * @throws IndexOutOfBoundsException if
 	 * 		<code>index &lt; 0 || index + items.size() &gt; size()</code>.
 	 */
-	public void setAll(int index, Collection<? extends Double> items) {
+	public void setAll(int index, Collection<? extends Character> items) {
 		rangeCheck(index, index + items.size());
-		for (double e : items) {
+		for (char e : items) {
 			elements[index++] = e;
 		}
 	}
@@ -226,7 +226,7 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 * @param e The value to append.
 	 * @return Always returns <code>true</code>.
 	 */
-	public boolean add(double e) {
+	public boolean add(char e) {
 		ensureCapacity(size + 1);
 		elements[size++] = e;
 		return true;
@@ -236,8 +236,8 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 * @see java.util.AbstractList#add(java.lang.Object)
 	 */
 	@Override
-	public boolean add(Double e) {
-		return add(e.doubleValue());
+	public boolean add(Character e) {
+		return add(e.charValue());
 	}
 
 	/**
@@ -245,7 +245,7 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 * @param items The values to append.
 	 * @return A value indicating if the array has changed.
 	 */
-	public boolean addAll(double[] items) {
+	public boolean addAll(char[] items) {
 		ensureCapacity(size + items.length);
 		for (int i = 0; i < items.length; i++) {
 			elements[size++] = items[i];
@@ -258,7 +258,7 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 * @param items The values to append.
 	 * @return A value indicating if the array has changed.
 	 */
-	public boolean addAll(DoubleArray items) {
+	public boolean addAll(CharacterArray items) {
 		ensureCapacity(size + items.size);
 		for (int i = 0; i < items.size; i++) {
 			elements[size++] = items.elements[i];
@@ -270,9 +270,9 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 * @see java.util.AbstractCollection#addAll(java.util.Collection)
 	 */
 	@Override
-	public boolean addAll(Collection<? extends Double> c) {
+	public boolean addAll(Collection<? extends Character> c) {
 		ensureCapacity(size + c.size());
-		for (double e : c) {
+		for (char e : c) {
 			elements[size++] = e;
 		}
 		return c.size() > 0;
@@ -285,7 +285,7 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 * @throws IndexOutOfBoundsException if
 	 * 		<code>index &lt; 0 || index &gt; size()</code>.
 	 */
-	public void add(int index, double e) {
+	public void add(int index, char e) {
 		if (index < 0 || index > size) {
 			throw new IndexOutOfBoundsException();
 		}
@@ -303,8 +303,8 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 * @see java.util.AbstractList#add(int, java.lang.Object)
 	 */
 	@Override
-	public void add(int index, Double element) {
-		add(index, element.doubleValue());
+	public void add(int index, Character element) {
+		add(index, element.charValue());
 	}
 
 	/**
@@ -315,7 +315,7 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 * @throws IndexOutOfBoundsException if
 	 * 		<code>index &lt; 0 || index &gt; size()</code>.
 	 */
-	public boolean addAll(int index, double[] items) {
+	public boolean addAll(int index, char[] items) {
 		if (index < 0 || index > size) {
 			throw new IndexOutOfBoundsException();
 		}
@@ -325,7 +325,7 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 				elements[i + items.length] = elements[i];
 			}
 		}
-		for (double e : items) {
+		for (char e : items) {
 			elements[index++] = e;
 		}
 		size += items.length;
@@ -335,12 +335,12 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	/**
 	 * Inserts values into the array at the specified index.
 	 * @param index The index at which to insert the new values.
-	 * @param items A <code>DoubleArray</code> containing the values to insert.
+	 * @param items A <code>CharacterArray</code> containing the values to insert.
 	 * @return A value indicating if the array has changed.
 	 * @throws IndexOutOfBoundsException if
 	 * 		<code>index &lt; 0 || index &gt; size()</code>.
 	 */
-	public boolean addAll(int index, DoubleArray items) {
+	public boolean addAll(int index, CharacterArray items) {
 		if (index < 0 || index > size) {
 			throw new IndexOutOfBoundsException();
 		}
@@ -361,7 +361,7 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 * @see java.util.AbstractList#addAll(int, java.util.Collection)
 	 */
 	@Override
-	public boolean addAll(int index, Collection<? extends Double> c) {
+	public boolean addAll(int index, Collection<? extends Character> c) {
 		if (index < 0 || index > size) {
 			throw new IndexOutOfBoundsException();
 		}
@@ -370,7 +370,7 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 		for (int i = size + c.size() - 1, j = size - 1; j >= index; i--, j--) {
 			elements[i] = elements[j];
 		}
-		for (double e : c) {
+		for (char e : c) {
 			elements[index++] = e;
 		}
 		return c.size() > 0;
@@ -380,9 +380,9 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 * @see java.util.AbstractList#remove(int)
 	 */
 	@Override
-	public Double remove(int index) {
+	public Character remove(int index) {
 		rangeCheck(index);
-		double value = elements[index];
+		char value = elements[index];
 		for (int i = index + 1; i < size; i++) {
 			elements[i - 1] = elements[i];
 		}

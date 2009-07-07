@@ -3,7 +3,6 @@
  */
 package ca.eandb.jmist.framework.scene;
 
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +35,7 @@ import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
+import ca.eandb.jmist.util.ByteArray;
 
 /**
  * @author Brad
@@ -43,7 +43,7 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class MaterialMapSceneElement extends SceneElementDecorator {
 
-	private ByteBuffer map = ByteBuffer.allocate(256);
+	private ByteArray map = new ByteArray();
 
 	private List<Material> materials = new ArrayList<Material>();
 
@@ -105,16 +105,11 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 		if (materialKey < 0 || materialKey >= materials.size()) {
 			throw new IllegalArgumentException();
 		}
-		if (start + length > map.capacity()) {
-			int newSize = Math.min(2 * map.capacity(), start + length);
-			ByteBuffer newMap = ByteBuffer.allocate(newSize);
-			map.clear();
-			newMap.put(map);
-			map = newMap;
+		if (map.size() < start + length) {
+			map.resize(start + length);
 		}
-		map.position(start);
 		for (int i = 0; i < length; i++) {
-			map.put((byte) materialKey);
+			map.set(start++, (byte) materialKey);
 		}
 	}
 
@@ -463,7 +458,7 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 	}
 
 	private Material lookup(int primIndex) {
-		if (primIndex >= 0 && primIndex < map.capacity()) {
+		if (primIndex >= 0 && primIndex < map.size()) {
 			int matIndex = (int) map.get(primIndex);
 			if (0 <= matIndex && matIndex < materials.size()) {
 				return materials.get(matIndex);
