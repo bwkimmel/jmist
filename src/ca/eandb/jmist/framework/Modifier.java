@@ -33,4 +33,10 @@ public interface Modifier {
 
 	void modify(ShadingContext context);
 
+	public static final Modifier IDENTITY = new Modifier() {
+		public void modify(ShadingContext context) {
+			/* nothing to do. */
+		}
+	};
+
 }
