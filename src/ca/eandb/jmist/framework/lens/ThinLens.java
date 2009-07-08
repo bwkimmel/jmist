@@ -3,6 +3,7 @@
  */
 package ca.eandb.jmist.framework.lens;
 
+import ca.eandb.jmist.framework.Lens;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.math.MathUtil;
@@ -16,7 +17,7 @@ import ca.eandb.jmist.math.Vector3;
  * A thin <code>Lens</code>.
  * @author Brad Kimmel
  */
-public final class ThinLens extends TransformableLens {
+public final class ThinLens implements Lens {
 
 	/**
 	 * Creates a new <code>ThinLens</code>.
@@ -67,10 +68,10 @@ public final class ThinLens extends TransformableLens {
 	static final double	DEFAULT_FOCUS_DISTANCE		= 1.0;
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.packages.TransformableLens#viewRayAt(ca.eandb.jmist.toolkit.Point2)
+	 * @see ca.eandb.jmist.framework.Lens#rayAt(ca.eandb.jmist.math.Point2)
 	 */
 	@Override
-	protected Ray3 viewRayAt(Point2 p) {
+	public Ray3 rayAt(Point2 p) {
 
 		Vector2		ap				= RandomUtil.uniformOnDisc(aperatureRadius, Random.DEFAULT).toCartesian();
 		Point3		aperaturePoint	= new Point3(ap.x(), ap.y(), 0.0);
@@ -87,10 +88,10 @@ public final class ThinLens extends TransformableLens {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.lens.TransformableLens#projectInViewSpace(ca.eandb.jmist.math.Point3)
+	 * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.Point3)
 	 */
 	@Override
-	protected Point2 projectInViewSpace(Point3 p) {
+	public Point2 project(Point3 p) {
 		if (-p.z() < MathUtil.EPSILON) {
 			return null;
 		}

@@ -7,7 +7,6 @@ import ca.eandb.jmist.framework.AffineTransformable3;
 import ca.eandb.jmist.framework.InvertibleAffineTransformation3;
 import ca.eandb.jmist.framework.Lens;
 import ca.eandb.jmist.math.AffineMatrix3;
-import ca.eandb.jmist.math.Box2;
 import ca.eandb.jmist.math.LinearMatrix3;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
@@ -18,47 +17,37 @@ import ca.eandb.jmist.math.Vector3;
  * A <code>Lens</code> to which affine transformations may be applied.
  * @author Brad Kimmel
  */
-public abstract class TransformableLens implements Lens, AffineTransformable3 {
+public final class TransformableLens implements Lens, AffineTransformable3 {
+
+	/**
+	 * The <code>Lens</code> to be transformed.
+	 */
+	private final Lens inner;
+
+	/**
+	 * The transformation to apply to the ray in the view coordinate system to
+	 * obtain the ray in the world coordinate system.
+	 */
+	private final InvertibleAffineTransformation3 view = new InvertibleAffineTransformation3();
+
+	public TransformableLens(Lens inner) {
+		this.inner = inner;
+	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Lens#rayAt(ca.eandb.jmist.toolkit.Point2)
 	 */
 	public final Ray3 rayAt(Point2 p) {
-		Ray3 viewRay = this.viewRayAt(p);
-		return viewRay != null ? this.view.apply(viewRay) : null;
+		Ray3 ray = inner.rayAt(p);
+		return ray != null ? this.view.apply(ray) : null;
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.Point3)
+	 */
 	public final Point2 project(Point3 p) {
-		return projectInViewSpace(view.applyInverse(p));
+		return inner.project(view.applyInverse(p));
 	}
-
-	/**
-	 * Gets a ray indicating from which point and direction the camera is
-	 * sensitive to incoming light at the specified point on its image plane.
-	 * This will correspond to the direction to cast a ray in order to shade
-	 * the specified point on the image plane.  This method must return the
-	 * ray in view coordinate space:  The center of the image plane
-	 * (corresponding to the point (0.5, 0.5)) should map to a ray originating
-	 * at the origin looking along the negative z-axis.  The positive y-axis
-	 * should be the up direction and the positive x-axis should be to the
-	 * right.
-	 * @param p The point on the image plane in normalized device coordinates
-	 * 		(must fall within {@code Box2.UNIT}).
-	 * @return The ray to cast for ray shading.
-	 * @see {@link Box2#UNIT}
-	 */
-	protected abstract Ray3 viewRayAt(Point2 p);
-
-	/**
-	 * Gets the normalized device coordinates (two dimensional) corresponding
-	 * to the projection of the three dimensional point <code>p</code> onto the
-	 * image plane.
-	 * @param p The <code>Point3</code> to project onto the image plane.
-	 * @return The <code>Point2</code> indicating the projected coordinates, or
-	 * 		<code>null</code> if <code>p</code> does not project onto the image
-	 * 		plane.
-	 */
-	protected abstract Point2 projectInViewSpace(Point3 p);
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Rotatable3#rotate(ca.eandb.jmist.toolkit.Vector3, double)
@@ -150,11 +139,5 @@ public abstract class TransformableLens implements Lens, AffineTransformable3 {
 	public void translate(Vector3 v) {
 		view.translate(v);
 	}
-
-	/**
-	 * The transformation to apply to the ray in the view coordinate system to
-	 * obtain the ray in the world coordinate system.
-	 */
-	private final InvertibleAffineTransformation3 view = new InvertibleAffineTransformation3();
 
 }

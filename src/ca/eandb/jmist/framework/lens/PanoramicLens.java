@@ -3,6 +3,7 @@
  */
 package ca.eandb.jmist.framework.lens;
 
+import ca.eandb.jmist.framework.Lens;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
@@ -14,7 +15,7 @@ import ca.eandb.jmist.math.Vector3;
  * screen.
  * @author Brad Kimmel
  */
-public final class PanoramicLens extends TransformableLens {
+public final class PanoramicLens implements Lens {
 
 	/**
 	 * Creates a new <code>PanoramicLens</code>.
@@ -48,10 +49,10 @@ public final class PanoramicLens extends TransformableLens {
 	public static final double DEFAULT_VERTICAL_FIELD_OF_VIEW = Math.PI / 2.0;
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.packages.TransformableLens#viewRayAt(ca.eandb.jmist.toolkit.Point2)
+	 * @see ca.eandb.jmist.framework.lens.TransformableLens#rayAt(ca.eandb.jmist.math.Point2)
 	 */
 	@Override
-	protected Ray3 viewRayAt(Point2 p) {
+	public Ray3 rayAt(Point2 p) {
 
 		double theta = (p.x() - 0.5) * hfov;
 
@@ -67,10 +68,10 @@ public final class PanoramicLens extends TransformableLens {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.lens.TransformableLens#projectInViewSpace(ca.eandb.jmist.math.Point3)
+	 * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.Point3)
 	 */
 	@Override
-	protected Point2 projectInViewSpace(Point3 p) {
+	public Point2 project(Point3 p) {
 		double theta = Math.atan2(p.x(), -p.z());
 		double x = 0.5 + theta / hfov;
 		if (!MathUtil.inRangeCC(x, 0.0, 1.0)) {

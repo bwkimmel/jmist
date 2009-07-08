@@ -3,6 +3,7 @@
  */
 package ca.eandb.jmist.framework.lens;
 
+import ca.eandb.jmist.framework.Lens;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
@@ -13,7 +14,7 @@ import ca.eandb.jmist.math.Vector3;
  * A <code>Lens</code> that projects the scene onto a spherical virtual screen.
  * @author Brad Kimmel
  */
-public final class SphericalLens extends TransformableLens {
+public final class SphericalLens implements Lens {
 
 	/**
 	 * Creates a new <code>SphericalLens</code>.
@@ -43,7 +44,7 @@ public final class SphericalLens extends TransformableLens {
 	 * @see ca.eandb.jmist.packages.TransformableLens#viewRayAt(ca.eandb.jmist.toolkit.Point2)
 	 */
 	@Override
-	protected Ray3 viewRayAt(Point2 p) {
+	public Ray3 rayAt(Point2 p) {
 
 	    double		nx = (0.5 - p.x()) * hfov;
 	    double		ny = (0.5 - p.y()) * vfov;
@@ -60,10 +61,10 @@ public final class SphericalLens extends TransformableLens {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.lens.TransformableLens#projectInViewSpace(ca.eandb.jmist.math.Point3)
+	 * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.Point3)
 	 */
 	@Override
-	protected Point2 projectInViewSpace(Point3 p) {
+	public Point2 project(Point3 p) {
 		Vector3 dir = p.vectorFromOrigin().unit();
 
 		double v = 0.5 - Math.asin(dir.y()) / vfov;

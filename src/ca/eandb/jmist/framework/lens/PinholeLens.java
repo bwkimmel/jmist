@@ -3,6 +3,7 @@
  */
 package ca.eandb.jmist.framework.lens;
 
+import ca.eandb.jmist.framework.Lens;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
@@ -18,7 +19,7 @@ import ca.eandb.jmist.math.Vector3;
  * are observed).
  * @author Brad Kimmel
  */
-public final class PinholeLens extends TransformableLens {
+public final class PinholeLens implements Lens {
 
 	/**
 	 * Initializes the pinhole camera from the specified dimensions of the
@@ -98,10 +99,10 @@ public final class PinholeLens extends TransformableLens {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.packages.TransformableLens#viewRayAt(ca.eandb.jmist.toolkit.Point2)
+	 * @see ca.eandb.jmist.framework.Lens#rayAt(ca.eandb.jmist.math.Point2)
 	 */
 	@Override
-	protected Ray3 viewRayAt(Point2 p) {
+	public Ray3 rayAt(Point2 p) {
 
 		return new Ray3(
 			Point3.ORIGIN,
@@ -118,7 +119,7 @@ public final class PinholeLens extends TransformableLens {
 	 * @see ca.eandb.jmist.framework.lens.TransformableLens#projectInViewSpace(ca.eandb.jmist.math.Point3)
 	 */
 	@Override
-	protected Point2 projectInViewSpace(Point3 p) {
+	public Point2 project(Point3 p) {
 		if (-p.z() < MathUtil.EPSILON) {
 			return null;
 		}
