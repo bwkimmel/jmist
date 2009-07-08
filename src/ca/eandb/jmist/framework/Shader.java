@@ -35,4 +35,11 @@ public interface Shader {
 
 	Color shade(ShadingContext sc);
 
+	public static final Shader BLACK = new Shader() {
+		public Color shade(ShadingContext sc) {
+			return sc.getWavelengthPacket().getColorModel().getBlack(
+					sc.getWavelengthPacket());
+		}
+	};
+
 }
