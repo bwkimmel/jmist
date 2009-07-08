@@ -40,12 +40,20 @@ public final class FisheyeLens implements Lens {
 	 * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.Point3)
 	 */
 	@Override
-	public Point2 project(Point3 p) {
+	public Projection project(final Point3 p) {
 		if (-p.z() < MathUtil.EPSILON) {
 			return null;
 		}
-		double d = p.distanceTo(Point3.ORIGIN);
-		return new Point2((p.x() / d + 1.0) / 2.0, (1.0 - p.y() / d) / 2.0);
+		return new Projection() {
+			public Point2 pointOnImagePlane() {
+				double d = p.distanceTo(Point3.ORIGIN);
+				return new Point2((p.x() / d + 1.0) / 2.0, (1.0 - p.y() / d) / 2.0);
+			}
+
+			public Point3 pointOnLens() {
+				return Point3.ORIGIN;
+			}
+		};
 	}
 
 }

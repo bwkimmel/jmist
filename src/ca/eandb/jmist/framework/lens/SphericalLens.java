@@ -64,20 +64,28 @@ public final class SphericalLens implements Lens {
 	 * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.Point3)
 	 */
 	@Override
-	public Point2 project(Point3 p) {
+	public Projection project(Point3 p) {
 		Vector3 dir = p.vectorFromOrigin().unit();
 
-		double v = 0.5 - Math.asin(dir.y()) / vfov;
+		final double v = 0.5 - Math.asin(dir.y()) / vfov;
 		if (!MathUtil.inRangeCC(v, 0.0, 1.0)) {
 			return null;
 		}
 
-		double u = 0.5 - Math.atan2(-dir.x(), -dir.z()) / hfov;
+		final double u = 0.5 - Math.atan2(-dir.x(), -dir.z()) / hfov;
 		if (!MathUtil.inRangeCC(u, 0.0, 1.0)) {
 			return null;
 		}
 
-		return new Point2(u, v);
+		return new Projection() {
+			public Point2 pointOnImagePlane() {
+				return new Point2(u, v);
+			}
+
+			public Point3 pointOnLens() {
+				return Point3.ORIGIN;
+			}
+		};
 	}
 
 	/** Horizontal field of view (in radians). */

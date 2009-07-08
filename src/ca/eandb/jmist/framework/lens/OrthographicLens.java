@@ -48,11 +48,19 @@ public final class OrthographicLens implements Lens {
 	 * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.Point3)
 	 */
 	@Override
-	public Point2 project(Point3 p) {
+	public Projection project(final Point3 p) {
 		if (-p.z() < MathUtil.EPSILON) {
 			return null;
 		}
-		return new Point2((p.x() / width) + 0.5, 0.5 - (p.y() / height));
+		return new Projection() {
+			public Point2 pointOnImagePlane() {
+				return new Point2((p.x() / width) + 0.5, 0.5 - (p.y() / height));
+			}
+
+			public Point3 pointOnLens() {
+				return new Point3(p.x(), p.y(), 0.0);
+			}
+		};
 	}
 
 	/** The extent of the image plane along the x-axis. */

@@ -116,16 +116,24 @@ public final class PinholeLens implements Lens {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.lens.TransformableLens#projectInViewSpace(ca.eandb.jmist.math.Point3)
+	 * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.Point3)
 	 */
 	@Override
-	public Point2 project(Point3 p) {
+	public Projection project(final Point3 p) {
 		if (-p.z() < MathUtil.EPSILON) {
 			return null;
 		}
-		return new Point2(
-				0.5 - p.x() / (width * p.z()),
-				0.5 + p.y() / (height * p.z()));
+		return new Projection() {
+			public Point2 pointOnImagePlane() {
+				return new Point2(
+						0.5 - p.x() / (width * p.z()),
+						0.5 + p.y() / (height * p.z()));
+			}
+
+			public Point3 pointOnLens() {
+				return Point3.ORIGIN;
+			}
+		};
 	}
 
 	/** The width of the virtual image plane. */

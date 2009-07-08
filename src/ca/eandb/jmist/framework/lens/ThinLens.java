@@ -91,29 +91,37 @@ public final class ThinLens implements Lens {
 	 * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.Point3)
 	 */
 	@Override
-	public Point2 project(Point3 p) {
+	public Projection project(Point3 p) {
 		if (-p.z() < MathUtil.EPSILON) {
 			return null;
 		}
 
-		Vector2		ap				= RandomUtil.uniformOnDisc(aperatureRadius, Random.DEFAULT).toCartesian();
-		Point3		aperaturePoint	= new Point3(ap.x(), ap.y(), 0.0);
-		Vector3		dir				= aperaturePoint.vectorTo(p);
-		double		ratio			= -focusDistance / dir.z();
-		double		x				= ap.x() + ratio * dir.x();
-		double		y				= ap.y() + ratio * dir.y();
+		Vector2			ap				= RandomUtil.uniformOnDisc(aperatureRadius, Random.DEFAULT).toCartesian();
+		final Point3	aperaturePoint	= new Point3(ap.x(), ap.y(), 0.0);
+		Vector3			dir				= aperaturePoint.vectorTo(p);
+		double			ratio			= -focusDistance / dir.z();
+		double			x				= ap.x() + ratio * dir.x();
+		double			y				= ap.y() + ratio * dir.y();
 
-		double		u				= 0.5 + x / objPlaneWidth;
+		final double	u				= 0.5 + x / objPlaneWidth;
 		if (!MathUtil.inRangeCC(u, 0.0, 1.0)) {
 			return null;
 		}
 
-		double		v				= 0.5 - y / objPlaneHeight;
+		final double	v				= 0.5 - y / objPlaneHeight;
 		if (!MathUtil.inRangeCC(v, 0.0, 1.0)) {
 			return null;
 		}
 
-		return new Point2(u, v);
+		return new Projection() {
+			public Point2 pointOnImagePlane() {
+				return new Point2(u, v);
+			}
+
+			public Point3 pointOnLens() {
+				return aperaturePoint;
+			}
+		};
 	}
 
 	/** The focal length (in meters). */

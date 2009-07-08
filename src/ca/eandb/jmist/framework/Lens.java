@@ -33,10 +33,35 @@ public interface Lens {
 	/**
 	 * Projects a point in three-dimensional space onto the image plane.
 	 * @param p The <code>Point3</code> to project onto the image plane.
-	 * @return The <code>Point2</code> representing the point on the image
-	 * 		plane, or <code>null</code> if <code>p</code> does not project
-	 * 		onto the image plane.
+	 * @return The <code>Projection</code> representing the projection of
+	 * 		<code>p</code> onto the image plane, or <code>null</code> if
+	 * 		<code>p</code> does not project onto the image plane.
 	 */
-	Point2 project(Point3 p);
+	Projection project(Point3 p);
+
+	/**
+	 * A representation of the projection of a point in three dimensional space
+	 * onto the image plane represented by a <code>Lens</code>.
+	 * @author Brad Kimmel
+	 */
+	public static interface Projection {
+
+		/**
+		 * Returns the <code>Point2</code> representing the normalized point on
+		 * the image plane.
+		 * @return The <code>Point2</code> representing the normalized point on
+		 * 		the image plane.
+		 */
+		Point2 pointOnImagePlane();
+
+		/**
+		 * Returns the <code>Point3</code> representing the physical point on
+		 * the <code>Lens</code>.
+		 * @return The <code>Point3</code> representing the physical point on
+		 * 		the <code>Lens</code>.
+		 */
+		Point3 pointOnLens();
+
+	}
 
 }

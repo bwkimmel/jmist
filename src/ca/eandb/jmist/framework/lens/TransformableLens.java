@@ -49,8 +49,20 @@ public final class TransformableLens implements Lens, AffineTransformable3 {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.Point3)
 	 */
-	public final Point2 project(Point3 p) {
-		return inner.project(view.applyInverse(p));
+	public final Projection project(Point3 p) {
+		final Projection viewProj = inner.project(view.applyInverse(p));
+		if (viewProj == null) {
+			return null;
+		}
+		return new Projection() {
+			public Point2 pointOnImagePlane() {
+				return viewProj.pointOnImagePlane();
+			}
+
+			public Point3 pointOnLens() {
+				return view.apply(viewProj.pointOnLens());
+			}
+		};
 	}
 
 	/* (non-Javadoc)

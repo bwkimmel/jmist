@@ -71,9 +71,9 @@ public final class PanoramicLens implements Lens {
 	 * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.Point3)
 	 */
 	@Override
-	public Point2 project(Point3 p) {
+	public Projection project(Point3 p) {
 		double theta = Math.atan2(p.x(), -p.z());
-		double x = 0.5 + theta / hfov;
+		final double x = 0.5 + theta / hfov;
 		if (!MathUtil.inRangeCC(x, 0.0, 1.0)) {
 			return null;
 		}
@@ -81,11 +81,19 @@ public final class PanoramicLens implements Lens {
 		if (d < MathUtil.EPSILON) {
 			return null;
 		}
-		double y =  0.5 - (p.y() / (d * height));
+		final double y =  0.5 - (p.y() / (d * height));
 		if (!MathUtil.inRangeCC(y, 0.0, 1.0)) {
 			return null;
 		}
-		return new Point2(x, y);
+		return new Projection() {
+			public Point2 pointOnImagePlane() {
+				return new Point2(x, y);
+			}
+
+			public Point3 pointOnLens() {
+				return Point3.ORIGIN;
+			}
+		};
 	}
 
 	/** Horizontal field of view (in radians). */
