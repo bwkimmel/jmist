@@ -409,7 +409,7 @@ public final class DoubleArray extends AbstractList<Double> implements RandomAcc
 	 */
 	public void resize(int newSize) {
 		if (newSize > elements.length) {
-			reallocate(Math.max(size, 2 * elements.length));
+			reallocate(Math.max(newSize, 2 * elements.length));
 		} else {
 			for (int i = size; i < newSize; i++) {
 				elements[i] = 0;
