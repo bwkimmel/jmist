@@ -30,6 +30,10 @@ public final class TransformableLens implements Lens, AffineTransformable3 {
 	 */
 	private final InvertibleAffineTransformation3 view = new InvertibleAffineTransformation3();
 
+	/**
+	 * Creates a new <code>TransformableLens</code>.
+	 * @param inner The <code>Lens</code> to transform.
+	 */
 	public TransformableLens(Lens inner) {
 		this.inner = inner;
 	}
