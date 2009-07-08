@@ -40,7 +40,6 @@ public final class StandardCompositeShader extends CompositeShader {
 	 */
 	@Override
 	public Color shade(ShadingContext sc) {
-
 		Color result = null;
 		for (Shader shader : shaders) {
 			Color color = shader.shade(sc);
