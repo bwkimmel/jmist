@@ -146,6 +146,18 @@ public final class DayLight implements Light, DirectionalTexture3 {
 	}
 
 	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.DirectionalTexture3#evaluate(ca.eandb.jmist.math.Vector3)
+	 */
+	@Override
+	public Spectrum evaluate(final Vector3 v) {
+		return new Spectrum() {
+			public Color sample(WavelengthPacket lambda) {
+				return evaluate(v, lambda);
+			}
+		};
+	}
+
+	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random, ca.eandb.jmist.framework.Illuminable)
 	 */
 	public void illuminate(SurfacePoint x, WavelengthPacket lambda, Random rng, Illuminable target) {
