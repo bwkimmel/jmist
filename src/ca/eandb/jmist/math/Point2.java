@@ -109,6 +109,15 @@ public final class Point2 implements Serializable {
 	}
 
 	/**
+	 * Computes the unit vector from this point to the origin.
+	 * @return The unit vector from this point to the origin.
+	 */
+	public Vector2 unitVectorToOrigin() {
+		double d = distanceToOrigin();
+		return new Vector2(-x / d, -y / d);
+	}
+
+	/**
 	 * Computes the vector from this point to the specified point.
 	 * @param p The point at the end of the vector.
 	 * @return The vector from this point to p.
@@ -125,6 +134,15 @@ public final class Point2 implements Serializable {
 	public Vector2 unitVectorFrom(Point2 p) {
 		double d = distanceTo(p);
 		return new Vector2((x - p.x) / d, (y - p.y) / d);
+	}
+
+	/**
+	 * Computes the unit vector from the origin to this point.
+	 * @return The unit vector from the origin to this point.
+	 */
+	public Vector2 unitVectorFromOrigin() {
+		double d = distanceToOrigin();
+		return new Vector2(x / d, y / d);
 	}
 
 	/**
