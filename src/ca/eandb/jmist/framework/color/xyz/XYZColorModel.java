@@ -25,9 +25,12 @@
 
 package ca.eandb.jmist.framework.color.xyz;
 
+import java.io.Serializable;
+
 import ca.eandb.jmist.framework.Function1;
 import ca.eandb.jmist.framework.ProbabilityDensityFunction;
 import ca.eandb.jmist.framework.Random;
+import ca.eandb.jmist.framework.Raster;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.Spectrum;
@@ -41,7 +44,12 @@ import ca.eandb.jmist.util.ArrayUtil;
  * @author brad
  *
  */
-public final class XYZColorModel extends ColorModel {
+public final class XYZColorModel extends ColorModel implements Serializable {
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1316752091233635632L;
 
 	private static final LinearMatrix3 RGBLin_TO_XYZ = new LinearMatrix3(
 			0.4124, 0.3576, 0.1805,
@@ -239,6 +247,45 @@ public final class XYZColorModel extends ColorModel {
 	public Color sample(Random random) {
 		XYZWavelengthPacket lambda = new XYZWavelengthPacket(X_PDF.sample(random), Y_PDF.sample(random), Z_PDF.sample(random));
 		return new XYZColor(1, 1, 1, lambda);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.ColorModel#createRaster(int, int)
+	 */
+	@Override
+	public Raster createRaster(final int width, final int height) {
+		return new Raster() {
+
+			final double[] raster = new double[width * height * 3];
+
+			@Override
+			public Color getPixel(int x, int y) {
+				int index = (y * width + x) * 3;
+				double X = raster[index];
+				double Y = raster[index + 1];
+				double Z = raster[index + 2];
+				return new XYZColor(X, Y, Z, null);
+			}
+
+			@Override
+			public int getHeight() {
+				return height;
+			}
+
+			@Override
+			public int getWidth() {
+				return width;
+			}
+
+			@Override
+			public void setPixel(int x, int y, Color color) {
+				int index = (y * width + x) * 3;
+				raster[index] = color.getValue(0);
+				raster[index + 1] = color.getValue(1);
+				raster[index + 2] = color.getValue(2);
+			}
+
+		};
 	}
 
 }

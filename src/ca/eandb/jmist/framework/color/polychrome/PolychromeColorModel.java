@@ -25,8 +25,11 @@
 
 package ca.eandb.jmist.framework.color.polychrome;
 
+import java.io.Serializable;
+
 import ca.eandb.jmist.framework.Function1;
 import ca.eandb.jmist.framework.Random;
+import ca.eandb.jmist.framework.Raster;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.Spectrum;
@@ -40,7 +43,12 @@ import ca.eandb.jmist.util.ArrayUtil;
  * @author brad
  *
  */
-public final class PolychromeColorModel extends ColorModel {
+public final class PolychromeColorModel extends ColorModel implements Serializable {
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -8677900690679611296L;
 
 	private static final LinearMatrix3 XYZ_TO_sRGBLin = new LinearMatrix3(
 			 3.2410, -1.5374, -0.4986,
@@ -373,6 +381,50 @@ public final class PolychromeColorModel extends ColorModel {
 	@Override
 	public Color sample(Random random) {
 		return white;
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.ColorModel#createRaster(int, int)
+	 */
+	@Override
+	public Raster createRaster(final int width, final int height) {
+		return new Raster() {
+
+			final double[] raster = new double[width * height * wavelengths.size()];
+
+			@Override
+			public Color getPixel(int x, int y) {
+				PolychromeColor pixel = new PolychromeColor();
+				int index = (y * width + x) * wavelengths.size();
+				for (int i = 0, n = wavelengths.size(); i < n; i++) {
+					pixel.values[i] = raster[index++];
+				}
+				return pixel;
+			}
+
+			@Override
+			public int getHeight() {
+				return height;
+			}
+
+			@Override
+			public int getWidth() {
+				return width;
+			}
+
+			@Override
+			public void setPixel(int x, int y, Color color) {
+				setPixel(x, y, (PolychromeColor) color);
+			}
+
+			private void setPixel(int x, int y, PolychromeColor color) {
+				int index = (y * width + x) * wavelengths.size();
+				for (int i = 0, n = wavelengths.size(); i < n; i++) {
+					raster[index++] = color.values[i];
+				}
+			}
+
+		};
 	}
 
 }

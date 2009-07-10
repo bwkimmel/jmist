@@ -3,8 +3,11 @@
  */
 package ca.eandb.jmist.framework.color.monochrome;
 
+import java.io.Serializable;
+
 import ca.eandb.jmist.framework.Function1;
 import ca.eandb.jmist.framework.Random;
+import ca.eandb.jmist.framework.Raster;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.Spectrum;
@@ -15,7 +18,12 @@ import ca.eandb.jmist.math.MathUtil;
  * @author Brad
  *
  */
-public final class MonochromeColorModel extends ColorModel {
+public final class MonochromeColorModel extends ColorModel implements Serializable {
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 7290649793402973937L;
 
 	private final double wavelength;
 
@@ -320,6 +328,38 @@ public final class MonochromeColorModel extends ColorModel {
 	@Override
 	public Color sample(Random random) {
 		return white;
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.ColorModel#createRaster(int, int)
+	 */
+	@Override
+	public Raster createRaster(final int width, final int height) {
+		return new Raster() {
+
+			final double[] raster = new double[width * height];
+
+			@Override
+			public Color getPixel(int x, int y) {
+				return new Sample(raster[y * width + x]);
+			}
+
+			@Override
+			public int getHeight() {
+				return height;
+			}
+
+			@Override
+			public int getWidth() {
+				return width;
+			}
+
+			@Override
+			public void setPixel(int x, int y, Color color) {
+				raster[y * width + x] = ((Sample) color).value;
+			}
+
+		};
 	}
 
 }
