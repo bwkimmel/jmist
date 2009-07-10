@@ -5,8 +5,8 @@ package ca.eandb.jmist.framework.light;
 
 import java.io.Serializable;
 
+import ca.eandb.jmist.framework.Emitter;
 import ca.eandb.jmist.framework.Illuminable;
-import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Spectrum;
@@ -18,7 +18,7 @@ import ca.eandb.jmist.math.Vector3;
  * A <code>Light</code> that emits from a single point.
  * @author Brad Kimmel
  */
-public final class PointLight implements Light, Serializable {
+public final class PointLight extends AbstractLight implements Serializable {
 
 	/**
 	 * Creates a new <code>PointLight</code>.
@@ -32,6 +32,7 @@ public final class PointLight implements Light, Serializable {
 		this.location = location;
 		this.emittedPower = emittedPower;
 		this.shadows = shadows;
+		this.emitter = new PointEmitter(location, emittedPower);
 	}
 
 	/* (non-Javadoc)
@@ -51,11 +52,22 @@ public final class PointLight implements Light, Serializable {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Light#sample(ca.eandb.jmist.framework.Random)
+	 */
+	@Override
+	public Emitter sample(Random rng) {
+		return emitter;
+	}
+
 	/** The <code>Point3</code> where the light is to emit from. */
 	private final Point3 location;
 
 	/** The emission <code>Spectrum</code> of the light. */
 	private final Spectrum emittedPower;
+
+	/** The <code>Emitter</code> for this light source. */
+	private final Emitter emitter;
 
 	/** A value indicating whether the light should be affected by shadows. */
 	private final boolean shadows;

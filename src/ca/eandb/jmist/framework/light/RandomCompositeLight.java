@@ -5,6 +5,7 @@ package ca.eandb.jmist.framework.light;
 
 import java.util.Collection;
 
+import ca.eandb.jmist.framework.Emitter;
 import ca.eandb.jmist.framework.Illuminable;
 import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.LightSample;
@@ -37,6 +38,15 @@ public final class RandomCompositeLight extends CompositeLight {
 				target.addLightSample(ScaledLightSample.create(children().size(), sample));
 			}
 		});
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Light#sample(ca.eandb.jmist.framework.Random)
+	 */
+	@Override
+	public Emitter sample(Random rng) {
+		int index = RandomUtil.discrete(0, children().size() - 1, rng);
+		return new ScaledEmitter(children().size(), children().get(index).sample(rng));
 	}
 
 }

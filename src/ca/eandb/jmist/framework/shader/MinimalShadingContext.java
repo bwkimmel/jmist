@@ -23,24 +23,28 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package ca.eandb.jmist.framework;
+package ca.eandb.jmist.framework.shader;
 
-import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.math.Ray3;
-import ca.eandb.jmist.math.Vector3;
+import ca.eandb.jmist.framework.Random;
 
 /**
  * @author brad
  *
  */
-public interface EmissionPoint {
+public final class MinimalShadingContext extends AbstractShadingContext {
 
-	boolean isAtInfinity();
+	private final Random random;
 
-	Color getEmittedRadiance(Vector3 v);
+	public MinimalShadingContext(Random random) {
+		this.random = random;
+	}
 
-	Color getRadiantExitance();
-
-	Photon emit();
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.ShadingContext#getRandom()
+	 */
+	@Override
+	public Random getRandom() {
+		return random;
+	}
 
 }

@@ -4,10 +4,11 @@
 package ca.eandb.jmist.framework.light;
 
 import ca.eandb.jmist.framework.DirectionalTexture3;
+import ca.eandb.jmist.framework.Emitter;
 import ca.eandb.jmist.framework.Illuminable;
-import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.SurfacePoint;
+import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.math.Basis3;
@@ -18,7 +19,7 @@ import ca.eandb.jmist.math.Vector3;
  * hemisphere.
  * @author Brad Kimmel
  */
-public final class HemisphericalLight implements Light {
+public final class HemisphericalLight extends AbstractLight {
 
 	/**
 	 * A <code>DirectionalTexture3</code> representing the incident radiance.
@@ -26,10 +27,10 @@ public final class HemisphericalLight implements Light {
 	private final DirectionalTexture3 environment;
 
 	/**
-	 * The <code>Vector3</code> representing the direction at the center of the
+	 * The <code>Basis3</code> representing the coordinate system of the
 	 * illuminating hemisphere.
 	 */
-	private final Vector3 zenith;
+	private final Basis3 basis;
 
 	/** A value indicating whether shadows should be computed. */
 	private final boolean shadows;
@@ -55,7 +56,7 @@ public final class HemisphericalLight implements Light {
 	 */
 	public HemisphericalLight(DirectionalTexture3 environment, Vector3 zenith, boolean shadows) {
 		this.environment = environment;
-		this.zenith = zenith;
+		this.basis = Basis3.fromW(zenith);
 		this.shadows = shadows;
 	}
 
@@ -65,11 +66,21 @@ public final class HemisphericalLight implements Light {
 	@Override
 	public void illuminate(SurfacePoint x, WavelengthPacket lambda, Random rng, Illuminable target) {
 
-		Vector3	source = RandomUtil.uniformOnUpperHemisphere(rng).toCartesian(Basis3.fromW(zenith));
+		Vector3	source = RandomUtil.uniformOnUpperHemisphere(rng).toCartesian(basis);
 		double	dot = x.getShadingNormal().dot(source);
 
 		target.addLightSample(new DirectionalLightSample(x, source, environment.evaluate(source, lambda).times(dot), shadows));
 
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Light#sample(ca.eandb.jmist.framework.Random)
+	 */
+	@Override
+	public Emitter sample(Random rng) {
+		Vector3 source = RandomUtil.uniformOnUpperHemisphere(rng).toCartesian();
+		Spectrum radiance = environment.evaluate(source);
+		return new DirectionalEmitter(source.opposite(), radiance);
 	}
 
 }

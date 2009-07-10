@@ -13,7 +13,7 @@ import ca.eandb.jmist.framework.Light;
  * @author Brad Kimmel
  *
  */
-public abstract class CompositeLight implements Light {
+public abstract class CompositeLight extends AbstractLight {
 
 	/**
 	 * Initializes this <code>CompositeLight</code> with no light sources.

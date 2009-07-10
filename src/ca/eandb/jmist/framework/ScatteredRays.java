@@ -67,13 +67,27 @@ public final class ScatteredRays extends AbstractList<ScatteredRay> {
 		this.material = material;
 	}
 
+	/**
+	 * @param x
+	 * @param lambda
+	 * @param material
+	 */
+	public ScatteredRays(SurfacePoint x, WavelengthPacket lambda, Random rng, Material material) {
+		this(x, null, lambda, rng, material);
+	}
+
 	private synchronized void ensureReady() {
 		if (modCount == 0) {
-			material.scatter(x, v, lambda, rng, new ScatteredRayRecorder() {
+			ScatteredRayRecorder recorder = new ScatteredRayRecorder() {
 				public void add(ScatteredRay sr) {
 					rays.add(sr);
 				}
-			});
+			};
+			if (v != null) {
+				material.scatter(x, v, lambda, rng, recorder);
+			} else {
+				material.emit(x, lambda, rng, recorder);
+			}
 			modCount++;
 		}
 	}

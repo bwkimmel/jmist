@@ -4,9 +4,11 @@
 package ca.eandb.jmist.framework.light;
 
 import ca.eandb.jmist.framework.DirectionalTexture3;
+import ca.eandb.jmist.framework.Emitter;
 import ca.eandb.jmist.framework.Function1;
 import ca.eandb.jmist.framework.Illuminable;
 import ca.eandb.jmist.framework.Light;
+import ca.eandb.jmist.framework.Photon;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
@@ -16,6 +18,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.MathUtil;
+import ca.eandb.jmist.math.Sphere;
 import ca.eandb.jmist.math.Vector3;
 import ca.eandb.jmist.util.ArrayUtil;
 
@@ -23,7 +26,7 @@ import ca.eandb.jmist.util.ArrayUtil;
  * A hemispherical <code>Light</code> that simulates daylight conditions.
  * @author Brad Kimmel
  */
-public final class DayLight implements Light, DirectionalTexture3 {
+public final class DayLight extends AbstractLight implements DirectionalTexture3 {
 
 	/**
 	 * Creates a new <code>DayLight</code> with the sun and zenith in the
@@ -176,6 +179,46 @@ public final class DayLight implements Light, DirectionalTexture3 {
 		}
 
 	}
+
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Light#sample(ca.eandb.jmist.framework.Random)
+	 */
+	@Override
+	public Emitter sample(Random rng) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private final class DayLightEmitter implements Emitter {
+
+		@Override
+		public Photon emit(Sphere target, WavelengthPacket lambda, Random rng) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public Color getEmittedRadiance(Vector3 v, WavelengthPacket lambda) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public Color getRadiantExitance(WavelengthPacket lambda) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public boolean isAtInfinity() {
+			return true;
+		}
+
+	}
+
+
+
 /*
 	public static class Options {
 

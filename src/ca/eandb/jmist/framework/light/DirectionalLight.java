@@ -3,8 +3,8 @@
  */
 package ca.eandb.jmist.framework.light;
 
+import ca.eandb.jmist.framework.Emitter;
 import ca.eandb.jmist.framework.Illuminable;
-import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Spectrum;
@@ -16,7 +16,7 @@ import ca.eandb.jmist.math.Vector3;
  * Equivalent to a point light at an infinite distance.
  * @author Brad Kimmel
  */
-public final class DirectionalLight implements Light {
+public final class DirectionalLight extends AbstractLight {
 
 	/**
 	 * Creates a new <code>DirectionalLight</code>.
@@ -29,6 +29,7 @@ public final class DirectionalLight implements Light {
 		this.from = from.unit();
 		this.irradiance = irradiance;
 		this.shadows = shadows;
+		this.emitter = new DirectionalEmitter(from, irradiance);
 	}
 
 	/* (non-Javadoc)
@@ -39,6 +40,14 @@ public final class DirectionalLight implements Light {
 		target.addLightSample(new DirectionalLightSample(x, from, irradiance.sample(lambda).times(dot), shadows));
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Light#sample(ca.eandb.jmist.framework.Random)
+	 */
+	@Override
+	public Emitter sample(Random rng) {
+		return emitter;
+	}
+
 	/**
 	 * The <code>Vector3</code> indicating the direction from which the light
 	 * originates.
@@ -47,6 +56,9 @@ public final class DirectionalLight implements Light {
 
 	/** The irradiance <code>Spectrum</code>. */
 	private final Spectrum irradiance;
+
+	/** The <code>Emitter</code> for this light source. */
+	private final Emitter emitter;
 
 	/** A value indicating whether shadows should be applied. */
 	private final boolean shadows;
