@@ -31,6 +31,7 @@ import ca.eandb.jmist.framework.Function1;
 import ca.eandb.jmist.framework.ProbabilityDensityFunction;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.Raster;
+import ca.eandb.jmist.framework.color.AbstractRaster;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.Spectrum;
@@ -254,7 +255,7 @@ public final class XYZColorModel extends ColorModel implements Serializable {
 	 */
 	@Override
 	public Raster createRaster(final int width, final int height) {
-		return new Raster() {
+		return new AbstractRaster() {
 
 			final double[] raster = new double[width * height * 3];
 

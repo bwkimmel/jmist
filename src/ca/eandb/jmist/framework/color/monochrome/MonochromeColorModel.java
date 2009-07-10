@@ -8,6 +8,7 @@ import java.io.Serializable;
 import ca.eandb.jmist.framework.Function1;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.Raster;
+import ca.eandb.jmist.framework.color.AbstractRaster;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.Spectrum;
@@ -335,7 +336,7 @@ public final class MonochromeColorModel extends ColorModel implements Serializab
 	 */
 	@Override
 	public Raster createRaster(final int width, final int height) {
-		return new Raster() {
+		return new AbstractRaster() {
 
 			final double[] raster = new double[width * height];
 

@@ -23,18 +23,22 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package ca.eandb.jmist.framework;
+package ca.eandb.jmist.framework.color;
 
-import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.Raster;
 
 /**
- * @author brad
- *
+ * Default implementations for <code>Raster</code>.
+ * @author Brad Kimmel
  */
-public interface Raster extends RasterWriter {
+public abstract class AbstractRaster implements Raster {
 
-	Color getPixel(int x, int y);
-
-	void addPixel(int x, int y, Color pixel);
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Raster#addPixel(int, int, ca.eandb.jmist.framework.color.Color)
+	 */
+	@Override
+	public void addPixel(int x, int y, Color pixel) {
+		setPixel(x, y, getPixel(x, y).plus(pixel));
+	}
 
 }
