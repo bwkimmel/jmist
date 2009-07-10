@@ -75,14 +75,11 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 	 */
 	@Override
 	public Color emission(SurfacePoint x, Vector3 out, WavelengthPacket lambda) {
-
-		if (this.emittance == null || x.getNormal().dot(out) < 0.0) {
+		if (this.emittance != null && x.getNormal().dot(out) > 0.0) {
+			return emittance.getColor(x, lambda);
+		} else {
 			return lambda.getColorModel().getBlack(lambda);
 		}
-
-		double ndotv = x.getShadingNormal().dot(out);
-		return ndotv > 0.0 ? emittance.getColor(x, lambda).times(ndotv) : lambda.getColorModel().getBlack(lambda);
-
 	}
 
 	/* (non-Javadoc)
@@ -93,7 +90,7 @@ public final class LambertianMaterial extends OpaqueMaterial implements
 
 		if (this.emittance != null) {
 
-			SphericalCoordinates out = RandomUtil.uniformOnUpperHemisphere(rng);
+			SphericalCoordinates out = RandomUtil.diffuse(rng);
 			Ray3 ray = new Ray3(x.getPosition(), out.toCartesian(x.getShadingBasis()));
 
 			if (x.getNormal().dot(ray.direction()) > 0.0) {
