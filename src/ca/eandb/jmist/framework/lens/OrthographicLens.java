@@ -60,6 +60,10 @@ public final class OrthographicLens implements Lens {
 			public Point3 pointOnLens() {
 				return new Point3(p.x(), p.y(), 0.0);
 			}
+
+			public double importance() {
+				return 1.0; // FIXME Light tracing will not work until this is corrected.
+			}
 		};
 	}
 

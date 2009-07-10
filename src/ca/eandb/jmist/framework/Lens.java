@@ -62,6 +62,14 @@ public interface Lens {
 		 */
 		Point3 pointOnLens();
 
+		/**
+		 * Returns the importance associated with this projection.  This is the
+		 * value that should be used to attenuate contribution rays during
+		 * light tracing.
+		 * @return The importance associated with this projection.
+		 */
+		double importance();
+
 	}
 
 }

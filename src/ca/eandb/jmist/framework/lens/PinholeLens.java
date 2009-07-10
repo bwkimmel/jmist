@@ -4,6 +4,7 @@
 package ca.eandb.jmist.framework.lens;
 
 import ca.eandb.jmist.framework.Lens;
+import ca.eandb.jmist.math.Box2;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
@@ -123,17 +124,28 @@ public final class PinholeLens implements Lens {
 		if (-p.z() < MathUtil.EPSILON) {
 			return null;
 		}
-		return new Projection() {
-			public Point2 pointOnImagePlane() {
-				return new Point2(
-						0.5 - p.x() / (width * p.z()),
-						0.5 + p.y() / (height * p.z()));
-			}
+		final Point2 ndc = new Point2(
+				0.5 - p.x() / (width * p.z()),
+				0.5 + p.y() / (height * p.z()));
 
-			public Point3 pointOnLens() {
-				return Point3.ORIGIN;
-			}
-		};
+		if (Box2.UNIT.contains(ndc)) {
+			return new Projection() {
+				public Point2 pointOnImagePlane() {
+					return ndc;
+				}
+
+				public Point3 pointOnLens() {
+					return Point3.ORIGIN;
+				}
+
+				public double importance() {
+					double dot = Vector3.NEGATIVE_K.dot(p.unitVectorFromOrigin());
+					return 1.0 / (dot * dot * dot * p.squaredDistanceToOrigin());
+				}
+			};
+		} else {
+			return null;
+		}
 	}
 
 	/** The width of the virtual image plane. */

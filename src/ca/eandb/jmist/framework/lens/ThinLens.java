@@ -121,6 +121,10 @@ public final class ThinLens implements Lens {
 			public Point3 pointOnLens() {
 				return aperaturePoint;
 			}
+
+			public double importance() {
+				return 1.0; // FIXME Light tracing will not work until this is corrected.
+			}
 		};
 	}
 

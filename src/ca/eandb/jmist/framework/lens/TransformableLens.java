@@ -62,6 +62,10 @@ public final class TransformableLens implements Lens, AffineTransformable3 {
 			public Point3 pointOnLens() {
 				return view.apply(viewProj.pointOnLens());
 			}
+
+			public double importance() {
+				return viewProj.importance();
+			}
 		};
 	}
 

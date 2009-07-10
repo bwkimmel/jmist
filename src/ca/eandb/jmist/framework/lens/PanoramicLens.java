@@ -93,6 +93,10 @@ public final class PanoramicLens implements Lens {
 			public Point3 pointOnLens() {
 				return Point3.ORIGIN;
 			}
+
+			public double importance() {
+				return 1.0; // FIXME Light tracing will not work until this is corrected.
+			}
 		};
 	}
 

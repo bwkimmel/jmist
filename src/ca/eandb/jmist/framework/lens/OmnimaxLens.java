@@ -56,9 +56,12 @@ public final class OmnimaxLens implements Lens {
 				return new Point2(u, v);
 			}
 
-			@Override
 			public Point3 pointOnLens() {
 				return Point3.ORIGIN;
+			}
+
+			public double importance() {
+				return 1.0; // FIXME Light tracing will not work until this is corrected.
 			}
 		};
 	}
