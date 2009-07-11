@@ -14,4 +14,10 @@ public interface Painter {
 
 	Color getColor(SurfacePoint p, WavelengthPacket lambda);
 
+	public static final Painter BLACK = new Painter() {
+		public Color getColor(SurfacePoint p, WavelengthPacket lambda) {
+			return lambda.getColorModel().getBlack(lambda);
+		}
+	};
+
 }
