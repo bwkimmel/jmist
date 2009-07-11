@@ -25,6 +25,7 @@
 
 package ca.eandb.jmist.util;
 
+import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -32,9 +33,16 @@ import java.util.RandomAccess;
 
 /**
  * A resizable array of shorts.
+ *
  * @author brad
  */
-public final class ShortArray extends AbstractList<Short> implements RandomAccess {
+public final class ShortArray extends AbstractList<Short> implements
+		RandomAccess, Serializable {
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -1373587476931010171L;
 
 	/** The elements of this array. */
 	private short[] elements;
@@ -51,7 +59,9 @@ public final class ShortArray extends AbstractList<Short> implements RandomAcces
 
 	/**
 	 * Creates an empty <code>ShortArray</code>.
-	 * @param capacity The initial capacity of the array.
+	 *
+	 * @param capacity
+	 *            The initial capacity of the array.
 	 */
 	public ShortArray(int capacity) {
 		elements = new short[capacity];
@@ -60,7 +70,9 @@ public final class ShortArray extends AbstractList<Short> implements RandomAcces
 
 	/**
 	 * Creates an <code>ShortArray</code> containing the specified elements.
-	 * @param elements An array of elements to initialize the new array with.
+	 *
+	 * @param elements
+	 *            An array of elements to initialize the new array with.
 	 */
 	public ShortArray(short[] elements) {
 		this.elements = elements.clone();
@@ -69,7 +81,9 @@ public final class ShortArray extends AbstractList<Short> implements RandomAcces
 
 	/**
 	 * Creates an <code>ShortArray</code> containing the specified elements.
-	 * @param c A collection of elements to initialize the new array with.
+	 *
+	 * @param c
+	 *            A collection of elements to initialize the new array with.
 	 */
 	public ShortArray(Collection<Short> c) {
 		this.elements = new short[c.size()];
@@ -81,7 +95,9 @@ public final class ShortArray extends AbstractList<Short> implements RandomAcces
 
 	/**
 	 * Creates a copy of an <code>ShortArray</code>.
-	 * @param other The array to copy.
+	 *
+	 * @param other
+	 *            The array to copy.
 	 */
 	public ShortArray(ShortArray other) {
 		this.elements = other.elements.clone();
@@ -90,13 +106,16 @@ public final class ShortArray extends AbstractList<Short> implements RandomAcces
 
 	/**
 	 * Converts this <code>ShortArray</code> to an array of shorts.
+	 *
 	 * @return An array of shorts containing the same elements as this array.
 	 */
 	public short[] toShortArray() {
 		return Arrays.copyOf(elements, size);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
@@ -104,7 +123,9 @@ public final class ShortArray extends AbstractList<Short> implements RandomAcces
 		return new ShortArray(this);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see java.util.AbstractList#clear()
 	 */
 	@Override
@@ -112,7 +133,9 @@ public final class ShortArray extends AbstractList<Short> implements RandomAcces
 		size = 0;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see java.util.AbstractCollection#size()
 	 */
 	@Override
@@ -122,9 +145,11 @@ public final class ShortArray extends AbstractList<Short> implements RandomAcces
 
 	/**
 	 * Ensures that the specified index is valid for this array.
-	 * @param index The index to check.
-	 * @throws IndexOutOfBoundsException if
-	 * 		<code>index &lt; 0 || index &gt;= size</code>.
+	 *
+	 * @param index
+	 *            The index to check.
+	 * @throws IndexOutOfBoundsException
+	 *             if <code>index &lt; 0 || index &gt;= size</code>.
 	 */
 	private void rangeCheck(int index) {
 		if (index < 0 || index >= size) {
@@ -134,10 +159,13 @@ public final class ShortArray extends AbstractList<Short> implements RandomAcces
 
 	/**
 	 * Ensures that the specified range of indices is valid for this array.
-	 * @param fromIndex The (inclusive) start of the range of indices to check.
-	 * @param toIndex The (exclusive) end of the range of indices to check.
-	 * @throws IndexOutOfBoundsException if
-	 * 		<code>fromIndex &lt; 0 || toIndex &gt; size</code>.
+	 *
+	 * @param fromIndex
+	 *            The (inclusive) start of the range of indices to check.
+	 * @param toIndex
+	 *            The (exclusive) end of the range of indices to check.
+	 * @throws IndexOutOfBoundsException
+	 *             if <code>fromIndex &lt; 0 || toIndex &gt; size</code>.
 	 */
 	private void rangeCheck(int fromIndex, int toIndex) {
 		if (fromIndex < 0 || toIndex > size) {
@@ -147,9 +175,12 @@ public final class ShortArray extends AbstractList<Short> implements RandomAcces
 
 	/**
 	 * Gets an element of this array.
-	 * @param index The index of the element to get.
+	 *
+	 * @param index
+	 *            The index of the element to get.
 	 * @return The indexed element.
-	 * @throws IndexOutOfBoundsException if <code>index &lt; 0 || index &gt;= size</code>.
+	 * @throws IndexOutOfBoundsException
+	 *             if <code>index &lt; 0 || index &gt;= size</code>.
 	 */
 	public Short get(int index) {
 		rangeCheck(index);
@@ -158,11 +189,14 @@ public final class ShortArray extends AbstractList<Short> implements RandomAcces
 
 	/**
 	 * Sets an element of this array.
-	 * @param index The index of the element to set.
-	 * @param e The value of the element.
+	 *
+	 * @param index
+	 *            The index of the element to set.
+	 * @param e
+	 *            The value of the element.
 	 * @return The value previously stored at the specified index.
-	 * @throws IndexOutOfBoundsException if
-	 * 		<code>index &lt; 0 || index &gt;= size()</code>.
+	 * @throws IndexOutOfBoundsException
+	 *             if <code>index &lt; 0 || index &gt;= size()</code>.
 	 */
 	public short set(int index, short e) {
 		rangeCheck(index);
@@ -171,7 +205,9 @@ public final class ShortArray extends AbstractList<Short> implements RandomAcces
 		return value;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see java.util.AbstractList#set(int, java.lang.Object)
 	 */
 	@Override
@@ -181,10 +217,14 @@ public final class ShortArray extends AbstractList<Short> implements RandomAcces
 
 	/**
 	 * Sets a range of elements of this array.
-	 * @param index The index of the first element to set.
-	 * @param items The values to set.
-	 * @throws IndexOutOfBoundsException if
-	 * 		<code>index &lt; 0 || index + items.length &gt; size()</code>.
+	 *
+	 * @param index
+	 *            The index of the first element to set.
+	 * @param items
+	 *            The values to set.
+	 * @throws IndexOutOfBoundsException
+	 *             if
+	 *             <code>index &lt; 0 || index + items.length &gt; size()</code>.
 	 */
 	public void setAll(int index, short[] items) {
 		rangeCheck(index, index + items.length);
@@ -195,10 +235,14 @@ public final class ShortArray extends AbstractList<Short> implements RandomAcces
 
 	/**
 	 * Sets a range of elements of this array.
-	 * @param index The index of the first element to set.
-	 * @param items The values to set.
-	 * @throws IndexOutOfBoundsException if
-	 * 		<code>index &lt; 0 || index + items.size() &gt; size()</code>.
+	 *
+	 * @param index
+	 *            The index of the first element to set.
+	 * @param items
+	 *            The values to set.
+	 * @throws IndexOutOfBoundsException
+	 *             if
+	 *             <code>index &lt; 0 || index + items.size() &gt; size()</code>.
 	 */
 	public void setAll(int index, ShortArray items) {
 		rangeCheck(index, index + items.size);
@@ -209,10 +253,14 @@ public final class ShortArray extends AbstractList<Short> implements RandomAcces
 
 	/**
 	 * Sets a range of elements of this array.
-	 * @param index The index of the first element to set.
-	 * @param items The values to set.
-	 * @throws IndexOutOfBoundsException if
-	 * 		<code>index &lt; 0 || index + items.size() &gt; size()</code>.
+	 *
+	 * @param index
+	 *            The index of the first element to set.
+	 * @param items
+	 *            The values to set.
+	 * @throws IndexOutOfBoundsException
+	 *             if
+	 *             <code>index &lt; 0 || index + items.size() &gt; size()</code>.
 	 */
 	public void setAll(int index, Collection<? extends Short> items) {
 		rangeCheck(index, index + items.size());
@@ -223,7 +271,9 @@ public final class ShortArray extends AbstractList<Short> implements RandomAcces
 
 	/**
 	 * Appends a value to the end of this array.
-	 * @param e The value to append.
+	 *
+	 * @param e
+	 *            The value to append.
 	 * @return Always returns <code>true</code>.
 	 */
 	public boolean add(short e) {
@@ -232,7 +282,9 @@ public final class ShortArray extends AbstractList<Short> implements RandomAcces
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see java.util.AbstractList#add(java.lang.Object)
 	 */
 	@Override
@@ -242,7 +294,9 @@ public final class ShortArray extends AbstractList<Short> implements RandomAcces
 
 	/**
 	 * Appends a range of values to the end of this array.
-	 * @param items The values to append.
+	 *
+	 * @param items
+	 *            The values to append.
 	 * @return A value indicating if the array has changed.
 	 */
 	public boolean addAll(short[] items) {
@@ -255,7 +309,9 @@ public final class ShortArray extends AbstractList<Short> implements RandomAcces
 
 	/**
 	 * Appends a range of values to the end of this array.
-	 * @param items The values to append.
+	 *
+	 * @param items
+	 *            The values to append.
 	 * @return A value indicating if the array has changed.
 	 */
 	public boolean addAll(ShortArray items) {
@@ -266,7 +322,9 @@ public final class ShortArray extends AbstractList<Short> implements RandomAcces
 		return items.size > 0;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see java.util.AbstractCollection#addAll(java.util.Collection)
 	 */
 	@Override
@@ -280,10 +338,13 @@ public final class ShortArray extends AbstractList<Short> implements RandomAcces
 
 	/**
 	 * Inserts a value into the array at the specified index.
-	 * @param index The index at which to insert the new value.
-	 * @param e The new value to insert.
-	 * @throws IndexOutOfBoundsException if
-	 * 		<code>index &lt; 0 || index &gt; size()</code>.
+	 *
+	 * @param index
+	 *            The index at which to insert the new value.
+	 * @param e
+	 *            The new value to insert.
+	 * @throws IndexOutOfBoundsException
+	 *             if <code>index &lt; 0 || index &gt; size()</code>.
 	 */
 	public void add(int index, short e) {
 		if (index < 0 || index > size) {
@@ -299,7 +360,9 @@ public final class ShortArray extends AbstractList<Short> implements RandomAcces
 		size++;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see java.util.AbstractList#add(int, java.lang.Object)
 	 */
 	@Override
@@ -309,11 +372,14 @@ public final class ShortArray extends AbstractList<Short> implements RandomAcces
 
 	/**
 	 * Inserts values into the array at the specified index.
-	 * @param index The index at which to insert the new values.
-	 * @param items An array of values to insert.
+	 *
+	 * @param index
+	 *            The index at which to insert the new values.
+	 * @param items
+	 *            An array of values to insert.
 	 * @return A value indicating if the array has changed.
-	 * @throws IndexOutOfBoundsException if
-	 * 		<code>index &lt; 0 || index &gt; size()</code>.
+	 * @throws IndexOutOfBoundsException
+	 *             if <code>index &lt; 0 || index &gt; size()</code>.
 	 */
 	public boolean addAll(int index, short[] items) {
 		if (index < 0 || index > size) {
@@ -334,11 +400,14 @@ public final class ShortArray extends AbstractList<Short> implements RandomAcces
 
 	/**
 	 * Inserts values into the array at the specified index.
-	 * @param index The index at which to insert the new values.
-	 * @param items A <code>ShortArray</code> containing the values to insert.
+	 *
+	 * @param index
+	 *            The index at which to insert the new values.
+	 * @param items
+	 *            A <code>ShortArray</code> containing the values to insert.
 	 * @return A value indicating if the array has changed.
-	 * @throws IndexOutOfBoundsException if
-	 * 		<code>index &lt; 0 || index &gt; size()</code>.
+	 * @throws IndexOutOfBoundsException
+	 *             if <code>index &lt; 0 || index &gt; size()</code>.
 	 */
 	public boolean addAll(int index, ShortArray items) {
 		if (index < 0 || index > size) {
@@ -357,7 +426,9 @@ public final class ShortArray extends AbstractList<Short> implements RandomAcces
 		return items.size > 0;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see java.util.AbstractList#addAll(int, java.util.Collection)
 	 */
 	@Override
@@ -376,7 +447,9 @@ public final class ShortArray extends AbstractList<Short> implements RandomAcces
 		return c.size() > 0;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see java.util.AbstractList#remove(int)
 	 */
 	@Override
@@ -390,7 +463,9 @@ public final class ShortArray extends AbstractList<Short> implements RandomAcces
 		return value;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see java.util.AbstractList#removeRange(int, int)
 	 */
 	@Override
@@ -403,9 +478,11 @@ public final class ShortArray extends AbstractList<Short> implements RandomAcces
 	}
 
 	/**
-	 * Resizes the array to the specified length, truncating or zero-padding
-	 * the array as necessary.
-	 * @param newSize The new size of the array.
+	 * Resizes the array to the specified length, truncating or zero-padding the
+	 * array as necessary.
+	 *
+	 * @param newSize
+	 *            The new size of the array.
 	 */
 	public void resize(int newSize) {
 		if (newSize > elements.length) {
@@ -429,7 +506,9 @@ public final class ShortArray extends AbstractList<Short> implements RandomAcces
 	/**
 	 * Ensures that there is enough room in the array to hold the specified
 	 * number of elements.
-	 * @param size The required capacity.
+	 *
+	 * @param size
+	 *            The required capacity.
 	 */
 	public void ensureCapacity(int size) {
 		if (size > elements.length) {
@@ -439,11 +518,13 @@ public final class ShortArray extends AbstractList<Short> implements RandomAcces
 
 	/**
 	 * Resizes the underlying array.
-	 * @param capacity The new size for the underlying array.
+	 *
+	 * @param capacity
+	 *            The new size for the underlying array.
 	 */
 	private void reallocate(int capacity) {
 		if (capacity != elements.length) {
-			assert(size <= capacity);
+			assert (size <= capacity);
 			elements = Arrays.copyOf(elements, capacity);
 		}
 	}
