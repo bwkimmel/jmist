@@ -29,6 +29,11 @@ import ca.eandb.jmist.math.Point2;
 public final class RasterTexture2 implements Texture2 {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -2712131011948642676L;
+
+	/**
 	 * Creates a new <code>RasterTexture2</code>.
 	 * @param raster The <code>Raster</code> to use as the basis for the new
 	 * 		<code>Texture2</code>.

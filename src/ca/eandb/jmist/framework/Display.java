@@ -23,40 +23,25 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package ca.eandb.jmist.framework.shader;
+package ca.eandb.jmist.framework;
 
-import ca.eandb.jmist.framework.ScatteredRay;
-import ca.eandb.jmist.framework.Shader;
-import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.framework.color.ColorModel;
 
 /**
  * @author brad
  *
  */
-public final class PathTracingShader implements Shader {
+public interface Display {
 
-	/**
-	 * Serialization version ID.
-	 */
-	private static final long serialVersionUID = -3619786295095920623L;
+	void initialize(int w, int h, ColorModel colorModel);
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
-	 */
-	@Override
-	public Color shade(ShadingContext sc) {
+	void fill(int x, int y, int w, int h, Color color);
 
-		ScatteredRay ray = sc.getScatteredRays().getRandomScatteredRay(true);
+	void setPixel(int x, int y, Color pixel);
 
-		if (ray == null) {
-			WavelengthPacket lambda = sc.getWavelengthPacket();
-			return sc.getColorModel().getBlack(lambda);
-		}
+	void setPixels(int x, int y, Raster pixels);
 
-		return sc.castRay(ray);
-
-	}
+	void finish();
 
 }

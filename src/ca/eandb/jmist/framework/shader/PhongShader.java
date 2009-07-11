@@ -42,6 +42,11 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class PhongShader implements Shader {
 
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -7555950836943828911L;
+
 	private final Painter diffuse;
 
 	private final Painter specular;

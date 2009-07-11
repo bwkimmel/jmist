@@ -3,12 +3,14 @@
  */
 package ca.eandb.jmist.framework;
 
+import java.io.Serializable;
+
 /**
  * A continuous probability density function from which random samples may be
  * generated.
  * @author Brad Kimmel
  */
-public interface ProbabilityDensityFunction {
+public interface ProbabilityDensityFunction extends Serializable {
 
 	/**
 	 * Generates a random value distributed according to this

@@ -21,6 +21,11 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class CookTorranceMaterial extends AbstractMaterial {
 
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -4693726623498649118L;
+
 	private final double mSquared;
 
 	private final Spectrum n;

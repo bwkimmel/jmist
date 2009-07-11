@@ -154,4 +154,9 @@ public final class StratifiedRandom implements Random {
 	 */
 	private int nextPartition;
 
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -8086239299607234353L;
+
 }

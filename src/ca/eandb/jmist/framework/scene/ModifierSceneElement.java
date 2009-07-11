@@ -25,6 +25,8 @@
 
 package ca.eandb.jmist.framework.scene;
 
+import java.io.Serializable;
+
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionDecorator;
 import ca.eandb.jmist.framework.IntersectionRecorder;
@@ -39,7 +41,13 @@ import ca.eandb.jmist.math.Ray3;
  * @author brad
  *
  */
-public class ModifierSceneElement extends SceneElementDecorator {
+public class ModifierSceneElement extends SceneElementDecorator implements
+		Serializable {
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 2488933216910499979L;
 
 	private final Modifier modifier;
 
@@ -51,24 +59,34 @@ public class ModifierSceneElement extends SceneElementDecorator {
 		this.modifier = modifier;
 	}
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#intersect(int,
+	 *      ca.eandb.jmist.math.Ray3,
+	 *      ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
 	@Override
 	public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
 		super.intersect(index, ray, new ModifierIntersectionRecorder(recorder));
 	}
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#intersect(ca.eandb.jmist.math.Ray3,
+	 *      ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
 	@Override
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 		super.intersect(ray, new ModifierIntersectionRecorder(recorder));
 	}
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#generateRandomSurfacePoint(int, ca.eandb.jmist.framework.ShadingContext)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#generateRandomSurfacePoint(int,
+	 *      ca.eandb.jmist.framework.ShadingContext)
 	 */
 	@Override
 	public void generateRandomSurfacePoint(int index, ShadingContext context) {
@@ -76,7 +94,9 @@ public class ModifierSceneElement extends SceneElementDecorator {
 		modifier.modify(context);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext)
 	 */
 	@Override
@@ -85,19 +105,27 @@ public class ModifierSceneElement extends SceneElementDecorator {
 		modifier.modify(context);
 	}
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#generateImportanceSampledSurfacePoint(int, ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#generateImportanceSampledSurfacePoint(int,
+	 *      ca.eandb.jmist.framework.SurfacePoint,
+	 *      ca.eandb.jmist.framework.ShadingContext)
 	 */
 	@Override
 	public double generateImportanceSampledSurfacePoint(int index,
 			SurfacePoint x, ShadingContext context) {
-		double weight = super.generateImportanceSampledSurfacePoint(index, x, context);
+		double weight = super.generateImportanceSampledSurfacePoint(index, x,
+				context);
 		modifier.modify(context);
 		return weight;
 	}
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#generateImportanceSampledSurfacePoint(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#generateImportanceSampledSurfacePoint(ca.eandb.jmist.framework.SurfacePoint,
+	 *      ca.eandb.jmist.framework.ShadingContext)
 	 */
 	@Override
 	public double generateImportanceSampledSurfacePoint(SurfacePoint x,
@@ -113,14 +141,15 @@ public class ModifierSceneElement extends SceneElementDecorator {
 			super(inner);
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 *
 		 * @see ca.eandb.jmist.framework.IntersectionRecorderDecorator#record(ca.eandb.jmist.framework.Intersection)
 		 */
 		@Override
 		public void record(Intersection intersection) {
 			inner.record(new IntersectionDecorator(intersection) {
-				protected void transformShadingContext(
-						ShadingContext context) {
+				protected void transformShadingContext(ShadingContext context) {
 					modifier.modify(context);
 				}
 			});

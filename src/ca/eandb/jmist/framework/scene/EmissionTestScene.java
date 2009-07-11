@@ -25,6 +25,11 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class EmissionTestScene extends AbstractScene {
 
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 6575937866746786596L;
+
 	private static final PrimitiveListGeometry geometry;
 
 	private static final TransformableLens lens;

@@ -37,6 +37,11 @@ import ca.eandb.jmist.math.Ray3;
  */
 public final class UniformRayShader implements RayShader {
 
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 8603094124915356764L;
+
 	private final Spectrum value;
 
 	/**

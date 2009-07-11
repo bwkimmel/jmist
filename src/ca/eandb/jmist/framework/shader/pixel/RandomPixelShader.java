@@ -19,6 +19,11 @@ public final class RandomPixelShader extends ImageRasterizingPixelShader impleme
 		PixelShader {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -8237509594777958012L;
+
+	/**
 	 * Initializes the source of random numbers and the camera.
 	 * @param random The source of random numbers to use.
 	 * @param camera The camera to use to shade points on the image

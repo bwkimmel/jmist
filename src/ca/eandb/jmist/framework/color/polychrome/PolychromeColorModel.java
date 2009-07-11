@@ -25,14 +25,12 @@
 
 package ca.eandb.jmist.framework.color.polychrome;
 
-import java.io.Serializable;
-
 import ca.eandb.jmist.framework.Function1;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.Raster;
-import ca.eandb.jmist.framework.color.AbstractRaster;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
+import ca.eandb.jmist.framework.color.DoubleRaster;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.LinearMatrix3;
@@ -44,10 +42,10 @@ import ca.eandb.jmist.util.ArrayUtil;
  * @author brad
  *
  */
-public final class PolychromeColorModel extends ColorModel implements Serializable {
+public final class PolychromeColorModel extends ColorModel {
 
 	/**
-	 *
+	 * Serialization version ID.
 	 */
 	private static final long serialVersionUID = -8677900690679611296L;
 
@@ -69,6 +67,11 @@ public final class PolychromeColorModel extends ColorModel implements Serializab
 	private final PolychromeColor white = new PolychromeColor();
 
 	private final class PolychromeColor implements Color, Spectrum {
+
+		/**
+		 * Serialization version ID.
+		 */
+		private static final long serialVersionUID = 2799919416159189985L;
 
 		private final double[] values = new double[wavelengths.size()];
 
@@ -388,43 +391,16 @@ public final class PolychromeColorModel extends ColorModel implements Serializab
 	 * @see ca.eandb.jmist.framework.color.ColorModel#createRaster(int, int)
 	 */
 	@Override
-	public Raster createRaster(final int width, final int height) {
-		return new AbstractRaster() {
-
-			final double[] raster = new double[width * height * wavelengths.size()];
-
-			@Override
-			public Color getPixel(int x, int y) {
+	public Raster createRaster(int width, int height) {
+		return new DoubleRaster(width, height, wavelengths.size()) {
+			private static final long serialVersionUID = 7275314194346383855L;
+			protected Color getPixel(double[] raster, int index) {
 				PolychromeColor pixel = new PolychromeColor();
-				int index = (y * width + x) * wavelengths.size();
 				for (int i = 0, n = wavelengths.size(); i < n; i++) {
 					pixel.values[i] = raster[index++];
 				}
 				return pixel;
 			}
-
-			@Override
-			public int getHeight() {
-				return height;
-			}
-
-			@Override
-			public int getWidth() {
-				return width;
-			}
-
-			@Override
-			public void setPixel(int x, int y, Color color) {
-				setPixel(x, y, (PolychromeColor) color);
-			}
-
-			private void setPixel(int x, int y, PolychromeColor color) {
-				int index = (y * width + x) * wavelengths.size();
-				for (int i = 0, n = wavelengths.size(); i < n; i++) {
-					raster[index++] = color.values[i];
-				}
-			}
-
 		};
 	}
 

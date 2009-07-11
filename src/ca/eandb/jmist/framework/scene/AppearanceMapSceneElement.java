@@ -40,6 +40,11 @@ import ca.eandb.jmist.util.ByteArray;
  */
 public final class AppearanceMapSceneElement extends SceneElementDecorator {
 
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 280928578847394472L;
+
 	private ByteArray map = new ByteArray();
 
 	private List<Appearance> app = new ArrayList<Appearance>();
@@ -210,6 +215,8 @@ public final class AppearanceMapSceneElement extends SceneElementDecorator {
 		final CategoricalRandom rnd = new CategoricalRandom(weight);
 
 		return new AbstractLight() {
+
+			private static final long serialVersionUID = -8364217558705142738L;
 
 			@Override
 			public void illuminate(SurfacePoint x, WavelengthPacket lambda, Random rng, Illuminable target) {

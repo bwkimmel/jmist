@@ -21,8 +21,7 @@ import ca.eandb.util.progress.ProgressMonitor;
  * @author Brad Kimmel
  *
  */
-public final class PhotometerJob extends
-		AbstractParallelizableJob implements Serializable {
+public final class PhotometerJob extends AbstractParallelizableJob {
 
 	public PhotometerJob(Material specimen,
 			SphericalCoordinates[] incidentAngles, double[] wavelengths,

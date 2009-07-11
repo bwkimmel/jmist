@@ -38,6 +38,11 @@ import ca.eandb.jmist.math.Interval;
  */
 public final class DistanceShader implements Shader {
 
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -6744005479057812858L;
+
 	private final Interval distanceInterval;
 
 	private final Spectrum minDistanceValue;

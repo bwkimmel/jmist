@@ -83,4 +83,9 @@ public final class NRooksRandom implements Random {
 	private StratifiedRandom[] sources;
 	private int nextSourceIndex = 0;
 
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 2399501352737062538L;
+
 }

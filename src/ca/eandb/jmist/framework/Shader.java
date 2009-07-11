@@ -25,17 +25,20 @@
 
 package ca.eandb.jmist.framework;
 
+import java.io.Serializable;
+
 import ca.eandb.jmist.framework.color.Color;
 
 /**
  * @author brad
  *
  */
-public interface Shader {
+public interface Shader extends Serializable {
 
 	Color shade(ShadingContext sc);
 
 	public static final Shader BLACK = new Shader() {
+		private static final long serialVersionUID = 7697217516861477920L;
 		public Color shade(ShadingContext sc) {
 			return sc.getWavelengthPacket().getColorModel().getBlack(
 					sc.getWavelengthPacket());

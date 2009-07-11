@@ -3,6 +3,8 @@
  */
 package ca.eandb.jmist.framework.measurement;
 
+import java.io.Serializable;
+
 import ca.eandb.jmist.math.SphericalCoordinates;
 import ca.eandb.jmist.math.Vector3;
 
@@ -10,7 +12,7 @@ import ca.eandb.jmist.math.Vector3;
  * @author Brad Kimmel
  *
  */
-public interface CollectorSphere {
+public interface CollectorSphere extends Serializable {
 
 	CollectorSphere clone();
 

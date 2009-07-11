@@ -17,6 +17,11 @@ import ca.eandb.jmist.math.Point2;
 public final class MaskedTexture2 implements Texture2 {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 6665456950969793279L;
+
+	/**
 	 * Creates a new <code>MaskedTexture2</code>.
 	 * @param mask The <code>Mask2</code> to apply to the
 	 * 		<code>Texture2</code>.

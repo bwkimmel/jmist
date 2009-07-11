@@ -16,6 +16,11 @@ import ca.eandb.jmist.math.MathUtil;
  */
 public final class RGBColor implements Color, Spectrum {
 
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -1599907078097936372L;
+
 	public static final RGBColor BLACK = new RGBColor(0, 0, 0);
 
 	public static final RGBColor WHITE = new RGBColor(1, 1, 1);

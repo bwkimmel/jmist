@@ -16,6 +16,11 @@ import ca.eandb.jmist.math.Sphere;
 public final class ConeGeometry extends PrimitiveGeometry {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -5341943653179183816L;
+
+	/**
 	 *
 	 */
 	public ConeGeometry() {

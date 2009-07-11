@@ -3,6 +3,8 @@
  */
 package ca.eandb.jmist.framework;
 
+import java.io.Serializable;
+
 import ca.eandb.jmist.math.AffineMatrix3;
 import ca.eandb.jmist.math.LinearMatrix3;
 import ca.eandb.jmist.math.Point3;
@@ -14,7 +16,12 @@ import ca.eandb.jmist.math.Vector3;
  * <code>AffineTransformable3</code>.
  * @author Brad Kimmel
  */
-public class AffineTransformation3 implements AffineTransformable3 {
+public class AffineTransformation3 implements AffineTransformable3, Serializable {
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -4028593857879980021L;
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.AffineTransformable3#transform(ca.eandb.jmist.toolkit.AffineMatrix3)

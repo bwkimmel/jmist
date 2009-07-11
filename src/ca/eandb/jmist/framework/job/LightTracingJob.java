@@ -30,7 +30,6 @@ import java.awt.image.BufferedImage;
 import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
 import java.io.FileOutputStream;
-import java.io.Serializable;
 import java.util.Iterator;
 
 import javax.imageio.ImageIO;
@@ -67,10 +66,10 @@ import ca.eandb.util.progress.ProgressMonitor;
  * @author brad
  *
  */
-public final class LightTracingJob extends AbstractParallelizableJob implements Serializable {
+public final class LightTracingJob extends AbstractParallelizableJob {
 
 	/**
-	 *
+	 * Serialization version ID.
 	 */
 	private static final long serialVersionUID = 159143623050840832L;
 

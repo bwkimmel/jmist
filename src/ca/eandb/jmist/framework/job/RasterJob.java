@@ -3,30 +3,17 @@
  */
 package ca.eandb.jmist.framework.job;
 
-import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferDouble;
-import java.awt.image.DirectColorModel;
-import java.awt.image.PixelInterleavedSampleModel;
-import java.awt.image.Raster;
-import java.awt.image.SampleModel;
-import java.awt.image.WritableRaster;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInput;
-import java.io.Serializable;
-import java.util.Iterator;
-
-import javax.imageio.ImageIO;
-import javax.imageio.ImageWriter;
 
 import ca.eandb.jdcp.job.AbstractParallelizableJob;
 import ca.eandb.jdcp.job.TaskWorker;
+import ca.eandb.jmist.framework.Display;
 import ca.eandb.jmist.framework.PixelShader;
+import ca.eandb.jmist.framework.Raster;
 import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.math.Box2;
 import ca.eandb.util.io.Archive;
 import ca.eandb.util.progress.ProgressMonitor;
@@ -35,83 +22,30 @@ import ca.eandb.util.progress.ProgressMonitor;
  * A <code>ParallelizableJob</code> that renders a <code>Raster</code> image.
  * @author Brad Kimmel
  */
-public final class RasterJob extends AbstractParallelizableJob implements
-		Serializable {
+public final class RasterJob extends AbstractParallelizableJob {
 
 	/**
 	 * Creates a new <code>RasterJob</code>.  This job will
 	 * divide the image into <code>rows * cols</code> tasks to render roughly
 	 * equally sized chunks of the image.
-	 * @param shader The <code>PixelShader</code> to use to compute the values
-	 * 		of individual <code>Pixel</code>s.
-	 * @param colorModel The <code>ColorModel</code> that describes the color
-	 * 		representation for the rendered image.
-	 * @param sampleModel The <code>SampleModel</code> that describes the
-	 * 		dimensions of the image to be rendered.
+	 * @param colorModel The <code>ColorModel</code> to use to render the
+	 * 		image.
+	 * @param pixelShader The <code>PixelShader</code> to use to compute the
+	 * 		values of individual <code>Pixel</code>s.
 	 * @param formatName The name of the format to save the image as.
+	 * @param width The width of the rendered image, in pixels.
+	 * @param height The height of the rendered image, in pixels.
 	 * @param cols The number of columns to divide the image into.
 	 * @param rows The number of rows to divide the image into.
 	 */
-	public RasterJob(PixelShader shader, ColorModel colorModel, SampleModel sampleModel, String formatName, int cols, int rows) {
-		this.worker = new RasterTaskWorker(shader, sampleModel.getWidth(), sampleModel.getHeight(), sampleModel.getNumBands());
+	public RasterJob(ColorModel colorModel, PixelShader pixelShader, Display display, int width, int height, int cols, int rows) {
+		this.pixelShader = pixelShader;
 		this.colorModel = colorModel;
-		this.sampleModel = sampleModel;
+		this.width = width;
+		this.height = height;
 		this.cols = cols;
 		this.rows = rows;
-		this.formatName = formatName;
-
-		if (!colorModel.isCompatibleSampleModel(sampleModel)) {
-			throw new IllegalArgumentException("Incompatible SampleModel");
-		}
-	}
-
-	/**
-	 * Creates a new <code>RasterJob</code>.  This job will
-	 * divide the image into <code>rows * cols</code> tasks to render roughly
-	 * equally sized chunks of the image.
-	 * @param shader The <code>PixelShader</code> to use to compute the values
-	 * 		of individual <code>Pixel</code>s.
-	 * @param colorModel The <code>ColorModel</code> that describes the color
-	 * 		representation for the rendered image.
-	 * @param formatName The name of the format to save the image as.
-	 * @param width The width of the rendered image, in pixels.
-	 * @param height The height of the rendered image, in pixels.
-	 * @param cols The number of columns to divide the image into.
-	 * @param rows The number of rows to divide the image into.
-	 */
-	public RasterJob(PixelShader shader, ColorModel colorModel, String formatName, int width, int height, int cols, int rows) {
-		this(shader, colorModel, colorModel.createCompatibleSampleModel(width, height), formatName, cols, rows);
-	}
-
-	/**
-	 * Creates a new <code>RasterJob</code>.  This job will
-	 * divide the image into <code>rows * cols</code> tasks to render roughly
-	 * equally sized chunks of the image.
-	 * @param shader The <code>PixelShader</code> to use to compute the values
-	 * 		of individual <code>Pixel</code>s.
-	 * @param formatName The name of the format to save the image as.
-	 * @param width The width of the rendered image, in pixels.
-	 * @param height The height of the rendered image, in pixels.
-	 * @param cols The number of columns to divide the image into.
-	 * @param rows The number of rows to divide the image into.
-	 */
-	public RasterJob(PixelShader shader, String formatName, int width, int height, int cols, int rows) {
-		this(shader, new DirectColorModel(24, 0x00ff0000, 0x0000ff00, 0x000000ff), formatName, width, height, cols, rows);
-	}
-
-	/**
-	 * Creates a new <code>RasterJob</code>.  This job will
-	 * divide the image into <code>rows * cols</code> tasks to render roughly
-	 * equally sized chunks of the image.
-	 * @param shader The <code>PixelShader</code> to use to compute the values
-	 * 		of individual <code>Pixel</code>s.
-	 * @param width The width of the rendered image, in pixels.
-	 * @param height The height of the rendered image, in pixels.
-	 * @param cols The number of columns to divide the image into.
-	 * @param rows The number of rows to divide the image into.
-	 */
-	public RasterJob(PixelShader shader, int width, int height, int cols, int rows) {
-		this(shader, "png", width, height, cols, rows);
+		this.display = display;
 	}
 
 	/* (non-Javadoc)
@@ -119,9 +53,7 @@ public final class RasterJob extends AbstractParallelizableJob implements
 	 */
 	@Override
 	public void initialize() throws IOException {
-		Point origin = new Point(0, 0);
-		raster = Raster.createWritableRaster(sampleModel, origin);
-		image = new BufferedImage(colorModel, raster, false, null);
+		display.initialize(width, height, colorModel);
 	}
 
 	/* (non-Javadoc)
@@ -181,16 +113,13 @@ public final class RasterJob extends AbstractParallelizableJob implements
 		assert(0 <= col && col < this.cols);
 		assert(0 <= row && row < this.rows);
 
-		int w = this.image.getWidth();
-		int h = this.image.getHeight();
-
 		/* First figure out the base dimensions of the cells and the number
 		 * of remaining pixels in each dimension that need to be allocated.
 		 */
-		int wdivc = w / this.cols;
-		int hdivr = h / this.rows;
-		int wmodc = w % this.cols;
-		int hmodr = h % this.rows;
+		int wdivc = width / this.cols;
+		int hdivr = height / this.rows;
+		int wmodc = width % this.cols;
+		int hmodr = height % this.rows;
 
 		/* Calculate the upper-left corner of the cell, first assuming that
 		 * there are no "remainder" pixels.. we will then adjust for this.
@@ -215,8 +144,8 @@ public final class RasterJob extends AbstractParallelizableJob implements
 		if (row < hmodr) ymax++;
 
 		/* Make sure the computed cell extents fall within the image. */
-		assert(0 <= xmin && xmin <= xmax && xmax < w);
-		assert(0 <= ymin && ymin <= ymax && ymax < h);
+		assert(0 <= xmin && xmin <= xmax && xmax < width);
+		assert(0 <= ymin && ymin <= ymax && ymax < height);
 
 		return new Rectangle(xmin, ymin, xmax - xmin + 1, ymax - ymin + 1);
 
@@ -228,10 +157,10 @@ public final class RasterJob extends AbstractParallelizableJob implements
 	public void submitTaskResults(Object task, Object results, ProgressMonitor monitor) {
 
 		Rectangle	cell	= (Rectangle) task;
-		double[]	pixels	= (double[]) results;
+		Raster		pixels	= (Raster) results;
 
 		/* Write the submitted results to the raster. */
-		this.raster.setPixels(cell.x, cell.y, cell.width, cell.height, pixels);
+		display.setPixels(cell.x, cell.y, pixels);
 
 		/* Update the progress monitor. */
 		monitor.notifyProgress(++this.tasksComplete, this.rows * this.cols);
@@ -249,20 +178,7 @@ public final class RasterJob extends AbstractParallelizableJob implements
 	 * @see ca.eandb.jmist.framework.ParallelizableJob#finish()
 	 */
 	public void finish() throws IOException {
-
-		Iterator<ImageWriter> writers = ImageIO.getImageWritersByFormatName(this.formatName);
-		ImageWriter writer = writers.next();
-		String[] suffix = writer.getOriginatingProvider().getFileSuffixes();
-
-		assert(suffix != null && suffix.length > 0);
-
-		FileOutputStream fs = createFileOutputStream("raster." + suffix[0]);
-
-		ImageIO.write(image, formatName, fs);
-
-		fs.flush();
-		fs.close();
-
+		display.finish();
 	}
 
 	/* (non-Javadoc)
@@ -279,7 +195,7 @@ public final class RasterJob extends AbstractParallelizableJob implements
 	 * @see ca.eandb.jmist.framework.ParallelizableJob#worker()
 	 */
 	public TaskWorker worker() {
-		return this.worker;
+		return new RasterTaskWorker(colorModel, pixelShader, width, height);
 	}
 
 	/**
@@ -289,19 +205,36 @@ public final class RasterJob extends AbstractParallelizableJob implements
 	 */
 	private static final class RasterTaskWorker implements TaskWorker {
 
+		/** The <code>ColorModel</code> to use to render this image. */
+		private final ColorModel colorModel;
+
+		/**
+		 * The <code>PixelShader</code> to use to compute the values of
+		 * individual <code>Pixel</code>s.
+		 */
+		private final PixelShader pixelShader;
+
+		/** The width of the image to render, in pixels. */
+		private final int width;
+
+		/** The height of the image to render, in pixels. */
+		private final int height;
+
 		/**
 		 * Creates a new <code>RasterTaskWorker</code>.
-		 * @param shader The <code>PixelShader</code> to use to compute the
-		 * 		values of individual <code>Pixel</code>s.
-		 * @param width The width of the entire <code>Raster</code> image.
-		 * @param height The height of the entire <code>Raster</code> image.
-		 * @param bands The number of color channels.
+		 * @param colorModel The <code>ColorModel</code> to use to render this
+		 * 		image.
+		 * @param pixelShader The <code>PixelShader</code> to use to compute
+		 * 		the values of individual <code>Pixel</code>s.
+		 * @param width The width of the image to render, in pixels.
+		 * @param height The height of the image to render, in pixels.
 		 */
-		public RasterTaskWorker(PixelShader shader, int width, int height, int bands) {
-			this.shader		= shader;
-			this.width		= width;
-			this.height		= height;
-			this.bands		= bands;
+		public RasterTaskWorker(ColorModel colorModel, PixelShader pixelShader,
+				int width, int height) {
+			this.colorModel = colorModel;
+			this.pixelShader = pixelShader;
+			this.width = width;
+			this.height = height;
 		}
 
 		/* (non-Javadoc)
@@ -309,15 +242,14 @@ public final class RasterJob extends AbstractParallelizableJob implements
 		 */
 		public Object performTask(Object task, ProgressMonitor monitor) {
 
-			Rectangle		cell				= (Rectangle) task;
-			int				numPixels			= cell.width * cell.height;
-			double[]		pixels				= new double[numPixels * bands];
-			Color			pixel;
-			Box2			bounds;
-			double			x0, y0, x1, y1;
-			double			w					= this.width;
-			double			h					= this.height;
-			WritableRaster	image				= createCellWritableRaster(cell, bands, pixels);
+			Rectangle	cell				= (Rectangle) task;
+			int			numPixels			= cell.width * cell.height;
+			Color		pixel;
+			Box2		bounds;
+			double		x0, y0, x1, y1;
+			double		w					= width;
+			double		h					= height;
+			Raster		raster				= colorModel.createRaster(cell.width, cell.height);
 
 			for (int n = 0, y = cell.y; y < cell.y + cell.height; y++) {
 
@@ -334,57 +266,19 @@ public final class RasterJob extends AbstractParallelizableJob implements
 
 					bounds	= new Box2(x0, y0, x1, y1);
 
-					pixel = shader.shadePixel(bounds);
-					image.setPixel(x, y, pixel.toArray());
+					pixel = pixelShader.shadePixel(bounds);
+					raster.addPixel(x - cell.x, y - cell.y, pixel);
 
 				}
 
 			}
 
-			monitor.notifyProgress(pixels.length, pixels.length);
+			monitor.notifyProgress(numPixels, numPixels);
 			monitor.notifyComplete();
 
-			return pixels;
+			return raster;
 
 		}
-
-		/**
-		 * Creates a <code>WritableRaster</code> for writing to a cell.
-		 * @param cell The <code>Rectangle</code> describing the bounds of the
-		 * 		cell for which to create the <code>WritableRaster</code>.
-		 * @param bands The number of bands in the <code>WritableRaster</code>.
-		 * @param buffer The array of <code>double</code>s to hold the pixel
-		 * 		data.
-		 * @return The new <code>WritableRaster</code>.
-		 */
-		private static WritableRaster createCellWritableRaster(Rectangle cell, int bands, double[] buffer) {
-
-			int[] offsets = new int[bands];
-			for (int i = 0; i < bands; i++) {
-				offsets[i] = i;
-			}
-
-			SampleModel		sm		= new PixelInterleavedSampleModel(DataBuffer.TYPE_DOUBLE, cell.width, cell.height, bands, cell.width * bands, offsets);
-			DataBuffer		db		= new DataBufferDouble(buffer, buffer.length);
-
-			return Raster.createWritableRaster(sm, db, cell.getLocation());
-
-		}
-
-		/**
-		 * The <code>PixelShader</code> to use to compute the values of
-		 * individual <code>Pixel</code>s.
-		 */
-		private final PixelShader shader;
-
-		/** The width of the entire <code>Raster</code> image. */
-		private final int width;
-
-		/** The height of the entire <code>Raster</code> image. */
-		private final int height;
-
-		/** The number of color channels. */
-		private final int bands;
 
 		/**
 		 * Serialization version ID.
@@ -393,37 +287,29 @@ public final class RasterJob extends AbstractParallelizableJob implements
 
 	}
 
-	/** The name of the format in which to render the image. */
-	private final String formatName;
+	/** The <code>Display</code> to render the image to. */
+	private final Display display;
+
+	/** The <code>ColorModel</code> to use to render this image. */
+	private final ColorModel colorModel;
 
 	/**
-	 * The <code>TaskWorker</code> to use to render rectangular subsets of
-	 * the <code>Raster</code> image.
+	 * The <code>PixelShader</code> to use to compute the values of
+	 * individual <code>Pixel</code>s.
 	 */
-	private final TaskWorker worker;
+	private final PixelShader pixelShader;
 
-	/**
-	 * The <code>SampleModel</code> that describes the dimensions of the image
-	 * to be rendered.
-	 */
-	private SampleModel sampleModel;
+	/** The width of the image to render, in pixels. */
+	private final int width;
 
-	/**
-	 * The <code>ColorModel</code> used by the image to be rendered.
-	 */
-	private ColorModel colorModel;
+	/** The height of the image to render, in pixels. */
+	private final int height;
 
 	/** The number of columns to divide the <code>Raster</code> image into. */
 	private final int cols;
 
 	/** The number of rows to divide the <code>Raster</code> image into. */
 	private final int rows;
-
-	/** The <code>WritableRaster</code> for the image to write to. */
-	private transient WritableRaster raster;
-
-	/** The <code>BufferedImage</code> to write to. */
-	private transient BufferedImage image;
 
 	/** The column index of the next task to return. */
 	private transient int nextCol = 0;

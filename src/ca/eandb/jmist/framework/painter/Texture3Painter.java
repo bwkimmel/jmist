@@ -37,6 +37,11 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
  */
 public final class Texture3Painter implements Painter {
 
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 4426164816497002859L;
+
 	private final Texture3 texture;
 
 	/**

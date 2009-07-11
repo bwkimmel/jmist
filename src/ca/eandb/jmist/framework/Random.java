@@ -3,11 +3,13 @@
  */
 package ca.eandb.jmist.framework;
 
+import java.io.Serializable;
+
 /**
  * A random number generator.
  * @author Brad Kimmel
  */
-public interface Random {
+public interface Random extends Serializable {
 
 	/**
 	 * Returns the next random number in the sequence.
@@ -31,6 +33,11 @@ public interface Random {
 	 * A default implementation of <code>Random</code>.
 	 */
 	public static final Random DEFAULT = new Random() {
+
+		/**
+		 * Serialization version ID.
+		 */
+		private static final long serialVersionUID = -6299190146689205359L;
 
 		/* (non-Javadoc)
 		 * @see ca.eandb.jmist.framework.Random#createCompatibleRandom()

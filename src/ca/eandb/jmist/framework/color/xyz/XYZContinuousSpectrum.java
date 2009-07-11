@@ -36,6 +36,11 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
  */
 public final class XYZContinuousSpectrum implements Spectrum {
 
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -2786148246514418922L;
+
 	private final Function1 spectrum;
 
 	/**

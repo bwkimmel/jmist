@@ -3,6 +3,8 @@
  */
 package ca.eandb.jmist.framework;
 
+import java.io.Serializable;
+
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
@@ -12,7 +14,7 @@ import ca.eandb.jmist.math.Vector3;
  * Maps directions in three dimensional space to spectra.
  * @author Brad Kimmel
  */
-public interface DirectionalTexture3 {
+public interface DirectionalTexture3 extends Serializable {
 
 	/**
 	 * Computes the color at the specified direction in the domain.

@@ -23,6 +23,11 @@ import ca.eandb.jmist.math.Vector3;
 public final class TorusGeometry extends PrimitiveGeometry {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 8573316243171501395L;
+
+	/**
 	 * Creates a new <code>TorusGeometry</code>.
 	 * @param major The major radius of the torus (i.e., the distance from the
 	 * 		center of the torus to a point in the center of the tube.

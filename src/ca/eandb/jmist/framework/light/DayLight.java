@@ -7,7 +7,6 @@ import ca.eandb.jmist.framework.DirectionalTexture3;
 import ca.eandb.jmist.framework.Emitter;
 import ca.eandb.jmist.framework.Function1;
 import ca.eandb.jmist.framework.Illuminable;
-import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.Photon;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.SurfacePoint;
@@ -27,6 +26,11 @@ import ca.eandb.jmist.util.ArrayUtil;
  * @author Brad Kimmel
  */
 public final class DayLight extends AbstractLight implements DirectionalTexture3 {
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -90334267528359013L;
 
 	/**
 	 * Creates a new <code>DayLight</code> with the sun and zenith in the
@@ -154,6 +158,7 @@ public final class DayLight extends AbstractLight implements DirectionalTexture3
 	@Override
 	public Spectrum evaluate(final Vector3 v) {
 		return new Spectrum() {
+			private static final long serialVersionUID = 7992544267450760499L;
 			public Color sample(WavelengthPacket lambda) {
 				return evaluate(v, lambda);
 			}
@@ -310,6 +315,11 @@ public final class DayLight extends AbstractLight implements DirectionalTexture3
 	private final class SkyRadianceSpectrum implements Function1 {
 
 		/**
+		 * Serialization version ID.
+		 */
+		private static final long serialVersionUID = 2392467375771116179L;
+
+		/**
 		 * Creates a new <code>SkyRadianceSpectrum</code>.
 		 * @param source The direction from which to compute the radiance.
 		 */
@@ -363,6 +373,11 @@ public final class DayLight extends AbstractLight implements DirectionalTexture3
 	 * @author Brad Kimmel
 	 */
 	private final class SunRadianceSpectrum implements Function1 {
+
+		/**
+		 * Serialization version ID.
+		 */
+		private static final long serialVersionUID = 5731188166299456526L;
 
 		/* (non-Javadoc)
 		 * @see ca.eandb.jmist.framework.Function1#evaluate(double)

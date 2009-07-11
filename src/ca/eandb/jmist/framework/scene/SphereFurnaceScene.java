@@ -41,6 +41,11 @@ import ca.eandb.jmist.math.Sphere;
  */
 public final class SphereFurnaceScene extends AbstractScene {
 
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 4543096941699942144L;
+
 	private static final Lens lens = new FisheyeLens();
 
 	private final SceneElement root;

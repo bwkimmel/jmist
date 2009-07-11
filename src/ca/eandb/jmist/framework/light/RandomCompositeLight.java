@@ -20,6 +20,11 @@ import ca.eandb.jmist.framework.random.RandomUtil;
  */
 public final class RandomCompositeLight extends CompositeLight {
 
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 6951460238617706023L;
+
 	public RandomCompositeLight() {
 		super();
 	}

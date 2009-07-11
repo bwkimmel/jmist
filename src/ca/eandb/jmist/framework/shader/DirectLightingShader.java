@@ -39,6 +39,11 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class DirectLightingShader implements Shader {
 
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -7391459165157437122L;
+
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
 	 */

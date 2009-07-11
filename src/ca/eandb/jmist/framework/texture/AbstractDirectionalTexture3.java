@@ -44,6 +44,7 @@ public abstract class AbstractDirectionalTexture3 implements
 	@Override
 	public Spectrum evaluate(final Vector3 v) {
 		return new Spectrum() {
+			private static final long serialVersionUID = -3558496271642281773L;
 			public Color sample(WavelengthPacket lambda) {
 				return evaluate(v, lambda);
 			}

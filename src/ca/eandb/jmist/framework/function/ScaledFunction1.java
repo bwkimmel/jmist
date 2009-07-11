@@ -12,6 +12,11 @@ import ca.eandb.jmist.framework.Function1;
 public final class ScaledFunction1 implements Function1 {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 7790001536461093763L;
+
+	/**
 	 * Creates a new <code>ScaledFunction1</code>.
 	 * @param factor The factor by which to multiply the decorated
 	 * 		<code>Function1</code>.

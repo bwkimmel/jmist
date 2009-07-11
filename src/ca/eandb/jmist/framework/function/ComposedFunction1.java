@@ -34,6 +34,11 @@ import ca.eandb.jmist.framework.Function1;
  */
 public final class ComposedFunction1 extends CompositeFunction1 {
 
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 8434811559561689980L;
+
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Function1#evaluate(double)
 	 */

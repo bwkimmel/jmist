@@ -26,6 +26,11 @@ import ca.eandb.jmist.math.Vector3;
 public final class DiscGeometry extends PrimitiveGeometry {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 7682212284130537132L;
+
+	/**
 	 * Creates a new <code>DiscGeometry</code>.
 	 * @param center The <code>Point3</code> at the center of the disc.
 	 * @param normal The <code>Vector3</code> that is perpendicular to the

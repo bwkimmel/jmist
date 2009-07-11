@@ -25,6 +25,8 @@
 
 package ca.eandb.jmist.framework.scene;
 
+import java.io.Serializable;
+
 import ca.eandb.jmist.framework.IntersectionRecorder;
 import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.SceneElement;
@@ -39,7 +41,7 @@ import ca.eandb.jmist.math.Sphere;
  * @author brad
  *
  */
-public abstract class SceneElementDecorator implements SceneElement {
+public abstract class SceneElementDecorator implements SceneElement, Serializable {
 
 	private final SceneElement inner;
 

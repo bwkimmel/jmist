@@ -3,6 +3,8 @@
  */
 package ca.eandb.jmist.framework.color;
 
+import java.io.Serializable;
+
 import ca.eandb.jmist.framework.Function1;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.Raster;
@@ -11,7 +13,7 @@ import ca.eandb.jmist.framework.Raster;
  * @author Brad
  *
  */
-public abstract class ColorModel {
+public abstract class ColorModel implements Serializable {
 
 	public abstract Spectrum getBlack();
 

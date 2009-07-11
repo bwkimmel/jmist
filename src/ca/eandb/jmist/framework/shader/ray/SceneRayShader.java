@@ -63,6 +63,11 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class SceneRayShader implements RayShader {
 
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -1662354927701351486L;
+
 	private final Light light;
 
 	private final SceneElement root;

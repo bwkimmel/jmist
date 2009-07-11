@@ -17,6 +17,11 @@ import ca.eandb.jmist.math.Vector3;
 public final class SphericalLens implements Lens {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 156342820309540922L;
+
+	/**
 	 * Creates a new <code>SphericalLens</code>.
 	 */
 	public SphericalLens() {

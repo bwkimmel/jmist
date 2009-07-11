@@ -40,6 +40,11 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
  */
 public final class DistributionShader implements Shader {
 
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -4906025758765502067L;
+
 	private final EnumSet<ScatteredRay.Type> filter;
 
 	public DistributionShader() {

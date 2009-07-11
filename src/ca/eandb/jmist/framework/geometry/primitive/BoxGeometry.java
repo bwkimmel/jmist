@@ -25,6 +25,11 @@ import ca.eandb.jmist.math.Vector3;
 public final class BoxGeometry extends PrimitiveGeometry {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 2733253411334817090L;
+
+	/**
 	 * Creates a new <code>BoxGeometry</code>.
 	 * @param box The axis aligned <code>Box3</code> to be rendered.
 	 */

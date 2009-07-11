@@ -4,7 +4,6 @@
 package ca.eandb.jmist.framework.geometry.primitive;
 
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.geometry.AbstractGeometry;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Ray3;
@@ -16,6 +15,11 @@ import ca.eandb.jmist.math.Sphere;
  */
 public final class PolygonalSurfaceOfRevolutionGeometry extends
 		AbstractGeometry {
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 5027391031027922071L;
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SceneElement#intersect(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)

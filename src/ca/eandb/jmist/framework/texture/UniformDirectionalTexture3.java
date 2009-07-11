@@ -38,6 +38,11 @@ import ca.eandb.jmist.math.Vector3;
 public final class UniformDirectionalTexture3 implements DirectionalTexture3 {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 374707255898630419L;
+
+	/**
 	 * The <code>Spectrum</code> assigned to this
 	 * <code>UniformDirectionalTexture3</code>.
 	 */

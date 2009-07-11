@@ -3,6 +3,8 @@
  */
 package ca.eandb.jmist.framework;
 
+import java.io.Serializable;
+
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.math.Box2;
 
@@ -10,7 +12,7 @@ import ca.eandb.jmist.math.Box2;
  * @author Brad Kimmel
  *
  */
-public interface PixelShader {
+public interface PixelShader extends Serializable {
 
 	/**
 	 * Computes an estimate of the mean channel responses at

@@ -27,6 +27,11 @@ import ca.eandb.jmist.math.Vector3;
 public class DielectricMaterial extends AbstractMaterial {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -9036003391744538613L;
+
+	/**
 	 * Creates a new <code>DielectricMaterial</code>.
 	 * @param refractiveIndex The refractive index <code>Spectrum</code> of
 	 * 		this dielectric material.

@@ -60,4 +60,9 @@ public final class AveragingPixelShader implements PixelShader {
 	/** The pixel shader from which to average the results. */
 	private final PixelShader pixelShader;
 
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -1978147732952459483L;
+
 }

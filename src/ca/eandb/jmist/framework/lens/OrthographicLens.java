@@ -18,6 +18,11 @@ import ca.eandb.jmist.math.Vector3;
 public final class OrthographicLens implements Lens {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -2376610435721840593L;
+
+	/**
 	 * Creates a new <code>OrthographicLens</code>.
 	 * @param width The extent of the image plane along the x-axis.
 	 * @param height The extent of the image plane along the y-axis.

@@ -50,6 +50,11 @@ import ca.eandb.jmist.math.Sphere;
  */
 public final class BranchSceneElement implements SceneElement {
 
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -8500645819577622768L;
+
 	private final List<SceneElement> children = new ArrayList<SceneElement>();
 
 	private CategoricalRandom rnd = null;

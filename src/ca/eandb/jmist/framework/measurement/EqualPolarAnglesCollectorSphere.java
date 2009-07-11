@@ -3,8 +3,6 @@
  */
 package ca.eandb.jmist.framework.measurement;
 
-import java.io.Serializable;
-
 import ca.eandb.jmist.math.SphericalCoordinates;
 import ca.eandb.jmist.math.Vector3;
 
@@ -13,7 +11,7 @@ import ca.eandb.jmist.math.Vector3;
  *
  */
 public final class EqualPolarAnglesCollectorSphere extends
-		AbstractCollectorSphere implements Serializable {
+		AbstractCollectorSphere {
 
 	protected EqualPolarAnglesCollectorSphere(int sensors) {
 		super(sensors);

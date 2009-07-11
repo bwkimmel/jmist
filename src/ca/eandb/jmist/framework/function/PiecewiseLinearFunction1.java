@@ -13,6 +13,11 @@ import ca.eandb.jmist.math.MathUtil;
 public final class PiecewiseLinearFunction1 implements Function1 {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -4156156016195155933L;
+
+	/**
 	 * Creates a new <code>PiecewiseLinearFunction1</code>.
 	 * @param xs The array of domain points.
 	 * @param ys The array of values corresponding to the domain points.

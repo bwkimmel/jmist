@@ -32,6 +32,11 @@ public final class TransformableGeometry extends AbstractGeometry implements
 		AffineTransformable3 {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -1312285205292950959L;
+
+	/**
 	 * Creates a new <code>TransformableGeometry</code>.
 	 * @param geometry The <code>SceneElement</code> to make transformable.
 	 */

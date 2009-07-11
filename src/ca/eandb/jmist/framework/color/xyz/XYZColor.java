@@ -36,6 +36,11 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
  */
 public final class XYZColor implements Color, Spectrum {
 
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -5361524897380680027L;
+
 	public static final XYZColor BLACK = new XYZColor(0, 0, 0, null);
 
 	public static final XYZColor WHITE = new XYZColor(1, 1, 1, null);

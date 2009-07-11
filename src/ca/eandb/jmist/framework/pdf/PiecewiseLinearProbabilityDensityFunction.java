@@ -17,6 +17,11 @@ public final class PiecewiseLinearProbabilityDensityFunction extends
 		AbstractProbabilityDensityFunction {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -8212588260953242116L;
+
+	/**
 	 * Creates a new <code>PiecewiseLinearProbabilityDensityFunction</code>.
 	 * @param x The domain points (must be sorted in ascending order).  Values
 	 * 		less than <code>x[0]</code> or greater than

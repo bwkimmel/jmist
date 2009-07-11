@@ -20,6 +20,11 @@ import ca.eandb.jmist.math.Vector3;
 public final class TransformableLens implements Lens, AffineTransformable3 {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 6810985479571317184L;
+
+	/**
 	 * The <code>Lens</code> to be transformed.
 	 */
 	private final Lens inner;

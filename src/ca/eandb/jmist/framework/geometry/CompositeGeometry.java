@@ -20,6 +20,11 @@ import ca.eandb.jmist.math.Sphere;
  */
 public class CompositeGeometry extends AbstractGeometry {
 
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 6883326155431617080L;
+
 	public CompositeGeometry() {
 		offsets.add(0);
 	}

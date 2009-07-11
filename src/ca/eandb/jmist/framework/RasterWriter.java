@@ -25,13 +25,15 @@
 
 package ca.eandb.jmist.framework;
 
+import java.io.Serializable;
+
 import ca.eandb.jmist.framework.color.Color;
 
 /**
  * @author brad
  *
  */
-public interface RasterWriter {
+public interface RasterWriter extends Serializable {
 
 	int getWidth();
 

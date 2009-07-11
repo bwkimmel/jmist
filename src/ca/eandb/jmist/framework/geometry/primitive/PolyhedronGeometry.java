@@ -3,6 +3,7 @@
  */
 package ca.eandb.jmist.framework.geometry.primitive;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,6 +32,11 @@ import ca.eandb.jmist.math.Vector3;
  * @author Brad Kimmel
  */
 public final class PolyhedronGeometry extends AbstractGeometry {
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 262374288661771750L;
 
 	/**
 	 * Creates a new <code>PolyhedronGeometry</code>.
@@ -227,7 +233,12 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	 * A face of a polyhedron.
 	 * @author Brad Kimmel
 	 */
-	private final class Face implements Bounded3 {
+	private final class Face implements Bounded3, Serializable {
+
+		/**
+		 * Serialization version ID.
+		 */
+		private static final long serialVersionUID = 5733963094194933946L;
 
 		/**
 		 * Creates a new <code>Face</code>.

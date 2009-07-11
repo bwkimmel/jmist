@@ -3,6 +3,8 @@
  */
 package ca.eandb.jmist.framework;
 
+import java.io.Serializable;
+
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Point3;
@@ -13,7 +15,7 @@ import ca.eandb.jmist.math.Vector3;
  * @author Brad Kimmel
  *
  */
-public interface Material extends Medium {
+public interface Material extends Medium, Serializable {
 
 	Color scattering(SurfacePoint x, Vector3 in, Vector3 out, WavelengthPacket lambda);
 	Color emission(SurfacePoint x, Vector3 out, WavelengthPacket lambda);
@@ -28,6 +30,8 @@ public interface Material extends Medium {
 	 * emit.
 	 */
 	public static final Material BLACK = new Material() {
+
+		private static final long serialVersionUID = 4301103342747509476L;
 
 		@Override
 		public Color emission(SurfacePoint x, Vector3 out, WavelengthPacket lambda) {

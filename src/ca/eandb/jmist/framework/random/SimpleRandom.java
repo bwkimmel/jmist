@@ -13,6 +13,11 @@ import ca.eandb.jmist.framework.Random;
  */
 public class SimpleRandom implements Random {
 
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 6964387117913110454L;
+
 	/*
 	 * (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Random#next()

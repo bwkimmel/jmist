@@ -3,6 +3,8 @@
  */
 package ca.eandb.jmist.framework;
 
+import java.io.Serializable;
+
 import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.math.Ray3;
 
@@ -11,7 +13,7 @@ import ca.eandb.jmist.math.Ray3;
  * tests.
  * @author Brad Kimmel
  */
-public interface RayTraversalStrategy3 {
+public interface RayTraversalStrategy3 extends Serializable {
 
 	/**
 	 * Intersects the specified <code>Ray3</code> with the objects in this

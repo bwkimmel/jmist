@@ -3,13 +3,15 @@
  */
 package ca.eandb.jmist.framework;
 
+import java.io.Serializable;
+
 import ca.eandb.jmist.math.Point2;
 
 /**
  * @author Brad Kimmel
  *
  */
-public interface Mask2 {
+public interface Mask2 extends Serializable {
 
 	/**
 	 * Evaluates the mask at the specified point.

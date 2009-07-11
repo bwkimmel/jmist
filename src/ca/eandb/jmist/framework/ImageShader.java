@@ -3,6 +3,8 @@
  */
 package ca.eandb.jmist.framework;
 
+import java.io.Serializable;
+
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Box2;
@@ -13,7 +15,7 @@ import ca.eandb.jmist.math.Point2;
  * plane.
  * @author Brad Kimmel
  */
-public interface ImageShader {
+public interface ImageShader extends Serializable {
 
 	/**
 	 * Obtains the camera colour channel responses at a

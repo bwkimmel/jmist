@@ -20,6 +20,11 @@ import ca.eandb.jmist.math.Vector3;
 public final class ThinLens implements Lens {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -76318529526433932L;
+
+	/**
 	 * Creates a new <code>ThinLens</code>.
 	 */
 	public ThinLens() {

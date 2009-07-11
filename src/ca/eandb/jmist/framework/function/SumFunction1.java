@@ -11,6 +11,11 @@ import ca.eandb.jmist.framework.Function1;
  */
 public final class SumFunction1 extends CompositeFunction1 {
 
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 2089927530431867078L;
+
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.function.CompositeFunction1#addChild(ca.eandb.jmist.framework.Function1)
 	 */

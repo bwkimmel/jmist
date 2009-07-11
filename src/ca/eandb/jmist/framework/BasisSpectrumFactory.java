@@ -3,6 +3,7 @@
  */
 package ca.eandb.jmist.framework;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,12 @@ import ca.eandb.jmist.framework.function.SumFunction1;
  * A factory for creating spectra from a vector space given the basis spectra.
  * @author Brad Kimmel
  */
-public final class BasisSpectrumFactory {
+public final class BasisSpectrumFactory implements Serializable {
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 8689123372520021846L;
 
 	/**
 	 * Adds a basis <code>Function1</code>.

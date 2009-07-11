@@ -25,15 +25,18 @@
 
 package ca.eandb.jmist.framework;
 
+import java.io.Serializable;
+
 /**
  * @author brad
  *
  */
-public interface Modifier {
+public interface Modifier extends Serializable {
 
 	void modify(ShadingContext context);
 
 	public static final Modifier IDENTITY = new Modifier() {
+		private static final long serialVersionUID = -280297069210221264L;
 		public void modify(ShadingContext context) {
 			/* nothing to do. */
 		}

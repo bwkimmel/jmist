@@ -23,6 +23,11 @@ import ca.eandb.jmist.math.Vector3;
 public final class PinholeLens implements Lens {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 727072559000881003L;
+
+	/**
 	 * Initializes the pinhole camera from the specified dimensions of the
 	 * virtual image plane.  The virtual image plane is one meter from the
 	 * origin along the negative z-axis.

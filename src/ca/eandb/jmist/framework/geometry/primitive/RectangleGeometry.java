@@ -27,6 +27,11 @@ import ca.eandb.jmist.math.Vector3;
 public final class RectangleGeometry extends PrimitiveGeometry {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -7544786348196730015L;
+
+	/**
 	 * Creates a new <code>RectangleGeometry</code>.
 	 * @param center The <code>Point3</code> at the center of the rectangle.
 	 * @param basis The <code>Basis3</code> describing the orientation of the

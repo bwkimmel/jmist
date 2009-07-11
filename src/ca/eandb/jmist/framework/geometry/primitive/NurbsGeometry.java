@@ -17,6 +17,11 @@ import ca.eandb.jmist.math.Sphere;
 public final class NurbsGeometry extends PrimitiveGeometry {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -3053193751309757912L;
+
+	/**
 	 * @param material
 	 */
 	public NurbsGeometry(Material material) {

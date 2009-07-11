@@ -3,8 +3,6 @@
  */
 package ca.eandb.jmist.framework.function;
 
-import java.io.Serializable;
-
 import ca.eandb.jmist.framework.Function1;
 
 
@@ -14,7 +12,7 @@ import ca.eandb.jmist.framework.Function1;
  * class is immutable.
  * @author Brad Kimmel
  */
-public class ConstantFunction1 implements Function1, Serializable {
+public class ConstantFunction1 implements Function1 {
 
 	/**
 	 * Creates a new <code>ConstantFunction1</code>.

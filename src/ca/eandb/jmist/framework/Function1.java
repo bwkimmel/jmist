@@ -3,13 +3,15 @@
  */
 package ca.eandb.jmist.framework;
 
+import java.io.Serializable;
+
 import ca.eandb.jmist.framework.function.ConstantFunction1;
 
 /**
  * Represents a unary function.
  * @author Brad Kimmel
  */
-public interface Function1 {
+public interface Function1 extends Serializable {
 
 	/**
 	 * Evaluates the function at the specified point in its domain.
@@ -23,6 +25,7 @@ public interface Function1 {
 	 * The identity <code>Function1</code>.
 	 */
 	public static final Function1 IDENTITY = new Function1() {
+		private static final long serialVersionUID = -1707801506094527459L;
 		public double evaluate(double x) {
 			return x;
 		}

@@ -3,8 +3,6 @@
  */
 package ca.eandb.jmist.framework.material;
 
-import java.io.Serializable;
-
 import ca.eandb.jmist.framework.Painter;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ScatteredRay;
@@ -24,8 +22,7 @@ import ca.eandb.jmist.math.Vector3;
  * the upper hemisphere.
  * @author Brad Kimmel
  */
-public final class LambertianMaterial extends OpaqueMaterial implements
-		Serializable {
+public final class LambertianMaterial extends OpaqueMaterial {
 
 	/**
 	 * Creates a new <code>LambertianMaterial</code> that does not emit light.

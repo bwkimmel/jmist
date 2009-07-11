@@ -39,6 +39,11 @@ import ca.eandb.jmist.util.ByteArray;
  */
 public final class MaterialMapSceneElement extends SceneElementDecorator {
 
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 3360256839104414544L;
+
 	private ByteArray map = new ByteArray();
 
 	private List<Material> materials = new ArrayList<Material>();
@@ -53,7 +58,8 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 		super(inner);
 	}
 
-	private class MaterialIntersectionRecorder extends IntersectionRecorderDecorator {
+	private class MaterialIntersectionRecorder extends
+			IntersectionRecorderDecorator {
 
 		/**
 		 * @param inner
@@ -62,7 +68,9 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 			super(inner);
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 *
 		 * @see ca.eandb.jmist.framework.IntersectionRecorderDecorator#record(ca.eandb.jmist.framework.Intersection)
 		 */
 		@Override
@@ -109,7 +117,8 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 		}
 	}
 
-	public MaterialMapSceneElement setMaterialRange(int start, int length, String name) {
+	public MaterialMapSceneElement setMaterialRange(int start, int length,
+			String name) {
 		if (nameLookup == null || !nameLookup.containsKey(name)) {
 			throw new IllegalArgumentException();
 		}
@@ -122,16 +131,23 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 		return setMaterialRange(primitive, 1, name);
 	}
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#intersect(int,
+	 *      ca.eandb.jmist.math.Ray3,
+	 *      ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
 	@Override
 	public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
 		super.intersect(index, ray, new MaterialIntersectionRecorder(recorder));
 	}
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#intersect(ca.eandb.jmist.math.Ray3,
+	 *      ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
 	@Override
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
@@ -141,7 +157,8 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 	@Override
 	public double generateImportanceSampledSurfacePoint(int index,
 			SurfacePoint x, ShadingContext context) {
-		double weight = super.generateImportanceSampledSurfacePoint(index, x, context);
+		double weight = super.generateImportanceSampledSurfacePoint(index, x,
+				context);
 		applyMaterial(context);
 		return weight;
 	}
@@ -166,7 +183,9 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 		applyMaterial(context);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#createLight()
 	 */
 	@Override
@@ -190,7 +209,9 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 
 		for (int i = 0; i < emissive.size(); i++) {
 			primIndex[i] = emissive.get(i);
-			weight[i] = super.getSurfaceArea(primIndex[i]); // TODO Factor in radiant exitance of material
+			weight[i] = super.getSurfaceArea(primIndex[i]); // TODO Factor in
+															// radiant exitance
+															// of material
 			totalSurfaceArea += weight[i];
 		}
 
@@ -199,8 +220,11 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 
 		return new AbstractLight() {
 
+			private static final long serialVersionUID = -4977755592893506132L;
+
 			@Override
-			public void illuminate(SurfacePoint x, WavelengthPacket lambda, Random rng, Illuminable target) {
+			public void illuminate(SurfacePoint x, WavelengthPacket lambda,
+					Random rng, Illuminable target) {
 				ShadingContext context = new MinimalShadingContext(rng);
 
 				int index = rnd.next(rng);
@@ -214,7 +238,8 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 				Vector3 v = x.getPosition().unitVectorFrom(p);
 				Vector3 n = context.getShadingNormal();
 				double d2 = x.getPosition().squaredDistanceTo(p);
-				double atten = Math.max(n.dot(v), 0.0) * scale / (4.0 * Math.PI * d2);
+				double atten = Math.max(n.dot(v), 0.0) * scale
+						/ (4.0 * Math.PI * d2);
 				Color ri = mat.emission(context, v, lambda).times(atten);
 				LightSample sample = new PointLightSample(x, p, ri);
 
@@ -258,6 +283,5 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 			context.setMaterial(mat);
 		}
 	}
-
 
 }

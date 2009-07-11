@@ -3,6 +3,8 @@
  */
 package ca.eandb.jmist.framework;
 
+import java.io.Serializable;
+
 import ca.eandb.jmist.math.Box2;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
@@ -13,7 +15,7 @@ import ca.eandb.jmist.math.Ray3;
  * image plane.
  * @author Brad Kimmel
  */
-public interface Lens {
+public interface Lens extends Serializable {
 
 	/**
 	 * Gets a ray indicating from which point and

@@ -27,6 +27,11 @@ import ca.eandb.jmist.util.ArrayUtil;
 public final class CornellBoxScene extends AbstractScene {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 7403862242448612196L;
+
+	/**
 	 * Creates a new <code>CornellBoxModel</code>.
 	 */
 	public CornellBoxScene(ColorModel colorModel) {

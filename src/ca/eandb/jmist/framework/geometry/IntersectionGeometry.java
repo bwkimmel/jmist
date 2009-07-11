@@ -18,6 +18,11 @@ import ca.eandb.jmist.math.Sphere;
  */
 public final class IntersectionGeometry extends ConstructiveSolidGeometry {
 
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -91390515433295892L;
+
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.packages.ConstructiveSolidGeometry#isInside(int, java.util.BitSet)
 	 */

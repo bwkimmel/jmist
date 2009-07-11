@@ -16,6 +16,11 @@ import ca.eandb.jmist.math.Sphere;
 public final class RoundedBoxGeometry extends PrimitiveGeometry {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 1671007598641076289L;
+
+	/**
 	 *
 	 */
 	public RoundedBoxGeometry() {

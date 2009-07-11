@@ -16,6 +16,11 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class FisheyeLens implements Lens {
 
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 4393119937901820155L;
+
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Lens#rayAt(ca.eandb.jmist.math.Point2)
 	 */

@@ -28,6 +28,11 @@ import ca.eandb.jmist.math.Vector3;
 public final class SuperellipsoidGeometry extends PrimitiveGeometry {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -1585163561012430479L;
+
+	/**
 	 * Creates a new <code>SuperellipsoidGeometry</code>.
 	 * @param e
 	 * @param n

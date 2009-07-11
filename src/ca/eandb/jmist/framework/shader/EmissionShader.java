@@ -37,6 +37,11 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
  */
 public final class EmissionShader implements Shader {
 
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 8510365491868392853L;
+
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
 	 */

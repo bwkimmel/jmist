@@ -31,6 +31,11 @@ import ca.eandb.jmist.util.ArrayUtil;
 public final class PolygonGeometry extends PrimitiveGeometry {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -4557209073883064041L;
+
+	/**
 	 * @param material
 	 */
 	public PolygonGeometry(Point3[] vertices, int[][] components) {

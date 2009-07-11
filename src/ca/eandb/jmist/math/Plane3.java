@@ -3,11 +3,18 @@
  */
 package ca.eandb.jmist.math;
 
+import java.io.Serializable;
+
 /**
  * A plane in three dimensional space.
  * @author Brad Kimmel
  */
-public final class Plane3 {
+public final class Plane3 implements Serializable {
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -5388824832351428994L;
 
 	/**
 	 * Creates a <code>Plane3</code>.

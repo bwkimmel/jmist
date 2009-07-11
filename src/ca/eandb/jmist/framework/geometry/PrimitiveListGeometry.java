@@ -44,6 +44,11 @@ import ca.eandb.jmist.math.Sphere;
  */
 public final class PrimitiveListGeometry extends AbstractGeometry {
 
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -7468724116325274242L;
+
 	private final List<PrimitiveGeometry> primitives = new ArrayList<PrimitiveGeometry>();
 
 	public PrimitiveListGeometry addPrimitive(PrimitiveGeometry primitive) {

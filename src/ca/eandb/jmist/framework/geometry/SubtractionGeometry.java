@@ -15,6 +15,11 @@ import ca.eandb.jmist.math.Sphere;
  */
 public final class SubtractionGeometry extends ConstructiveSolidGeometry {
 
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -1791060848352601744L;
+
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.packages.CsgIntersectionRecorder#isInside(int, java.util.BitSet)
 	 */

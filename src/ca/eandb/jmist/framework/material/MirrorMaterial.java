@@ -20,6 +20,11 @@ import ca.eandb.jmist.math.Vector3;
 public final class MirrorMaterial extends OpaqueMaterial {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 3451068808276962270L;
+
+	/**
 	 * Creates a new <code>MirrorMaterial</code>.
 	 * @param reflectance The reflectance <code>Painter</code> of this mirror.
 	 */

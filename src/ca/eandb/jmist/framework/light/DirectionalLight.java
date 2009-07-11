@@ -19,6 +19,11 @@ import ca.eandb.jmist.math.Vector3;
 public final class DirectionalLight extends AbstractLight {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -1437021256512696489L;
+
+	/**
 	 * Creates a new <code>DirectionalLight</code>.
 	 * @param from The <code>Vector3</code> indicating the direction from which
 	 * 		the light originates.

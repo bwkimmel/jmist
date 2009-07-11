@@ -3,6 +3,7 @@
  */
 package ca.eandb.jmist.framework.random;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import ca.eandb.jmist.util.DoubleArray;
  * a value with probability proportional to specified weights).
  * @author Brad Kimmel
  */
-public final class CategoricalRandom {
+public final class CategoricalRandom implements Serializable {
 
 	/**
 	 * Creates a new <code>CategoricalRandom</code>.
@@ -145,5 +146,10 @@ public final class CategoricalRandom {
 	 * <code>CategoricalRandom</code>.
 	 */
 	private final Random source;
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 1462018249783769480L;
 
 }

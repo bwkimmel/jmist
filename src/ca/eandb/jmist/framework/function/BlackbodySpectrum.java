@@ -14,6 +14,11 @@ import ca.eandb.jmist.math.Physics;
 public final class BlackbodySpectrum implements Function1 {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 5120826959435651065L;
+
+	/**
 	 * Creates a new <code>BlackbodySpectrum</code>.
 	 * @param temperature The temperature of the black body to simulate (in
 	 * 		Kelvin).

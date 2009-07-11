@@ -51,6 +51,11 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class MaterialSceneElement extends ModifierSceneElement {
 
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -3086927820777987668L;
+
 	private final Material material;
 
 	public MaterialSceneElement(Material material, SceneElement inner) {
@@ -70,6 +75,8 @@ public final class MaterialSceneElement extends ModifierSceneElement {
 		final double surfaceArea = getSurfaceArea();
 
 		return new AbstractLight() {
+
+			private static final long serialVersionUID = -2578460152471816304L;
 
 			@Override
 			public void illuminate(SurfacePoint x, WavelengthPacket lambda, Random rng, Illuminable target) {
@@ -113,6 +120,11 @@ public final class MaterialSceneElement extends ModifierSceneElement {
 //	}
 
 	private static final class MaterialModifier implements Modifier {
+
+		/**
+		 * Serialization version ID.
+		 */
+		private static final long serialVersionUID = -2275096890951731906L;
 
 		private final Material material;
 

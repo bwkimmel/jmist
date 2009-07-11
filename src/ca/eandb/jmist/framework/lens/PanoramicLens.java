@@ -18,6 +18,11 @@ import ca.eandb.jmist.math.Vector3;
 public final class PanoramicLens implements Lens {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 9079096932171202826L;
+
+	/**
 	 * Creates a new <code>PanoramicLens</code>.
 	 */
 	public PanoramicLens() {

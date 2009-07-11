@@ -3,14 +3,12 @@
  */
 package ca.eandb.jmist.framework.color.rgb;
 
-import java.io.Serializable;
-
 import ca.eandb.jmist.framework.Function1;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.Raster;
-import ca.eandb.jmist.framework.color.AbstractRaster;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
+import ca.eandb.jmist.framework.color.DoubleRaster;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.LinearMatrix3;
@@ -20,11 +18,9 @@ import ca.eandb.jmist.math.Vector3;
  * A three channel <code>ColorModel</code>.
  * @author Brad
  */
-public final class RGBColorModel extends ColorModel implements Serializable {
+public final class RGBColorModel extends ColorModel {
 
-	/**
-	 *
-	 */
+	/** Serialization version ID. */
 	private static final long serialVersionUID = 5180023685340681958L;
 
 	/** The single <code>RGBColorModel</code> instance. */
@@ -167,38 +163,12 @@ public final class RGBColorModel extends ColorModel implements Serializable {
 	 * @see ca.eandb.jmist.framework.color.ColorModel#createRaster(int, int)
 	 */
 	@Override
-	public Raster createRaster(final int width, final int height) {
-		return new AbstractRaster() {
-
-			final double[] raster = new double[width * height * 3];
-
-			@Override
-			public Color getPixel(int x, int y) {
-				int index = (y * width + x) * 3;
-				double r = raster[index];
-				double g = raster[index + 1];
-				double b = raster[index + 2];
-				return new RGBColor(r, g, b);
+	public Raster createRaster(int width, int height) {
+		return new DoubleRaster(width, height, 3) {
+			private static final long serialVersionUID = -2721143490321662390L;
+			protected Color getPixel(double[] raster, int index) {
+				return new RGBColor(raster[index], raster[index + 1], raster[index + 2]);
 			}
-
-			@Override
-			public int getHeight() {
-				return height;
-			}
-
-			@Override
-			public int getWidth() {
-				return width;
-			}
-
-			@Override
-			public void setPixel(int x, int y, Color color) {
-				int index = (y * width + x) * 3;
-				raster[index] = color.getValue(0);
-				raster[index + 1] = color.getValue(1);
-				raster[index + 2] = color.getValue(2);
-			}
-
 		};
 	}
 

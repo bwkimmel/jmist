@@ -39,6 +39,11 @@ import ca.eandb.jmist.framework.painter.UniformPainter;
  */
 public final class ConstantShader implements Shader {
 
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 8241125325130501697L;
+
 	private final Painter painter;
 
 	/**

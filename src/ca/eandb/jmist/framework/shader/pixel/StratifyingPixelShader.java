@@ -15,6 +15,11 @@ import ca.eandb.jmist.math.Box2;
 public final class StratifyingPixelShader implements PixelShader {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 1059443381015930105L;
+
+	/**
 	 * Initializes the number of rows and columns to divide each pixel
 	 * into as well as the underlying decorated pixel shader.
 	 * @param columns The number of columns to divide each pixel into.

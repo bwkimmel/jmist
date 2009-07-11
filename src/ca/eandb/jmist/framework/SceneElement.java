@@ -3,6 +3,8 @@
  */
 package ca.eandb.jmist.framework;
 
+import java.io.Serializable;
+
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
@@ -11,7 +13,7 @@ import ca.eandb.jmist.math.Sphere;
  * @author Brad Kimmel
  *
  */
-public interface SceneElement extends Bounded3, VisibilityFunction3 {
+public interface SceneElement extends Bounded3, VisibilityFunction3, Serializable {
 
 	/**
 	 * Gets the number of primitives contained in this <code>SceneElement</code>.

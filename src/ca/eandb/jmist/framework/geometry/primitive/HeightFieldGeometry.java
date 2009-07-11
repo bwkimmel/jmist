@@ -31,6 +31,11 @@ import ca.eandb.jmist.math.Sphere;
 public final class HeightFieldGeometry extends PrimitiveGeometry {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -9067100310767210560L;
+
+	/**
 	 * Creates a new <code>HeightFieldGeometry</code>.
 	 * @param xz The <code>Box2</code> describing the extent of the height
 	 * 		field along the <code>x</code> and <code>z</code> axes (must not be

@@ -17,6 +17,11 @@ import ca.eandb.jmist.math.Sphere;
 public final class TriangleGeometry extends PrimitiveGeometry {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -8274281328161174126L;
+
+	/**
 	 * @param material
 	 */
 	public TriangleGeometry(Material material) {

@@ -16,6 +16,11 @@ import ca.eandb.jmist.math.Sphere;
 public final class BlobGeometry extends PrimitiveGeometry {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 228798680340979029L;
+
+	/**
 	 *
 	 */
 	public BlobGeometry() {

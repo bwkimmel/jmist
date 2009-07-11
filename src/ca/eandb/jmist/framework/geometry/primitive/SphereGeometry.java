@@ -26,6 +26,11 @@ import ca.eandb.jmist.math.Vector3;
 public final class SphereGeometry extends PrimitiveGeometry {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -3863465919049151682L;
+
+	/**
 	 * Creates a new <code>SphereGeometry</code>.
 	 * @param sphere The <code>Sphere</code> describing to be rendered.
 	 * @param material The <code>Material</code> to apply to the sphere.

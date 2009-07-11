@@ -26,6 +26,11 @@ import ca.eandb.jmist.math.Vector3;
 public final class ConductiveMaterial extends AbstractMaterial {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -8516201792111267898L;
+
+	/**
 	 * Creates a new <code>ConductiveMaterial</code>.
 	 * @param n The real part of the refractive index <code>Spectrum</code>.
 	 * @param k The imaginary part of the refractive index

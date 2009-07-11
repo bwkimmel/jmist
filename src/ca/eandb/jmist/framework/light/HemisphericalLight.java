@@ -22,6 +22,11 @@ import ca.eandb.jmist.math.Vector3;
 public final class HemisphericalLight extends AbstractLight {
 
 	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = 7440635665736022550L;
+
+	/**
 	 * A <code>DirectionalTexture3</code> representing the incident radiance.
 	 */
 	private final DirectionalTexture3 environment;

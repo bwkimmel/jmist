@@ -3,13 +3,15 @@
  */
 package ca.eandb.jmist.framework.color;
 
+import java.io.Serializable;
+
 
 
 /**
  * @author Brad
  *
  */
-public interface Color {
+public interface Color extends Serializable {
 
 	WavelengthPacket getWavelengthPacket();
 

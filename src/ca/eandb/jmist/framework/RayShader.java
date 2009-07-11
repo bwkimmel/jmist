@@ -3,6 +3,8 @@
  */
 package ca.eandb.jmist.framework;
 
+import java.io.Serializable;
+
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Ray3;
@@ -11,7 +13,7 @@ import ca.eandb.jmist.math.Ray3;
  * Estimates the colour channel responses along a given ray.
  * @author Brad Kimmel
  */
-public interface RayShader {
+public interface RayShader extends Serializable {
 
 	/**
 	 * Computes an estimate of the colour channel responses at the origin
@@ -29,6 +31,7 @@ public interface RayShader {
 	 * A <code>RayShader</code> that shades all rays black.
 	 */
 	public static final RayShader BLACK = new RayShader() {
+		private static final long serialVersionUID = -6360034977196703057L;
 		public Color shadeRay(Ray3 ray, WavelengthPacket lambda) {
 			return lambda.getColorModel().getBlack(lambda);
 		}

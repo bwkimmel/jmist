@@ -25,11 +25,13 @@
 
 package ca.eandb.jmist.framework.color;
 
+import java.io.Serializable;
+
 /**
  * @author brad
  *
  */
-public interface Spectrum {
+public interface Spectrum extends Serializable {
 
 	Color sample(WavelengthPacket lambda);
 

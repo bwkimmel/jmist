@@ -3,6 +3,8 @@
  */
 package ca.eandb.jmist.framework;
 
+import java.io.Serializable;
+
 import ca.eandb.jmist.math.AffineMatrix3;
 import ca.eandb.jmist.math.LinearMatrix3;
 import ca.eandb.jmist.math.Point3;
@@ -12,20 +14,28 @@ import ca.eandb.jmist.math.Vector3;
 /**
  * A class for classes implementing <code>AffineTransformable3</code> that
  * require the inverse of the transformation matrix.
+ *
  * @author Brad Kimmel
  */
-public class InvertibleAffineTransformation3 extends AffineTransformation3 {
+public class InvertibleAffineTransformation3 extends AffineTransformation3
+		implements Serializable {
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.AffineTransformation3#rotate(ca.eandb.jmist.toolkit.Vector3, double)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see ca.eandb.jmist.framework.AffineTransformation3#rotate(ca.eandb.jmist.toolkit.Vector3,
+	 *      double)
 	 */
 	@Override
 	public void rotate(Vector3 axis, double angle) {
 		super.rotate(axis, angle);
-		this.applyInverseTransformation(LinearMatrix3.rotateMatrix(axis, -angle));
+		this.applyInverseTransformation(LinearMatrix3
+				.rotateMatrix(axis, -angle));
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see ca.eandb.jmist.framework.AffineTransformation3#rotateX(double)
 	 */
 	@Override
@@ -34,7 +44,9 @@ public class InvertibleAffineTransformation3 extends AffineTransformation3 {
 		this.applyInverseTransformation(LinearMatrix3.rotateXMatrix(-angle));
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see ca.eandb.jmist.framework.AffineTransformation3#rotateY(double)
 	 */
 	@Override
@@ -43,7 +55,9 @@ public class InvertibleAffineTransformation3 extends AffineTransformation3 {
 		this.applyInverseTransformation(LinearMatrix3.rotateYMatrix(-angle));
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see ca.eandb.jmist.framework.AffineTransformation3#rotateZ(double)
 	 */
 	@Override
@@ -52,7 +66,9 @@ public class InvertibleAffineTransformation3 extends AffineTransformation3 {
 		this.applyInverseTransformation(LinearMatrix3.rotateZMatrix(-angle));
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see ca.eandb.jmist.framework.AffineTransformation3#scale(double)
 	 */
 	@Override
@@ -61,8 +77,11 @@ public class InvertibleAffineTransformation3 extends AffineTransformation3 {
 		this.applyInverseTransformation(LinearMatrix3.scaleMatrix(1.0 / c));
 	}
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.AffineTransformation3#stretch(double, double, double)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see ca.eandb.jmist.framework.AffineTransformation3#stretch(double,
+	 *      double, double)
 	 */
 	@Override
 	public void stretch(double cx, double cy, double cz) {
@@ -71,16 +90,22 @@ public class InvertibleAffineTransformation3 extends AffineTransformation3 {
 				1.0 / cy, 1.0 / cz));
 	}
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.AffineTransformation3#stretch(ca.eandb.jmist.toolkit.Vector3, double)
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see ca.eandb.jmist.framework.AffineTransformation3#stretch(ca.eandb.jmist.toolkit.Vector3,
+	 *      double)
 	 */
 	@Override
 	public void stretch(Vector3 axis, double c) {
 		super.stretch(axis, c);
-		this.applyInverseTransformation(LinearMatrix3.stretchMatrix(axis, 1.0 / c));
+		this.applyInverseTransformation(LinearMatrix3.stretchMatrix(axis,
+				1.0 / c));
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see ca.eandb.jmist.framework.AffineTransformation3#stretchX(double)
 	 */
 	@Override
@@ -89,7 +114,9 @@ public class InvertibleAffineTransformation3 extends AffineTransformation3 {
 		this.applyInverseTransformation(LinearMatrix3.stretchXMatrix(1.0 / cx));
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see ca.eandb.jmist.framework.AffineTransformation3#stretchY(double)
 	 */
 	@Override
@@ -98,7 +125,9 @@ public class InvertibleAffineTransformation3 extends AffineTransformation3 {
 		this.applyInverseTransformation(LinearMatrix3.stretchYMatrix(1.0 / cy));
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see ca.eandb.jmist.framework.AffineTransformation3#stretchZ(double)
 	 */
 	@Override
@@ -107,7 +136,9 @@ public class InvertibleAffineTransformation3 extends AffineTransformation3 {
 		this.applyInverseTransformation(LinearMatrix3.stretchZMatrix(1.0 / cz));
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see ca.eandb.jmist.framework.AffineTransformation3#transform(ca.eandb.jmist.toolkit.AffineMatrix3)
 	 */
 	@Override
@@ -116,7 +147,9 @@ public class InvertibleAffineTransformation3 extends AffineTransformation3 {
 		this.applyInverseTransformation(T.inverse());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see ca.eandb.jmist.framework.AffineTransformation3#transform(ca.eandb.jmist.toolkit.LinearMatrix3)
 	 */
 	@Override
@@ -125,7 +158,9 @@ public class InvertibleAffineTransformation3 extends AffineTransformation3 {
 		this.applyInverseTransformation(T.inverse());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see ca.eandb.jmist.framework.AffineTransformation3#translate(ca.eandb.jmist.toolkit.Vector3)
 	 */
 	@Override
@@ -138,8 +173,10 @@ public class InvertibleAffineTransformation3 extends AffineTransformation3 {
 	/**
 	 * Applies the specified inverse transformation matrix to the current
 	 * inverse transformation.
-	 * @param Tinv The inverse of the <code>AffineMatrix3</code> that is being
-	 * 		applied.
+	 *
+	 * @param Tinv
+	 *            The inverse of the <code>AffineMatrix3</code> that is being
+	 *            applied.
 	 */
 	private void applyInverseTransformation(AffineMatrix3 Tinv) {
 		if (this.inverse == null) {
@@ -152,8 +189,10 @@ public class InvertibleAffineTransformation3 extends AffineTransformation3 {
 	/**
 	 * Applies the specified inverse transformation matrix to the current
 	 * inverse transformation.
-	 * @param Tinv The inverse of the <code>LinearMatrix3</code> that is being
-	 * 		applied.
+	 *
+	 * @param Tinv
+	 *            The inverse of the <code>LinearMatrix3</code> that is being
+	 *            applied.
 	 */
 	private void applyInverseTransformation(LinearMatrix3 Tinv) {
 		this.applyInverseTransformation(new AffineMatrix3(Tinv));
@@ -161,8 +200,9 @@ public class InvertibleAffineTransformation3 extends AffineTransformation3 {
 
 	/**
 	 * Gets the inverse transformation matrix.
+	 *
 	 * @return The <code>AffineMatrix3</code> representing the inverse of this
-	 * 		transformation.
+	 *         transformation.
 	 */
 	protected AffineMatrix3 getInverseTransformationMatrix() {
 		return this.inverse != null ? this.inverse : AffineMatrix3.IDENTITY;
@@ -171,8 +211,10 @@ public class InvertibleAffineTransformation3 extends AffineTransformation3 {
 	/**
 	 * Applies this transformation to the specified
 	 * <code>InvertibleAffineTransformation3</code>.
-	 * @param trans The <code>InvertibleAffineTransformation3</code> to apply
-	 * 		this transformation to.
+	 *
+	 * @param trans
+	 *            The <code>InvertibleAffineTransformation3</code> to apply
+	 *            this transformation to.
 	 */
 	public void apply(InvertibleAffineTransformation3 trans) {
 		if (this.isTransformed()) {
@@ -181,7 +223,9 @@ public class InvertibleAffineTransformation3 extends AffineTransformation3 {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see ca.eandb.jmist.framework.AffineTransformation3#apply(ca.eandb.jmist.framework.AffineTransformable3)
 	 */
 	@Override
@@ -196,8 +240,10 @@ public class InvertibleAffineTransformation3 extends AffineTransformation3 {
 	/**
 	 * Applies the inverse of this transformation to the specified
 	 * <code>InvertibleAffineTransformation3</code>.
-	 * @param trans The <code>InvertibleAffineTransformation3</code> to apply
-	 * 		the inverse of this transformation to.
+	 *
+	 * @param trans
+	 *            The <code>InvertibleAffineTransformation3</code> to apply
+	 *            the inverse of this transformation to.
 	 */
 	public void applyInverse(InvertibleAffineTransformation3 trans) {
 		if (this.isTransformed()) {
@@ -209,8 +255,10 @@ public class InvertibleAffineTransformation3 extends AffineTransformation3 {
 	/**
 	 * Applies the inverse of this <code>AffineTransformation3</code> to
 	 * another object that is affine transformable.
-	 * @param to The <code>AffineTransformable3</code> object to apply the
-	 * 		inverse of this transformation to.
+	 *
+	 * @param to
+	 *            The <code>AffineTransformable3</code> object to apply the
+	 *            inverse of this transformation to.
 	 */
 	public void applyInverse(AffineTransformable3 to) {
 		if (to instanceof InvertibleAffineTransformation3) {
@@ -223,8 +271,10 @@ public class InvertibleAffineTransformation3 extends AffineTransformation3 {
 	/**
 	 * Applies the inverse of this <code>AffineTransformation3</code> to a
 	 * <code>AffineMatrix3</code>.
-	 * @param matrix The <code>AffineMatrix3</code> object to apply the inverse
-	 * 		of this transformation to.
+	 *
+	 * @param matrix
+	 *            The <code>AffineMatrix3</code> object to apply the inverse
+	 *            of this transformation to.
 	 * @return The transformed <code>AffineMatrix3</code>.
 	 */
 	public AffineMatrix3 applyInverse(AffineMatrix3 matrix) {
@@ -234,8 +284,10 @@ public class InvertibleAffineTransformation3 extends AffineTransformation3 {
 	/**
 	 * Applies the inverse of this <code>AffineTransformation3</code> to a
 	 * <code>Point3</code>.
-	 * @param p The <code>Point3</code> object to apply the inverse of this
-	 * 		transformation to.
+	 *
+	 * @param p
+	 *            The <code>Point3</code> object to apply the inverse of this
+	 *            transformation to.
 	 * @return The transformed <code>Point3</code>.
 	 */
 	public Point3 applyInverse(Point3 p) {
@@ -245,8 +297,10 @@ public class InvertibleAffineTransformation3 extends AffineTransformation3 {
 	/**
 	 * Applies the inverse of this <code>AffineTransformation3</code> to a
 	 * <code>Vector3</code>.
-	 * @param v The <code>Vector3</code> object to apply the inverse of this
-	 * 		transformation to.
+	 *
+	 * @param v
+	 *            The <code>Vector3</code> object to apply the inverse of this
+	 *            transformation to.
 	 * @return The transformed <code>Vector3</code>.
 	 */
 	public Vector3 applyInverse(Vector3 v) {
@@ -256,15 +310,19 @@ public class InvertibleAffineTransformation3 extends AffineTransformation3 {
 	/**
 	 * Applies the inverse of this <code>AffineTransformation3</code> to a
 	 * <code>Ray3</code>.
-	 * @param ray The <code>Ray3</code> object to apply the inverse of this
-	 * 		transformation to.
+	 *
+	 * @param ray
+	 *            The <code>Ray3</code> object to apply the inverse of this
+	 *            transformation to.
 	 * @return The transformed <code>Ray3</code>.
 	 */
 	public Ray3 applyInverse(Ray3 ray) {
 		return this.inverse != null ? ray.transform(this.inverse) : ray;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see ca.eandb.jmist.framework.AffineTransformation3#resetTransformation()
 	 */
 	@Override
@@ -275,5 +333,10 @@ public class InvertibleAffineTransformation3 extends AffineTransformation3 {
 
 	/** The inverse transformation matrix. */
 	private AffineMatrix3 inverse = null;
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -5759913323363262892L;
 
 }

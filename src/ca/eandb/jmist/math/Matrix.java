@@ -3,11 +3,13 @@
  */
 package ca.eandb.jmist.math;
 
+import java.io.Serializable;
+
 /**
  * A two dimensional matrix.
  * @author Brad Kimmel
  */
-public final class Matrix {
+public final class Matrix implements Serializable {
 
 	/**
 	 * Creates a new <code>Matrix</code>.
@@ -476,5 +478,10 @@ public final class Matrix {
 	 * element of the first column and the first element of the second column.
 	 */
 	private final int colStride;
+
+	/**
+	 * Serialization version ID.
+	 */
+	private static final long serialVersionUID = -5903472706313095023L;
 
 }

@@ -3,6 +3,8 @@
  */
 package ca.eandb.jmist.framework;
 
+import java.io.Serializable;
+
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Point3;
@@ -12,7 +14,7 @@ import ca.eandb.jmist.math.Ray3;
  * @author Brad Kimmel
  *
  */
-public interface Medium {
+public interface Medium extends Serializable {
 
 	Color transmittance(Ray3 ray, double distance, WavelengthPacket lambda);
 	Color refractiveIndex(Point3 p, WavelengthPacket lambda);
@@ -22,6 +24,11 @@ public interface Medium {
 	 * A vacuum <code>Medium</code>.
 	 */
 	public static final Medium VACUUM = new Medium() {
+
+		/**
+		 * Serialization version ID.
+		 */
+		private static final long serialVersionUID = -8943232335015406093L;
 
 		/* (non-Javadoc)
 		 * @see ca.eandb.jmist.framework.Medium#extinctionIndex(ca.eandb.jmist.math.Point3, ca.eandb.jmist.framework.color.WavelengthPacket)
