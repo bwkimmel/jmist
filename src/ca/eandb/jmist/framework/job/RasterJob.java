@@ -3,7 +3,6 @@
  */
 package ca.eandb.jmist.framework.job;
 
-import java.awt.Rectangle;
 import java.io.IOException;
 import java.io.ObjectInput;
 
@@ -73,7 +72,7 @@ public final class RasterJob extends AbstractParallelizableJob {
 		if (this.nextRow < this.rows) {
 
 			/* Get the next cell. */
-			Rectangle cell = this.getCell(this.nextCol++, this.nextRow);
+			Cell cell = this.getCell(this.nextCol++, this.nextRow);
 
 			/* If we're done this row, move on to the next row. */
 			if (this.nextCol >= this.cols) {
@@ -93,12 +92,46 @@ public final class RasterJob extends AbstractParallelizableJob {
 	}
 
 	/**
+	 * Defines the region of the image that a task should perform.
+	 * @author Brad Kimmel
+	 */
+	private static final class Cell {
+
+		/** The x-coordinate of the upper left corner of the cell. */
+		final int x;
+
+		/** The y-coordinate of the upper left-corner of the cell. */
+		final int y;
+
+		/** The width of the cell, in pixels. */
+		final int width;
+
+		/** The height of the cell, in pixels. */
+		final int height;
+
+		/**
+		 * Creates a new <code>Cell</code>.
+		 * @param x The x-coordinate of the upper left corner of the cell.
+		 * @param y The y-coordinate of the upper left-corner of the cell.
+		 * @param width The width of the cell, in pixels.
+		 * @param height The height of the cell, in pixels.
+		 */
+		Cell(int x, int y, int width, int height) {
+			this.x = x;
+			this.y = y;
+			this.width = width;
+			this.height = height;
+		}
+
+	};
+
+	/**
 	 * Gets the bounds of the cell at the specified row and column.
 	 * @param col The column index.
 	 * @param row The row index.
 	 * @return The cell bounds.
 	 */
-	private Rectangle getCell(int col, int row) {
+	private Cell getCell(int col, int row) {
 
 		/* Figure out how big the cells should be:
 		 *    - Make them as large as possible without exceeding the size
@@ -147,7 +180,7 @@ public final class RasterJob extends AbstractParallelizableJob {
 		assert(0 <= xmin && xmin <= xmax && xmax < width);
 		assert(0 <= ymin && ymin <= ymax && ymax < height);
 
-		return new Rectangle(xmin, ymin, xmax - xmin + 1, ymax - ymin + 1);
+		return new Cell(xmin, ymin, xmax - xmin + 1, ymax - ymin + 1);
 
 	}
 
@@ -156,8 +189,8 @@ public final class RasterJob extends AbstractParallelizableJob {
 	 */
 	public void submitTaskResults(Object task, Object results, ProgressMonitor monitor) {
 
-		Rectangle	cell	= (Rectangle) task;
-		Raster		pixels	= (Raster) results;
+		Cell	cell	= (Cell) task;
+		Raster	pixels	= (Raster) results;
 
 		/* Write the submitted results to the raster. */
 		display.setPixels(cell.x, cell.y, pixels);
@@ -242,14 +275,14 @@ public final class RasterJob extends AbstractParallelizableJob {
 		 */
 		public Object performTask(Object task, ProgressMonitor monitor) {
 
-			Rectangle	cell				= (Rectangle) task;
-			int			numPixels			= cell.width * cell.height;
-			Color		pixel;
-			Box2		bounds;
-			double		x0, y0, x1, y1;
-			double		w					= width;
-			double		h					= height;
-			Raster		raster				= colorModel.createRaster(cell.width, cell.height);
+			Cell	cell				= (Cell) task;
+			int		numPixels			= cell.width * cell.height;
+			Color	pixel;
+			Box2	bounds;
+			double	x0, y0, x1, y1;
+			double	w					= width;
+			double	h					= height;
+			Raster	raster				= colorModel.createRaster(cell.width, cell.height);
 
 			for (int n = 0, y = cell.y; y < cell.y + cell.height; y++) {
 
