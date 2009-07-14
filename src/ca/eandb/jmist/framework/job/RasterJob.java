@@ -5,6 +5,7 @@ package ca.eandb.jmist.framework.job;
 
 import java.io.IOException;
 import java.io.ObjectInput;
+import java.io.Serializable;
 
 import ca.eandb.jdcp.job.AbstractParallelizableJob;
 import ca.eandb.jdcp.job.TaskWorker;
@@ -95,7 +96,10 @@ public final class RasterJob extends AbstractParallelizableJob {
 	 * Defines the region of the image that a task should perform.
 	 * @author Brad Kimmel
 	 */
-	private static final class Cell {
+	private static final class Cell implements Serializable {
+
+		/** Serialization version ID. */
+		private static final long serialVersionUID = 3873435167338343617L;
 
 		/** The x-coordinate of the upper left corner of the cell. */
 		final int x;
