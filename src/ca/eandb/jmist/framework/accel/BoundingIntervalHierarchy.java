@@ -33,6 +33,7 @@ import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.scene.SceneElementDecorator;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Interval;
+import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.util.ArrayUtil;
@@ -302,10 +303,10 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
 			float left = (float) clip.left;
 			float right = (float) clip.right;
 			if (left < clip.left) {
-				left = Math.nextUp(left);
+				left += MathUtil.TINY_EPSILON;
 			}
 			if (right > clip.right) {
-				right = Math.nextAfter(right, Double.NEGATIVE_INFINITY);
+				right -= MathUtil.TINY_EPSILON;
 			}
 			buf.putFloat(left);
 			buf.putFloat(right);
