@@ -27,7 +27,6 @@ package ca.eandb.jmist.util;
 
 import java.io.Serializable;
 import java.util.AbstractList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.RandomAccess;
 
@@ -112,7 +111,11 @@ public final class CharacterArray extends AbstractList<Character> implements
 	 * @return An array of chars containing the same elements as this array.
 	 */
 	public char[] toCharacterArray() {
-		return Arrays.copyOf(elements, size);
+		char[] copy = new char[size];
+		for (int i = 0; i < size; i++) {
+			copy[i] = elements[i];
+		}
+		return copy;
 	}
 
 	/*
@@ -528,7 +531,11 @@ public final class CharacterArray extends AbstractList<Character> implements
 	private void reallocate(int capacity) {
 		if (capacity != elements.length) {
 			assert (size <= capacity);
-			elements = Arrays.copyOf(elements, capacity);
+			char[] newArray = new char[capacity];
+			for (int i = 0; i < size; i++) {
+				newArray[i] = elements[i];
+			}
+			elements = newArray;
 		}
 	}
 

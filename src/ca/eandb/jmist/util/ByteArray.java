@@ -27,7 +27,6 @@ package ca.eandb.jmist.util;
 
 import java.io.Serializable;
 import java.util.AbstractList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.RandomAccess;
 
@@ -110,7 +109,11 @@ public final class ByteArray extends AbstractList<Byte> implements
 	 * @return An array of bytes containing the same elements as this array.
 	 */
 	public byte[] toByteArray() {
-		return Arrays.copyOf(elements, size);
+		byte[] copy = new byte[size];
+		for (int i = 0; i < size; i++) {
+			copy[i] = elements[i];
+		}
+		return copy;
 	}
 
 	/*
@@ -525,7 +528,11 @@ public final class ByteArray extends AbstractList<Byte> implements
 	private void reallocate(int capacity) {
 		if (capacity != elements.length) {
 			assert (size <= capacity);
-			elements = Arrays.copyOf(elements, capacity);
+			byte[] newArray = new byte[capacity];
+			for (int i = 0; i < size; i++) {
+				newArray[i] = elements[i];
+			}
+			elements = newArray;
 		}
 	}
 

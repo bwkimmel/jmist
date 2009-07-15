@@ -27,7 +27,6 @@ package ca.eandb.jmist.util;
 
 import java.io.Serializable;
 import java.util.AbstractList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.RandomAccess;
 
@@ -110,7 +109,11 @@ public final class LongArray extends AbstractList<Long> implements
 	 * @return An array of longs containing the same elements as this array.
 	 */
 	public long[] toLongArray() {
-		return Arrays.copyOf(elements, size);
+		long[] copy = new long[size];
+		for (int i = 0; i < size; i++) {
+			copy[i] = elements[i];
+		}
+		return copy;
 	}
 
 	/*
@@ -525,7 +528,11 @@ public final class LongArray extends AbstractList<Long> implements
 	private void reallocate(int capacity) {
 		if (capacity != elements.length) {
 			assert (size <= capacity);
-			elements = Arrays.copyOf(elements, capacity);
+			long[] newArray = new long[capacity];
+			for (int i = 0; i < size; i++) {
+				newArray[i] = elements[i];
+			}
+			elements = newArray;
 		}
 	}
 

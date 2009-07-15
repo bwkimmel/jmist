@@ -27,7 +27,6 @@ package ca.eandb.jmist.util;
 
 import java.io.Serializable;
 import java.util.AbstractList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.RandomAccess;
 
@@ -110,7 +109,11 @@ public final class DoubleArray extends AbstractList<Double> implements
 	 * @return An array of doubles containing the same elements as this array.
 	 */
 	public double[] toDoubleArray() {
-		return Arrays.copyOf(elements, size);
+		double[] copy = new double[size];
+		for (int i = 0; i < size; i++) {
+			copy[i] = elements[i];
+		}
+		return copy;
 	}
 
 	/*
@@ -525,7 +528,11 @@ public final class DoubleArray extends AbstractList<Double> implements
 	private void reallocate(int capacity) {
 		if (capacity != elements.length) {
 			assert (size <= capacity);
-			elements = Arrays.copyOf(elements, capacity);
+			double[] newArray = new double[capacity];
+			for (int i = 0; i < size; i++) {
+				newArray[i] = elements[i];
+			}
+			elements = newArray;
 		}
 	}
 
