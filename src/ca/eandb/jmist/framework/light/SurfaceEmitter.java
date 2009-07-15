@@ -53,7 +53,6 @@ public final class SurfaceEmitter implements Emitter {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Emitter#emit(ca.eandb.jmist.math.Sphere, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random)
 	 */
-	@Override
 	public Photon emit(Sphere target, WavelengthPacket lambda, Random rng) {
 		Material material = x.getMaterial();
 		assert(material.isEmissive());
@@ -66,7 +65,6 @@ public final class SurfaceEmitter implements Emitter {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Emitter#getEmittedRadiance(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
-	@Override
 	public Color getEmittedRadiance(Vector3 v, WavelengthPacket lambda) {
 		boolean toFront = x.getNormal().dot(v) > 0.0;
 		if (toFront) {
@@ -81,7 +79,6 @@ public final class SurfaceEmitter implements Emitter {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Emitter#getRadiantExitance(ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
-	@Override
 	public Color getRadiantExitance(WavelengthPacket lambda) {
 		throw new UnimplementedException();
 	}
@@ -89,7 +86,6 @@ public final class SurfaceEmitter implements Emitter {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Emitter#isAtInfinity()
 	 */
-	@Override
 	public boolean isAtInfinity() {
 		return false;
 	}

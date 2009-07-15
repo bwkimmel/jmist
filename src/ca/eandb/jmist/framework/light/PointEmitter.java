@@ -55,7 +55,6 @@ public final class PointEmitter implements Emitter {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Emitter#emit(ca.eandb.jmist.math.Sphere, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random)
 	 */
-	@Override
 	public Photon emit(Sphere target, WavelengthPacket lambda, Random rng) {
 		Vector3 direction = RandomUtil.uniformOnSphere(rng).toCartesian();
 		Ray3 ray = new Ray3(position, direction);
@@ -66,7 +65,6 @@ public final class PointEmitter implements Emitter {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Emitter#getEmittedRadiance(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
-	@Override
 	public Color getEmittedRadiance(Vector3 v, WavelengthPacket lambda) {
 		return radiance.sample(lambda);
 	}
@@ -74,7 +72,6 @@ public final class PointEmitter implements Emitter {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Emitter#getRadiantExitance(ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
-	@Override
 	public Color getRadiantExitance(WavelengthPacket lambda) {
 		return radiance.sample(lambda).times(4.0 * Math.PI);
 	}
@@ -82,7 +79,6 @@ public final class PointEmitter implements Emitter {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Emitter#isAtInfinity()
 	 */
-	@Override
 	public boolean isAtInfinity() {
 		return false;
 	}

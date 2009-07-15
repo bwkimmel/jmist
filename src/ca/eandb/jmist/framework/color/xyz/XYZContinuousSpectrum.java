@@ -53,7 +53,6 @@ public final class XYZContinuousSpectrum implements Spectrum {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.Spectrum#sample(ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
-	@Override
 	public Color sample(WavelengthPacket lambda) {
 		return sample((XYZWavelengthPacket) lambda);
 	}

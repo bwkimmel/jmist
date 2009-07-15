@@ -24,7 +24,6 @@ public final class FisheyeLens implements Lens {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Lens#rayAt(ca.eandb.jmist.math.Point2)
 	 */
-	@Override
 	public Ray3 rayAt(Point2 p) {
 
 		double	nx = 2.0 * (p.x() - 0.5);
@@ -44,7 +43,6 @@ public final class FisheyeLens implements Lens {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.Point3)
 	 */
-	@Override
 	public Projection project(final Point3 p) {
 		if (-p.z() < MathUtil.EPSILON) {
 			return null;

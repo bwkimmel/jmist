@@ -52,7 +52,6 @@ public abstract class SceneDecorator implements Scene {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Scene#getLens()
 	 */
-	@Override
 	public Lens getLens() {
 		return inner.getLens();
 	}
@@ -60,7 +59,6 @@ public abstract class SceneDecorator implements Scene {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Scene#getLight()
 	 */
-	@Override
 	public Light getLight() {
 		return inner.getLight();
 	}
@@ -68,7 +66,6 @@ public abstract class SceneDecorator implements Scene {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Scene#getRoot()
 	 */
-	@Override
 	public SceneElement getRoot() {
 		return inner.getRoot();
 	}
@@ -76,7 +73,6 @@ public abstract class SceneDecorator implements Scene {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
 	 */
-	@Override
 	public Box3 boundingBox() {
 		return inner.boundingBox();
 	}
@@ -84,7 +80,6 @@ public abstract class SceneDecorator implements Scene {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
 	 */
-	@Override
 	public Sphere boundingSphere() {
 		return inner.boundingSphere();
 	}

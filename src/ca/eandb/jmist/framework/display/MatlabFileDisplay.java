@@ -83,7 +83,6 @@ public final class MatlabFileDisplay implements Display, Serializable {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Display#fill(int, int, int, int, ca.eandb.jmist.framework.color.Color)
 	 */
-	@Override
 	public void fill(int x, int y, int w, int h, Color color) {
 		for (int dy = 0; dy < h; dy++, y++) {
 			int index = (y * width + x) * channels;
@@ -98,7 +97,6 @@ public final class MatlabFileDisplay implements Display, Serializable {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Display#finish()
 	 */
-	@Override
 	public void finish() {
 		try {
 			OutputStream stream = getOutputStream();
@@ -128,7 +126,6 @@ public final class MatlabFileDisplay implements Display, Serializable {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Display#initialize(int, int, ca.eandb.jmist.framework.color.ColorModel)
 	 */
-	@Override
 	public void initialize(int w, int h, ColorModel colorModel) {
 		this.width = w;
 		this.height = h;
@@ -139,7 +136,6 @@ public final class MatlabFileDisplay implements Display, Serializable {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Display#setPixel(int, int, ca.eandb.jmist.framework.color.Color)
 	 */
-	@Override
 	public void setPixel(int x, int y, Color pixel) {
 		int index = (y * width + x) * channels;
 		for (int ch = 0; ch < channels; ch++) {
@@ -150,7 +146,6 @@ public final class MatlabFileDisplay implements Display, Serializable {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Display#setPixels(int, int, ca.eandb.jmist.framework.Raster)
 	 */
-	@Override
 	public void setPixels(int x, int y, Raster pixels) {
 		int w = pixels.getWidth();
 		int h = pixels.getHeight();

@@ -33,42 +33,34 @@ public interface Material extends Medium, Serializable {
 
 		private static final long serialVersionUID = 4301103342747509476L;
 
-		@Override
 		public Color emission(SurfacePoint x, Vector3 out, WavelengthPacket lambda) {
 			return lambda.getColorModel().getBlack(lambda);
 		}
 
-		@Override
 		public void emit(SurfacePoint x, WavelengthPacket lambda, Random rng, ScatteredRayRecorder recorder) {
 			/* nothing to do. */
 		}
 
-		@Override
 		public boolean isEmissive() {
 			return false;
 		}
 
-		@Override
 		public void scatter(SurfacePoint x, Vector3 in, WavelengthPacket lambda, Random rng, ScatteredRayRecorder recorder) {
 			/* nothing to do. */
 		}
 
-		@Override
 		public Color scattering(SurfacePoint x, Vector3 v, Vector3 out, WavelengthPacket lambda) {
 			return lambda.getColorModel().getBlack().sample(lambda);
 		}
 
-		@Override
 		public Color extinctionIndex(Point3 p, WavelengthPacket lambda) {
 			return lambda.getColorModel().getGray(Double.POSITIVE_INFINITY, lambda);
 		}
 
-		@Override
 		public Color refractiveIndex(Point3 p, WavelengthPacket lambda) {
 			return lambda.getColorModel().getWhite(lambda);
 		}
 
-		@Override
 		public Color transmittance(Ray3 ray, double distance, WavelengthPacket lambda) {
 			return lambda.getColorModel().getBlack(lambda);
 		}

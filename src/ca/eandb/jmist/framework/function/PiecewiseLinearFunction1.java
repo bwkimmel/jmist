@@ -30,7 +30,6 @@ public final class PiecewiseLinearFunction1 implements Function1 {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Function1#evaluate(double)
 	 */
-	@Override
 	public double evaluate(double x) {
 		return MathUtil.interpolate(xs, ys, x);
 	}

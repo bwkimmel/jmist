@@ -52,7 +52,6 @@ public final class RandomAdapter implements Random {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Random#createCompatibleRandom()
 	 */
-	@Override
 	public Random createCompatibleRandom() {
 		return new RandomAdapter(rnd);
 	}
@@ -60,7 +59,6 @@ public final class RandomAdapter implements Random {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Random#next()
 	 */
-	@Override
 	public double next() {
 		return rnd.nextDouble();
 	}
@@ -68,7 +66,6 @@ public final class RandomAdapter implements Random {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Random#reset()
 	 */
-	@Override
 	public void reset() {
 		/* nothing to do. */
 	}

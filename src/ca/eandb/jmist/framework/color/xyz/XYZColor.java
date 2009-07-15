@@ -72,7 +72,6 @@ public final class XYZColor implements Color, Spectrum {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.Color#clamp(double)
 	 */
-	@Override
 	public Color clamp(double max) {
 		return new XYZColor(Math.min(x, max), Math.min(y, max), Math.min(z, max), lambda);
 	}
@@ -80,7 +79,6 @@ public final class XYZColor implements Color, Spectrum {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.Color#clamp(double, double)
 	 */
-	@Override
 	public Color clamp(double min, double max) {
 		return new XYZColor(
 				Math.min(Math.max(x, min), max),
@@ -94,7 +92,6 @@ public final class XYZColor implements Color, Spectrum {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.Color#disperse(int)
 	 */
-	@Override
 	public Color disperse(int channel) {
 		switch (channel) {
 		case 0:
@@ -110,7 +107,6 @@ public final class XYZColor implements Color, Spectrum {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.Color#divide(ca.eandb.jmist.framework.color.Color)
 	 */
-	@Override
 	public Color divide(Color other) {
 		return divide((XYZColor) other);
 	}
@@ -122,7 +118,6 @@ public final class XYZColor implements Color, Spectrum {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.Color#divide(double)
 	 */
-	@Override
 	public Color divide(double c) {
 		return new XYZColor(x / c, y / c, z / c, lambda);
 	}
@@ -130,7 +125,6 @@ public final class XYZColor implements Color, Spectrum {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.Color#exp()
 	 */
-	@Override
 	public Color exp() {
 		return new XYZColor(Math.exp(x), Math.exp(y), Math.exp(z), lambda);
 	}
@@ -138,7 +132,6 @@ public final class XYZColor implements Color, Spectrum {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.Color#getColorModel()
 	 */
-	@Override
 	public ColorModel getColorModel() {
 		return XYZColorModel.getInstance();
 	}
@@ -146,7 +139,6 @@ public final class XYZColor implements Color, Spectrum {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.Color#getValue(int)
 	 */
-	@Override
 	public double getValue(int channel) {
 		switch (channel) {
 		case 0:
@@ -162,7 +154,6 @@ public final class XYZColor implements Color, Spectrum {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.Color#getWavelengthPacket()
 	 */
-	@Override
 	public WavelengthPacket getWavelengthPacket() {
 		return lambda;
 	}
@@ -170,7 +161,6 @@ public final class XYZColor implements Color, Spectrum {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.Color#invert()
 	 */
-	@Override
 	public Color invert() {
 		return new XYZColor(1.0 / x, 1.0 / y, 1.0 / z, lambda);
 	}
@@ -178,7 +168,6 @@ public final class XYZColor implements Color, Spectrum {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.Color#minus(ca.eandb.jmist.framework.color.Color)
 	 */
-	@Override
 	public Color minus(Color other) {
 		return minus((XYZColor) other);
 	}
@@ -190,7 +179,6 @@ public final class XYZColor implements Color, Spectrum {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.Color#negative()
 	 */
-	@Override
 	public Color negative() {
 		return new XYZColor(-x, -y, -z, lambda);
 	}
@@ -198,7 +186,6 @@ public final class XYZColor implements Color, Spectrum {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.Color#plus(ca.eandb.jmist.framework.color.Color)
 	 */
-	@Override
 	public Color plus(Color other) {
 		return plus((XYZColor) other);
 	}
@@ -210,7 +197,6 @@ public final class XYZColor implements Color, Spectrum {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.Color#pow(ca.eandb.jmist.framework.color.Color)
 	 */
-	@Override
 	public Color pow(Color other) {
 		return pow((XYZColor) other);
 	}
@@ -222,7 +208,6 @@ public final class XYZColor implements Color, Spectrum {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.Color#pow(double)
 	 */
-	@Override
 	public Color pow(double e) {
 		return new XYZColor(Math.pow(x, e), Math.pow(y, e), Math.pow(z, e), lambda);
 	}
@@ -230,7 +215,6 @@ public final class XYZColor implements Color, Spectrum {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.Color#sqrt()
 	 */
-	@Override
 	public Color sqrt() {
 		return new XYZColor(Math.sqrt(x), Math.sqrt(y), Math.sqrt(z), lambda);
 	}
@@ -238,7 +222,6 @@ public final class XYZColor implements Color, Spectrum {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.Color#times(ca.eandb.jmist.framework.color.Color)
 	 */
-	@Override
 	public Color times(Color other) {
 		return times((XYZColor) other);
 	}
@@ -250,7 +233,6 @@ public final class XYZColor implements Color, Spectrum {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.Color#times(double)
 	 */
-	@Override
 	public Color times(double c) {
 		return new XYZColor(x * c, y * c, z * c, lambda);
 	}
@@ -258,7 +240,6 @@ public final class XYZColor implements Color, Spectrum {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.Color#toArray()
 	 */
-	@Override
 	public double[] toArray() {
 		return new double[]{ x, y, z };
 	}
@@ -266,7 +247,6 @@ public final class XYZColor implements Color, Spectrum {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.Spectrum#sample(ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
-	@Override
 	public Color sample(WavelengthPacket lambda) {
 		return sample((XYZWavelengthPacket) lambda);
 	}

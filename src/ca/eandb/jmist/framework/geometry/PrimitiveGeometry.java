@@ -84,7 +84,6 @@ public abstract class PrimitiveGeometry extends AbstractGeometry {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SceneElement#getBoundingBox(int)
 	 */
-	@Override
 	public final Box3 getBoundingBox(int index) {
 		validate(index);
 		return boundingBox();
@@ -93,7 +92,6 @@ public abstract class PrimitiveGeometry extends AbstractGeometry {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SceneElement#getBoundingSphere(int)
 	 */
-	@Override
 	public final Sphere getBoundingSphere(int index) {
 		validate(index);
 		return boundingSphere();
@@ -102,7 +100,6 @@ public abstract class PrimitiveGeometry extends AbstractGeometry {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SceneElement#getNumPrimitives()
 	 */
-	@Override
 	public final int getNumPrimitives() {
 		return 1;
 	}
@@ -128,7 +125,6 @@ public abstract class PrimitiveGeometry extends AbstractGeometry {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SceneElement#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
-	@Override
 	public final void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
 		validate(index);
 		intersect(ray, recorder);

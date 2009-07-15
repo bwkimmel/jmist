@@ -59,7 +59,6 @@ public final class PrimitiveListGeometry extends AbstractGeometry {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SceneElement#getBoundingBox(int)
 	 */
-	@Override
 	public Box3 getBoundingBox(int index) {
 		return primitives.get(index).boundingBox();
 	}
@@ -67,7 +66,6 @@ public final class PrimitiveListGeometry extends AbstractGeometry {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SceneElement#getBoundingSphere(int)
 	 */
-	@Override
 	public Sphere getBoundingSphere(int index) {
 		return primitives.get(index).boundingSphere();
 	}
@@ -75,7 +73,6 @@ public final class PrimitiveListGeometry extends AbstractGeometry {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SceneElement#getNumPrimitives()
 	 */
-	@Override
 	public int getNumPrimitives() {
 		return primitives.size();
 	}
@@ -83,7 +80,6 @@ public final class PrimitiveListGeometry extends AbstractGeometry {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SceneElement#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
-	@Override
 	public void intersect(final int index, Ray3 ray, IntersectionRecorder recorder) {
 		primitives.get(index).intersect(ray, new IntersectionRecorderDecorator(recorder) {
 			public void record(Intersection intersection) {
@@ -100,7 +96,6 @@ public final class PrimitiveListGeometry extends AbstractGeometry {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
 	 */
-	@Override
 	public Box3 boundingBox() {
 		BoundingBoxBuilder3 builder = new BoundingBoxBuilder3();
 		for (PrimitiveGeometry primitive : primitives) {
@@ -112,7 +107,6 @@ public final class PrimitiveListGeometry extends AbstractGeometry {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
 	 */
-	@Override
 	public Sphere boundingSphere() {
 		Box3 box = boundingBox();
 		return new Sphere(box.center(), 0.5 * box.diagonal());

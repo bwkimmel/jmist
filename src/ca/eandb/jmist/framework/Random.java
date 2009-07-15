@@ -42,7 +42,6 @@ public interface Random extends Serializable {
 		/* (non-Javadoc)
 		 * @see ca.eandb.jmist.framework.Random#createCompatibleRandom()
 		 */
-		@Override
 		public Random createCompatibleRandom() {
 			return this;
 		}
@@ -50,7 +49,6 @@ public interface Random extends Serializable {
 		/* (non-Javadoc)
 		 * @see ca.eandb.jmist.framework.Random#next()
 		 */
-		@Override
 		public double next() {
 			return Math.random();
 		}
@@ -58,7 +56,6 @@ public interface Random extends Serializable {
 		/* (non-Javadoc)
 		 * @see ca.eandb.jmist.framework.Random#reset()
 		 */
-		@Override
 		public void reset() {
 			/* nothing to do. */
 		}

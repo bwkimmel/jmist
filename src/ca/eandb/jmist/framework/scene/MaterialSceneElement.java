@@ -78,7 +78,6 @@ public final class MaterialSceneElement extends ModifierSceneElement {
 
 			private static final long serialVersionUID = -2578460152471816304L;
 
-			@Override
 			public void illuminate(SurfacePoint x, WavelengthPacket lambda, Random rng, Illuminable target) {
 
 				ShadingContext context = new MinimalShadingContext(rng);
@@ -99,7 +98,6 @@ public final class MaterialSceneElement extends ModifierSceneElement {
 
 			}
 
-			@Override
 			public Emitter sample(Random rng) {
 				ShadingContext context = new MinimalShadingContext(rng);
 				generateRandomSurfacePoint(context);
@@ -135,7 +133,6 @@ public final class MaterialSceneElement extends ModifierSceneElement {
 			this.material = material;
 		}
 
-		@Override
 		public void modify(ShadingContext context) {
 			context.setMaterial(material);
 		}

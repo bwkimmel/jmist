@@ -56,7 +56,6 @@ public final class PanoramicLens implements Lens {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.lens.TransformableLens#rayAt(ca.eandb.jmist.math.Point2)
 	 */
-	@Override
 	public Ray3 rayAt(Point2 p) {
 
 		double theta = (p.x() - 0.5) * hfov;
@@ -75,7 +74,6 @@ public final class PanoramicLens implements Lens {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.Point3)
 	 */
-	@Override
 	public Projection project(Point3 p) {
 		double theta = Math.atan2(p.x(), -p.z());
 		final double x = 0.5 + theta / hfov;

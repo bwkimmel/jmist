@@ -42,7 +42,6 @@ public final class ComposedFunction1 extends CompositeFunction1 {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Function1#evaluate(double)
 	 */
-	@Override
 	public double evaluate(double x) {
 		for (Function1 f : children()) {
 			x = f.evaluate(x);

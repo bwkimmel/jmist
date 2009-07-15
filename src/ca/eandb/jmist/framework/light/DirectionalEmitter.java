@@ -61,7 +61,6 @@ public final class DirectionalEmitter implements Emitter {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Emitter#emit(ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random)
 	 */
-	@Override
 	public Photon emit(Sphere target, WavelengthPacket lambda, Random rng) {
 		Vector2 u = RandomUtil.uniformOnDisc(target.radius(), rng).toCartesian();
 		Point3 c = target.center();
@@ -77,7 +76,6 @@ public final class DirectionalEmitter implements Emitter {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Emitter#getEmittedRadiance(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
-	@Override
 	public Color getEmittedRadiance(Vector3 v, WavelengthPacket lambda) {
 		return lambda.getColorModel().getBlack(lambda);
 	}
@@ -85,7 +83,6 @@ public final class DirectionalEmitter implements Emitter {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Emitter#getRadiantExitance(ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
-	@Override
 	public Color getRadiantExitance(WavelengthPacket lambda) {
 		return radiantExitance.sample(lambda);
 	}
@@ -93,7 +90,6 @@ public final class DirectionalEmitter implements Emitter {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Emitter#isAtInfinity()
 	 */
-	@Override
 	public boolean isAtInfinity() {
 		return true;
 	}

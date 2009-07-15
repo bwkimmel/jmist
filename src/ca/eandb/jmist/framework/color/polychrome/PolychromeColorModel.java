@@ -75,7 +75,6 @@ public final class PolychromeColorModel extends ColorModel {
 
 		private final double[] values = new double[wavelengths.size()];
 
-		@Override
 		public Color clamp(double max) {
 			PolychromeColor result = new PolychromeColor();
 			for (int i = 0; i < values.length; i++) {
@@ -84,7 +83,6 @@ public final class PolychromeColorModel extends ColorModel {
 			return result;
 		}
 
-		@Override
 		public Color clamp(double min, double max) {
 			PolychromeColor result = new PolychromeColor();
 			for (int i = 0; i < values.length; i++) {
@@ -93,14 +91,12 @@ public final class PolychromeColorModel extends ColorModel {
 			return result;
 		}
 
-		@Override
 		public Color disperse(int channel) {
 			PolychromeColor result = new PolychromeColor();
 			result.values[channel] = values[channel];
 			return result;
 		}
 
-		@Override
 		public Color divide(Color other) {
 			return divide((PolychromeColor) other);
 		}
@@ -113,7 +109,6 @@ public final class PolychromeColorModel extends ColorModel {
 			return result;
 		}
 
-		@Override
 		public Color divide(double c) {
 			PolychromeColor result = new PolychromeColor();
 			for (int i = 0; i < values.length; i++) {
@@ -122,7 +117,6 @@ public final class PolychromeColorModel extends ColorModel {
 			return result;
 		}
 
-		@Override
 		public Color exp() {
 			PolychromeColor result = new PolychromeColor();
 			for (int i = 0; i < values.length; i++) {
@@ -131,22 +125,18 @@ public final class PolychromeColorModel extends ColorModel {
 			return result;
 		}
 
-		@Override
 		public ColorModel getColorModel() {
 			return PolychromeColorModel.this;
 		}
 
-		@Override
 		public double getValue(int channel) {
 			return values[channel];
 		}
 
-		@Override
 		public WavelengthPacket getWavelengthPacket() {
 			return lambda;
 		}
 
-		@Override
 		public Color invert() {
 			PolychromeColor result = new PolychromeColor();
 			for (int i = 0; i < values.length; i++) {
@@ -155,7 +145,6 @@ public final class PolychromeColorModel extends ColorModel {
 			return result;
 		}
 
-		@Override
 		public Color minus(Color other) {
 			return minus((PolychromeColor) other);
 		}
@@ -168,7 +157,6 @@ public final class PolychromeColorModel extends ColorModel {
 			return result;
 		}
 
-		@Override
 		public Color negative() {
 			PolychromeColor result = new PolychromeColor();
 			for (int i = 0; i < values.length; i++) {
@@ -177,7 +165,6 @@ public final class PolychromeColorModel extends ColorModel {
 			return result;
 		}
 
-		@Override
 		public Color plus(Color other) {
 			return plus((PolychromeColor) other);
 		}
@@ -190,7 +177,6 @@ public final class PolychromeColorModel extends ColorModel {
 			return result;
 		}
 
-		@Override
 		public Color pow(Color other) {
 			return pow((PolychromeColor) other);
 		}
@@ -203,7 +189,6 @@ public final class PolychromeColorModel extends ColorModel {
 			return result;
 		}
 
-		@Override
 		public Color pow(double e) {
 			PolychromeColor result = new PolychromeColor();
 			for (int i = 0; i < values.length; i++) {
@@ -213,7 +198,6 @@ public final class PolychromeColorModel extends ColorModel {
 
 		}
 
-		@Override
 		public Color sqrt() {
 			PolychromeColor result = new PolychromeColor();
 			for (int i = 0; i < values.length; i++) {
@@ -222,7 +206,6 @@ public final class PolychromeColorModel extends ColorModel {
 			return result;
 		}
 
-		@Override
 		public Color times(Color other) {
 			return times((PolychromeColor) other);
 		}
@@ -235,7 +218,6 @@ public final class PolychromeColorModel extends ColorModel {
 			return result;
 		}
 
-		@Override
 		public Color times(double c) {
 			PolychromeColor result = new PolychromeColor();
 			for (int i = 0; i < values.length; i++) {
@@ -244,12 +226,10 @@ public final class PolychromeColorModel extends ColorModel {
 			return result;
 		}
 
-		@Override
 		public double[] toArray() {
 			return values.clone();
 		}
 
-		@Override
 		public Color sample(WavelengthPacket lambda) {
 			return this;
 		}

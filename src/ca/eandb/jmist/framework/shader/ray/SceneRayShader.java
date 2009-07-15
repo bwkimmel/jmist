@@ -119,7 +119,6 @@ public final class SceneRayShader implements RayShader {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.RayShader#shadeRay(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
-	@Override
 	public Color shadeRay(Ray3 ray, WavelengthPacket lambda) {
 		Context context = new Context();
 		return context.castPrimaryRay(ray, lambda);
@@ -176,7 +175,6 @@ public final class SceneRayShader implements RayShader {
 			}
 		}
 
-		@Override
 		public Color castRay(ScatteredRay sr) {
 			ScatteredRay.Type type = sr.getType();
 			Ray3 ray = sr.getRay();
@@ -209,28 +207,23 @@ public final class SceneRayShader implements RayShader {
 			}
 		}
 
-		@Override
 		public Color getAmbientLight() {
 			// TODO add ambient illumination from scene
 			return getColorModel().getBlack(getWavelengthPacket());
 		}
 
-		@Override
 		public ColorModel getColorModel() {
 			return getImportance().getColorModel();
 		}
 
-		@Override
 		public WavelengthPacket getWavelengthPacket() {
 			return getImportance().getWavelengthPacket();
 		}
 
-		@Override
 		public Color getImportance() {
 			return stack.peek().importance;
 		}
 
-		@Override
 		public Iterable<LightSample> getLightSamples() {
 			List<LightSample> samples = stack.peek().samples;
 			if (samples == null) {
@@ -241,195 +234,157 @@ public final class SceneRayShader implements RayShader {
 			return samples;
 		}
 
-		@Override
 		public int getPathDepth() {
 			return totalDepth;
 		}
 
-		@Override
 		public int getPathDepthByType(Type type) {
 			Integer d = depth.get(type);
 			return (d != null ? d.intValue() : 0);
 		}
 
-		@Override
 		public ScatteredRays getScatteredRays() {
 			return stack.peek().scatteredRays;
 		}
 
-		@Override
 		public boolean isEyePath() {
 			return true;
 		}
 
-		@Override
 		public boolean isLightPath() {
 			return false;
 		}
 
-		@Override
 		public Color shade() {
 			return getShader().shade(this);
 		}
 
-		@Override
 		public double getDistance() {
 			return stack.peek().distance;
 		}
 
-		@Override
 		public Vector3 getIncident() {
 			return stack.peek().ray.direction();
 		}
 
-		@Override
 		public boolean isFront() {
 			return stack.peek().front;
 		}
 
-		@Override
 		public Basis3 getBasis() {
 			return stack.peek().basis;
 		}
 
-		@Override
 		public Vector3 getNormal() {
 			return stack.peek().basis.w();
 		}
 
-		@Override
 		public Point3 getPosition() {
 			return stack.peek().position;
 		}
 
-		@Override
 		public Basis3 getShadingBasis() {
 			return stack.peek().shadingBasis;
 		}
 
-		@Override
 		public Vector3 getShadingNormal() {
 			return stack.peek().shadingBasis.w();
 		}
 
-		@Override
 		public Vector3 getTangent() {
 			return stack.peek().basis.u();
 		}
 
-		@Override
 		public Point2 getUV() {
 			return stack.peek().uv;
 		}
 
-		@Override
 		public boolean visibility(Ray3 ray) {
 			return root.visibility(ray);
 		}
 
-		@Override
 		public boolean visibility(Point3 p, Point3 q) {
 			return root.visibility(p, q);
 		}
 
-		@Override
 		public void addLightSample(LightSample sample) {
 			List<LightSample> samples = stack.peek().samples;
 			assert(samples != null);
 			samples.add(sample);
 		}
 
-		@Override
 		public Modifier getModifier() {
 			return stack.peek().modifier;
 		}
 
-		@Override
 		public Random getRandom() {
 			return rng;
 		}
 
-		@Override
 		public Ray3 getRay() {
 			return stack.peek().ray;
 		}
 
-		@Override
 		public Shader getShader() {
 			return stack.peek().shader;
 		}
 
-		@Override
 		public void setAmbientMedium(Medium medium) {
 			stack.peek().medium = medium;
 		}
 
-		@Override
 		public void setBasis(Basis3 basis) {
 			stack.peek().basis = basis;
 		}
 
-		@Override
 		public void setMaterial(Material material) {
 			stack.peek().material = material;
 		}
 
-		@Override
 		public void setModifier(Modifier modifier) {
 			stack.peek().modifier = modifier;
 		}
 
-		@Override
 		public void setNormal(Vector3 normal) {
 			stack.peek().basis = Basis3.fromW(normal);
 		}
 
-		@Override
 		public void setPosition(Point3 position) {
 			stack.peek().position = position;
 		}
 
-		@Override
 		public void setPrimitiveIndex(int index) {
 			stack.peek().primitiveIndex = index;
 		}
 
-		@Override
 		public void setShader(Shader shader) {
 			stack.peek().shader = shader;
 		}
 
-		@Override
 		public void setShadingBasis(Basis3 basis) {
 			stack.peek().shadingBasis = basis;
 		}
 
-		@Override
 		public void setShadingNormal(Vector3 normal) {
 			stack.peek().shadingBasis = Basis3.fromW(normal);
 		}
 
-		@Override
 		public void setUV(Point2 uv) {
 			stack.peek().uv = uv;
 		}
 
-		@Override
 		public Medium getAmbientMedium() {
 			return stack.peek().medium;
 		}
 
-		@Override
 		public Material getMaterial() {
 			return stack.peek().material;
 		}
 
-		@Override
 		public int getPrimitiveIndex() {
 			return stack.peek().primitiveIndex;
 		}
 
-		@Override
 		public boolean visibility(Ray3 ray, double maximumDistance) {
 			return root.visibility(ray, maximumDistance);
 		}

@@ -158,7 +158,6 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SceneElement#getBoundingBox(int)
 	 */
-	@Override
 	public Box3 getBoundingBox(int index) {
 		return faces.get(index).boundingBox();
 	}
@@ -166,7 +165,6 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SceneElement#getBoundingSphere(int)
 	 */
-	@Override
 	public Sphere getBoundingSphere(int index) {
 		return faces.get(index).boundingSphere();
 	}
@@ -174,7 +172,6 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SceneElement#getNumPrimitives()
 	 */
-	@Override
 	public int getNumPrimitives() {
 		return faces.size();
 	}

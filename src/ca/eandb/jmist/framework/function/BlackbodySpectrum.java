@@ -31,7 +31,6 @@ public final class BlackbodySpectrum implements Function1 {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Function1#evaluate(double)
 	 */
-	@Override
 	public double evaluate(double wavelength) {
 
 		if (MathUtil.isZero(temperature)) {

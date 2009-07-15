@@ -51,7 +51,6 @@ public final class ProductFunction1 extends CompositeFunction1 {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Function1#evaluate(double)
 	 */
-	@Override
 	public double evaluate(double x) {
 
 		double product = 1.0;

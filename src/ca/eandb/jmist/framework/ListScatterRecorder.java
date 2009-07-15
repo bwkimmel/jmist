@@ -75,7 +75,6 @@ public final class ListScatterRecorder implements ScatteredRayRecorder {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.ScatteredRayRecorder#record(ca.eandb.jmist.framework.ScatteredRay)
 	 */
-	@Override
 	public void add(ScatteredRay sr) {
 		results.add(sr);
 	}

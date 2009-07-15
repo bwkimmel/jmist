@@ -78,7 +78,6 @@ public final class CookTorranceMaterial extends AbstractMaterial {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Medium#extinctionIndex(ca.eandb.jmist.math.Point3, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
-	@Override
 	public Color extinctionIndex(Point3 p, WavelengthPacket lambda) {
 		return k.sample(lambda);
 	}
@@ -86,7 +85,6 @@ public final class CookTorranceMaterial extends AbstractMaterial {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Medium#refractiveIndex(ca.eandb.jmist.math.Point3, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
-	@Override
 	public Color refractiveIndex(Point3 p, WavelengthPacket lambda) {
 		return n.sample(lambda);
 	}
@@ -94,7 +92,6 @@ public final class CookTorranceMaterial extends AbstractMaterial {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Medium#transmittance(ca.eandb.jmist.math.Ray3, double, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
-	@Override
 	public Color transmittance(Ray3 ray, double distance, WavelengthPacket lambda) {
 		return lambda.getColorModel().getBlack(lambda);
 	}

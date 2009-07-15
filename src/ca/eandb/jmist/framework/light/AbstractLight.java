@@ -40,7 +40,6 @@ public abstract class AbstractLight implements Light {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Light#emit(ca.eandb.jmist.math.Sphere, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random)
 	 */
-	@Override
 	public Photon emit(Sphere target, WavelengthPacket lambda, Random rng) {
 		return sample(rng).emit(target, lambda, rng);
 	}

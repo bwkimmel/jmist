@@ -51,7 +51,6 @@ public final class ScaledEmitter implements Emitter {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Emitter#emit(ca.eandb.jmist.math.Sphere, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random)
 	 */
-	@Override
 	public Photon emit(Sphere target, WavelengthPacket lambda, Random rng) {
 		Photon photon = inner.emit(target, lambda, rng);
 		return new Photon(photon.ray(), photon.power().times(scale));
@@ -60,7 +59,6 @@ public final class ScaledEmitter implements Emitter {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Emitter#getEmittedRadiance(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
-	@Override
 	public Color getEmittedRadiance(Vector3 v, WavelengthPacket lambda) {
 		return inner.getEmittedRadiance(v, lambda).times(scale);
 	}
@@ -68,7 +66,6 @@ public final class ScaledEmitter implements Emitter {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Emitter#getRadiantExitance(ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
-	@Override
 	public Color getRadiantExitance(WavelengthPacket lambda) {
 		return inner.getRadiantExitance(lambda).times(scale);
 	}
@@ -76,7 +73,6 @@ public final class ScaledEmitter implements Emitter {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Emitter#isAtInfinity()
 	 */
-	@Override
 	public boolean isAtInfinity() {
 		return inner.isAtInfinity();
 	}

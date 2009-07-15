@@ -36,7 +36,6 @@ public abstract class AbstractRaster implements Raster {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Raster#addPixel(int, int, ca.eandb.jmist.framework.color.Color)
 	 */
-	@Override
 	public void addPixel(int x, int y, Color pixel) {
 		setPixel(x, y, getPixel(x, y).plus(pixel));
 	}

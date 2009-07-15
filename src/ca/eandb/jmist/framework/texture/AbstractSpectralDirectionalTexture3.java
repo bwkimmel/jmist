@@ -40,7 +40,6 @@ public abstract class AbstractSpectralDirectionalTexture3 implements
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.DirectionalTexture3#evaluate(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
-	@Override
 	public Color evaluate(Vector3 v, WavelengthPacket lambda) {
 		return evaluate(v).sample(lambda);
 	}

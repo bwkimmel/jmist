@@ -59,7 +59,6 @@ public final class TransformableGeometry extends AbstractGeometry implements
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
 	 */
-	@Override
 	public Box3 boundingBox() {
 
 		BoundingBoxBuilder3 builder = new BoundingBoxBuilder3();
@@ -76,7 +75,6 @@ public final class TransformableGeometry extends AbstractGeometry implements
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
 	 */
-	@Override
 	public Sphere boundingSphere() {
 
 		List<Point3> corners = new ArrayList<Point3>(8);
@@ -93,7 +91,6 @@ public final class TransformableGeometry extends AbstractGeometry implements
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SceneElement#getBoundingBox(int)
 	 */
-	@Override
 	public Box3 getBoundingBox(int index) {
 
 		BoundingBoxBuilder3 builder = new BoundingBoxBuilder3();
@@ -110,7 +107,6 @@ public final class TransformableGeometry extends AbstractGeometry implements
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SceneElement#getBoundingSphere(int)
 	 */
-	@Override
 	public Sphere getBoundingSphere(int index) {
 
 		List<Point3> corners = new ArrayList<Point3>(8);
@@ -127,7 +123,6 @@ public final class TransformableGeometry extends AbstractGeometry implements
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SceneElement#getNumPrimitives()
 	 */
-	@Override
 	public int getNumPrimitives() {
 		return geometry.getNumPrimitives();
 	}

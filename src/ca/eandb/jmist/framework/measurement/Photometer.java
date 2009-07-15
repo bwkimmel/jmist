@@ -158,17 +158,14 @@ public final class Photometer {
 			return Basis3.STANDARD;
 		}
 
-		@Override
 		public Medium getAmbientMedium() {
 			return Medium.VACUUM;
 		}
 
-		@Override
 		public Material getMaterial() {
 			return specimen;
 		}
 
-		@Override
 		public int getPrimitiveIndex() {
 			return 0;
 		}

@@ -59,7 +59,6 @@ public final class SphereFurnaceScene extends AbstractScene {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Scene#getLens()
 	 */
-	@Override
 	public Lens getLens() {
 		return lens;
 	}
@@ -67,7 +66,6 @@ public final class SphereFurnaceScene extends AbstractScene {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Scene#getLight()
 	 */
-	@Override
 	public Light getLight() {
 		return root.createLight();
 	}
@@ -75,7 +73,6 @@ public final class SphereFurnaceScene extends AbstractScene {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Scene#getRoot()
 	 */
-	@Override
 	public SceneElement getRoot() {
 		return root;
 	}

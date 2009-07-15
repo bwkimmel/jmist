@@ -73,7 +73,6 @@ public final class DirectionalLightSample implements LightSample {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.LightSample#castShadowRay(ca.eandb.jmist.framework.VisibilityFunction3)
 	 */
-	@Override
 	public boolean castShadowRay(VisibilityFunction3 vf) {
 		return shadows && vf.visibility(new Ray3(x.getPosition(), direction));
 	}
@@ -81,7 +80,6 @@ public final class DirectionalLightSample implements LightSample {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.LightSample#getRadiantIntensity()
 	 */
-	@Override
 	public Color getRadiantIntensity() {
 		return radiance;
 	}
@@ -89,7 +87,6 @@ public final class DirectionalLightSample implements LightSample {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.LightSample#getDirToLight()
 	 */
-	@Override
 	public Vector3 getDirToLight() {
 		return direction;
 	}

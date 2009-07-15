@@ -48,7 +48,6 @@ public final class SphericalLens implements Lens {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.packages.TransformableLens#viewRayAt(ca.eandb.jmist.toolkit.Point2)
 	 */
-	@Override
 	public Ray3 rayAt(Point2 p) {
 
 	    double		nx = (0.5 - p.x()) * hfov;
@@ -68,7 +67,6 @@ public final class SphericalLens implements Lens {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.Point3)
 	 */
-	@Override
 	public Projection project(Point3 p) {
 		Vector3 dir = p.vectorFromOrigin().unit();
 

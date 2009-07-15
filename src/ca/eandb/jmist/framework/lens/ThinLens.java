@@ -75,7 +75,6 @@ public final class ThinLens implements Lens {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Lens#rayAt(ca.eandb.jmist.math.Point2)
 	 */
-	@Override
 	public Ray3 rayAt(Point2 p) {
 
 		Vector2		ap				= RandomUtil.uniformOnDisc(aperatureRadius, Random.DEFAULT).toCartesian();
@@ -95,7 +94,6 @@ public final class ThinLens implements Lens {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.Point3)
 	 */
-	@Override
 	public Projection project(Point3 p) {
 		if (-p.z() < MathUtil.EPSILON) {
 			return null;

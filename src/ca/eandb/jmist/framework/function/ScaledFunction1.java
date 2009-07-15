@@ -40,7 +40,6 @@ public final class ScaledFunction1 implements Function1 {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Function1#evaluate(double)
 	 */
-	@Override
 	public double evaluate(double x) {
 		return this.factor * this.inner.evaluate(x);
 	}

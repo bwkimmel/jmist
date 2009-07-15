@@ -147,7 +147,6 @@ public final class DayLight extends AbstractLight implements DirectionalTexture3
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.DirectionalTexture3#evaluate(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
-	@Override
 	public Color evaluate(Vector3 v, WavelengthPacket lambda) {
 		return lambda.getColorModel().getContinuous(new SkyRadianceSpectrum(v)).sample(lambda);
 	}
@@ -155,7 +154,6 @@ public final class DayLight extends AbstractLight implements DirectionalTexture3
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.DirectionalTexture3#evaluate(ca.eandb.jmist.math.Vector3)
 	 */
-	@Override
 	public Spectrum evaluate(final Vector3 v) {
 		return new Spectrum() {
 			private static final long serialVersionUID = 7992544267450760499L;
@@ -189,7 +187,6 @@ public final class DayLight extends AbstractLight implements DirectionalTexture3
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Light#sample(ca.eandb.jmist.framework.Random)
 	 */
-	@Override
 	public Emitter sample(Random rng) {
 		// TODO Auto-generated method stub
 		return null;
@@ -197,25 +194,21 @@ public final class DayLight extends AbstractLight implements DirectionalTexture3
 
 	private final class DayLightEmitter implements Emitter {
 
-		@Override
 		public Photon emit(Sphere target, WavelengthPacket lambda, Random rng) {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
-		@Override
 		public Color getEmittedRadiance(Vector3 v, WavelengthPacket lambda) {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
-		@Override
 		public Color getRadiantExitance(WavelengthPacket lambda) {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
-		@Override
 		public boolean isAtInfinity() {
 			return true;
 		}
@@ -330,7 +323,6 @@ public final class DayLight extends AbstractLight implements DirectionalTexture3
 		/* (non-Javadoc)
 		 * @see ca.eandb.jmist.framework.Function1#evaluate(double)
 		 */
-		@Override
 		public double evaluate(double wavelength) {
 
 			this.ensureReady();
@@ -382,7 +374,6 @@ public final class DayLight extends AbstractLight implements DirectionalTexture3
 		/* (non-Javadoc)
 		 * @see ca.eandb.jmist.framework.Function1#evaluate(double)
 		 */
-		@Override
 		public double evaluate(double wavelength) {
 
 			double	H0 = MathUtil.interpolate(DL_WAVELENGTHS, SOLAR_RADIANCE, wavelength);

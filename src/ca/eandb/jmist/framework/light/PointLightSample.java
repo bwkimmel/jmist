@@ -72,7 +72,6 @@ public final class PointLightSample implements LightSample {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.LightSample#castShadowRay(ca.eandb.jmist.framework.VisibilityFunction3)
 	 */
-	@Override
 	public boolean castShadowRay(VisibilityFunction3 vf) {
 		return shadows && !vf.visibility(x.getPosition(), position);
 	}
@@ -80,7 +79,6 @@ public final class PointLightSample implements LightSample {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.LightSample#getRadiantIntensity()
 	 */
-	@Override
 	public Color getRadiantIntensity() {
 		return intensity;
 	}
@@ -88,7 +86,6 @@ public final class PointLightSample implements LightSample {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.LightSample#getDirToLight()
 	 */
-	@Override
 	public Vector3 getDirToLight() {
 		return x.getPosition().vectorTo(position).unit();
 	}

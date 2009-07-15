@@ -119,7 +119,6 @@ public final class LightTracingJob extends AbstractParallelizableJob {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jdcp.job.ParallelizableJob#getNextTask()
 	 */
-	@Override
 	public Object getNextTask() throws Exception {
 		if (tasksProvided < tasks) {
 			return tasksProvided++ < extraPhotons ? minPhotonsPerTask + 1
@@ -132,7 +131,6 @@ public final class LightTracingJob extends AbstractParallelizableJob {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jdcp.job.ParallelizableJob#isComplete()
 	 */
-	@Override
 	public boolean isComplete() throws Exception {
 		return tasksSubmitted == tasks;
 	}
@@ -148,7 +146,6 @@ public final class LightTracingJob extends AbstractParallelizableJob {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jdcp.job.ParallelizableJob#submitTaskResults(java.lang.Object, java.lang.Object, ca.eandb.util.progress.ProgressMonitor)
 	 */
-	@Override
 	public void submitTaskResults(Object task, Object results,
 			ProgressMonitor monitor) throws Exception {
 
@@ -214,7 +211,6 @@ public final class LightTracingJob extends AbstractParallelizableJob {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jdcp.job.ParallelizableJob#worker()
 	 */
-	@Override
 	public TaskWorker worker() throws Exception {
 		return new Worker();
 	}
@@ -246,7 +242,6 @@ public final class LightTracingJob extends AbstractParallelizableJob {
 		/* (non-Javadoc)
 		 * @see ca.eandb.jdcp.job.TaskWorker#performTask(java.lang.Object, ca.eandb.util.progress.ProgressMonitor)
 		 */
-		@Override
 		public Object performTask(Object task, ProgressMonitor monitor) {
 
 			int photons = (Integer) task;

@@ -48,7 +48,6 @@ public final class DirectionalLight extends AbstractLight {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Light#sample(ca.eandb.jmist.framework.Random)
 	 */
-	@Override
 	public Emitter sample(Random rng) {
 		return emitter;
 	}

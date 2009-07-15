@@ -54,7 +54,6 @@ public final class Texture3Painter implements Painter {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Painter#getColor(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
-	@Override
 	public Color getColor(SurfacePoint p, WavelengthPacket lambda) {
 		return texture.evaluate(p.getPosition(), lambda);
 	}

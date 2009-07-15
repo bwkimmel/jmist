@@ -85,7 +85,6 @@ public class CompositeGeometry extends AbstractGeometry {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SceneElement#getBoundingBox(int)
 	 */
-	@Override
 	public Box3 getBoundingBox(int index) {
 		int childIndex = getChildIndex(index);
 		int offset = offsets.get(childIndex);
@@ -96,7 +95,6 @@ public class CompositeGeometry extends AbstractGeometry {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SceneElement#getBoundingSphere(int)
 	 */
-	@Override
 	public Sphere getBoundingSphere(int index) {
 		int childIndex = getChildIndex(index);
 		int offset = offsets.get(childIndex);
@@ -107,7 +105,6 @@ public class CompositeGeometry extends AbstractGeometry {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SceneElement#getNumPrimitives()
 	 */
-	@Override
 	public int getNumPrimitives() {
 		return offsets.get(offsets.size() - 1);
 	}
@@ -128,7 +125,6 @@ public class CompositeGeometry extends AbstractGeometry {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SceneElement#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
-	@Override
 	public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
 		int childIndex = getChildIndex(index);
 		int offset = offsets.get(childIndex);

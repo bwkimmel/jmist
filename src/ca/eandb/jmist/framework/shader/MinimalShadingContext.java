@@ -42,7 +42,6 @@ public final class MinimalShadingContext extends AbstractShadingContext {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.ShadingContext#getRandom()
 	 */
-	@Override
 	public Random getRandom() {
 		return random;
 	}

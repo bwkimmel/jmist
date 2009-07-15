@@ -20,7 +20,6 @@ public abstract class AbstractMaterial implements Material {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Material#emission(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
-	@Override
 	public Color emission(SurfacePoint x, Vector3 out, WavelengthPacket lambda) {
 		return lambda.getColorModel().getBlack(lambda);
 	}
@@ -28,7 +27,6 @@ public abstract class AbstractMaterial implements Material {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Material#emit(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random, ca.eandb.jmist.framework.ScatteredRayRecorder)
 	 */
-	@Override
 	public void emit(SurfacePoint x, WavelengthPacket lambda, Random rng, ScatteredRayRecorder recorder) {
 		/* nothing to do. */
 	}
@@ -36,7 +34,6 @@ public abstract class AbstractMaterial implements Material {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Material#isEmissive()
 	 */
-	@Override
 	public boolean isEmissive() {
 		return false;
 	}
@@ -44,7 +41,6 @@ public abstract class AbstractMaterial implements Material {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Material#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random, ca.eandb.jmist.framework.ScatteredRayRecorder)
 	 */
-	@Override
 	public void scatter(SurfacePoint x, Vector3 v, WavelengthPacket lambda, Random rng, ScatteredRayRecorder recorder) {
 		/* nothing to do. */
 	}
@@ -52,7 +48,6 @@ public abstract class AbstractMaterial implements Material {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Material#scattering(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
-	@Override
 	public Color scattering(SurfacePoint x, Vector3 in, Vector3 out, WavelengthPacket lambda) {
 		return lambda.getColorModel().getBlack(lambda);
 	}

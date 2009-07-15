@@ -38,7 +38,6 @@ public abstract class AbstractScene implements Scene {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
 	 */
-	@Override
 	public Box3 boundingBox() {
 		return getRoot().boundingBox();
 	}
@@ -46,7 +45,6 @@ public abstract class AbstractScene implements Scene {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
 	 */
-	@Override
 	public Sphere boundingSphere() {
 		return getRoot().boundingSphere();
 	}

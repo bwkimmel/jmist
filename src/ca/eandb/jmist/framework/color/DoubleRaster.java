@@ -51,7 +51,6 @@ public abstract class DoubleRaster implements Raster {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Raster#getPixel(int, int)
 	 */
-	@Override
 	public Color getPixel(int x, int y) {
 		int index = (y * width + x) * channels;
 		return getPixel(raster, index);
@@ -62,7 +61,6 @@ public abstract class DoubleRaster implements Raster {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Raster#addPixel(int, int, ca.eandb.jmist.framework.color.Color)
 	 */
-	@Override
 	public void addPixel(int x, int y, Color pixel) {
 		int index = (y * width + x) * channels;
 		for (int ch = 0; ch < channels; ch++) {
@@ -73,7 +71,6 @@ public abstract class DoubleRaster implements Raster {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.RasterWriter#getHeight()
 	 */
-	@Override
 	public int getHeight() {
 		return height;
 	}
@@ -81,7 +78,6 @@ public abstract class DoubleRaster implements Raster {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.RasterWriter#getWidth()
 	 */
-	@Override
 	public int getWidth() {
 		return width;
 	}
@@ -89,7 +85,6 @@ public abstract class DoubleRaster implements Raster {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.RasterWriter#setPixel(int, int, ca.eandb.jmist.framework.color.Color)
 	 */
-	@Override
 	public void setPixel(int x, int y, Color color) {
 		int index = (y * width + x) * channels;
 		for (int ch = 0; ch < channels; ch++) {

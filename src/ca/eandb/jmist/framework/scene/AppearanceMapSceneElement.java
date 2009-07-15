@@ -218,7 +218,6 @@ public final class AppearanceMapSceneElement extends SceneElementDecorator {
 
 			private static final long serialVersionUID = -8364217558705142738L;
 
-			@Override
 			public void illuminate(SurfacePoint x, WavelengthPacket lambda, Random rng, Illuminable target) {
 				ShadingContext context = new MinimalShadingContext(rng);
 
@@ -240,7 +239,6 @@ public final class AppearanceMapSceneElement extends SceneElementDecorator {
 				target.addLightSample(sample);
 			}
 
-			@Override
 			public Emitter sample(Random rng) {
 				ShadingContext context = new MinimalShadingContext(rng);
 

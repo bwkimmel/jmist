@@ -58,7 +58,6 @@ public final class CompositeModifier implements Modifier {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Modifier#modify(ca.eandb.jmist.framework.ShadingContext)
 	 */
-	@Override
 	public void modify(ShadingContext context) {
 		for (Modifier modifier : modifiers) {
 			modifier.modify(context);

@@ -45,7 +45,6 @@ public final class PathTracingShader implements Shader {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
 	 */
-	@Override
 	public Color shade(ShadingContext sc) {
 
 		ScatteredRay ray = sc.getScatteredRays().getRandomScatteredRay(true);

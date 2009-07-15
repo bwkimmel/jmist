@@ -68,7 +68,6 @@ public final class HemisphericalLight extends AbstractLight {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random, ca.eandb.jmist.framework.Illuminable)
 	 */
-	@Override
 	public void illuminate(SurfacePoint x, WavelengthPacket lambda, Random rng, Illuminable target) {
 
 		Vector3	source = RandomUtil.uniformOnUpperHemisphere(rng).toCartesian(basis);
@@ -81,7 +80,6 @@ public final class HemisphericalLight extends AbstractLight {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Light#sample(ca.eandb.jmist.framework.Random)
 	 */
-	@Override
 	public Emitter sample(Random rng) {
 		Vector3 source = RandomUtil.uniformOnUpperHemisphere(rng).toCartesian();
 		Spectrum radiance = environment.evaluate(source);
