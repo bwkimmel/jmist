@@ -90,7 +90,7 @@ public final class LightTracingJob extends AbstractParallelizableJob {
 
 	private transient int tasksSubmitted = 0;
 
-	public LightTracingJob(Scene scene, Display display, int width, int height, String formatName, ColorModel colorModel, Random random, int photons, int tasks) {
+	public LightTracingJob(Scene scene, Display display, int width, int height, ColorModel colorModel, Random random, int photons, int tasks) {
 		this.scene = scene;
 		this.display = display;
 		this.colorModel = colorModel;
