@@ -379,6 +379,132 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 	}
 
 	/**
+	 * Computes the product of the given dimensions.
+	 * @param The array dimensions to compute the product of.
+	 */
+	private int product(int[] dims) {
+		int prod = 1;
+		for (int i = 0; i < dims.length; i++) {
+			prod *= dims[i];
+		}
+		return prod;
+	}
+
+	/**
+	 * Writes a <code>boolean</code> MATLAB element to the underlying stream.
+	 * @param array The array of <code>boolean</code> values to write.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void writeElement(boolean[] array, int[] dims, int[] strides) throws IOException {
+		this.writePrimitiveElementTag(MatlabDataType.UINT8, product(dims));
+		this.writeBooleans(array, dims, strides);
+	}
+
+	/**
+	 * Writes a <code>double</code> MATLAB element to the underlying stream.
+	 * @param array The array of <code>double</code> values to write.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void writeElement(double[] array, int[] dims, int[] strides) throws IOException {
+		this.writePrimitiveElementTag(MatlabDataType.DOUBLE, product(dims));
+		this.writeDoubles(array, dims, strides);
+	}
+
+	/**
+	 * Writes a <code>float</code> MATLAB element to the underlying stream.
+	 * @param array The array of <code>float</code> values to write.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void writeElement(float[] array, int[] dims, int[] strides) throws IOException {
+		this.writePrimitiveElementTag(MatlabDataType.SINGLE, product(dims));
+		this.writeFloats(array, dims, strides);
+	}
+
+	/**
+	 * Writes a <code>byte</code> MATLAB element to the underlying stream.
+	 * @param array The array of <code>byte</code> values to write.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void writeElement(byte[] array, int[] dims, int[] strides) throws IOException {
+		this.writePrimitiveElementTag(MatlabDataType.INT8, product(dims));
+		this.writeBytes(array, dims, strides);
+	}
+
+	/**
+	 * Writes a <code>short</code> MATLAB element to the underlying stream.
+	 * @param array The array of <code>short</code> values to write.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void writeElement(short[] array, int[] dims, int[] strides) throws IOException {
+		this.writePrimitiveElementTag(MatlabDataType.INT16, product(dims));
+		this.writeShorts(array, dims, strides);
+	}
+
+	/**
+	 * Writes a <code>int</code> MATLAB element to the underlying stream.
+	 * @param array The array of <code>int</code> values to write.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void writeElement(int[] array, int[] dims, int[] strides) throws IOException {
+		this.writePrimitiveElementTag(MatlabDataType.INT32, product(dims));
+		this.writeInts(array, dims, strides);
+	}
+
+	/**
+	 * Writes a <code>long</code> MATLAB element to the underlying stream.
+	 * @param array The array of <code>long</code> values to write.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void writeElement(long[] array, int[] dims, int[] strides) throws IOException {
+		this.writePrimitiveElementTag(MatlabDataType.INT64, product(dims));
+		this.writeLongs(array, dims, strides);
+	}
+
+	/**
+	 * Writes an unsigned <code>byte</code> MATLAB element to the underlying
+	 * stream.
+	 * @param array The array of <code>byte</code> values to write.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void writeUnsignedElement(byte[] array, int[] dims, int[] strides) throws IOException {
+		this.writePrimitiveElementTag(MatlabDataType.UINT8, product(dims));
+		this.writeBytes(array, dims, strides);
+	}
+
+	/**
+	 * Writes an unsigned <code>short</code> MATLAB element to the underlying
+	 * stream.
+	 * @param array The array of <code>short</code> values to write.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void writeUnsignedElement(short[] array, int[] dims, int[] strides) throws IOException {
+		this.writePrimitiveElementTag(MatlabDataType.UINT16, product(dims));
+		this.writeShorts(array, dims, strides);
+	}
+
+	/**
+	 * Writes an unsigned <code>int</code> MATLAB element to the underlying
+	 * stream.
+	 * @param array The array of <code>int</code> values to write.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void writeUnsignedElement(int[] array, int[] dims, int[] strides) throws IOException {
+		this.writePrimitiveElementTag(MatlabDataType.UINT32, product(dims));
+		this.writeInts(array, dims, strides);
+	}
+
+	/**
+	 * Writes an unsigned <code>long</code> MATLAB element to the underlying
+	 * stream.
+	 * @param array The array of <code>long</code> values to write.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void writeUnsignedElement(long[] array, int[] dims, int[] strides) throws IOException {
+		this.writePrimitiveElementTag(MatlabDataType.UINT64, product(dims));
+		this.writeLongs(array, dims, strides);
+	}
+
+	/**
 	 * Writes an array flags element to the underlying stream.
 	 * @param type The <code>MatlabArrayType</code> of the array for which to
 	 * 		write the flags element.
@@ -596,11 +722,107 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 		}
 	}
 
+	/**
+	 * Writes an array of <code>boolean</code> values to the underlying stream.
+	 * @param array The array of <code>boolean</code> values to write.
+	 * @param dims The dimensions of the array.
+	 * @param strides The distance between consecutive array entries along each
+	 * 		dimension.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void writeBooleans(boolean[] array, int[] dims, int[] strides) throws IOException {
+		if (strides != null) {
+			if (dims == null || strides == null) {
+				throw new IllegalArgumentException("dims == null || strides == null");
+			} else if (dims.length != strides.length) {
+				throw new IllegalArgumentException("dims.length != strides.length");
+			} else if (dims.length == 0) {
+				throw new IllegalArgumentException("dims.length == 0");
+			}
+			writeBooleans(array, 0, dims.length - 1, dims, strides);
+		} else {
+			writeBooleans(array);
+		}
+	}
+
+	/**
+	 * Writes an array of <code>boolean</code> values to the underlying stream.
+	 * @param array The array of <code>boolean</code> values to write.
+	 * @param ofs The index of the first element in <code>array</code> to
+	 * 		write.
+	 * @param d The dimension being written.
+	 * @param dims The dimensions of the array.
+	 * @param strides The distance between consecutive array entries along each
+	 * 		dimension.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	private void writeBooleans(boolean[] array, int ofs, int d, int[] dims, int[] strides) throws IOException {
+		int dim = dims[d];
+		int stride = strides[d];
+		if (d > 0) {
+			for (int i = 0; i < dim; i++, ofs += stride) {
+				writeBooleans(array, ofs, d - 1, dims, strides);
+			}
+		} else {
+			for (int i = 0; i < dim; i++, ofs += stride) {
+				writeBoolean(array[ofs]);
+			}
+		}
+	}
+
 	/* (non-Javadoc)
 	 * @see java.io.DataOutput#writeByte(int)
 	 */
 	public void writeByte(int arg0) throws IOException {
 		this.stream().writeByte(arg0);
+	}
+
+	/**
+	 * Writes an array of <code>byte</code> values to the underlying stream.
+	 * @param array The array of <code>byte</code> values to write.
+	 * @param dims The dimensions of the array.
+	 * @param strides The distance between consecutive array entries along each
+	 * 		dimension.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void writeBytes(byte[] array, int[] dims, int[] strides) throws IOException {
+		if (strides != null) {
+			if (dims == null) {
+				throw new IllegalArgumentException("dims == null || strides == null");
+			} else if (dims.length != strides.length) {
+				throw new IllegalArgumentException("dims.length != strides.length");
+			} else if (dims.length == 0) {
+				throw new IllegalArgumentException("dims.length == 0");
+			}
+			writeBytes(array, 0, dims.length - 1, dims, strides);
+		} else {
+			write(array);
+		}
+	}
+
+	/**
+	 * Writes an array of <code>byte</code> values to the underlying stream.
+	 * @param array The array of <code>byte</code> values to write.
+	 * @param ofs The index of the first element in <code>array</code> to
+	 * 		write.
+	 * @param d The dimension being written.
+	 * @param dims The dimensions of the array.
+	 * @param strides The distance between consecutive array entries along each
+	 * 		dimension.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	private void writeBytes(byte[] array, int ofs, int d, int[] dims, int[] strides) throws IOException {
+		int dim = dims[d];
+		int stride = strides[d];
+		if (d > 0) {
+			for (int i = 0; i < dim; i++, ofs += stride) {
+				writeBytes(array, ofs, d - 1, dims, strides);
+			}
+		} else {
+			for (int i = 0; i < dim; i++, ofs += stride) {
+				writeByte(array[ofs]);
+			}
+		}
 	}
 
 	/* (non-Javadoc)
@@ -654,6 +876,54 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 		}
 	}
 
+	/**
+	 * Writes an array of <code>double</code> values to the underlying stream.
+	 * @param array The array of <code>double</code> values to write.
+	 * @param dims The dimensions of the array.
+	 * @param strides The distance between consecutive array entries along each
+	 * 		dimension.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void writeDoubles(double[] array, int[] dims, int[] strides) throws IOException {
+		if (strides != null) {
+			if (dims == null) {
+				throw new IllegalArgumentException("dims == null || strides == null");
+			} else if (dims.length != strides.length) {
+				throw new IllegalArgumentException("dims.length != strides.length");
+			} else if (dims.length == 0) {
+				throw new IllegalArgumentException("dims.length == 0");
+			}
+			writeDoubles(array, 0, dims.length - 1, dims, strides);
+		} else {
+			writeDoubles(array);
+		}
+	}
+
+	/**
+	 * Writes an array of <code>double</code> values to the underlying stream.
+	 * @param array The array of <code>double</code> values to write.
+	 * @param ofs The index of the first element in <code>array</code> to
+	 * 		write.
+	 * @param d The dimension being written.
+	 * @param dims The dimensions of the array.
+	 * @param strides The distance between consecutive array entries along each
+	 * 		dimension.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	private void writeDoubles(double[] array, int ofs, int d, int[] dims, int[] strides) throws IOException {
+		int dim = dims[d];
+		int stride = strides[d];
+		if (d > 0) {
+			for (int i = 0; i < dim; i++, ofs += stride) {
+				writeDoubles(array, ofs, d - 1, dims, strides);
+			}
+		} else {
+			for (int i = 0; i < dim; i++, ofs += stride) {
+				writeDouble(array[ofs]);
+			}
+		}
+	}
+
 	/* (non-Javadoc)
 	 * @see java.io.DataOutput#writeFloat(float)
 	 */
@@ -681,6 +951,54 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 	public void writeFloats(float[] array, int ofs, int len) throws IOException {
 		for (int i = 0; i < len; i++) {
 			this.writeFloat(array[ofs + i]);
+		}
+	}
+
+	/**
+	 * Writes an array of <code>float</code> values to the underlying stream.
+	 * @param array The array of <code>float</code> values to write.
+	 * @param dims The dimensions of the array.
+	 * @param strides The distance between consecutive array entries along each
+	 * 		dimension.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void writeFloats(float[] array, int[] dims, int[] strides) throws IOException {
+		if (strides != null) {
+			if (dims == null) {
+				throw new IllegalArgumentException("dims == null || strides == null");
+			} else if (dims.length != strides.length) {
+				throw new IllegalArgumentException("dims.length != strides.length");
+			} else if (dims.length == 0) {
+				throw new IllegalArgumentException("dims.length == 0");
+			}
+			writeFloats(array, 0, dims.length - 1, dims, strides);
+		} else {
+			writeFloats(array);
+		}
+	}
+
+	/**
+	 * Writes an array of <code>float</code> values to the underlying stream.
+	 * @param array The array of <code>float</code> values to write.
+	 * @param ofs The index of the first element in <code>array</code> to
+	 * 		write.
+	 * @param d The dimension being written.
+	 * @param dims The dimensions of the array.
+	 * @param strides The distance between consecutive array entries along each
+	 * 		dimension.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	private void writeFloats(float[] array, int ofs, int d, int[] dims, int[] strides) throws IOException {
+		int dim = dims[d];
+		int stride = strides[d];
+		if (d > 0) {
+			for (int i = 0; i < dim; i++, ofs += stride) {
+				writeFloats(array, ofs, d - 1, dims, strides);
+			}
+		} else {
+			for (int i = 0; i < dim; i++, ofs += stride) {
+				writeFloat(array[ofs]);
+			}
 		}
 	}
 
@@ -714,6 +1032,54 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 		}
 	}
 
+	/**
+	 * Writes an array of <code>int</code> values to the underlying stream.
+	 * @param array The array of <code>int</code> values to write.
+	 * @param dims The dimensions of the array.
+	 * @param strides The distance between consecutive array entries along each
+	 * 		dimension.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void writeInts(int[] array, int[] dims, int[] strides) throws IOException {
+		if (strides != null) {
+			if (dims == null) {
+				throw new IllegalArgumentException("dims == null || strides == null");
+			} else if (dims.length != strides.length) {
+				throw new IllegalArgumentException("dims.length != strides.length");
+			} else if (dims.length == 0) {
+				throw new IllegalArgumentException("dims.length == 0");
+			}
+			writeInts(array, 0, dims.length - 1, dims, strides);
+		} else {
+			writeInts(array);
+		}
+	}
+
+	/**
+	 * Writes an array of <code>int</code> values to the underlying stream.
+	 * @param array The array of <code>int</code> values to write.
+	 * @param ofs The index of the first element in <code>array</code> to
+	 * 		write.
+	 * @param d The dimension being written.
+	 * @param dims The dimensions of the array.
+	 * @param strides The distance between consecutive array entries along each
+	 * 		dimension.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	private void writeInts(int[] array, int ofs, int d, int[] dims, int[] strides) throws IOException {
+		int dim = dims[d];
+		int stride = strides[d];
+		if (d > 0) {
+			for (int i = 0; i < dim; i++, ofs += stride) {
+				writeInts(array, ofs, d - 1, dims, strides);
+			}
+		} else {
+			for (int i = 0; i < dim; i++, ofs += stride) {
+				writeInt(array[ofs]);
+			}
+		}
+	}
+
 	/* (non-Javadoc)
 	 * @see java.io.DataOutput#writeLong(long)
 	 */
@@ -744,6 +1110,54 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 		}
 	}
 
+	/**
+	 * Writes an array of <code>long</code> values to the underlying stream.
+	 * @param array The array of <code>long</code> values to write.
+	 * @param dims The dimensions of the array.
+	 * @param strides The distance between consecutive array entries along each
+	 * 		dimension.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void writeLongs(long[] array, int[] dims, int[] strides) throws IOException {
+		if (strides != null) {
+			if (dims == null) {
+				throw new IllegalArgumentException("dims == null || strides == null");
+			} else if (dims.length != strides.length) {
+				throw new IllegalArgumentException("dims.length != strides.length");
+			} else if (dims.length == 0) {
+				throw new IllegalArgumentException("dims.length == 0");
+			}
+			writeLongs(array, 0, dims.length - 1, dims, strides);
+		} else {
+			writeLongs(array);
+		}
+	}
+
+	/**
+	 * Writes an array of <code>long</code> values to the underlying stream.
+	 * @param array The array of <code>long</code> values to write.
+	 * @param ofs The index of the first element in <code>array</code> to
+	 * 		write.
+	 * @param d The dimension being written.
+	 * @param dims The dimensions of the array.
+	 * @param strides The distance between consecutive array entries along each
+	 * 		dimension.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	private void writeLongs(long[] array, int ofs, int d, int[] dims, int[] strides) throws IOException {
+		int dim = dims[d];
+		int stride = strides[d];
+		if (d > 0) {
+			for (int i = 0; i < dim; i++, ofs += stride) {
+				writeLongs(array, ofs, d - 1, dims, strides);
+			}
+		} else {
+			for (int i = 0; i < dim; i++, ofs += stride) {
+				writeLong(array[ofs]);
+			}
+		}
+	}
+
 	/* (non-Javadoc)
 	 * @see java.io.DataOutput#writeShort(int)
 	 */
@@ -771,6 +1185,54 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 	public void writeShorts(short[] array, int ofs, int len) throws IOException {
 		for (int i = 0; i < len; i++) {
 			this.writeShort(array[ofs + i]);
+		}
+	}
+
+	/**
+	 * Writes an array of <code>short</code> values to the underlying stream.
+	 * @param array The array of <code>short</code> values to write.
+	 * @param dims The dimensions of the array.
+	 * @param strides The distance between consecutive array entries along each
+	 * 		dimension.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	public void writeShorts(short[] array, int[] dims, int[] strides) throws IOException {
+		if (strides != null) {
+			if (dims == null) {
+				throw new IllegalArgumentException("dims == null || strides == null");
+			} else if (dims.length != strides.length) {
+				throw new IllegalArgumentException("dims.length != strides.length");
+			} else if (dims.length == 0) {
+				throw new IllegalArgumentException("dims.length == 0");
+			}
+			writeShorts(array, 0, dims.length - 1, dims, strides);
+		} else {
+			writeShorts(array);
+		}
+	}
+
+	/**
+	 * Writes an array of <code>short</code> values to the underlying stream.
+	 * @param array The array of <code>short</code> values to write.
+	 * @param ofs The index of the first element in <code>array</code> to
+	 * 		write.
+	 * @param d The dimension being written.
+	 * @param dims The dimensions of the array.
+	 * @param strides The distance between consecutive array entries along each
+	 * 		dimension.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	private void writeShorts(short[] array, int ofs, int d, int[] dims, int[] strides) throws IOException {
+		int dim = dims[d];
+		int stride = strides[d];
+		if (d > 0) {
+			for (int i = 0; i < dim; i++, ofs += stride) {
+				writeShorts(array, ofs, d - 1, dims, strides);
+			}
+		} else {
+			for (int i = 0; i < dim; i++, ofs += stride) {
+				writeShort(array[ofs]);
+			}
 		}
 	}
 
