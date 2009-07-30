@@ -101,7 +101,9 @@ public final class MatlabFileDisplay implements Display, Serializable {
 		try {
 			OutputStream stream = getOutputStream();
 			MatlabWriter matlab = new MatlabWriter(stream);
-			matlab.write(imageName, array, new int[]{ height, width, channels });
+			matlab.write(imageName, array, null,
+					new int[] { height, width, channels },
+					new int[] { channels * width, channels, 1 });
 			matlab.flush();
 			matlab.close();
 		} catch (IOException e) {
