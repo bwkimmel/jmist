@@ -25,18 +25,9 @@
 
 package ca.eandb.jmist.framework.job;
 
-import java.awt.Point;
-import java.awt.image.BufferedImage;
-import java.awt.image.SampleModel;
-import java.awt.image.WritableRaster;
-import java.io.FileOutputStream;
-import java.util.Iterator;
-
-import javax.imageio.ImageIO;
-import javax.imageio.ImageWriter;
-
 import ca.eandb.jdcp.job.AbstractParallelizableJob;
 import ca.eandb.jdcp.job.TaskWorker;
+import ca.eandb.jmist.framework.Display;
 import ca.eandb.jmist.framework.Emitter;
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.Lens;
@@ -79,9 +70,9 @@ public final class LightTracingJob extends AbstractParallelizableJob {
 
 	private final Random random;
 
-	private final String formatName;
-
 	private transient Raster raster;
+
+	private final Display display;
 
 	private final int photons;
 
@@ -91,29 +82,25 @@ public final class LightTracingJob extends AbstractParallelizableJob {
 
 	private final int extraPhotons;
 
+	private final int width;
+
+	private final int height;
+
 	private transient int tasksProvided = 0;
 
 	private transient int tasksSubmitted = 0;
 
-	private final SampleModel imageSampleModel;
-
-	private final java.awt.image.ColorModel imageColorModel;
-
-	public LightTracingJob(Scene scene, SampleModel imageSampleModel, java.awt.image.ColorModel imageColorModel, String formatName, ColorModel colorModel, Random random, int photons, int tasks) {
-		if (!imageColorModel.isCompatibleSampleModel(imageSampleModel)) {
-			throw new IllegalArgumentException("imageColorModel incompatible with imageSampleModel");
-		}
-
+	public LightTracingJob(Scene scene, Display display, int width, int height, String formatName, ColorModel colorModel, Random random, int photons, int tasks) {
 		this.scene = scene;
+		this.display = display;
 		this.colorModel = colorModel;
-		this.imageSampleModel = imageSampleModel;
-		this.imageColorModel = imageColorModel;
-		this.formatName = formatName;
 		this.random = random;
 		this.photons = photons;
 		this.tasks = tasks;
 		this.minPhotonsPerTask = photons / tasks;
 		this.extraPhotons = photons - minPhotonsPerTask;
+		this.width = width;
+		this.height = height;
 	}
 
 	/* (non-Javadoc)
@@ -140,7 +127,7 @@ public final class LightTracingJob extends AbstractParallelizableJob {
 	 */
 	@Override
 	public void initialize() throws Exception {
-		raster = colorModel.createRaster(imageSampleModel.getWidth(), imageSampleModel.getHeight());
+		raster = colorModel.createRaster(width, height);
 	}
 
 	/* (non-Javadoc)
@@ -150,9 +137,6 @@ public final class LightTracingJob extends AbstractParallelizableJob {
 			ProgressMonitor monitor) throws Exception {
 
 		Raster taskRaster = (Raster) results;
-
-		int height = imageSampleModel.getHeight();
-		int width = imageSampleModel.getWidth();
 
 		monitor.notifyStatusChanged("Accumulating partial results...");
 
@@ -176,36 +160,13 @@ public final class LightTracingJob extends AbstractParallelizableJob {
 	 */
 	@Override
 	public void finish() throws Exception {
-		Point origin = new Point(0, 0);
-		WritableRaster imageRaster = java.awt.image.Raster.createWritableRaster(imageSampleModel, origin);
-		BufferedImage image = new BufferedImage(imageColorModel, imageRaster, false, null);
-
-		int width = imageSampleModel.getWidth();
-		int height = imageSampleModel.getHeight();
-		int bands = colorModel.getNumChannels();
-
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				Color color = raster.getPixel(x, y).divide(photons);
-				for (int b = 0; b < bands; b++) {
-					imageRaster.setSample(x, y, b, color.getValue(b));
-				}
+				raster.setPixel(x, y, raster.getPixel(x, y).divide(photons));
 			}
 		}
-
-
-		Iterator<ImageWriter> writers = ImageIO.getImageWritersByFormatName(this.formatName);
-		ImageWriter writer = writers.next();
-		String[] suffix = writer.getOriginatingProvider().getFileSuffixes();
-
-		assert(suffix != null && suffix.length > 0);
-
-		FileOutputStream fs = createFileOutputStream("raster." + suffix[0]);
-
-		ImageIO.write(image, formatName, fs);
-
-		fs.flush();
-		fs.close();
+		display.initialize(width, height, colorModel);
+		display.setPixels(0, 0, raster);
 	}
 
 	/* (non-Javadoc)
@@ -245,8 +206,6 @@ public final class LightTracingJob extends AbstractParallelizableJob {
 		public Object performTask(Object task, ProgressMonitor monitor) {
 
 			int photons = (Integer) task;
-			int width = imageSampleModel.getWidth();
-			int height = imageSampleModel.getHeight();
 			Raster raster = colorModel.createRaster(width, height);
 
 			ensureInitialized();
