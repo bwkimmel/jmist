@@ -154,7 +154,7 @@ public final class CornellBoxScene extends AbstractScene {
 	 *
 	 * The following indicates the layout of the vertices in this scene.
 	 * <pre>
-	 *             1                                         2
+	 *              1                                         2
 	 *             o-----------------------------------------o
 	 *             |                                         |
 	 *             |                Back Wall                |
@@ -183,7 +183,7 @@ public final class CornellBoxScene extends AbstractScene {
 	 *                                                ORIGIN^
 	 *
 	 *
-	 *             1                                         2
+	 *              1                                         2
 	 *             o-----------------------------------------o
 	 *             |                                         |
 	 *             |                                         |
