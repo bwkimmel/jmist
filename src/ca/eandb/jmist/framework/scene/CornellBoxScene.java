@@ -205,7 +205,7 @@ public final class CornellBoxScene extends AbstractScene {
 	 *             |                                         |  |
 	 *             |0                                        |3 z
 	 *             o-----------------------------------------o
-	 *                                          <---x  ORIGIN^
+	 *                                                 <---x
 	 * </pre>
 	 */
 	private static final SceneElement geometry = new PolyhedronGeometry(
