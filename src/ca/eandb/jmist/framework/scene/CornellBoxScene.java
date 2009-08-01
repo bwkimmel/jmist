@@ -174,13 +174,13 @@ public final class CornellBoxScene extends AbstractScene {
 	 *     |   a   |                                    13/21|   a   |
 	 *     |   l   |                         Short     o     |   l   |
 	 *     |   l   |    Floor                  Block         |   l   |
-	 *     |       |                     15/23               |       |
-	 *     |       |                    o                    |       |
-	 *     |       |                                12/20    |       |
-	 *     |       |                               o         |       |
+	 *     |       |                     15/23               | ^     |
+	 *     |       |                    o                    | |     |
+	 *     |       |                                12/20    | |     |
+	 *     |       |                               o         | z     |
 	 *     |0      |8                                        |9      |3
 	 *     o-------o-----------------------------------------o-------o
-	 *                                                ORIGIN^
+	 *                                          <---x  ORIGIN^  y--->
 	 *
 	 *
 	 *              1                                         2
@@ -200,11 +200,12 @@ public final class CornellBoxScene extends AbstractScene {
 	 *             |             o             o             |
 	 *             |                                         |
 	 *             |                                         |
-	 *             |                                         |
-	 *             |                 Ceiling                 |
-	 *             |                                         |
-	 *             |0                                        |3
+	 *             |                                         |  ^
+	 *             |                 Ceiling                 |  |
+	 *             |                                         |  |
+	 *             |0                                        |3 z
 	 *             o-----------------------------------------o
+	 *                                          <---x  ORIGIN^
 	 * </pre>
 	 */
 	private static final SceneElement geometry = new PolyhedronGeometry(
