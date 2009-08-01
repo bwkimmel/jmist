@@ -153,7 +153,7 @@ public final class CornellBoxScene extends AbstractScene {
 	 * The <code>SceneElement</code> for the ceiling.
 	 *
 	 * The following indicates the layout of the vertices in this scene.
-	 *
+	 * <pre>
 	 *             1                                         2
 	 *             o-----------------------------------------o
 	 *             |                                         |
@@ -205,7 +205,7 @@ public final class CornellBoxScene extends AbstractScene {
 	 *             |                                         |
 	 *             |0                                        |3
 	 *             o-----------------------------------------o
-	 *
+	 * </pre>
 	 */
 	private static final SceneElement geometry = new PolyhedronGeometry(
 			new Point3[]{
