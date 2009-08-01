@@ -149,7 +149,64 @@ public final class CornellBoxScene extends AbstractScene {
 	/** The <code>Lens</code> to use to view the box. */
 	private static final Lens lens = createLens();
 
-	/** The <code>SceneElement</code> for the ceiling. */
+	/**
+	 * The <code>SceneElement</code> for the ceiling.
+	 *
+	 * The following indicates the layout of the vertices in this scene.
+	 *
+	 *             1                                         2
+	 *            o-----------------------------------------o
+	 *            |                                         |
+	 *            |                Back Wall                |
+	 *      1     |11                                       |10     2
+	 *     o------o-----------------------------------------o------o
+	 *     |      |                18/26 (bot/top)          |      |
+	 *     |      |               o                         |      |
+	 *     |      |      19/27                    Floor     |      |
+	 *     |      |     o                                   |      |
+	 *     |      |         Tall                            |   R  |
+	 *     |  L   |           Block     17/25               |   i  |
+	 *     |  e   |                    o                    |   g  |
+	 *     |  f   |           16/24                         |   h  |
+	 *     |  t   |          o                              |   t  |
+	 *     |      |                         14/22           |      |
+	 *     |  W   |                        o                |   W  |
+	 *     |  a   |                                    13/21|   a  |
+	 *     |  l   |                         Short     o     |   l  |
+	 *     |  l   |    Floor                  Block         |   l  |
+	 *     |      |                     15/23               |      |
+	 *     |      |                    o                    |      |
+	 *     |      |                                12/20    |      |
+	 *     |      |                               o         |      |
+	 *     |0     |8                                        |9     |3
+	 *     o------o-----------------------------------------o------o
+	 *                                                ORIGIN^
+	 *
+	 *
+	 *             1                                         2
+	 *            o-----------------------------------------o
+	 *            |                                         |
+	 *            |                                         |
+	 *            |                 Ceiling                 |
+	 *            |                                         |
+	 *            |                                         |
+	 *            |              5             6            |
+	 *            |             o             o             |
+	 *            |                                         |
+	 *            |                                         |
+	 *            |                  Light                  |
+	 *            |                                         |
+	 *            |              4             7            |
+	 *            |             o             o             |
+	 *            |                                         |
+	 *            |                                         |
+	 *            |                                         |
+	 *            |                 Ceiling                 |
+	 *            |                                         |
+	 *            |0                                        |3
+	 *            o-----------------------------------------o
+	 *
+	 */
 	private static final SceneElement geometry = new PolyhedronGeometry(
 			new Point3[]{
 					new Point3(556.0, 548.8,   0.0), // ceiling (0-3)
