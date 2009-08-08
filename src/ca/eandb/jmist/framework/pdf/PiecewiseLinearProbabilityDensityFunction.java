@@ -6,6 +6,7 @@ package ca.eandb.jmist.framework.pdf;
 import java.util.Arrays;
 
 import ca.eandb.jmist.math.MathUtil;
+import ca.eandb.jmist.math.Tuple;
 
 /**
  * A <code>ProbabilityDensityFunction</code> specified by a piecewise-linear
@@ -31,13 +32,15 @@ public final class PiecewiseLinearProbabilityDensityFunction extends
 	 * 		to the domain points <code>x[i]</code> (must be the same length as
 	 * 		<code>x</code> and all values must be non-negative).  These values
 	 * 		will be normalized to integrate to one.
+	 * @param clone Indicates whether <code>x</code> and <code>pdf</code> need
+	 * 		to be defensively copied.
 	 * @throws IllegalArgumentException if <code>x.length != pdf.length</code>.
 	 * @throws IllegalArgumentException if <code>x</code> is not sorted in
 	 * 		ascending order.
 	 * @throws IllegalArgumentException if <code>pdf</code> has negative
 	 * 		elements.
 	 */
-	public PiecewiseLinearProbabilityDensityFunction(double[] x, double[] pdf) {
+	private PiecewiseLinearProbabilityDensityFunction(double[] x, double[] pdf, boolean clone) {
 
 		if (x.length != pdf.length) {
 			throw new IllegalArgumentException("x.length != pdf.length");
@@ -52,8 +55,8 @@ public final class PiecewiseLinearProbabilityDensityFunction extends
 			}
 		}
 
-		this.x = x.clone();
-		this.pdf = pdf.clone();
+		this.x = clone ? x.clone() : x;
+		this.pdf = clone ? pdf.clone() : pdf;
 
 		double sum = 0.0;
 		this.cdf = new double[pdf.length];
@@ -71,6 +74,66 @@ public final class PiecewiseLinearProbabilityDensityFunction extends
 			this.cdf[i] /= sum;
 		}
 
+	}
+
+	/**
+	 * Creates a new <code>PiecewiseLinearProbabilityDensityFunction</code>.
+	 * @param x The domain points (must be sorted in ascending order).  Values
+	 * 		less than <code>x[0]</code> or greater than
+	 * 		<code>x[x.length - 1]</code> will have a probability density of
+	 * 		zero.
+	 * @param pdf The values of the probability density function corresponding
+	 * 		to the domain points <code>x[i]</code> (must be the same length as
+	 * 		<code>x</code> and all values must be non-negative).  These values
+	 * 		will be normalized to integrate to one.
+	 * @throws IllegalArgumentException if <code>x.length != pdf.length</code>.
+	 * @throws IllegalArgumentException if <code>x</code> is not sorted in
+	 * 		ascending order.
+	 * @throws IllegalArgumentException if <code>pdf</code> has negative
+	 * 		elements.
+	 */
+	public PiecewiseLinearProbabilityDensityFunction(double[] x, double[] pdf) {
+		this(x, pdf, true);
+	}
+
+	/**
+	 * Creates a new <code>PiecewiseLinearProbabilityDensityFunction</code>.
+	 * @param x The domain points (must be sorted in ascending order).  Values
+	 * 		less than <code>x[0]</code> or greater than
+	 * 		<code>x[x.length - 1]</code> will have a probability density of
+	 * 		zero.
+	 * @param pdf The values of the probability density function corresponding
+	 * 		to the domain points <code>x[i]</code> (must be the same length as
+	 * 		<code>x</code> and all values must be non-negative).  These values
+	 * 		will be normalized to integrate to one.
+	 * @throws IllegalArgumentException if <code>x.length != pdf.length</code>.
+	 * @throws IllegalArgumentException if <code>x</code> is not sorted in
+	 * 		ascending order.
+	 * @throws IllegalArgumentException if <code>pdf</code> has negative
+	 * 		elements.
+	 */
+	public PiecewiseLinearProbabilityDensityFunction(double[] x, Tuple pdf) {
+		this(x.clone(), pdf.toArray(), false);
+	}
+
+	/**
+	 * Creates a new <code>PiecewiseLinearProbabilityDensityFunction</code>.
+	 * @param x The domain points (must be sorted in ascending order).  Values
+	 * 		less than <code>x[0]</code> or greater than
+	 * 		<code>x[x.length - 1]</code> will have a probability density of
+	 * 		zero.
+	 * @param pdf The values of the probability density function corresponding
+	 * 		to the domain points <code>x[i]</code> (must be the same length as
+	 * 		<code>x</code> and all values must be non-negative).  These values
+	 * 		will be normalized to integrate to one.
+	 * @throws IllegalArgumentException if <code>x.length != pdf.length</code>.
+	 * @throws IllegalArgumentException if <code>x</code> is not sorted in
+	 * 		ascending order.
+	 * @throws IllegalArgumentException if <code>pdf</code> has negative
+	 * 		elements.
+	 */
+	public PiecewiseLinearProbabilityDensityFunction(Tuple x, Tuple pdf) {
+		this(x.toArray(), pdf.toArray(), false);
 	}
 
 	/* (non-Javadoc)
