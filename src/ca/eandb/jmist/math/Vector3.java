@@ -3,14 +3,13 @@
  */
 package ca.eandb.jmist.math;
 
-import java.io.Serializable;
 
 /**
  * The difference between two points in three dimensional space.
  * This class is immutable.
  * @author Brad Kimmel
  */
-public final class Vector3 implements Serializable {
+public final class Vector3 extends Tuple3 {
 
 	/**
 	 * Initializes the components for the vector.
@@ -19,58 +18,7 @@ public final class Vector3 implements Serializable {
 	 * @param z The length of the vector along the z axis.
 	 */
 	public Vector3(double x, double y, double z) {
-		this.x = x;
-		this.y = y;
-		this.z = z;
-	}
-
-	/**
-	 * Gets the distance from the origin along the x-axis.
-	 * Equivalent to {@code this.dot(Vector3.I);}
-	 * @return The distance from the origin along the x-axis.
-	 * @see {@link #I}, {@link #dot(Vector3)}.
-	 */
-	public double x() {
-		return x;
-	}
-
-	/**
-	 * Gets the distance from the origin along the y-axis.
-	 * Equivalent to {@code this.dot(Vector3.J);}
-	 * @return The distance from the origin along the y-axis.
-	 * @see {@link #J}, {@link #dot(Vector3)}.
-	 */
-	public double y() {
-		return y;
-	}
-
-	/**
-	 * Gets the distance from the origin along the z-axis.
-	 * Equivalent to {@code this.dot(Vector3.K);}
-	 * @return The distance from the origin along the z-axis.
-	 * @see {@link #K}, {@link #dot(Vector3)}.
-	 */
-	public double z() {
-		return z;
-	}
-
-	/**
-	 * Gets the specified element of this vector.
-	 * @param index The index of the element to get.
-	 * @return The specified element.
-	 * @throws IllegalArgumentException if <code>index</code> is negative or
-	 * 		greater than 2.
-	 */
-	public double get(int index) {
-		switch (index) {
-		case 0:
-			return x;
-		case 1:
-			return y;
-		case 2:
-			return z;
-		}
-		throw new IllegalArgumentException();
+		super(x, y, z);
 	}
 
 	/**
@@ -273,11 +221,6 @@ public final class Vector3 implements Serializable {
 	 * The unit vector along the negative z-axis.
 	 */
 	public static final Vector3 NEGATIVE_K = new Vector3(0.0, 0.0, -1.0);
-
-	/**
-	 * The lengths of the vector along each axis.
-	 */
-	private final double x, y, z;
 
 	/**
 	 * Serialization version ID.

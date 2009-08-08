@@ -3,7 +3,6 @@
  */
 package ca.eandb.jmist.math;
 
-import java.io.Serializable;
 
 
 /**
@@ -11,7 +10,7 @@ import java.io.Serializable;
  * This class is immutable.
  * @author Brad Kimmel
  */
-public final class Point2 implements Serializable {
+public final class Point2 extends Tuple2 {
 
 	/**
 	 * Initializes the components for the point.
@@ -19,47 +18,7 @@ public final class Point2 implements Serializable {
 	 * @param y The distance from the origin along the y axis.
 	 */
 	public Point2(double x, double y) {
-		this.x = x;
-		this.y = y;
-	}
-
-	/**
-	 * Gets the distance from the origin along the x-axis.
-	 * Equivalent to {@code this.minus(Point2.ORIGIN).dot(Vector2.I);}
-	 * @return The distance from the origin along the x-axis.
-	 * @see {@link #getX()}, {@link Vector2#I},
-	 * 		{@link Vector2#dot(Vector2)}.
-	 */
-	public double x() {
-		return x;
-	}
-
-	/**
-	 * Gets the distance from the origin along the y-axis.
-	 * Equivalent to {@code this.minus(Point2.ORIGIN).dot(Vector2.J);}
-	 * @return The distance from the origin along the y-axis.
-	 * @see {@link #getY()}, {@link Vector2#J},
-	 * 		{@link Vector2#dot(Vector2)}.
-	 */
-	public double y() {
-		return y;
-	}
-
-	/**
-	 * Gets the specified element of this point.
-	 * @param index The index of the element to get.
-	 * @return The specified element.
-	 * @throws IllegalArgumentException if <code>index</code> is negative or
-	 * 		greater than 1.
-	 */
-	public double get(int index) {
-		switch (index) {
-		case 0:
-			return x;
-		case 1:
-			return y;
-		}
-		throw new IllegalArgumentException();
+		super(x, y);
 	}
 
 	/**
@@ -297,11 +256,6 @@ public final class Point2 implements Serializable {
 	 * The origin of three dimensional space.
 	 */
 	public static final Point2 ORIGIN = new Point2(0.0, 0.0);
-
-	/**
-	 * The distances from the origin along each axis.
-	 */
-	private final double x, y;
 
 	/**
 	 * Serialization version ID.

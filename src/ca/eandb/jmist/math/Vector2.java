@@ -3,14 +3,13 @@
  */
 package ca.eandb.jmist.math;
 
-import java.io.Serializable;
 
 /**
  * The difference between two points in two dimensional space.
  * This class is immutable.
  * @author Brad Kimmel
  */
-public final class Vector2 implements Serializable {
+public final class Vector2 extends Tuple2 {
 
 	/**
 	 * Initializes the components for the vector.
@@ -18,45 +17,7 @@ public final class Vector2 implements Serializable {
 	 * @param y The length of the vector along the y axis.
 	 */
 	public Vector2(double x, double y) {
-		this.x = x;
-		this.y = y;
-	}
-
-	/**
-	 * Gets the distance from the origin along the x-axis.
-	 * Equivalent to {@code this.dot(Vector2.I);}
-	 * @return The distance from the origin along the x-axis.
-	 * @see {@link #I}, {@link #dot(Vector2)}.
-	 */
-	public double x() {
-		return x;
-	}
-
-	/**
-	 * Gets the distance from the origin along the y-axis.
-	 * Equivalent to {@code this.dot(Vector2.J);}
-	 * @return The distance from the origin along the y-axis.
-	 * @see {@link #J}, {@link #dot(Vector2)}.
-	 */
-	public double y() {
-		return y;
-	}
-
-	/**
-	 * Gets the specified element of this vector.
-	 * @param index The index of the element to get.
-	 * @return The specified element.
-	 * @throws IllegalArgumentException if <code>index</code> is negative or
-	 * 		greater than 1.
-	 */
-	public double get(int index) {
-		switch (index) {
-		case 0:
-			return x;
-		case 1:
-			return y;
-		}
-		throw new IllegalArgumentException();
+		super(x, y);
 	}
 
 	/**
@@ -186,11 +147,6 @@ public final class Vector2 implements Serializable {
 	 * The unit vector along the negative y-axis.
 	 */
 	public static final Vector2 NEGATIVE_J = new Vector2(0.0, -1.0);
-
-	/**
-	 * The lengths of the vector along each axis.
-	 */
-	private final double x, y;
 
 	/**
 	 * Serialization version ID.

@@ -3,7 +3,6 @@
  */
 package ca.eandb.jmist.math;
 
-import java.io.Serializable;
 
 
 /**
@@ -11,7 +10,7 @@ import java.io.Serializable;
  * This class is immutable.
  * @author Brad Kimmel
  */
-public final class Point3 implements Serializable {
+public final class Point3 extends Tuple3 {
 
 	/**
 	 * Initializes the components for the point.
@@ -20,61 +19,7 @@ public final class Point3 implements Serializable {
 	 * @param z The distance from the origin along the z axis.
 	 */
 	public Point3(double x, double y, double z) {
-		this.x = x;
-		this.y = y;
-		this.z = z;
-	}
-
-	/**
-	 * Gets the distance from the origin along the x-axis.
-	 * Equivalent to {@code this.minus(Point3.ORIGIN).dot(Vector3.I);}
-	 * @return The distance from the origin along the x-axis.
-	 * @see {@link #getX()}, {@link Vector3#I},
-	 * 		{@link Vector3#dot(Vector3)}.
-	 */
-	public double x() {
-		return x;
-	}
-
-	/**
-	 * Gets the distance from the origin along the y-axis.
-	 * Equivalent to {@code this.minus(Point3.ORIGIN).dot(Vector3.J);}
-	 * @return The distance from the origin along the y-axis.
-	 * @see {@link #getY()}, {@link Vector3#J},
-	 * 		{@link Vector3#dot(Vector3)}.
-	 */
-	public double y() {
-		return y;
-	}
-
-	/**
-	 * Gets the distance from the origin along the z-axis.
-	 * Equivalent to {@code this.minus(Point3.ORIGIN).dot(Vector3.K);}
-	 * @return The distance from the origin along the z-axis.
-	 * @see {@link #getZ()}, {@link Vector3#K},
-	 * 		{@link Vector3#dot(Vector3)}.
-	 */
-	public double z() {
-		return z;
-	}
-
-	/**
-	 * Gets the specified element of this point.
-	 * @param index The index of the element to get.
-	 * @return The specified element.
-	 * @throws IllegalArgumentException if <code>index</code> is negative or
-	 * 		greater than 2.
-	 */
-	public double get(int index) {
-		switch (index) {
-		case 0:
-			return x;
-		case 1:
-			return y;
-		case 2:
-			return z;
-		}
-		throw new IllegalArgumentException();
+		super(x, y, z);
 	}
 
 	/**
@@ -318,11 +263,6 @@ public final class Point3 implements Serializable {
 	 * The origin of three dimensional space.
 	 */
 	public static final Point3 ORIGIN = new Point3(0.0, 0.0, 0.0);
-
-	/**
-	 * The distances from the origin along each axis.
-	 */
-	private final double x, y, z;
 
 	/**
 	 * Serialization version ID.
