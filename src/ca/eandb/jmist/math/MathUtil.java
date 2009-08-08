@@ -529,6 +529,75 @@ public final class MathUtil {
 	}
 
 	/**
+	 * Interpolates a piecewise linear curve.
+	 * @param x A <code>Tuple</code> of x-coordinates (this must be sorted in
+	 * 		ascending order).
+	 * @param y A <code>Tuple</code> of y-coordinates (must be of the same
+	 * 		length as <code>x</code>).
+	 * @param x0 The x-coordinate at which to interpolate.
+	 * @return The y-coordinate corresponding to <code>x0</code>.
+	 */
+	public static double interpolate(Tuple x, Tuple y, double x0) {
+
+		if (x0 <= x.at(0)) {
+			return y.at(0);
+		}
+		int n = x.size();
+		if (x0 >= x.at(n - 1)) {
+			return y.at(n - 1);
+		}
+
+		int index = binarySearch(x, x0);
+		if (index < 0) {
+			index = -(index + 1);
+		}
+		while (index < n - 1 && !(x0 < x.at(index + 1))) {
+			index++;
+		}
+
+		assert(index < n - 1);
+
+		return interpolate(x.at(index - 1), y.at(index - 1), x.at(index), y.at(index), x0);
+
+	}
+
+	/**
+	 * Searches the specified <code>Tuple</code> for the specified value using
+	 * the binary search algorithm. The <code>Tuple</code> must be sorted prior
+	 * to making this call. If it is not sorted, the results are undefined. If
+	 * the <code>Tuple</code> contains multiple elements with the specified
+	 * value, there is no guarantee which one will be found. This method
+	 * considers all NaN values to be equivalent and equal.
+	 * @param a The <code>Tuple</code> to be searched.
+	 * @param key The value to be searched for.
+	 * @return index of the search key, if it is contained in the
+	 * 		<code>Tuple</code>;	otherwise, (-(insertion point) - 1). The
+	 * 		insertion point is defined as the point at which the key would be
+	 * 		inserted into the <code>Tuple</code>: the index of the first
+	 * 		element greater than the key, or a.size() if all elements in the
+	 * 		<code>Tuple</code> are less than the specified key. Note that this
+	 * 		guarantees that the return value will be >= 0 if and only if the
+	 * 		key is found.
+	 */
+	public static final int binarySearch(Tuple a, double key) {
+		int low = 0;
+	    int hi = a.size() - 1;
+	    int mid = 0;
+	    while (low <= hi) {
+	    	mid = (low + hi) >> 1;
+	    	final int r = Double.compare(a.at(mid), key);
+	        if (r == 0) {
+	        	return mid;
+	        } else if (r > 0) {
+	        	hi = mid - 1;
+	        } else {
+	        	low = ++mid;
+	        }
+	    }
+	    return -mid - 1;
+	}
+
+	/**
 	 * Performs a bilinear interpolation between four values.
 	 * @param _00 The value at <code>(t, u) = (0, 0)</code>.
 	 * @param _10 The value at <code>(t, u) = (1, 0)</code>.
