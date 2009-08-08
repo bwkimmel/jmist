@@ -62,7 +62,7 @@ public final class Tuple implements Serializable {
 	 * @param values An array containing the elements of
 	 * 		the new Tuple.
 	 */
-	public Tuple(double[] values) {
+	public Tuple(double... values) {
 		this.values = (double[]) values.clone();
 	}
 
