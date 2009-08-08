@@ -8,6 +8,7 @@ import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.MathUtil;
+import ca.eandb.jmist.math.Tuple3;
 
 
 /**
@@ -46,6 +47,13 @@ public final class RGBColor implements Color, Spectrum {
 		this.r = r;
 		this.g = g;
 		this.b = b;
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.Color#toRGB()
+	 */
+	public Tuple3 toRGB() {
+		return new Tuple3(r, g, b);
 	}
 
 	/* (non-Javadoc)

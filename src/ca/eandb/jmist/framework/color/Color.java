@@ -5,6 +5,8 @@ package ca.eandb.jmist.framework.color;
 
 import java.io.Serializable;
 
+import ca.eandb.jmist.math.Tuple3;
+
 
 
 /**
@@ -50,5 +52,7 @@ public interface Color extends Serializable {
 	Color disperse(int channel);
 
 	double[] toArray();
+
+	Tuple3 toRGB();
 
 }

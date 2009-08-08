@@ -8,10 +8,12 @@ import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.Raster;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
+import ca.eandb.jmist.framework.color.ColorUtil;
 import ca.eandb.jmist.framework.color.DoubleRaster;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.MathUtil;
+import ca.eandb.jmist.math.Tuple3;
 
 /**
  * @author Brad
@@ -51,6 +53,13 @@ public final class MonochromeColorModel extends ColorModel {
 
 		public Sample(double value) {
 			this.value = value;
+		}
+
+		/* s(non-Javadoc)
+		 * @see ca.eandb.jmist.framework.color.Color#toRGB()
+		 */
+		public Tuple3 toRGB() {
+			return ColorUtil.convertSample2sRGB(wavelength, value);
 		}
 
 		/* (non-Javadoc)

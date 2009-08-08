@@ -30,12 +30,12 @@ import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.Raster;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
+import ca.eandb.jmist.framework.color.ColorUtil;
 import ca.eandb.jmist.framework.color.DoubleRaster;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
-import ca.eandb.jmist.math.LinearMatrix3;
 import ca.eandb.jmist.math.Tuple;
-import ca.eandb.jmist.math.Vector3;
+import ca.eandb.jmist.math.Tuple3;
 import ca.eandb.jmist.util.ArrayUtil;
 
 /**
@@ -48,11 +48,6 @@ public final class PolychromeColorModel extends ColorModel {
 	 * Serialization version ID.
 	 */
 	private static final long serialVersionUID = -8677900690679611296L;
-
-	private static final LinearMatrix3 XYZ_TO_sRGBLin = new LinearMatrix3(
-			 3.2410, -1.5374, -0.4986,
-			-0.9692,  1.8760,  0.0416,
-			 0.0556, -0.2040,  1.0570);
 
 	private final Tuple wavelengths;
 
@@ -74,6 +69,10 @@ public final class PolychromeColorModel extends ColorModel {
 		private static final long serialVersionUID = 2799919416159189985L;
 
 		private final double[] values = new double[wavelengths.size()];
+
+		public Tuple3 toRGB() {
+			return ColorUtil.convertSpectrum2XYZ(wavelengths, values);
+		}
 
 		public Color clamp(double max) {
 			PolychromeColor result = new PolychromeColor();
@@ -271,20 +270,7 @@ public final class PolychromeColorModel extends ColorModel {
 	 */
 	@Override
 	public Spectrum fromXYZ(double x, double y, double z) {
-		Vector3 xyz = new Vector3(x, y, z);
-		Vector3 rgb = XYZ_TO_sRGBLin.times(xyz);
-		return fromRGB(
-				delinearize(rgb.x()),
-				delinearize(rgb.y()),
-				delinearize(rgb.z()));
-	}
-
-	private double delinearize(double c) {
-		if (c <= 0.0031308) {
-			return 12.92 * c;
-		} else {
-			return 1.055 * Math.pow(c, 1.0 / 2.4) - 0.055;
-		}
+		return fromRGB(ColorUtil.convertXYZ2sRGB(x, y, z));
 	}
 
 	/* (non-Javadoc)

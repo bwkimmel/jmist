@@ -27,8 +27,10 @@ package ca.eandb.jmist.framework.color.xyz;
 
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
+import ca.eandb.jmist.framework.color.ColorUtil;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.math.Tuple3;
 
 /**
  * @author brad
@@ -63,6 +65,10 @@ public final class XYZColor implements Color, Spectrum {
 		this.y = y;
 		this.z = z;
 		this.lambda = lambda;
+	}
+
+	public Tuple3 toRGB() {
+		return ColorUtil.convertXYZ2sRGB(x, y, z);
 	}
 
 	private XYZColor create(double x, double y, double z, Color compat) {
