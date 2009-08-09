@@ -110,9 +110,24 @@ public final class ColorUtil {
 			0.2126, 0.7152, 0.0722,
 			0.0193, 0.1192, 0.9505);
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.color.ColorModel#fromRGB(double, double, double)
-	 */
+	public static Tuple3 convertXYZ2xyY(double X, double Y, double Z) {
+		double w = X + Y + Z;
+		return new Tuple3(X / w, Y / w, Y);
+	}
+
+	public static Tuple3 convertXYZ2xyY(Tuple3 xyz) {
+		return convertXYZ2xyY(xyz.x(), xyz.y(), xyz.z());
+	}
+
+	public static Tuple3 convertxyY2XYZ(double x, double y, double Y) {
+		double w = Y / y;
+		return new Tuple3(x * w, Y, (1.0 - x - y) * w);
+	}
+
+	public static Tuple3 convertxyY2XYZ(Tuple3 xyY) {
+		return convertxyY2XYZ(xyY.x(), xyY.y(), xyY.z());
+	}
+
 	public static Tuple3 convertRGB2XYZ(double r, double g, double b) {
 		Vector3 rgb = new Vector3(linearize(r), linearize(g), linearize(b));
 		return sRGBLin_TO_XYZ.times(rgb);
