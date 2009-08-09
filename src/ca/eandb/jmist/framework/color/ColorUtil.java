@@ -38,8 +38,6 @@ import ca.eandb.jmist.util.ArrayUtil;
  */
 public final class ColorUtil {
 
-	public static final Tuple XYZ_WAVELENGTHS = new Tuple(ArrayUtil.range(380e-9, 780e-9, ColorUtil.X_BAR.size()));
-
 	public static final Tuple X_BAR = new Tuple(
 		0.001368, 0.002236, 0.004243, 0.007650, 0.014310, // 380-400
 		0.023190, 0.043510, 0.077630, 0.134380, 0.214770, // 405-425
@@ -99,6 +97,8 @@ public final class ColorUtil {
 		0.000000, 0.000000, 0.000000, 0.000000, 0.000000, // 755-775
 		0.000000                                          // 780-780
 	);
+
+	public static final Tuple XYZ_WAVELENGTHS = new Tuple(ArrayUtil.range(380e-9, 780e-9, ColorUtil.X_BAR.size()));
 
 	private static final LinearMatrix3 XYZ_TO_sRGBLin = new LinearMatrix3(
 			 3.2410, -1.5374, -0.4986,
