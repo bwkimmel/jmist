@@ -55,6 +55,13 @@ public final class MonochromeColorModel extends ColorModel {
 			this.value = value;
 		}
 
+		/* (non-Javadoc)
+		 * @see ca.eandb.jmist.framework.color.Color#toXYZ()
+		 */
+		public Tuple3 toXYZ() {
+			return ColorUtil.convertSample2XYZ(wavelength, value);
+		}
+
 		/* s(non-Javadoc)
 		 * @see ca.eandb.jmist.framework.color.Color#toRGB()
 		 */

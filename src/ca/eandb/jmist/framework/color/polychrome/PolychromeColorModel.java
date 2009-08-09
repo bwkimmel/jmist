@@ -70,6 +70,10 @@ public final class PolychromeColorModel extends ColorModel {
 
 		private final double[] values = new double[wavelengths.size()];
 
+		public Tuple3 toXYZ() {
+			return ColorUtil.convertSpectrum2XYZ(wavelengths, values);
+		}
+
 		public Tuple3 toRGB() {
 			return ColorUtil.convertSpectrum2XYZ(wavelengths, values);
 		}

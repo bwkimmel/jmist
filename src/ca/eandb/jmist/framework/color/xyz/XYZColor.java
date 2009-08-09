@@ -67,6 +67,16 @@ public final class XYZColor implements Color, Spectrum {
 		this.lambda = lambda;
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.Color#toXYZ()
+	 */
+	public Tuple3 toXYZ() {
+		return new Tuple3(x, y, z);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.Color#toRGB()
+	 */
 	public Tuple3 toRGB() {
 		return ColorUtil.convertXYZ2sRGB(x, y, z);
 	}

@@ -53,6 +53,8 @@ public interface Color extends Serializable {
 
 	double[] toArray();
 
+	Tuple3 toXYZ();
+
 	Tuple3 toRGB();
 
 }

@@ -5,6 +5,7 @@ package ca.eandb.jmist.framework.color.rgb;
 
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
+import ca.eandb.jmist.framework.color.ColorUtil;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.MathUtil;
@@ -47,6 +48,13 @@ public final class RGBColor implements Color, Spectrum {
 		this.r = r;
 		this.g = g;
 		this.b = b;
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.Color#toXYZ()
+	 */
+	public Tuple3 toXYZ() {
+		return ColorUtil.convertsRGB2XYZ(r, g, b);
 	}
 
 	/* (non-Javadoc)
