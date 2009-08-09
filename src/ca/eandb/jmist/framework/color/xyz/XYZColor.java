@@ -78,7 +78,7 @@ public final class XYZColor implements Color, Spectrum {
 	 * @see ca.eandb.jmist.framework.color.Color#toRGB()
 	 */
 	public Tuple3 toRGB() {
-		return ColorUtil.convertXYZ2sRGB(x, y, z);
+		return ColorUtil.convertXYZ2RGB(x, y, z);
 	}
 
 	private XYZColor create(double x, double y, double z, Color compat) {

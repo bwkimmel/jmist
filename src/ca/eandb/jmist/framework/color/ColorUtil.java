@@ -113,13 +113,13 @@ public final class ColorUtil {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.ColorModel#fromRGB(double, double, double)
 	 */
-	public static Tuple3 convertsRGB2XYZ(double r, double g, double b) {
+	public static Tuple3 convertRGB2XYZ(double r, double g, double b) {
 		Vector3 rgb = new Vector3(linearize(r), linearize(g), linearize(b));
 		return sRGBLin_TO_XYZ.times(rgb);
 	}
 
-	public static Tuple3 convertsRGB2XYZ(Tuple3 rgb) {
-		return convertsRGB2XYZ(rgb.x(), rgb.y(), rgb.z());
+	public static Tuple3 convertRGB2XYZ(Tuple3 rgb) {
+		return convertRGB2XYZ(rgb.x(), rgb.y(), rgb.z());
 	}
 
 	private static double linearize(double c) {
@@ -130,19 +130,19 @@ public final class ColorUtil {
 		}
 	}
 
-	public static Tuple3 convertXYZ2sRGB(double x, double y, double z) {
-		return convertXYZ2sRGB(new Vector3(x, y, z));
+	public static Tuple3 convertXYZ2RGB(double x, double y, double z) {
+		return convertXYZ2RGB(new Vector3(x, y, z));
 	}
 
-	public static Tuple3 convertXYZ2sRGB(Tuple3 xyz) {
+	public static Tuple3 convertXYZ2RGB(Tuple3 xyz) {
 		if (xyz instanceof Vector3) {
-			return convertXYZ2sRGB((Vector3) xyz);
+			return convertXYZ2RGB((Vector3) xyz);
 		} else {
-			return convertXYZ2sRGB(xyz.x(), xyz.y(), xyz.z());
+			return convertXYZ2RGB(xyz.x(), xyz.y(), xyz.z());
 		}
 	}
 
-	public static Tuple3 convertXYZ2sRGB(Vector3 xyz) {
+	public static Tuple3 convertXYZ2RGB(Vector3 xyz) {
 		Vector3 rgb = XYZ_TO_sRGBLin.times(xyz);
 		return new Tuple3(
 				delinearize(rgb.x()),
@@ -165,8 +165,8 @@ public final class ColorUtil {
 				value * MathUtil.interpolate(XYZ_WAVELENGTHS, Z_BAR, wavelength));
 	}
 
-	public static Tuple3 convertSample2sRGB(double wavelength, double value) {
-		return convertXYZ2sRGB(convertSample2XYZ(wavelength, value));
+	public static Tuple3 convertSample2RGB(double wavelength, double value) {
+		return convertXYZ2RGB(convertSample2XYZ(wavelength, value));
 	}
 
 	public static Tuple3 convertSpectrum2XYZ(double[] wavelengths, double[] values) {
@@ -187,8 +187,8 @@ public final class ColorUtil {
 		return xyz;
 	}
 
-	public static Tuple3 convertSpectrum2sRGB(double[] wavelengths, double[] values) {
-		return convertXYZ2sRGB(convertSpectrum2XYZ(wavelengths, values));
+	public static Tuple3 convertSpectrum2RGB(double[] wavelengths, double[] values) {
+		return convertXYZ2RGB(convertSpectrum2XYZ(wavelengths, values));
 	}
 
 	public static double getMeanChannelValue(Color color) {

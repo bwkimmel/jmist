@@ -274,7 +274,7 @@ public final class PolychromeColorModel extends ColorModel {
 	 */
 	@Override
 	public Spectrum fromXYZ(double x, double y, double z) {
-		return fromRGB(ColorUtil.convertXYZ2sRGB(x, y, z));
+		return fromRGB(ColorUtil.convertXYZ2RGB(x, y, z));
 	}
 
 	/* (non-Javadoc)

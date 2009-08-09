@@ -69,7 +69,7 @@ public final class RGBColorModel extends ColorModel {
 	 */
 	@Override
 	public Spectrum fromXYZ(double x, double y, double z) {
-		Tuple3 rgb = ColorUtil.convertXYZ2sRGB(x, y, z);
+		Tuple3 rgb = ColorUtil.convertXYZ2RGB(x, y, z);
 		return fromRGB(rgb.x(), rgb.y(), rgb.z());
 	}
 

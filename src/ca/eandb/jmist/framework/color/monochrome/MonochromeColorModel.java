@@ -66,7 +66,7 @@ public final class MonochromeColorModel extends ColorModel {
 		 * @see ca.eandb.jmist.framework.color.Color#toRGB()
 		 */
 		public Tuple3 toRGB() {
-			return ColorUtil.convertSample2sRGB(wavelength, value);
+			return ColorUtil.convertSample2RGB(wavelength, value);
 		}
 
 		/* (non-Javadoc)

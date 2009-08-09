@@ -54,7 +54,7 @@ public final class RGBColor implements Color, Spectrum {
 	 * @see ca.eandb.jmist.framework.color.Color#toXYZ()
 	 */
 	public Tuple3 toXYZ() {
-		return ColorUtil.convertsRGB2XYZ(r, g, b);
+		return ColorUtil.convertRGB2XYZ(r, g, b);
 	}
 
 	/* (non-Javadoc)
