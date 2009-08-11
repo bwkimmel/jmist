@@ -29,6 +29,7 @@ import ca.eandb.jmist.framework.Function1;
 import ca.eandb.jmist.framework.ProbabilityDensityFunction;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.Raster;
+import ca.eandb.jmist.framework.color.CIEXYZ;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.ColorUtil;
@@ -36,7 +37,6 @@ import ca.eandb.jmist.framework.color.DoubleRaster;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.pdf.PiecewiseLinearProbabilityDensityFunction;
-import ca.eandb.jmist.math.Tuple3;
 
 /**
  * @author brad
@@ -74,8 +74,8 @@ public final class XYZColorModel extends ColorModel {
 	 */
 	@Override
 	public Spectrum fromRGB(double r, double g, double b) {
-		Tuple3 xyz = ColorUtil.convertRGB2XYZ(r, g, b);
-		return new XYZColor(xyz.x(), xyz.y(), xyz.z(), null);
+		CIEXYZ xyz = ColorUtil.convertRGB2XYZ(r, g, b);
+		return new XYZColor(xyz.X(), xyz.Y(), xyz.Z(), null);
 	}
 
 	/* (non-Javadoc)

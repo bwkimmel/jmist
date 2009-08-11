@@ -34,7 +34,7 @@ public class Tuple2 implements Serializable {
 	 * Gets the value of the first component.
 	 * @return The value of the first component.
 	 */
-	public final double x() {
+	public final double first() {
 		return x;
 	}
 
@@ -42,7 +42,7 @@ public class Tuple2 implements Serializable {
 	 * Gets the value of the second component.
 	 * @return The value of the second component.
 	 */
-	public final double y() {
+	public final double second() {
 		return y;
 	}
 

@@ -10,9 +10,9 @@ import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.ColorUtil;
 import ca.eandb.jmist.framework.color.DoubleRaster;
+import ca.eandb.jmist.framework.color.RGB;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
-import ca.eandb.jmist.math.Tuple3;
 
 /**
  * A three channel <code>ColorModel</code>.
@@ -69,8 +69,8 @@ public final class RGBColorModel extends ColorModel {
 	 */
 	@Override
 	public Spectrum fromXYZ(double x, double y, double z) {
-		Tuple3 rgb = ColorUtil.convertXYZ2RGB(x, y, z);
-		return fromRGB(rgb.x(), rgb.y(), rgb.z());
+		RGB rgb = ColorUtil.convertXYZ2RGB(x, y, z);
+		return fromRGB(rgb.r(), rgb.g(), rgb.b());
 	}
 
 	/* (non-Javadoc)

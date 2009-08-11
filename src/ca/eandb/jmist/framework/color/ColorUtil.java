@@ -28,7 +28,6 @@ package ca.eandb.jmist.framework.color;
 import ca.eandb.jmist.math.LinearMatrix3;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Tuple;
-import ca.eandb.jmist.math.Tuple3;
 import ca.eandb.jmist.math.Vector3;
 import ca.eandb.jmist.util.ArrayUtil;
 
@@ -110,31 +109,52 @@ public final class ColorUtil {
 			0.2126, 0.7152, 0.0722,
 			0.0193, 0.1192, 0.9505);
 
-	public static Tuple3 convertXYZ2xyY(double X, double Y, double Z) {
+	public static CIEYuv convertXYZ2Yuv(double X, double Y, double Z) {
+		double w = X + 15.0 * Y + 3.0 * Z;
+		return new CIEYuv(Y, 4.0 * X / w, 6.0 * Y / w);
+	}
+
+	public static CIEYuv convertXYZ2Yuv(CIEXYZ xyz) {
+		return convertXYZ2Yuv(xyz.X(), xyz.Y(), xyz.Z());
+	}
+
+	public static CIEXYZ convertYuv2XYZ(double Y, double u, double v) {
+		double w = 2.0 * u - 8.0 * v + 4.0;
+		double x = 3.0 * u / w;
+		double y = 2.0 * v / w;
+		return convertxyY2XYZ(x, y, Y);
+	}
+
+	public static CIEXYZ convertYuv2XYZ(CIEYuv Yuv) {
+		return convertYuv2XYZ(Yuv.Y(), Yuv.u(), Yuv.v());
+	}
+
+	public static CIExyY convertXYZ2xyY(double X, double Y, double Z) {
 		double w = X + Y + Z;
-		return new Tuple3(X / w, Y / w, Y);
+		return new CIExyY(X / w, Y / w, Y);
 	}
 
-	public static Tuple3 convertXYZ2xyY(Tuple3 xyz) {
-		return convertXYZ2xyY(xyz.x(), xyz.y(), xyz.z());
+	public static CIExyY convertXYZ2xyY(CIEXYZ xyz) {
+		return convertXYZ2xyY(xyz.X(), xyz.Y(), xyz.Z());
 	}
 
-	public static Tuple3 convertxyY2XYZ(double x, double y, double Y) {
+	public static CIEXYZ convertxyY2XYZ(double x, double y, double Y) {
 		double w = Y / y;
-		return new Tuple3(x * w, Y, (1.0 - x - y) * w);
+		return new CIEXYZ(x * w, Y, (1.0 - x - y) * w);
 	}
 
-	public static Tuple3 convertxyY2XYZ(Tuple3 xyY) {
-		return convertxyY2XYZ(xyY.x(), xyY.y(), xyY.z());
+	public static CIEXYZ convertxyY2XYZ(CIExyY xyY) {
+		return convertxyY2XYZ(xyY.x(), xyY.y(), xyY.Y());
 	}
 
-	public static Tuple3 convertRGB2XYZ(double r, double g, double b) {
+	public static CIEXYZ convertRGB2XYZ(double r, double g, double b) {
 		Vector3 rgb = new Vector3(linearize(r), linearize(g), linearize(b));
-		return sRGBLin_TO_XYZ.times(rgb);
+		Vector3 xyz = sRGBLin_TO_XYZ.times(rgb);
+		return new CIEXYZ(xyz.x(), xyz.y(), xyz.z());
 	}
 
-	public static Tuple3 convertRGB2XYZ(Tuple3 rgb) {
-		return convertRGB2XYZ(rgb.x(), rgb.y(), rgb.z());
+	public static CIEXYZ convertRGB2XYZ(RGB rgb) {
+		return convertRGB2XYZ(rgb.r(), rgb.g(), rgb.b());
 	}
 
 	private static double linearize(double c) {
@@ -145,24 +165,17 @@ public final class ColorUtil {
 		}
 	}
 
-	public static Tuple3 convertXYZ2RGB(double x, double y, double z) {
-		return convertXYZ2RGB(new Vector3(x, y, z));
-	}
-
-	public static Tuple3 convertXYZ2RGB(Tuple3 xyz) {
-		if (xyz instanceof Vector3) {
-			return convertXYZ2RGB((Vector3) xyz);
-		} else {
-			return convertXYZ2RGB(xyz.x(), xyz.y(), xyz.z());
-		}
-	}
-
-	public static Tuple3 convertXYZ2RGB(Vector3 xyz) {
+	public static RGB convertXYZ2RGB(double x, double y, double z) {
+		Vector3 xyz = new Vector3(x, y, z);
 		Vector3 rgb = XYZ_TO_sRGBLin.times(xyz);
-		return new Tuple3(
+		return new RGB(
 				delinearize(rgb.x()),
 				delinearize(rgb.y()),
 				delinearize(rgb.z()));
+	}
+
+	public static RGB convertXYZ2RGB(CIEXYZ xyz) {
+		return convertXYZ2RGB(xyz.X(), xyz.Y(), xyz.Z());
 	}
 
 	private static double delinearize(double c) {
@@ -173,36 +186,40 @@ public final class ColorUtil {
 		}
 	}
 
-	public static Tuple3 convertSample2XYZ(double wavelength, double value) {
-		return new Vector3(
+	public static CIEXYZ convertSample2XYZ(double wavelength, double value) {
+		return new CIEXYZ(
 				value * MathUtil.interpolate(XYZ_WAVELENGTHS, X_BAR, wavelength),
 				value * MathUtil.interpolate(XYZ_WAVELENGTHS, Y_BAR, wavelength),
 				value * MathUtil.interpolate(XYZ_WAVELENGTHS, Z_BAR, wavelength));
 	}
 
-	public static Tuple3 convertSample2RGB(double wavelength, double value) {
+	public static RGB convertSample2RGB(double wavelength, double value) {
 		return convertXYZ2RGB(convertSample2XYZ(wavelength, value));
 	}
 
-	public static Tuple3 convertSpectrum2XYZ(double[] wavelengths, double[] values) {
-		Vector3 xyz = Vector3.ZERO;
+	public static CIEXYZ convertSpectrum2XYZ(double[] wavelengths, double[] values) {
+		CIEXYZ xyz = CIEXYZ.ZERO;
 		for (int i = 0, n = wavelengths.length; i < n; i++) {
-			xyz = xyz.plus((Vector3) convertSample2XYZ(wavelengths[i],
-					values[i] / (double) n));
+			xyz = xyz.plus(convertSample2XYZ(wavelengths[i], values[i]
+					/ (double) n));
 		}
 		return xyz;
 	}
 
-	public static Tuple3 convertSpectrum2XYZ(Tuple wavelengths, double[] values) {
-		Vector3 xyz = Vector3.ZERO;
+	public static CIEXYZ convertSpectrum2XYZ(Tuple wavelengths, double[] values) {
+		CIEXYZ xyz = CIEXYZ.ZERO;
 		for (int i = 0, n = wavelengths.size(); i < n; i++) {
-			xyz = xyz.plus((Vector3) convertSample2XYZ(wavelengths.at(i),
-					values[i] / (double) n));
+			xyz = xyz.plus(convertSample2XYZ(wavelengths.at(i), values[i]
+					/ (double) n));
 		}
 		return xyz;
 	}
 
-	public static Tuple3 convertSpectrum2RGB(double[] wavelengths, double[] values) {
+	public static RGB convertSpectrum2RGB(double[] wavelengths, double[] values) {
+		return convertXYZ2RGB(convertSpectrum2XYZ(wavelengths, values));
+	}
+
+	public static RGB convertSpectrum2RGB(Tuple wavelengths, double[] values) {
 		return convertXYZ2RGB(convertSpectrum2XYZ(wavelengths, values));
 	}
 

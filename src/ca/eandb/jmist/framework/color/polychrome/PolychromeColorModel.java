@@ -28,14 +28,15 @@ package ca.eandb.jmist.framework.color.polychrome;
 import ca.eandb.jmist.framework.Function1;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.Raster;
+import ca.eandb.jmist.framework.color.CIEXYZ;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.ColorUtil;
 import ca.eandb.jmist.framework.color.DoubleRaster;
+import ca.eandb.jmist.framework.color.RGB;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Tuple;
-import ca.eandb.jmist.math.Tuple3;
 import ca.eandb.jmist.util.ArrayUtil;
 
 /**
@@ -70,12 +71,12 @@ public final class PolychromeColorModel extends ColorModel {
 
 		private final double[] values = new double[wavelengths.size()];
 
-		public Tuple3 toXYZ() {
+		public CIEXYZ toXYZ() {
 			return ColorUtil.convertSpectrum2XYZ(wavelengths, values);
 		}
 
-		public Tuple3 toRGB() {
-			return ColorUtil.convertSpectrum2XYZ(wavelengths, values);
+		public RGB toRGB() {
+			return ColorUtil.convertSpectrum2RGB(wavelengths, values);
 		}
 
 		public Color clamp(double max) {

@@ -21,6 +21,26 @@ public final class Vector2 extends Tuple2 {
 	}
 
 	/**
+	 * Gets the distance from the origin along the x-axis.
+	 * Equivalent to {@code this.dot(Vector2s.I);}
+	 * @return The distance from the origin along the x-axis.
+	 * @see {@link #I}, {@link #dot(Vector2)}.
+	 */
+	public double x() {
+		return x;
+	}
+
+	/**
+	 * Gets the distance from the origin along the y-axis.
+	 * Equivalent to {@code this.dot(Vector2.J);}
+	 * @return The distance from the origin along the y-axis.
+	 * @see {@link #J}, {@link #dot(Vector2)}.
+	 */
+	public double y() {
+		return y;
+	}
+
+	/**
 	 * Computes the magnitude of the vector.
 	 * @return The magnitude of the vector.
 	 */

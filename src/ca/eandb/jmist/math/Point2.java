@@ -22,6 +22,28 @@ public final class Point2 extends Tuple2 {
 	}
 
 	/**
+	 * Gets the distance from the origin along the x-axis.
+	 * Equivalent to {@code this.minus(Point2.ORIGIN).dot(Vector2.I);}
+	 * @return The distance from the origin along the x-axis.
+	 * @see {@link #getX()}, {@link Vector2#I},
+	 * 		{@link Vector3#dot(Vector3)}.
+	 */
+	public double x() {
+		return x;
+	}
+
+	/**
+	 * Gets the distance from the origin along the y-axis.
+	 * Equivalent to {@code this.minus(Point2.ORIGIN).dot(Vector2.J);}
+	 * @return The distance from the origin along the y-axis.
+	 * @see {@link #getY()}, {@link Vector2#J},
+	 * 		{@link Vector3#dot(Vector3)}.
+	 */
+	public double y() {
+		return y;
+	}
+
+	/**
 	 * Computes the square of the distance from this point to the
 	 * specified point.
 	 * @param p The point to compute the square of the distance to.

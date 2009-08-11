@@ -36,7 +36,7 @@ public class Tuple3 implements Serializable {
 	 * Gets the value of the first component.
 	 * @return The value of the first component.
 	 */
-	public final double x() {
+	public final double first() {
 		return x;
 	}
 
@@ -44,7 +44,7 @@ public class Tuple3 implements Serializable {
 	 * Gets the value of the second component.
 	 * @return The value of the second component.
 	 */
-	public final double y() {
+	public final double second() {
 		return y;
 	}
 
@@ -52,7 +52,7 @@ public class Tuple3 implements Serializable {
 	 * Gets the value of the third component.
 	 * @return The value of the third component.
 	 */
-	public final double z() {
+	public final double third() {
 		return z;
 	}
 

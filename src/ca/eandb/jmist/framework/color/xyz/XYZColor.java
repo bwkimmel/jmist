@@ -25,12 +25,13 @@
 
 package ca.eandb.jmist.framework.color.xyz;
 
+import ca.eandb.jmist.framework.color.CIEXYZ;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.ColorUtil;
+import ca.eandb.jmist.framework.color.RGB;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
-import ca.eandb.jmist.math.Tuple3;
 
 /**
  * @author brad
@@ -70,14 +71,14 @@ public final class XYZColor implements Color, Spectrum {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.Color#toXYZ()
 	 */
-	public Tuple3 toXYZ() {
-		return new Tuple3(x, y, z);
+	public CIEXYZ toXYZ() {
+		return new CIEXYZ(x, y, z);
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.Color#toRGB()
 	 */
-	public Tuple3 toRGB() {
+	public RGB toRGB() {
 		return ColorUtil.convertXYZ2RGB(x, y, z);
 	}
 
