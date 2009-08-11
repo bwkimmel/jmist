@@ -6,8 +6,6 @@ package ca.eandb.jmist.framework.display;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JComponent;
@@ -28,7 +26,7 @@ import ca.eandb.jmist.math.Array2;
  * @author Brad Kimmel
  */
 public final class JComponentDisplay extends JComponent implements Display,
-		Scrollable, MouseMotionListener {
+		Scrollable {
 
 	/** Serialization version ID. */
 	private static final long serialVersionUID = 8576499442928553047L;
@@ -101,9 +99,6 @@ public final class JComponentDisplay extends JComponent implements Display,
 	public JComponentDisplay(ToneMapperFactory toneMapperFactory, double toneMapperAgeThresholdFraction) {
 		this.toneMapperFactory =  toneMapperFactory;
 		this.toneMapperAgeThresholdFraction = toneMapperAgeThresholdFraction;
-
-		setAutoscrolls(true);
-		addMouseMotionListener(this);
 	}
 
 	/* (non-Javadoc)
@@ -239,39 +234,44 @@ public final class JComponentDisplay extends JComponent implements Display,
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.Scrollable#getPreferredScrollableViewportSize()
+	 */
 	public Dimension getPreferredScrollableViewportSize() {
 		return getPreferredSize();
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.Scrollable#getScrollableBlockIncrement(java.awt.Rectangle, int, int)
+	 */
 	public int getScrollableBlockIncrement(Rectangle visibleRect,
 			int orientation, int direction) {
 		return 1;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.Scrollable#getScrollableTracksViewportHeight()
+	 */
 	public boolean getScrollableTracksViewportHeight() {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.Scrollable#getScrollableTracksViewportWidth()
+	 */
 	public boolean getScrollableTracksViewportWidth() {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.Scrollable#getScrollableUnitIncrement(java.awt.Rectangle, int, int)
+	 */
 	public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
         if (orientation == SwingConstants.HORIZONTAL) {
             return visibleRect.width - 1;
         } else {
             return visibleRect.height - 1;
         }
-	}
-
-	public void mouseDragged(MouseEvent e) {
-		/* nothing to do. */
-	}
-
-	public void mouseMoved(MouseEvent e) {
-        //The user is dragging us, so scroll!
-        Rectangle r = new Rectangle(e.getX(), e.getY(), 1, 1);
-        scrollRectToVisible(r);
 	}
 
 }
