@@ -14,10 +14,12 @@ import ca.eandb.jdcp.JdcpUtil;
 import ca.eandb.jdcp.job.HostService;
 import ca.eandb.jmist.framework.Display;
 import ca.eandb.jmist.framework.Raster;
+import ca.eandb.jmist.framework.color.CIEXYZ;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
-import ca.eandb.jmist.math.MathUtil;
-import ca.eandb.jmist.math.Tuple3;
+import ca.eandb.jmist.framework.tone.ToneMapper;
+import ca.eandb.jmist.framework.tone.ToneMapperFactory;
+import ca.eandb.jmist.math.Array2;
 import ca.eandb.util.UnexpectedException;
 import ca.eandb.util.io.FileUtil;
 
@@ -36,26 +38,33 @@ public final class ImageFileDisplay implements Display, Serializable {
 
 	private final String fileName;
 
-	private transient BufferedImage image;
+	private final ToneMapperFactory toneMapperFactory;
+
+	private transient Array2<CIEXYZ> image;
 
 	public ImageFileDisplay() {
-		this(DEFAULT_FILENAME);
+		this(DEFAULT_FILENAME, ToneMapperFactory.IDENTITY_FACTORY);
 	}
 
 	public ImageFileDisplay(String fileName) {
+		this(fileName, ToneMapperFactory.IDENTITY_FACTORY);
+	}
+
+	public ImageFileDisplay(ToneMapperFactory toneMapperFactory) {
+		this(DEFAULT_FILENAME, toneMapperFactory);
+	}
+
+	public ImageFileDisplay(String fileName, ToneMapperFactory toneMapperFactory) {
 		this.fileName = fileName;
+		this.toneMapperFactory = toneMapperFactory;
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Display#fill(int, int, int, int, ca.eandb.jmist.framework.color.Color)
 	 */
 	public void fill(int x, int y, int w, int h, Color color) {
-		int rgb = toRGB8(color.toRGB());
-		for (int y1 = y + h; y < y1; y++) {
-			for (int x1 = x + w; x < x1; x++) {
-				image.setRGB(x, y, rgb);
-			}
-		}
+		CIEXYZ xyz = color.toXYZ();
+		image.slice(x, y, w, h).setAll(xyz);
 	}
 
 	/* (non-Javadoc)
@@ -64,6 +73,11 @@ public final class ImageFileDisplay implements Display, Serializable {
 	public void finish() {
 		HostService service = JdcpUtil.getHostService();
 		try {
+			int width = image.rows();
+			int height = image.columns();
+			BufferedImage bi = new BufferedImage(width, height,
+					BufferedImage.TYPE_INT_RGB);
+
 			FileOutputStream os = (service != null) ? service
 					.createFileOutputStream(fileName) : new FileOutputStream(
 					fileName);
@@ -73,7 +87,17 @@ public final class ImageFileDisplay implements Display, Serializable {
 				formatName = DEFAULT_FORMAT;
 			}
 
-			ImageIO.write(image, formatName, os);
+			ToneMapper toneMapper = toneMapperFactory.createToneMapper(image);
+
+			for (int y = 0; y < height; y++) {
+				for (int x = 0; x < width; x++) {
+					CIEXYZ xyz = toneMapper.apply(image.get(x, y));
+					int rgb = xyz.toRGB().toR8G8B8();
+					bi.setRGB(x, y, rgb);
+				}
+			}
+
+			ImageIO.write(bi, formatName, os);
 		} catch (IOException e) {
 			throw new UnexpectedException(e);
 		}
@@ -83,15 +107,14 @@ public final class ImageFileDisplay implements Display, Serializable {
 	 * @see ca.eandb.jmist.framework.Display#initialize(int, int, ca.eandb.jmist.framework.color.ColorModel)
 	 */
 	public void initialize(int w, int h, ColorModel colorModel) {
-		image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+		image = new Array2<CIEXYZ>(w, h);
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Display#setPixel(int, int, ca.eandb.jmist.framework.color.Color)
 	 */
 	public void setPixel(int x, int y, Color pixel) {
-		int rgb = toRGB8(pixel.toRGB());
-		image.setRGB(x, y, rgb);
+		image.set(x, y, pixel.toXYZ());
 	}
 
 	/* (non-Javadoc)
@@ -100,19 +123,13 @@ public final class ImageFileDisplay implements Display, Serializable {
 	public void setPixels(int x, int y, Raster pixels) {
 		int w = pixels.getWidth();
 		int h = pixels.getHeight();
+		Array2<CIEXYZ> tile = image.slice(x, y, w, h);
 		for (int ry = 0; ry < h; ry++) {
 			for (int rx = 0; rx < w; rx++) {
-				int rgb = toRGB8(pixels.getPixel(rx, ry).toRGB());
-				image.setRGB(x + rx, y + ry, rgb);
+				CIEXYZ xyz = pixels.getPixel(rx, ry).toXYZ();
+				tile.set(rx, ry, xyz);
 			}
 		}
-	}
-
-	private int toRGB8(Tuple3 rgb) {
-		return
-			(MathUtil.threshold((int) Math.floor(256.0 * rgb.x()), 0, 255) << 16) |
-			(MathUtil.threshold((int) Math.floor(256.0 * rgb.y()), 0, 255) << 8) |
-			MathUtil.threshold((int) Math.floor(256.0 * rgb.z()), 0, 255);
 	}
 
 }
