@@ -3,6 +3,7 @@
  */
 package ca.eandb.jmist.framework.color;
 
+import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Tuple3;
 
 /**
@@ -60,6 +61,24 @@ public final class RGB extends Tuple3 {
 
 	public final RGB times(double c) {
 		return new RGB(x * c, y * c, z * c);
+	}
+
+	public final RGB clamp(double max) {
+		return clamp(0.0, max);
+	}
+
+	public final RGB clamp(double min, double max) {
+		return new RGB(
+				MathUtil.threshold(x, min, max),
+				MathUtil.threshold(y, min, max),
+				MathUtil.threshold(y, min, max));
+	}
+
+	public final int toRGB888() {
+		return
+			(MathUtil.threshold((int) Math.floor(256.0 * x), 0, 255) << 16) |
+			(MathUtil.threshold((int) Math.floor(256.0 * y), 0, 255) << 8) |
+			MathUtil.threshold((int) Math.floor(256.0 * z), 0, 255);
 	}
 
 	public CIEXYZ toXYZ() {

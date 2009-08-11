@@ -3,6 +3,7 @@
  */
 package ca.eandb.jmist.framework.color;
 
+import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Tuple3;
 
 /**
@@ -59,6 +60,29 @@ public class CIEXYZ extends Tuple3 {
 
 	public final CIEXYZ times(double c) {
 		return new CIEXYZ(x * c, y * c, z * c);
+	}
+
+	public final CIEXYZ clamp(double max) {
+		return clamp(0.0, max);
+	}
+
+	public final CIEXYZ clamp(double min, double max) {
+		return new CIEXYZ(
+				MathUtil.threshold(x, min, max),
+				MathUtil.threshold(y, min, max),
+				MathUtil.threshold(y, min, max));
+	}
+
+	public final RGB toRGB() {
+		return ColorUtil.convertXYZ2RGB(this);
+	}
+
+	public static final CIEXYZ fromRGB(double r, double g, double b) {
+		return ColorUtil.convertRGB2XYZ(r, g, b);
+	}
+
+	public static final CIEXYZ fromRGB(RGB rgb) {
+		return ColorUtil.convertRGB2XYZ(rgb);
 	}
 
 }
