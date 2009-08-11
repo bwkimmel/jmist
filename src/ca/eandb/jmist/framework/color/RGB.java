@@ -74,7 +74,7 @@ public final class RGB extends Tuple3 {
 				MathUtil.threshold(y, min, max));
 	}
 
-	public final int toRGB888() {
+	public final int toR8G8B8() {
 		return
 			(MathUtil.threshold((int) Math.floor(256.0 * x), 0, 255) << 16) |
 			(MathUtil.threshold((int) Math.floor(256.0 * y), 0, 255) << 8) |
