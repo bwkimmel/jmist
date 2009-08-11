@@ -3,11 +3,13 @@
  */
 package ca.eandb.jmist.math;
 
+import java.util.Iterator;
+
 /**
  * A generic two dimensional array.
  * @author Brad Kimmel
  */
-public final class Array2<T> {
+public final class Array2<T> implements Iterable<T> {
 
 	/** The number of rows in the array. */
 	private final int rows;
@@ -195,6 +197,53 @@ public final class Array2<T> {
 			}
 			rowOffset += rowStride;
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Iterable#iterator()
+	 */
+	public Iterator<T> iterator() {
+		return new Array2Iterator();
+	}
+
+	/**
+	 * An <code>Iterator</code> for traversing the elements of this
+	 * <code>Array2</code>.
+	 */
+	private final class Array2Iterator implements Iterator<T> {
+
+		/** The current row. */
+		private int row = 0;
+
+		/** The current column. */
+		private int col = 0;
+
+		/* (non-Javadoc)
+		 * @see java.util.Iterator#hasNext()
+		 */
+		public boolean hasNext() {
+			return row < rows;
+		}
+
+		/* (non-Javadoc)
+		 * @see java.util.Iterator#next()
+		 */
+		public T next() {
+			T value = get(row, col++);
+			if (col >= cols) {
+				row++;
+				col = 0;
+			}
+			return value;
+		}
+
+		/* (non-Javadoc)
+		 * @see java.util.Iterator#remove()
+		 */
+		public void remove() {
+			throw new UnsupportedOperationException();
+		}
+
 	}
 
 }
