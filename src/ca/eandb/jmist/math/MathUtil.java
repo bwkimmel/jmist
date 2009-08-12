@@ -20,7 +20,7 @@ public final class MathUtil {
 	 * Implementation of methods from <code>java.lang.Math</code> not available
 	 * in Java 1.5.
 	 */
-	private static final MathImpl impl = JAVA_SPEC >= 1.6 ? new MathImplJava5() : new MathImplJava6();
+	private static final MathImpl impl = JAVA_SPEC >= 1.6 ? new MathImplJava6() : new MathImplJava5();
 
 	/**
 	 * An interface for methods from <code>java.lang.Math</code> that are not
