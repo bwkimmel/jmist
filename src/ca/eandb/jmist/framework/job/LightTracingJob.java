@@ -232,7 +232,7 @@ public final class LightTracingJob extends AbstractParallelizableJob {
 			ensureInitialized();
 
 			for (int i = 0; i < photons; i++) {
-				if (i % 10000 == 0) {
+				if (i % 1000 == 0) {
 					if (!monitor.notifyProgress(i, photons)) {
 						monitor.notifyCancelled();
 						return null;
