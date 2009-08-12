@@ -237,7 +237,7 @@ public final class ColorUtil {
 
 	public static CIExyY convertXYZ2xyY(double X, double Y, double Z) {
 		double w = X + Y + Z;
-		return new CIExyY(X / w, Y / w, Y);
+		return MathUtil.isZero(w) ? CIExyY.ZERO : new CIExyY(X / w, Y / w, Y);
 	}
 
 	public static CIExyY convertXYZ2xyY(CIEXYZ xyz) {
@@ -245,8 +245,12 @@ public final class ColorUtil {
 	}
 
 	public static CIEXYZ convertxyY2XYZ(double x, double y, double Y) {
-		double w = Y / y;
-		return new CIEXYZ(x * w, Y, (1.0 - x - y) * w);
+		if (!MathUtil.isZero(y)) {
+			double w = Y / y;
+			return new CIEXYZ(x * w, Y, (1.0 - x - y) * w);
+		} else {
+			return CIEXYZ.ZERO;
+		}
 	}
 
 	public static CIEXYZ convertxyY2XYZ(CIExyY xyY) {
