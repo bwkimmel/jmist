@@ -298,15 +298,13 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
 			assert((firstChild & 0x3) == 0);
 			buf.position(offset);
 			buf.putInt(firstChild | axis);
-			//buf.putFloat(Math.nextUp((float) clip.left));
-			//buf.putFloat(Math.nextAfter((float) clip.right, Double.NEGATIVE_INFINITY));
 			float left = (float) clip.left;
 			float right = (float) clip.right;
 			if (left < clip.left) {
-				left += MathUtil.TINY_EPSILON;
+				left = MathUtil.nextUp(left);
 			}
 			if (right > clip.right) {
-				right -= MathUtil.TINY_EPSILON;
+				right = MathUtil.nextDown(right);
 			}
 			buf.putFloat(left);
 			buf.putFloat(right);
