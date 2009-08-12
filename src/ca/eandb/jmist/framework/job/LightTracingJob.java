@@ -86,11 +86,15 @@ public final class LightTracingJob extends AbstractParallelizableJob {
 
 	private final int height;
 
+	private final boolean displayPartialResults;
+
 	private transient int tasksProvided = 0;
 
 	private transient int tasksSubmitted = 0;
 
-	public LightTracingJob(Scene scene, Display display, int width, int height, ColorModel colorModel, Random random, int photons, int tasks) {
+	private transient int photonsSubmitted = 0;
+
+	public LightTracingJob(Scene scene, Display display, int width, int height, ColorModel colorModel, Random random, int photons, int tasks, boolean displayPartialResults) {
 		this.scene = scene;
 		this.display = display;
 		this.colorModel = colorModel;
@@ -101,12 +105,13 @@ public final class LightTracingJob extends AbstractParallelizableJob {
 		this.extraPhotons = photons - minPhotonsPerTask;
 		this.width = width;
 		this.height = height;
+		this.displayPartialResults = displayPartialResults;
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jdcp.job.ParallelizableJob#getNextTask()
 	 */
-	public Object getNextTask() throws Exception {
+	public synchronized Object getNextTask() throws Exception {
 		if (tasksProvided < tasks) {
 			return tasksProvided++ < extraPhotons ? minPhotonsPerTask + 1
 					: minPhotonsPerTask;
@@ -123,26 +128,32 @@ public final class LightTracingJob extends AbstractParallelizableJob {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jdcp.job.AbstractParallelizableJob#initialize()
-	 */
-	@Override
-	public void initialize() throws Exception {
-		raster = colorModel.createRaster(width, height);
-	}
-
-	/* (non-Javadoc)
 	 * @see ca.eandb.jdcp.job.ParallelizableJob#submitTaskResults(java.lang.Object, java.lang.Object, ca.eandb.util.progress.ProgressMonitor)
 	 */
-	public void submitTaskResults(Object task, Object results,
+	public synchronized void submitTaskResults(Object task, Object results,
 			ProgressMonitor monitor) throws Exception {
 
+		int taskPhotons = (Integer) task;
 		Raster taskRaster = (Raster) results;
 
 		monitor.notifyStatusChanged("Accumulating partial results...");
 
-		for (int y = 0; y < height; y++) {
-			for (int x = 0; x < width; x++) {
-				raster.setPixel(x, y, raster.getPixel(x, y).plus(taskRaster.getPixel(x, y)));
+		photonsSubmitted += taskPhotons;
+		if (displayPartialResults) {
+			double alpha = (double) taskPhotons / (double) photonsSubmitted;
+			for (int y = 0; y < height; y++) {
+				for (int x = 0; x < width; x++) {
+					raster.setPixel(x, y, raster.getPixel(x, y).times(
+							1.0 - alpha).plus(
+							taskRaster.getPixel(x, y).times(alpha)));
+				}
+			}
+			display.setPixels(0, 0, raster);
+		} else {
+			for (int y = 0; y < height; y++) {
+				for (int x = 0; x < width; x++) {
+					raster.setPixel(x, y, raster.getPixel(x, y).plus(taskRaster.getPixel(x, y)));
+				}
 			}
 		}
 
@@ -156,17 +167,31 @@ public final class LightTracingJob extends AbstractParallelizableJob {
 	}
 
 	/* (non-Javadoc)
+	 * @see ca.eandb.jdcp.job.AbstractParallelizableJob#initialize()
+	 */
+	@Override
+	public void initialize() throws Exception {
+		raster = colorModel.createRaster(width, height);
+		if (displayPartialResults) {
+			display.initialize(width, height, colorModel);
+		}
+	}
+
+	/* (non-Javadoc)
 	 * @see ca.eandb.jdcp.job.AbstractParallelizableJob#finish()
 	 */
 	@Override
 	public void finish() throws Exception {
-		for (int y = 0; y < height; y++) {
-			for (int x = 0; x < width; x++) {
-				raster.setPixel(x, y, raster.getPixel(x, y).divide(photons));
+		if (!displayPartialResults) {
+			for (int y = 0; y < height; y++) {
+				for (int x = 0; x < width; x++) {
+					raster.setPixel(x, y, raster.getPixel(x, y).divide(photons));
+				}
 			}
+			display.initialize(width, height, colorModel);
+			display.setPixels(0, 0, raster);
 		}
-		display.initialize(width, height, colorModel);
-		display.setPixels(0, 0, raster);
+		display.finish();
 	}
 
 	/* (non-Javadoc)
@@ -178,9 +203,7 @@ public final class LightTracingJob extends AbstractParallelizableJob {
 
 	private final class Worker implements TaskWorker {
 
-		/**
-		 *
-		 */
+		/** Serialization version ID. */
 		private static final long serialVersionUID = -7848301189373426210L;
 
 		private transient Light light;
