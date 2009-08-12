@@ -25,6 +25,13 @@ public final class CIELab extends Tuple3 {
 		super(L, a, b);
 	}
 
+	public static double deltaE(CIELab p, CIELab q) {
+		double dL = p.x - q.x;
+		double da = p.y - q.y;
+		double db = p.z - q.z;
+		return Math.sqrt(dL * dL + da * da + db * db);
+	}
+
 	public double L() {
 		return x;
 	}
