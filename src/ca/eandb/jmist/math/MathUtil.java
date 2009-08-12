@@ -406,9 +406,7 @@ public final class MathUtil {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
+	/* (non-Javadoc)
 	 * @see java.lang.Math#nextAfter(double, double)
 	 */
 	public static double nextAfter(double start, double direction) {
