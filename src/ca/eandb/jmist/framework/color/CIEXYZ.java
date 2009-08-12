@@ -16,6 +16,17 @@ public class CIEXYZ extends Tuple3 {
 	private static final long serialVersionUID = -3369371416389668782L;
 
 	public static final CIEXYZ ZERO = new CIEXYZ(0.0, 0.0, 0.0);
+	public static final CIEXYZ A = new CIEXYZ(1.09850, 1.00000, 0.35585);
+	public static final CIEXYZ B = new CIEXYZ(0.99072, 1.00000, 0.85223);
+	public static final CIEXYZ C = new CIEXYZ(0.98074, 1.00000, 1.18232);
+	public static final CIEXYZ D50 = new CIEXYZ(0.96422, 1.00000, 0.82521);
+	public static final CIEXYZ D55 = new CIEXYZ(0.95682, 1.00000, 0.92149);
+	public static final CIEXYZ D65 = new CIEXYZ(0.95047, 1.00000, 1.08883);
+	public static final CIEXYZ D75 = new CIEXYZ(0.94972, 1.00000, 1.22638);
+	public static final CIEXYZ E = new CIEXYZ(1.00000, 1.00000, 1.00000);
+	public static final CIEXYZ F2 = new CIEXYZ(0.99186, 1.00000, 0.67393);
+	public static final CIEXYZ F7 = new CIEXYZ(0.95041, 1.00000, 1.08747);
+	public static final CIEXYZ F11 = new CIEXYZ(1.00962, 1.00000, 0.64350);
 
 	/**
 	 * @param X
@@ -71,6 +82,10 @@ public class CIEXYZ extends Tuple3 {
 				MathUtil.threshold(x, min, max),
 				MathUtil.threshold(y, min, max),
 				MathUtil.threshold(y, min, max));
+	}
+
+	public final CIEXYZ adapt(CIEXYZ fromRef, CIEXYZ toRef) {
+		return CIELab.fromXYZ(this, fromRef).toXYZ(toRef);
 	}
 
 	public final RGB toRGB() {
