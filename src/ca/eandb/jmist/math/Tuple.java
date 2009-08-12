@@ -5,12 +5,13 @@ package ca.eandb.jmist.math;
 
 import java.io.Serializable;
 import java.util.BitSet;
+import java.util.Iterator;
 
 /**
  * An immutable array of double precision values.
  * @author Brad Kimmel
  */
-public final class Tuple implements Serializable {
+public final class Tuple implements Iterable<Double>, Serializable {
 
 	/**
 	 * Creates an empty Tuple.
@@ -465,6 +466,44 @@ public final class Tuple implements Serializable {
 		}
 
 		return result;
+
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Iterable#iterator()
+	 */
+	public Iterator<Double> iterator() {
+		return new TupleIterator();
+	}
+
+	/**
+	 * An <code>Iterator</code> for iterating a <code>Tuple</code>.
+	 */
+	private class TupleIterator implements Iterator<Double> {
+
+		/** The index of the next element. */
+		private int index = 0;
+
+		/* (non-Javadoc)
+		 * @see java.util.Iterator#hasNext()
+		 */
+		public boolean hasNext() {
+			return index < values.length;
+		}
+
+		/* (non-Javadoc)
+		 * @see java.util.Iterator#next()
+		 */
+		public Double next() {
+			return values[index];
+		}
+
+		/* (non-Javadoc)
+		 * @see java.util.Iterator#remove()
+		 */
+		public void remove() {
+			throw new UnsupportedOperationException();
+		}
 
 	}
 
