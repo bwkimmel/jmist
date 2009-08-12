@@ -93,7 +93,7 @@ public final class MathUtil {
 	 * A direct implementation of methods from <code>java.lang.Math</code> that
 	 * are not available in Java 1.5.  The implementation of these methods come
 	 * from <code>sun.misc.FpUtils</code> (available at
-	 * <code>http://hg.openjdk.java.net/jdk7/tl/jdk/</code>.
+	 * <code>http://hg.openjdk.java.net/jdk7/tl/jdk/</code>).
 	 * @author Brad Kimmel
 	 */
 	private static final class MathImplJava5 implements MathImpl {
