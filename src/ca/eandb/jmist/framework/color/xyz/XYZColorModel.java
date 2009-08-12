@@ -37,6 +37,7 @@ import ca.eandb.jmist.framework.color.DoubleRaster;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.pdf.PiecewiseLinearProbabilityDensityFunction;
+import ca.eandb.jmist.math.MathUtil;
 
 /**
  * @author brad
@@ -52,6 +53,15 @@ public final class XYZColorModel extends ColorModel {
 	private static final ProbabilityDensityFunction X_PDF = new PiecewiseLinearProbabilityDensityFunction(ColorUtil.XYZ_WAVELENGTHS, ColorUtil.X_BAR);
 	private static final ProbabilityDensityFunction Y_PDF = new PiecewiseLinearProbabilityDensityFunction(ColorUtil.XYZ_WAVELENGTHS, ColorUtil.Y_BAR);
 	private static final ProbabilityDensityFunction Z_PDF = new PiecewiseLinearProbabilityDensityFunction(ColorUtil.XYZ_WAVELENGTHS, ColorUtil.Z_BAR);
+
+	private static final double X_CONST = ColorUtil.LUMENS_PER_WATT
+			* MathUtil.trapz(ColorUtil.XYZ_WAVELENGTHS, ColorUtil.X_BAR);
+
+	private static final double Y_CONST = ColorUtil.LUMENS_PER_WATT
+			* MathUtil.trapz(ColorUtil.XYZ_WAVELENGTHS, ColorUtil.Y_BAR);
+
+	private static final double Z_CONST = ColorUtil.LUMENS_PER_WATT
+			* MathUtil.trapz(ColorUtil.XYZ_WAVELENGTHS, ColorUtil.Z_BAR);
 
 	private static XYZColorModel instance;
 
@@ -168,7 +178,7 @@ public final class XYZColorModel extends ColorModel {
 	@Override
 	public Color sample(Random random) {
 		XYZWavelengthPacket lambda = new XYZWavelengthPacket(X_PDF.sample(random), Y_PDF.sample(random), Z_PDF.sample(random));
-		return new XYZColor(1, 1, 1, lambda);
+		return new XYZColor(X_CONST, Y_CONST, Z_CONST, lambda);
 	}
 
 	/* (non-Javadoc)
