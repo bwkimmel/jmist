@@ -30,22 +30,22 @@ public final class MathUtil {
 	private static interface MathImpl {
 
 		/* (non-Javadoc)
-		 * @see java.lang.Math#nextUp(double)
+		 * @see MathUtil#nextUp(double)
 		 */
 		double nextUp(double d);
 
 		/* (non-Javadoc)
-		 * @see java.lang.Math#nextAfter(double, double)
+		 * @see MathUtil#nextAfter(double, double)
 		 */
 		double nextAfter(double start, double direction);
 
 		/* (non-Javadoc)
-		 * @see java.lang.Math#nextUp(float)
+		 * @see MathUtil#nextUp(float)
 		 */
 		float nextUp(float f);
 
 		/* (non-Javadoc)
-		 * @see java.lang.Math#nextAfter(float, double)
+		 * @see MathUtil#nextAfter(float, double)
 		 */
 		float nextAfter(float start, double direction);
 
@@ -362,9 +362,30 @@ public final class MathUtil {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Math#nextUp(double)
-	 */
+    /**
+     * Returns the floating-point value adjacent to <code>d</code> in
+     * the direction of positive infinity.  This method is
+     * semantically equivalent to <code>nextAfter(d,
+     * Double.POSITIVE_INFINITY)</code>; however, a <code>nextUp</code>
+     * implementation may run faster than its equivalent
+     * <code>nextAfter</code> call.
+     *
+     * <p>Special Cases:
+     * <ul>
+     * <li> If the argument is NaN, the result is NaN.
+     *
+     * <li> If the argument is positive infinity, the result is
+     * positive infinity.
+     *
+     * <li> If the argument is zero, the result is
+     * <code>Double.MIN_VALUE</code>
+     *
+     * </ul>
+     *
+     * @param d  starting floating-point value
+     * @return The adjacent floating-point value closer to positive
+     * infinity.
+     */
 	public static double nextUp(double d) {
 		return impl.nextUp(d);
 	}
@@ -406,16 +427,74 @@ public final class MathUtil {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Math#nextAfter(double, double)
-	 */
+    /**
+     * Returns the floating-point number adjacent to the first
+     * argument in the direction of the second argument.  If both
+     * arguments compare as equal the second argument is returned.
+     *
+     * <p>
+     * Special cases:
+     * <ul>
+     * <li> If either argument is a NaN, then NaN is returned.
+     *
+     * <li> If both arguments are signed zeros, <code>direction</code>
+     * is returned unchanged (as implied by the requirement of
+     * returning the second argument if the arguments compare as
+     * equal).
+     *
+     * <li> If <code>start</code> is
+     * &plusmn;<code>Double.MIN_VALUE</code> and <code>direction</code>
+     * has a value such that the result should have a smaller
+     * magnitude, then a zero with the same sign as <code>start</code>
+     * is returned.
+     *
+     * <li> If <code>start</code> is infinite and
+     * <code>direction</code> has a value such that the result should
+     * have a smaller magnitude, <code>Double.MAX_VALUE</code> with the
+     * same sign as <code>start</code> is returned.
+     *
+     * <li> If <code>start</code> is equal to &plusmn;
+     * <code>Double.MAX_VALUE</code> and <code>direction</code> has a
+     * value such that the result should have a larger magnitude, an
+     * infinity with same sign as <code>start</code> is returned.
+     * </ul>
+     *
+     * @param start     starting floating-point value
+     * @param direction value indicating which of
+     * <code>start</code>'s neighbors or <code>start</code> should
+     * be returned
+     * @return The floating-point number adjacent to <code>start</code> in the
+     * direction of <code>direction</code>.
+     */
 	public static double nextAfter(double start, double direction) {
 		return impl.nextAfter(start, direction);
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Math#nextUp(float)
-	 */
+    /**
+     * Returns the floating-point value adjacent to <code>f</code> in
+     * the direction of positive infinity.  This method is
+     * semantically equivalent to <code>nextAfter(f,
+     * Double.POSITIVE_INFINITY)</code>; however, a <code>nextUp</code>
+     * implementation may run faster than its equivalent
+     * <code>nextAfter</code> call.
+     *
+     * <p>Special Cases:
+     * <ul>
+     * <li> If the argument is NaN, the result is NaN.
+     *
+     * <li> If the argument is positive infinity, the result is
+     * positive infinity.
+     *
+     * <li> If the argument is zero, the result is
+     * <code>Float.MIN_VALUE</code>
+     *
+     * </ul>
+     *
+     * @param f  starting floating-point value
+     * @return The adjacent floating-point value closer to positive
+     * infinity.
+     * @author Joseph D. Darcy
+     */
 	public static float nextUp(float d) {
 		return impl.nextUp(d);
 	}
@@ -457,9 +536,45 @@ public final class MathUtil {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Math#nextAfter(float, double)
-	 */
+    /**
+     * Returns the floating-point number adjacent to the first
+     * argument in the direction of the second argument.  If both
+     * arguments compare as equal, the second argument is returned.
+     *
+     * <p>
+     * Special cases:
+     * <ul>
+     * <li> If either argument is a NaN, then NaN is returned.
+     *
+     * <li> If both arguments are signed zeros, a <code>float</code>
+     * zero with the same sign as <code>direction</code> is returned
+     * (as implied by the requirement of returning the second argument
+     * if the arguments compare as equal).
+     *
+     * <li> If <code>start</code> is
+     * &plusmn;<code>Float.MIN_VALUE</code> and <code>direction</code>
+     * has a value such that the result should have a smaller
+     * magnitude, then a zero with the same sign as <code>start</code>
+     * is returned.
+     *
+     * <li> If <code>start</code> is infinite and
+     * <code>direction</code> has a value such that the result should
+     * have a smaller magnitude, <code>Float.MAX_VALUE</code> with the
+     * same sign as <code>start</code> is returned.
+     *
+     * <li> If <code>start</code> is equal to &plusmn;
+     * <code>Float.MAX_VALUE</code> and <code>direction</code> has a
+     * value such that the result should have a larger magnitude, an
+     * infinity with same sign as <code>start</code> is returned.
+     * </ul>
+     *
+     * @param start     starting floating-point value
+     * @param direction value indicating which of
+     * <code>start</code>'s neighbors or <code>start</code> should
+     * be returned
+     * @return The floating-point number adjacent to <code>start</code> in the
+     * direction of <code>direction</code>.
+     */
 	public static float nextAfter(float start, double direction) {
 		return impl.nextAfter(start, direction);
 	}
