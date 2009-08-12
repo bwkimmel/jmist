@@ -116,6 +116,57 @@ public final class ColorUtil {
 
 	private static final double KAPPA = 903.3;
 
+	public static CIEXYZ convertLuv2XYZ(double L, double u, double v, double Xr, double Yr, double Zr) {
+		double wr = Xr + 15.0 * Yr + 3.0 * Zr;
+		double u0 = 4.0 * Xr / wr;
+		double v0 = 9.0 * Yr / wr;
+		double Y;
+		if (L > KAPPA * EPSILON) {
+			Y = (L + 16.0) / 116.0;
+			Y = Y * Y * Y;
+		} else {
+			Y = L / KAPPA;
+		}
+
+		double a = (1.0 / 3.0) * ((52.0 * L) / (u + 13.0 * L * u0) - 1.0);
+		double b = -5.0 * Y;
+		double c = -1.0 / 3.0;
+		double d = Y * ((39.0 * L) / (v + 13.0 * L * v0) - 5.0);
+		double X = (d - b) / (a - c);
+		double Z = X * a + b;
+		return new CIEXYZ(X, Y, Z);
+	}
+
+	public static CIEXYZ convertLuv2XYZ(double L, double u, double v, CIEXYZ ref) {
+		return convertLuv2XYZ(L, u, v, ref.X(), ref.Y(), ref.Z());
+	}
+
+	public static CIEXYZ convertLuv2XYZ(CIELuv luv, CIEXYZ ref) {
+		return convertLuv2XYZ(luv.L(), luv.u(), luv.v(), ref);
+	}
+
+	public static CIELuv convertXYZ2Luv(double X, double Y, double Z, double Xr, double Yr, double Zr) {
+		double yr = Y / Yr;
+		double w = X + 15.0 * Y + 3.0 * Z;
+		double wr = Xr + 15.0 * Yr + 3.0 * Zr;
+		double U = 4.0 * X / w;
+		double V = 9.0 * Y / w;
+		double Ur = 4.0 * Xr / wr;
+		double Vr = 9.0 * Yr / wr;
+		double L = yr > EPSILON ? 116.0 * Math.cbrt(yr) - 16.0 : KAPPA * yr;
+		double u = 13.0 * L * (U - Ur);
+		double v = 13.0 * L * (V - Vr);
+		return new CIELuv(L, u, v);
+	}
+
+	public static CIELuv convertXYZ2Luv(double X, double Y, double Z, CIEXYZ ref) {
+		return convertXYZ2Luv(X, Y, Z, ref.X(), ref.Y(), ref.Z());
+	}
+
+	public static CIELuv convertXYZ2Luv(CIEXYZ xyz, CIEXYZ ref) {
+		return convertXYZ2Luv(xyz.X(), xyz.Y(), xyz.Z(), ref);
+	}
+
 	public static CIEXYZ convertLab2XYZ(double L, double a, double b, double Xr, double Yr, double Zr) {
 		double fy = (L + 16.0) / 116.0;
 		double fx = (a / 500.0) + fy;
