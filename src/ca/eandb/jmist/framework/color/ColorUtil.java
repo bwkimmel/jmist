@@ -111,6 +111,59 @@ public final class ColorUtil {
 			0.2126, 0.7152, 0.0722,
 			0.0193, 0.1192, 0.9505);
 
+	private static final double EPSILON = 0.008856;
+	private static final double CBRT_EPSILON = Math.cbrt(EPSILON);
+
+	private static final double KAPPA = 903.3;
+
+	public static CIEXYZ convertLab2XYZ(double L, double a, double b, double Xr, double Yr, double Zr) {
+		double fy = (L + 16.0) / 116.0;
+		double fx = (a / 500.0) + fy;
+		double fz = fy - (b / 200.0);
+		double xr = fx > CBRT_EPSILON ? fx * fx * fx : (116.0 * fx - 16.0) / KAPPA;
+		double zr = fz > CBRT_EPSILON ? fz * fz * fz : (116.0 * fz - 16.0) / KAPPA;
+		double yr;
+		if (L > KAPPA * EPSILON) {
+			yr = (L + 16.0) / 116.0;
+			yr = yr * yr * yr;
+		} else {
+			yr = L / KAPPA;
+		}
+		double X = xr * Xr;
+		double Y = yr * Yr;
+		double Z = zr * Zr;
+		return new CIEXYZ(X, Y, Z);
+	}
+
+	public static CIEXYZ convertLab2XYZ(double L, double a, double b, CIEXYZ ref) {
+		return convertLab2XYZ(L, a, b, ref.X(), ref.Y(), ref.Z());
+	}
+
+	public static CIEXYZ convertLab2XYZ(CIELab lab, CIEXYZ ref) {
+		return convertLab2XYZ(lab.L(), lab.a(), lab.b(), ref);
+	}
+
+	public static CIELab convertXYZ2Lab(double X, double Y, double Z, double Xr, double Yr, double Zr) {
+		double xr = X / Xr;
+		double yr = Y / Yr;
+		double zr = Z / Zr;
+		double fx = xr > EPSILON ? Math.cbrt(xr) : (KAPPA * xr + 16.0) / 116.0;
+		double fy = yr > EPSILON ? Math.cbrt(yr) : (KAPPA * yr + 16.0) / 116.0;
+		double fz = zr > EPSILON ? Math.cbrt(zr) : (KAPPA * zr + 16.0) / 116.0;
+		double L = 116.0 * fy - 16.0;
+		double a = 500.0 * (fx - fy);
+		double b = 200.0 * (fy - fz);
+		return new CIELab(L, a, b);
+	}
+
+	public static CIELab convertXYZ2Lab(double X, double Y, double Z, CIEXYZ ref) {
+		return convertXYZ2Lab(X, Y, Z, ref.X(), ref.Y(), ref.Z());
+	}
+
+	public static CIELab convertXYZ2Lab(CIEXYZ xyz, CIEXYZ ref) {
+		return convertXYZ2Lab(xyz.X(), xyz.Y(), xyz.Z(), ref);
+	}
+
 	public static CIEYuv convertXYZ2Yuv(double X, double Y, double Z) {
 		double w = X + 15.0 * Y + 3.0 * Z;
 		return new CIEYuv(Y, 4.0 * X / w, 6.0 * Y / w);
