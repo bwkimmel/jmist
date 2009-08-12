@@ -37,7 +37,7 @@ import ca.eandb.jmist.util.ArrayUtil;
  */
 public final class ColorUtil {
 
-	public static final double LUMENS_PER_WATT = 683.002;
+	public static final double LUMENS_PER_WATT = 683.0;
 
 	public static final Tuple X_BAR = new Tuple(
 		0.001368, 0.002236, 0.004243, 0.007650, 0.014310, // 380-400
