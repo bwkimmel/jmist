@@ -59,10 +59,8 @@ import ca.eandb.util.progress.ProgressMonitor;
  */
 public final class LightTracingJob extends AbstractParallelizableJob {
 
-	/**
-	 * Serialization version ID.
-	 */
-	private static final long serialVersionUID = 159143623050840832L;
+	/** Serialization version ID. */
+	private static final long serialVersionUID = -6940841062797196504L;
 
 	private final Scene scene;
 
