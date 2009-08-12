@@ -32,7 +32,7 @@ import ca.eandb.jmist.framework.shader.MinimalShadingContext;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
-import ca.eandb.jmist.util.ByteArray;
+import ca.eandb.util.ByteArray;
 
 /**
  * @author Brad

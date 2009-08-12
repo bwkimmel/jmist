@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import ca.eandb.jmist.framework.Random;
-import ca.eandb.jmist.util.DoubleArray;
+import ca.eandb.util.DoubleArray;
 
 /**
  * A categorical random variable (i.e., a discrete random variable that selects
