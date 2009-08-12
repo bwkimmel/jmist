@@ -495,7 +495,7 @@ public final class Tuple implements Iterable<Double>, Serializable {
 		 * @see java.util.Iterator#next()
 		 */
 		public Double next() {
-			return values[index];
+			return values[index++];
 		}
 
 		/* (non-Javadoc)
