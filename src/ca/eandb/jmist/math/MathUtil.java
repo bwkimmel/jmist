@@ -5,6 +5,7 @@ package ca.eandb.jmist.math;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * Static mathematical utility methods.
@@ -643,6 +644,132 @@ public final class MathUtil {
 				t
 		);
 
+	}
+
+	/**
+	 * Computes the integral of the piecewise linear function through the given
+	 * points (<code>i</code>, <code>y[i]</code>) using the trapezoidal
+	 * method.
+	 * @param y The y-coordinates of the vertices of the piecewise linear
+	 * 		function to integrate.
+	 * @return The integral of the piecewise linear function.
+	 * @throws IllegalArgumentException if <code>y.length == 0</code>.
+	 */
+	public static double trapz(double[] y) {
+		if (y.length == 0) {
+			throw new IllegalArgumentException("y.length == 0");
+		}
+		double value = 0.0;
+		double y0 = y[0];
+		for (int i = 0; i < y.length; i++) {
+			double y1 = y[i];
+			double ym = y0 + y1;
+			value += ym;
+			y0 = y1;
+		}
+		return value / 2.0;
+	}
+
+	/**
+	 * Computes the integral of the piecewise linear function through the given
+	 * points (<code>x[i]</code>, <code>y[i]</code>) using the trapezoidal
+	 * method.
+	 * @param x The x-coordinates of the vertices of the piecewise linear
+	 * 		function to integrate.
+	 * @param y The y-coordinates of the vertices of the piecewise linear
+	 * 		function to integrate.
+	 * @return The integral of the piecewise linear function.
+	 * @throws IllegalArgumentException if <code>x.length != y.length</code>.
+	 * @throws IllegalArgumentException if <code>y.length == 0</code>.
+	 */
+	public static double trapz(double[] x, double[] y) {
+		if (x.length != y.length) {
+			throw new IllegalArgumentException("x.length != y.length");
+		}
+		if (y.length == 0) {
+			throw new IllegalArgumentException("y.length == 0");
+		}
+		double value = 0.0;
+		double x0 = x[0];
+		double y0 = y[0];
+		for (int i = 1; i < y.length; i++) {
+			double x1 = x[i];
+			double y1 = y[i];
+			double dx = x1 - x0;
+			double ym = y0 + y1;
+			value += dx * ym;
+			x0 = x1;
+			y0 = y1;
+		}
+		return value / 2.0;
+	}
+
+	/**
+	 * Computes the integral of the piecewise linear function through the given
+	 * points (<code>i</code>, <code>y[i]</code>) using the trapezoidal
+	 * method.
+	 * @param y The y-coordinates of the vertices of the piecewise linear
+	 * 		function to integrate.
+	 * @return The integral of the piecewise linear function.
+	 * @throws IllegalArgumentException if <code>y</code> is empty.
+	 */
+	public static double trapz(Iterable<Double> y) {
+		Iterator<Double> ys = y.iterator();
+		if (!ys.hasNext()) {
+			throw new IllegalArgumentException("y is empty.");
+		}
+		double value = 0.0;
+		double y0 = ys.next();
+		while (ys.hasNext()) {
+			double y1 = ys.next();
+			double ym = y0 + y1;
+			value += ym;
+			y0 = y1;
+		}
+		return value / 2.0;
+	}
+
+	/**
+	 * Computes the integral of the piecewise linear function through the given
+	 * points (<code>x[i]</code>, <code>y[i]</code>) using the trapezoidal
+	 * method.
+	 * @param x The x-coordinates of the vertices of the piecewise linear
+	 * 		function to integrate.
+	 * @param y The y-coordinates of the vertices of the piecewise linear
+	 * 		function to integrate.
+	 * @return The integral of the piecewise linear function.
+	 * @throws IllegalArgumentException if the lengths of <code>x</code> and
+	 * 		<code>y</code> differ.
+	 * @throws IllegalArgumentException if <code>y</code> is empty.
+	 */
+	public static double trapz(Iterable<Double> x, Iterable<Double> y) {
+		Iterator<Double> xs = x.iterator();
+		Iterator<Double> ys = y.iterator();
+		if (!ys.hasNext()) {
+			throw new IllegalArgumentException("y is empty.");
+		}
+		if (!xs.hasNext()) {
+			throw new IllegalArgumentException("Lengths of x and y differ.");
+		}
+		double value = 0.0;
+		double x0 = xs.next();
+		double y0 = ys.next();
+		while (ys.hasNext()) {
+			if (!xs.hasNext()) {
+				throw new IllegalArgumentException("Lengths of x and y differ.");
+			}
+			double x1 = xs.next();
+			double y1 = ys.next();
+			double dx = x1 - x0;
+			double ym = y0 + y1;
+			value += dx * ym;
+			x0 = x1;
+			y0 = y1;
+		}
+		if (xs.hasNext()) {
+			throw new IllegalArgumentException("Lengths of x and y differ.");
+		}
+		return value / 2.0;
 	}
 
 	/**
