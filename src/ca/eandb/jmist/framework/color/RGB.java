@@ -77,8 +77,38 @@ public final class RGB extends Tuple3 {
 	public final int toR8G8B8() {
 		return
 			(MathUtil.threshold((int) Math.floor(256.0 * x), 0, 255) << 16) |
-			(MathUtil.threshold((int) Math.floor(256.0 * y), 0, 255) << 8) |
-			MathUtil.threshold((int) Math.floor(256.0 * z), 0, 255);
+			(MathUtil.threshold((int) Math.floor(256.0 * y), 0, 255) <<  8) |
+			(MathUtil.threshold((int) Math.floor(256.0 * z), 0, 255) <<  0);
+	}
+
+	public final int toRGBE() {
+		double v = (x > y && x > z) ? x : (y > z ? y : z);
+		if (v < 1e-32) {
+			return 0;
+		}
+		long bits = Double.doubleToRawLongBits(v);
+		int e = (int) (((bits & 0x7ff0000000000000L)) >>> 52L) - 0x3fe;
+		v = Double.longBitsToDouble((bits & 0x800fffffffffffffL) | 0x3fe0000000000000L) * 256.0 / v;
+
+		return
+			(MathUtil.threshold((int) Math.floor(x * v), 0, 255) << 24) |
+			(MathUtil.threshold((int) Math.floor(y * v), 0, 255) << 16) |
+			(MathUtil.threshold((int) Math.floor(z * v), 0, 255) <<  8) |
+			MathUtil.threshold(e + 128, 0, 255);
+	}
+
+	public static RGB fromRGBE(int rgbe) {
+		int e = (rgbe & 0x000000ff);
+		if (e > 0) {
+			int r = (rgbe & 0xff000000) >>> 24;
+			int g = (rgbe & 0x00ff0000) >>> 16;
+			int b = (rgbe & 0x0000ff00) >>>  8;
+			long bits = ((long) (e - (128 + 8) + 0x3ff)) << 52;
+			double f = Double.longBitsToDouble(bits);
+			return new RGB(r * f, g * f, b * f);
+		} else {
+			return RGB.ZERO;
+		}
 	}
 
 	public CIEXYZ toXYZ() {

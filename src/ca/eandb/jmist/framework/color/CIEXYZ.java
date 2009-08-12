@@ -88,6 +88,36 @@ public class CIEXYZ extends Tuple3 {
 		return CIELab.fromXYZ(this, fromRef).toXYZ(toRef);
 	}
 
+	public final int toXYZE() {
+		double v = (x > y && x > z) ? x : (y > z ? y : z);
+		if (v < 1e-32) {
+			return 0;
+		}
+		long bits = Double.doubleToRawLongBits(v);
+		int e = (int) (((bits & 0x7ff0000000000000L)) >>> 52L) - 0x3fe;
+		v = Double.longBitsToDouble((bits & 0x800fffffffffffffL) | 0x3fe0000000000000L) * 256.0 / v;
+
+		return
+			(MathUtil.threshold((int) Math.floor(x * v), 0, 255) << 24) |
+			(MathUtil.threshold((int) Math.floor(y * v), 0, 255) << 16) |
+			(MathUtil.threshold((int) Math.floor(z * v), 0, 255) <<  8) |
+			MathUtil.threshold(e + 128, 0, 255);
+	}
+
+	public static CIEXYZ fromXYZE(int xyze) {
+		int e = (xyze & 0x000000ff);
+		if (e > 0) {
+			int x = (xyze & 0xff000000) >>> 24;
+			int y = (xyze & 0x00ff0000) >>> 16;
+			int z = (xyze & 0x0000ff00) >>>  8;
+			long bits = ((long) (e - (128 + 8) + 0x3ff)) << 52;
+			double f = Double.longBitsToDouble(bits);
+			return new CIEXYZ(x * f, y * f, z * f);
+		} else {
+			return CIEXYZ.ZERO;
+		}
+	}
+
 	public final RGB toRGB() {
 		return ColorUtil.convertXYZ2RGB(this);
 	}
