@@ -153,23 +153,9 @@ public abstract class AbstractShadingContext implements ShadingContext {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.ShadingContext#isEyePath()
-	 */
-	public boolean isEyePath() {
-		return !isLightPath();
-	}
-
-	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.ShadingContext#isFront()
 	 */
 	public boolean isFront() {
-		throw new UnsupportedOperationException();
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.ShadingContext#isLightPath()
-	 */
-	public boolean isLightPath() {
 		throw new UnsupportedOperationException();
 	}
 

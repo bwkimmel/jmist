@@ -247,14 +247,6 @@ public final class SceneRayShader implements RayShader {
 			return stack.peek().scatteredRays;
 		}
 
-		public boolean isEyePath() {
-			return true;
-		}
-
-		public boolean isLightPath() {
-			return false;
-		}
-
 		public Color shade() {
 			return getShader().shade(this);
 		}

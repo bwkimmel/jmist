@@ -54,10 +54,6 @@ public interface ShadingContext extends SurfacePoint, VisibilityFunction3 {
 
 	Color getImportance();
 
-	boolean isEyePath();
-
-	boolean isLightPath();
-
 	int getPathDepthByType(ScatteredRay.Type type);
 
 	ColorModel getColorModel();

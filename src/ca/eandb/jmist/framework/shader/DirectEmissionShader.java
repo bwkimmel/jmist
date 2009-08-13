@@ -50,7 +50,7 @@ public final class DirectEmissionShader implements Shader {
 
 		WavelengthPacket lambda = sc.getWavelengthPacket();
 
-		if (sc.isEyePath() && sc.getPathDepth() == sc.getPathDepthByType(ScatteredRay.Type.SPECULAR)) {
+		if (sc.getPathDepth() == sc.getPathDepthByType(ScatteredRay.Type.SPECULAR)) {
 			Material mat = sc.getMaterial();
 			if (mat.isEmissive()) {
 				return mat.emission(sc, sc.getIncident().opposite(), lambda);
