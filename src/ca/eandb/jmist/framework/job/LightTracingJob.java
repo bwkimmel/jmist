@@ -212,6 +212,12 @@ public final class LightTracingJob extends AbstractParallelizableJob {
 
 		private transient Lens lens;
 
+		private transient ThreadLocal<Raster> raster = new ThreadLocal<Raster>() {
+			protected Raster initialValue() {
+				return colorModel.createRaster(width, height);
+			}
+		};
+
 		private synchronized void ensureInitialized() {
 			if (root == null) {
 				light = scene.getLight();
@@ -227,7 +233,8 @@ public final class LightTracingJob extends AbstractParallelizableJob {
 		public Object performTask(Object task, ProgressMonitor monitor) {
 
 			int photons = (Integer) task;
-			Raster raster = colorModel.createRaster(width, height);
+			Raster raster = this.raster.get();
+			raster.clear();
 
 			ensureInitialized();
 

@@ -41,4 +41,6 @@ public interface RasterWriter extends Serializable {
 
 	void setPixel(int x, int y, Color color);
 
+	void clear();
+
 }

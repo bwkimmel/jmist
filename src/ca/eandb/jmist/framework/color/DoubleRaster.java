@@ -26,6 +26,7 @@
 package ca.eandb.jmist.framework.color;
 
 import ca.eandb.jmist.framework.Raster;
+import ca.eandb.jmist.util.ArrayUtil;
 
 /**
  * @author brad
@@ -90,6 +91,13 @@ public abstract class DoubleRaster implements Raster {
 		for (int ch = 0; ch < channels; ch++) {
 			raster[index++] = color.getValue(ch);
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.RasterWriter#clear()
+	 */
+	public void clear() {
+		ArrayUtil.setAll(raster, 0.0);
 	}
 
 }
