@@ -782,6 +782,90 @@ public final class MathUtil {
 	}
 
 	/**
+	 * Computes the product of the values in an array of <code>double</code>s.
+	 * @param array The array of <code>double</code>s of which to compute the
+	 * 		product.
+	 * @return The product of the values in <code>array</code>.
+	 */
+	public static double product(double[] array) {
+		double prod = 1.0;
+		for (int i = 0; i < array.length; i++) {
+			prod *= array[i];
+		}
+		return prod;
+	}
+
+	/**
+	 * Computes the product of the values in a collection of
+	 * 		<code>double</code>s.
+	 * @param values The collection of <code>double</code>s of which to
+	 * 		compute the product.
+	 * @return The product of the values in <code>values</code>.
+	 */
+	public static double product(Iterable<Double> values) {
+		double prod = 1.0;
+		for (double x : values) {
+			prod *= x;
+		}
+		return prod;
+	}
+
+	/**
+	 * Computes the sum of the values in an array of <code>int</code>s.
+	 * @param array The array of <code>int</code>s of which to compute the sum.
+	 * @return The sum of the values in <code>array</code>.
+	 */
+	public static int sum(int[] array) {
+		int sum = 0;
+		for (int i = 0; i < array.length; i++) {
+			sum += array[i];
+		}
+		return sum;
+	}
+
+	/**
+	 * Computes the sum of the values in a collection of <code>int</code>s.
+	 * @param values The collection of <code>int</code>s of which to compute
+	 * 		the	sum.
+	 * @return The sum of the values in <code>values</code>.
+	 */
+	public static int sum(Iterable<Integer> values) {
+		int sum = 0;
+		for (int x : values) {
+			sum += x;
+		}
+		return sum;
+	}
+
+	/**
+	 * Computes the product of the values in an array of <code>int</code>s.
+	 * @param array The array of <code>int</code>s of which to compute the
+	 * 		product.
+	 * @return The product of the values in <code>array</code>.
+	 */
+	public static int product(int[] array) {
+		int prod = 1;
+		for (int i = 0; i < array.length; i++) {
+			prod *= array[i];
+		}
+		return prod;
+	}
+
+	/**
+	 * Computes the product of the values in a collection of <code>int</code>s.
+	 * @param values The collection of <code>int</code>s of which to
+	 * 		compute the product.
+	 * @return The product of the values in <code>values</code>.
+	 */
+	public static int product(Iterable<Integer> values) {
+		int prod = 1;
+		for (int x : values) {
+			prod *= x;
+		}
+		return prod;
+	}
+
+	/**
 	 * Scales the specified array of <code>double</code>s so that they sum to
 	 * one.
 	 * @param weights The array of <code>double</code>s to normalize (this

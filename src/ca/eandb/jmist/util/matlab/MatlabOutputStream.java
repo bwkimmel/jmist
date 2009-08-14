@@ -15,6 +15,7 @@ import java.util.zip.DeflaterOutputStream;
 import javax.imageio.stream.ImageOutputStream;
 
 import ca.eandb.jmist.math.Complex;
+import ca.eandb.jmist.math.MathUtil;
 
 /**
  * An <code>OutputStream</code> for writing MATLAB MAT-files.
@@ -379,24 +380,12 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 	}
 
 	/**
-	 * Computes the product of the given dimensions.
-	 * @param The array dimensions to compute the product of.
-	 */
-	private int product(int[] dims) {
-		int prod = 1;
-		for (int i = 0; i < dims.length; i++) {
-			prod *= dims[i];
-		}
-		return prod;
-	}
-
-	/**
 	 * Writes a <code>boolean</code> MATLAB element to the underlying stream.
 	 * @param array The array of <code>boolean</code> values to write.
 	 * @throws IOException if writing to the underlying stream fails.
 	 */
 	public void writeElement(boolean[] array, int[] dims, int[] strides) throws IOException {
-		this.writePrimitiveElementTag(MatlabDataType.UINT8, product(dims));
+		this.writePrimitiveElementTag(MatlabDataType.UINT8, MathUtil.product(dims));
 		this.writeBooleans(array, dims, strides);
 	}
 
@@ -406,7 +395,7 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 	 * @throws IOException if writing to the underlying stream fails.
 	 */
 	public void writeElement(double[] array, int[] dims, int[] strides) throws IOException {
-		this.writePrimitiveElementTag(MatlabDataType.DOUBLE, product(dims));
+		this.writePrimitiveElementTag(MatlabDataType.DOUBLE, MathUtil.product(dims));
 		this.writeDoubles(array, dims, strides);
 	}
 
@@ -416,7 +405,7 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 	 * @throws IOException if writing to the underlying stream fails.
 	 */
 	public void writeElement(float[] array, int[] dims, int[] strides) throws IOException {
-		this.writePrimitiveElementTag(MatlabDataType.SINGLE, product(dims));
+		this.writePrimitiveElementTag(MatlabDataType.SINGLE, MathUtil.product(dims));
 		this.writeFloats(array, dims, strides);
 	}
 
@@ -426,7 +415,7 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 	 * @throws IOException if writing to the underlying stream fails.
 	 */
 	public void writeElement(byte[] array, int[] dims, int[] strides) throws IOException {
-		this.writePrimitiveElementTag(MatlabDataType.INT8, product(dims));
+		this.writePrimitiveElementTag(MatlabDataType.INT8, MathUtil.product(dims));
 		this.writeBytes(array, dims, strides);
 	}
 
@@ -436,7 +425,7 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 	 * @throws IOException if writing to the underlying stream fails.
 	 */
 	public void writeElement(short[] array, int[] dims, int[] strides) throws IOException {
-		this.writePrimitiveElementTag(MatlabDataType.INT16, product(dims));
+		this.writePrimitiveElementTag(MatlabDataType.INT16, MathUtil.product(dims));
 		this.writeShorts(array, dims, strides);
 	}
 
@@ -446,7 +435,7 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 	 * @throws IOException if writing to the underlying stream fails.
 	 */
 	public void writeElement(int[] array, int[] dims, int[] strides) throws IOException {
-		this.writePrimitiveElementTag(MatlabDataType.INT32, product(dims));
+		this.writePrimitiveElementTag(MatlabDataType.INT32, MathUtil.product(dims));
 		this.writeInts(array, dims, strides);
 	}
 
@@ -456,7 +445,7 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 	 * @throws IOException if writing to the underlying stream fails.
 	 */
 	public void writeElement(long[] array, int[] dims, int[] strides) throws IOException {
-		this.writePrimitiveElementTag(MatlabDataType.INT64, product(dims));
+		this.writePrimitiveElementTag(MatlabDataType.INT64, MathUtil.product(dims));
 		this.writeLongs(array, dims, strides);
 	}
 
@@ -467,7 +456,7 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 	 * @throws IOException if writing to the underlying stream fails.
 	 */
 	public void writeUnsignedElement(byte[] array, int[] dims, int[] strides) throws IOException {
-		this.writePrimitiveElementTag(MatlabDataType.UINT8, product(dims));
+		this.writePrimitiveElementTag(MatlabDataType.UINT8, MathUtil.product(dims));
 		this.writeBytes(array, dims, strides);
 	}
 
@@ -478,7 +467,7 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 	 * @throws IOException if writing to the underlying stream fails.
 	 */
 	public void writeUnsignedElement(short[] array, int[] dims, int[] strides) throws IOException {
-		this.writePrimitiveElementTag(MatlabDataType.UINT16, product(dims));
+		this.writePrimitiveElementTag(MatlabDataType.UINT16, MathUtil.product(dims));
 		this.writeShorts(array, dims, strides);
 	}
 
@@ -489,7 +478,7 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 	 * @throws IOException if writing to the underlying stream fails.
 	 */
 	public void writeUnsignedElement(int[] array, int[] dims, int[] strides) throws IOException {
-		this.writePrimitiveElementTag(MatlabDataType.UINT32, product(dims));
+		this.writePrimitiveElementTag(MatlabDataType.UINT32, MathUtil.product(dims));
 		this.writeInts(array, dims, strides);
 	}
 
@@ -500,7 +489,7 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 	 * @throws IOException if writing to the underlying stream fails.
 	 */
 	public void writeUnsignedElement(long[] array, int[] dims, int[] strides) throws IOException {
-		this.writePrimitiveElementTag(MatlabDataType.UINT64, product(dims));
+		this.writePrimitiveElementTag(MatlabDataType.UINT64, MathUtil.product(dims));
 		this.writeLongs(array, dims, strides);
 	}
 
