@@ -939,7 +939,7 @@ public final class MathUtil {
 	 * 		each corresponding element of <code>accumulator</code>.
 	 * @return A reference to <code>accumulator</code>.
 	 */
-	public static double[] modulate(double[] accumulator, double[] modulator) {
+	public static double[] multiply(double[] accumulator, double[] modulator) {
 		if (accumulator == null) {
 			return modulator.clone();
 		}
