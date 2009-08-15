@@ -4,7 +4,6 @@
 package ca.eandb.jmist.framework.tone;
 
 import ca.eandb.jmist.framework.color.CIEXYZ;
-import ca.eandb.jmist.math.MathUtil;
 
 /**
  * @author Brad
@@ -15,7 +14,17 @@ public final class ReinhardToneMapperFactory implements ToneMapperFactory {
 	/** Serialization version ID. */
 	private static final long serialVersionUID = -8014074363504189066L;
 
-	private final double delta = MathUtil.TINY_EPSILON;
+	private static final double DEFAULT_DELTA = 1.0;
+
+	private final double delta;
+
+	public ReinhardToneMapperFactory(double delta) {
+		this.delta = delta;
+	}
+
+	public ReinhardToneMapperFactory() {
+		this(DEFAULT_DELTA);
+	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.ToneMapperFactory#createToneMapper(java.lang.Iterable)
@@ -35,9 +44,9 @@ public final class ReinhardToneMapperFactory implements ToneMapperFactory {
 			}
 		}
 		Yavg /= (double) n;
-		Yavg = Math.exp(Yavg);
+		Yavg = Math.exp(Yavg) - delta;
 
-		double Ymid = 0.18;//1.03 - 2.0 / (2.0 + Math.log10(Yavg + 1.0));
+		double Ymid = 1.03 - 2.0 / (2.0 + Math.log10(Yavg + 1.0));
 		return new ReinhardToneMapper(Ymid / Yavg, Ymax);
 	}
 
