@@ -9,7 +9,7 @@ package ca.eandb.jmist.math;
  * This class is immutable.
  * @author Brad Kimmel
  */
-public final class Vector3 extends Tuple3 {
+public final class Vector3 extends HPoint3 {
 
 	/**
 	 * Initializes the components for the vector.
@@ -21,34 +21,12 @@ public final class Vector3 extends Tuple3 {
 		super(x, y, z);
 	}
 
-	/**
-	 * Gets the distance from the origin along the x-axis.
-	 * Equivalent to {@code this.dot(Vector3.I);}
-	 * @return The distance from the origin along the x-axis.
-	 * @see {@link #I}, {@link #dot(Vector3)}.
-	 */
-	public double x() {
-		return x;
+	public Vector3 toVector3() {
+		return this;
 	}
 
-	/**
-	 * Gets the distance from the origin along the y-axis.
-	 * Equivalent to {@code this.dot(Vector3.J);}
-	 * @return The distance from the origin along the y-axis.
-	 * @see {@link #J}, {@link #dot(Vector3)}.
-	 */
-	public double y() {
-		return y;
-	}
-
-	/**
-	 * Gets the distance from the origin along the z-axis.
-	 * Equivalent to {@code this.dot(Vector3.K);}
-	 * @return The distance from the origin along the z-axis.
-	 * @see {@link #K}, {@link #dot(Vector3)}.
-	 */
-	public double z() {
-		return z;
+	public double w() {
+		return 0.0;
 	}
 
 	/**
@@ -82,6 +60,14 @@ public final class Vector3 extends Tuple3 {
 	 */
 	public Vector3 plus(Vector3 v) {
 		return new Vector3(x + v.x, y + v.y, z + v.z);
+	}
+
+	public Point3 plus(Point3 p) {
+		return new Point3(x + p.x, y + p.y, z + p.z);
+	}
+
+	public HPoint3 plus(HPoint3 p) {
+		return p.isPoint() ? plus(p.toPoint3()) : plus(p.toVector3());
 	}
 
 	/**

@@ -3,7 +3,6 @@
  */
 package ca.eandb.jmist.framework.lens;
 
-import ca.eandb.jmist.framework.Lens;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
@@ -15,7 +14,7 @@ import ca.eandb.jmist.math.Vector3;
  * screen.
  * @author Brad Kimmel
  */
-public final class PanoramicLens implements Lens {
+public final class PanoramicLens extends SingularApertureLens {
 
 	/**
 	 * Serialization version ID.
@@ -72,19 +71,19 @@ public final class PanoramicLens implements Lens {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.Point3)
+	 * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.Vector3)
 	 */
-	public Projection project(Point3 p) {
-		double theta = Math.atan2(p.x(), -p.z());
+	public Projection project(Vector3 v) {
+		double theta = Math.atan2(v.x(), -v.z());
 		final double x = 0.5 + theta / hfov;
 		if (!MathUtil.inRangeCC(x, 0.0, 1.0)) {
 			return null;
 		}
-		double d = Math.sqrt(p.x() * p.x() + p.z() * p.z());
+		double d = Math.sqrt(v.x() * v.x() + v.z() * v.z());
 		if (d < MathUtil.EPSILON) {
 			return null;
 		}
-		final double y =  0.5 - (p.y() / (d * height));
+		final double y =  0.5 - (v.y() / (d * height));
 		if (!MathUtil.inRangeCC(y, 0.0, 1.0)) {
 			return null;
 		}

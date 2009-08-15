@@ -3,7 +3,6 @@
  */
 package ca.eandb.jmist.framework.lens;
 
-import ca.eandb.jmist.framework.Lens;
 import ca.eandb.jmist.math.Box2;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
@@ -20,7 +19,7 @@ import ca.eandb.jmist.math.Vector3;
  * are observed).
  * @author Brad Kimmel
  */
-public final class PinholeLens implements Lens {
+public final class PinholeLens extends SingularApertureLens {
 
 	/**
 	 * Serialization version ID.
@@ -121,15 +120,15 @@ public final class PinholeLens implements Lens {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.Point3)
+	 * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.Vector3)
 	 */
-	public Projection project(final Point3 p) {
-		if (-p.z() < MathUtil.EPSILON) {
+	public Projection project(final Vector3 v) {
+		if (-v.z() < MathUtil.EPSILON) {
 			return null;
 		}
 		final Point2 ndc = new Point2(
-				0.5 - p.x() / (width * p.z()),
-				0.5 + p.y() / (height * p.z()));
+				0.5 - v.x() / (width * v.z()),
+				0.5 + v.y() / (height * v.z()));
 
 		if (Box2.UNIT.contains(ndc)) {
 			return new Projection() {
@@ -142,8 +141,8 @@ public final class PinholeLens implements Lens {
 				}
 
 				public double importance() {
-					double dot = Vector3.NEGATIVE_K.dot(p.unitVectorFromOrigin());
-					return 1.0 / (dot * dot * dot * p.squaredDistanceToOrigin());
+					double dot = -v.unit().z();
+					return 1.0 / (dot * dot * dot * v.squaredLength());
 				}
 			};
 		} else {

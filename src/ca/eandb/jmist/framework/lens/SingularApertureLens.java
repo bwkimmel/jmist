@@ -23,31 +23,27 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package ca.eandb.jmist.framework.gi;
+package ca.eandb.jmist.framework.lens;
 
-import ca.eandb.jmist.framework.Random;
-import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.math.HPoint3;
+import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Vector3;
 
 /**
  * @author brad
  *
  */
-public interface PathNode {
+public abstract class SingularApertureLens extends AbstractLens {
 
-	int getDepth();
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.lens.AbstractLens#project(ca.eandb.jmist.math.Vector3)
+	 */
+	public abstract Projection project(Vector3 p);
 
-	Color evaluate(Vector3 v);
-
-	Vector3 sample(Random rnd);
-
-	ScatteringNode trace(Vector3 v);
-
-	Color scatter(Vector3 v);
-
-	ScatteringNode expand(Random rnd);
-
-	HPoint3 getPosition();
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.Point3)
+	 */
+	public final Projection project(Point3 p) {
+		return project(p.vectorFromOrigin());
+	}
 
 }

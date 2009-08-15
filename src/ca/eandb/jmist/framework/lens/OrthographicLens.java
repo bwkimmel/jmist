@@ -3,7 +3,6 @@
  */
 package ca.eandb.jmist.framework.lens;
 
-import ca.eandb.jmist.framework.Lens;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
@@ -15,7 +14,7 @@ import ca.eandb.jmist.math.Vector3;
  * ortographically.
  * @author Brad Kimmel
  */
-public final class OrthographicLens implements Lens {
+public final class OrthographicLens extends AbstractLens {
 
 	/**
 	 * Serialization version ID.

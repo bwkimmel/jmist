@@ -83,4 +83,11 @@ public final class PointEmitter implements Emitter {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Emitter#getPosition()
+	 */
+	public Point3 getPosition() {
+		return position;
+	}
+
 }

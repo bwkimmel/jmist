@@ -26,28 +26,20 @@
 package ca.eandb.jmist.framework.gi;
 
 import ca.eandb.jmist.framework.Random;
-import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.math.HPoint3;
 import ca.eandb.jmist.math.Vector3;
 
 /**
  * @author brad
  *
  */
-public interface PathNode {
+public abstract class AbstractPathNode implements PathNode {
 
-	int getDepth();
-
-	Color evaluate(Vector3 v);
-
-	Vector3 sample(Random rnd);
-
-	ScatteringNode trace(Vector3 v);
-
-	Color scatter(Vector3 v);
-
-	ScatteringNode expand(Random rnd);
-
-	HPoint3 getPosition();
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.gi.PathNode#expand(ca.eandb.jmist.framework.Random)
+	 */
+	public final ScatteringNode expand(Random rnd) {
+		Vector3 v = sample(rnd);
+		return (v != null) ? trace(v) : null;
+	}
 
 }

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2008 Bradley W. Kimmel
- *
+ * 
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -9,10 +9,10 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -25,48 +25,45 @@
 
 package ca.eandb.jmist.framework.gi;
 
-import ca.eandb.jmist.framework.Emitter;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.framework.color.WavelengthPacket;
-import ca.eandb.jmist.math.HPoint3;
-import ca.eandb.jmist.math.Point3;
-import ca.eandb.jmist.math.Sphere;
 import ca.eandb.jmist.math.Vector3;
-import ca.eandb.jmist.math.Vector4;
 
 /**
  * @author brad
  *
  */
-public class EmissionNode extends AbstractPathNode {
+public final class BackgroundNode implements ScatteringNode {
 
-	private final Emitter emitter;
-
-	private final Color sample;
-
-	private final Sphere target;
-
-	private final WavelengthPacket lambda;
-
-	/* package */ EmissionNode(Emitter emitter, Sphere target, Color sample) {
-		this.emitter = emitter;
-		this.target = target;
-		this.sample = sample;
-		this.lambda = sample.getWavelengthPacket();
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.gi.ScatteringNode#getSourceRadiance()
+	 */
+	public Color getSourceRadiance() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.gi.PathNode#evaluate(ca.eandb.jmist.math.Vector3)
 	 */
 	public Color evaluate(Vector3 v) {
-		return emitter.getEmittedRadiance(v, lambda).times(sample);
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.gi.PathNode#expand(ca.eandb.jmist.framework.Random)
+	 */
+	public ScatteringNode expand(Random rnd) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.gi.PathNode#getDepth()
 	 */
 	public int getDepth() {
+		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -74,12 +71,12 @@ public class EmissionNode extends AbstractPathNode {
 	 * @see ca.eandb.jmist.framework.gi.PathNode#sample(ca.eandb.jmist.framework.Random)
 	 */
 	public Vector3 sample(Random rnd) {
-		emitter.emit(target, lambda, rnd);
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi.PathNode#scatter(ca.eandb.jmist.framework.Photon)
+	 * @see ca.eandb.jmist.framework.gi.PathNode#scatter(ca.eandb.jmist.math.Vector3)
 	 */
 	public Color scatter(Vector3 v) {
 		// TODO Auto-generated method stub
@@ -90,7 +87,6 @@ public class EmissionNode extends AbstractPathNode {
 	 * @see ca.eandb.jmist.framework.gi.PathNode#trace(ca.eandb.jmist.math.Vector3)
 	 */
 	public ScatteringNode trace(Vector3 v) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

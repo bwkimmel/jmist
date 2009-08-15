@@ -25,29 +25,53 @@
 
 package ca.eandb.jmist.framework.gi;
 
+import ca.eandb.jmist.framework.Emitter;
+import ca.eandb.jmist.framework.Light;
+import ca.eandb.jmist.framework.Photon;
 import ca.eandb.jmist.framework.Random;
+import ca.eandb.jmist.framework.Scene;
 import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.math.HPoint3;
-import ca.eandb.jmist.math.Vector3;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.math.Ray3;
+import ca.eandb.jmist.math.Sphere;
 
 /**
  * @author brad
  *
  */
-public interface PathNode {
+public final class PathNodeFactory {
 
-	int getDepth();
+	private final Scene scene;
 
-	Color evaluate(Vector3 v);
+	private final Light light;
 
-	Vector3 sample(Random rnd);
+	private final Sphere sceneBoundingSphere;
 
-	ScatteringNode trace(Vector3 v);
+	/**
+	 * @param scene
+	 */
+	private PathNodeFactory(Scene scene) {
+		this.scene = scene;
+		this.light = scene.getLight();
+		this.sceneBoundingSphere = scene.boundingSphere();
+	}
 
-	Color scatter(Vector3 v);
+	public static PathNodeFactory create(Scene scene) {
+		return new PathNodeFactory(scene);
+	}
 
-	ScatteringNode expand(Random rnd);
 
-	HPoint3 getPosition();
+	public EmissionNode sampleLight(Color sample, Random rnd) {
+		Emitter emitter = light.sample(rnd);
+		return (emitter != null) ? new EmissionNode(emitter, sceneBoundingSphere, sample);
+	}
+
+	public EyeNode sampleEye(Color sample, Random rnd) {
+
+	}
+
+	/* package */ ScatteringNode trace(Ray3 ray, WavelengthPacket lambda, Random rnd) {
+
+	}
 
 }

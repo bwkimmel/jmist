@@ -17,7 +17,8 @@ import ca.eandb.jmist.math.Vector3;
  * A <code>Lens</code> to which affine transformations may be applied.
  * @author Brad Kimmel
  */
-public final class TransformableLens implements Lens, AffineTransformable3 {
+public final class TransformableLens extends AbstractLens implements
+		AffineTransformable3 {
 
 	/**
 	 * Serialization version ID.
@@ -56,22 +57,15 @@ public final class TransformableLens implements Lens, AffineTransformable3 {
 	 */
 	public final Projection project(Point3 p) {
 		final Projection viewProj = inner.project(view.applyInverse(p));
-		if (viewProj == null) {
-			return null;
-		}
-		return new Projection() {
-			public Point2 pointOnImagePlane() {
-				return viewProj.pointOnImagePlane();
-			}
+		return viewProj != null ? new TransformedProjection(viewProj) : null;
+	}
 
-			public Point3 pointOnLens() {
-				return view.apply(viewProj.pointOnLens());
-			}
-
-			public double importance() {
-				return viewProj.importance();
-			}
-		};
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.lens.AbstractLens#project(ca.eandb.jmist.math.Vector3)
+	 */
+	public final Projection project(Vector3 v) {
+		final Projection viewProj = inner.project(view.applyInverse(v));
+		return viewProj != null ? new TransformedProjection(viewProj) : null;
 	}
 
 	/* (non-Javadoc)
@@ -163,6 +157,47 @@ public final class TransformableLens implements Lens, AffineTransformable3 {
 	 */
 	public void translate(Vector3 v) {
 		view.translate(v);
+	}
+
+	/**
+	 * A <code>Projection</code> decorator that transforms its results to
+	 * world coordinates.
+	 * @author Brad Kimmel
+	 */
+	private final class TransformedProjection implements Projection {
+
+		/** The <code>Projection</code> being decorated. */
+		private final Projection inner;
+
+		/**
+		 * Creates a new <code>TransformedProjection</code>.
+		 * @param inner The <code>Projection</code> to be transformed.
+		 */
+		private TransformedProjection(Projection inner) {
+			this.inner = inner;
+		}
+
+		/* (non-Javadoc)
+		 * @see ca.eandb.jmist.framework.Lens.Projection#pointOnImagePlane()
+		 */
+		public Point2 pointOnImagePlane() {
+			return inner.pointOnImagePlane();
+		}
+
+		/* (non-Javadoc)
+		 * @see ca.eandb.jmist.framework.Lens.Projection#pointOnLens()
+		 */
+		public Point3 pointOnLens() {
+			return view.apply(inner.pointOnLens());
+		}
+
+		/* (non-Javadoc)
+		 * @see ca.eandb.jmist.framework.Lens.Projection#importance()
+		 */
+		public double importance() {
+			return inner.importance();
+		}
+
 	}
 
 }

@@ -6,6 +6,7 @@ package ca.eandb.jmist.framework;
 import java.io.Serializable;
 
 import ca.eandb.jmist.math.AffineMatrix3;
+import ca.eandb.jmist.math.HPoint3;
 import ca.eandb.jmist.math.LinearMatrix3;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
@@ -156,6 +157,16 @@ public class AffineTransformation3 implements AffineTransformable3, Serializable
 	 */
 	public Vector3 apply(Vector3 v) {
 		return this.matrix != null ? this.matrix.times(v) : v;
+	}
+
+	/**
+	 * Applies this <code>AffineTransformation3</code> to a
+	 * <code>HPoint3</code>.
+	 * @param p The <code>HPoint3</code> to apply this transformation to.
+	 * @return The transformed <code>HPoint3</code>.
+	 */
+	public HPoint3 apply(HPoint3 p) {
+		return this.matrix != null ? this.matrix.times(p) : p;
 	}
 
 	/**

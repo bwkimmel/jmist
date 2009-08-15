@@ -3,7 +3,6 @@
  */
 package ca.eandb.jmist.framework.lens;
 
-import ca.eandb.jmist.framework.Lens;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.math.MathUtil;
@@ -17,7 +16,7 @@ import ca.eandb.jmist.math.Vector3;
  * A thin <code>Lens</code>.
  * @author Brad Kimmel
  */
-public final class ThinLens implements Lens {
+public final class ThinLens extends AbstractLens {
 
 	/**
 	 * Serialization version ID.
@@ -91,20 +90,10 @@ public final class ThinLens implements Lens {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.Point3)
-	 */
-	public Projection project(Point3 p) {
-		if (-p.z() < MathUtil.EPSILON) {
-			return null;
-		}
-
-		Vector2			ap				= RandomUtil.uniformOnDisc(aperatureRadius, Random.DEFAULT).toCartesian();
-		final Point3	aperaturePoint	= new Point3(ap.x(), ap.y(), 0.0);
-		Vector3			dir				= aperaturePoint.vectorTo(p);
+	private Projection project(Vector3 dir, final Point3 aperturePoint) {
 		double			ratio			= -focusDistance / dir.z();
-		double			x				= ap.x() + ratio * dir.x();
-		double			y				= ap.y() + ratio * dir.y();
+		double			x				= aperturePoint.x() + ratio * dir.x();
+		double			y				= aperturePoint.y() + ratio * dir.y();
 
 		final double	u				= 0.5 + x / objPlaneWidth;
 		if (!MathUtil.inRangeCC(u, 0.0, 1.0)) {
@@ -122,13 +111,45 @@ public final class ThinLens implements Lens {
 			}
 
 			public Point3 pointOnLens() {
-				return aperaturePoint;
+				return aperturePoint;
 			}
 
 			public double importance() {
 				return 1.0; // FIXME Light tracing will not work until this is corrected.
 			}
 		};
+
+	}
+
+	private Point3 generateAperturePoint() {
+		Vector2 ap = RandomUtil.uniformOnDisc(aperatureRadius, Random.DEFAULT).toCartesian();
+		return new Point3(ap.x(), ap.y(), 0.0);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.Point3)
+	 */
+	public Projection project(Point3 p) {
+		if (-p.z() < MathUtil.EPSILON) {
+			return null;
+		}
+
+		Point3 aperturePoint = generateAperturePoint();
+		Vector3	dir = aperturePoint.vectorTo(p);
+
+		return project(dir, aperturePoint);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.lens.AbstractLens#project(ca.eandb.jmist.math.Vector3)
+	 */
+	public Projection project(Vector3 v) {
+		if (-v.z() < MathUtil.EPSILON) {
+			return null;
+		}
+
+		Point3 aperturePoint = generateAperturePoint();
+		return project(v, aperturePoint);
 	}
 
 	/** The focal length (in meters). */

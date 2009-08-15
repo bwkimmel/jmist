@@ -30,6 +30,7 @@ import ca.eandb.jmist.framework.Photon;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.math.HPoint3;
 import ca.eandb.jmist.math.Sphere;
 import ca.eandb.jmist.math.Vector3;
 
@@ -71,10 +72,10 @@ public final class ScaledEmitter implements Emitter {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Emitter#isAtInfinity()
+	 * @see ca.eandb.jmist.framework.Emitter#getPosition()
 	 */
-	public boolean isAtInfinity() {
-		return inner.isAtInfinity();
+	public HPoint3 getPosition() {
+		return inner.getPosition();
 	}
 
 }

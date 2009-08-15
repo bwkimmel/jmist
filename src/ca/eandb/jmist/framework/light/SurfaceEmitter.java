@@ -34,6 +34,7 @@ import ca.eandb.jmist.framework.ScatteredRays;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Sphere;
 import ca.eandb.jmist.math.Vector3;
 import ca.eandb.util.UnimplementedException;
@@ -84,10 +85,10 @@ public final class SurfaceEmitter implements Emitter {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Emitter#isAtInfinity()
+	 * @see ca.eandb.jmist.framework.Emitter#getPosition()
 	 */
-	public boolean isAtInfinity() {
-		return false;
+	public Point3 getPosition() {
+		return x.getPosition();
 	}
 
 }
