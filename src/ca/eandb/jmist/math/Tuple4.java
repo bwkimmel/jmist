@@ -12,7 +12,7 @@ import java.io.Serializable;
 public class Tuple4 implements Serializable {
 
 	/** Serialization version ID. */
-	private static final long serialVersionUID = 4706855687546418665L;
+	private static final long serialVersionUID = -8356723610623735296L;
 
 	/** A <code>Tuple4</code> of all zeros. */
 	public static final Tuple4 ZERO = new Tuple4(0.0, 0.0, 0.0, 0.0);
