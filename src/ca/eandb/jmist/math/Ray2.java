@@ -12,14 +12,39 @@ import java.io.Serializable;
  */
 public final class Ray2 implements Serializable {
 
+	/** Serialization version ID. */
+	private static final long serialVersionUID = 8111023479108425628L;
+
 	/**
-	 * Initializes the origin and direction of the ray.
+	 * Creates a <code>Ray2</code>.
+	 * @param origin The origin of the ray.
+	 * @param direction The direction of the ray.
+	 * @param limit The maximum units along the ray.
+	 */
+	public Ray2(Point2 origin, Vector2 direction, double limit) {
+		this.origin = origin;
+		this.direction = direction;
+		this.limit = limit;
+	}
+
+	/**
+	 * Creates a <code>Ray2</code> with no limit.
 	 * @param origin The origin of the ray.
 	 * @param direction The direction of the ray.
 	 */
 	public Ray2(Point2 origin, Vector2 direction) {
-		this.origin = origin;
-		this.direction = direction;
+		this(origin, direction, Double.POSITIVE_INFINITY);
+	}
+
+	/**
+	 * Creates a <code>Ray2</code> spanning from one point to another.
+	 * @param p The <code>Point2</code> at the origin of the ray.
+	 * @param q The <code>Point2</code> at the end of the ray.
+	 */
+	public Ray2(Point2 p, Point2 q) {
+		this.limit = p.distanceTo(q);
+		this.origin = p;
+		this.direction = p.vectorTo(q).divide(limit);
 	}
 
 	/**
@@ -36,6 +61,14 @@ public final class Ray2 implements Serializable {
 	 */
 	public Vector2 direction() {
 		return direction;
+	}
+
+	/**
+	 * Gets the maximum number of units along the ray.
+	 * @return The maximum number of units along this ray.
+	 */
+	public double limit() {
+		return limit;
 	}
 
 	/**
@@ -57,15 +90,24 @@ public final class Ray2 implements Serializable {
 		return origin.plus(direction.times(t));
 	}
 
+	/**
+	 * Gets the end point of this ray.
+	 * Equivalent to <code>this.pointAt(this.limit())</code>.
+	 * @return The end point of this ray.
+	 * @see #pointAt(double)
+	 * @see #limit()
+	 */
+	public Point2 pointAtLimit() {
+		return pointAt(limit);
+	}
+
 	/** The origin of the ray. */
 	private final Point2 origin;
 
 	/** The direction of the ray. */
 	private final Vector2 direction;
 
-	/**
-	 * Serialization version ID.
-	 */
-	private static final long serialVersionUID = 3350510125101588443L;
+	/** The maximum units along the ray. */
+	private final double limit;
 
 }

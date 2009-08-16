@@ -33,7 +33,6 @@ import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.math.Box3;
-import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
 
@@ -190,42 +189,11 @@ public abstract class SceneElementDecorator implements SceneElement, Serializabl
 	/**
 	 * @param index
 	 * @param ray
-	 * @param maximumDistance
-	 * @return
-	 * @see ca.eandb.jmist.framework.SceneElement#visibility(int, ca.eandb.jmist.math.Ray3, double)
-	 */
-	public boolean visibility(int index, Ray3 ray, double maximumDistance) {
-		return inner.visibility(index, ray, maximumDistance);
-	}
-
-	/**
-	 * @param index
-	 * @param ray
 	 * @return
 	 * @see ca.eandb.jmist.framework.SceneElement#visibility(int, ca.eandb.jmist.math.Ray3)
 	 */
 	public boolean visibility(int index, Ray3 ray) {
 		return inner.visibility(index, ray);
-	}
-
-	/**
-	 * @param p
-	 * @param q
-	 * @return
-	 * @see ca.eandb.jmist.framework.VisibilityFunction3#visibility(ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Point3)
-	 */
-	public boolean visibility(Point3 p, Point3 q) {
-		return inner.visibility(p, q);
-	}
-
-	/**
-	 * @param ray
-	 * @param maximumDistance
-	 * @return
-	 * @see ca.eandb.jmist.framework.SceneElement#visibility(ca.eandb.jmist.math.Ray3, double)
-	 */
-	public boolean visibility(Ray3 ray, double maximumDistance) {
-		return inner.visibility(ray, maximumDistance);
 	}
 
 	/**

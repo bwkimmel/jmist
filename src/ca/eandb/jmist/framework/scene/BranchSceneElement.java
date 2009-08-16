@@ -40,7 +40,6 @@ import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.light.RandomCompositeLight;
 import ca.eandb.jmist.framework.random.CategoricalRandom;
 import ca.eandb.jmist.math.Box3;
-import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
 
@@ -215,25 +214,6 @@ public final class BranchSceneElement implements SceneElement {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SceneElement#visibility(int, ca.eandb.jmist.math.Ray3, double)
-	 */
-	public boolean visibility(int index, Ray3 ray, double maximumDistance) {
-		return children.get(index).visibility(ray, maximumDistance);
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SceneElement#visibility(ca.eandb.jmist.math.Ray3, double)
-	 */
-	public boolean visibility(Ray3 ray, double maximumDistance) {
-		for (int i = 0; i < children.size(); i++) {
-			if (!visibility(i, ray, maximumDistance)) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SceneElement#visibility(int, ca.eandb.jmist.math.Ray3)
 	 */
 	public boolean visibility(int index, Ray3 ray) {
@@ -269,15 +249,6 @@ public final class BranchSceneElement implements SceneElement {
 	public Sphere boundingSphere() {
 		Box3 boundingBox = boundingBox();
 		return new Sphere(boundingBox.center(), boundingBox.diagonal() / 2.0);
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.VisibilityFunction3#visibility(ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Point3)
-	 */
-	public boolean visibility(Point3 p, Point3 q) {
-		double d = p.distanceTo(q);
-		Ray3 ray = new Ray3(p, p.vectorTo(q).divide(d));
-		return visibility(ray, d);
 	}
 
 }

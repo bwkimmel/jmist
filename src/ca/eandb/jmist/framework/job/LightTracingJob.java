@@ -260,7 +260,7 @@ public final class LightTracingJob extends AbstractParallelizableJob {
 					Lens.Projection proj = lens.project(p);
 					if (proj != null) {
 						Point3 q = proj.pointOnLens();
-						if (root.visibility(p, q)) {
+						if (root.visibility(new Ray3(p, q))) {
 							Vector3 out = p.unitVectorTo(q);
 							Point2 ndc = proj.pointOnImagePlane();
 							Color color = emitter.getEmittedRadiance(out, lambda);
@@ -296,7 +296,7 @@ public final class LightTracingJob extends AbstractParallelizableJob {
 					Lens.Projection proj = lens.project(p);
 					if (proj != null) {
 						Point3 q = proj.pointOnLens();
-						if (root.visibility(p, q)) {
+						if (root.visibility(new Ray3(p, q))) {
 							Vector3 out = p.unitVectorTo(q);
 							Point2 ndc = proj.pointOnImagePlane();
 							Color bsdf = material.scattering(context, v, out, lambda);

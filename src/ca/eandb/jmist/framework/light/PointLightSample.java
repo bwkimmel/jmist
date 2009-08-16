@@ -30,6 +30,7 @@ import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.VisibilityFunction3;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.math.Point3;
+import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
 
 /**
@@ -73,7 +74,7 @@ public final class PointLightSample implements LightSample {
 	 * @see ca.eandb.jmist.framework.LightSample#castShadowRay(ca.eandb.jmist.framework.VisibilityFunction3)
 	 */
 	public boolean castShadowRay(VisibilityFunction3 vf) {
-		return shadows && !vf.visibility(x.getPosition(), position);
+		return shadows && !vf.visibility(new Ray3(x.getPosition(), position));
 	}
 
 	/* (non-Javadoc)

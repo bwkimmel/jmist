@@ -156,28 +156,7 @@ public abstract class PrimitiveGeometry extends AbstractGeometry {
 	 * 		<code>PrimitiveGeometry</code>.
 	 */
 	public boolean visibility(Ray3 ray) {
-		return visibility(ray, Double.POSITIVE_INFINITY);
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#intersects(int, ca.eandb.jmist.math.Ray3, double)
-	 */
-	@Override
-	public final boolean visibility(int index, Ray3 ray, double maximumDistance) {
-		validate(index);
-		return visibility(ray, maximumDistance);
-	}
-
-	/**
-	 * Determines if the specified ray intersects with this
-	 * <code>PrimitiveGeometry</code> within the specified distance.
-	 * @param ray The <code>Ray3</code> to intersect with.
-	 * @param maxim
-	 * @return A value indicating if the ray intersects this
-	 * 		<code>PrimitiveGeometry</code>.
-	 */
-	public boolean visibility(Ray3 ray, double maximumDistance) {
-		return super.visibility(0, ray, maximumDistance);
+		return visibility(0, ray);
 	}
 
 	/* (non-Javadoc)

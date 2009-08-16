@@ -467,30 +467,9 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#visibility(ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Point3)
-	 */
-	@Override
-	public boolean visibility(Point3 p, Point3 q) {
-		double d = p.distanceTo(q);
-		Ray3 ray = new Ray3(p, p.vectorTo(q).divide(d));
-		return visibility(ray, d);
-	}
+	private boolean nodeVisibility(int node, Ray3 ray) {
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#visibility(ca.eandb.jmist.math.Ray3, double)
-	 */
-	@Override
-	public boolean visibility(Ray3 ray, double maximumDistance) {
-		// FIXME fix and use nodeVisibility -- it always seems to return false.
-		NearestIntersectionRecorder recorder = new NearestIntersectionRecorder(new Interval(0.0, maximumDistance));
-		intersect(ray, recorder);
-		return recorder.isEmpty();
-	}
-
-	private boolean nodeVisibility(int node, Ray3 ray, double far) {
-
-		if (far < 0.0) {
+		if (ray.limit() < 0.0) {
 			return true;
 		}
 
@@ -503,7 +482,7 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
 				if (i == 1) {
 					i = 1;
 				}
-				if (!visibility(items[i], ray, far)) {
+				if (!visibility(items[i], ray)) {
 					return false;
 				}
 			}
@@ -523,20 +502,23 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
 				if (0.0 < ld) {
 					int child = buffer.getLeftChild(node);
 					if (child >= 0) {
-						if (!nodeVisibility(child, ray, Math.min(ld, far))) {
+						ray = new Ray3(
+								ray.origin(),
+								ray.direction(),
+								Math.min(ld, ray.limit()));
+						if (!nodeVisibility(child, ray)) {
 							return false;
 						}
 					}
 				}
 
-				if (rd < far) {
+				if (rd < ray.limit()) {
 					int child = buffer.getRightChild(node);
 					if (child >= 0) {
 						if (rd > 0.0) {
 							ray = ray.advance(rd);
-							far -= rd;
 						}
-						if (!nodeVisibility(child, ray, far)) {
+						if (!nodeVisibility(child, ray)) {
 							return false;
 						}
 					}
@@ -547,20 +529,23 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
 				if (0.0 < rd) {
 					int child = buffer.getRightChild(node);
 					if (child >= 0) {
-						if (!nodeVisibility(child, ray, Math.min(rd, far))) {
+						ray = new Ray3(
+								ray.origin(),
+								ray.direction(),
+								Math.min(rd, ray.limit()));
+						if (!nodeVisibility(child, ray)) {
 							return false;
 						}
 					}
 				}
 
-				if (ld < far) {
+				if (ld < ray.limit()) {
 					int child = buffer.getLeftChild(node);
 					if (child >= 0) {
 						if (ld > 0.0) {
 							ray = ray.advance(ld);
-							far -= ld;
 						}
-						if (!nodeVisibility(child, ray, far)) {
+						if (!nodeVisibility(child, ray)) {
 							return false;
 						}
 					}
@@ -578,7 +563,9 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
 	 */
 	@Override
 	public boolean visibility(Ray3 ray) {
-		return visibility(ray, Double.POSITIVE_INFINITY);
+		NearestIntersectionRecorder recorder = new NearestIntersectionRecorder(new Interval(0.0, ray.limit()));
+		intersect(ray, recorder);
+		return recorder.isEmpty();
 	}
 
 

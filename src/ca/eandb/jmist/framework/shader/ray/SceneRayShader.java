@@ -295,10 +295,6 @@ public final class SceneRayShader implements RayShader {
 			return root.visibility(ray);
 		}
 
-		public boolean visibility(Point3 p, Point3 q) {
-			return root.visibility(p, q);
-		}
-
 		public void addLightSample(LightSample sample) {
 			List<LightSample> samples = stack.peek().samples;
 			assert(samples != null);
@@ -375,10 +371,6 @@ public final class SceneRayShader implements RayShader {
 
 		public int getPrimitiveIndex() {
 			return stack.peek().primitiveIndex;
-		}
-
-		public boolean visibility(Ray3 ray, double maximumDistance) {
-			return root.visibility(ray, maximumDistance);
 		}
 
 	}

@@ -324,23 +324,9 @@ public abstract class AbstractShadingContext implements ShadingContext {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.VisibilityFunction3#visibility(ca.eandb.jmist.math.Ray3, double)
-	 */
-	public boolean visibility(Ray3 ray, double maximumDistance) {
-		throw new UnsupportedOperationException();
-	}
-
-	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.VisibilityFunction3#visibility(ca.eandb.jmist.math.Ray3)
 	 */
 	public boolean visibility(Ray3 ray) {
-		throw new UnsupportedOperationException();
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.VisibilityFunction3#visibility(ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Point3)
-	 */
-	public boolean visibility(Point3 p, Point3 q) {
 		throw new UnsupportedOperationException();
 	}
 
