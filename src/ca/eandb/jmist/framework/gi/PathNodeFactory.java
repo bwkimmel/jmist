@@ -61,9 +61,9 @@ public final class PathNodeFactory {
 	}
 
 
-	public EmissionNode sampleLight(Color sample, Random rnd) {
+	public LightNode sampleLight(Color sample, Random rnd) {
 		Emitter emitter = light.sample(rnd);
-		return (emitter != null) ? new EmissionNode(emitter, sceneBoundingSphere, sample);
+		return (emitter != null) ? new LightNode(emitter, sceneBoundingSphere, sample);
 	}
 
 	public EyeNode sampleEye(Color sample, Random rnd) {

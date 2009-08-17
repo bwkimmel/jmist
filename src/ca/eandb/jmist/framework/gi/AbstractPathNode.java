@@ -42,4 +42,12 @@ public abstract class AbstractPathNode implements PathNode {
 		return (v != null) ? trace(v) : null;
 	}
 
+	public final boolean atInfinity() {
+		return getPosition().isVector();
+	}
+
+	public final boolean isOnEyePath() {
+		return !isOnLightPath();
+	}
+
 }

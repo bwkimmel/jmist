@@ -47,9 +47,11 @@ import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
-import ca.eandb.jmist.framework.gi.EmissionNode;
+import ca.eandb.jmist.framework.gi.LightNode;
+import ca.eandb.jmist.framework.gi.EyeNode;
 import ca.eandb.jmist.framework.gi.PathNode;
 import ca.eandb.jmist.framework.gi.PathNodeFactory;
+import ca.eandb.jmist.framework.gi.PathUtil;
 import ca.eandb.jmist.framework.shader.MinimalShadingContext;
 import ca.eandb.jmist.math.HPoint3;
 import ca.eandb.jmist.math.Point2;
@@ -212,8 +214,6 @@ public final class CopyOfLightTracingJob extends AbstractParallelizableJob {
 
 		private transient PathNodeFactory nodes;
 
-		private transient Lens lens;
-
 		private transient ThreadLocal<Raster> raster = new ThreadLocal<Raster>() {
 			protected Raster initialValue() {
 				return colorModel.createRaster(width, height);
@@ -223,25 +223,6 @@ public final class CopyOfLightTracingJob extends AbstractParallelizableJob {
 		private synchronized void ensureInitialized() {
 			if (nodes == null) {
 				nodes = PathNodeFactory.create(scene);
-			}
-		}
-
-		private void splat(PathNode node) {
-			HPoint3 p = node.getPosition();
-			Projection proj = lens.project(p);
-			proj.
-			// TODO implement
-			Point3 p = node.getPosition().toPoint3();
-			if (p != null) {
-
-			}
-		}
-
-		private void trace(PathNode node, Color sample) {
-			splat(node);
-			node = node.expand(random);
-			if (node != null) {
-				trace(node, sample);
 			}
 		}
 
@@ -265,9 +246,10 @@ public final class CopyOfLightTracingJob extends AbstractParallelizableJob {
 				}
 
 				Color sample = colorModel.sample(random);
-				EmissionNode emit = nodes.sampleLight(sample, random);
-				if (emit != null) {
-					trace(emit, sample);
+				PathNode node = nodes.sampleLight(sample, random);
+				while (node != null) {
+					node.scatterToEye(raster);
+					node = node.expand(random);
 				}
 			}
 

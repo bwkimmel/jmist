@@ -34,6 +34,6 @@ import ca.eandb.jmist.framework.color.Color;
  */
 public interface ScatteringNode extends PathNode {
 
-	Color getSourceRadiance();
+	Color getEmittedRadiance();
 
 }

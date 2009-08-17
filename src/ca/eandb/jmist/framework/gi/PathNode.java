@@ -26,6 +26,8 @@
 package ca.eandb.jmist.framework.gi;
 
 import ca.eandb.jmist.framework.Random;
+import ca.eandb.jmist.framework.Raster;
+import ca.eandb.jmist.framework.Scene;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.math.HPoint3;
 import ca.eandb.jmist.math.Vector3;
@@ -38,16 +40,24 @@ public interface PathNode {
 
 	int getDepth();
 
-	Color evaluate(Vector3 v);
+	Color getValue();
 
-	Vector3 sample(Random rnd);
+	PathNode getParent();
 
-	ScatteringNode trace(Vector3 v);
+	boolean isOnLightPath();
+
+	boolean isOnEyePath();
+
+	boolean atInfinity();
 
 	Color scatter(Vector3 v);
+
+	void scatterToEye(Raster raster);
 
 	ScatteringNode expand(Random rnd);
 
 	HPoint3 getPosition();
+
+	Scene getScene();
 
 }

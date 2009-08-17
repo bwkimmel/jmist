@@ -25,11 +25,16 @@
 
 package ca.eandb.jmist.framework.gi;
 
+import ca.eandb.jmist.math.Point2;
+import ca.eandb.jmist.math.Vector3;
+
 
 /**
  * @author brad
  *
  */
 public interface EyeNode extends PathNode {
+
+	Point2 getScreenPoint(Vector3 v);
 
 }

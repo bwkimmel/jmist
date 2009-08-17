@@ -39,7 +39,7 @@ import ca.eandb.jmist.math.Vector4;
  * @author brad
  *
  */
-public class EmissionNode extends AbstractPathNode {
+public class LightNode extends AbstractPathNode {
 
 	private final Emitter emitter;
 
@@ -49,7 +49,7 @@ public class EmissionNode extends AbstractPathNode {
 
 	private final WavelengthPacket lambda;
 
-	/* package */ EmissionNode(Emitter emitter, Sphere target, Color sample) {
+	/* package */ LightNode(Emitter emitter, Sphere target, Color sample) {
 		this.emitter = emitter;
 		this.target = target;
 		this.sample = sample;
