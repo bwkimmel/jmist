@@ -70,6 +70,34 @@ public final class Ray3 implements Serializable {
 	}
 
 	/**
+	 * Creates a <code>Ray3</code> spanning two <code>HPoint3</code>s.  If both
+	 * are <code>Point3</code>s, this is equivalent to
+	 * <code>new Ray3((Point3) p, (Point3) q)</code>.  If one is a
+	 * <code>Point3</code> and one is a <code>Vector3</code>, this is
+	 * equivalent to
+	 * <code>new Ray3((Point3) thePoint, (Vector3) theVector)</code>.  If both
+	 * are <code>Vector3</code>s, the return value is <code>null</code>.
+	 * @param p The first <code>HPoint3</code>.
+	 * @param q The second <code>HPoint3</code>.
+	 * @return A <code>Ray3</code> spanning <code>p</code> and <code>q</code>,
+	 * 		or <code>null</code> if <code>p</code> and <code>q</code> are both
+	 * 		<code>Vector3</code>s.
+	 * @see Point3
+	 * @see Vector3
+	 * @see #Ray3(Point3, Point3)
+	 * @see #Ray3(Point3, Vector3)
+	 */
+	public static Ray3 create(HPoint3 p, HPoint3 q) {
+		if (p.isPoint()) {
+			return new Ray3(p.toPoint3(), q);
+		} else if (q.isPoint()) {
+			return new Ray3(q.toPoint3(), p.toVector3());
+		} else {
+			return null;
+		}
+	}
+
+	/**
 	 * Gets the origin of this ray.
 	 * @return The origin of this ray.
 	 */
@@ -91,6 +119,16 @@ public final class Ray3 implements Serializable {
 	 */
 	public double limit() {
 		return limit;
+	}
+
+	/**
+	 * Gets a value indicating if this ray is infinite.  Equivalent to
+	 * <code>Double.isInfinite(this.limit())</code>.
+	 * @return A value indicating if this ray is infinite.
+	 * @see #limit()
+	 */
+	public boolean isInfinite() {
+		return Double.isInfinite(limit);
 	}
 
 	/**

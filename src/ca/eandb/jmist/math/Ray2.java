@@ -72,6 +72,16 @@ public final class Ray2 implements Serializable {
 	}
 
 	/**
+	 * Gets a value indicating if this ray is infinite.  Equivalent to
+	 * <code>Double.isInfinite(this.limit())</code>.
+	 * @return A value indicating if this ray is infinite.
+	 * @see #limit()
+	 */
+	public boolean isInfinite() {
+		return Double.isInfinite(limit);
+	}
+
+	/**
 	 * Gets a parallel <code>Ray2</code> with the origin <code>t</code> units
 	 * along this <code>Ray2</code>.
 	 * @param t The number of units along the ray to advance.
