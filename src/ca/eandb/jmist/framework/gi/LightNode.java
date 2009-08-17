@@ -26,11 +26,18 @@
 package ca.eandb.jmist.framework.gi;
 
 import ca.eandb.jmist.framework.Emitter;
+import ca.eandb.jmist.framework.Lens;
 import ca.eandb.jmist.framework.Random;
+import ca.eandb.jmist.framework.Raster;
+import ca.eandb.jmist.framework.Scene;
+import ca.eandb.jmist.framework.Lens.Projection;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.HPoint3;
+import ca.eandb.jmist.math.MathUtil;
+import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
+import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
 import ca.eandb.jmist.math.Vector3;
 import ca.eandb.jmist.math.Vector4;
@@ -43,24 +50,21 @@ public class LightNode extends AbstractPathNode {
 
 	private final Emitter emitter;
 
-	private final Color sample;
-
 	private final Sphere target;
 
 	private final WavelengthPacket lambda;
 
-	/* package */ LightNode(Emitter emitter, Sphere target, Color sample) {
+	/* package */ LightNode(Emitter emitter, Sphere target, WavelengthPacket lambda) {
 		this.emitter = emitter;
 		this.target = target;
-		this.sample = sample;
-		this.lambda = sample.getWavelengthPacket();
+		this.lambda = lambda;
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.gi.PathNode#evaluate(ca.eandb.jmist.math.Vector3)
 	 */
 	public Color evaluate(Vector3 v) {
-		return emitter.getEmittedRadiance(v, lambda).times(sample);
+		return emitter.getEmittedRadiance(v, lambda);
 	}
 
 	/* (non-Javadoc)
@@ -70,28 +74,45 @@ public class LightNode extends AbstractPathNode {
 		return 0;
 	}
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi.PathNode#sample(ca.eandb.jmist.framework.Random)
-	 */
-	public Vector3 sample(Random rnd) {
-		emitter.emit(target, lambda, rnd);
+	public PathNode getParent() {
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi.PathNode#scatter(ca.eandb.jmist.framework.Photon)
-	 */
+	public HPoint3 getPosition() {
+		return emitter.getPosition();
+	}
+
+	public Color getValue() {
+		return getColorModel().getWhite(lambda);
+	}
+
+	public boolean isOnLightPath() {
+		return true;
+	}
+
 	public Color scatter(Vector3 v) {
-		// TODO Auto-generated method stub
-		return null;
+		return emitter.getEmittedRadiance(v, lambda);
 	}
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi.PathNode#trace(ca.eandb.jmist.math.Vector3)
-	 */
-	public ScatteringNode trace(Vector3 v) {
+	public void scatterToEye(Raster raster, double weight) {
+		Scene scene = getScene();
+		Lens lens = scene.getLens();
+		HPoint3 pos = getPosition();
+		Projection proj = lens.project(pos);
+		if (proj != null) {
+			Ray3 ray = new Ray3(proj.pointOnLens(), pos);
+			if (scene.getRoot().visibility(ray)) {
+				int w = raster.getWidth();
+				int h = raster.getHeight();
+				Point2 uv = proj.pointOnImagePlane();
+				int x = MathUtil.threshold((int) Math.floor(w * uv.x()), 0, w - 1);
+				int y = MathUtil.threshold((int) Math.floor(h * uv.y()), 0, h - 1);
+				Color color = scatter(ray.direction().opposite()).times(weight);
+				raster.addPixel(x, y, color);
+			}
+		}
 		// TODO Auto-generated method stub
-		return null;
+
 	}
 
 }

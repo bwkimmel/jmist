@@ -26,6 +26,8 @@
 package ca.eandb.jmist.framework.gi;
 
 import ca.eandb.jmist.framework.Random;
+import ca.eandb.jmist.framework.Scene;
+import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.math.Vector3;
 
 /**
@@ -38,8 +40,7 @@ public abstract class AbstractPathNode implements PathNode {
 	 * @see ca.eandb.jmist.framework.gi.PathNode#expand(ca.eandb.jmist.framework.Random)
 	 */
 	public final ScatteringNode expand(Random rnd) {
-		Vector3 v = sample(rnd);
-		return (v != null) ? trace(v) : null;
+		return null;
 	}
 
 	public final boolean atInfinity() {
@@ -48,6 +49,14 @@ public abstract class AbstractPathNode implements PathNode {
 
 	public final boolean isOnEyePath() {
 		return !isOnLightPath();
+	}
+
+	public final Scene getScene() {
+		return null;
+	}
+
+	public final ColorModel getColorModel() {
+		return null;
 	}
 
 }
