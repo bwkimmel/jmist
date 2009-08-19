@@ -6,7 +6,9 @@ package ca.eandb.jmist.framework.material;
 import ca.eandb.jmist.framework.Function1;
 import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.color.ColorModel;
+import ca.eandb.jmist.framework.function.AbsorptionFunction1;
 import ca.eandb.jmist.framework.function.PiecewiseLinearFunction1;
+import ca.eandb.jmist.framework.function.ScaledFunction1;
 import ca.eandb.jmist.framework.function.SellmeierFunction1;
 import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.util.ArrayUtil;
@@ -114,26 +116,57 @@ public final class Materials {
 					4.43, 4.63, 4.84, 5.07});
 
 	/** Wavelengths for refractive index of water. */
-	private static final double[] LAMBDA_4 = ArrayUtil.range(400e-9, 780e-9, 77);
+	private static final double[] LAMBDA_4 = ArrayUtil.range(200e-9, 1000e-9, 33);
 
-	/** Refractive index of water. */
+	/** Real part of the refractive index of water. */
 	private static final Function1 N_WATER = new PiecewiseLinearFunction1(
 			LAMBDA_4,
 			new double[]{
-					1.346, 1.345, 1.344, 1.343, 1.342, 1.341, 1.340, 1.339, 1.338, 1.338,
-					1.337, 1.336, 1.336, 1.335, 1.335, 1.334, 1.334, 1.334, 1.334, 1.333,
-					1.333, 1.333, 1.333, 1.333, 1.333, 1.333, 1.333, 1.333, 1.333, 1.333,
-					1.333, 1.333, 1.333, 1.333, 1.333, 1.333, 1.333, 1.333, 1.333, 1.333,
-					1.333, 1.333, 1.333, 1.333, 1.333, 1.332, 1.332, 1.332, 1.332, 1.332,
-					1.332, 1.332, 1.332, 1.332, 1.332, 1.332, 1.332, 1.332, 1.332, 1.332,
-					1.332, 1.332, 1.332, 1.332, 1.332, 1.332, 1.332, 1.332, 1.332, 1.332,
-					1.332, 1.332, 1.332, 1.331, 1.331, 1.331, 1.331});
+					1.396, 1.373, 1.362, 1.354, 1.349,
+					1.146, 1.343, 1.341, 1.339, 1.338,
+					1.337, 1.336, 1.335, 1.334, 1.333,
+					1.333, 1.332, 1.332, 1.331, 1.331,
+					1.331, 1.330, 1.330, 1.330, 1.329,
+					1.329, 1.329, 1.328, 1.328, 1.328,
+					1.327, 1.327, 1.327});
+
+	/** Extinction index of water. */
+	private static final Function1 K_WATER = new PiecewiseLinearFunction1(
+			LAMBDA_4,
+			new double[]{
+		            1.10e-07, 4.90e-08, 3.35e-08, 2.35e-08, 1.60e-08,
+		            1.08e-08, 6.50e-09, 3.50e-09, 1.86e-09, 1.30e-09,
+		            1.02e-09, 9.35e-10, 1.00e-09, 1.32e-09, 1.96e-09,
+		            3.60e-09, 1.09e-08, 1.39e-08, 1.64e-08, 2.23e-08,
+		            3.35e-08, 9.15e-08, 1.56e-07, 1.48e-07, 1.25e-07,
+		            1.82e-07, 2.93e-07, 3.91e-07, 4.86e-07, 1.06e-06,
+		            2.93e-06, 3.48e-06, 2.89e-06});
+
+	/** Absorption spectrum of water. */
+	private static final Function1 ALPHA_WATER = new ScaledFunction1(2e-2, new AbsorptionFunction1(K_WATER));
 
 	/** Refractive index of fused silica. */
 	private static final Function1 N_FUSED_SILICA = new SellmeierFunction1(
 			new double[]{ 6.96166300e-01, 4.07942600e-01, 8.97479400e-01 },
 			new double[]{ 4.67914826e-15, 1.35120631e-14, 9.79340025e-13 },
 			new Interval(0.365e-6, 2.3e-6));
+
+	/** Wavelengths for refractive index of diamond. */
+	private static final double[] LAMBDA_5 = new double[]{
+		371.54e-9, 382.39e-9, 393.90e-9, 406.12e-9, 419.13e-9,
+		433.00e-9, 447.81e-9, 463.68e-9, 480.71e-9, 499.04e-9,
+		518.82e-9, 540.24e-9, 563.50e-9, 588.85e-9, 616.60e-9,
+		647.08e-9, 680.74e-9, 718.09e-9, 759.78e-9, 806.61e-9
+	};
+
+	/** Refractive index of diamond. */
+	private static final Function1 N_DIAMOND = new PiecewiseLinearFunction1(
+			LAMBDA_5,
+			new double[]{
+					2.477, 2.471, 2.465, 2.459, 2.454,
+					2.449, 2.444, 2.439, 2.434, 2.430,
+					2.426, 2.422, 2.418, 2.414, 2.411,
+					2.408, 2.405, 2.402, 2.399, 2.397});
 
 	/**
 	 * Creates a <code>Material</code> representing silver.
@@ -186,10 +219,26 @@ public final class Materials {
 	/**
 	 * Creates a <code>Material</code> representing water.
 	 * @param c The <code>ColorModel</code> to use.
+	 * @param includeAbsorption A value indicating whether the material should
+	 * 		be absorptive.
 	 * @return A <code>Material</code> representing water.
 	 */
+	public static Material water(ColorModel c, boolean includeAbsorption) {
+		return includeAbsorption
+			? new ConductiveMaterial(
+					c.getContinuous(N_WATER),
+					c.getContinuous(K_WATER),
+					c.getContinuous(ALPHA_WATER))
+			: new DielectricMaterial(c.getContinuous(N_WATER));
+	}
+
+	/**
+	 * Creates a <code>Material</code> representing (non-absorptive) water.
+	 * @param c The <code>ColorModel</code> to use.
+	 * @return A <code>Material</code> representing (non-absorptive) water.
+	 */
 	public static Material water(ColorModel c) {
-		return new DielectricMaterial(c.getContinuous(N_WATER));
+		return water(c, false);
 	}
 
 	/**
@@ -199,6 +248,15 @@ public final class Materials {
 	 */
 	public static Material fusedSilica(ColorModel c) {
 		return new DielectricMaterial(c.getContinuous(N_FUSED_SILICA));
+	}
+
+	/**
+	 * Creates a <code>Material</code> representing diamond.
+	 * @param c The <code>ColorModel</code> to use.
+	 * @return A <code>Material</code> representing diamond.
+	 */
+	public static Material diamond(ColorModel c) {
+		return new DielectricMaterial(c.getContinuous(N_DIAMOND));
 	}
 
 	/** Private constructor to prevent instances from being created. */
