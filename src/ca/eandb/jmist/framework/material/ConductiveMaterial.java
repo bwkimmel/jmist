@@ -79,7 +79,7 @@ public final class ConductiveMaterial extends AbstractMaterial {
 		Color		k2			= k.sample(lambda);
 		Vector3		normal		= x.getShadingNormal();
 		boolean		fromSide	= x.getNormal().dot(v) < 0.0;
-		Color		R			= Optics.reflectance(v, normal, n1, k1, n2, k2);
+		Color		R			= MaterialUtil.reflectance(v, n1, k1, n2, k2, normal);
 		Color		T			= cm.getWhite(lambda).minus(R);
 
 		{
@@ -91,7 +91,7 @@ public final class ConductiveMaterial extends AbstractMaterial {
 			}
 		}
 
-		{
+		if (alpha != null) {
 			Color		imp		= T; // TODO: make this importance * T, where importance is a property of the Intersection
 			int			channel	= -1;
 

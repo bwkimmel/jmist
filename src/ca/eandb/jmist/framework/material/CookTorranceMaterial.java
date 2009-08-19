@@ -10,7 +10,6 @@ import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
-import ca.eandb.jmist.math.Optics;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
@@ -68,7 +67,7 @@ public final class CookTorranceMaterial extends AbstractMaterial {
 		Color		k1 = medium.extinctionIndex(x.getPosition(), lambda);
 		Color		n2 = n.sample(lambda);
 		Color		k2 = k.sample(lambda);
-		Color		F = Optics.reflectance(E, N, n1, k1, n2, k2);
+		Color		F = MaterialUtil.reflectance(E, n1, k1, n2, k2, N);
 		double		D = Math.exp(-(tanAlpha * tanAlpha / mSquared)) / (4.0 * mSquared * cos4Alpha);
 		double		G = Math.min(1.0, Math.min(2.0 * HdotN * EdotN / EdotH, 2.0 * HdotN * LdotN / EdotH));
 

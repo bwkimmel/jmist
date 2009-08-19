@@ -7,6 +7,7 @@ import ca.eandb.jmist.framework.Medium;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.ScatteredRayRecorder;
+import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
@@ -75,7 +76,7 @@ public class DielectricMaterial extends AbstractMaterial {
 		Color		n2			= refractiveIndex.sample(lambda);
 		Vector3		normal		= x.getShadingNormal();
 		boolean		fromSide	= x.getNormal().dot(v) < 0.0;
-		Color		R			= Optics.reflectance(v, normal, n1, k1, n2, null);
+		Color		R			= MaterialUtil.reflectance(v, n1, k1, n2, null, normal);
 		Color		T			= cm.getWhite(lambda).minus(R);
 
 		{
@@ -91,6 +92,10 @@ public class DielectricMaterial extends AbstractMaterial {
 		{
 			Color		imp		= T; // TODO: make this importance * T, where importance is a property of the Intersection
 			int			channel	= -1;
+
+			if (x instanceof ShadingContext) {
+				imp = imp.times(((ShadingContext) x).getImportance());
+			}
 
 			double		total	= ColorUtil.getTotalChannelValue(imp);
 			double		rnd		= rng.next() * total;
