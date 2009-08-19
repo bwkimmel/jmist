@@ -10,7 +10,6 @@ import ca.eandb.jmist.framework.ScatteredRayRecorder;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
-import ca.eandb.jmist.framework.color.ColorUtil;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Complex;
@@ -92,36 +91,15 @@ public final class ConductiveMaterial extends AbstractMaterial {
 		}
 
 		if (alpha != null) {
-			Color		imp		= T; // TODO: make this importance * T, where importance is a property of the Intersection
-			int			channel	= -1;
+			for (int i = 0, channels = cm.getNumChannels(); i < channels; i++) {
+				Complex		eta1	= new Complex(n1.getValue(i), k1.getValue(i));
+				Complex		eta2	= new Complex(n2.getValue(i), k2.getValue(i));
+				Vector3		out		= Optics.refract(v, eta1, eta2, normal);
+				boolean		toSide	= x.getNormal().dot(out) >= 0.0;
 
-			double		total	= ColorUtil.getTotalChannelValue(imp);
-			double		rnd		= rng.next() * total;
-			double		sum		= 0.0;
-
-			for (int i = 0; i < cm.getNumChannels(); i++) {
-				double value = imp.getValue(i);
-				sum += value;
-				if (rnd < sum) {
-					T = T.divide(value / total);
-					channel = i;
-					break;
+				if (fromSide != toSide) {
+					recorder.add(ScatteredRay.transmitSpecular(new Ray3(p, out), T.disperse(i)));
 				}
-			}
-
-			if (channel < 0) {
-				return;
-			}
-
-			Complex		eta1	= new Complex(n1.getValue(channel), k1.getValue(channel));
-			Complex		eta2	= new Complex(n2.getValue(channel), k2.getValue(channel));
-			Vector3		out		= Optics.refract(v, eta1, eta2, normal);
-			boolean		toSide	= x.getNormal().dot(out) >= 0.0;
-
-			T					= T.disperse(channel);
-
-			if (fromSide != toSide) {
-				recorder.add(ScatteredRay.transmitSpecular(new Ray3(p, out), T));
 			}
 		}
 
