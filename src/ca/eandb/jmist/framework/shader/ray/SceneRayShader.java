@@ -186,7 +186,7 @@ public final class SceneRayShader implements RayShader {
 				depth.put(type, getPathDepthByType(type) + 1);
 
 				boolean pop = false;
-				if (isFront() && sr.isTransmitted()) {
+				if (isFront() == sr.isTransmitted()) {
 					media.push(getMaterial());
 					pop = true;
 				}
