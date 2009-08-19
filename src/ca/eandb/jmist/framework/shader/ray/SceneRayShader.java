@@ -149,6 +149,7 @@ public final class SceneRayShader implements RayShader {
 		private final Stack<LocalContext> stack = new Stack<LocalContext>();
 		private final EnumMap<ScatteredRay.Type, Integer> depth = new EnumMap<ScatteredRay.Type, Integer>(ScatteredRay.Type.class);
 		private int totalDepth = 0;
+		private final Stack<Medium> media = new Stack<Medium>();
 
 		public Color castPrimaryRay(Ray3 ray, WavelengthPacket lambda) {
 			Intersection x = NearestIntersectionRecorder.computeNearestIntersection(ray, root);
@@ -184,11 +185,26 @@ public final class SceneRayShader implements RayShader {
 				totalDepth++;
 				depth.put(type, getPathDepthByType(type) + 1);
 
+				boolean pop = false;
+				if (isFront() && sr.isTransmitted()) {
+					media.push(getMaterial());
+					pop = true;
+				}
+
+				Medium popped = null;
+				Medium medium;
+				if (x.isFront()) {
+					medium = media.isEmpty() ? Medium.VACUUM : media.peek();
+				} else {
+					popped = media.isEmpty() ? null : media.pop();
+					medium = popped != null ? popped : Medium.VACUUM;
+				}
+
 				LocalContext local = new LocalContext();
 				local.ray = ray;
 				local.distance = x.getDistance();
 				local.front = x.isFront();
-				local.medium = Medium.VACUUM;
+				local.medium = medium;
 				local.importance = sr.getColor().times(stack.peek().importance);
 
 				stack.push(local);
@@ -197,6 +213,16 @@ public final class SceneRayShader implements RayShader {
 				local.scatteredRays = new ScatteredRays(this, ray.direction(), getWavelengthPacket(), rng, local.material);
 
 				Color color = shade();
+				color = color.times(medium.transmittance(local.ray,
+						local.distance, color.getWavelengthPacket()));
+
+				if (popped != null) {
+					media.push(popped);
+				}
+
+				if (pop) {
+					media.pop();
+				}
 
 				stack.pop();
 				depth.put(type, depth.get(type) - 1);
