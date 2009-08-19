@@ -186,25 +186,29 @@ public final class SceneRayShader implements RayShader {
 				depth.put(type, getPathDepthByType(type) + 1);
 
 				boolean pop = false;
-				if (isFront() == sr.isTransmitted()) {
-					media.push(getMaterial());
-					pop = true;
+				Medium popped = null;
+				if (sr.isTransmitted()) {
+					if (isFront()) {
+						media.push(getMaterial());
+						pop = true;
+					} else if (!media.isEmpty()) {
+						popped = media.pop();
+					}
 				}
 
-				Medium popped = null;
-				Medium medium;
+				Medium ambientMedium;
+				Medium medium = media.isEmpty() ? Medium.VACUUM : media.peek();
 				if (x.isFront()) {
-					medium = media.isEmpty() ? Medium.VACUUM : media.peek();
+					ambientMedium = medium;
 				} else {
-					popped = media.isEmpty() ? null : media.pop();
-					medium = popped != null ? popped : Medium.VACUUM;
+					ambientMedium = media.size() > 1 ? media.elementAt(media.size() - 2) : Medium.VACUUM;
 				}
 
 				LocalContext local = new LocalContext();
 				local.ray = ray;
 				local.distance = x.getDistance();
 				local.front = x.isFront();
-				local.medium = medium;
+				local.medium = ambientMedium;
 				local.importance = sr.getColor().times(stack.peek().importance);
 
 				stack.push(local);
