@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2008 Bradley W. Kimmel
- * 
+ *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -9,10 +9,10 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -25,70 +25,79 @@
 
 package ca.eandb.jmist.framework.gi;
 
+import ca.eandb.jmist.framework.Intersection;
+import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.Random;
+import ca.eandb.jmist.framework.ScatteredRay;
+import ca.eandb.jmist.framework.ScatteredRays;
 import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.framework.shader.MinimalShadingContext;
+import ca.eandb.jmist.math.Point3;
+import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
 
 /**
  * @author brad
  *
  */
-public final class SurfaceNode implements ScatteringNode {
+public final class SurfaceNode extends AbstractScatteringNode implements ScatteringNode {
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi.ScatteringNode#getSourceRadiance()
-	 */
-	public Color getSourceRadiance() {
-		// TODO Auto-generated method stub
-		return null;
+	private final Ray3 ray;
+
+	private final MinimalShadingContext context = new MinimalShadingContext(Random.DEFAULT) {
+
+		/* (non-Javadoc)
+		 * @see ca.eandb.jmist.framework.shader.AbstractShadingContext#getImportance()
+		 */
+		@Override
+		public Color getImportance() {
+			return getValue();
+		}
+
+	};
+
+	/* package */ SurfaceNode(Ray3 ray, Intersection x, Color value, PathNode parent) {
+		super(value, parent);
+		this.ray = ray;
+		x.prepareShadingContext(context);
 	}
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi.PathNode#evaluate(ca.eandb.jmist.math.Vector3)
-	 */
-	public Color evaluate(Vector3 v) {
-		// TODO Auto-generated method stub
-		return null;
+	public Color getEmittedRadiance() {
+		WavelengthPacket lambda = getValue().getWavelengthPacket();
+		Material mat = context.getMaterial();
+		Vector3 out = ray.direction().opposite();
+		return mat.emission(context, out, lambda);
 	}
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi.PathNode#expand(ca.eandb.jmist.framework.Random)
-	 */
 	public ScatteringNode expand(Random rnd) {
-		// TODO Auto-generated method stub
-		return null;
+		WavelengthPacket lambda = getValue().getWavelengthPacket();
+		Material mat = context.getMaterial();
+		Vector3 in = ray.direction();
+		ScatteredRays scat = new ScatteredRays(context, in, lambda, rnd, mat);
+		ScatteredRay sr = scat.getRandomScatteredRay(false);
+
+		if (sr != null) {
+			return trace(sr.getRay(), getValue().times(sr.getColor()));
+		} else {
+			return null;
+		}
 	}
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi.PathNode#getDepth()
-	 */
-	public int getDepth() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi.PathNode#sample(ca.eandb.jmist.framework.Random)
-	 */
-	public Vector3 sample(Random rnd) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi.PathNode#scatter(ca.eandb.jmist.math.Vector3)
-	 */
 	public Color scatter(Vector3 v) {
-		// TODO Auto-generated method stub
-		return null;
+		WavelengthPacket lambda = getValue().getWavelengthPacket();
+		Material mat = context.getMaterial();
+		Vector3 in = ray.direction();
+		Vector3 n = context.getShadingNormal();
+		double dot = n.dot(v);
+
+		return mat.scattering(context, in, v, lambda)
+				.times(getValue())
+				.times(Math.abs(dot));
 	}
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi.PathNode#trace(ca.eandb.jmist.math.Vector3)
-	 */
-	public ScatteringNode trace(Vector3 v) {
-		// TODO Auto-generated method stub
-		return null;
+	public Point3 getPosition() {
+		return context.getPosition();
 	}
 
 }

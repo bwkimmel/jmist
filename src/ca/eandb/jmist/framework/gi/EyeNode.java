@@ -25,7 +25,13 @@
 
 package ca.eandb.jmist.framework.gi;
 
+import ca.eandb.jmist.framework.Lens;
+import ca.eandb.jmist.framework.Random;
+import ca.eandb.jmist.framework.Scene;
+import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.math.HPoint3;
 import ca.eandb.jmist.math.Point2;
+import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
 
 
@@ -33,8 +39,40 @@ import ca.eandb.jmist.math.Vector3;
  * @author brad
  *
  */
-public interface EyeNode extends PathNode {
+public final class EyeNode extends AbstractPathNode {
 
-	Point2 getScreenPoint(Vector3 v);
+	private final Point2 p;
+
+	/* package */ EyeNode(Point2 p, Color value, PathNodeFactory nodes) {
+		super(value, nodes);
+		this.p = p;
+	}
+
+	public ScatteringNode expand(Random rnd) {
+		Scene scene = getScene();
+		Lens lens = scene.getLens();
+		Ray3 ray = lens.rayAt(p);
+		return trace(ray, getValue());
+	}
+
+	public int getDepth() {
+		return 0;
+	}
+
+	public PathNode getParent() {
+		return null;
+	}
+
+	public HPoint3 getPosition() {
+		return null;
+	}
+
+	public boolean isOnLightPath() {
+		return false;
+	}
+
+	public Color scatter(Vector3 v) {
+		return getColorModel().getBlack(getValue().getWavelengthPacket());
+	}
 
 }

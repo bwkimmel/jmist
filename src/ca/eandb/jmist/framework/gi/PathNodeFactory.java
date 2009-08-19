@@ -26,12 +26,14 @@
 package ca.eandb.jmist.framework.gi;
 
 import ca.eandb.jmist.framework.Emitter;
+import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.Light;
-import ca.eandb.jmist.framework.Photon;
+import ca.eandb.jmist.framework.NearestIntersectionRecorder;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.Scene;
 import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.framework.color.ColorModel;
+import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
 
@@ -47,31 +49,47 @@ public final class PathNodeFactory {
 
 	private final Sphere sceneBoundingSphere;
 
+	private final ColorModel colorModel;
+
 	/**
 	 * @param scene
 	 */
-	private PathNodeFactory(Scene scene) {
+	private PathNodeFactory(Scene scene, ColorModel colorModel) {
 		this.scene = scene;
 		this.light = scene.getLight();
 		this.sceneBoundingSphere = scene.boundingSphere();
+		this.colorModel = colorModel;
 	}
 
-	public static PathNodeFactory create(Scene scene) {
-		return new PathNodeFactory(scene);
+	public static PathNodeFactory create(Scene scene, ColorModel colorModel) {
+		return new PathNodeFactory(scene, colorModel);
 	}
 
 
-	public LightNode sampleLight(WavelengthPacket lambda, Random rnd) {
+	public LightNode sampleLight(Color sample, Random rnd) {
 		Emitter emitter = light.sample(rnd);
-		return (emitter != null) ? new LightNode(emitter, sceneBoundingSphere, sample);
+		return new LightNode(emitter, sceneBoundingSphere, sample, this);
 	}
 
-	public EyeNode sampleEye(Color sample, Random rnd) {
-
+	public EyeNode sampleEye(Point2 p, Color sample) {
+		return new EyeNode(p, sample, this);
 	}
 
-	/* package */ ScatteringNode trace(Ray3 ray, WavelengthPacket lambda, Random rnd) {
+	/* package */ ScatteringNode trace(Ray3 ray, Color power, PathNode parent) {
+		Intersection x = NearestIntersectionRecorder.computeNearestIntersection(ray, scene.getRoot());
+		if (x != null) {
+			return new SurfaceNode(ray, x, power, parent);
+		} else {
+			return new BackgroundNode(ray.direction(), power, parent);
+		}
+	}
 
+	/* package */ Scene getScene() {
+		return scene;
+	}
+
+	/* package */ ColorModel getColorModel() {
+		return colorModel;
 	}
 
 }

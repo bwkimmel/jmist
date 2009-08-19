@@ -38,6 +38,8 @@ import ca.eandb.jmist.math.Vector3;
  */
 public interface PathNode {
 
+	PathNodeFactory getFactory();
+
 	int getDepth();
 
 	Color getValue();
@@ -52,7 +54,7 @@ public interface PathNode {
 
 	Color scatter(Vector3 v);
 
-	void scatterToEye(Raster raster);
+	void scatterToEye(Raster raster, double weight);
 
 	ScatteringNode expand(Random rnd);
 

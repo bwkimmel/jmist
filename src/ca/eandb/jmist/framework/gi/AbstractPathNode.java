@@ -25,10 +25,16 @@
 
 package ca.eandb.jmist.framework.gi;
 
-import ca.eandb.jmist.framework.Random;
+import ca.eandb.jmist.framework.Lens;
+import ca.eandb.jmist.framework.Raster;
 import ca.eandb.jmist.framework.Scene;
+import ca.eandb.jmist.framework.Lens.Projection;
+import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
-import ca.eandb.jmist.math.Vector3;
+import ca.eandb.jmist.math.HPoint3;
+import ca.eandb.jmist.math.MathUtil;
+import ca.eandb.jmist.math.Point2;
+import ca.eandb.jmist.math.Ray3;
 
 /**
  * @author brad
@@ -36,11 +42,21 @@ import ca.eandb.jmist.math.Vector3;
  */
 public abstract class AbstractPathNode implements PathNode {
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi.PathNode#expand(ca.eandb.jmist.framework.Random)
-	 */
-	public final ScatteringNode expand(Random rnd) {
-		return null;
+	private final PathNodeFactory nodes;
+
+	private final Color value;
+
+	protected AbstractPathNode(Color value, PathNodeFactory nodes) {
+		this.nodes = nodes;
+		this.value = value;
+	}
+
+	public final PathNodeFactory getFactory() {
+		return nodes;
+	}
+
+	public final Color getValue() {
+		return value;
 	}
 
 	public final boolean atInfinity() {
@@ -52,11 +68,34 @@ public abstract class AbstractPathNode implements PathNode {
 	}
 
 	public final Scene getScene() {
-		return null;
+		return nodes.getScene();
 	}
 
 	public final ColorModel getColorModel() {
-		return null;
+		return nodes.getColorModel();
+	}
+
+	protected final ScatteringNode trace(Ray3 ray, Color power) {
+		return nodes.trace(ray, power, this);
+	}
+
+	public void scatterToEye(Raster raster, double weight) {
+		Scene scene = getScene();
+		Lens lens = scene.getLens();
+		HPoint3 pos = getPosition();
+		Projection proj = lens.project(pos);
+		if (proj != null) {
+			Ray3 ray = new Ray3(proj.pointOnLens(), pos);
+			if (scene.getRoot().visibility(ray)) {
+				int w = raster.getWidth();
+				int h = raster.getHeight();
+				Point2 uv = proj.pointOnImagePlane();
+				int x = MathUtil.threshold((int) Math.floor(w * uv.x()), 0, w - 1);
+				int y = MathUtil.threshold((int) Math.floor(h * uv.y()), 0, h - 1);
+				Color color = scatter(ray.direction().opposite()).times(weight);
+				raster.addPixel(x, y, color);
+			}
+		}
 	}
 
 }

@@ -14,6 +14,7 @@ import ca.eandb.jmist.framework.Display;
 import ca.eandb.jmist.framework.PixelShader;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.Raster;
+import ca.eandb.jmist.framework.Scene;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.ColorUtil;
@@ -49,8 +50,8 @@ public final class BidirectionalPathTracerJob extends AbstractParallelizableJob 
 	 * @param cols The number of columns to divide the image into.
 	 * @param rows The number of rows to divide the image into.
 	 */
-	public BidirectionalPathTracerJob(ColorModel colorModel, PixelShader pixelShader, Display display, int width, int height, int cols, int rows) {
-		this.pixelShader = pixelShader;
+	public BidirectionalPathTracerJob(ColorModel colorModel, Scene scene, Display display, int width, int height, int cols, int rows) {
+		this.scene = scene;
 		this.colorModel = colorModel;
 		this.width = width;
 		this.height = height;
@@ -243,7 +244,7 @@ public final class BidirectionalPathTracerJob extends AbstractParallelizableJob 
 	 * @see ca.eandb.jmist.framework.ParallelizableJob#worker()
 	 */
 	public TaskWorker worker() {
-		return new RasterTaskWorker(colorModel, pixelShader, width, height);
+		return new RasterTaskWorker(colorModel, scene, width, height);
 	}
 
 	/**
@@ -260,7 +261,7 @@ public final class BidirectionalPathTracerJob extends AbstractParallelizableJob 
 		 * The <code>PixelShader</code> to use to compute the values of
 		 * individual <code>Pixel</code>s.
 		 */
-		private final PixelShader pixelShader;
+		private final Scene scene;
 
 		/** The width of the image to render, in pixels. */
 		private final int width;
@@ -270,7 +271,7 @@ public final class BidirectionalPathTracerJob extends AbstractParallelizableJob 
 
 		private int numberOfLightSamples;
 
-		private final PathNodeFactory nodes = null;
+		private final PathNodeFactory nodes;
 
 		/**
 		 * Creates a new <code>RasterTaskWorker</code>.
@@ -281,12 +282,13 @@ public final class BidirectionalPathTracerJob extends AbstractParallelizableJob 
 		 * @param width The width of the image to render, in pixels.
 		 * @param height The height of the image to render, in pixels.
 		 */
-		public RasterTaskWorker(ColorModel colorModel, PixelShader pixelShader,
+		public RasterTaskWorker(ColorModel colorModel, Scene scene,
 				int width, int height) {
 			this.colorModel = colorModel;
-			this.pixelShader = pixelShader;
+			this.scene = scene;
 			this.width = width;
 			this.height = height;
+			this.nodes = PathNodeFactory.create(scene, colorModel);
 		}
 
 		/* (non-Javadoc)
@@ -317,13 +319,18 @@ public final class BidirectionalPathTracerJob extends AbstractParallelizableJob 
 					x1			= (double) (x + 1) / w;
 
 					bounds		= new Box2(x0, y0, x1, y1);
-					Point2 p	= RandomUtil.uniform(bounds, Random.DEFAULT);
 
-					EyeNode eye	= null;
-					LightNode emit = nodes.sampleLight(sample, Random.DEFAULT);
+					for (int i = 0; i < 40; i++) {
+						Point2 p	= RandomUtil.uniform(bounds, Random.DEFAULT);
 
-					raster.addPixel(x - cell.x, y - cell.x, trace(eye, emit));
+						Color sample = colorModel.sample(Random.DEFAULT);
+						Color white = colorModel.getWhite(sample.getWavelengthPacket());
 
+						EyeNode eye	= nodes.sampleEye(p, white);
+						LightNode emit = nodes.sampleLight(sample, Random.DEFAULT);
+
+						raster.addPixel(x - cell.x, y - cell.y, trace(eye, emit, sample, raster));
+					}
 				}
 
 			}
@@ -334,40 +341,28 @@ public final class BidirectionalPathTracerJob extends AbstractParallelizableJob 
 			return raster;
 
 		}
-		
-		private PathNode trace(PathNode node) {
-			boolean isOnLightPath = node.isOnLightPath();
-			while (true) {
-				if (isOnLightPath) {
-					node.scatterToEye(raster); // * weight
-				}
-				
-				ScatteringNode next = node.expand(Random.DEFAULT);
-				if (next == null) {
-					return node;
-				}
-				node = next;
-			}
-		}
 
-		private Color trace(EyeNode eye, LightNode emit) {
+		private Color trace(EyeNode eye, LightNode emit, Color sample, Raster raster) {
+
+			double factor = 1.0 / (raster.getWidth() * raster.getHeight());
 
 			ArrayList<ScatteringNode> lightPath = new ArrayList<ScatteringNode>(10);
-			ScatteringNode node = eye.expand(Random.DEFAULT);
+			ScatteringNode node = emit.expand(Random.DEFAULT);
 			while (node != null) {
-				node.scatterToEye(raster); // * weight
+				//node.scatterToEye(raster, factor); // * weight
 				lightPath.add(node);
 				node = node.expand(Random.DEFAULT);
 			}
 
 			// TODO Auto-generated method stub
 			Color score = null; // black
+			double weight = 1.0;
 			node = eye.expand(Random.DEFAULT);
 			while (node != null) {
-				score = ColorUtil.add(score, source(node)); // * weight
-				if (!node.atInfinity()) {
-					score = ColorUtil.add(score, traceLights(node)); // * weight
-				}
+				score = ColorUtil.add(score, source(node, sample)); // * weight
+//				if (!node.atInfinity()) {
+//					score = ColorUtil.add(score, traceLights(node, sample)); // * weight
+//				}
 				score = ColorUtil.add(score, PathUtil.join(emit, node)); // * weight
 				for (ScatteringNode scat : lightPath) {
 					score = ColorUtil.add(score, PathUtil.join(scat, node)); // * weight
@@ -375,32 +370,28 @@ public final class BidirectionalPathTracerJob extends AbstractParallelizableJob 
 				node = node.expand(Random.DEFAULT);
 			}
 			return score;
-
-
-			// TODO Auto-generated method stub
-			return null;
 		}
 
-		private Color source(ScatteringNode node) {
+		private Color source(ScatteringNode node, Color sample) {
 			if (node.getDepth() <= 1 || numberOfLightSamples == 0) {
-				return node.getEmittedRadiance().times(node.getValue());
+				return node.getEmittedRadiance().times(node.getValue()).times(sample);
 			} else {
 				return null; // black
 			}
 		}
 
-		private Color traceLights(ScatteringNode node) {
+		private Color traceLights(ScatteringNode node, Color sample) {
 			Color score = null; // black
 			if (numberOfLightSamples > 0) {
 				for (int i = 0; i < numberOfLightSamples; i++) {
-					score = ColorUtil.add(score, traceLight(node));
+					score = ColorUtil.add(score, traceLight(node, sample));
 				}
 				score = ColorUtil.div(score, numberOfLightSamples);
 			}
 			return score;
 		}
 
-		private Color traceLight(ScatteringNode node) {
+		private Color traceLight(ScatteringNode node, Color sample) {
 			LightNode emit = nodes.sampleLight(sample, Random.DEFAULT);
 			return (emit != null) ? PathUtil.join(emit, node) : null;
 		}
@@ -418,11 +409,7 @@ public final class BidirectionalPathTracerJob extends AbstractParallelizableJob 
 	/** The <code>ColorModel</code> to use to render this image. */
 	private final ColorModel colorModel;
 
-	/**
-	 * The <code>PixelShader</code> to use to compute the values of
-	 * individual <code>Pixel</code>s.
-	 */
-	private final PixelShader pixelShader;
+	private final Scene scene;
 
 	/** The width of the image to render, in pixels. */
 	private final int width;

@@ -222,7 +222,7 @@ public final class CopyOfLightTracingJob extends AbstractParallelizableJob {
 
 		private synchronized void ensureInitialized() {
 			if (nodes == null) {
-				nodes = PathNodeFactory.create(scene);
+				nodes = PathNodeFactory.create(scene, colorModel);
 			}
 		}
 
@@ -248,7 +248,7 @@ public final class CopyOfLightTracingJob extends AbstractParallelizableJob {
 				Color sample = colorModel.sample(random);
 				PathNode node = nodes.sampleLight(sample, random);
 				while (node != null) {
-					node.scatterToEye(raster);
+					node.scatterToEye(raster, 1.0);
 					node = node.expand(random);
 				}
 			}
