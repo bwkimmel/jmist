@@ -3,8 +3,6 @@
  */
 package ca.eandb.jmist.framework;
 
-import ca.eandb.jmist.math.Interval;
-import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
 
 /**

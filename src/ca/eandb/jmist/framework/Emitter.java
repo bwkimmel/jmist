@@ -28,7 +28,6 @@ package ca.eandb.jmist.framework;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.HPoint3;
-import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Sphere;
 import ca.eandb.jmist.math.Vector3;
 
