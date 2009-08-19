@@ -3,8 +3,6 @@
  */
 package ca.eandb.jmist.math;
 
-import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.util.UnexpectedException;
 
 
 /**
@@ -53,12 +51,7 @@ public final class Optics {
 
 			double eta = n1 / n2;
 			double det = 1.0 - eta * eta * (1.0 - c1 * c1);
-
-			if (det < 0.0) { // total internal reflection
-				return Optics.reflect(in, normal);
-			}
-
-			double c2 = Math.sqrt(det);
+			double c2 = det >= 0.0 ? Math.sqrt(det) : 0.0;
 
 			// return the unit vector in the direction of
 			// eta * I + (eta * c1 - c2) * N
@@ -68,12 +61,7 @@ public final class Optics {
 
 			double eta = n2 / n1;
 			double det = 1.0 - eta * eta * (1.0 - c1 * c1);
-
-			if (det < 0.0) { // total internal reflection
-				return Optics.reflect(in, normal);
-			}
-
-			double c2 = Math.sqrt(det);
+			double c2 = det >= 0.0 ? Math.sqrt(det) : 0.0;
 
 			// return the unit vector in the direction of
 			// eta * I + (eta * c1 + c2) * N
@@ -97,21 +85,21 @@ public final class Optics {
 
 		double cost = Math.cos(theta);
 
-		if (cost < 0.0) {
-			double temp = n1;
-			n1 = n2;
-			n2 = temp;
-			cost = -cost;
+		if (cost >= 0.0) {
+
+			double eta = n1 / n2;
+			double det = 1.0 - eta * eta * (1.0 - cost * cost);
+
+			return Math.acos(Math.sqrt(Math.max(det, 0.0)));
+
+		} else { // cost < 0.0
+
+			double eta = n2 / n1;
+			double det = 1.0 - eta * eta * (1.0 - cost * cost);
+
+			return Math.PI - Math.acos(Math.sqrt(Math.max(det, 0.0)));
+
 		}
-
-		double eta = n1 / n2;
-		double det = 1.0 - eta * eta * (1.0 - cost * cost);
-
-		if (det < 0.0) { // total internal reflection
-			return Math.PI - theta;
-		}
-
-		return Math.acos(Math.sqrt(det));
 
 	}
 
@@ -130,12 +118,8 @@ public final class Optics {
 	 */
 	public static Vector3 refract(Vector3 in, Complex n1, Complex n2, Vector3 normal) {
 
-		double						ci = in.dot(normal);
+		double						ci = -in.dot(normal);
 		RefractResult				rr = Optics.refractAngle(ci, n1, n2);
-
-		if (rr.tir) { // total internal reflection.
-			return Optics.reflect(in, normal);
-		}
 
 		// return the refracted vector, recall that I + ci * N already has
 		// the length sin(theta_i), so we need only divide by nEff to resize
@@ -160,10 +144,6 @@ public final class Optics {
 
 		double						ci = Math.cos(theta);
 		RefractResult				rr = Optics.refractAngle(ci, n1, n2);
-
-		if (rr.tir) { // total internal reflection
-			return Math.PI - theta;
-		}
 
 		return Math.acos(rr.cosT);
 
@@ -197,6 +177,10 @@ public final class Optics {
 		}
 
 		double nSquared = n * n;
+
+		if (nSquared < sin2t) { // total internal reflection
+			return new Vector2(1.0, 1.0);
+		}
 
 		double A = Math.sqrt(nSquared - sin2t);
 
@@ -276,10 +260,12 @@ public final class Optics {
 
 		// TE = (cost - A) / (cost + A)
 		// TM = (n^2 * cost - A) / (n^2 * cost + A)
-		double		absTE = A.negative().plus(cost).divide(A.plus(cost)).abs();
-		double		absTM = nSquared.times(cost).minus(A).divide(nSquared.times(cost).plus(A)).abs();
+		Complex		absTE = A.negative().plus(cost).divide(A.plus(cost));
+		Complex		absTM = nSquared.times(cost).minus(A).divide(nSquared.times(cost).plus(A));
 
-		return new Vector2(MathUtil.threshold(absTE * absTE, 0.0, 1.0), MathUtil.threshold(absTM * absTM, 0.0, 1.0));
+		return new Vector2(
+				MathUtil.threshold(absTE.times(absTE).abs(), 0.0, 1.0),
+				MathUtil.threshold(absTM.times(absTM).abs(), 0.0, 1.0));
 
 	}
 
@@ -309,6 +295,10 @@ public final class Optics {
 		}
 
 		double nSquared = n * n;
+
+		if (nSquared < sin2t) {
+			return new Vector2(1.0, 1.0);
+		}
 
 		double A = Math.sqrt(nSquared - sin2t);
 
@@ -382,10 +372,12 @@ public final class Optics {
 
 		// TE = (cost - A) / (cost + A)
 		// TM = (n^2 * cost - A) / (n^2 * cost + A)
-		double		absTE = A.negative().plus(cost).divide(A.plus(cost)).abs();
-		double		absTM = nSquared.times(cost).minus(A).divide(nSquared.times(cost).plus(A)).abs();
+		Complex		absTE = A.negative().plus(cost).divide(A.plus(cost));
+		Complex		absTM = nSquared.times(cost).minus(A).divide(nSquared.times(cost).plus(A));
 
-		return new Vector2(MathUtil.threshold(absTE * absTE, 0.0, 1.0), MathUtil.threshold(absTM * absTM, 0.0, 1.0));
+		return new Vector2(
+				MathUtil.threshold(absTE.times(absTE).abs(), 0.0, 1.0),
+				MathUtil.threshold(absTM.times(absTM).abs(), 0.0, 1.0));
 
 	}
 
@@ -525,14 +517,6 @@ public final class Optics {
 		return 0.5 * (R.x() + R.y());
 	}
 
-	public static Color reflectance(Vector3 v, Vector3 n, Color n1, Color n2) {
-		throw new UnexpectedException("Not implemented.");
-	}
-
-	public static Color reflectance(Vector3 v, Vector3 n, Color n1, Color k1, Color n2, Color k2) {
-		throw new UnexpectedException("Not implemented.");
-	}
-
 	/**
 	 * The structure returned from refractAngle.
 	 * @author Brad Kimmel
@@ -546,18 +530,11 @@ public final class Optics {
 		/** The effective real refractive index. */
 		public double nEff;
 
-		/**
-		 * A value indicating whether total internal
-		 * reflection has occurred.
-		 */
-		public boolean tir;
-
 	}
 
 	/**
 	 * Computes the cosine of the refracted angle for an interface between
-	 * two conductive media, the effective refractive index, and a value
-	 * indicating whether total internal reflection has occurred.
+	 * two conductive media and the effective refractive index.
 	 * @param ci The cosine of the incident angle (the angle between the
 	 * 		incident direction and the normal).
 	 * @param n1 The refractive index of the medium on the side of the
@@ -565,29 +542,26 @@ public final class Optics {
 	 * @param n2 The refractive index of the medium on the side of the
 	 * 		interface opposite from which the normal points.
 	 * @return An object containing the cosine of the angle between the
-	 * 		refracted direction and the anti-normal (cosT), the effective
-	 * 		real refractive index (nEff), and a value indicating whether
-	 * 		total internal reflection has occurred (tir).
+	 * 		refracted direction and the anti-normal (cosT) and the effective
+	 * 		real refractive index (nEff).
 	 * @see {@link Optics.RefractResult}.
 	 */
 	private static RefractResult refractAngle(double ci, Complex n1, Complex n2) {
 
-		RefractResult result;
-		Complex eta;
-
-		if (ci > 0.0) {
-			eta = n2.divide(n1);
-		} else { // ci <= 0.0
+		if (ci < 0.0) {
 
 			//
 			// if the ray comes from the other side, rewrite the problem
 			// with the normal pointing toward the incident direction.
 			//
-			eta = n2.divide(n1);
-			ci = -ci;
+			RefractResult result = refractAngle(-ci, n2, n1);
+			result.cosT = -result.cosT;
+			result.nEff = 1.0 / result.nEff;
+			return result;
 
 		}
 
+		Complex eta = n2.divide(n1);
 		double si2 = 1.0 - ci * ci;
 
 		// get components of the refractive index, eta = n + ik = n(1 + i*kappa)
@@ -607,7 +581,7 @@ public final class Optics {
 
 		// compute q and gamma, where cos(theta_t) = qe^{i*gamma}
 		double q = Math.pow(X * X + Y * Y, 1.0 / 4.0);
-		double gamma = 0.5 * Math.atan2(A - B, C);
+		double gamma = 0.5 * Math.atan2(Y, X);
 
 		// will need cos and sin of gamma
 		double cg = Math.cos(gamma);
@@ -618,10 +592,9 @@ public final class Optics {
 		double np = Math.sqrt(si2 + K * K);
 
 		// cosine of theta'_t, the real angle of refraction.
-		result = new RefractResult();
+		RefractResult result = new RefractResult();
 		result.cosT = K / np;
 		result.nEff = np;
-		result.tir = (result.cosT < 0.0);
 
 		return result;
 
