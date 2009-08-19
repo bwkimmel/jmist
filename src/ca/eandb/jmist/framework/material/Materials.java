@@ -7,6 +7,8 @@ import ca.eandb.jmist.framework.Function1;
 import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.function.PiecewiseLinearFunction1;
+import ca.eandb.jmist.framework.function.SellmeierFunction1;
+import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.util.ArrayUtil;
 
 /**
@@ -127,6 +129,12 @@ public final class Materials {
 					1.332, 1.332, 1.332, 1.332, 1.332, 1.332, 1.332, 1.332, 1.332, 1.332,
 					1.332, 1.332, 1.332, 1.331, 1.331, 1.331, 1.331});
 
+	/** Refractive index of fused silica. */
+	private static final Function1 N_FUSED_SILICA = new SellmeierFunction1(
+			new double[]{ 6.96166300e-01, 4.07942600e-01, 8.97479400e-01 },
+			new double[]{ 4.67914826e-15, 1.35120631e-14, 9.79340025e-13 },
+			new Interval(0.365e-6, 2.3e-6));
+
 	/**
 	 * Creates a <code>Material</code> representing silver.
 	 * @param c The <code>ColorModel</code> to use.
@@ -182,6 +190,15 @@ public final class Materials {
 	 */
 	public static Material water(ColorModel c) {
 		return new DielectricMaterial(c.getContinuous(N_WATER));
+	}
+
+	/**
+	 * Creates a <code>Material</code> representing fused silica.
+	 * @param c The <code>ColorModel</code> to use.
+	 * @return A <code>Material</code> representing fused silica.
+	 */
+	public static Material fusedSilica(ColorModel c) {
+		return new DielectricMaterial(c.getContinuous(N_FUSED_SILICA));
 	}
 
 	/** Private constructor to prevent instances from being created. */
