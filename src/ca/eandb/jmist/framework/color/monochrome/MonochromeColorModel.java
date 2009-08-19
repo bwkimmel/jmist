@@ -300,6 +300,16 @@ public final class MonochromeColorModel extends ColorModel {
 	}
 
 	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.ColorModel#fromChannels(double[], ca.eandb.jmist.framework.color.WavelengthPacket)
+	 */
+	public Color fromArray(double[] values, WavelengthPacket lambda) {
+		if (values.length < 1) {
+			throw new IllegalArgumentException("values.length < 1");
+		}
+		return new Sample(values[0]);
+	}
+
+	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.ColorModel#getBlack(ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
 	@Override

@@ -97,9 +97,22 @@ public final class RGBColorModel extends ColorModel {
 		return RGBColor.WHITE;
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.ColorModel#getContinuous(ca.eandb.jmist.framework.Function1)
+	 */
 	@Override
 	public Spectrum getContinuous(Function1 spectrum) {
 		return new RGBColor(spectrum.evaluate(650e-9), spectrum.evaluate(550e-9), spectrum.evaluate(450e-9));
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.ColorModel#fromChannels(double[], ca.eandb.jmist.framework.color.WavelengthPacket)
+	 */
+	public Color fromArray(double[] values, WavelengthPacket lambda) {
+		if (values.length < 3) {
+			throw new IllegalArgumentException("values.length < 3");
+		}
+		return new RGBColor(values[0], values[1], values[2]);
 	}
 
 	/* (non-Javadoc)

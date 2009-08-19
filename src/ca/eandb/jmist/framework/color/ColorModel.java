@@ -35,6 +35,8 @@ public abstract class ColorModel implements Serializable {
 
 	public abstract Spectrum getContinuous(Function1 spectrum);
 
+	public abstract Color fromArray(double[] values, WavelengthPacket lambda);
+
 	public abstract Color getBlack(WavelengthPacket lambda);
 
 	public abstract Color getWhite(WavelengthPacket lambda);
