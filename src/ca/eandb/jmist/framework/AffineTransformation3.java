@@ -214,7 +214,7 @@ public class AffineTransformation3 implements AffineTransformable3, Serializable
 	 * Gets a value indicating whether a transformation has been applied.
 	 * @return A value indicating whether a transformation has been applied.
 	 */
-	protected final boolean isTransformed() {
+	public final boolean isDirty() {
 		return matrix != null;
 	}
 
