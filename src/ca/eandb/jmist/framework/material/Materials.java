@@ -19,8 +19,8 @@ import ca.eandb.jmist.util.ArrayUtil;
  */
 public final class Materials {
 
-	/** Wavelengths for silver and gold. */
-	private static final double[] LAMBDA_1 = new double[]{
+	/** Wavelengths for silver. */
+	private static final double[] LAMBDA_SILVER = new double[]{
 		0.3757e-6, 0.3875e-6, 0.4000e-6, 0.4133e-6, 0.4275e-6,
 		0.4428e-6, 0.4592e-6, 0.4769e-6, 0.4959e-6, 0.5166e-6,
 		0.5391e-6, 0.5636e-6, 0.5904e-6, 0.6199e-6, 0.6526e-6,
@@ -29,7 +29,7 @@ public final class Materials {
 
 	/** Real part of the refractive index of silver. */
 	private static final Function1 N_SILVER = new PiecewiseLinearFunction1(
-			LAMBDA_1,
+			LAMBDA_SILVER,
 			new double[]{
 					0.200, 0.192, 0.173, 0.173, 0.160,
 					0.157, 0.144, 0.132, 0.130, 0.130,
@@ -38,16 +38,19 @@ public final class Materials {
 
 	/** Extinction index of silver. */
 	private static final Function1 K_SILVER = new PiecewiseLinearFunction1(
-			LAMBDA_1,
+			LAMBDA_SILVER,
 			new double[]{
 					1.67, 1.81, 1.95, 2.11, 2.26,
 					2.40, 2.56, 2.72, 2.88, 3.07,
 					3.25, 3.45, 3.66, 3.88, 4.15,
 					4.44, 4.74, 5.09, 5.50});
 
+	/** Wavelengths for gold. */
+	private static final double[] LAMBDA_GOLD = LAMBDA_SILVER;
+
 	/** Real part of the refractive index of gold. */
 	private static final Function1 N_GOLD = new PiecewiseLinearFunction1(
-			LAMBDA_1,
+			LAMBDA_GOLD,
 			new double[]{
 					1.696, 1.674, 1.658, 1.636, 1.616,
 					1.562, 1.426, 1.242, 0.916, 0.608,
@@ -56,7 +59,7 @@ public final class Materials {
 
 	/** Extinction index of gold. */
 	private static final Function1 K_GOLD = new PiecewiseLinearFunction1(
-			LAMBDA_1,
+			LAMBDA_GOLD,
 			new double[]{
 					1.906, 1.936, 1.956, 1.958, 1.940,
 					1.904, 1.846, 1.796, 1.840, 2.120,
@@ -64,7 +67,7 @@ public final class Materials {
 					3.80 , 4.35 , 4.86 , 5.39 });
 
 	/** Wavelengths for refractive index of copper. */
-	private static final double[] LAMBDA_2 = new double[]{
+	private static final double[] LAMBDA_COPPER = new double[]{
 		0.3646e-6, 0.3874e-6, 0.4133e-6, 0.4428e-6, 0.4768e-6,
 		0.5166e-6, 0.5390e-6, 0.5635e-6, 0.5904e-6, 0.6199e-6,
 		0.6525e-6, 0.6702e-6, 0.6880e-6, 0.7084e-6, 0.7293e-6,
@@ -73,7 +76,7 @@ public final class Materials {
 
 	/** Real part of the refractive index of copper. */
 	private static final Function1 N_COPPER = new PiecewiseLinearFunction1(
-			LAMBDA_2,
+			LAMBDA_COPPER,
 			new double[]{
 					1.27 , 1.18 , 1.18 , 1.17 , 1.15 ,
 					1.12 , 1.04 , 0.826, 0.468, 0.272,
@@ -82,7 +85,7 @@ public final class Materials {
 
 	/** Extinction index of copper. */
 	private static final Function1 K_COPPER = new PiecewiseLinearFunction1(
-			LAMBDA_2,
+			LAMBDA_COPPER,
 			new double[]{
 					1.95, 2.21, 2.21, 2.36, 2.50,
 					2.60, 2.59, 2.60, 2.81, 3.24,
@@ -90,7 +93,7 @@ public final class Materials {
 					5.26});
 
 	/** Wavelengths for refractive index of platinum. */
-	private static final double[] LAMBDA_3 = new double[]{
+	private static final double[] LAMBDA_PLATINUM = new double[]{
 		0.3757e-6, 0.3874e-6, 0.3999e-6, 0.4133e-6, 0.4275e-6,
 		0.4428e-6, 0.4592e-6, 0.4769e-6, 0.4959e-6, 0.5166e-6,
 		0.5390e-6, 0.5636e-6, 0.5904e-6, 0.6199e-6, 0.6525e-6,
@@ -99,7 +102,7 @@ public final class Materials {
 
 	/** Real part of the refractive index of platinum. */
 	private static final Function1 N_PLATINUM = new PiecewiseLinearFunction1(
-			LAMBDA_3,
+			LAMBDA_PLATINUM,
 			new double[]{
 					1.65, 1.68, 1.72, 1.75, 1.79,
 					1.83, 1.87, 1.91, 1.96, 2.03,
@@ -108,7 +111,7 @@ public final class Materials {
 
 	/** Extinction index of platinum. */
 	private static final Function1 K_PLATINUM = new PiecewiseLinearFunction1(
-			LAMBDA_3,
+			LAMBDA_PLATINUM,
 			new double[]{
 					2.69, 2.76, 2.84, 2.92, 3.01,
 					3.10, 3.20, 3.30, 3.42, 3.54,
@@ -116,11 +119,11 @@ public final class Materials {
 					4.43, 4.63, 4.84, 5.07});
 
 	/** Wavelengths for refractive index of water. */
-	private static final double[] LAMBDA_4 = ArrayUtil.range(200e-9, 1000e-9, 33);
+	private static final double[] LAMBDA_WATER = ArrayUtil.range(200e-9, 1000e-9, 33);
 
 	/** Real part of the refractive index of water. */
 	private static final Function1 N_WATER = new PiecewiseLinearFunction1(
-			LAMBDA_4,
+			LAMBDA_WATER,
 			new double[]{
 					1.396, 1.373, 1.362, 1.354, 1.349,
 					1.146, 1.343, 1.341, 1.339, 1.338,
@@ -132,7 +135,7 @@ public final class Materials {
 
 	/** Extinction index of water. */
 	private static final Function1 K_WATER = new PiecewiseLinearFunction1(
-			LAMBDA_4,
+			LAMBDA_WATER,
 			new double[]{
 		            1.10e-07, 4.90e-08, 3.35e-08, 2.35e-08, 1.60e-08,
 		            1.08e-08, 6.50e-09, 3.50e-09, 1.86e-09, 1.30e-09,
@@ -152,7 +155,7 @@ public final class Materials {
 			new Interval(0.365e-6, 2.3e-6));
 
 	/** Wavelengths for refractive index of diamond. */
-	private static final double[] LAMBDA_5 = new double[]{
+	private static final double[] LAMBDA_DIAMOND = new double[]{
 		371.54e-9, 382.39e-9, 393.90e-9, 406.12e-9, 419.13e-9,
 		433.00e-9, 447.81e-9, 463.68e-9, 480.71e-9, 499.04e-9,
 		518.82e-9, 540.24e-9, 563.50e-9, 588.85e-9, 616.60e-9,
@@ -161,7 +164,7 @@ public final class Materials {
 
 	/** Refractive index of diamond. */
 	private static final Function1 N_DIAMOND = new PiecewiseLinearFunction1(
-			LAMBDA_5,
+			LAMBDA_DIAMOND,
 			new double[]{
 					2.477, 2.471, 2.465, 2.459, 2.454,
 					2.449, 2.444, 2.439, 2.434, 2.430,
@@ -169,7 +172,7 @@ public final class Materials {
 					2.408, 2.405, 2.402, 2.399, 2.397});
 
 	/** Wavelengths for refractive index of nickel. */
-	private static final double[] LAMBDA_6 = new double[] {
+	private static final double[] LAMBDA_NICKEL = new double[] {
 		375.70e-9, 387.44e-9, 399.94e-9, 413.27e-9, 427.52e-9,
 		442.79e-9, 459.19e-9, 476.85e-9, 495.92e-9, 516.58e-9,
 		539.04e-9, 563.55e-9, 590.38e-9, 619.90e-9, 652.53e-9,
@@ -178,7 +181,7 @@ public final class Materials {
 
 	/** Real part of refractive index of nickel. */
 	private static final Function1 N_NICKEL = new PiecewiseLinearFunction1(
-			LAMBDA_6,
+			LAMBDA_NICKEL,
 			new double[] {
 					1.61, 1.61, 1.61, 1.61, 1.62,
 					1.63, 1.64, 1.65, 1.67, 1.71,
@@ -187,7 +190,7 @@ public final class Materials {
 
 	/* Extinction index of nickel. */
 	private static final Function1 K_NICKEL = new PiecewiseLinearFunction1(
-			LAMBDA_6,
+			LAMBDA_NICKEL,
 			new double[]{
 					2.23, 2.30, 2.36, 2.44, 2.52,
 					2.61, 2.71, 2.81, 2.93, 3.06,
