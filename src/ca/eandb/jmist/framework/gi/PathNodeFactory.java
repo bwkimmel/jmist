@@ -43,6 +43,8 @@ import ca.eandb.jmist.math.Sphere;
  */
 public final class PathNodeFactory {
 
+	private static final int DEFAULT_MAX_DEPTH = 10;
+
 	private final Scene scene;
 
 	private final Light light;
@@ -51,14 +53,24 @@ public final class PathNodeFactory {
 
 	private final ColorModel colorModel;
 
+	private final int maxDepth;
+
 	/**
 	 * @param scene
 	 */
 	private PathNodeFactory(Scene scene, ColorModel colorModel) {
+		this(scene, colorModel, DEFAULT_MAX_DEPTH);
+	}
+
+	/**
+	 * @param scene
+	 */
+	private PathNodeFactory(Scene scene, ColorModel colorModel, int maxDepth) {
 		this.scene = scene;
 		this.light = scene.getLight();
 		this.sceneBoundingSphere = scene.boundingSphere();
 		this.colorModel = colorModel;
+		this.maxDepth = maxDepth;
 	}
 
 	public static PathNodeFactory create(Scene scene, ColorModel colorModel) {
@@ -76,11 +88,15 @@ public final class PathNodeFactory {
 	}
 
 	/* package */ ScatteringNode trace(Ray3 ray, Color power, PathNode parent) {
-		Intersection x = NearestIntersectionRecorder.computeNearestIntersection(ray, scene.getRoot());
-		if (x != null) {
-			return new SurfaceNode(ray, x, power, parent);
-		} else {
-			return new BackgroundNode(ray.direction(), power, parent);
+		if (parent.getDepth() < maxDepth) {
+			Intersection x = NearestIntersectionRecorder.computeNearestIntersection(ray, scene.getRoot());
+			if (x != null) {
+				return new SurfaceNode(ray, x, power, parent);
+			} else {
+				return new BackgroundNode(ray.direction(), power, parent);
+			}
+		} else { // parent.getDepth() >= maxDepth
+			return null;
 		}
 	}
 
