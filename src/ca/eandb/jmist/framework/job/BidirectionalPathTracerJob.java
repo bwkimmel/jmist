@@ -11,16 +11,14 @@ import java.util.ArrayList;
 import ca.eandb.jdcp.job.AbstractParallelizableJob;
 import ca.eandb.jdcp.job.TaskWorker;
 import ca.eandb.jmist.framework.Display;
-import ca.eandb.jmist.framework.PixelShader;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.Raster;
 import ca.eandb.jmist.framework.Scene;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.ColorUtil;
-import ca.eandb.jmist.framework.gi.LightNode;
 import ca.eandb.jmist.framework.gi.EyeNode;
-import ca.eandb.jmist.framework.gi.PathNode;
+import ca.eandb.jmist.framework.gi.LightNode;
 import ca.eandb.jmist.framework.gi.PathNodeFactory;
 import ca.eandb.jmist.framework.gi.PathUtil;
 import ca.eandb.jmist.framework.gi.ScatteringNode;
@@ -244,7 +242,7 @@ public final class BidirectionalPathTracerJob extends AbstractParallelizableJob 
 	 * @see ca.eandb.jmist.framework.ParallelizableJob#worker()
 	 */
 	public TaskWorker worker() {
-		return new RasterTaskWorker(colorModel, scene, width, height);
+		return new Worker(colorModel, scene, width, height);
 	}
 
 	/**
@@ -252,16 +250,10 @@ public final class BidirectionalPathTracerJob extends AbstractParallelizableJob 
 	 * <code>Raster</code> image.
 	 * @author Brad Kimmel
 	 */
-	private static final class RasterTaskWorker implements TaskWorker {
+	private static final class Worker implements TaskWorker {
 
 		/** The <code>ColorModel</code> to use to render this image. */
 		private final ColorModel colorModel;
-
-		/**
-		 * The <code>PixelShader</code> to use to compute the values of
-		 * individual <code>Pixel</code>s.
-		 */
-		private final Scene scene;
 
 		/** The width of the image to render, in pixels. */
 		private final int width;
@@ -282,10 +274,9 @@ public final class BidirectionalPathTracerJob extends AbstractParallelizableJob 
 		 * @param width The width of the image to render, in pixels.
 		 * @param height The height of the image to render, in pixels.
 		 */
-		public RasterTaskWorker(ColorModel colorModel, Scene scene,
+		public Worker(ColorModel colorModel, Scene scene,
 				int width, int height) {
 			this.colorModel = colorModel;
-			this.scene = scene;
 			this.width = width;
 			this.height = height;
 			this.nodes = PathNodeFactory.create(scene, colorModel);
@@ -298,7 +289,6 @@ public final class BidirectionalPathTracerJob extends AbstractParallelizableJob 
 
 			Cell	cell				= (Cell) task;
 			int		numPixels			= cell.width * cell.height;
-			Color	pixel;
 			Box2	bounds;
 			double	x0, y0, x1, y1;
 			double	w					= width;

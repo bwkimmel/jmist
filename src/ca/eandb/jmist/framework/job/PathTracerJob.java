@@ -10,13 +10,14 @@ import java.io.Serializable;
 import ca.eandb.jdcp.job.AbstractParallelizableJob;
 import ca.eandb.jdcp.job.TaskWorker;
 import ca.eandb.jmist.framework.Display;
-import ca.eandb.jmist.framework.PixelShader;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.Raster;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
-import ca.eandb.jmist.framework.gi.LightNode;
+import ca.eandb.jmist.framework.color.ColorUtil;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.gi.EyeNode;
+import ca.eandb.jmist.framework.gi.LightNode;
 import ca.eandb.jmist.framework.gi.PathNodeFactory;
 import ca.eandb.jmist.framework.gi.PathUtil;
 import ca.eandb.jmist.framework.gi.ScatteringNode;
@@ -46,8 +47,7 @@ public final class PathTracerJob extends AbstractParallelizableJob {
 	 * @param cols The number of columns to divide the image into.
 	 * @param rows The number of rows to divide the image into.
 	 */
-	public PathTracerJob(ColorModel colorModel, PixelShader pixelShader, Display display, int width, int height, int cols, int rows) {
-		this.pixelShader = pixelShader;
+	public PathTracerJob(ColorModel colorModel, Display display, int width, int height, int cols, int rows) {
 		this.colorModel = colorModel;
 		this.width = width;
 		this.height = height;
@@ -240,7 +240,7 @@ public final class PathTracerJob extends AbstractParallelizableJob {
 	 * @see ca.eandb.jmist.framework.ParallelizableJob#worker()
 	 */
 	public TaskWorker worker() {
-		return new RasterTaskWorker(colorModel, pixelShader, width, height);
+		return new Worker(colorModel, width, height);
 	}
 
 	/**
@@ -248,16 +248,10 @@ public final class PathTracerJob extends AbstractParallelizableJob {
 	 * <code>Raster</code> image.
 	 * @author Brad Kimmel
 	 */
-	private static final class RasterTaskWorker implements TaskWorker {
+	private static final class Worker implements TaskWorker {
 
 		/** The <code>ColorModel</code> to use to render this image. */
 		private final ColorModel colorModel;
-
-		/**
-		 * The <code>PixelShader</code> to use to compute the values of
-		 * individual <code>Pixel</code>s.
-		 */
-		private final PixelShader pixelShader;
 
 		/** The width of the image to render, in pixels. */
 		private final int width;
@@ -273,15 +267,12 @@ public final class PathTracerJob extends AbstractParallelizableJob {
 		 * Creates a new <code>RasterTaskWorker</code>.
 		 * @param colorModel The <code>ColorModel</code> to use to render this
 		 * 		image.
-		 * @param pixelShader The <code>PixelShader</code> to use to compute
-		 * 		the values of individual <code>Pixel</code>s.
 		 * @param width The width of the image to render, in pixels.
 		 * @param height The height of the image to render, in pixels.
 		 */
-		public RasterTaskWorker(ColorModel colorModel, PixelShader pixelShader,
+		public Worker(ColorModel colorModel,
 				int width, int height) {
 			this.colorModel = colorModel;
-			this.pixelShader = pixelShader;
 			this.width = width;
 			this.height = height;
 		}
@@ -293,7 +284,6 @@ public final class PathTracerJob extends AbstractParallelizableJob {
 
 			Cell	cell				= (Cell) task;
 			int		numPixels			= cell.width * cell.height;
-			Color	pixel;
 			Box2	bounds;
 			double	x0, y0, x1, y1;
 			double	w					= width;
@@ -310,15 +300,18 @@ public final class PathTracerJob extends AbstractParallelizableJob {
 
 				for (int x = cell.x; x < cell.x + cell.width; x++, n++) {
 
-					x0			= (double) x / w;
-					x1			= (double) (x + 1) / w;
+					x0				= (double) x / w;
+					x1				= (double) (x + 1) / w;
 
-					bounds		= new Box2(x0, y0, x1, y1);
-					Point2 p	= RandomUtil.uniform(bounds, Random.DEFAULT);
+					bounds			= new Box2(x0, y0, x1, y1);
+					Point2 p		= RandomUtil.uniform(bounds, Random.DEFAULT);
+					Color sample	= colorModel.sample(Random.DEFAULT);
+					EyeNode eye		= nodes.sampleEye(p, sample);
+					Color score		= tracePixel(eye);
 
-					EyeNode eye	= null;
-
-					raster.addPixel(x - cell.x, y - cell.x, tracePixel(eye));
+					if (score != null) {
+						raster.addPixel(x - cell.x, y - cell.x, score);
+					}
 
 				}
 
@@ -332,13 +325,12 @@ public final class PathTracerJob extends AbstractParallelizableJob {
 		}
 
 		private Color tracePixel(EyeNode eye) {
-			// TODO Auto-generated method stub
 			Color score = null; // black
 			ScatteringNode node = eye.expand(Random.DEFAULT);
 			while (node != null) {
-				score = score.plus(source(node));
+				score = ColorUtil.add(score, source(node));
 				if (!node.atInfinity()) {
-					score = score.plus(traceLights(node));
+					score = ColorUtil.add(score, traceLights(node));
 				}
 				node = node.expand(Random.DEFAULT);
 			}
@@ -357,18 +349,18 @@ public final class PathTracerJob extends AbstractParallelizableJob {
 			Color score = null; // black
 			if (numberOfLightSamples > 0) {
 				for (int i = 0; i < numberOfLightSamples; i++) {
-					score = score.plus(traceLight(node));
+					score = ColorUtil.add(score, traceLight(node));
 				}
-				score = score.divide(numberOfLightSamples);
+				score = ColorUtil.div(score, numberOfLightSamples);
 			}
 			return score;
 		}
 
 		private Color traceLight(ScatteringNode node) {
-			LightNode emit = nodes.sampleLight(sample, Random.DEFAULT);
-			if (emit != null) {
-				return PathUtil.join(emit, node);
-			}
+			WavelengthPacket lambda = node.getValue().getWavelengthPacket();
+			Color white = colorModel.getWhite(lambda);
+			LightNode emit = nodes.sampleLight(white, Random.DEFAULT);
+			return (emit != null) ? PathUtil.join(emit, node) : null;
 		}
 
 		/**
@@ -383,12 +375,6 @@ public final class PathTracerJob extends AbstractParallelizableJob {
 
 	/** The <code>ColorModel</code> to use to render this image. */
 	private final ColorModel colorModel;
-
-	/**
-	 * The <code>PixelShader</code> to use to compute the values of
-	 * individual <code>Pixel</code>s.
-	 */
-	private final PixelShader pixelShader;
 
 	/** The width of the image to render, in pixels. */
 	private final int width;
