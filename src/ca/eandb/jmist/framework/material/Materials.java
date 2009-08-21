@@ -168,6 +168,32 @@ public final class Materials {
 					2.426, 2.422, 2.418, 2.414, 2.411,
 					2.408, 2.405, 2.402, 2.399, 2.397});
 
+	/** Wavelengths for refractive index of nickel. */
+	private static final double[] LAMBDA_6 = new double[] {
+		375.70e-9, 387.44e-9, 399.94e-9, 413.27e-9, 427.52e-9,
+		442.79e-9, 459.19e-9, 476.85e-9, 495.92e-9, 516.58e-9,
+		539.04e-9, 563.55e-9, 590.38e-9, 619.90e-9, 652.53e-9,
+		688.78e-9, 729.29e-9, 774.87e-9, 826.53e-9
+	};
+
+	/** Real part of refractive index of nickel. */
+	private static final Function1 N_NICKEL = new PiecewiseLinearFunction1(
+			LAMBDA_6,
+			new double[] {
+					1.61, 1.61, 1.61, 1.61, 1.62,
+					1.63, 1.64, 1.65, 1.67, 1.71,
+					1.75, 1.80, 1.85, 1.92, 2.02,
+					2.14, 2.28, 2.43, 2.53});
+
+	/* Extinction index of nickel. */
+	private static final Function1 K_NICKEL = new PiecewiseLinearFunction1(
+			LAMBDA_6,
+			new double[]{
+					2.23, 2.30, 2.36, 2.44, 2.52,
+					2.61, 2.71, 2.81, 2.93, 3.06,
+					3.19, 3.33, 3.48, 3.65, 3.82,
+					4.01, 4.18, 4.31, 4.47});
+
 	/**
 	 * Creates a <code>Material</code> representing silver.
 	 * @param c The <code>ColorModel</code> to use.
@@ -257,6 +283,18 @@ public final class Materials {
 	 */
 	public static Material diamond(ColorModel c) {
 		return new DielectricMaterial(c.getContinuous(N_DIAMOND));
+	}
+
+	/**
+	 * Creates a <code>Material</code> representing nickel.
+	 * @param c The <code>ColorModel</code> to use.
+	 * @return A <code>Material</code> representing nickel.
+	 */
+	public static Material nickel(ColorModel c) {
+		return new ConductiveMaterial(
+				c.getContinuous(N_NICKEL),
+				c.getContinuous(K_NICKEL),
+				null);
 	}
 
 	/** Private constructor to prevent instances from being created. */
