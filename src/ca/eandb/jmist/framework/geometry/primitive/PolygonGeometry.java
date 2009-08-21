@@ -60,7 +60,7 @@ public final class PolygonGeometry extends PrimitiveGeometry {
 		Vector3 v = this.origin.vectorTo(vertices[components[0][components[0].length - 1]]);
 
 		this.basis = Basis3.fromUV(u, v);
-		this.plane = new Plane3(this.origin, this.basis.w());
+		this.plane = Plane3.throughPoint(this.origin, this.basis.w());
 
 		this.vertices.clear();
 		for (int i = 0; i < vertices.length; i++) {

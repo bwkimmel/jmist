@@ -45,7 +45,7 @@ public final class RectangleGeometry extends PrimitiveGeometry {
 	 * @see Basis3#v()
 	 */
 	public RectangleGeometry(Point3 center, Basis3 basis, double su, double sv, boolean twoSided) {
-		this.plane = new Plane3(center, basis.w());
+		this.plane = Plane3.throughPoint(center, basis);
 		this.center = center;
 		this.basis = basis;
 		this.ru = su / 2.0;

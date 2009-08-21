@@ -370,15 +370,15 @@ public final class SuperellipsoidGeometry extends PrimitiveGeometry {
 	private static final Box3 SUPERELLIPSOID_BOUNDING_BOX = new Box3(-1.0, -1.0, -1.0, 1.0, 1.0, 1.0);
 
 	private static final Plane3[] PLANES = {
-		new Plane3(Point3.ORIGIN, Vector3.I),
-		new Plane3(Point3.ORIGIN, Vector3.J),
-		new Plane3(Point3.ORIGIN, Vector3.K),
-		new Plane3(Point3.ORIGIN, new Vector3( 1.0,  1.0,  0.0)),
-		new Plane3(Point3.ORIGIN, new Vector3( 1.0,  0.0,  1.0)),
-		new Plane3(Point3.ORIGIN, new Vector3( 0.0,  1.0,  1.0)),
-		new Plane3(Point3.ORIGIN, new Vector3( 1.0, -1.0,  0.0)),
-		new Plane3(Point3.ORIGIN, new Vector3(-1.0,  0.0,  1.0)),
-		new Plane3(Point3.ORIGIN, new Vector3( 0.0,  1.0, -1.0))
+		Plane3.YZ,
+		Plane3.ZX,
+		Plane3.XY,
+		Plane3.throughOrigin(new Vector3( 1.0,  1.0,  0.0)),
+		Plane3.throughOrigin(new Vector3( 1.0,  0.0,  1.0)),
+		Plane3.throughOrigin(new Vector3( 0.0,  1.0,  1.0)),
+		Plane3.throughOrigin(new Vector3( 1.0, -1.0,  0.0)),
+		Plane3.throughOrigin(new Vector3(-1.0,  0.0,  1.0)),
+		Plane3.throughOrigin(new Vector3( 0.0,  1.0, -1.0))
 	};
 
 	private static final double SUPERELLIPSOID_TOLERANCE = 1e-10;
