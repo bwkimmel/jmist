@@ -190,7 +190,7 @@ public final class BrilliantCut {
 		double lowerMainTop = kiteBottom - cut.relMaxGirdleThickness
 				* cut.diameter;
 
-		double pavilionDepth = cut.diameter * cut.relPavilionDepth;
+		double pavilionPointDepth = radius * Math.tan(cut.pavilionAngle);
 
 		double culetBottom = -cut.diameter * cut.relTotalDepth;
 
@@ -245,7 +245,7 @@ public final class BrilliantCut {
 			b.slice(planeGirdle, true);
 
 			p = new Point3(radius * cost1, radius * sint1, lowerMainTop);
-			q = new Point3(0.0, 0.0, lowerMainTop - pavilionDepth);
+			q = new Point3(0.0, 0.0, lowerMainTop - pavilionPointDepth);
 			basis = Basis3.fromUW(p.vectorTo(q), Vector3.NEGATIVE_K);
 
 			Plane3 planeMain = Plane3.throughPoint(p, basis);
