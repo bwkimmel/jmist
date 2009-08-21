@@ -10,6 +10,7 @@ import ca.eandb.jmist.framework.ScatteredRayRecorder;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
+import ca.eandb.jmist.framework.color.ColorUtil;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Complex;
@@ -24,10 +25,24 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class ConductiveMaterial extends AbstractMaterial {
 
-	/**
-	 * Serialization version ID.
-	 */
+	/** Serialization version ID. */
 	private static final long serialVersionUID = -8516201792111267898L;
+
+	/**
+	 * Creates a new <code>ConductiveMaterial</code>.
+	 * @param n The real part of the refractive index <code>Spectrum</code>.
+	 * @param k The imaginary part of the refractive index
+	 * 		<code>Spectrum</code>.
+	 * @param alpha The absorption coefficient <code>Spectrum</code>.
+	 * @param disperse A value indicating if this material is dispersive.  If
+	 * 		<code>alpha == null</code>, this value has no effect.
+	 */
+	public ConductiveMaterial(Spectrum n, Spectrum k, Spectrum alpha, boolean disperse) {
+		this.n = n;
+		this.k = k;
+		this.alpha = alpha;
+		this.disperse = disperse;
+	}
 
 	/**
 	 * Creates a new <code>ConductiveMaterial</code>.
@@ -37,9 +52,7 @@ public final class ConductiveMaterial extends AbstractMaterial {
 	 * @param alpha The absorption coefficient <code>Spectrum</code>.
 	 */
 	public ConductiveMaterial(Spectrum n, Spectrum k, Spectrum alpha) {
-		this.n = n;
-		this.k = k;
-		this.alpha = alpha;
+		this(n, k, alpha, true);
 	}
 
 	/* (non-Javadoc)
@@ -91,14 +104,29 @@ public final class ConductiveMaterial extends AbstractMaterial {
 		}
 
 		if (alpha != null) {
-			for (int i = 0, channels = cm.getNumChannels(); i < channels; i++) {
-				Complex		eta1	= new Complex(n1.getValue(i), k1.getValue(i));
-				Complex		eta2	= new Complex(n2.getValue(i), k2.getValue(i));
+			if (disperse) {
+				for (int i = 0, channels = cm.getNumChannels(); i < channels; i++) {
+					Complex		eta1	= new Complex(n1.getValue(i), k1.getValue(i));
+					Complex		eta2	= new Complex(n2.getValue(i), k2.getValue(i));
+					Vector3		out		= Optics.refract(v, eta1, eta2, normal);
+					boolean		toSide	= x.getNormal().dot(out) >= 0.0;
+
+					if (fromSide != toSide) {
+						recorder.add(ScatteredRay.transmitSpecular(new Ray3(p, out), T.disperse(i)));
+					}
+				}
+			} else { // !disperse
+				double		n1avg	= ColorUtil.getMeanChannelValue(n1);
+				double		k1avg	= ColorUtil.getMeanChannelValue(k1);
+				double		n2avg	= ColorUtil.getMeanChannelValue(n2);
+				double		k2avg	= ColorUtil.getMeanChannelValue(k2);
+				Complex		eta1	= new Complex(n1avg, k1avg);
+				Complex		eta2	= new Complex(n2avg, k2avg);
 				Vector3		out		= Optics.refract(v, eta1, eta2, normal);
 				boolean		toSide	= x.getNormal().dot(out) >= 0.0;
 
 				if (fromSide != toSide) {
-					recorder.add(ScatteredRay.transmitSpecular(new Ray3(p, out), T.disperse(i)));
+					recorder.add(ScatteredRay.transmitSpecular(new Ray3(p, out), T));
 				}
 			}
 		}
@@ -113,5 +141,8 @@ public final class ConductiveMaterial extends AbstractMaterial {
 
 	/** The absorption coefficient. */
 	private final Spectrum alpha;
+
+	/** A value indciating if this material is dispersive. */
+	private final boolean disperse;
 
 }

@@ -10,6 +10,7 @@ import ca.eandb.jmist.framework.ScatteredRayRecorder;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
+import ca.eandb.jmist.framework.color.ColorUtil;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Complex;
@@ -25,10 +26,20 @@ import ca.eandb.jmist.math.Vector3;
  */
 public class DielectricMaterial extends AbstractMaterial {
 
-	/**
-	 * Serialization version ID.
-	 */
+	/** Serialization version ID. */
 	private static final long serialVersionUID = -9036003391744538613L;
+
+	/**
+	 * Creates a new <code>DielectricMaterial</code>.
+	 * @param refractiveIndex The refractive index <code>Spectrum</code> of
+	 * 		this dielectric material.
+	 * @param disperse A value indicating if this material should be
+	 * 		dispersive.
+	 */
+	public DielectricMaterial(Spectrum refractiveIndex, boolean disperse) {
+		this.refractiveIndex = refractiveIndex;
+		this.disperse = disperse;
+	}
 
 	/**
 	 * Creates a new <code>DielectricMaterial</code>.
@@ -36,7 +47,7 @@ public class DielectricMaterial extends AbstractMaterial {
 	 * 		this dielectric material.
 	 */
 	public DielectricMaterial(Spectrum refractiveIndex) {
-		this.refractiveIndex = refractiveIndex;
+		this(refractiveIndex, true);
 	}
 
 	/* (non-Javadoc)
@@ -86,14 +97,28 @@ public class DielectricMaterial extends AbstractMaterial {
 			}
 		}
 
-		for (int i = 0, channels = cm.getNumChannels(); i < channels; i++) {
-			Complex		eta1	= new Complex(n1.getValue(i), k1.getValue(i));
-			Complex		eta2	= new Complex(n2.getValue(i));
+		if (disperse) {
+			for (int i = 0, channels = cm.getNumChannels(); i < channels; i++) {
+				Complex		eta1	= new Complex(n1.getValue(i), k1.getValue(i));
+				Complex		eta2	= new Complex(n2.getValue(i));
+				Vector3		out		= Optics.refract(v, eta1, eta2, normal);
+				boolean		toSide	= x.getNormal().dot(out) >= 0.0;
+
+				if (fromSide != toSide) {
+					recorder.add(ScatteredRay.transmitSpecular(new Ray3(p, out), T.disperse(i)));
+				}
+			}
+		} else { // !disperse
+			double		n1avg	= ColorUtil.getMeanChannelValue(n1);
+			double		k1avg	= ColorUtil.getMeanChannelValue(k1);
+			double		n2avg	= ColorUtil.getMeanChannelValue(n2);
+			Complex		eta1	= new Complex(n1avg, k1avg);
+			Complex		eta2	= new Complex(n2avg);
 			Vector3		out		= Optics.refract(v, eta1, eta2, normal);
 			boolean		toSide	= x.getNormal().dot(out) >= 0.0;
 
 			if (fromSide != toSide) {
-				recorder.add(ScatteredRay.transmitSpecular(new Ray3(p, out), T.disperse(i)));
+				recorder.add(ScatteredRay.transmitSpecular(new Ray3(p, out), T));
 			}
 		}
 
@@ -101,5 +126,8 @@ public class DielectricMaterial extends AbstractMaterial {
 
 	/** The refractive index <code>Color</code> of this dielectric. */
 	private final Spectrum refractiveIndex;
+
+	/** A value indicating if this material is dispersive. */
+	private final boolean disperse;
 
 }
