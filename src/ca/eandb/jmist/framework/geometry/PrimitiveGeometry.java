@@ -25,7 +25,9 @@
 
 package ca.eandb.jmist.framework.geometry;
 
+import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
+import ca.eandb.jmist.framework.NearestIntersectionRecorder;
 import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.math.Box3;
@@ -156,7 +158,9 @@ public abstract class PrimitiveGeometry extends AbstractGeometry {
 	 * 		<code>PrimitiveGeometry</code>.
 	 */
 	public boolean visibility(Ray3 ray) {
-		return visibility(0, ray);
+		Intersection x = NearestIntersectionRecorder
+				.computeNearestIntersection(ray, this);
+		return (x == null);
 	}
 
 	/* (non-Javadoc)
