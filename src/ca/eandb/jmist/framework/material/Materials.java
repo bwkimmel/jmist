@@ -250,15 +250,21 @@ public final class Materials {
 	 * @param c The <code>ColorModel</code> to use.
 	 * @param includeAbsorption A value indicating whether the material should
 	 * 		be absorptive.
+	 * @param includeDispersion A value indicating whether the material should
+	 * 		be dispersive.
 	 * @return A <code>Material</code> representing water.
 	 */
-	public static Material water(ColorModel c, boolean includeAbsorption) {
+	public static Material water(ColorModel c, boolean includeAbsorption,
+			boolean includeDispersion) {
 		return includeAbsorption
 			? new ConductiveMaterial(
 					c.getContinuous(N_WATER),
 					c.getContinuous(K_WATER),
-					c.getContinuous(ALPHA_WATER))
-			: new DielectricMaterial(c.getContinuous(N_WATER));
+					c.getContinuous(ALPHA_WATER),
+					includeDispersion)
+			: new DielectricMaterial(
+					c.getContinuous(N_WATER),
+					includeDispersion);
 	}
 
 	/**
@@ -267,25 +273,31 @@ public final class Materials {
 	 * @return A <code>Material</code> representing (non-absorptive) water.
 	 */
 	public static Material water(ColorModel c) {
-		return water(c, false);
+		return water(c, false, true);
 	}
 
 	/**
 	 * Creates a <code>Material</code> representing fused silica.
 	 * @param c The <code>ColorModel</code> to use.
+	 * @param includeDispersion A value indicating whether the material should
+	 * 		be dispersive.
 	 * @return A <code>Material</code> representing fused silica.
 	 */
-	public static Material fusedSilica(ColorModel c) {
-		return new DielectricMaterial(c.getContinuous(N_FUSED_SILICA));
+	public static Material fusedSilica(ColorModel c, boolean includeDispersion) {
+		return new DielectricMaterial(c.getContinuous(N_FUSED_SILICA),
+				includeDispersion);
 	}
 
 	/**
 	 * Creates a <code>Material</code> representing diamond.
 	 * @param c The <code>ColorModel</code> to use.
+	 * @param includeDispersion A value indicating whether the material should
+	 * 		be dispersive.
 	 * @return A <code>Material</code> representing diamond.
 	 */
-	public static Material diamond(ColorModel c) {
-		return new DielectricMaterial(c.getContinuous(N_DIAMOND));
+	public static Material diamond(ColorModel c, boolean includeDispersion) {
+		return new DielectricMaterial(c.getContinuous(N_DIAMOND),
+				includeDispersion);
 	}
 
 	/**
