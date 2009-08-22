@@ -93,26 +93,29 @@ public final class ScatteredRays extends AbstractList<ScatteredRay> {
 	}
 
 	public ScatteredRay getRandomScatteredRay(double rnd, EnumSet<ScatteredRay.Type> filter, boolean allowNone) {
-		double[] cdf = new double[size()];
-		for (int i = 0; i < cdf.length; i++) {
-			ScatteredRay ray = rays.get(i);
-			if (filter.contains(ray.getType())) {
-				double weight = ColorUtil.getMeanChannelValue(ray.getColor());
-				cdf[i] = (i > 0 ? cdf[i - 1] + weight : weight);
-			}
-		}
-		double total = cdf[cdf.length - 1];
-		if (allowNone) {
-			if (rnd >= cdf[cdf.length - 1]) {
-				return null;
-			}
-			total = Math.max(1.0, total);
-		}
-		if (!MathUtil.isZero(total) && rnd < cdf[cdf.length - 1]) {
+		int n = size();
+		if (n > 0) {
+			double[] cdf = new double[n];
 			for (int i = 0; i < cdf.length; i++) {
-				if (rnd < (cdf[i] / total)) {
-					double pdf = (i > 0 ? cdf[i] - cdf[i - 1] : cdf[i]);
-					return new WeightedScatteredRay(rays.get(i), total / pdf);
+				ScatteredRay ray = rays.get(i);
+				if (filter.contains(ray.getType())) {
+					double weight = ColorUtil.getMeanChannelValue(ray.getColor());
+					cdf[i] = (i > 0 ? cdf[i - 1] + weight : weight);
+				}
+			}
+			double total = cdf[cdf.length - 1];
+			if (allowNone) {
+				if (rnd >= cdf[cdf.length - 1]) {
+					return null;
+				}
+				total = Math.max(1.0, total);
+			}
+			if (!MathUtil.isZero(total) && rnd < cdf[cdf.length - 1]) {
+				for (int i = 0; i < cdf.length; i++) {
+					if (rnd < (cdf[i] / total)) {
+						double pdf = (i > 0 ? cdf[i] - cdf[i - 1] : cdf[i]);
+						return new WeightedScatteredRay(rays.get(i), total / pdf);
+					}
 				}
 			}
 		}
