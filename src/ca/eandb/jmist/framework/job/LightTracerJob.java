@@ -84,7 +84,7 @@ public final class LightTracerJob extends AbstractParallelizableJob {
 		this.photons = photons;
 		this.tasks = tasks;
 		this.minPhotonsPerTask = photons / tasks;
-		this.extraPhotons = photons - minPhotonsPerTask;
+		this.extraPhotons = photons - minPhotonsPerTask * tasks;
 		this.width = width;
 		this.height = height;
 		this.displayPartialResults = displayPartialResults;
