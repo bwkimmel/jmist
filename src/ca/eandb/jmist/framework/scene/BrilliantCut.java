@@ -53,7 +53,7 @@ public final class BrilliantCut {
 		 * <br>
 		 * This field is required.
 		 */
-		public double relTableSize = 0.60;
+		public double relTableSize = 0.573;
 
 		/**
 		 * The angle of the bezel facet plane relative to the table plane.<br>
@@ -61,7 +61,7 @@ public final class BrilliantCut {
 		 * This field is required if {@link #relCrownHeight} is not specified.
 		 * @see #relCrownHeight
 		 */
-		public double crownAngle = Math.toRadians(33.5);
+		public double crownAngle = Math.toRadians(34.78);
 
 		/**
 		 * Average crown height relative to the average diameter. Crown height
@@ -80,7 +80,7 @@ public final class BrilliantCut {
 		 * specified.
 		 * @see #relPavilionDepth
 		 */
-		public double pavilionAngle = Math.toRadians(41.2);
+		public double pavilionAngle = Math.toRadians(40.7);
 
 		/**
 		 * Average pavilion depth relative to the average diameter. Pavilion
@@ -99,7 +99,7 @@ public final class BrilliantCut {
 		 * <br>
 		 * This field is required.
 		 */
-		public double relStarLength = 0.55;
+		public double relStarLength = 0.523;
 
 		/**
 		 * The horizontally projected distance from the point where two
@@ -109,7 +109,7 @@ public final class BrilliantCut {
 		 * <br>
 		 * This field is required.
 		 */
-		public double relLowerHalfLength = 0.80;
+		public double relLowerHalfLength = 0.761;
 
 		/**
 		 * The thickness of the girdle at its thickest point (between the top
@@ -119,14 +119,14 @@ public final class BrilliantCut {
 		 * This field is required if {@link #relTotalDepth} is not specified.
 		 * @see #relTotalDepth
 		 */
-		public double relMaxGirdleThickness = 0.03;
+		public double relMaxGirdleThickness = 0.021;
 
 		/**
 		 * Avg culet size relative to the avg diameter.<br>
 		 * <br>
 		 * This field is required.
 		 */
-		public double relCuletSize = 0.00;
+		public double relCuletSize = 0.004;
 
 	};
 
