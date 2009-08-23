@@ -249,10 +249,6 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 
 					bounds		= new Box2(x0, y0, x1, y1);
 
-					if (x == 256 && y == 256) {
-						x = y;
-					}
-
 					for (int i = 0; i < passes; i++) {
 
 						Point2 p			= RandomUtil.uniform(bounds, random);
