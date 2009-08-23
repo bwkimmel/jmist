@@ -11,19 +11,58 @@ import java.io.Serializable;
  */
 public final class Plane3 implements Serializable {
 
-	/**
-	 * Serialization version ID.
-	 */
+	/** Serialization version ID. */
 	private static final long serialVersionUID = -5388824832351428994L;
+
+	/** The x-y plane with the normal oriented in the +z direction. */
+	public static final Plane3 XY = new Plane3(Vector3.K, 0.0);
+
+	/** The x-z plane with the normal oriented in the +y direction. */
+	public static final Plane3 ZX = new Plane3(Vector3.J, 0.0);
+
+	/** The y-z plane with the normal oriented in the +x direction. */
+	public static final Plane3 YZ = new Plane3(Vector3.I, 0.0);
+
+	/** The x-y plane with the normal oriented in the -z direction. */
+	public static final Plane3 YX = new Plane3(Vector3.NEGATIVE_K, 0.0);
+
+	/** The x-z plane with the normal oriented in the -y direction. */
+	public static final Plane3 XZ = new Plane3(Vector3.NEGATIVE_J, 0.0);
+
+	/** The y-z plane with the normal oriented in the -x direction. */
+	public static final Plane3 ZY = new Plane3(Vector3.NEGATIVE_I, 0.0);
 
 	/**
 	 * Creates a <code>Plane3</code>.
+	 * @param normal The <code>Vector3</code> that is normal to the plane.
+	 * @param d The altitude of the origin.
+	 */
+	private Plane3(Vector3 normal, double d) {
+		this.normal = normal;
+		this.d = d;
+	}
+
+	/**
+	 * Creates a <code>Plane3</code> that passes through a <code>Point3</code>
+	 * and has a given normal.
 	 * @param p A <code>Point3</code> on the plane.
 	 * @param normal A <code>Vector3</code> that is normal to the plane.
 	 */
-	public Plane3(Point3 p, Vector3 normal) {
-		this.normal = normal;
-		this.d = -normal.dot(p.vectorFromOrigin());
+	public static Plane3 throughPoint(Point3 p, Vector3 normal) {
+		return new Plane3(normal, -normal.unit().dot(p.vectorFromOrigin()));
+	}
+
+	/**
+	 * Creates a <code>Plane3</code> that passes through a <code>Point3</code>
+	 * and has a given basis.
+	 * @param p A <code>Point3</code> on the plane.
+	 * @param basis A <code>Basis3</code> for the plane.  The normal is given
+	 * 		by <code>basis.w()</code>.
+	 * @return The new <code>Plane3</code>.
+	 * @see Basis3#w()
+	 */
+	public static Plane3 throughPoint(Point3 p, Basis3 basis) {
+		return new Plane3(basis.w(), -basis.w().dot(p.vectorFromOrigin()));
 	}
 
 	/**
@@ -38,7 +77,36 @@ public final class Plane3 implements Serializable {
 	public static Plane3 throughPoints(Point3 p0, Point3 p1, Point3 p2) {
 		Vector3 u = p2.vectorTo(p0);
 		Vector3 v = p0.vectorTo(p1);
-		return new Plane3(p0, u.cross(v).unit());
+		return throughPoint(p0, u.cross(v).unit());
+	}
+
+	/**
+	 * Creates a <code>Plane3</code> through the origin with a given normal.
+	 * @param normal The <code>Vector3</code> indicating the normal.
+	 * @return The new <code>Plane3</code>.
+	 */
+	public static Plane3 throughOrigin(Vector3 normal) {
+		return new Plane3(normal.unit(), 0.0);
+	}
+
+	/**
+	 * Creates a <code>Plane3</code> through the origin with a given normal.
+	 * @param basis A <code>Basis3</code> for the plane.  The normal is given
+	 * 		by <code>basis.w()</code>.
+	 * @return The new <code>Plane3</code>.
+	 * @see Basis3#w()
+	 */
+	public static Plane3 throughOrigin(Basis3 basis) {
+		return new Plane3(basis.w(), 0.0);
+	}
+
+	/**
+	 * Gets the <code>Plane3</code> that is coincident with this
+	 * <code>Plane3</code> but has the opposite normal.
+	 * @return The opposite <code>Plane3</code>.
+	 */
+	public Plane3 opposite() {
+		return new Plane3(normal.opposite(), -d);
 	}
 
 	/**
@@ -100,7 +168,26 @@ public final class Plane3 implements Serializable {
 	 * @see #normal()
 	 */
 	public double altitude(Point3 p) {
-		return -this.intersect(p, this.normal);
+		return d + p.vectorFromOrigin().dot(normal);
+	}
+
+	/**
+	 * Computes the intersection of three planes.
+	 * @param p1 The first <code>Plane3</code>.
+	 * @param p2 The second <code>Plane3</code>.
+	 * @param p3 The third <code>Plane3</code>.
+	 * @return A <code>Point3</code> that is on each of the planes.
+	 */
+	public static Point3 intersection(Plane3 p1, Plane3 p2, Plane3 p3) {
+		Vector3 n1 = p1.normal;
+		Vector3 n2 = p2.normal;
+		Vector3 n3 = p3.normal;
+		AffineMatrix3 T = new AffineMatrix3(
+				n1.x(), n1.y(), n1.z(), p1.d,
+				n2.x(), n2.y(), n2.z(), p2.d,
+				n3.x(), n3.y(), n3.z(), p3.d);
+		T = T.inverse();
+		return T.times(Point3.ORIGIN);
 	}
 
 	/**

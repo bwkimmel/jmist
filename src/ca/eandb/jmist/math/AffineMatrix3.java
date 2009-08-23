@@ -182,6 +182,16 @@ public final class AffineMatrix3 implements Serializable {
 	}
 
 	/**
+	 * Transforms the specified <code>HPoint3</code> according to the
+	 * transformation represented by this <code>AffineMatrix3</code>.
+	 * @param p The <code>HPoint3</code> to transform.
+	 * @return The transformed <code>HPoint3</code>.
+	 */
+	public HPoint3 times(HPoint3 p) {
+		return p.isPoint() ? times(p.toVector3()) : times(p.toPoint3());
+	}
+
+	/**
 	 * Transforms the specified <code>Vector3</code> according to the
 	 * transformation representing by this <code>AffineMatrix3</code>.
 	 * @param v The <code>Vector3</code> to transform.
@@ -312,7 +322,10 @@ public final class AffineMatrix3 implements Serializable {
 	/**
 	 * The identity matrix ({@code this * IDENTITY == this}).
 	 */
-	public static final AffineMatrix3 IDENTITY = new AffineMatrix3(1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	public static final AffineMatrix3 IDENTITY = new AffineMatrix3(
+			1.0, 0.0, 0.0, 0.0,
+			0.0, 1.0, 0.0, 0.0,
+			0.0, 0.0, 1.0, 0.0);
 
 	/* Matrix elements */
 	private final double _00, _01, _02, _03,

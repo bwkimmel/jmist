@@ -142,6 +142,16 @@ public final class LinearMatrix3 implements Serializable {
 	}
 
 	/**
+	 * Transforms the specified <code>HPoint3</code> according to the
+	 * transformation represented by this <code>LinearMatrix3</code>.
+	 * @param p The <code>HPoint3</code> to transform.
+	 * @return The transformed <code>HPoint3</code>.
+	 */
+	public HPoint3 times(HPoint3 p) {
+		return p.isPoint() ? times(p.toVector3()) : times(p.toPoint3());
+	}
+
+	/**
 	 * Transforms the specified <code>Vector3</code> according to the
 	 * transformation representing by this <code>LinearMatrix3</code>.
 	 * @param v The <code>Vector3</code> to transform.
@@ -152,6 +162,20 @@ public final class LinearMatrix3 implements Serializable {
 				_00 * v.x() + _01 * v.y() + _02 * v.z(),
 				_10 * v.x() + _11 * v.y() + _12 * v.z(),
 				_20 * v.x() + _21 * v.y() + _22 * v.z()
+		);
+	}
+
+	/**
+	 * Transforms the specified <code>Vector3</code> according to the
+	 * transformation representing by this <code>LinearMatrix3</code>.
+	 * @param p The <code>Vector3</code> to transform.
+	 * @return The transformed <code>Vector3</code>.
+	 */
+	public Point3 times(Point3 p) {
+		return new Point3(
+				_00 * p.x() + _01 * p.y() + _02 * p.z(),
+				_10 * p.x() + _11 * p.y() + _12 * p.z(),
+				_20 * p.x() + _21 * p.y() + _22 * p.z()
 		);
 	}
 
@@ -287,12 +311,18 @@ public final class LinearMatrix3 implements Serializable {
 	/**
 	 * The identity matrix ({@code this * IDENTITY == this}).
 	 */
-	public static final LinearMatrix3 IDENTITY = new LinearMatrix3(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0);
+	public static final LinearMatrix3 IDENTITY = new LinearMatrix3(
+			1.0, 0.0, 0.0,
+			0.0, 1.0, 0.0,
+			0.0, 0.0, 1.0);
 
 	/**
 	 * The zero matrix ({@code this + IDENTITY == this}).
 	 */
-	public static final LinearMatrix3 ZERO = new LinearMatrix3(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+	public static final LinearMatrix3 ZERO = new LinearMatrix3(
+			0.0, 0.0, 0.0,
+			0.0, 0.0, 0.0,
+			0.0, 0.0, 0.0);
 
 	/* Matrix elements */
 	private final double _00, _01, _02,

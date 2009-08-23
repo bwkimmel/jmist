@@ -23,13 +23,27 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package ca.eandb.jmist.framework.gi;
+package ca.eandb.jmist.framework.lens;
 
+import ca.eandb.jmist.math.Point3;
+import ca.eandb.jmist.math.Vector3;
 
 /**
  * @author brad
  *
  */
-public interface EmissionNode extends PathNode {
+public abstract class SingularApertureLens extends AbstractLens {
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.lens.AbstractLens#project(ca.eandb.jmist.math.Vector3)
+	 */
+	public abstract Projection project(Vector3 p);
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.Point3)
+	 */
+	public final Projection project(Point3 p) {
+		return project(p.vectorFromOrigin());
+	}
 
 }

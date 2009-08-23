@@ -10,7 +10,7 @@ package ca.eandb.jmist.math;
  * This class is immutable.
  * @author Brad Kimmel
  */
-public final class Point3 extends Tuple3 {
+public final class Point3 extends HPoint3 {
 
 	/**
 	 * Initializes the components for the point.
@@ -22,37 +22,12 @@ public final class Point3 extends Tuple3 {
 		super(x, y, z);
 	}
 
-	/**
-	 * Gets the distance from the origin along the x-axis.
-	 * Equivalent to {@code this.minus(Point3.ORIGIN).dot(Vector3.I);}
-	 * @return The distance from the origin along the x-axis.
-	 * @see {@link #getX()}, {@link Vector3#I},
-	 * 		{@link Vector3#dot(Vector3)}.
-	 */
-	public double x() {
-		return x;
+	public Point3 toPoint3() {
+		return this;
 	}
 
-	/**
-	 * Gets the distance from the origin along the y-axis.
-	 * Equivalent to {@code this.minus(Point3.ORIGIN).dot(Vector3.J);}
-	 * @return The distance from the origin along the y-axis.
-	 * @see {@link #getY()}, {@link Vector3#J},
-	 * 		{@link Vector3#dot(Vector3)}.
-	 */
-	public double y() {
-		return y;
-	}
-
-	/**
-	 * Gets the distance from the origin along the z-axis.
-	 * Equivalent to {@code this.minus(Point3.ORIGIN).dot(Vector3.K);}
-	 * @return The distance from the origin along the z-axis.
-	 * @see {@link #getZ()}, {@link Vector3#K},
-	 * 		{@link Vector3#dot(Vector3)}.
-	 */
-	public double z() {
-		return z;
+	public double w() {
+		return 1.0;
 	}
 
 	/**
@@ -173,6 +148,14 @@ public final class Point3 extends Tuple3 {
 	 */
 	public Point3 minus(Vector3 v) {
 		return new Point3(x - v.x(), y - v.y(), z - v.z());
+	}
+
+	public Vector3 minus(Point3 p) {
+		return new Vector3(x - p.x(), y - p.y(), z - p.z());
+	}
+
+	public HPoint3 minus(HPoint3 p) {
+		return isPoint() ? minus(p.toPoint3()) : minus(p.toVector3());
 	}
 
 	/**

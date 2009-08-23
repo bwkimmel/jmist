@@ -150,7 +150,7 @@ public final class CornellBoxScene extends AbstractScene {
 	private static final Lens lens = createLens();
 
 	/**
-	 * The <code>SceneElement</code> for the ceiling.
+	 * The <code>SceneElement</code> for the geometry.
 	 *
 	 * The following indicates the layout of the vertices in this scene.
 	 * <pre>

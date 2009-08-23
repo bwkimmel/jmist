@@ -43,29 +43,6 @@ public interface SceneElement extends Bounded3, VisibilityFunction3, Serializabl
 	void intersect(Ray3 ray, IntersectionRecorder recorder);
 
 	/**
-	 * Determines if a given ray intersects with the specified primitive within
-	 * the maximum distance provided.
-	 * @param index The index of the primitive with which to compute
-	 * 		intersections.
-	 * @param ray A <code>Ray3</code> to intersect with the specified
-	 * 		primitive.
-	 * @param maximumDistance The maximum distance along the ray to consider.
-	 * @return A value indicating if <code>ray</code> intersects with the
-	 * 		specified primitive within the given distance.
-	 */
-	boolean visibility(int index, Ray3 ray, double maximumDistance);
-
-	/**
-	 * Determines if a given ray intersects with this geometry within the
-	 * maximum distance provided.
-	 * @param ray A <code>Ray3</code> to intersect with this geometry.
-	 * @param maximumDistance The maximum distance along the ray to consider.
-	 * @return A value indicating if <code>ray</code> intersects with this
-	 * 		geometry within the given distance.
-	 */
-	boolean visibility(Ray3 ray, double maximumDistance);
-
-	/**
 	 * Determines if a given ray intersects with the specified primitive.
 	 * @param index The index of the primitive with which to compute
 	 * 		intersections.
@@ -75,14 +52,6 @@ public interface SceneElement extends Bounded3, VisibilityFunction3, Serializabl
 	 * 		specified primitive.
 	 */
 	boolean visibility(int index, Ray3 ray);
-
-	/**
-	 * Determines if a given ray intersects with this geometry.
-	 * @param ray A <code>Ray3</code> to intersect with this geometry.
-	 * @return A value indicating if <code>ray</code> intersects with this
-	 * 		geometry.
-	 */
-	boolean visibility(Ray3 ray);
 
 	/**
 	 * Determines if the surface of the specified primitive intersects with the

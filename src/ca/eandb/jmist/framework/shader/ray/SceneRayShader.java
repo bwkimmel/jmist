@@ -149,6 +149,7 @@ public final class SceneRayShader implements RayShader {
 		private final Stack<LocalContext> stack = new Stack<LocalContext>();
 		private final EnumMap<ScatteredRay.Type, Integer> depth = new EnumMap<ScatteredRay.Type, Integer>(ScatteredRay.Type.class);
 		private int totalDepth = 0;
+		private final Stack<Medium> media = new Stack<Medium>();
 
 		public Color castPrimaryRay(Ray3 ray, WavelengthPacket lambda) {
 			Intersection x = NearestIntersectionRecorder.computeNearestIntersection(ray, root);
@@ -184,11 +185,30 @@ public final class SceneRayShader implements RayShader {
 				totalDepth++;
 				depth.put(type, getPathDepthByType(type) + 1);
 
+				boolean pop = false;
+				Medium popped = null;
+				if (sr.isTransmitted()) {
+					if (isFront()) {
+						media.push(getMaterial());
+						pop = true;
+					} else if (!media.isEmpty()) {
+						popped = media.pop();
+					}
+				}
+
+				Medium ambientMedium;
+				Medium medium = media.isEmpty() ? Medium.VACUUM : media.peek();
+				if (x.isFront()) {
+					ambientMedium = medium;
+				} else {
+					ambientMedium = media.size() > 1 ? media.elementAt(media.size() - 2) : Medium.VACUUM;
+				}
+
 				LocalContext local = new LocalContext();
 				local.ray = ray;
 				local.distance = x.getDistance();
 				local.front = x.isFront();
-				local.medium = Medium.VACUUM;
+				local.medium = ambientMedium;
 				local.importance = sr.getColor().times(stack.peek().importance);
 
 				stack.push(local);
@@ -197,6 +217,16 @@ public final class SceneRayShader implements RayShader {
 				local.scatteredRays = new ScatteredRays(this, ray.direction(), getWavelengthPacket(), rng, local.material);
 
 				Color color = shade();
+				color = color.times(medium.transmittance(local.ray,
+						local.distance, color.getWavelengthPacket()));
+
+				if (popped != null) {
+					media.push(popped);
+				}
+
+				if (pop) {
+					media.pop();
+				}
 
 				stack.pop();
 				depth.put(type, depth.get(type) - 1);
@@ -295,10 +325,6 @@ public final class SceneRayShader implements RayShader {
 			return root.visibility(ray);
 		}
 
-		public boolean visibility(Point3 p, Point3 q) {
-			return root.visibility(p, q);
-		}
-
 		public void addLightSample(LightSample sample) {
 			List<LightSample> samples = stack.peek().samples;
 			assert(samples != null);
@@ -375,10 +401,6 @@ public final class SceneRayShader implements RayShader {
 
 		public int getPrimitiveIndex() {
 			return stack.peek().primitiveIndex;
-		}
-
-		public boolean visibility(Ray3 ray, double maximumDistance) {
-			return root.visibility(ray, maximumDistance);
 		}
 
 	}

@@ -153,6 +153,16 @@ public final class XYZColorModel extends ColorModel {
 	}
 
 	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.ColorModel#fromChannels(double[], ca.eandb.jmist.framework.color.WavelengthPacket)
+	 */
+	public Color fromArray(double[] values, WavelengthPacket lambda) {
+		if (values.length < 3) {
+			throw new IllegalArgumentException("values.length < 3");
+		}
+		return new XYZColor(values[0], values[1], values[2], (XYZWavelengthPacket) lambda);
+	}
+
+	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.ColorModel#getWhite()
 	 */
 	@Override

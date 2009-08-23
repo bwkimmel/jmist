@@ -87,11 +87,8 @@ public final class DirectionalEmitter implements Emitter {
 		return radiantExitance.sample(lambda);
 	}
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Emitter#isAtInfinity()
-	 */
-	public boolean isAtInfinity() {
-		return true;
+	public Vector3 getPosition() {
+		return basis.w();
 	}
 
 }

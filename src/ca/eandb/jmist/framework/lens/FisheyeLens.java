@@ -3,7 +3,6 @@
  */
 package ca.eandb.jmist.framework.lens;
 
-import ca.eandb.jmist.framework.Lens;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
@@ -14,7 +13,7 @@ import ca.eandb.jmist.math.Vector3;
  * A circular fisheye lens (http://en.wikipedia.org/wiki/Fisheye_lens).
  * @author Brad Kimmel
  */
-public final class FisheyeLens implements Lens {
+public final class FisheyeLens extends SingularApertureLens {
 
 	/**
 	 * Serialization version ID.
@@ -41,16 +40,16 @@ public final class FisheyeLens implements Lens {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.Point3)
+	 * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.Vector3)
 	 */
-	public Projection project(final Point3 p) {
-		if (-p.z() < MathUtil.EPSILON) {
+	public Projection project(final Vector3 v) {
+		if (-v.z() < MathUtil.EPSILON) {
 			return null;
 		}
 		return new Projection() {
 			public Point2 pointOnImagePlane() {
-				double d = p.distanceTo(Point3.ORIGIN);
-				return new Point2((p.x() / d + 1.0) / 2.0, (1.0 - p.y() / d) / 2.0);
+				double d = v.length();
+				return new Point2((v.x() / d + 1.0) / 2.0, (1.0 - v.y() / d) / 2.0);
 			}
 
 			public Point3 pointOnLens() {

@@ -26,24 +26,6 @@ public final class Vector4 extends Tuple4 {
 	}
 
 	/**
-	 * Creates a homogenized 3D point.
-	 * @param v The <code>Vector3</code> from which to create the homogenized
-	 * 		point.
-	 */
-	public Vector4(Vector3 v) {
-		this(v.x(), v.y(), v.z(), 0.0);
-	}
-
-	/**
-	 * Creates a homogenized 3D point.
-	 * @param v The <code>Point3</code> from which to create the homogenized
-	 * 		point.
-	 */
-	public Vector4(Point3 p) {
-		this(p.x(), p.y(), p.z(), 1.0);
-	}
-
-	/**
 	 * Gets the distance from the origin along the x-axis.
 	 * Equivalent to {@code this.dot(Vector3.I);}
 	 * @return The distance from the origin along the x-axis.
@@ -193,6 +175,15 @@ public final class Vector4 extends Tuple4 {
 	public static Vector4 unit(double x, double y, double z, double w) {
 		double r = Math.sqrt(x * x + y * y + z * z + w * w);
 		return new Vector4(x / r, y / r, z / r, w / r);
+	}
+
+	/**
+	 * Projects this point onto 3 dimensional space by dividing through by the
+	 * w-coordinate.
+	 * @return The project <code>Point3</code>.
+	 */
+	public Point3 project() {
+		return new Point3(x / w, y / w, z / w);
 	}
 
 	/**

@@ -82,7 +82,8 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
 	 * 		none exists.
 	 */
 	public static Intersection computeNearestIntersection(Ray3 ray, SceneElement geometry, int index) {
-		NearestIntersectionRecorder recorder = new NearestIntersectionRecorder();
+		Interval I = new Interval(0.0, ray.limit());
+		NearestIntersectionRecorder recorder = new NearestIntersectionRecorder(I);
 		geometry.intersect(index, ray, recorder);
 		return recorder.nearestIntersection();
 	}
@@ -97,7 +98,8 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
 	 * 		none exists.
 	 */
 	public static Intersection computeNearestIntersection(Ray3 ray, SceneElement geometry) {
-		NearestIntersectionRecorder recorder = new NearestIntersectionRecorder();
+		Interval I = new Interval(0.0, ray.limit());
+		NearestIntersectionRecorder recorder = new NearestIntersectionRecorder(I);
 		geometry.intersect(ray, recorder);
 		return recorder.nearestIntersection();
 	}

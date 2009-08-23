@@ -114,7 +114,7 @@ public final class Complex implements Serializable {
 	 * @return The sum of this complex number and z.
 	 */
 	public Complex plus(Complex z) {
-		return new Complex(re + z.im, im + z.im);
+		return new Complex(re + z.re, im + z.im);
 	}
 
 	/**

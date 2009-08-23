@@ -32,29 +32,50 @@ import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 
 /**
- * @author brad
- *
+ * A <code>Shader</code> that traces up to one randomly selected scattered ray.
+ * @author Brad Kimmel
  */
 public final class PathTracingShader implements Shader {
 
-	/**
-	 * Serialization version ID.
-	 */
+	/** Serialization version ID. */
 	private static final long serialVersionUID = -3619786295095920623L;
+
+	/** The default maximum path depth. */
+	private static final int DEFAULT_MAX_DEPTH = 10;
+
+	/** The maximum path depth. */
+	private final int maxDepth;
+
+	/**
+	 * Creates a new <code>PathTracingShader</code>.
+	 */
+	public PathTracingShader() {
+		this(DEFAULT_MAX_DEPTH);
+	}
+
+	/**
+	 * Creates a new <code>PathTracingShader</code>.
+	 * @param maxDepth The maximum path depth.
+	 */
+	public PathTracingShader(int maxDepth) {
+		this.maxDepth = maxDepth;
+	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
 	 */
 	public Color shade(ShadingContext sc) {
 
-		ScatteredRay ray = sc.getScatteredRays().getRandomScatteredRay(true);
+		if (sc.getPathDepth() < maxDepth) {
+			ScatteredRay ray = sc.getScatteredRays().getRandomScatteredRay(true);
 
-		if (ray == null) {
-			WavelengthPacket lambda = sc.getWavelengthPacket();
-			return sc.getColorModel().getBlack(lambda);
+			if (ray != null) {
+				return sc.castRay(ray);
+			}
 		}
 
-		return sc.castRay(ray);
+		WavelengthPacket lambda = sc.getWavelengthPacket();
+		return sc.getColorModel().getBlack(lambda);
 
 	}
 

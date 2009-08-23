@@ -8,7 +8,9 @@ import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.ScatteredRayRecorder;
 import ca.eandb.jmist.framework.SurfacePoint;
+import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.framework.painter.UniformPainter;
 import ca.eandb.jmist.math.Optics;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
@@ -30,6 +32,14 @@ public final class MirrorMaterial extends OpaqueMaterial {
 	 */
 	public MirrorMaterial(Painter reflectance) {
 		this.reflectance = reflectance;
+	}
+
+	/**
+	 * Creates a new <code>MirrorMaterial</code>.
+	 * @param reflectance The reflectance <code>Spectrum</code> of this mirror.
+	 */
+	public MirrorMaterial(Spectrum reflectance) {
+		this(new UniformPainter(reflectance));
 	}
 
 	/* (non-Javadoc)

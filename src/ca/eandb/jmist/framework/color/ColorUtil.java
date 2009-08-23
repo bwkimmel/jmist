@@ -351,6 +351,60 @@ public final class ColorUtil {
 		return sum;
 	}
 
+	/**
+	 * Adds two <code>Color</code>s, one or both of which may be
+	 * <code>null</code>.
+	 * @param a The first <code>Color</code>.
+	 * @param b The second <code>Color</code>.
+	 * @return If <code>a != null</code> and <code>b != null</code>, then the
+	 * 		sum <code>a.plus(b)</code> is returned.  If one is non-null and the
+	 * 		other is null, the non-null value is returned.  If both are null,
+	 * 		<code>null</code> is returned.
+	 * @see Color#plus(Color)
+	 */
+	public static Color add(Color a, Color b) {
+		return a != null ? (b != null ? a.plus(b) : a) : b;
+	}
+
+	/**
+	 * Multiplies two <code>Color</code>, one or both of which may be
+	 * <code>null</code>.
+	 * @param a The first <code>Color</code>.
+	 * @param b The second <code>Color</code>.
+	 * @return If <code>a != null</code> and <code>b != null</code>, then the
+	 * 		product <code>a.times(b)</code> is returned, otherwise
+	 * 		<code>null</code> is returned.
+	 * @see Color#times(Color)
+	 */
+	public static Color mul(Color a, Color b) {
+		return a != null && b != null ? a.times(b) : null;
+	}
+
+	/**
+	 * Multiplies a (possibly <code>null</code>) <code>Color</code> by a
+	 * scalar.
+	 * @param a The <code>Color</code> to multiply.
+	 * @param c The scalar to multiply by.
+	 * @return If <code>a != null</code>, the product <code>a.times(c)</code>
+	 * 		is returned, otherwise, <code>null</code> is returned.
+	 * @see Color#times(double)
+	 */
+	public static Color mul(Color a, double c) {
+		return a != null ? a.times(c) : null;
+	}
+
+	/**
+	 * Divides a (possibly <code>null</code>) <code>Color</code> by a scalar.
+	 * @param a The <code>Color</code> to divide.
+	 * @param c The scalar to divide by.
+	 * @return If <code>a != null</code>, the quotient <code>a.divide(c)</code>
+	 * 		is returned, otherwise, <code>null</code> is returned.
+	 * @see Color#divide(double)
+	 */
+	public static Color div(Color a, double c) {
+		return a != null ? a.divide(c) : null;
+	}
+
 	/** Instances of <code>ColorUtil</code>	cannot be created. */
 	private ColorUtil() {}
 

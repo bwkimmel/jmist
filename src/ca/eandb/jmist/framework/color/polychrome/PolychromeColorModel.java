@@ -343,6 +343,20 @@ public final class PolychromeColorModel extends ColorModel {
 	}
 
 	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.ColorModel#fromChannels(double[], ca.eandb.jmist.framework.color.WavelengthPacket)
+	 */
+	public Color fromArray(double[] values, WavelengthPacket lambda) {
+		if (values.length < getNumChannels()) {
+			throw new IllegalArgumentException("values.length < getNumChannels()");
+		}
+		PolychromeColor result = new PolychromeColor();
+		for (int i = 0; i < result.values.length; i++) {
+			result.values[i] = values[i];
+		}
+		return result;
+	}
+
+	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.ColorModel#getWhite(ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
 	@Override

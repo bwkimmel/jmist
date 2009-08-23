@@ -39,7 +39,7 @@ public final class DiscGeometry extends PrimitiveGeometry {
 	 * @param twoSided A value indicating whether the disc is two sided.
 	 */
 	public DiscGeometry(Point3 center, Vector3 normal, double radius, boolean twoSided) {
-		this.plane = new Plane3(center, normal);
+		this.plane = Plane3.throughPoint(center, normal);
 		this.boundingSphere = new Sphere(center, radius);
 		this.twoSided = twoSided;
 	}

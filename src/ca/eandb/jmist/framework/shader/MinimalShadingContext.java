@@ -31,7 +31,7 @@ import ca.eandb.jmist.framework.Random;
  * @author brad
  *
  */
-public final class MinimalShadingContext extends AbstractShadingContext {
+public class MinimalShadingContext extends AbstractShadingContext {
 
 	private final Random random;
 

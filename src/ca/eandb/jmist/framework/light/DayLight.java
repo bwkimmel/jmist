@@ -16,7 +16,9 @@ import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.math.Basis3;
+import ca.eandb.jmist.math.HPoint3;
 import ca.eandb.jmist.math.MathUtil;
+import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Sphere;
 import ca.eandb.jmist.math.Vector3;
 import ca.eandb.jmist.util.ArrayUtil;
@@ -209,8 +211,9 @@ public final class DayLight extends AbstractLight implements DirectionalTexture3
 			return null;
 		}
 
-		public boolean isAtInfinity() {
-			return true;
+		public Vector3 getPosition() {
+			// TODO Auto-generated method stub
+			return null;
 		}
 
 	}

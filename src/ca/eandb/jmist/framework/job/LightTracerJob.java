@@ -28,36 +28,20 @@ package ca.eandb.jmist.framework.job;
 import ca.eandb.jdcp.job.AbstractParallelizableJob;
 import ca.eandb.jdcp.job.TaskWorker;
 import ca.eandb.jmist.framework.Display;
-import ca.eandb.jmist.framework.Emitter;
-import ca.eandb.jmist.framework.Intersection;
-import ca.eandb.jmist.framework.Lens;
-import ca.eandb.jmist.framework.Light;
-import ca.eandb.jmist.framework.Material;
-import ca.eandb.jmist.framework.NearestIntersectionRecorder;
-import ca.eandb.jmist.framework.Photon;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.Raster;
-import ca.eandb.jmist.framework.ScatteredRay;
-import ca.eandb.jmist.framework.ScatteredRays;
 import ca.eandb.jmist.framework.Scene;
-import ca.eandb.jmist.framework.SceneElement;
-import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
-import ca.eandb.jmist.framework.color.WavelengthPacket;
-import ca.eandb.jmist.framework.shader.MinimalShadingContext;
-import ca.eandb.jmist.math.Point2;
-import ca.eandb.jmist.math.Point3;
-import ca.eandb.jmist.math.Ray3;
-import ca.eandb.jmist.math.Sphere;
-import ca.eandb.jmist.math.Vector3;
+import ca.eandb.jmist.framework.gi.PathNode;
+import ca.eandb.jmist.framework.gi.PathNodeFactory;
 import ca.eandb.util.progress.ProgressMonitor;
 
 /**
  * @author brad
  *
  */
-public final class LightTracingJob extends AbstractParallelizableJob {
+public final class LightTracerJob extends AbstractParallelizableJob {
 
 	/** Serialization version ID. */
 	private static final long serialVersionUID = -6940841062797196504L;
@@ -92,7 +76,7 @@ public final class LightTracingJob extends AbstractParallelizableJob {
 
 	private transient int photonsSubmitted = 0;
 
-	public LightTracingJob(Scene scene, Display display, int width, int height, ColorModel colorModel, Random random, int photons, int tasks, boolean displayPartialResults) {
+	public LightTracerJob(Scene scene, Display display, int width, int height, ColorModel colorModel, Random random, int photons, int tasks, boolean displayPartialResults) {
 		this.scene = scene;
 		this.display = display;
 		this.colorModel = colorModel;
@@ -100,7 +84,7 @@ public final class LightTracingJob extends AbstractParallelizableJob {
 		this.photons = photons;
 		this.tasks = tasks;
 		this.minPhotonsPerTask = photons / tasks;
-		this.extraPhotons = photons - minPhotonsPerTask;
+		this.extraPhotons = photons - minPhotonsPerTask * tasks;
 		this.width = width;
 		this.height = height;
 		this.displayPartialResults = displayPartialResults;
@@ -204,13 +188,7 @@ public final class LightTracingJob extends AbstractParallelizableJob {
 		/** Serialization version ID. */
 		private static final long serialVersionUID = -7848301189373426210L;
 
-		private transient Light light;
-
-		private transient Sphere target;
-
-		private transient SceneElement root;
-
-		private transient Lens lens;
+		private transient PathNodeFactory nodes;
 
 		private transient ThreadLocal<Raster> raster = new ThreadLocal<Raster>() {
 			protected Raster initialValue() {
@@ -219,11 +197,8 @@ public final class LightTracingJob extends AbstractParallelizableJob {
 		};
 
 		private synchronized void ensureInitialized() {
-			if (root == null) {
-				light = scene.getLight();
-				target = scene.boundingSphere();
-				root = scene.getRoot();
-				lens = scene.getLens();
+			if (nodes == null) {
+				nodes = PathNodeFactory.create(scene, colorModel);
 			}
 		}
 
@@ -247,82 +222,11 @@ public final class LightTracingJob extends AbstractParallelizableJob {
 				}
 
 				Color sample = colorModel.sample(random);
-				WavelengthPacket lambda = sample.getWavelengthPacket();
-				Emitter emitter = light.sample(random);
-
-				Photon photon = emitter.emit(target, lambda, random);
-				Ray3 ray = photon.ray();
-
-				sample = sample.times(photon.power());
-
-				{
-					Point3 p = photon.position();
-					Lens.Projection proj = lens.project(p);
-					if (proj != null) {
-						Point3 q = proj.pointOnLens();
-						if (root.visibility(p, q)) {
-							Vector3 out = p.unitVectorTo(q);
-							Point2 ndc = proj.pointOnImagePlane();
-							Color color = emitter.getEmittedRadiance(out, lambda);
-							double atten = proj.importance();
-							Color result = color.times(sample).times(atten*0.5);
-
-							int rx = (int) Math.floor(ndc.x() * raster.getWidth());
-							int ry = (int) Math.floor(ndc.y() * raster.getHeight());
-
-							raster.setPixel(rx, ry, raster.getPixel(rx, ry).plus(result));
-						}
-					}
-
+				PathNode node = nodes.sampleLight(sample, random);
+				while (node != null) {
+					node.scatterToEye(raster, 1.0);
+					node = node.expand(random);
 				}
-
-				sample = sample.times(0.5);
-
-				while (true) {
-					Vector3 v = ray.direction();
-					Intersection x = NearestIntersectionRecorder.computeNearestIntersection(ray, root);
-
-					if (x == null) {
-						break;
-					}
-					ShadingContext context = new MinimalShadingContext(random);
-					x.prepareShadingContext(context);
-					context.getModifier().modify(context);
-
-					Material material = context.getMaterial();
-
-					/* trace to camera. */
-					Point3 p = context.getPosition();
-					Lens.Projection proj = lens.project(p);
-					if (proj != null) {
-						Point3 q = proj.pointOnLens();
-						if (root.visibility(p, q)) {
-							Vector3 out = p.unitVectorTo(q);
-							Point2 ndc = proj.pointOnImagePlane();
-							Color bsdf = material.scattering(context, v, out, lambda);
-							double atten = proj.importance() * Math.abs(out.dot(context.getShadingNormal()));
-							Color result = bsdf.times(sample).times(atten*0.5);
-
-							int rx = (int) Math.floor(ndc.x() * raster.getWidth());
-							int ry = (int) Math.floor(ndc.y() * raster.getHeight());
-
-							raster.setPixel(rx, ry, raster.getPixel(rx, ry).plus(result));
-						}
-					}
-
-
-					/* trace scattered ray. */
-					ScatteredRays scat = new ScatteredRays(context, v, lambda, random, material);
-					ScatteredRay sr = scat.getRandomScatteredRay(true);
-
-					if (sr == null) {
-						break;
-					}
-
-					ray = sr.getRay();
-					sample = sample.times(sr.getColor()).times(0.5);
-				}
-
 			}
 
 			monitor.notifyProgress(photons, photons);

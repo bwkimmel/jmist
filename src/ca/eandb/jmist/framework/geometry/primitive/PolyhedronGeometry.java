@@ -256,7 +256,7 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 		 * 		lies.
 		 */
 		public Plane3 computePlane() {
-			return new Plane3(vertices.get(indices[0]), this.computeFaceNormal());
+			return Plane3.throughPoint(vertices.get(indices[0]), this.computeFaceNormal());
 		}
 
 		/**

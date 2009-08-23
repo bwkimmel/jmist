@@ -3,7 +3,6 @@
  */
 package ca.eandb.jmist.framework.lens;
 
-import ca.eandb.jmist.framework.Lens;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
@@ -14,7 +13,7 @@ import ca.eandb.jmist.math.Vector3;
  * A <code>Lens</code> that projects the scene onto a spherical virtual screen.
  * @author Brad Kimmel
  */
-public final class SphericalLens implements Lens {
+public final class SphericalLens extends SingularApertureLens {
 
 	/**
 	 * Serialization version ID.
@@ -65,24 +64,24 @@ public final class SphericalLens implements Lens {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.Point3)
+	 * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.Vector3)
 	 */
-	public Projection project(Point3 p) {
-		Vector3 dir = p.vectorFromOrigin().unit();
+	public Projection project(Vector3 v) {
+		v = v.unit();
 
-		final double v = 0.5 - Math.asin(dir.y()) / vfov;
-		if (!MathUtil.inRangeCC(v, 0.0, 1.0)) {
+		final double y = 0.5 - Math.asin(v.y()) / vfov;
+		if (!MathUtil.inRangeCC(y, 0.0, 1.0)) {
 			return null;
 		}
 
-		final double u = 0.5 - Math.atan2(-dir.x(), -dir.z()) / hfov;
-		if (!MathUtil.inRangeCC(u, 0.0, 1.0)) {
+		final double x = 0.5 - Math.atan2(-v.x(), -v.z()) / hfov;
+		if (!MathUtil.inRangeCC(x, 0.0, 1.0)) {
 			return null;
 		}
 
 		return new Projection() {
 			public Point2 pointOnImagePlane() {
-				return new Point2(u, v);
+				return new Point2(x, y);
 			}
 
 			public Point3 pointOnLens() {

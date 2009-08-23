@@ -12,6 +12,9 @@ import java.io.Serializable;
  */
 public final class Matrix4 implements Serializable {
 
+	/** Serialization version ID. */
+	private static final long serialVersionUID = -5396312497182111362L;
+
 	/**
 	 * Initializes the matrix from its elements.
 	 * @param _00
@@ -249,10 +252,5 @@ public final class Matrix4 implements Serializable {
 						 _10, _11, _12, _13,
 						 _20, _21, _22, _23,
 						 _30, _31, _32, _33;
-
-	/**
-	 * Serialization version ID.
-	 */
-	private static final long serialVersionUID = -2238797743118681949L;
 
 }

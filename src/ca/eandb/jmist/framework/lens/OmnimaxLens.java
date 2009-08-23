@@ -3,7 +3,6 @@
  */
 package ca.eandb.jmist.framework.lens;
 
-import ca.eandb.jmist.framework.Lens;
 import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.math.Optics;
 import ca.eandb.jmist.math.Point2;
@@ -17,7 +16,7 @@ import ca.eandb.jmist.math.Vector3;
  * sphere.
  * @author Brad Kimmel
  */
-public final class OmnimaxLens implements Lens {
+public final class OmnimaxLens extends SingularApertureLens {
 
 	/**
 	 * Serialization version ID.
@@ -47,16 +46,16 @@ public final class OmnimaxLens implements Lens {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.Point3)
+	 * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.Vector3)
 	 */
-	public Projection project(final Point3 p) {
+	public Projection project(final Vector3 v) {
 		return new Projection() {
 			public Point2 pointOnImagePlane() {
-				Vector3 dir = p.vectorFromOrigin().unit();
+				Vector3 dir = v.unit();
 				Vector3 half = new Vector3(0.5 * dir.x(), 0.5 * dir.y(), 0.5 * (dir.z() - 1.0)).unit();
-				double u = 0.5 * (half.x() + 1.0);
-				double v = 0.5 * (1.0 - half.y());
-				return new Point2(u, v);
+				double x = 0.5 * (half.x() + 1.0);
+				double y = 0.5 * (1.0 - half.y());
+				return new Point2(x, y);
 			}
 
 			public Point3 pointOnLens() {

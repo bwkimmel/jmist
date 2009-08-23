@@ -217,7 +217,7 @@ public class InvertibleAffineTransformation3 extends AffineTransformation3
 	 *            this transformation to.
 	 */
 	public void apply(InvertibleAffineTransformation3 trans) {
-		if (this.isTransformed()) {
+		if (this.isDirty()) {
 			trans.applyTransformation(super.getTransformationMatrix());
 			trans.applyInverseTransformation(this.inverse);
 		}
@@ -246,7 +246,7 @@ public class InvertibleAffineTransformation3 extends AffineTransformation3
 	 *            the inverse of this transformation to.
 	 */
 	public void applyInverse(InvertibleAffineTransformation3 trans) {
-		if (this.isTransformed()) {
+		if (this.isDirty()) {
 			trans.applyTransformation(this.inverse);
 			trans.applyInverseTransformation(super.getTransformationMatrix());
 		}

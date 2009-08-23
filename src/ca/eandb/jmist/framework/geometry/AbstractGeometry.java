@@ -264,20 +264,13 @@ public abstract class AbstractGeometry implements SceneElement {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SceneElement#intersects(int, ca.eandb.jmist.math.Ray3, double)
-	 */
-	public boolean visibility(int index, Ray3 ray, double maximumDistance) {
-		Interval I = new Interval(MathUtil.EPSILON, maximumDistance);
-		NearestIntersectionRecorder recorder = new NearestIntersectionRecorder(I);
-		intersect(index, ray, recorder);
-		return recorder.isEmpty();
-	}
-
-	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SceneElement#intersects(int, ca.eandb.jmist.math.Ray3)
 	 */
 	public boolean visibility(int index, Ray3 ray) {
-		return visibility(index, ray, Double.POSITIVE_INFINITY);
+		Interval I = new Interval(0.0, ray.limit());
+		NearestIntersectionRecorder recorder = new NearestIntersectionRecorder(I);
+		intersect(index, ray, recorder);
+		return recorder.isEmpty();
 	}
 
 	/* (non-Javadoc)
@@ -303,27 +296,11 @@ public abstract class AbstractGeometry implements SceneElement {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.VisibilityFunction3#visibility(ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Point3)
-	 */
-	public boolean visibility(Point3 p, Point3 q) {
-		double d = p.distanceTo(q);
-		Ray3 ray = new Ray3(p, p.vectorTo(q).divide(d));
-		return visibility(ray, d);
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SceneElement#visibility(ca.eandb.jmist.math.Ray3, double)
-	 */
-	public boolean visibility(Ray3 ray, double maximumDistance) {
-		Intersection x = NearestIntersectionRecorder.computeNearestIntersection(ray, this);
-		return (x == null);
-	}
-
-	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SceneElement#visibility(ca.eandb.jmist.math.Ray3)
 	 */
 	public boolean visibility(Ray3 ray) {
-		return visibility(ray, Double.POSITIVE_INFINITY);
+		Intersection x = NearestIntersectionRecorder.computeNearestIntersection(ray, this);
+		return (x == null);
 	}
 
 	/* (non-Javadoc)
