@@ -22,9 +22,7 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class TorusGeometry extends PrimitiveGeometry {
 
-	/**
-	 * Serialization version ID.
-	 */
+	/** Serialization version ID. */
 	private static final long serialVersionUID = 8573316243171501395L;
 
 	/**
@@ -112,8 +110,8 @@ public final class TorusGeometry extends PrimitiveGeometry {
 	@Override
 	protected Point2 getTextureCoordinates(GeometryIntersection x) {
 
-		Vector3	cp	= x.getPosition().vectorFrom(Point3.ORIGIN);
-		Vector3	R	= new Vector3(cp.x(), 0.0, cp.z()).unit();
+		Vector3	cp	= x.getPosition().vectorFromOrigin();
+		Vector3	R	= Vector3.unit(cp.x(), 0.0, cp.z());
 		Vector3	r	= cp.minus(R.times(major)).unit();
 
 		return new Point2(
