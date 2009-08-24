@@ -122,13 +122,6 @@ public final class TorusGeometry extends PrimitiveGeometry {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SceneElement#isClosed()
-	 */
-	public boolean isClosed() {
-		return true;
-	}
-
-	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
 	 */
 	public Box3 boundingBox() {
