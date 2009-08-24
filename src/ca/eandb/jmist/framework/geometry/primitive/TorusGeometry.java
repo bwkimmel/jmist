@@ -42,7 +42,7 @@ public final class TorusGeometry extends PrimitiveGeometry {
 	 */
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 
-		Vector3		orig			= ray.origin().vectorFrom(Point3.ORIGIN);
+		Vector3		orig			= ray.origin().vectorFromOrigin();
 		Vector3		dir				= ray.direction().unit();
 		double		sqRadius1		= major * major;
 		double		sqRadius2		= minor * minor;
