@@ -53,6 +53,14 @@ public final class TransformableLens extends AbstractLens implements
 	}
 
 	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Lens#areaOfAperture()
+	 */
+	public final double areaOfAperture() {
+		// The transformation may not change the size of the aperture.
+		return inner.areaOfAperture();
+	}
+
+	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.Point3)
 	 */
 	public final Projection project(Point3 p) {

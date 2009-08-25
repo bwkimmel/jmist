@@ -32,6 +32,12 @@ public interface Lens extends Serializable {
 	Ray3 rayAt(Point2 p);
 
 	/**
+	 * Gets the area of aperture of this <code>Lens</code> in square meters.
+	 * @return The area of the aperture of this <code>Lens</code> (in m^2).
+	 */
+	double areaOfAperture();
+
+	/**
 	 * Projects a point in three-dimensional space onto the image plane.
 	 * @param p The <code>Point3</code> to project onto the image plane.
 	 * @return The <code>Projection</code> representing the projection of

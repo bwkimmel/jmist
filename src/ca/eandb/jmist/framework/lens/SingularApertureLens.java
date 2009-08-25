@@ -46,4 +46,11 @@ public abstract class SingularApertureLens extends AbstractLens {
 		return project(p.vectorFromOrigin());
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Lens#areaOfAperture()
+	 */
+	public final double areaOfAperture() {
+		return 0.0;
+	}
+
 }

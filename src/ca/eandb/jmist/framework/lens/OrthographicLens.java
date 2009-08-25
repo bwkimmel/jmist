@@ -16,10 +16,8 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class OrthographicLens extends AbstractLens {
 
-	/**
-	 * Serialization version ID.
-	 */
-	private static final long serialVersionUID = -2376610435721840593L;
+	/** Serialization version ID. */
+	private static final long serialVersionUID = -5086512652648110011L;
 
 	/**
 	 * Creates a new <code>OrthographicLens</code>.
@@ -29,13 +27,13 @@ public final class OrthographicLens extends AbstractLens {
 	public OrthographicLens(double width, double height) {
 		this.width = width;
 		this.height = height;
+		this.area = width * height;
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Lens#rayAt(ca.eandb.jmist.math.Point2)
 	 */
 	public Ray3 rayAt(Point2 p) {
-
 		return new Ray3(
 				new Point3(
 						(p.x() - 0.5) * this.width,
@@ -44,7 +42,13 @@ public final class OrthographicLens extends AbstractLens {
 				),
 				Vector3.NEGATIVE_K
 		);
+	}
 
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Lens#areaOfAperture()
+	 */
+	public double areaOfAperture() {
+		return area;
 	}
 
 	/* (non-Javadoc)
@@ -74,5 +78,8 @@ public final class OrthographicLens extends AbstractLens {
 
 	/** The extent of the image plane along the y-axis. */
 	private final double height;
+
+	/** The area of the image plane (in meters squared). */
+	private final double area;
 
 }
