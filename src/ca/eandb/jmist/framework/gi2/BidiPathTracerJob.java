@@ -275,8 +275,6 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 
 		}
 
-
-
 		private void joinLightPathToEye(PathNode tail, double weight) {
 			PathNode node = tail;
 			while (node.getDepth() >= 0) {
@@ -289,7 +287,7 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 			}
 		}
 
-		private Color joinInnerToInner(ScatteringNode eyeNode, ScatteringNode lightNode) {
+		private Color joinInnerToInner(PathNode eyeNode, PathNode lightNode) {
 			assert(eyeNode.getDepth() > 0 && lightNode.getDepth() > 0);
 			Color c = PathUtil.join(eyeNode, lightNode);
 			if (c != null) {
@@ -332,7 +330,7 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 		}
 
 		private Color joinInnerToLight(ScatteringNode eyeNode, LightNode light) {
-			return PathUtil.join(eyeNode, light); // FIXME multiply by weight
+			return joinInnerToInner(eyeNode, light);
 		}
 
 		private Color join(PathNode eyeTail, PathNode lightTail, double lightImageWeight) {
