@@ -49,6 +49,8 @@ public interface Color extends Serializable {
 
 	Color disperse(int channel);
 
+	double luminance();
+
 	double[] toArray();
 
 	CIEXYZ toXYZ();

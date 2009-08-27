@@ -103,6 +103,13 @@ public final class MonochromeColorModel extends ColorModel {
 		}
 
 		/* (non-Javadoc)
+		 * @see ca.eandb.jmist.framework.color.Color#luminance()
+		 */
+		public double luminance() {
+			return ColorUtil.convertSampleToLuminance(wavelength, value);
+		}
+
+		/* (non-Javadoc)
 		 * @see ca.eandb.jmist.framework.color.Color#minus(ca.eandb.jmist.framework.color.Color)
 		 */
 		public Color minus(Color other) {

@@ -183,6 +183,13 @@ public final class XYZColor implements Color, Spectrum {
 	}
 
 	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.Color#luminance()
+	 */
+	public double luminance() {
+		return y;
+	}
+
+	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.Color#minus(ca.eandb.jmist.framework.color.Color)
 	 */
 	public Color minus(Color other) {

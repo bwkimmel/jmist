@@ -333,6 +333,28 @@ public final class ColorUtil {
 		return convertXYZ2RGB(convertSpectrum2XYZ(wavelengths, values));
 	}
 
+	public static double convertSampleToLuminance(double wavelength, double value) {
+		return value * MathUtil.interpolate(XYZ_WAVELENGTHS, Y_BAR, wavelength);
+	}
+
+	public static double convertSpectrumToLuminance(double[] wavelengths, double[] values) {
+		double Y = 0.0;
+		int n = wavelengths.length;
+		for (int i = 0; i < n; i++) {
+			Y += convertSampleToLuminance(wavelengths[i], values[i]);
+		}
+		return Y / (double) n;
+	}
+
+	public static double convertSpectrumToLuminance(Tuple wavelengths, double[] values) {
+		double Y = 0.0;
+		int n = wavelengths.size();
+		for (int i = 0; i < n; i++) {
+			Y += convertSampleToLuminance(wavelengths.at(i), values[i]);
+		}
+		return Y / (double) n;
+	}
+
 	public static double getMeanChannelValue(Color color) {
 		int channels = color.getColorModel().getNumChannels();
 		double sum = 0.0;

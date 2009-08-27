@@ -149,6 +149,10 @@ public final class PolychromeColorModel extends ColorModel {
 			return result;
 		}
 
+		public double luminance() {
+			return ColorUtil.convertSpectrumToLuminance(wavelengths, values);
+		}
+
 		public Color minus(Color other) {
 			return minus((PolychromeColor) other);
 		}
