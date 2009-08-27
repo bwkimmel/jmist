@@ -3,6 +3,7 @@
  */
 package ca.eandb.jmist.framework.gi2;
 
+import ca.eandb.jmist.framework.Raster;
 import ca.eandb.jmist.framework.color.Color;
 
 /**
@@ -11,6 +12,16 @@ import ca.eandb.jmist.framework.color.Color;
  */
 public interface EyeNode extends PathNode {
 
-	void record(Color c);
+	void write(Color c, Raster raster);
+
+	Color getImportanceExitance();
+
+	Color getImportance(PathNode to);
+
+	double getAperturePDF();
+
+	boolean isApertureSingular();
+
+	Camera getCamera();
 
 }

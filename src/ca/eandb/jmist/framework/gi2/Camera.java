@@ -12,8 +12,10 @@ import ca.eandb.jmist.math.Point2;
  */
 public interface Camera {
 
-	EyeNode sample(Point2 pointOnImagePlane, Color weight);
+	EyeNode sample(Point2 pointOnImagePlane, PathInfo pathInfo);
 
-	EyeNode sample(PathNode target, Color weight);
+	EyeNode sample(PathNode target);
+
+	Color getTotalImportance();
 
 }

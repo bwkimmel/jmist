@@ -3,7 +3,6 @@
  */
 package ca.eandb.jmist.framework.gi2;
 
-import ca.eandb.jmist.framework.ScatteredRayRecorder;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.math.HPoint3;
 
@@ -15,15 +14,21 @@ public interface PathNode {
 
 	Color getCumulativeWeight();
 
+	Color getBSDF();
+
 	double getGeometricFactor();
 
-	double getPDF();
+	double getForwardPDF();
 
-	double getReversePDF();
+	double getBackwardPDF();
 
 	boolean isSpecular();
 
+	PathNode getChild();
+
 	PathNode getParent();
+
+	HPoint3 getPosition();
 
 	boolean isAtInfinity();
 
@@ -31,14 +36,22 @@ public interface PathNode {
 
 	boolean isOnLightPath();
 
-	HPoint3 getPosition();
-
-	Color getBSDF(PathNode to);
-
-	double getPDF(PathNode to);
-
 	int getDepth();
 
-	void scatter(ScatteredRayRecorder sr);
+	double getForwardPDF(PathNode to);
+
+	double getBackwardPDF(PathNode from);
+
+	Color getBSDF(PathNode from, PathNode to);
+
+	Color getForwardBSDF(PathNode to);
+
+	Color getBackwardBSDF(PathNode from);
+
+	double getCosine(PathNode node);
+
+	PathNode expand();
+
+	PathInfo getPathInfo();
 
 }
