@@ -32,7 +32,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
  * @author brad
  *
  */
-public final class XYZWavelengthPacket implements WavelengthPacket {
+/* package */ final class XYZWavelengthPacket implements WavelengthPacket {
 
 	private final double lambdaX;
 

@@ -11,7 +11,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
  * <code>LuminanceColorModel</code>.
  * @author Brad Kimmel
  */
-public final class LuminanceWavelengthPacket implements WavelengthPacket {
+/* package */ final class LuminanceWavelengthPacket implements WavelengthPacket {
 
 	/** The wavelength for this packet (in meters). */
 	private final double wavelength;

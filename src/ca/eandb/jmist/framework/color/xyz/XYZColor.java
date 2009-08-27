@@ -37,7 +37,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
  * @author brad
  *
  */
-public final class XYZColor implements Color, Spectrum {
+/* package */ final class XYZColor implements Color, Spectrum {
 
 	/**
 	 * Serialization version ID.

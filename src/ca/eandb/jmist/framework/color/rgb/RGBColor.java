@@ -17,7 +17,7 @@ import ca.eandb.jmist.math.MathUtil;
  * @author Brad
  *
  */
-public final class RGBColor implements Color, Spectrum {
+/* package */ final class RGBColor implements Color, Spectrum {
 
 	/**
 	 * Serialization version ID.

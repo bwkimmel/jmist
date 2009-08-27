@@ -15,7 +15,7 @@ import ca.eandb.jmist.math.MathUtil;
  * @author Brad
  *
  */
-public final class LuminanceColor implements Color, Spectrum {
+/* package */ final class LuminanceColor implements Color, Spectrum {
 
 	/** Serialization version ID. */
 	private static final long serialVersionUID = -7982563437549789288L;

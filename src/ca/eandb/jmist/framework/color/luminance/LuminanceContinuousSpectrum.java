@@ -12,7 +12,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
  * @author Brad
  *
  */
-public final class LuminanceContinuousSpectrum implements Spectrum {
+/* package */ final class LuminanceContinuousSpectrum implements Spectrum {
 
 	/** Serialization version ID. */
 	private static final long serialVersionUID = 1202132371356039167L;
