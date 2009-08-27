@@ -333,26 +333,42 @@ public final class ColorUtil {
 		return convertXYZ2RGB(convertSpectrum2XYZ(wavelengths, values));
 	}
 
-	public static double convertSampleToLuminance(double wavelength, double value) {
+	public static double convertSample2Luminance(double wavelength, double value) {
 		return value * MathUtil.interpolate(XYZ_WAVELENGTHS, Y_BAR, wavelength);
 	}
 
-	public static double convertSpectrumToLuminance(double[] wavelengths, double[] values) {
+	public static double convertSpectrum2Luminance(double[] wavelengths, double[] values) {
 		double Y = 0.0;
 		int n = wavelengths.length;
 		for (int i = 0; i < n; i++) {
-			Y += convertSampleToLuminance(wavelengths[i], values[i]);
+			Y += convertSample2Luminance(wavelengths[i], values[i]);
 		}
 		return Y / (double) n;
 	}
 
-	public static double convertSpectrumToLuminance(Tuple wavelengths, double[] values) {
+	public static double convertSpectrum2Luminance(Tuple wavelengths, double[] values) {
 		double Y = 0.0;
 		int n = wavelengths.size();
 		for (int i = 0; i < n; i++) {
-			Y += convertSampleToLuminance(wavelengths.at(i), values[i]);
+			Y += convertSample2Luminance(wavelengths.at(i), values[i]);
 		}
 		return Y / (double) n;
+	}
+
+	public static double convertRGB2Luminance(double r, double g, double b) {
+		return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+	}
+
+	public static double convertRGB2Luminance(RGB rgb) {
+		return convertRGB2Luminance(rgb.r(), rgb.g(), rgb.b());
+	}
+
+	public static double convertXYZ2Luminance(double x, double y, double z) {
+		return y;
+	}
+
+	public static double convertXYZ2Luminance(CIEXYZ xyz) {
+		return xyz.Y();
 	}
 
 	public static double getMeanChannelValue(Color color) {

@@ -88,6 +88,10 @@ public class CIEXYZ extends Tuple3 {
 		return CIELab.fromXYZ(this, fromRef).toXYZ(toRef);
 	}
 
+	public final double luminance() {
+		return ColorUtil.convertXYZ2Luminance(this);
+	}
+
 	public final int toXYZE() {
 		double v = (x > y && x > z) ? x : (y > z ? y : z);
 		if (v < 1e-32) {

@@ -101,7 +101,7 @@ public final class RGBColor implements Color, Spectrum {
 	 * @see ca.eandb.jmist.framework.color.Color#luminance()
 	 */
 	public double luminance() {
-		return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+		return ColorUtil.convertRGB2Luminance(r, g, b);
 	}
 
 	/* (non-Javadoc)

@@ -150,7 +150,7 @@ public final class PolychromeColorModel extends ColorModel {
 		}
 
 		public double luminance() {
-			return ColorUtil.convertSpectrumToLuminance(wavelengths, values);
+			return ColorUtil.convertSpectrum2Luminance(wavelengths, values);
 		}
 
 		public Color minus(Color other) {
