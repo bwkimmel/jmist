@@ -63,12 +63,9 @@ public final class XYZColorModel extends ColorModel {
 	private static final double Z_CONST = ColorUtil.LUMENS_PER_WATT
 			* MathUtil.trapz(ColorUtil.XYZ_WAVELENGTHS, ColorUtil.Z_BAR);
 
-	private static XYZColorModel instance;
+	private static final XYZColorModel instance = new XYZColorModel();
 
 	public static XYZColorModel getInstance() {
-		if (instance == null) {
-			instance = new XYZColorModel();
-		}
 		return instance;
 	}
 

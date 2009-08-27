@@ -24,18 +24,7 @@ public final class RGBColorModel extends ColorModel {
 	private static final long serialVersionUID = 5180023685340681958L;
 
 	/** The single <code>RGBColorModel</code> instance. */
-	private static RGBColorModel instance;
-
-//	/**
-//	 * Gets the single <code>RGBColorModel</code> instance.
-//	 * @return The <code>RGBColorModel</code>.
-//	 */
-//	public static RGBColorModel getInstance() {
-//		if (instance == null) {
-//			instance = new RGBColorModel();
-//		}
-//		return instance;
-//	}
+	private static final RGBColorModel instance = new RGBColorModel();
 
 	/**
 	 * Creates a new <code>RGBColorModel</code>.
@@ -50,9 +39,6 @@ public final class RGBColorModel extends ColorModel {
 	 * @return The single <code>RGBColorModel</code> instance.
 	 */
 	public static RGBColorModel getInstance() {
-		if (instance == null) {
-			instance = new RGBColorModel();
-		}
 		return instance;
 	}
 
