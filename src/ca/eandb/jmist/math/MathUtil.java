@@ -580,6 +580,170 @@ public final class MathUtil {
 	}
 
 	/**
+	 * Returns the cosecant of a value.
+	 * @param x The value whose cosecant is to be returned.
+	 * @return The cosecant of the value.
+	 */
+	public static double csc(double x) {
+		return 1.0 / Math.sin(x);
+	}
+
+	/**
+	 * Returns the secant of a value.
+	 * @param x The value whose secant is to be returned.
+	 * @return The secant of the value.
+	 */
+	public static double sec(double x) {
+		return 1.0 / Math.cos(x);
+	}
+
+	/**
+	 * Returns the cotangent of a value.
+	 * @param x The value whose cotangent is to be returned.
+	 * @return The cotangent of the value.
+	 */
+	public static double cot(double x) {
+		return 1.0 / Math.tan(x);
+	}
+
+	/**
+	 * Returns the arc cosecant of a value.
+	 * @param x The value whose arc cosecant is to be returned.
+	 * @return The arc cosecant of the value.
+	 */
+	public static double acsc(double x) {
+		return Math.asin(1.0 / x);
+	}
+
+	/**
+	 * Returns the arc secant of a value.
+	 * @param x The value whose arc secant is to be returned.
+	 * @return The arc secant of the value.
+	 */
+	public static double asec(double x) {
+		return Math.acos(1.0 / x);
+	}
+
+	/**
+	 * Returns the arc cotangent of a value.
+	 * @param x The value whose arc cotangent is to be returned.
+	 * @return The arc cotangent of the value.
+	 */
+	public static double acot(double x) {
+		return Math.atan(1.0 / x);
+	}
+
+	/**
+	 * Returns the hyperbolic sine of a value.
+	 * @param x The value whose hyperbolic sine is to be returned.
+	 * @return The hyperbolic sine of the value.
+	 */
+	public static double sinh(double x) {
+		return Math.sinh(x);
+	}
+
+	/**
+	 * Returns the hyperbolic cosine of a value.
+	 * @param x The value whose hyperbolic cosine is to be returned.
+	 * @return The hyperbolic cosine of the value.
+	 */
+	public static double cosh(double x) {
+		return Math.cosh(x);
+	}
+
+	/**
+	 * Returns the hyperbolic tangent of a value.
+	 * @param x The value whose hyperbolic tangent is to be returned.
+	 * @return The hyperbolic tangent of the value.
+	 */
+	public static double tanh(double x) {
+		return Math.tanh(x);
+	}
+
+	/**
+	 * Returns the hyperbolic cosecant of a value.
+	 * @param x The value whose hyperbolic cosecant is to be returned.
+	 * @return The hyperbolic cosecant of the value.
+	 */
+	public static double csch(double x) {
+		return 1.0 / Math.sinh(x);
+	}
+
+	/**
+	 * Returns the hyperbolic secant of a value.
+	 * @param x The value whose hyperbolic secant is to be returned.
+	 * @return The hyperbolic secant of the value.
+	 */
+	public static double sech(double x) {
+		return 1.0 / Math.cosh(x);
+	}
+
+	/**
+	 * Returns the hyperbolic cotangent of a value.
+	 * @param x The value whose hyperbolic cotangent is to be returned.
+	 * @return The hyperbolic cotangent of the value.
+	 */
+	public static double coth(double x) {
+		return 1.0 / Math.tanh(x);
+	}
+
+	/**
+	 * Returns the arc hyperbolic sine of a value.
+	 * @param x The value whose arc hyperbolic sine is to be returned.
+	 * @return The arc hyperbolic sine of the value.
+	 */
+	public static double asinh(double x) {
+		return Math.log(x + Math.sqrt(x * x + 1.0));
+	}
+
+	/**
+	 * Returns the arc hyperbolic cosine of a value.
+	 * @param x The value whose arc hyperbolic cosine is to be returned.
+	 * @return The arc hyperbolic cosine of the value.
+	 */
+	public static double acosh(double x) {
+		return Math.log(x + Math.sqrt(x * x - 1.0));
+	}
+
+	/**
+	 * Returns the arc hyperbolic tangent of a value.
+	 * @param x The value whose arc hyperbolic tangent is to be returned.
+	 * @return The arc hyperbolic tangent of the value.
+	 */
+	public static double atanh(double x) {
+		return 0.5 * Math.log((1.0 + x) / (1.0 - x));
+	}
+
+	/**
+	 * Returns the arc hyperbolic cosecant of a value.
+	 * @param x The value whose arc hyperbolic cosecant is to be returned.
+	 * @return The arc hyperbolic cosecant of the value.
+	 */
+	public static double acsch(double x) {
+		return x > 0.0 ? Math.log((1.0 + Math.sqrt(1.0 + x * x)) / x)
+				: Math.log((1.0 - Math.sqrt(1.0 + x * x)) / x);
+	}
+
+	/**
+	 * Returns the arc hyperbolic cotangent of a value.
+	 * @param x The value whose arc hyperbolic cotangent is to be returned.
+	 * @return The arc hyperbolic cotangent of the value.
+	 */
+	public static double acoth(double x) {
+		return 0.5 * Math.log((x + 1.0) / (x - 1.0));
+	}
+
+	/**
+	 * Returns the arc hyperbolic secant of a value.
+	 * @param x The value whose arc hyperbolic secant is to be returned.
+	 * @return The arc hyperbolic secant of the value.
+	 */
+	public static double asech(double x) {
+		return x > 0.0 ? Math.log((1.0 + Math.sqrt(1.0 - x * x)) / x)
+				: Math.log((1.0 - Math.sqrt(1.0 - x * x)) / x);
+	}
+
+	/**
 	 * Returns the minimum value in an array of <code>double</code>s.
 	 * @param array The array of <code>double</code>s of which to find the
 	 * 		minimum value.
