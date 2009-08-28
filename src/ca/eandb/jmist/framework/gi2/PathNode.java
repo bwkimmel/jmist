@@ -14,7 +14,7 @@ public interface PathNode {
 
 	Color getCumulativeWeight();
 
-	Color getBSDF();
+	Color getWeight();
 
 	double getGeometricFactor();
 
@@ -38,15 +38,7 @@ public interface PathNode {
 
 	int getDepth();
 
-	double getForwardPDF(PathNode to);
-
-	double getBackwardPDF(PathNode from);
-
-	Color getBSDF(PathNode from, PathNode to);
-
-	Color getForwardBSDF(PathNode to);
-
-	Color getBackwardBSDF(PathNode from);
+	Color scatterTo(PathNode node);
 
 	double getCosine(PathNode node);
 

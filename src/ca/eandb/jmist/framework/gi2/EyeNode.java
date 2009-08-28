@@ -14,14 +14,8 @@ public interface EyeNode extends PathNode {
 
 	void write(Color c, Raster raster);
 
-	Color getImportanceExitance();
-
-	Color getImportance(PathNode to);
-
 	double getAperturePDF();
 
 	boolean isApertureSingular();
-
-	Camera getCamera();
 
 }

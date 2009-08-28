@@ -3,7 +3,6 @@
  */
 package ca.eandb.jmist.framework.gi2;
 
-import ca.eandb.jmist.framework.color.Color;
 
 /**
  * @author Brad
@@ -15,20 +14,6 @@ public abstract class AbstractPathNode implements PathNode {
 
 	protected AbstractPathNode(PathInfo pathInfo) {
 		this.pathInfo = pathInfo;
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#getBackwardBSDF(ca.eandb.jmist.framework.gi2.PathNode)
-	 */
-	public Color getBackwardBSDF(PathNode from) {
-		return getBSDF(from, getChild());
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#getForwardBSDF(ca.eandb.jmist.framework.gi2.PathNode)
-	 */
-	public final Color getForwardBSDF(PathNode to) {
-		return getBSDF(getParent(), to);
 	}
 
 	/* (non-Javadoc)

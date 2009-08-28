@@ -43,8 +43,8 @@ public final class PathUtil {
 	}
 
 	public static Color join(PathNode a, PathNode b) {
-		Color etol = a.getForwardBSDF(b);
-		Color ltoe = b.getForwardBSDF(a);
+		Color etol = a.scatterTo(b);
+		Color ltoe = b.scatterTo(a);
 		Color c = etol.times(ltoe);
 
 		if (ColorUtil.getTotalChannelValue(c) > 0.0
