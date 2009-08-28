@@ -14,17 +14,11 @@ public interface PathNode {
 
 	Color getCumulativeWeight();
 
-	Color getWeight();
-
 	double getGeometricFactor();
 
-	double getForwardPDF();
-
-	double getBackwardPDF();
+	double getPDF();
 
 	boolean isSpecular();
-
-	PathNode getChild();
 
 	PathNode getParent();
 
@@ -42,7 +36,7 @@ public interface PathNode {
 
 	double getCosine(PathNode node);
 
-	PathNode expand();
+	ScatteringNode expand();
 
 	PathInfo getPathInfo();
 

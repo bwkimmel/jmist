@@ -3,6 +3,8 @@
  */
 package ca.eandb.jmist.framework.gi2;
 
+import ca.eandb.jmist.framework.ScatteredRay;
+
 
 /**
  * @author Brad
@@ -14,6 +16,10 @@ public abstract class AbstractPathNode implements PathNode {
 
 	protected AbstractPathNode(PathInfo pathInfo) {
 		this.pathInfo = pathInfo;
+	}
+
+	protected final ScatteringNode trace(ScatteredRay sr) {
+		return pathInfo.getRayCaster().castRay(sr, this);
 	}
 
 	/* (non-Javadoc)

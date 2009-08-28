@@ -3,7 +3,9 @@
  */
 package ca.eandb.jmist.framework.gi2;
 
+import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.Scene;
+import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.math.Ray3;
 
 /**
@@ -19,9 +21,9 @@ public final class TestRayCaster implements RayCaster {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.RayCaster#castRay(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.gi2.PathNode)
+	 * @see ca.eandb.jmist.framework.gi2.RayCaster#castRay(ca.eandb.jmist.framework.ScatteredRay, ca.eandb.jmist.framework.gi2.PathNode)
 	 */
-	public ScatteringNode castRay(Ray3 ray, PathNode parent) {
+	public ScatteringNode castRay(ScatteredRay sr, PathNode parent) {
 		// TODO Auto-generated method stub
 		return null;
 	}

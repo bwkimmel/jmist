@@ -14,8 +14,4 @@ public interface EyeNode extends PathNode {
 
 	void write(Color c, Raster raster);
 
-	double getAperturePDF();
-
-	boolean isApertureSingular();
-
 }

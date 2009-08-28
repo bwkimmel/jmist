@@ -9,8 +9,4 @@ package ca.eandb.jmist.framework.gi2;
  */
 public interface LightNode extends PathNode {
 
-	double getSourcePDF();
-
-	boolean isSourceSingular();
-
 }

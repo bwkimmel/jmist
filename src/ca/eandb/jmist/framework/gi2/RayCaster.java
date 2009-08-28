@@ -3,8 +3,8 @@
  */
 package ca.eandb.jmist.framework.gi2;
 
+import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.VisibilityFunction3;
-import ca.eandb.jmist.math.Ray3;
 
 /**
  * @author Brad
@@ -12,6 +12,6 @@ import ca.eandb.jmist.math.Ray3;
  */
 public interface RayCaster extends VisibilityFunction3 {
 
-	ScatteringNode castRay(Ray3 ray, PathNode parent);
+	ScatteringNode castRay(ScatteredRay sr, PathNode parent);
 
 }
