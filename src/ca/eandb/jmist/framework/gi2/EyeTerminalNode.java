@@ -52,8 +52,7 @@ public final class EyeTerminalNode extends AbstractPathNode implements PathNode 
 	}
 
 	private Color getBSDF(EyeNode eye) {
-		return eye.getImportanceExitance().divide(
-				eye.getCamera().getTotalImportance());
+		return eye.getImportanceExitance();
 	}
 
 	/* (non-Javadoc)

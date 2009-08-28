@@ -53,8 +53,7 @@ public final class LightTerminalNode extends AbstractPathNode implements
 	}
 
 	private Color getBSDF(LightNode light) {
-		return light.getRadiantExitance().divide(
-				light.getLightSampler().getTotalEmittedPower());
+		return light.getRadiantExitance();
 	}
 
 	/* (non-Javadoc)

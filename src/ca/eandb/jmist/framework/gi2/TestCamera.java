@@ -5,7 +5,10 @@ package ca.eandb.jmist.framework.gi2;
 
 import ca.eandb.jmist.framework.Lens;
 import ca.eandb.jmist.framework.Raster;
+import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.ColorModel;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.HPoint3;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
@@ -24,14 +27,6 @@ public final class TestCamera implements Camera {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.Camera#getTotalImportance()
-	 */
-	public Color getTotalImportance() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.gi2.Camera#sample(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.gi2.PathInfo)
 	 */
 	public EyeNode sample(Point2 pointOnImagePlane, PathInfo pathInfo) {
@@ -39,9 +34,9 @@ public final class TestCamera implements Camera {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.Camera#sample(ca.eandb.jmist.framework.gi2.PathNode)
+	 * @see ca.eandb.jmist.framework.gi2.Camera#project(ca.eandb.jmist.framework.gi2.PathNode)
 	 */
-	public EyeNode sample(PathNode target) {
+	public EyeNode project(PathNode target) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -67,13 +62,17 @@ public final class TestCamera implements Camera {
 		}
 
 		public Color getImportance(PathNode to) {
-			// TODO Auto-generated method stub
-			return null;
+			PathInfo path = getPathInfo();
+			ColorModel cm = path.getColorModel();
+			WavelengthPacket lambda = path.getWavelengthPacket();
+			return cm.getWhite(lambda);
 		}
 
 		public Color getImportanceExitance() {
-			// TODO Auto-generated method stub
-			return null;
+			PathInfo path = getPathInfo();
+			ColorModel cm = path.getColorModel();
+			WavelengthPacket lambda = path.getWavelengthPacket();
+			return cm.getWhite(lambda);
 		}
 
 		public boolean isApertureSingular() {
@@ -93,8 +92,12 @@ public final class TestCamera implements Camera {
 		}
 
 		public PathNode expand() {
-			// TODO Auto-generated method stub
-			return null;
+			PathInfo path = getPathInfo();
+			ColorModel cm = path.getColorModel();
+			WavelengthPacket lambda = path.getWavelengthPacket();
+			Ray3 ray = lens.rayAt(pointOnImagePlane);
+			ScatteredRay sr = ScatteredRay.diffuse(ray, cm.getWhite(lambda));
+			return trace(sr);
 		}
 
 		public double getCosine(PathNode node) {
@@ -102,8 +105,7 @@ public final class TestCamera implements Camera {
 		}
 
 		public double getForwardPDF(PathNode to) {
-			// TODO Auto-generated method stub
-			return 0;
+			return 1.0;
 		}
 
 		public HPoint3 getPosition() {

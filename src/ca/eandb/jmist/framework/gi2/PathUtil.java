@@ -7,6 +7,7 @@ import ca.eandb.jmist.framework.VisibilityFunction3;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorUtil;
 import ca.eandb.jmist.math.Ray3;
+import ca.eandb.jmist.math.Vector3;
 
 /**
  * @author Brad
@@ -58,6 +59,21 @@ public final class PathUtil {
 
 		} else { // No mutual scattering or nodes not mutually visible
 			return null;
+		}
+	}
+
+	public static Vector3 getDirection(PathNode from, PathNode to) {
+		boolean fromInfinity = from.isAtInfinity();
+		boolean toInfinity = to.isAtInfinity();
+		if (fromInfinity && toInfinity) {
+			return null;
+		} else if (fromInfinity) {
+			return from.getPosition().toVector3().unit().opposite();
+		} else if (toInfinity) {
+			return to.getPosition().toVector3().unit();
+		} else {
+			return from.getPosition().toPoint3().unitVectorTo(
+					to.getPosition().toPoint3());
 		}
 	}
 

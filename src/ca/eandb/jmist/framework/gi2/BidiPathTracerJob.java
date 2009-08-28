@@ -278,7 +278,7 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 		private void joinLightPathToEye(PathNode tail, double weight) {
 			PathNode node = tail;
 			while (node.getDepth() >= 0) {
-				EyeNode eye = camera.sample(node);
+				EyeNode eye = camera.project(node);
 				Color c = PathUtil.join(eye, node);
 				if (c != null) {
 					eye.write(c.times(weight), raster.get());
