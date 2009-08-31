@@ -30,14 +30,14 @@ public interface Lens extends Serializable {
 	 */
 	ScatteredRay rayAt(Point2 p, WavelengthPacket lambda, Random rnd);
 
-	EyeNode sample(PathInfo pathInfo, Random rnd);
+	EyeNode sample(Point2 p, PathInfo pathInfo, Random rnd);
 
 	public static final Lens NULL = new Lens() {
 		private static final long serialVersionUID = 2076070894932926479L;
 		public ScatteredRay rayAt(Point2 p, WavelengthPacket lambda, Random rnd) {
 			return null;
 		}
-		public EyeNode sample(PathInfo pathInfo, Random rnd) {
+		public EyeNode sample(Point2 p, PathInfo pathInfo, Random rnd) {
 			return null;
 		}
 	};

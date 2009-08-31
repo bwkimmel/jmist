@@ -95,6 +95,10 @@ public final class PointLight extends AbstractLight implements Serializable {
 			return sample(emittedPower).divide(4.0 * Math.PI);
 		}
 
+		public double getPDF(Vector3 v) {
+			return 1.0 / (4.0 * Math.PI);
+		}
+
 	}
 
 	/** The <code>Point3</code> where the light is to emit from. */

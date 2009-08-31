@@ -115,22 +115,26 @@ public final class PinholeLens extends AbstractLens {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.lens.SingularApertureLens#rayAt(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.color.WavelengthPacket)
+	 * @see ca.eandb.jmist.framework.Lens#sample(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.gi2.PathInfo, ca.eandb.jmist.framework.Random)
 	 */
-	public EyeNode sample(PathInfo pathInfo, Random rnd) {
-		return new Node(pathInfo);
+	public EyeNode sample(Point2 p, PathInfo pathInfo, Random rnd) {
+		return new Node(p, pathInfo);
 	}
 
 	private final class Node extends EyeTerminalNode {
 
-		public Node(PathInfo pathInfo) {
+		private final Point2 pointOnImagePlane;
+
+		public Node(Point2 pointOnImagePlane, PathInfo pathInfo) {
 			super(pathInfo);
+			this.pointOnImagePlane = pointOnImagePlane;
 		}
 
 		/* (non-Javadoc)
 		 * @see ca.eandb.jmist.framework.gi2.EyeNode#sample(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.Random)
 		 */
-		public ScatteredRay sample(Point2 p, Random rnd) {
+		public ScatteredRay sample(Random rnd) {
+			Point2 p = pointOnImagePlane;
 			Ray3 ray = new Ray3(
 					Point3.ORIGIN,
 					Vector3.unit(

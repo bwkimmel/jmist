@@ -44,8 +44,8 @@ public abstract class AbstractLens implements Lens {
 	 */
 	public final ScatteredRay rayAt(Point2 p, WavelengthPacket lambda, Random rnd) {
 		PathInfo path = new PathInfo(lambda);
-		EyeNode node = sample(path, rnd);
-		return node.sample(p, rnd);
+		EyeNode node = sample(p, path, rnd);
+		return node.sample(rnd);
 	}
 
 }

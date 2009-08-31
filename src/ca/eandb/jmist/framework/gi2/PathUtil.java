@@ -3,6 +3,7 @@
  */
 package ca.eandb.jmist.framework.gi2;
 
+import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.VisibilityFunction3;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorUtil;
@@ -86,6 +87,19 @@ public final class PathUtil {
 			return from.getPosition().toPoint3().unitVectorTo(
 					to.getPosition().toPoint3());
 		}
+	}
+
+	public static PathNode expand(PathNode node, int depth, Random rnd) {
+		if (node != null) {
+			for (int i = 0; i < depth; i++) {
+				PathNode next = node.expand(rnd);
+				if (next == null) {
+					break;
+				}
+				node = next;
+			}
+		}
+		return node;
 	}
 
 	private PathUtil() {}
