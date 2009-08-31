@@ -58,7 +58,7 @@ public interface ShadingContext extends SurfacePoint, VisibilityFunction3 {
 
 	ColorModel getColorModel();
 
-	ScatteredRays getScatteredRays();
+	ScatteredRay getScatteredRay();
 
 	Color castRay(ScatteredRay ray);
 

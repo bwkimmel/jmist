@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import ca.eandb.jmist.framework.Emitter;
 import ca.eandb.jmist.framework.Illuminable;
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionDecorator;
@@ -22,10 +21,12 @@ import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.framework.gi2.LightNode;
+import ca.eandb.jmist.framework.gi2.PathInfo;
+import ca.eandb.jmist.framework.gi2.ScaledLightNode;
+import ca.eandb.jmist.framework.gi2.SurfaceLightNode;
 import ca.eandb.jmist.framework.light.AbstractLight;
 import ca.eandb.jmist.framework.light.PointLightSample;
-import ca.eandb.jmist.framework.light.ScaledEmitter;
-import ca.eandb.jmist.framework.light.SurfaceEmitter;
 import ca.eandb.jmist.framework.random.CategoricalRandom;
 import ca.eandb.jmist.framework.shader.MinimalShadingContext;
 import ca.eandb.jmist.math.Point3;
@@ -245,7 +246,7 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 				target.addLightSample(sample);
 			}
 
-			public Emitter sample(Random rng) {
+			public LightNode sample(PathInfo pathInfo, Random rng) {
 				ShadingContext context = new MinimalShadingContext(rng);
 
 				int index = rnd.next(rng);
@@ -254,7 +255,8 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 				generateRandomSurfacePoint(primitive, context);
 				context.getModifier().modify(context);
 
-				return new ScaledEmitter(scale, new SurfaceEmitter(context));
+				return ScaledLightNode.create(1.0 / scale,
+						new SurfaceLightNode(pathInfo, context));
 			}
 
 		};

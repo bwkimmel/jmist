@@ -3,19 +3,40 @@
  */
 package ca.eandb.jmist.framework.gi2;
 
+import ca.eandb.jmist.framework.Scene;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.framework.scene.EmptyScene;
 
 /**
  * @author Brad
  *
  */
-public interface PathInfo {
+public final class PathInfo {
 
-	ColorModel getColorModel();
+	private final Scene scene;
 
-	RayCaster getRayCaster();
+	private final WavelengthPacket wavelengthPacket;
 
-	WavelengthPacket getWavelengthPacket();
+	public PathInfo(WavelengthPacket wavelengthPacket) {
+		this(EmptyScene.INSTANCE, wavelengthPacket);
+	}
+
+	public PathInfo(Scene scene, WavelengthPacket wavelengthPacket) {
+		this.scene = scene;
+		this.wavelengthPacket = wavelengthPacket;
+	}
+
+	public ColorModel getColorModel() {
+		return wavelengthPacket.getColorModel();
+	}
+
+	public WavelengthPacket getWavelengthPacket() {
+		return wavelengthPacket;
+	}
+
+	public Scene getScene() {
+		return scene;
+	}
 
 }

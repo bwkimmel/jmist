@@ -22,10 +22,6 @@ public final class Point3 extends HPoint3 {
 		super(x, y, z);
 	}
 
-	public Point3 toPoint3() {
-		return this;
-	}
-
 	public double w() {
 		return 1.0;
 	}

@@ -24,9 +24,9 @@ public abstract class AbstractScatteringNode extends AbstractPathNode implements
 
 	private final double pdf;
 
-	private final double geometricFactor;
-
 	private final boolean onLightPath;
+
+	private double geometricFactor;
 
 	/**
 	 * @param pathInfo
@@ -37,8 +37,8 @@ public abstract class AbstractScatteringNode extends AbstractPathNode implements
 		this.depth = parent.getDepth() + 1;
 		this.cumulativeWeight = parent.getCumulativeWeight().times(sr.getColor());
 		this.specular = (sr.getType() == Type.SPECULAR);
-		this.pdf = 1.0; // FIXME
-		this.geometricFactor = PathUtil.getGeometricFactor(parent, this);
+		this.pdf = sr.getPDF();
+		this.geometricFactor = Double.NaN;
 		this.onLightPath = parent.isOnLightPath();
 	}
 
@@ -60,6 +60,9 @@ public abstract class AbstractScatteringNode extends AbstractPathNode implements
 	 * @see ca.eandb.jmist.framework.gi2.PathNode#getGeometricFactor()
 	 */
 	public final double getGeometricFactor() {
+		if (Double.isNaN(geometricFactor)) {
+			geometricFactor = PathUtil.getGeometricFactor(parent, this);
+		}
 		return geometricFactor;
 	}
 

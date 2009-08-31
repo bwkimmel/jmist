@@ -5,12 +5,14 @@ package ca.eandb.jmist.framework.light;
 
 import java.util.Collection;
 
-import ca.eandb.jmist.framework.Emitter;
 import ca.eandb.jmist.framework.Illuminable;
 import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.framework.gi2.LightNode;
+import ca.eandb.jmist.framework.gi2.PathInfo;
+import ca.eandb.jmist.framework.gi2.ScaledLightNode;
 import ca.eandb.jmist.framework.random.RandomUtil;
 
 /**
@@ -48,11 +50,12 @@ public final class SimpleCompositeLight extends CompositeLight {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Light#sample(ca.eandb.jmist.framework.Random)
+	 * @see ca.eandb.jmist.framework.Light#sample(ca.eandb.jmist.framework.gi2.PathInfo, ca.eandb.jmist.framework.Random)
 	 */
-	public Emitter sample(Random rng) {
-		int index = RandomUtil.discrete(0, children().size() - 1, rng);
-		return new ScaledEmitter(children().size(), children().get(index).sample(rng));
+	public LightNode sample(PathInfo pathInfo, Random rnd) {
+		int index = RandomUtil.discrete(0, children().size() - 1, rnd);
+		return ScaledLightNode.create(1.0 / children().size(),
+				children().get(index).sample(pathInfo, rnd));
 	}
 
 }

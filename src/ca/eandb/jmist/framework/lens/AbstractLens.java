@@ -26,8 +26,12 @@
 package ca.eandb.jmist.framework.lens;
 
 import ca.eandb.jmist.framework.Lens;
-import ca.eandb.jmist.math.HPoint3;
-import ca.eandb.jmist.math.Vector3;
+import ca.eandb.jmist.framework.Random;
+import ca.eandb.jmist.framework.ScatteredRay;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.framework.gi2.EyeNode;
+import ca.eandb.jmist.framework.gi2.PathInfo;
+import ca.eandb.jmist.math.Point2;
 
 /**
  * @author brad
@@ -36,17 +40,12 @@ import ca.eandb.jmist.math.Vector3;
 public abstract class AbstractLens implements Lens {
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.Vector3)
+	 * @see ca.eandb.jmist.framework.Lens#rayAt(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random)
 	 */
-	public Projection project(Vector3 v) {
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.HPoint3)
-	 */
-	public final Projection project(HPoint3 p) {
-		return p.isPoint() ? project(p.toPoint3()) : project(p.toVector3());
+	public final ScatteredRay rayAt(Point2 p, WavelengthPacket lambda, Random rnd) {
+		PathInfo path = new PathInfo(lambda);
+		EyeNode node = sample(path, rnd);
+		return node.sample(p, rnd);
 	}
 
 }

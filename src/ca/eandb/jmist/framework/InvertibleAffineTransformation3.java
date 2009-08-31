@@ -6,6 +6,7 @@ package ca.eandb.jmist.framework;
 import java.io.Serializable;
 
 import ca.eandb.jmist.math.AffineMatrix3;
+import ca.eandb.jmist.math.HPoint3;
 import ca.eandb.jmist.math.LinearMatrix3;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
@@ -279,6 +280,19 @@ public class InvertibleAffineTransformation3 extends AffineTransformation3
 	 */
 	public AffineMatrix3 applyInverse(AffineMatrix3 matrix) {
 		return this.inverse != null ? this.inverse.times(matrix) : matrix;
+	}
+
+	/**
+	 * Applies the inverse of this <code>AffineTransformation3</code> to a
+	 * <code>HPoint3</code>.
+	 *
+	 * @param p
+	 *            The <code>HPoint3</code> object to apply the inverse of this
+	 *            transformation to.
+	 * @return The transformed <code>HPoint3</code>.
+	 */
+	public HPoint3 applyInverse(HPoint3 p) {
+		return this.inverse != null ? this.inverse.times(p) : p;
 	}
 
 	/**

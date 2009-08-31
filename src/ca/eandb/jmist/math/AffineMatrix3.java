@@ -188,7 +188,7 @@ public final class AffineMatrix3 implements Serializable {
 	 * @return The transformed <code>HPoint3</code>.
 	 */
 	public HPoint3 times(HPoint3 p) {
-		return p.isPoint() ? times(p.toVector3()) : times(p.toPoint3());
+		return p.isPoint() ? times(p.toPoint3()) : times(p.toVector3());
 	}
 
 	/**

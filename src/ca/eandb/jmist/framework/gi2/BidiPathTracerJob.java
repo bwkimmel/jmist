@@ -203,12 +203,6 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 			}
 		};
 
-		private transient RayCaster caster = new TestRayCaster(scene);
-
-		private final Camera camera = new TestCamera(scene.getLens());
-
-		private final LightSampler lightSampler = new TestLightSampler(scene.getLight());
-
 		/* (non-Javadoc)
 		 * @see ca.eandb.jdcp.job.TaskWorker#performTask(java.lang.Object, ca.eandb.util.progress.ProgressMonitor)
 		 */
@@ -244,13 +238,13 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 
 						Point2 p			= RandomUtil.uniform(bounds, random);
 						Color sample		= colorModel.sample(random);
-						PathInfo path		= new TestPathInfo(caster, sample.getWavelengthPacket());
-						EyeNode eye			= camera.sample(p, path);
-						PathNode eyeTail	= tracePath(eye, random);
+						PathInfo path		= new PathInfo(scene, sample.getWavelengthPacket());
+						EyeNode eye			= scene.getLens().sample(path, random);
+						PathNode eyeTail	= tracePath(eye.expand(p, random), random);
 
 						for (int j = 0; j < lightPathsPerEyePath; j++) {
 
-							LightNode light		= lightSampler.sample(path);
+							LightNode light		= scene.getLight().sample(path, random);
 							PathNode lightTail	= tracePath(light, random);
 
 							Color score			= join(eyeTail, lightTail,
@@ -271,17 +265,35 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 			monitor.notifyProgress(numPixels, numPixels);
 			monitor.notifyComplete();
 
-			return raster;
+			return raster.get();
 
 		}
 
-		private void joinLightPathToEye(PathNode tail, double weight) {
+		private void write(Point2 p, Color c) {
+			Raster raster = this.raster.get();
+			int w = raster.getWidth();
+			int h = raster.getHeight();
+			int x = MathUtil.threshold((int) Math.floor(p.x() * w), 0, w - 1);
+			int y = MathUtil.threshold((int) Math.floor(p.y() * h), 0, h - 1);
+			raster.addPixel(x, y, c);
+		}
+
+		private void joinLightPathToEye(EyeNode eye, PathNode tail, double weight) {
 			PathNode node = tail;
-			while (node.getDepth() >= 0) {
-				EyeNode eye = camera.project(node);
-				Color c = PathUtil.join(eye, node);
-				if (c != null) {
-					eye.write(c.times(weight), raster.get());
+			while (node != null) {
+				double w = getWeight(eye, node);
+				if (!MathUtil.isZero(w)) {
+					Color c = PathUtil.join(eye, node);
+					if (c != null) {
+						Point2 p = eye.project(node.getPosition());
+						if (p != null) {
+							if (node instanceof LightNode) {
+								write(p, c.times(w));
+							} else {
+								write(p, c.times(1.0 * w));
+							}
+						}
+					}
 				}
 				node = node.getParent();
 			}
@@ -289,10 +301,10 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 
 		private Color joinInnerToInner(PathNode eyeNode, PathNode lightNode) {
 			assert(eyeNode.getDepth() > 0 && lightNode.getDepth() > 0);
-			Color c = PathUtil.join(eyeNode, lightNode);
-			if (c != null) {
-				double w = getWeight(eyeNode, lightNode);
-				return c.times(w);
+			double w = getWeight(eyeNode, lightNode);
+			if (!MathUtil.isZero(w)) {
+				Color c = PathUtil.join(eyeNode, lightNode);
+				return ColorUtil.mul(c, w);
 			} else {
 				return null;
 			}
@@ -301,32 +313,24 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 		private double getWeight(PathNode eyeNode, PathNode lightNode) {
 			int s = lightNode.getDepth() + 1;
 			int t = eyeNode.getDepth() + 1;
-			double[] weights = new double[s + t];
+//			double[] weights = new double[s + t];
 
-			weights[s] = 1.0;
-			for (int i = s - 1; i >= 0; i--) {
-				lightNode = lightNode.getParent();
-				weights[i] = weights[i + 1];
-				weights[i] *= lightNode.getChild().getBackwardPDF()
-						* lightNode.getChild().getGeometricFactor();
-				weights[i] /= lightNode.getParent().getForwardPDF()
-						* lightNode.getGeometricFactor();
-			}
-
-			for (int i = s + 1; i < weights.length; i++) {
+			int k = s + t + 1;
+			while (eyeNode != null) {
+				if (eyeNode.isSpecular()) {
+					k--;
+				}
 				eyeNode = eyeNode.getParent();
-				weights[i] = weights[i - 1];
-				weights[i] *= eyeNode.getChild().getBackwardPDF()
-						* eyeNode.getChild().getGeometricFactor();
-				weights[i] /= eyeNode.getParent().getForwardPDF()
-						* eyeNode.getGeometricFactor();
 			}
 
-			for (int i = 0; i < weights.length; i++) {
-				weights[i] *= weights[i];
+			while (lightNode != null) {
+				if (lightNode.isSpecular()) {
+					k--;
+				}
+				lightNode = lightNode.getParent();
 			}
 
-			return 1.0 / MathUtil.sum(weights);
+			return 1.0 / (double) k;
 		}
 
 		private Color joinInnerToLight(ScatteringNode eyeNode, LightNode light) {
@@ -352,15 +356,17 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 				n++;
 				eyeNode = eyeNode.getParent();
 			}
-			joinLightPathToEye(lightTail, lightImageWeight);
+			assert(eyeNode instanceof EyeNode);
+			joinLightPathToEye((EyeNode) eyeNode, lightTail, lightImageWeight);
 			return score;
 		}
 
 		private PathNode tracePath(PathNode node, Random random) {
-			PathNode next = node.expand();
-			while (next != null) {
+			int depth = 0;
+			PathNode next = node.expand(random);
+			while (next != null && depth++ < 10) {
 				node = next;
-				next = node.expand();
+				next = node.expand(random);
 			}
 			return node;
 		}

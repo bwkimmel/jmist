@@ -29,7 +29,9 @@ import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.Shader;
 import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.ColorUtil;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.framework.random.RandomUtil;
 
 /**
  * A <code>Shader</code> that traces up to one randomly selected scattered ray.
@@ -67,7 +69,15 @@ public final class PathTracingShader implements Shader {
 	public Color shade(ShadingContext sc) {
 
 		if (sc.getPathDepth() < maxDepth) {
-			ScatteredRay ray = sc.getScatteredRays().getRandomScatteredRay(true);
+			ScatteredRay ray = sc.getScatteredRay();
+			double prob = ColorUtil.getMeanChannelValue(ray.getColor());
+			if (prob < 1.0) {
+				if (RandomUtil.bernoulli(prob, sc.getRandom())) {
+					ray = ScatteredRay.select(ray, prob);
+				} else {
+					ray = null;
+				}
+			}
 
 			if (ray != null) {
 				return sc.castRay(ray);

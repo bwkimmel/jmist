@@ -41,7 +41,6 @@ import ca.eandb.jmist.framework.NearestIntersectionRecorder;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.RayShader;
 import ca.eandb.jmist.framework.ScatteredRay;
-import ca.eandb.jmist.framework.ScatteredRays;
 import ca.eandb.jmist.framework.Scene;
 import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.Shader;
@@ -131,7 +130,7 @@ public final class SceneRayShader implements RayShader {
 		public Ray3 ray;
 		public List<LightSample> samples;
 		public Modifier modifier;
-		public ScatteredRays scatteredRays;
+		public ScatteredRay scatteredRay;
 		public Shader shader;
 		public boolean front;
 		public Basis3 basis;
@@ -164,8 +163,6 @@ public final class SceneRayShader implements RayShader {
 
 				stack.push(local);
 				x.prepareShadingContext(this);
-
-				local.scatteredRays = new ScatteredRays(this, ray.direction(), getWavelengthPacket(), rng, local.material);
 
 				Color color = shade();
 
@@ -213,8 +210,6 @@ public final class SceneRayShader implements RayShader {
 
 				stack.push(local);
 				x.prepareShadingContext(this);
-
-				local.scatteredRays = new ScatteredRays(this, ray.direction(), getWavelengthPacket(), rng, local.material);
 
 				Color color = shade();
 				color = color.times(medium.transmittance(local.ray,
@@ -273,8 +268,12 @@ public final class SceneRayShader implements RayShader {
 			return (d != null ? d.intValue() : 0);
 		}
 
-		public ScatteredRays getScatteredRays() {
-			return stack.peek().scatteredRays;
+		public ScatteredRay getScatteredRay() {
+			if (stack.peek().scatteredRay == null) {
+				stack.peek().scatteredRay = stack.peek().material.scatter(this,
+						getIncident(), true, getWavelengthPacket(), rng);
+			}
+			return stack.peek().scatteredRay;
 		}
 
 		public Color shade() {

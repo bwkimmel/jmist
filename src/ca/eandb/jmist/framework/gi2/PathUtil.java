@@ -6,6 +6,7 @@ package ca.eandb.jmist.framework.gi2;
 import ca.eandb.jmist.framework.VisibilityFunction3;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorUtil;
+import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
 
@@ -21,13 +22,17 @@ public final class PathUtil {
 		if (aAtInf && bAtInf) {
 			return 0.0;
 		} else if (bAtInf) {
-			return a.getCosine(b);
+			Vector3 v = (Vector3) b.getPosition();
+			return a.getCosine(v);
 		} else if (aAtInf) {
-			return b.getCosine(a);
+			Vector3 v = (Vector3) b.getPosition();
+			return b.getCosine(v);
 		} else {
-			return a.getCosine(b) * b.getCosine(a)
-					/ a.getPosition().toPoint3().squaredDistanceTo(
-							b.getPosition().toPoint3());
+			Point3 p = (Point3) a.getPosition();
+			Point3 q = (Point3) b.getPosition();
+			Vector3 v = p.vectorTo(q);
+			return a.getCosine(v) * b.getCosine(v.opposite())
+					/ v.squaredLength();
 		}
 	}
 
@@ -35,7 +40,7 @@ public final class PathUtil {
 		Ray3 ray = Ray3.create(a.getPosition(), b.getPosition());
 		if (ray != null) {
 			PathInfo path = a.getPathInfo();
-			VisibilityFunction3 vf = path.getRayCaster();
+			VisibilityFunction3 vf = path.getScene().getRoot();
 			return vf.visibility(ray);
 		} else { // ray == null
 			return false;
@@ -43,8 +48,14 @@ public final class PathUtil {
 	}
 
 	public static Color join(PathNode a, PathNode b) {
-		Color etol = a.scatterTo(b);
-		Color ltoe = b.scatterTo(a);
+		Vector3 v = PathUtil.getDirection(a, b);
+
+		if (v == null) {
+			return null;
+		}
+
+		Color etol = a.scatter(v);
+		Color ltoe = b.scatter(v.opposite());
 		Color c = etol.times(ltoe);
 
 		if (ColorUtil.getTotalChannelValue(c) > 0.0

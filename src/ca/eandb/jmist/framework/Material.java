@@ -17,13 +17,23 @@ import ca.eandb.jmist.math.Vector3;
  */
 public interface Material extends Medium, Serializable {
 
-	Color scattering(SurfacePoint x, Vector3 in, Vector3 out, WavelengthPacket lambda);
-	Color emission(SurfacePoint x, Vector3 out, WavelengthPacket lambda);
+//	Color scattering(SurfacePoint x, Vector3 in, Vector3 out, WavelengthPacket lambda);
+//	Color emission(SurfacePoint x, Vector3 out, WavelengthPacket lambda);
 
 	boolean isEmissive();
 
-	void scatter(SurfacePoint x, Vector3 v, WavelengthPacket lambda, Random rng, ScatteredRayRecorder recorder);
-	void emit(SurfacePoint x, WavelengthPacket lambda, Random rng, ScatteredRayRecorder recorder);
+//	void scatter(SurfacePoint x, Vector3 v, WavelengthPacket lambda, Random rng, ScatteredRayRecorder recorder);
+//	void emit(SurfacePoint x, WavelengthPacket lambda, Random rng, ScatteredRayRecorder recorder);
+
+	ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint, WavelengthPacket lambda, Random rnd);
+	ScatteredRay emit(SurfacePoint x, WavelengthPacket lambda, Random rnd);
+
+	double getScatteringPDF(SurfacePoint x, Vector3 in, Vector3 out, WavelengthPacket lambda);
+	double getEmissionPDF(SurfacePoint x, Vector3 out, WavelengthPacket lambda);
+
+	Color bsdf(SurfacePoint x, Vector3 in, Vector3 out, WavelengthPacket lambda);
+	Color emission(SurfacePoint x, Vector3 out, WavelengthPacket lambda);
+
 
 	/**
 	 * A <code>Material</code> that absorbs all light and does not
@@ -37,20 +47,8 @@ public interface Material extends Medium, Serializable {
 			return lambda.getColorModel().getBlack(lambda);
 		}
 
-		public void emit(SurfacePoint x, WavelengthPacket lambda, Random rng, ScatteredRayRecorder recorder) {
-			/* nothing to do. */
-		}
-
 		public boolean isEmissive() {
 			return false;
-		}
-
-		public void scatter(SurfacePoint x, Vector3 in, WavelengthPacket lambda, Random rng, ScatteredRayRecorder recorder) {
-			/* nothing to do. */
-		}
-
-		public Color scattering(SurfacePoint x, Vector3 v, Vector3 out, WavelengthPacket lambda) {
-			return lambda.getColorModel().getBlack().sample(lambda);
 		}
 
 		public Color extinctionIndex(Point3 p, WavelengthPacket lambda) {
@@ -63,6 +61,31 @@ public interface Material extends Medium, Serializable {
 
 		public Color transmittance(Ray3 ray, double distance, WavelengthPacket lambda) {
 			return lambda.getColorModel().getBlack(lambda);
+		}
+
+		public Color bsdf(SurfacePoint x, Vector3 in, Vector3 out,
+				WavelengthPacket lambda) {
+			return lambda.getColorModel().getBlack(lambda);
+		}
+
+		public ScatteredRay emit(SurfacePoint x, WavelengthPacket lambda,
+				Random rnd) {
+			return null;
+		}
+
+		public double getScatteringPDF(SurfacePoint x, Vector3 in, Vector3 out,
+				WavelengthPacket lambda) {
+			return 0.0;
+		}
+
+		public double getEmissionPDF(SurfacePoint x, Vector3 out,
+				WavelengthPacket lambda) {
+			return 0.0;
+		}
+
+		public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint,
+				WavelengthPacket lambda, Random rnd) {
+			return null;
 		}
 
 	};

@@ -443,6 +443,18 @@ public final class ColorUtil {
 		return a != null ? a.divide(c) : null;
 	}
 
+	public static Color getWhite(WavelengthPacket lambda) {
+		return lambda.getColorModel().getWhite(lambda);
+	}
+
+	public static Color getBlack(WavelengthPacket lambda) {
+		return lambda.getColorModel().getBlack(lambda);
+	}
+
+	public static Color getGray(double value, WavelengthPacket lambda) {
+		return lambda.getColorModel().getGray(value, lambda);
+	}
+
 	/** Instances of <code>ColorUtil</code>	cannot be created. */
 	private ColorUtil() {}
 

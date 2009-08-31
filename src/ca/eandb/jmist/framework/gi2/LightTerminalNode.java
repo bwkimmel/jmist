@@ -7,13 +7,13 @@ package ca.eandb.jmist.framework.gi2;
  * @author Brad
  *
  */
-public abstract class AbstractLightNode extends AbstractTerminalNode implements
+public abstract class LightTerminalNode extends AbstractTerminalNode implements
 		LightNode {
 
 	/**
 	 * @param pathInfo
 	 */
-	public AbstractLightNode(PathInfo pathInfo) {
+	public LightTerminalNode(PathInfo pathInfo) {
 		super(pathInfo);
 	}
 

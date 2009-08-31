@@ -3,8 +3,11 @@
  */
 package ca.eandb.jmist.framework.gi2;
 
+import ca.eandb.jmist.framework.Random;
+import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.math.HPoint3;
+import ca.eandb.jmist.math.Vector3;
 
 /**
  * @author Brad
@@ -32,11 +35,13 @@ public interface PathNode {
 
 	int getDepth();
 
-	Color scatterTo(PathNode node);
+	ScatteredRay sample(Random rnd);
 
-	double getCosine(PathNode node);
+	Color scatter(Vector3 v);
 
-	ScatteringNode expand();
+	double getCosine(Vector3 v);
+
+	ScatteringNode expand(Random rnd);
 
 	PathInfo getPathInfo();
 

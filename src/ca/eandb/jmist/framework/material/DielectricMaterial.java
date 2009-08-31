@@ -93,7 +93,7 @@ public class DielectricMaterial extends AbstractMaterial {
 			boolean		toSide	= x.getNormal().dot(out) >= 0.0;
 
 			if (fromSide == toSide) {
-				recorder.add(ScatteredRay.specular(new Ray3(p, out), R));
+				recorder.add(ScatteredRay.specular(new Ray3(p, out), R, 1.0));
 			}
 		}
 
@@ -105,7 +105,7 @@ public class DielectricMaterial extends AbstractMaterial {
 				boolean		toSide	= x.getNormal().dot(out) >= 0.0;
 
 				if (fromSide != toSide) {
-					recorder.add(ScatteredRay.transmitSpecular(new Ray3(p, out), T.disperse(i)));
+					recorder.add(ScatteredRay.transmitSpecular(new Ray3(p, out), T.disperse(i), 1.0));
 				}
 			}
 		} else { // !disperse
@@ -118,7 +118,7 @@ public class DielectricMaterial extends AbstractMaterial {
 			boolean		toSide	= x.getNormal().dot(out) >= 0.0;
 
 			if (fromSide != toSide) {
-				recorder.add(ScatteredRay.transmitSpecular(new Ray3(p, out), T));
+				recorder.add(ScatteredRay.transmitSpecular(new Ray3(p, out), T, 1.0));
 			}
 		}
 

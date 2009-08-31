@@ -5,7 +5,7 @@ package ca.eandb.jmist.framework.material;
 
 import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.Random;
-import ca.eandb.jmist.framework.ScatteredRayRecorder;
+import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
@@ -25,10 +25,10 @@ public abstract class AbstractMaterial implements Material {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Material#emit(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random, ca.eandb.jmist.framework.ScatteredRayRecorder)
+	 * @see ca.eandb.jmist.framework.Material#emit(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random)
 	 */
-	public void emit(SurfacePoint x, WavelengthPacket lambda, Random rng, ScatteredRayRecorder recorder) {
-		/* nothing to do. */
+	public ScatteredRay emit(SurfacePoint x, WavelengthPacket lambda, Random rng) {
+		return null;
 	}
 
 	/* (non-Javadoc)
@@ -39,17 +39,31 @@ public abstract class AbstractMaterial implements Material {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Material#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random, ca.eandb.jmist.framework.ScatteredRayRecorder)
+	 * @see ca.eandb.jmist.framework.Material#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, boolean, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random)
 	 */
-	public void scatter(SurfacePoint x, Vector3 v, WavelengthPacket lambda, Random rng, ScatteredRayRecorder recorder) {
-		/* nothing to do. */
+	public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint, WavelengthPacket lambda, Random rng) {
+		return null;
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Material#scattering(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
+	 * @see ca.eandb.jmist.framework.Material#bsdf(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
-	public Color scattering(SurfacePoint x, Vector3 in, Vector3 out, WavelengthPacket lambda) {
+	public Color bsdf(SurfacePoint x, Vector3 in, Vector3 out, WavelengthPacket lambda) {
 		return lambda.getColorModel().getBlack(lambda);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Material#pdf(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
+	 */
+	public double getScatteringPDF(SurfacePoint x, Vector3 in, Vector3 out, WavelengthPacket lambda) {
+		return 0.0;
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Material#getEmissionPDF(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
+	 */
+	public double getEmissionPDF(SurfacePoint x, Vector3 out, WavelengthPacket lambda) {
+		return 0.0;
 	}
 
 }

@@ -111,7 +111,7 @@ public abstract class HPoint3 extends Tuple3 {
 	 * 		<code>Point3</code>.
 	 */
 	public final boolean isPoint() {
-		return toPoint3() != null;
+		return this instanceof Point3;
 	}
 
 	/**
@@ -121,7 +121,7 @@ public abstract class HPoint3 extends Tuple3 {
 	 * 		<code>Vector3</code>.
 	 */
 	public final boolean isVector() {
-		return toVector3() != null;
+		return this instanceof Vector3;
 	}
 
 	/**
@@ -129,8 +129,8 @@ public abstract class HPoint3 extends Tuple3 {
 	 * @return If this <code>HPoint3</code> is a <code>Point3</code>, this
 	 * 		object is returned, otherwise <code>null</code> is returned.
 	 */
-	public Point3 toPoint3() {
-		return null;
+	public final Point3 toPoint3() {
+		return (Point3) this;
 	}
 
 	/**
@@ -138,8 +138,8 @@ public abstract class HPoint3 extends Tuple3 {
 	 * @return If this <code>HPoint3</code> is a <code>Vector3</code>, this
 	 * 		object is returned, otherwise <code>null</code> is returned.
 	 */
-	public Vector3 toVector3() {
-		return null;
+	public final Vector3 toVector3() {
+		return (Vector3) this;
 	}
 
 	/**

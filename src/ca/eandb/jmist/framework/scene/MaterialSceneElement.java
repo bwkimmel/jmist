@@ -25,7 +25,6 @@
 
 package ca.eandb.jmist.framework.scene;
 
-import ca.eandb.jmist.framework.Emitter;
 import ca.eandb.jmist.framework.Illuminable;
 import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.LightSample;
@@ -37,10 +36,12 @@ import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.framework.gi2.LightNode;
+import ca.eandb.jmist.framework.gi2.PathInfo;
+import ca.eandb.jmist.framework.gi2.ScaledLightNode;
+import ca.eandb.jmist.framework.gi2.SurfaceLightNode;
 import ca.eandb.jmist.framework.light.AbstractLight;
 import ca.eandb.jmist.framework.light.PointLightSample;
-import ca.eandb.jmist.framework.light.ScaledEmitter;
-import ca.eandb.jmist.framework.light.SurfaceEmitter;
 import ca.eandb.jmist.framework.shader.MinimalShadingContext;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Vector3;
@@ -98,12 +99,13 @@ public final class MaterialSceneElement extends ModifierSceneElement {
 
 			}
 
-			public Emitter sample(Random rng) {
-				ShadingContext context = new MinimalShadingContext(rng);
+			public LightNode sample(PathInfo pathInfo, Random rnd) {
+				ShadingContext context = new MinimalShadingContext(rnd);
 				generateRandomSurfacePoint(context);
 				context.getModifier().modify(context);
 
-				return new ScaledEmitter(surfaceArea, new SurfaceEmitter(context));
+				return ScaledLightNode.create(1.0 / surfaceArea,
+						new SurfaceLightNode(pathInfo, context));
 			}
 
 		};

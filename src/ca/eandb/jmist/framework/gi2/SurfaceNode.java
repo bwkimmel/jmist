@@ -4,9 +4,9 @@
 package ca.eandb.jmist.framework.gi2;
 
 import ca.eandb.jmist.framework.Material;
+import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ScatteredRay;
-import ca.eandb.jmist.framework.ScatteredRays;
-import ca.eandb.jmist.framework.ShadingContext;
+import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.HPoint3;
@@ -18,16 +18,16 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class SurfaceNode extends AbstractScatteringNode {
 
-	private final ShadingContext context;
+	private final SurfacePoint surf;
 
 	/**
 	 * @param parent
 	 * @param sr
-	 * @param context
+	 * @param surf
 	 */
-	public SurfaceNode(PathNode parent, ScatteredRay sr, ShadingContext context) {
+	public SurfaceNode(PathNode parent, ScatteredRay sr, SurfacePoint surf) {
 		super(parent, sr);
-		this.context = context;
+		this.surf = surf;
 	}
 
 	/* (non-Javadoc)
@@ -43,54 +43,55 @@ public final class SurfaceNode extends AbstractScatteringNode {
 	 */
 	public Color getSourceRadiance() {
 		PathInfo path = getPathInfo();
-		Material material = context.getMaterial();
+		Material material = surf.getMaterial();
 		WavelengthPacket lambda = path.getWavelengthPacket();
 		Vector3 out = PathUtil.getDirection(this, getParent());
-		return material.emission(context, out, lambda);
+		return material.emission(surf, out, lambda);
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#expand()
+	 * @see ca.eandb.jmist.framework.gi2.PathNode#sample(ca.eandb.jmist.framework.Random)
 	 */
-	public ScatteringNode expand() {
-		ScatteredRays scat = context.getScatteredRays();
-		ScatteredRay sr = scat.getRandomScatteredRay(false);
-		return trace(sr);
+	public ScatteredRay sample(Random rnd) {
+		PathInfo path = getPathInfo();
+		WavelengthPacket lambda = path.getWavelengthPacket();
+		Vector3 v = PathUtil.getDirection(getParent(), this);
+		Material material = surf.getMaterial();
+		return material.scatter(surf, v, isOnEyePath(), lambda, rnd);
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#getCosine(ca.eandb.jmist.framework.gi2.PathNode)
+	 * @see ca.eandb.jmist.framework.gi2.PathNode#getCosine(ca.eandb.jmist.math.Vector3)
 	 */
-	public double getCosine(PathNode node) {
-		Vector3 n = context.getShadingNormal();
-		Vector3 v = PathUtil.getDirection(this, node);
-		return v.dot(n);
+	public double getCosine(Vector3 v) {
+		Vector3 n = surf.getShadingNormal();
+		return v.unit().dot(n);
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.gi2.PathNode#getPosition()
 	 */
 	public HPoint3 getPosition() {
-		return context.getPosition();
+		return surf.getPosition();
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#scatterTo(ca.eandb.jmist.framework.gi2.PathNode)
+	 * @see ca.eandb.jmist.framework.gi2.PathNode#scatter(ca.eandb.jmist.math.Vector3)
 	 */
-	public Color scatterTo(PathNode node) {
+	public Color scatter(Vector3 v) {
 		PathInfo path = getPathInfo();
 		PathNode parent = getParent();
-		Material material = context.getMaterial();
+		Material material = surf.getMaterial();
 		WavelengthPacket lambda = path.getWavelengthPacket();
 		Vector3 in, out;
 		if (isOnLightPath()) {
 			in = PathUtil.getDirection(parent, this);
-			out = PathUtil.getDirection(this, node);
+			out = v;
 		} else { // isOnEyePath()
-			in = PathUtil.getDirection(node, this);
+			in = v.opposite();
 			out = PathUtil.getDirection(this, parent);
 		}
-		return material.scattering(context, in, out, lambda);
+		return material.bsdf(surf, in, out, lambda);
 	}
 
 }

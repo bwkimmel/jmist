@@ -6,7 +6,6 @@ package ca.eandb.jmist.framework.material;
 import ca.eandb.jmist.framework.Painter;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ScatteredRay;
-import ca.eandb.jmist.framework.ScatteredRayRecorder;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.Spectrum;
@@ -80,10 +79,10 @@ public final class LambertianMaterial extends OpaqueMaterial {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#emit(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random, ca.eandb.jmist.framework.ScatteredRayRecorder)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#emit(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random)
 	 */
 	@Override
-	public void emit(SurfacePoint x, WavelengthPacket lambda, Random rng, ScatteredRayRecorder recorder) {
+	public ScatteredRay emit(SurfacePoint x, WavelengthPacket lambda, Random rng) {
 
 		if (this.emittance != null) {
 
@@ -91,18 +90,20 @@ public final class LambertianMaterial extends OpaqueMaterial {
 			Ray3 ray = new Ray3(x.getPosition(), out.toCartesian(x.getShadingBasis()));
 
 			if (x.getNormal().dot(ray.direction()) > 0.0) {
-				recorder.add(ScatteredRay.diffuse(ray, emittance.getColor(x, lambda)));
+				return ScatteredRay.diffuse(ray, emittance.getColor(x, lambda), 1.0 / Math.PI);
 			}
 
 		}
 
+		return null;
+
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random, ca.eandb.jmist.framework.ScatteredRayRecorder)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, boolean, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random)
 	 */
 	@Override
-	public void scatter(SurfacePoint x, Vector3 v, WavelengthPacket lambda, Random rng, ScatteredRayRecorder recorder) {
+	public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint, WavelengthPacket lambda, Random rng) {
 
 		if (this.reflectance != null) {
 
@@ -110,18 +111,20 @@ public final class LambertianMaterial extends OpaqueMaterial {
 			Ray3 ray = new Ray3(x.getPosition(), out.toCartesian(x.getShadingBasis()));
 
 			if (ray.direction().dot(x.getNormal()) > 0.0) {
-				recorder.add(ScatteredRay.diffuse(ray, reflectance.getColor(x, lambda)));
+				return ScatteredRay.diffuse(ray, reflectance.getColor(x, lambda), 1.0 / Math.PI);
 			}
 
 		}
 
+		return null;
+
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scattering(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#bsdf(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
 	@Override
-	public Color scattering(SurfacePoint x, Vector3 in, Vector3 out, WavelengthPacket lambda) {
+	public Color bsdf(SurfacePoint x, Vector3 in, Vector3 out, WavelengthPacket lambda) {
 
 		Vector3 n = x.getNormal();
 		boolean fromFront = (n.dot(in) < 0.0);
@@ -134,6 +137,26 @@ public final class LambertianMaterial extends OpaqueMaterial {
 		}
 
 	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#getEmissionPDF(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
+	 */
+	@Override
+	public double getEmissionPDF(SurfacePoint x, Vector3 out,
+			WavelengthPacket lambda) {
+		return emittance != null ? 1.0 / Math.PI : 0.0;
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#getScatteringPDF(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
+	 */
+	@Override
+	public double getScatteringPDF(SurfacePoint x, Vector3 in, Vector3 out,
+			WavelengthPacket lambda) {
+		return reflectance != null ? 1.0 / Math.PI : 0.0;
+	}
+
+
 
 	/** The reflectance <code>Painter</code> of this <code>Material</code>. */
 	private final Painter reflectance;

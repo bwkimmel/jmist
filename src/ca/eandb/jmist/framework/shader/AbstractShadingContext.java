@@ -30,7 +30,6 @@ import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.Medium;
 import ca.eandb.jmist.framework.Modifier;
 import ca.eandb.jmist.framework.ScatteredRay;
-import ca.eandb.jmist.framework.ScatteredRays;
 import ca.eandb.jmist.framework.Shader;
 import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.ScatteredRay.Type;
@@ -139,9 +138,9 @@ public abstract class AbstractShadingContext implements ShadingContext {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.ShadingContext#getScatteredRays()
+	 * @see ca.eandb.jmist.framework.ShadingContext#getScatteredRay()
 	 */
-	public ScatteredRays getScatteredRays() {
+	public ScatteredRay getScatteredRay() {
 		throw new UnsupportedOperationException();
 	}
 
