@@ -41,6 +41,10 @@ public interface PathNode {
 
 	double getCosine(Vector3 v);
 
+	double getPDF(Vector3 v);
+
+	double getReversePDF(Vector3 v);
+
 	ScatteringNode expand(Random rnd);
 
 	PathInfo getPathInfo();

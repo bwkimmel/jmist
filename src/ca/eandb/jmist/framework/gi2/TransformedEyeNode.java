@@ -8,6 +8,7 @@ import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.math.AffineMatrix3;
 import ca.eandb.jmist.math.HPoint3;
 import ca.eandb.jmist.math.Point2;
+import ca.eandb.jmist.math.Vector3;
 
 /**
  * @author Brad
@@ -55,6 +56,21 @@ public final class TransformedEyeNode extends TransformedPathNode implements
 	public ScatteredRay sample(Point2 p, Random rnd) {
 		ScatteredRay sr = ((EyeNode) inner).sample(p, rnd);
 		return sr.transform(localToWorld);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.gi2.PathNode#getPDF(ca.eandb.jmist.math.Vector3)
+	 */
+	public double getPDF(Vector3 v) {
+		v = worldToLocal.times(v);
+		return inner.getPDF(v);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.gi2.PathNode#getReversePDF(ca.eandb.jmist.math.Vector3)
+	 */
+	public double getReversePDF(Vector3 v) {
+		return 0.0;
 	}
 
 }

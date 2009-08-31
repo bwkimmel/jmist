@@ -148,14 +148,7 @@ public final class PinholeLens extends AbstractLens {
 		 * @see ca.eandb.jmist.framework.gi2.PathNode#scatterTo(ca.eandb.jmist.framework.gi2.PathNode)
 		 */
 		public Color scatter(Vector3 v) {
-			Point2 p = project(v);
-			if (p != null) {
-				double z = p.x() * p.x() + p.y() * p.y() + 1.0;
-				double w = 1.0 / (z * z);
-				return getGray(w / normalizationFactor);
-			} else {
-				return getBlack();
-			}
+			return getGray(getPDF(v));
 		}
 
 		public Point2 project(HPoint3 x) {
@@ -184,6 +177,17 @@ public final class PinholeLens extends AbstractLens {
 
 		public boolean isSpecular() {
 			return true;
+		}
+
+		public double getPDF(Vector3 v) {
+			Point2 p = project(v);
+			if (p != null) {
+				double z = p.x() * p.x() + p.y() * p.y() + 1.0;
+				double w = 1.0 / (z * z);
+				return w / normalizationFactor;
+			} else {
+				return 0.0;
+			}
 		}
 
 	}

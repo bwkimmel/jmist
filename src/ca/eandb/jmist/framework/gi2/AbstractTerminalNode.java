@@ -4,6 +4,7 @@
 package ca.eandb.jmist.framework.gi2;
 
 import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.math.Vector3;
 
 /**
  * @author Brad
@@ -44,6 +45,13 @@ public abstract class AbstractTerminalNode extends AbstractPathNode {
 	 */
 	public final double getGeometricFactor() {
 		return 1.0;
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.gi2.PathNode#getReversePDF(ca.eandb.jmist.math.Vector3)
+	 */
+	public final double getReversePDF(Vector3 v) {
+		return 0.0;
 	}
 
 }

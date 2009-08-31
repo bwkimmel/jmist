@@ -77,4 +77,14 @@ public final class SurfaceLightNode extends LightTerminalNode {
 		return material.emission(surf, v, lambda);
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.gi2.PathNode#getPDF(ca.eandb.jmist.math.Vector3)
+	 */
+	public double getPDF(Vector3 v) {
+		PathInfo path = getPathInfo();
+		WavelengthPacket lambda = path.getWavelengthPacket();
+		Material material = surf.getMaterial();
+		return material.getEmissionPDF(surf, v, lambda);
+	}
+
 }

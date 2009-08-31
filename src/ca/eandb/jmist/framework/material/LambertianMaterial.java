@@ -148,11 +148,11 @@ public final class LambertianMaterial extends OpaqueMaterial {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#getScatteringPDF(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#getScatteringPDF(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Vector3, boolean, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
 	@Override
 	public double getScatteringPDF(SurfacePoint x, Vector3 in, Vector3 out,
-			WavelengthPacket lambda) {
+			boolean adjoint, WavelengthPacket lambda) {
 		return reflectance != null ? 1.0 / Math.PI : 0.0;
 	}
 

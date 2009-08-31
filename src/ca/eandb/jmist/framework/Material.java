@@ -28,7 +28,7 @@ public interface Material extends Medium, Serializable {
 	ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint, WavelengthPacket lambda, Random rnd);
 	ScatteredRay emit(SurfacePoint x, WavelengthPacket lambda, Random rnd);
 
-	double getScatteringPDF(SurfacePoint x, Vector3 in, Vector3 out, WavelengthPacket lambda);
+	double getScatteringPDF(SurfacePoint x, Vector3 in, Vector3 out, boolean adjoint, WavelengthPacket lambda);
 	double getEmissionPDF(SurfacePoint x, Vector3 out, WavelengthPacket lambda);
 
 	Color bsdf(SurfacePoint x, Vector3 in, Vector3 out, WavelengthPacket lambda);
@@ -74,7 +74,7 @@ public interface Material extends Medium, Serializable {
 		}
 
 		public double getScatteringPDF(SurfacePoint x, Vector3 in, Vector3 out,
-				WavelengthPacket lambda) {
+				boolean adjoint, WavelengthPacket lambda) {
 			return 0.0;
 		}
 

@@ -68,4 +68,18 @@ public final class BackgroundNode extends AbstractScatteringNode {
 		return getBlack();
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.gi2.PathNode#getPDF(ca.eandb.jmist.math.Vector3)
+	 */
+	public double getPDF(Vector3 v) {
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.gi2.PathNode#getReversePDF(ca.eandb.jmist.math.Vector3)
+	 */
+	public double getReversePDF(Vector3 v) {
+		return 0;
+	}
+
 }

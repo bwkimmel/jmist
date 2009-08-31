@@ -34,8 +34,11 @@ public final class SurfaceNode extends AbstractScatteringNode {
 	 * @see ca.eandb.jmist.framework.gi2.ScatteringNode#getSourcePDF()
 	 */
 	public double getSourcePDF() {
-		// TODO Auto-generated method stub
-		return 0;
+		PathInfo path = getPathInfo();
+		Material material = surf.getMaterial();
+		WavelengthPacket lambda = path.getWavelengthPacket();
+		Vector3 out = PathUtil.getDirection(this, getParent());
+		return material.getEmissionPDF(surf, out, lambda);
 	}
 
 	/* (non-Javadoc)
@@ -92,6 +95,32 @@ public final class SurfaceNode extends AbstractScatteringNode {
 			out = PathUtil.getDirection(this, parent);
 		}
 		return material.bsdf(surf, in, out, lambda);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.gi2.PathNode#getPDF(ca.eandb.jmist.math.Vector3)
+	 */
+	public double getPDF(Vector3 out) {
+		PathInfo path = getPathInfo();
+		PathNode parent = getParent();
+		Material material = surf.getMaterial();
+		WavelengthPacket lambda = path.getWavelengthPacket();
+		boolean adjoint = isOnEyePath();
+		Vector3 in = PathUtil.getDirection(parent, this);
+		return material.getScatteringPDF(surf, in, out, adjoint, lambda);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.gi2.PathNode#getReversePDF(ca.eandb.jmist.math.Vector3)
+	 */
+	public double getReversePDF(Vector3 in) {
+		PathInfo path = getPathInfo();
+		PathNode parent = getParent();
+		Material material = surf.getMaterial();
+		WavelengthPacket lambda = path.getWavelengthPacket();
+		boolean adjoint = isOnLightPath();
+		Vector3 out = PathUtil.getDirection(this, parent);
+		return material.getScatteringPDF(surf, in, out, adjoint, lambda);
 	}
 
 }

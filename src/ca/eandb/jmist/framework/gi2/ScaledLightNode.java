@@ -119,4 +119,18 @@ public final class ScaledLightNode extends AbstractPathNode implements
 		return inner.scatter(v);
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.gi2.PathNode#getPDF(ca.eandb.jmist.math.Vector3)
+	 */
+	public double getPDF(Vector3 v) {
+		return inner.getPDF(v);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.gi2.PathNode#getReversePDF(ca.eandb.jmist.math.Vector3)
+	 */
+	public double getReversePDF(Vector3 v) {
+		return inner.getReversePDF(v);
+	}
+
 }

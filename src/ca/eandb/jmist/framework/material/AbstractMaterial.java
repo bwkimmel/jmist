@@ -53,9 +53,9 @@ public abstract class AbstractMaterial implements Material {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Material#pdf(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
+	 * @see ca.eandb.jmist.framework.Material#getScatteringPDF(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Vector3, boolean, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
-	public double getScatteringPDF(SurfacePoint x, Vector3 in, Vector3 out, WavelengthPacket lambda) {
+	public double getScatteringPDF(SurfacePoint x, Vector3 in, Vector3 out, boolean adjoint, WavelengthPacket lambda) {
 		return 0.0;
 	}
 
