@@ -224,7 +224,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
 	 * @see ca.eandb.jmist.framework.color.Color#luminance()
 	 */
 	public double luminance() {
-		return ColorUtil.convertSpectrum2Luminance(lambda.getLambda(), values);
+		return Y();
 	}
 
 	/* (non-Javadoc)

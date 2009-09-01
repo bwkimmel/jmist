@@ -20,10 +20,6 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
 		this.wavelengths = wavelengths;
 	}
 
-	public double[] getLambda() {
-		return wavelengths;
-	}
-
 	public double getLambda(int channel) {
 		return wavelengths[channel];
 	}
