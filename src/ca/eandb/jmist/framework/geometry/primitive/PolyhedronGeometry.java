@@ -298,15 +298,15 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 
 		public double getSurfaceArea() {
 			Vector3 n = computeFaceNormal();
-			Vector3 v0 = vertices.get(indices[0]).vectorFromOrigin();
+			Vector3 v0 = vertices.get(indices[indices.length - 1]).vectorFromOrigin();
 			Vector3 v1;
 			Vector3 r = Vector3.ZERO;
-			for (int i = 1; i < indices.length; i++) {
+			for (int i = 0; i < indices.length; i++) {
 				v1 = vertices.get(indices[i]).vectorFromOrigin();
 				r = r.plus(v0.cross(v1));
 				v0 = v1;
 			}
-			return 0.5 * n.dot(r);
+			return 0.5 * Math.abs(n.dot(r));
 		}
 
 		public Point3 generateRandomSurfacePoint(Random random) {
