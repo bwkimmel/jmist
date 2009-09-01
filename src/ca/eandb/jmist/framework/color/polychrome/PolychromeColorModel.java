@@ -58,9 +58,9 @@ public final class PolychromeColorModel extends ColorModel {
 		}
 	};
 
-	private final PolychromeColor black = new PolychromeColor();
+	private final PolychromeColor black;
 
-	private final PolychromeColor white = new PolychromeColor();
+	private final PolychromeColor white;
 
 	private final class PolychromeColor implements Color, Spectrum {
 
@@ -246,6 +246,8 @@ public final class PolychromeColorModel extends ColorModel {
 
 	public PolychromeColorModel(Tuple wavelengths) {
 		this.wavelengths = wavelengths;
+		this.black = new PolychromeColor();
+		this.white = new PolychromeColor();
 		ArrayUtil.setAll(white.values, 1.0);
 	}
 
