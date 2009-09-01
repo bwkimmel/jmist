@@ -26,7 +26,7 @@ public final class PathUtil {
 			Vector3 v = (Vector3) b.getPosition();
 			return a.getCosine(v);
 		} else if (aAtInf) {
-			Vector3 v = (Vector3) b.getPosition();
+			Vector3 v = (Vector3) a.getPosition();
 			return b.getCosine(v);
 		} else {
 			Point3 p = (Point3) a.getPosition();

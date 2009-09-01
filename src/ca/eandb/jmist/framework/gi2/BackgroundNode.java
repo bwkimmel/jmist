@@ -34,6 +34,13 @@ public final class BackgroundNode extends AbstractScatteringNode {
 	}
 
 	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.gi2.ScatteringNode#getSourcePDF(ca.eandb.jmist.math.Vector3)
+	 */
+	public double getSourcePDF(Vector3 v) {
+		return 0.0;
+	}
+
+	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.gi2.ScatteringNode#getSourceRadiance()
 	 */
 	public Color getSourceRadiance() {

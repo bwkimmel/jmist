@@ -217,6 +217,7 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 		}
 
 		final double scale = totalSurfaceArea / emissive.size();
+		final double totalWeight = totalSurfaceArea;
 		final CategoricalRandom rnd = new CategoricalRandom(weight);
 
 		return new AbstractLight() {
@@ -238,7 +239,7 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 				Vector3 v = x.getPosition().unitVectorFrom(p);
 				Vector3 n = context.getShadingNormal();
 				double d2 = x.getPosition().squaredDistanceTo(p);
-				double atten = Math.max(n.dot(v), 0.0) * scale
+				double atten = Math.max(n.dot(v), 0.0) * totalWeight
 						/ (4.0 * Math.PI * d2);
 				Color ri = mat.emission(context, v, lambda).times(atten);
 				LightSample sample = new PointLightSample(x, p, ri);
@@ -255,8 +256,12 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 				generateRandomSurfacePoint(primitive, context);
 				context.getModifier().modify(context);
 
-				return ScaledLightNode.create(1.0 / scale,
+				return ScaledLightNode.create(1.0 / totalWeight,
 						new SurfaceLightNode(pathInfo, context));
+			}
+
+			public double getSamplePDF(SurfacePoint x, PathInfo pathInfo) {
+				return 1.0 / totalWeight;
 			}
 
 		};

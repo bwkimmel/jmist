@@ -58,8 +58,18 @@ public final class PointLight extends AbstractLight implements Serializable {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Light#sample(ca.eandb.jmist.framework.gi2.PathInfo, ca.eandb.jmist.framework.Random)
+	 */
 	public LightNode sample(PathInfo pathInfo, Random rnd) {
 		return new Node(pathInfo);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Light#getSamplePDF(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.gi2.PathInfo)
+	 */
+	public double getSamplePDF(SurfacePoint x, PathInfo pathInfo) {
+		return 0;
 	}
 
 	private final class Node extends LightTerminalNode {

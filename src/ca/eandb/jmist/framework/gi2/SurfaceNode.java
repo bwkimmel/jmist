@@ -3,9 +3,11 @@
  */
 package ca.eandb.jmist.framework.gi2;
 
+import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ScatteredRay;
+import ca.eandb.jmist.framework.Scene;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
@@ -35,10 +37,19 @@ public final class SurfaceNode extends AbstractScatteringNode {
 	 */
 	public double getSourcePDF() {
 		PathInfo path = getPathInfo();
+		Scene scene = path.getScene();
+		Light light = scene.getLight();
+		return light.getSamplePDF(surf, path);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.gi2.ScatteringNode#getSourcePDF(ca.eandb.jmist.math.Vector3)
+	 */
+	public double getSourcePDF(Vector3 v) {
+		PathInfo path = getPathInfo();
 		Material material = surf.getMaterial();
 		WavelengthPacket lambda = path.getWavelengthPacket();
-		Vector3 out = PathUtil.getDirection(this, getParent());
-		return material.getEmissionPDF(surf, out, lambda);
+		return material.getEmissionPDF(surf, v, lambda);
 	}
 
 	/* (non-Javadoc)

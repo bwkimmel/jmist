@@ -108,6 +108,10 @@ public final class MaterialSceneElement extends ModifierSceneElement {
 						new SurfaceLightNode(pathInfo, context));
 			}
 
+			public double getSamplePDF(SurfacePoint x, PathInfo pathInfo) {
+				return 1.0 / surfaceArea;
+			}
+
 		};
 	}
 

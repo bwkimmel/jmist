@@ -22,6 +22,8 @@ public interface Light extends Serializable {
 
 	ScatteredRay emit(WavelengthPacket lambda, Random rnd);
 
+	double getSamplePDF(SurfacePoint x, PathInfo pathInfo);
+
 	public static final Light NULL = new Light() {
 		private static final long serialVersionUID = 5058166013868688853L;
 		public ScatteredRay emit(WavelengthPacket lambda, Random rnd) {
@@ -32,6 +34,9 @@ public interface Light extends Serializable {
 		}
 		public LightNode sample(PathInfo pathInfo, Random rnd) {
 			return null;
+		}
+		public double getSamplePDF(SurfacePoint x, PathInfo pathInfo) {
+			return 0;
 		}
 	};
 
