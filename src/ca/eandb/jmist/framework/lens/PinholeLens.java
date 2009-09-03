@@ -39,14 +39,6 @@ public final class PinholeLens extends AbstractLens {
 	public PinholeLens(double width, double height) {
 		this.width = width;
 		this.height = height;
-
-		double hw = 0.5 * width;
-		double hh = 0.5 * height;
-		double rw = Math.sqrt(hw * hw + 1.0);
-		double rh = Math.sqrt(hh * hh + 1.0);
-		double a = hw * Math.atan(hh / rw) / rw;
-		double b = hh * Math.atan(hw / rh) / rh;
-		this.normalizationFactor = 2.0 * (a + b);
 	}
 
 	/**
@@ -135,16 +127,15 @@ public final class PinholeLens extends AbstractLens {
 		 */
 		public ScatteredRay sample(Random rnd) {
 			Point2 p = pointOnImagePlane;
-			Ray3 ray = new Ray3(
-					Point3.ORIGIN,
-					Vector3.unit(
-							width * (p.x() - 0.5),
-							height * (0.5 - p.y()),
-							-1.0));
+			Vector3 v = new Vector3(
+					width * (p.x() - 0.5),
+					height * (0.5 - p.y()),
+					-1.0);
+			Ray3 ray = new Ray3(Point3.ORIGIN, v.unit());
 			Color color = getWhite();
-			double z = p.x() * p.x() + p.y() * p.y() + 1.0;
-			double w = 1.0 / (z * z);
-			double pdf = w / normalizationFactor;
+			double z = v.x() * v.x() + v.y() * v.y() + 1.0;
+			//double w = 1.0 / z;// * z);
+			double pdf = z * z / (width * height);//w / normalizationFactor;
 			return ScatteredRay.diffuse(ray, color, pdf);
 		}
 
@@ -184,11 +175,13 @@ public final class PinholeLens extends AbstractLens {
 		}
 
 		public double getPDF(Vector3 v) {
-			Point2 p = project(v);
-			if (p != null) {
-				double z = p.x() * p.x() + p.y() * p.y() + 1.0;
-				double w = 1.0 / (z * z);
-				return w / normalizationFactor;
+			double x = -v.x() / v.z();
+			double y = -v.y() / v.z();
+			if (-v.z() >= MathUtil.EPSILON
+					&& MathUtil.inRangeCC(x, -0.5 * width, 0.5 * width)
+					&& MathUtil.inRangeCC(y, -0.5 * height, 0.5 * height)) {
+				double z = x * x + y * y + 1.0;
+				return z * z / (width * height);
 			} else {
 				return 0.0;
 			}
@@ -201,7 +194,5 @@ public final class PinholeLens extends AbstractLens {
 
 	/** The height of the virtual image plane. */
 	private final double height;
-
-	private final double normalizationFactor;
 
 }
