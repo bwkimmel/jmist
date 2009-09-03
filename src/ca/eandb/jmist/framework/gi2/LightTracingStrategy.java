@@ -24,10 +24,10 @@ public final class LightTracingStrategy implements BidiPathStrategy {
 	 * @see ca.eandb.jmist.framework.gi2.BidiPathStrategy#getWeight(ca.eandb.jmist.framework.gi2.PathNode, ca.eandb.jmist.framework.gi2.PathNode)
 	 */
 	public double getWeight(PathNode lightNode, PathNode eyeNode) {
+		if (lightNode == null) {
+			return 0.0;
+		}
 		if (eyeNode == null) {
-			if (lightNode == null) {
-				return 0.0;
-			}
 			int lightDepthDiffuse = lightNode.getDepth();
 			while (lightNode.getDepth() > 0) {
 				if (lightNode.isSpecular()) {
