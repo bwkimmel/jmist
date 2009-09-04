@@ -31,8 +31,8 @@ public final class UniformWeightedStrategy implements BidiPathStrategy {
 	 * @see ca.eandb.jmist.framework.gi2.BidiPathStrategy#getWeight(ca.eandb.jmist.framework.gi2.PathNode, ca.eandb.jmist.framework.gi2.PathNode)
 	 */
 	public double getWeight(PathNode lightNode, PathNode eyeNode) {
-		int s = lightNode.getDepth() + 1;
-		int t = eyeNode.getDepth() + 1;
+		int s = lightNode != null ? lightNode.getDepth() + 1 : 0;
+		int t = eyeNode != null ? eyeNode.getDepth() + 1 : 0;
 //		double[] weights = new double[s + t];
 
 		// FIXME account for maximum eye and light depth

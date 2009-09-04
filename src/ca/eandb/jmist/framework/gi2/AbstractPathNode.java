@@ -38,7 +38,7 @@ public abstract class AbstractPathNode implements PathNode {
 	}
 
 	protected final Color getGray(double value) {
-		return ColorUtil.getGray(1.0, pathInfo.getWavelengthPacket());
+		return ColorUtil.getGray(value, pathInfo.getWavelengthPacket());
 	}
 
 	protected final Color sample(Spectrum s) {

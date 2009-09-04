@@ -48,6 +48,13 @@ public final class BackgroundNode extends AbstractScatteringNode {
 	}
 
 	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.gi2.ScatteringNode#isOnLightSource()
+	 */
+	public boolean isOnLightSource() {
+		return false;
+	}
+
+	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.gi2.PathNode#sample(ca.eandb.jmist.framework.Random)
 	 */
 	public ScatteredRay sample(Random rnd) {

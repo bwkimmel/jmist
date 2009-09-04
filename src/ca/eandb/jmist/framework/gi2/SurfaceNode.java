@@ -64,6 +64,13 @@ public final class SurfaceNode extends AbstractScatteringNode {
 	}
 
 	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.gi2.ScatteringNode#isOnLightSource()
+	 */
+	public boolean isOnLightSource() {
+		return surf.getMaterial().isEmissive();
+	}
+
+	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.gi2.PathNode#sample(ca.eandb.jmist.framework.Random)
 	 */
 	public ScatteredRay sample(Random rnd) {

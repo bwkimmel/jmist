@@ -36,6 +36,7 @@ import ca.eandb.jmist.framework.Scene;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.ColorUtil;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.math.Box2;
 import ca.eandb.jmist.math.MathUtil;
@@ -220,7 +221,7 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 			double	h					= height;
 			int		numPixels			= width * height;
 			int		samplesPerPixel		= passes * lightPathsPerEyePath;
-			double	lightImageWeight	= 1.0 / (numPixels * samplesPerPixel);
+			double	lightImageWeight	= 1.0 / (double) samplesPerPixel;
 			Light	light				= scene.getLight();
 			Lens	lens				= scene.getLens();
 
@@ -254,7 +255,7 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 							PathNode lightTail	= strategy.traceLightPath(
 														light, path, random);
 
-							Color score			= join(eyeTail, lightTail,
+							Color score			= join(lightTail, eyeTail,
 														lightImageWeight);
 							if (score != null) {
 								raster.get().addPixel(x, y,
@@ -284,66 +285,163 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 			int y = MathUtil.threshold((int) Math.floor(p.y() * h), 0, h - 1);
 			raster.addPixel(x, y, c);
 		}
+//
+//		private void joinLightPathToEye(EyeNode eye, PathNode tail, double weight) {
+//			PathNode node = tail;
+//			while (node != null) {
+//				double w = strategy.getWeight(node, eye);
+//				if (!MathUtil.isZero(w)) {
+//					Color c = PathUtil.join(eye, node);
+//					if (c != null) {
+//						Point2 p = eye.project(node.getPosition());
+//						if (p != null) {
+//							if (node instanceof LightNode) {
+//								write(p, c.times(w));
+//							} else {
+//								write(p, c.times(weight * w));
+//							}
+//						}
+//					}
+//				}
+//				node = node.getParent();
+//			}
+//		}
+//
+//		private Color joinInnerToInner(PathNode eyeNode, PathNode lightNode) {
+//			assert(eyeNode.getDepth() > 0 && lightNode.getDepth() > 0);
+//			double w = strategy.getWeight(lightNode, eyeNode);
+//			if (!MathUtil.isZero(w)) {
+//				Color c = PathUtil.join(eyeNode, lightNode);
+//				return ColorUtil.mul(c, w);
+//			} else {
+//				return null;
+//			}
+//		}
+//
+//		private Color joinInnerToLight(ScatteringNode eyeNode, LightNode light) {
+//			return joinInnerToInner(eyeNode, light);
+//		}
 
-		private void joinLightPathToEye(EyeNode eye, PathNode tail, double weight) {
-			PathNode node = tail;
-			while (node != null) {
-				double w = strategy.getWeight(node, eye);
-				if (!MathUtil.isZero(w)) {
-					Color c = PathUtil.join(eye, node);
-					if (c != null) {
-						Point2 p = eye.project(node.getPosition());
-						if (p != null) {
-							if (node instanceof LightNode) {
-								write(p, c.times(w));
-							} else {
-								write(p, c.times(1.0 * w));
-							}
-						}
+		private Color join(PathNode lightTail, PathNode eyeTail, double lightImageWeight) {
+			Color score = null;
+
+			PathNode lightNode = lightTail;
+			while (true) {
+
+				PathNode eyeNode = eyeTail;
+				while (true) {
+
+					Color c = joinAt(lightNode, eyeNode, lightImageWeight);
+					score = ColorUtil.add(score, c);
+
+					if (eyeNode == null) {
+						break;
 					}
+					eyeNode = eyeNode.getParent();
+				} // eye path loop
+
+				if (lightNode == null) {
+					break;
 				}
-				node = node.getParent();
+				lightNode = lightNode.getParent();
+			} // light path loop
+
+			return score;
+		}
+
+		private Color joinAt(PathNode lightNode, PathNode eyeNode, double lightImageWeight) {
+			int l = lightNode != null ? lightNode.getDepth() : -1;
+			int e = eyeNode != null ? eyeNode.getDepth() : -1;
+
+			if (e == 0 && l == 0) {
+				return joinLightToEye((LightNode) lightNode, (EyeNode) eyeNode,
+						lightImageWeight);
+			} else if (e <= 0 && l <= 0) {
+				return null;
+			} else if (e < 0) {
+				return lightPathOnCamera((ScatteringNode) lightNode,
+						lightImageWeight);
+			} else if (l < 0) {
+				return eyePathOnLight((ScatteringNode) eyeNode);
+			} else if (e == 0) {
+				return joinInnerToEye(lightNode, (EyeNode) eyeNode,
+						lightImageWeight);
+			} else if (l == 0) {
+				return joinLightToInner((LightNode) lightNode, eyeNode);
+			} else {
+				return joinInnerToInner((ScatteringNode) lightNode, eyeNode);
 			}
 		}
 
-		private Color joinInnerToInner(PathNode eyeNode, PathNode lightNode) {
-			assert(eyeNode.getDepth() > 0 && lightNode.getDepth() > 0);
+		private Color joinInnerToInner(PathNode lightNode, PathNode eyeNode) {
 			double w = strategy.getWeight(lightNode, eyeNode);
-			if (!MathUtil.isZero(w)) {
-				Color c = PathUtil.join(eyeNode, lightNode);
+			if (w > 0.0) {//MathUtil.EPSILON) {
+				Color c = PathUtil.join(lightNode, eyeNode);
+				//Color c = getWhite(lightNode);
 				return ColorUtil.mul(c, w);
 			} else {
 				return null;
 			}
 		}
 
-		private Color joinInnerToLight(ScatteringNode eyeNode, LightNode light) {
-			return joinInnerToInner(eyeNode, light);
+		private Color joinLightToInner(LightNode lightNode, PathNode eyeNode) {
+			// TODO Ignore given light node and select a better light node
+			// for the the node on the eye path we want to illuminate.
+			return joinInnerToInner(lightNode, eyeNode);
 		}
 
-		private Color join(PathNode eyeTail, PathNode lightTail, double lightImageWeight) {
-			int n = 0;
-			Color score = null;
-			PathNode eyeNode = eyeTail;
-			while (eyeNode.getDepth() > 0) {
-				PathNode lightNode = lightTail;
-				while (lightNode.getDepth() > 0) {
-					score = ColorUtil.add(score, joinInnerToInner(
-							(ScatteringNode) eyeNode,
-							(ScatteringNode) lightNode));
-					n++;
-					lightNode = lightNode.getParent();
+		private Color getWhite(PathNode node) {
+			PathInfo info = node.getPathInfo();
+			ColorModel cm = info.getColorModel();
+			WavelengthPacket lambda = info.getWavelengthPacket();
+			return cm.getWhite(lambda);
+		}
+
+		private Color joinInnerToEye(PathNode lightNode, EyeNode eyeNode,
+				double weight) {
+			double w = strategy.getWeight(lightNode, eyeNode);
+			if (w > 0.0) {//MathUtil.EPSILON) {
+				Point2 p = eyeNode.project(lightNode.getPosition());
+				if (p != null) {
+					Color c = PathUtil.join(lightNode, eyeNode);
+					//Color c = getWhite(eyeNode);
+					c = ColorUtil.mul(c, weight * w);
+					if (c != null) {
+						write(p, c);
+					}
 				}
-
-				score = ColorUtil.add(score, joinInnerToLight(
-						(ScatteringNode) eyeNode, (LightNode) lightNode));
-				n++;
-				eyeNode = eyeNode.getParent();
 			}
-			assert(eyeNode instanceof EyeNode);
-			joinLightPathToEye((EyeNode) eyeNode, lightTail, lightImageWeight);
-			return score;
+			return null;
 		}
+
+		private Color eyePathOnLight(ScatteringNode eyeNode) {
+			if (!eyeNode.isOnLightSource()) {
+				return null;
+			}
+
+			double w = strategy.getWeight(null, eyeNode);
+			if (w > 0.0) {// MathUtil.EPSILON) {
+				Color c = ColorUtil.mul(eyeNode.getCumulativeWeight(),
+						eyeNode.getSourceRadiance());
+//				Color c = getWhite(eyeNode);
+				return ColorUtil.mul(c, w);
+			} else {
+				return null;
+			}
+		}
+
+		private Color lightPathOnCamera(ScatteringNode lightNode,
+				double weight) {
+			// This cannot happen because the aperture is not part of the scene
+			return null;
+		}
+
+		private Color joinLightToEye(LightNode lightNode, EyeNode eyeNode,
+				double weight) {
+			return joinInnerToEye(lightNode, eyeNode, weight);
+		}
+
+
 
 	}
 

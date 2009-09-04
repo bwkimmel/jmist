@@ -72,7 +72,7 @@ public final class LambertianMaterial extends OpaqueMaterial {
 	@Override
 	public Color emission(SurfacePoint x, Vector3 out, WavelengthPacket lambda) {
 		if (this.emittance != null && x.getNormal().dot(out) > 0.0) {
-			return emittance.getColor(x, lambda);
+			return emittance.getColor(x, lambda).divide(Math.PI);
 		} else {
 			return lambda.getColorModel().getBlack(lambda);
 		}
@@ -131,7 +131,7 @@ public final class LambertianMaterial extends OpaqueMaterial {
 		boolean toFront = (n.dot(out) > 0.0);
 
 		if (this.reflectance != null && toFront == fromFront) {
-			return reflectance.getColor(x, lambda);
+			return reflectance.getColor(x, lambda).divide(Math.PI);
 		} else {
 			return lambda.getColorModel().getBlack(lambda);
 		}

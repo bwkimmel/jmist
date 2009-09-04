@@ -12,6 +12,8 @@ import ca.eandb.jmist.math.Vector3;
  */
 public interface ScatteringNode extends PathNode {
 
+	boolean isOnLightSource();
+
 	Color getSourceRadiance();
 
 	double getSourcePDF();
