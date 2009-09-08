@@ -58,4 +58,15 @@ public final class SimpleCompositeLight extends CompositeLight {
 				children().get(index).sample(pathInfo, rnd));
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Light#getSamplePDF(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.gi2.PathInfo)
+	 */
+	public double getSamplePDF(SurfacePoint x, PathInfo pathInfo) {
+		double pdf = 0.0;
+		for (Light light : children()) {
+			pdf += light.getSamplePDF(x, pathInfo);
+		}
+		return pdf / (double) children().size();
+	}
+
 }
