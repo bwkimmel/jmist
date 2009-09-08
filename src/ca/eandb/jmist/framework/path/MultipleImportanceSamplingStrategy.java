@@ -1,7 +1,7 @@
 /**
  *
  */
-package ca.eandb.jmist.framework.gi2;
+package ca.eandb.jmist.framework.path;
 
 import ca.eandb.jmist.framework.Function1;
 import ca.eandb.jmist.framework.Lens;
@@ -70,7 +70,7 @@ public final class MultipleImportanceSamplingStrategy implements BidiPathStrateg
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.BidiPathStrategy#getWeight(ca.eandb.jmist.framework.gi2.PathNode, ca.eandb.jmist.framework.gi2.PathNode)
+	 * @see ca.eandb.jmist.framework.path.BidiPathStrategy#getWeight(ca.eandb.jmist.framework.path.PathNode, ca.eandb.jmist.framework.path.PathNode)
 	 */
 	public double getWeight(PathNode lightNode, PathNode eyeNode) {
 
@@ -236,7 +236,7 @@ public final class MultipleImportanceSamplingStrategy implements BidiPathStrateg
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.BidiPathStrategy#traceEyePath(ca.eandb.jmist.framework.Lens, ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.gi2.PathInfo, ca.eandb.jmist.framework.Random)
+	 * @see ca.eandb.jmist.framework.path.BidiPathStrategy#traceEyePath(ca.eandb.jmist.framework.Lens, ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.path.PathInfo, ca.eandb.jmist.framework.Random)
 	 */
 	public PathNode traceEyePath(Lens lens, Point2 p, PathInfo pathInfo,
 			Random rnd) {
@@ -248,7 +248,7 @@ public final class MultipleImportanceSamplingStrategy implements BidiPathStrateg
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.BidiPathStrategy#traceLightPath(ca.eandb.jmist.framework.Light, ca.eandb.jmist.framework.gi2.PathInfo, ca.eandb.jmist.framework.Random)
+	 * @see ca.eandb.jmist.framework.path.BidiPathStrategy#traceLightPath(ca.eandb.jmist.framework.Light, ca.eandb.jmist.framework.path.PathInfo, ca.eandb.jmist.framework.Random)
 	 */
 	public PathNode traceLightPath(Light light, PathInfo pathInfo, Random rnd) {
 		if (maxLightDepth > 0) {

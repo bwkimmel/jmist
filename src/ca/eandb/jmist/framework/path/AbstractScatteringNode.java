@@ -1,7 +1,7 @@
 /**
  *
  */
-package ca.eandb.jmist.framework.gi2;
+package ca.eandb.jmist.framework.path;
 
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.ScatteredRay.Type;
@@ -43,21 +43,21 @@ public abstract class AbstractScatteringNode extends AbstractPathNode implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#getCumulativeWeight()
+	 * @see ca.eandb.jmist.framework.path.PathNode#getCumulativeWeight()
 	 */
 	public final Color getCumulativeWeight() {
 		return cumulativeWeight;
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#getDepth()
+	 * @see ca.eandb.jmist.framework.path.PathNode#getDepth()
 	 */
 	public final int getDepth() {
 		return depth;
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#getGeometricFactor()
+	 * @see ca.eandb.jmist.framework.path.PathNode#getGeometricFactor()
 	 */
 	public final double getGeometricFactor() {
 		if (Double.isNaN(geometricFactor)) {
@@ -67,28 +67,28 @@ public abstract class AbstractScatteringNode extends AbstractPathNode implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#getPDF()
+	 * @see ca.eandb.jmist.framework.path.PathNode#getPDF()
 	 */
 	public final double getPDF() {
 		return pdf;
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#getParent()
+	 * @see ca.eandb.jmist.framework.path.PathNode#getParent()
 	 */
 	public final PathNode getParent() {
 		return parent;
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#isOnLightPath()
+	 * @see ca.eandb.jmist.framework.path.PathNode#isOnLightPath()
 	 */
 	public final boolean isOnLightPath() {
 		return onLightPath;
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#isSpecular()
+	 * @see ca.eandb.jmist.framework.path.PathNode#isSpecular()
 	 */
 	public final boolean isSpecular() {
 		return specular;

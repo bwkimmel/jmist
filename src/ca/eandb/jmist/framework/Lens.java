@@ -6,8 +6,8 @@ package ca.eandb.jmist.framework;
 import java.io.Serializable;
 
 import ca.eandb.jmist.framework.color.WavelengthPacket;
-import ca.eandb.jmist.framework.gi2.EyeNode;
-import ca.eandb.jmist.framework.gi2.PathInfo;
+import ca.eandb.jmist.framework.path.EyeNode;
+import ca.eandb.jmist.framework.path.PathInfo;
 import ca.eandb.jmist.math.Box2;
 import ca.eandb.jmist.math.Point2;
 

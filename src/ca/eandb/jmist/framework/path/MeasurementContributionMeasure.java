@@ -23,7 +23,7 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package ca.eandb.jmist.framework.gi2;
+package ca.eandb.jmist.framework.path;
 
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorUtil;
@@ -45,7 +45,7 @@ public final class MeasurementContributionMeasure implements BidiPathMeasure {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.BidiPathMeasure#evaluate(ca.eandb.jmist.framework.gi2.PathNode, ca.eandb.jmist.framework.gi2.PathNode)
+	 * @see ca.eandb.jmist.framework.path.BidiPathMeasure#evaluate(ca.eandb.jmist.framework.path.PathNode, ca.eandb.jmist.framework.path.PathNode)
 	 */
 	public Color evaluate(PathNode lightTail, PathNode eyeTail) {
 		if (lightTail != null && eyeTail != null) {

@@ -1,7 +1,7 @@
 /**
  *
  */
-package ca.eandb.jmist.framework.gi2;
+package ca.eandb.jmist.framework.path;
 
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ScatteredRay;
@@ -37,7 +37,7 @@ public abstract class TransformedPathNode extends AbstractPathNode {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#getCosine(ca.eandb.jmist.math.Vector3)
+	 * @see ca.eandb.jmist.framework.path.PathNode#getCosine(ca.eandb.jmist.math.Vector3)
 	 */
 	public double getCosine(Vector3 v) {
 		v = worldToLocal.times(v);
@@ -45,63 +45,63 @@ public abstract class TransformedPathNode extends AbstractPathNode {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#getCumulativeWeight()
+	 * @see ca.eandb.jmist.framework.path.PathNode#getCumulativeWeight()
 	 */
 	public Color getCumulativeWeight() {
 		return inner.getCumulativeWeight();
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#getDepth()
+	 * @see ca.eandb.jmist.framework.path.PathNode#getDepth()
 	 */
 	public int getDepth() {
 		return inner.getDepth();
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#getGeometricFactor()
+	 * @see ca.eandb.jmist.framework.path.PathNode#getGeometricFactor()
 	 */
 	public double getGeometricFactor() {
 		return inner.getGeometricFactor();
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#getPDF()
+	 * @see ca.eandb.jmist.framework.path.PathNode#getPDF()
 	 */
 	public double getPDF() {
 		return inner.getPDF();
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#getParent()
+	 * @see ca.eandb.jmist.framework.path.PathNode#getParent()
 	 */
 	public PathNode getParent() {
 		return inner.getParent();
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#getPosition()
+	 * @see ca.eandb.jmist.framework.path.PathNode#getPosition()
 	 */
 	public HPoint3 getPosition() {
 		return localToWorld.times(inner.getPosition());
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#isOnLightPath()
+	 * @see ca.eandb.jmist.framework.path.PathNode#isOnLightPath()
 	 */
 	public boolean isOnLightPath() {
 		return inner.isOnLightPath();
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#isSpecular()
+	 * @see ca.eandb.jmist.framework.path.PathNode#isSpecular()
 	 */
 	public boolean isSpecular() {
 		return inner.isSpecular();
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#sample(ca.eandb.jmist.framework.Random)
+	 * @see ca.eandb.jmist.framework.path.PathNode#sample(ca.eandb.jmist.framework.Random)
 	 */
 	public ScatteredRay sample(Random rnd) {
 		ScatteredRay sr = inner.sample(rnd);
@@ -109,7 +109,7 @@ public abstract class TransformedPathNode extends AbstractPathNode {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#scatter(ca.eandb.jmist.math.Vector3)
+	 * @see ca.eandb.jmist.framework.path.PathNode#scatter(ca.eandb.jmist.math.Vector3)
 	 */
 	public Color scatter(Vector3 v) {
 		v = worldToLocal.times(v);

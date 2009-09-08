@@ -1,7 +1,7 @@
 /**
  *
  */
-package ca.eandb.jmist.framework.gi2;
+package ca.eandb.jmist.framework.path;
 
 import ca.eandb.jmist.framework.Scene;
 import ca.eandb.jmist.framework.color.ColorModel;

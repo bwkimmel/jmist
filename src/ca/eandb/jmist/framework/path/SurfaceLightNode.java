@@ -1,7 +1,7 @@
 /**
  *
  */
-package ca.eandb.jmist.framework.gi2;
+package ca.eandb.jmist.framework.path;
 
 import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.Random;
@@ -29,7 +29,7 @@ public final class SurfaceLightNode extends LightTerminalNode {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#getCosine(ca.eandb.jmist.math.Vector3)
+	 * @see ca.eandb.jmist.framework.path.PathNode#getCosine(ca.eandb.jmist.math.Vector3)
 	 */
 	public double getCosine(Vector3 v) {
 		Vector3 n = surf.getShadingNormal();
@@ -37,28 +37,28 @@ public final class SurfaceLightNode extends LightTerminalNode {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#getPDF()
+	 * @see ca.eandb.jmist.framework.path.PathNode#getPDF()
 	 */
 	public double getPDF() {
 		return 1.0;
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#getPosition()
+	 * @see ca.eandb.jmist.framework.path.PathNode#getPosition()
 	 */
 	public HPoint3 getPosition() {
 		return surf.getPosition();
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#isSpecular()
+	 * @see ca.eandb.jmist.framework.path.PathNode#isSpecular()
 	 */
 	public boolean isSpecular() {
 		return false;
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#sample(ca.eandb.jmist.framework.Random)
+	 * @see ca.eandb.jmist.framework.path.PathNode#sample(ca.eandb.jmist.framework.Random)
 	 */
 	public ScatteredRay sample(Random rnd) {
 		PathInfo path = getPathInfo();
@@ -68,7 +68,7 @@ public final class SurfaceLightNode extends LightTerminalNode {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#scatter(ca.eandb.jmist.math.Vector3)
+	 * @see ca.eandb.jmist.framework.path.PathNode#scatter(ca.eandb.jmist.math.Vector3)
 	 */
 	public Color scatter(Vector3 v) {
 		PathInfo path = getPathInfo();
@@ -78,7 +78,7 @@ public final class SurfaceLightNode extends LightTerminalNode {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#getPDF(ca.eandb.jmist.math.Vector3)
+	 * @see ca.eandb.jmist.framework.path.PathNode#getPDF(ca.eandb.jmist.math.Vector3)
 	 */
 	public double getPDF(Vector3 v) {
 		PathInfo path = getPathInfo();

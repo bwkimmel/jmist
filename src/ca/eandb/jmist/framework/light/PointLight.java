@@ -12,9 +12,9 @@ import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
-import ca.eandb.jmist.framework.gi2.LightNode;
-import ca.eandb.jmist.framework.gi2.LightTerminalNode;
-import ca.eandb.jmist.framework.gi2.PathInfo;
+import ca.eandb.jmist.framework.path.LightNode;
+import ca.eandb.jmist.framework.path.LightTerminalNode;
+import ca.eandb.jmist.framework.path.PathInfo;
 import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.math.HPoint3;
 import ca.eandb.jmist.math.Point3;
@@ -59,14 +59,14 @@ public final class PointLight extends AbstractLight implements Serializable {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Light#sample(ca.eandb.jmist.framework.gi2.PathInfo, ca.eandb.jmist.framework.Random)
+	 * @see ca.eandb.jmist.framework.Light#sample(ca.eandb.jmist.framework.path.PathInfo, ca.eandb.jmist.framework.Random)
 	 */
 	public LightNode sample(PathInfo pathInfo, Random rnd) {
 		return new Node(pathInfo);
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Light#getSamplePDF(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.gi2.PathInfo)
+	 * @see ca.eandb.jmist.framework.Light#getSamplePDF(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.path.PathInfo)
 	 */
 	public double getSamplePDF(SurfacePoint x, PathInfo pathInfo) {
 		return 0;

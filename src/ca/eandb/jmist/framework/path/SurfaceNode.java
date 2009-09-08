@@ -1,7 +1,7 @@
 /**
  *
  */
-package ca.eandb.jmist.framework.gi2;
+package ca.eandb.jmist.framework.path;
 
 import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.Material;
@@ -33,7 +33,7 @@ public final class SurfaceNode extends AbstractScatteringNode {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.ScatteringNode#getSourcePDF()
+	 * @see ca.eandb.jmist.framework.path.ScatteringNode#getSourcePDF()
 	 */
 	public double getSourcePDF() {
 		PathInfo path = getPathInfo();
@@ -43,7 +43,7 @@ public final class SurfaceNode extends AbstractScatteringNode {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.ScatteringNode#getSourcePDF(ca.eandb.jmist.math.Vector3)
+	 * @see ca.eandb.jmist.framework.path.ScatteringNode#getSourcePDF(ca.eandb.jmist.math.Vector3)
 	 */
 	public double getSourcePDF(Vector3 v) {
 		PathInfo path = getPathInfo();
@@ -53,7 +53,7 @@ public final class SurfaceNode extends AbstractScatteringNode {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.ScatteringNode#getSourceRadiance()
+	 * @see ca.eandb.jmist.framework.path.ScatteringNode#getSourceRadiance()
 	 */
 	public Color getSourceRadiance() {
 		PathInfo path = getPathInfo();
@@ -64,14 +64,14 @@ public final class SurfaceNode extends AbstractScatteringNode {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.ScatteringNode#isOnLightSource()
+	 * @see ca.eandb.jmist.framework.path.ScatteringNode#isOnLightSource()
 	 */
 	public boolean isOnLightSource() {
 		return surf.getMaterial().isEmissive();
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#sample(ca.eandb.jmist.framework.Random)
+	 * @see ca.eandb.jmist.framework.path.PathNode#sample(ca.eandb.jmist.framework.Random)
 	 */
 	public ScatteredRay sample(Random rnd) {
 		PathInfo path = getPathInfo();
@@ -82,7 +82,7 @@ public final class SurfaceNode extends AbstractScatteringNode {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#getCosine(ca.eandb.jmist.math.Vector3)
+	 * @see ca.eandb.jmist.framework.path.PathNode#getCosine(ca.eandb.jmist.math.Vector3)
 	 */
 	public double getCosine(Vector3 v) {
 		Vector3 n = surf.getShadingNormal();
@@ -90,14 +90,14 @@ public final class SurfaceNode extends AbstractScatteringNode {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#getPosition()
+	 * @see ca.eandb.jmist.framework.path.PathNode#getPosition()
 	 */
 	public HPoint3 getPosition() {
 		return surf.getPosition();
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#scatter(ca.eandb.jmist.math.Vector3)
+	 * @see ca.eandb.jmist.framework.path.PathNode#scatter(ca.eandb.jmist.math.Vector3)
 	 */
 	public Color scatter(Vector3 v) {
 		PathInfo path = getPathInfo();
@@ -116,7 +116,7 @@ public final class SurfaceNode extends AbstractScatteringNode {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#getPDF(ca.eandb.jmist.math.Vector3)
+	 * @see ca.eandb.jmist.framework.path.PathNode#getPDF(ca.eandb.jmist.math.Vector3)
 	 */
 	public double getPDF(Vector3 out) {
 		PathInfo path = getPathInfo();
@@ -129,7 +129,7 @@ public final class SurfaceNode extends AbstractScatteringNode {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#getReversePDF(ca.eandb.jmist.math.Vector3)
+	 * @see ca.eandb.jmist.framework.path.PathNode#getReversePDF(ca.eandb.jmist.math.Vector3)
 	 */
 	public double getReversePDF(Vector3 in) {
 		PathInfo path = getPathInfo();

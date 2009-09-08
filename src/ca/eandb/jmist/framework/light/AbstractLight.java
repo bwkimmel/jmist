@@ -29,8 +29,8 @@ import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
-import ca.eandb.jmist.framework.gi2.LightNode;
-import ca.eandb.jmist.framework.gi2.PathInfo;
+import ca.eandb.jmist.framework.path.LightNode;
+import ca.eandb.jmist.framework.path.PathInfo;
 
 /**
  * @author brad

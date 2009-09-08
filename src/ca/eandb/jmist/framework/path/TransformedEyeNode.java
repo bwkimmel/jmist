@@ -1,7 +1,7 @@
 /**
  *
  */
-package ca.eandb.jmist.framework.gi2;
+package ca.eandb.jmist.framework.path;
 
 import ca.eandb.jmist.math.AffineMatrix3;
 import ca.eandb.jmist.math.HPoint3;
@@ -34,7 +34,7 @@ public final class TransformedEyeNode extends TransformedPathNode implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.EyeNode#project(ca.eandb.jmist.math.HPoint3)
+	 * @see ca.eandb.jmist.framework.path.EyeNode#project(ca.eandb.jmist.math.HPoint3)
 	 */
 	public Point2 project(HPoint3 x) {
 		x = worldToLocal.times(x);
@@ -42,7 +42,7 @@ public final class TransformedEyeNode extends TransformedPathNode implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#getPDF(ca.eandb.jmist.math.Vector3)
+	 * @see ca.eandb.jmist.framework.path.PathNode#getPDF(ca.eandb.jmist.math.Vector3)
 	 */
 	public double getPDF(Vector3 v) {
 		v = worldToLocal.times(v);
@@ -50,7 +50,7 @@ public final class TransformedEyeNode extends TransformedPathNode implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#getReversePDF(ca.eandb.jmist.math.Vector3)
+	 * @see ca.eandb.jmist.framework.path.PathNode#getReversePDF(ca.eandb.jmist.math.Vector3)
 	 */
 	public double getReversePDF(Vector3 v) {
 		return 0.0;

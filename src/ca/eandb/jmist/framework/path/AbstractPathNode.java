@@ -1,7 +1,7 @@
 /**
  *
  */
-package ca.eandb.jmist.framework.gi2;
+package ca.eandb.jmist.framework.path;
 
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.NearestIntersectionRecorder;
@@ -65,28 +65,28 @@ public abstract class AbstractPathNode implements PathNode {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#expand(ca.eandb.jmist.framework.Random)
+	 * @see ca.eandb.jmist.framework.path.PathNode#expand(ca.eandb.jmist.framework.Random)
 	 */
 	public final ScatteringNode expand(Random rnd) {
 		return trace(sample(rnd));
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#isAtInfinity()
+	 * @see ca.eandb.jmist.framework.path.PathNode#isAtInfinity()
 	 */
 	public boolean isAtInfinity() {
 		return getPosition().isVector();
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#isOnEyePath()
+	 * @see ca.eandb.jmist.framework.path.PathNode#isOnEyePath()
 	 */
 	public final boolean isOnEyePath() {
 		return !isOnLightPath();
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#getPathInfo()
+	 * @see ca.eandb.jmist.framework.path.PathNode#getPathInfo()
 	 */
 	public final PathInfo getPathInfo() {
 		return pathInfo;

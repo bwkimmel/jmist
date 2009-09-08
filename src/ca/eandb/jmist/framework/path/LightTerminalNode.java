@@ -1,7 +1,7 @@
 /**
  *
  */
-package ca.eandb.jmist.framework.gi2;
+package ca.eandb.jmist.framework.path;
 
 /**
  * @author Brad
@@ -18,7 +18,7 @@ public abstract class LightTerminalNode extends AbstractTerminalNode implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.gi2.PathNode#isOnLightPath()
+	 * @see ca.eandb.jmist.framework.path.PathNode#isOnLightPath()
 	 */
 	public final boolean isOnLightPath() {
 		return true;

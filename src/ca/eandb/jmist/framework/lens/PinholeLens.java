@@ -6,9 +6,9 @@ package ca.eandb.jmist.framework.lens;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.framework.gi2.EyeNode;
-import ca.eandb.jmist.framework.gi2.EyeTerminalNode;
-import ca.eandb.jmist.framework.gi2.PathInfo;
+import ca.eandb.jmist.framework.path.EyeNode;
+import ca.eandb.jmist.framework.path.EyeTerminalNode;
+import ca.eandb.jmist.framework.path.PathInfo;
 import ca.eandb.jmist.math.Box2;
 import ca.eandb.jmist.math.HPoint3;
 import ca.eandb.jmist.math.MathUtil;
@@ -113,7 +113,7 @@ public final class PinholeLens extends AbstractLens {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Lens#sample(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.gi2.PathInfo, ca.eandb.jmist.framework.Random)
+	 * @see ca.eandb.jmist.framework.Lens#sample(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.path.PathInfo, ca.eandb.jmist.framework.Random)
 	 */
 	public EyeNode sample(Point2 p, PathInfo pathInfo, Random rnd) {
 		return new Node(p, pathInfo);
@@ -139,7 +139,7 @@ public final class PinholeLens extends AbstractLens {
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.gi2.EyeNode#sample(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.Random)
+		 * @see ca.eandb.jmist.framework.path.EyeNode#sample(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.Random)
 		 */
 		public ScatteredRay sample(Random rnd) {
 			Point2 p = pointOnImagePlane;
@@ -155,14 +155,14 @@ public final class PinholeLens extends AbstractLens {
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.gi2.PathNode#scatterTo(ca.eandb.jmist.framework.gi2.PathNode)
+		 * @see ca.eandb.jmist.framework.path.PathNode#scatterTo(ca.eandb.jmist.framework.path.PathNode)
 		 */
 		public Color scatter(Vector3 v) {
 			return getGray(getPDF(v));
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.gi2.EyeNode#project(ca.eandb.jmist.math.HPoint3)
+		 * @see ca.eandb.jmist.framework.path.EyeNode#project(ca.eandb.jmist.math.HPoint3)
 		 */
 		public Point2 project(HPoint3 x) {
 			Ray3 ray = new Ray3(Point3.ORIGIN, x);
@@ -177,35 +177,35 @@ public final class PinholeLens extends AbstractLens {
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.gi2.PathNode#getCosine(ca.eandb.jmist.math.Vector3)
+		 * @see ca.eandb.jmist.framework.path.PathNode#getCosine(ca.eandb.jmist.math.Vector3)
 		 */
 		public double getCosine(Vector3 v) {
 			return -v.z() / v.length();
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.gi2.PathNode#getPosition()
+		 * @see ca.eandb.jmist.framework.path.PathNode#getPosition()
 		 */
 		public HPoint3 getPosition() {
 			return Point3.ORIGIN;
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.gi2.PathNode#getPDF()
+		 * @see ca.eandb.jmist.framework.path.PathNode#getPDF()
 		 */
 		public double getPDF() {
 			return 1.0;
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.gi2.PathNode#isSpecular()
+		 * @see ca.eandb.jmist.framework.path.PathNode#isSpecular()
 		 */
 		public boolean isSpecular() {
 			return true;
 		}
 
 		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.gi2.PathNode#getPDF(ca.eandb.jmist.math.Vector3)
+		 * @see ca.eandb.jmist.framework.path.PathNode#getPDF(ca.eandb.jmist.math.Vector3)
 		 */
 		public double getPDF(Vector3 v) {
 			double x = -v.x() / v.z();

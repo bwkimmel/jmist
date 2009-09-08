@@ -11,9 +11,9 @@ import ca.eandb.jmist.framework.LightSample;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
-import ca.eandb.jmist.framework.gi2.LightNode;
-import ca.eandb.jmist.framework.gi2.PathInfo;
-import ca.eandb.jmist.framework.gi2.ScaledLightNode;
+import ca.eandb.jmist.framework.path.LightNode;
+import ca.eandb.jmist.framework.path.PathInfo;
+import ca.eandb.jmist.framework.path.ScaledLightNode;
 import ca.eandb.jmist.framework.random.RandomUtil;
 
 /**
@@ -48,7 +48,7 @@ public final class RandomCompositeLight extends CompositeLight {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Light#sample(ca.eandb.jmist.framework.gi2.PathInfo, ca.eandb.jmist.framework.Random)
+	 * @see ca.eandb.jmist.framework.Light#sample(ca.eandb.jmist.framework.path.PathInfo, ca.eandb.jmist.framework.Random)
 	 */
 	public LightNode sample(PathInfo pathInfo, Random rnd) {
 		int index = RandomUtil.discrete(0, children().size() - 1, rnd);
@@ -57,7 +57,7 @@ public final class RandomCompositeLight extends CompositeLight {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Light#getSamplePDF(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.gi2.PathInfo)
+	 * @see ca.eandb.jmist.framework.Light#getSamplePDF(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.path.PathInfo)
 	 */
 	public double getSamplePDF(SurfacePoint x, PathInfo pathInfo) {
 		double pdf = 0.0;
