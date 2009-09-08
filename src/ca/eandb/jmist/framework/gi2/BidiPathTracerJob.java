@@ -36,7 +36,6 @@ import ca.eandb.jmist.framework.Scene;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.ColorUtil;
-import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.math.Box2;
 import ca.eandb.jmist.math.MathUtil;
@@ -64,6 +63,8 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 
 	private final BidiPathStrategy strategy;
 
+	private final BidiPathMeasure measure;
+
 	private final int tasks;
 
 	private final int width;
@@ -88,7 +89,7 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 
 	public BidiPathTracerJob(Scene scene, Display display, int width,
 			int height, ColorModel colorModel, Random random,
-			BidiPathStrategy strategy, int eyePathsPerPixel,
+			BidiPathStrategy strategy, BidiPathMeasure measure, int eyePathsPerPixel,
 			int lightPathsPerEyePath, int tasks, boolean displayPartialResults) {
 		this.scene = scene;
 		this.display = display;
@@ -98,6 +99,7 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 		this.width = width;
 		this.height = height;
 		this.strategy = strategy;
+		this.measure = measure;
 		this.eyePathsPerPixel = eyePathsPerPixel;
 		this.lightPathsPerEyePath = lightPathsPerEyePath;
 		this.minPassesPerTask = eyePathsPerPixel / tasks;
@@ -376,8 +378,7 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 		private Color joinInnerToInner(PathNode lightNode, PathNode eyeNode) {
 			double w = strategy.getWeight(lightNode, eyeNode);
 			if (w > 0.0) {//MathUtil.EPSILON) {
-				Color c = PathUtil.join(lightNode, eyeNode);
-				//Color c = getWhite(lightNode);
+				Color c = measure.evaluate(lightNode, eyeNode);
 				return ColorUtil.mul(c, w);
 			} else {
 				return null;
@@ -390,21 +391,13 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 			return joinInnerToInner(lightNode, eyeNode);
 		}
 
-		private Color getWhite(PathNode node) {
-			PathInfo info = node.getPathInfo();
-			ColorModel cm = info.getColorModel();
-			WavelengthPacket lambda = info.getWavelengthPacket();
-			return cm.getWhite(lambda);
-		}
-
 		private Color joinInnerToEye(PathNode lightNode, EyeNode eyeNode,
 				double weight) {
 			double w = strategy.getWeight(lightNode, eyeNode);
 			if (w > 0.0) {//MathUtil.EPSILON) {
 				Point2 p = eyeNode.project(lightNode.getPosition());
 				if (p != null) {
-					Color c = PathUtil.join(lightNode, eyeNode);
-					//Color c = getWhite(eyeNode);
+					Color c = measure.evaluate(lightNode, eyeNode);
 					c = ColorUtil.mul(c, weight * w);
 					if (c != null) {
 						write(p, c);
@@ -421,9 +414,7 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 
 			double w = strategy.getWeight(null, eyeNode);
 			if (w > 0.0) {// MathUtil.EPSILON) {
-				Color c = ColorUtil.mul(eyeNode.getCumulativeWeight(),
-						eyeNode.getSourceRadiance());
-//				Color c = getWhite(eyeNode);
+				Color c = measure.evaluate(null, eyeNode);
 				return ColorUtil.mul(c, w);
 			} else {
 				return null;
