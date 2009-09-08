@@ -23,7 +23,7 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package ca.eandb.jmist.framework.job.bidi;
+package ca.eandb.jmist.framework.job;
 
 import ca.eandb.jdcp.job.AbstractParallelizableJob;
 import ca.eandb.jdcp.job.TaskWorker;
@@ -36,6 +36,8 @@ import ca.eandb.jmist.framework.Scene;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.ColorUtil;
+import ca.eandb.jmist.framework.job.bidi.BidiPathMeasure;
+import ca.eandb.jmist.framework.job.bidi.BidiPathStrategy;
 import ca.eandb.jmist.framework.path.EyeNode;
 import ca.eandb.jmist.framework.path.LightNode;
 import ca.eandb.jmist.framework.path.PathInfo;
