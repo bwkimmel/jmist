@@ -15,6 +15,10 @@ import ca.eandb.jmist.math.Point2;
 public final class SingleContributionStrategy implements
 		BidiPathStrategy {
 
+	/** Serialization version ID. */
+	private static final long serialVersionUID = 7678023287170417943L;
+
+
 	private final int lightDepth;
 
 	private final int eyeDepth;

@@ -14,6 +14,9 @@ import ca.eandb.jmist.math.Point2;
  */
 public final class LightTracingStrategy implements BidiPathStrategy {
 
+	/** Serialization version ID. */
+	private static final long serialVersionUID = 4062110263104652154L;
+
 	private final int maxDepth;
 
 	public LightTracingStrategy(int maxDepth) {

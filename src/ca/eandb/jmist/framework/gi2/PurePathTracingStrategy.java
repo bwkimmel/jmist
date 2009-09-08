@@ -14,6 +14,9 @@ import ca.eandb.jmist.math.Point2;
  */
 public final class PurePathTracingStrategy implements BidiPathStrategy {
 
+	/** Serialization version ID. */
+	private static final long serialVersionUID = 1493406845275560911L;
+
 	private final int maxDepth;
 
 	public PurePathTracingStrategy(int maxDepth) {

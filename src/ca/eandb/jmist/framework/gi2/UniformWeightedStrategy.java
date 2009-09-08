@@ -14,6 +14,9 @@ import ca.eandb.jmist.math.Point2;
  */
 public final class UniformWeightedStrategy implements BidiPathStrategy {
 
+	/** Serialization version ID. */
+	private static final long serialVersionUID = 214808820256943457L;
+
 	private final int maxLightDepth;
 
 	private final int maxEyeDepth;

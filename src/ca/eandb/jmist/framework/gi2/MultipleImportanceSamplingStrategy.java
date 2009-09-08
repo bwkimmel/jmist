@@ -17,6 +17,9 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class MultipleImportanceSamplingStrategy implements BidiPathStrategy {
 
+	/** Serialization version ID. */
+	private static final long serialVersionUID = -6676343752386731148L;
+
 	private final int maxLightDepth;
 
 	private final int maxEyeDepth;

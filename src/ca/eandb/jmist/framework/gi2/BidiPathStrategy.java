@@ -3,6 +3,8 @@
  */
 package ca.eandb.jmist.framework.gi2;
 
+import java.io.Serializable;
+
 import ca.eandb.jmist.framework.Lens;
 import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.Random;
@@ -12,7 +14,7 @@ import ca.eandb.jmist.math.Point2;
  * @author Brad
  *
  */
-public interface BidiPathStrategy {
+public interface BidiPathStrategy extends Serializable {
 
 	PathNode traceLightPath(Light light, PathInfo pathInfo, Random rnd);
 
