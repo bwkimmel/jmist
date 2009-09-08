@@ -1,11 +1,14 @@
 /**
  *
  */
-package ca.eandb.jmist.framework.path;
+package ca.eandb.jmist.framework.job.bidi;
 
 import ca.eandb.jmist.framework.Lens;
 import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.Random;
+import ca.eandb.jmist.framework.path.PathInfo;
+import ca.eandb.jmist.framework.path.PathNode;
+import ca.eandb.jmist.framework.path.PathUtil;
 import ca.eandb.jmist.math.Point2;
 
 /**

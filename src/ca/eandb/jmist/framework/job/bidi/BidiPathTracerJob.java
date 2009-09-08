@@ -23,7 +23,7 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package ca.eandb.jmist.framework.path;
+package ca.eandb.jmist.framework.job.bidi;
 
 import ca.eandb.jdcp.job.AbstractParallelizableJob;
 import ca.eandb.jdcp.job.TaskWorker;
@@ -36,6 +36,11 @@ import ca.eandb.jmist.framework.Scene;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.ColorUtil;
+import ca.eandb.jmist.framework.path.EyeNode;
+import ca.eandb.jmist.framework.path.LightNode;
+import ca.eandb.jmist.framework.path.PathInfo;
+import ca.eandb.jmist.framework.path.PathNode;
+import ca.eandb.jmist.framework.path.ScatteringNode;
 import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.math.Box2;
 import ca.eandb.jmist.math.MathUtil;

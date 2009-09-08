@@ -23,10 +23,13 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package ca.eandb.jmist.framework.path;
+package ca.eandb.jmist.framework.job.bidi;
 
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorUtil;
+import ca.eandb.jmist.framework.path.PathNode;
+import ca.eandb.jmist.framework.path.PathUtil;
+import ca.eandb.jmist.framework.path.ScatteringNode;
 
 /**
  * @author Brad Kimmel

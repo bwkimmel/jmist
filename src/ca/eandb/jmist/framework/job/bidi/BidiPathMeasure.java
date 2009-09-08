@@ -23,11 +23,12 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package ca.eandb.jmist.framework.path;
+package ca.eandb.jmist.framework.job.bidi;
 
 import java.io.Serializable;
 
 import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.path.PathNode;
 
 /**
  * @author brad

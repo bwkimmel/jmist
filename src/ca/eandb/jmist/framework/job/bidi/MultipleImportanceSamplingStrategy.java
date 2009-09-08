@@ -1,12 +1,16 @@
 /**
  *
  */
-package ca.eandb.jmist.framework.path;
+package ca.eandb.jmist.framework.job.bidi;
 
 import ca.eandb.jmist.framework.Function1;
 import ca.eandb.jmist.framework.Lens;
 import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.Random;
+import ca.eandb.jmist.framework.path.PathInfo;
+import ca.eandb.jmist.framework.path.PathNode;
+import ca.eandb.jmist.framework.path.PathUtil;
+import ca.eandb.jmist.framework.path.ScatteringNode;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Vector3;
