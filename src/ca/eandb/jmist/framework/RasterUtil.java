@@ -73,4 +73,20 @@ public final class RasterUtil {
 		raster.addPixel(x, y, c);
 	}
 
+	/**
+	 * Gets the value of the pixel at the specified location on the image
+	 * plane.
+	 * @param raster The <code>Raster</code> containing the pixel to get.
+	 * @param p The <code>Point2</code> on the image plane for which to get the
+	 * 		corresponding pixel.
+	 * @return The <code>Color</code> of the pixel.
+	 */
+	public static Color getPixel(Raster raster, Point2 p) {
+		int w = raster.getWidth();
+		int h = raster.getHeight();
+		int x = MathUtil.threshold((int) Math.floor(p.x() * w), 0, w - 1);
+		int y = MathUtil.threshold((int) Math.floor(p.y() * h), 0, h - 1);
+		return raster.getPixel(x, y);
+	}
+
 }
