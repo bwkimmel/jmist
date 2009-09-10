@@ -37,7 +37,7 @@ import ca.eandb.jmist.framework.Scene;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.ColorUtil;
-import ca.eandb.jmist.framework.job.bidi.BidiPathMeasure;
+import ca.eandb.jmist.framework.job.bidi.PathMeasure;
 import ca.eandb.jmist.framework.job.bidi.BidiPathStrategy;
 import ca.eandb.jmist.framework.path.EyeNode;
 import ca.eandb.jmist.framework.path.LightNode;
@@ -70,7 +70,7 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 
 	private final BidiPathStrategy strategy;
 
-	private final BidiPathMeasure measure;
+	private final PathMeasure measure;
 
 	private final int tasks;
 
@@ -96,7 +96,7 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 
 	public BidiPathTracerJob(Scene scene, Display display, int width,
 			int height, ColorModel colorModel, Random random,
-			BidiPathStrategy strategy, BidiPathMeasure measure, int eyePathsPerPixel,
+			BidiPathStrategy strategy, PathMeasure measure, int eyePathsPerPixel,
 			int lightPathsPerEyePath, int tasks, boolean displayPartialResults) {
 		this.scene = scene;
 		this.display = display;

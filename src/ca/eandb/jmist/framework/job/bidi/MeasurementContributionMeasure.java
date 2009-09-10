@@ -34,16 +34,16 @@ import ca.eandb.jmist.framework.path.ScatteringNode;
 /**
  * @author Brad Kimmel
  */
-public final class MeasurementContributionMeasure implements BidiPathMeasure {
+public final class MeasurementContributionMeasure implements PathMeasure {
 
 	/** Serialization version ID. */
 	private static final long serialVersionUID = 6245725963682383802L;
 
-	private static final BidiPathMeasure INSTANCE = new MeasurementContributionMeasure();
+	private static final PathMeasure INSTANCE = new MeasurementContributionMeasure();
 
 	private MeasurementContributionMeasure() {}
 
-	public static BidiPathMeasure getInstance() {
+	public static PathMeasure getInstance() {
 		return INSTANCE;
 	}
 
