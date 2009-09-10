@@ -32,6 +32,7 @@ import ca.eandb.jmist.framework.Lens;
 import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.Raster;
+import ca.eandb.jmist.framework.RasterUtil;
 import ca.eandb.jmist.framework.Scene;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
@@ -45,7 +46,6 @@ import ca.eandb.jmist.framework.path.PathNode;
 import ca.eandb.jmist.framework.path.ScatteringNode;
 import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.math.Box2;
-import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.util.progress.ProgressMonitor;
 
@@ -286,14 +286,6 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 
 		}
 
-		private void write(Point2 p, Color c) {
-			Raster raster = this.raster.get();
-			int w = raster.getWidth();
-			int h = raster.getHeight();
-			int x = MathUtil.threshold((int) Math.floor(p.x() * w), 0, w - 1);
-			int y = MathUtil.threshold((int) Math.floor(p.y() * h), 0, h - 1);
-			raster.addPixel(x, y, c);
-		}
 //
 //		private void joinLightPathToEye(EyeNode eye, PathNode tail, double weight) {
 //			PathNode node = tail;
@@ -407,7 +399,7 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 					Color c = measure.evaluate(lightNode, eyeNode);
 					c = ColorUtil.mul(c, weight * w);
 					if (c != null) {
-						write(p, c);
+						RasterUtil.addPixel(raster.get(), p, c);
 					}
 				}
 			}
