@@ -83,6 +83,13 @@ public final class ScaledLightNode extends AbstractPathNode implements
 	public HPoint3 getPosition() {
 		return inner.getPosition();
 	}
+	
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.path.PathNode#getReversePDF()
+	 */
+	public double getReversePDF() {
+		return 1.0;
+	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.path.PathNode#isAtInfinity()

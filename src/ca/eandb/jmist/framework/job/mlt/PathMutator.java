@@ -25,6 +25,8 @@
 
 package ca.eandb.jmist.framework.job.mlt;
 
+import java.io.Serializable;
+
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.path.Path;
 
@@ -32,7 +34,7 @@ import ca.eandb.jmist.framework.path.Path;
  * @author brad
  *
  */
-public interface PathMutator {
+public interface PathMutator extends Serializable {
 
 	Path mutate(Path path, Random rnd);
 

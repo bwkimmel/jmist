@@ -6,6 +6,7 @@ package ca.eandb.jmist.framework.path;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.ScatteredRay.Type;
 import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.math.Vector3;
 
 /**
  * @author Brad
@@ -27,6 +28,8 @@ public abstract class AbstractScatteringNode extends AbstractPathNode implements
 	private final boolean onLightPath;
 
 	private double geometricFactor;
+	
+	private double reversePDF;
 
 	/**
 	 * @param pathInfo
@@ -39,6 +42,7 @@ public abstract class AbstractScatteringNode extends AbstractPathNode implements
 		this.specular = (sr.getType() == Type.SPECULAR);
 		this.pdf = sr.getPDF();
 		this.geometricFactor = Double.NaN;
+		this.reversePDF = Double.NaN;
 		this.onLightPath = parent.isOnLightPath();
 	}
 
@@ -78,6 +82,23 @@ public abstract class AbstractScatteringNode extends AbstractPathNode implements
 	 */
 	public final PathNode getParent() {
 		return parent;
+	}
+	
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.path.PathNode#getReversePDF()
+	 */
+	public final double getReversePDF() {
+		assert(parent != null);
+		if (Double.isNaN(reversePDF)) {
+			if (specular) {
+				// FIXME should not assume symmetry in PDF
+				reversePDF = (parent.getParent() != null) ? pdf : 1.0;
+			} else {
+				Vector3 v = PathUtil.getDirection(this, parent);
+				reversePDF = parent.getReversePDF(v);
+			}
+		}
+		return reversePDF;
 	}
 
 	/* (non-Javadoc)

@@ -12,6 +12,8 @@ import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.HPoint3;
+import ca.eandb.jmist.math.Point3;
+import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
 
 /**
@@ -140,5 +142,39 @@ public final class SurfaceNode extends AbstractScatteringNode {
 		Vector3 out = PathUtil.getDirection(this, parent);
 		return material.getScatteringPDF(surf, in, out, adjoint, lambda);
 	}
+
+//	@Override
+//	public PathNode reverse(PathNode newParent, PathNode grandChild) {		
+//		if (newParent != null) {
+//			if (grandChild != null) {
+//				if (grandChild.getParent() == null
+//						|| grandChild.getParent().getParent() != this) {
+//					throw new IllegalArgumentException(
+//							"grandChild.getParent().getParent() != this");
+//				}
+//				if (!PathUtil.isSameNode(newParent, grandChild.getParent())) {
+//					throw new IllegalArgumentException(
+//							"grandChild.getParent() and newParent are different nodes.");
+//				}
+//			}
+//			ScatteredRay sr;
+//			if (grandChild.isSpecular()) {
+//				Color color = grandChild.getCumulativeWeight().divide(grandChild.getParent().getCumulativeWeight());
+//				double pdf = grandChild.getReversePDF();
+//				color = color.times(grandChild.getPDF() / pdf);
+//				Point3 pos = newParent.getPosition().toPoint3();
+//				Vector3 v = PathUtil.getDirection(newParent, this);
+//				Ray3 ray = new Ray3(pos, v);
+//				sr = ScatteredRay.specular(ray, color, pdf);
+//			}
+//		} else { // newParent == null
+//			if (grandChild != null) {
+//				throw new IllegalArgumentException("newParent == null && grandChild != null");
+//			}
+//			
+//		}
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 }

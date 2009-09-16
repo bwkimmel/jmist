@@ -25,6 +25,7 @@
 
 package ca.eandb.jmist.framework.path;
 
+import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.util.UnexpectedException;
 import ca.eandb.util.UnimplementedException;
@@ -157,6 +158,43 @@ public final class Path {
 
 	private PathNode reverse(PathNode node, PathNode newParent) {
 		throw new UnimplementedException();
+	}
+	
+	public PathNode[] toPathNodes() {
+		int k = getLength();
+		PathNode[] nodes = new PathNode[k + 1];
+		int i;
+		
+		if (lightTail != null) {
+			i = lightTail.getDepth();
+			for (PathNode lightNode = lightTail; lightNode != null;
+					lightNode = lightNode.getParent()) {
+				nodes[i--] = lightNode;
+			}
+		}
+		
+		if (eyeTail != null) {
+			i = (lightTail != null) ? lightTail.getDepth() + 1 : 0; 
+			for (PathNode eyeNode = eyeTail; eyeNode != null;
+					eyeNode = eyeNode.getParent()) {
+				nodes[i++] = eyeNode;
+			}
+		}
+		
+		return nodes;
+	}
+	
+	public Color getUnweightedContribution() {
+		if (lightTail != null && eyeTail != null) {
+			return PathUtil.join(lightTail, eyeTail);
+		} else if (lightTail == null && eyeTail instanceof ScatteringNode) {
+			ScatteringNode scatNode = (ScatteringNode) eyeTail;
+			return scatNode.getCumulativeWeight().times(
+					scatNode.getSourceRadiance());
+		} else {
+			PathInfo pi = getPathInfo();
+			return pi.getColorModel().getBlack(pi.getWavelengthPacket());
+		}
 	}
 
 }

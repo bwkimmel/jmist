@@ -7,6 +7,8 @@ import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.VisibilityFunction3;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorUtil;
+import ca.eandb.jmist.math.HPoint3;
+import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
@@ -100,6 +102,16 @@ public final class PathUtil {
 			}
 		}
 		return node;
+	}
+	
+	public static boolean isSameNode(PathNode a, PathNode b) {
+		HPoint3 p = a.getPosition();
+		HPoint3 q = b.getPosition();
+		double epsilon = MathUtil.MACHINE_EPSILON;
+		return (p.isPoint() == q.isPoint())
+				&& MathUtil.equal(p.x(), q.x(), epsilon)
+				&& MathUtil.equal(p.y(), q.y(), epsilon)
+				&& MathUtil.equal(p.z(), q.z(), epsilon);
 	}
 
 	private PathUtil() {}

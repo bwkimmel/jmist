@@ -20,6 +20,8 @@ public interface PathNode {
 	double getGeometricFactor();
 
 	double getPDF();
+	
+	double getReversePDF();
 
 	boolean isSpecular();
 
@@ -46,7 +48,9 @@ public interface PathNode {
 	double getReversePDF(Vector3 v);
 
 	ScatteringNode expand(Random rnd);
+	
+//	PathNode reverse(PathNode newParent, PathNode grandChild);
 
 	PathInfo getPathInfo();
-
+	
 }

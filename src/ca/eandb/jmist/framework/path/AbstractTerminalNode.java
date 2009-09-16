@@ -51,7 +51,14 @@ public abstract class AbstractTerminalNode extends AbstractPathNode {
 	 * @see ca.eandb.jmist.framework.path.PathNode#getReversePDF(ca.eandb.jmist.math.Vector3)
 	 */
 	public final double getReversePDF(Vector3 v) {
-		return 0.0;
+		return 1.0;
+	}
+	
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.path.PathNode#getReversePDF()
+	 */
+	public final double getReversePDF() {
+		return 1.0;
 	}
 
 }
