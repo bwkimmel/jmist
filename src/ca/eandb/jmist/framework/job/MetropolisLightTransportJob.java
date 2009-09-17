@@ -27,7 +27,10 @@ package ca.eandb.jmist.framework.job;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import ca.eandb.jdcp.job.AbstractParallelizableJob;
 import ca.eandb.jdcp.job.TaskWorker;
@@ -39,10 +42,14 @@ import ca.eandb.jmist.framework.Raster;
 import ca.eandb.jmist.framework.RasterUtil;
 import ca.eandb.jmist.framework.Scene;
 import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.ColorMeasure;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
-import ca.eandb.jmist.framework.job.MetropolisLightTransportJob.SeedTask.Worker;
+import ca.eandb.jmist.framework.color.measure.LuminanceColorMeasure;
+import ca.eandb.jmist.framework.color.xyz.XYZColorModel;
 import ca.eandb.jmist.framework.job.bidi.BidiPathStrategy;
+import ca.eandb.jmist.framework.job.bidi.MeasurementContributionMeasure;
+import ca.eandb.jmist.framework.job.bidi.MultipleImportanceSamplingStrategy;
 import ca.eandb.jmist.framework.job.bidi.PathMeasure;
 import ca.eandb.jmist.framework.job.mlt.PathMutator;
 import ca.eandb.jmist.framework.path.Path;
@@ -50,51 +57,125 @@ import ca.eandb.jmist.framework.path.PathInfo;
 import ca.eandb.jmist.framework.path.PathNode;
 import ca.eandb.jmist.framework.random.RandomAdapter;
 import ca.eandb.jmist.framework.random.RandomUtil;
+import ca.eandb.jmist.framework.random.SimpleRandom;
 import ca.eandb.jmist.framework.random.ThreadLocalRandom;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
+import ca.eandb.util.DoubleArray;
+import ca.eandb.util.UnexpectedException;
 import ca.eandb.util.progress.ProgressMonitor;
 
 /**
- * @author brad
- *
+ * A <code>ParallelizableJob</code> that implements the Metropolis Light
+ * Transport algorithm.
+ * @author Brad Kimmel
  */
 public final class MetropolisLightTransportJob extends
 		AbstractParallelizableJob {
 
+	/** Serialization version ID. */
+	private static final long serialVersionUID = 93596290493205783L;
+
+	/** The <code>Scene</code> to be rendered. */
 	private final Scene scene;
 
+	/** The <code>Display</code> to render to. */
 	private final Display display;
 
+	/** The <code>ColorModel</code> to use. */
 	private final ColorModel colorModel;
 
+	/** The <code>PathMutator</code> to apply. */
 	private final PathMutator mutator;
 
-	private final PathMeasure measure;
+	/** The <code>PathMeasure</code> to apply. */
+	private final PathMeasure pathMeasure = MeasurementContributionMeasure.getInstance();
+	
+	/** The <code>ColorMeasure</code> to apply. */
+	private final ColorMeasure colorMeasure = LuminanceColorMeasure.getInstance();
 
-	private final BidiPathStrategy strategy;
+	/** The <code>BidiPathStrategy</code> to use to generate initial paths. */
+	private final BidiPathStrategy strategy = MultipleImportanceSamplingStrategy.usePowerHeuristic(10, 10);
 
-	private final Random random;
+	/** The <code>Random</code> number generator to use for mutations. */
+	private final Random random = new SimpleRandom();
 
+	/** The width of the image to render, in pixels. */
 	private final int width;
 
+	/** The height of the image to render, in pixels. */
 	private final int height;
 
-	private final int mutationsPerPixel;
+	/** The number of mutations to apply to each initial path. */
+	private final int mutationsPerSeed;
 
-	private final int tasks;
+	/** The number of initial paths to generate. */
+	private final int numberOfSeeds;
+	
+	/**
+	 * The number of tasks (seeding tasks) to divide the work of generating
+	 * initial paths into.
+	 */
+	private final int seedTasks;
 
+	/**
+	 * The number of light path/eye path pairs that each seeding task should
+	 * generate before resampling to select the initial paths.
+	 */
+	private final int pairsPerSeedTask;
+	
+	/**
+	 * The minimum number of initial paths that each seeding task should
+	 * generate.
+	 */
+	private final int minSeedsPerSeedTask;
+	
+	/**
+	 * The number of seeding tasks that should generate one more than the
+	 * minimum number of initial paths, so as to arrive at the appropriate
+	 * number ({@link #numberOfSeeds}) of initial paths.
+	 */
+	private final int extraSeeds;
+	
+	/**
+	 * The next seed that should be supplied to the random number generator to
+	 * generate the next sequence of light path/eye path pairs.
+	 */
+	private long nextRandomSeed = 0;
+	
+	/**
+	 * The number of seeding tasks that have been returned by 
+	 * {@link #getNextTask()}.
+	 */
+	private int seedTasksProvided;
+	
+	/**
+	 * The number of Metropolis Light Transport task whose results have been
+	 * submitted.
+	 */
+	private int mltTasksSubmitted;
+	
+	/**
+	 * A value indicating if partial results should be written to the display
+	 * as the results of each Metropolis task is submitted. 
+	 */
 	private final boolean displayPartialResults;
 
+	/** The <code>Raster</code> to write to as task results are submitted. */
 	private transient Raster image = null;
-
-	private transient int tasksProvided = 0;
-
-	private transient int tasksSubmitted = 0;
-
-	private transient int mutationsSubmitted = 0;
 	
-	private final List<PathSeed> seeds = new ArrayList<PathSeed>();
+	/**
+	 * The total number of tasks (seeding tasks and MLT tasks) that whose
+	 * results have been submitted.
+	 */
+	private transient int tasksSubmitted = 0;
+	
+	/**
+	 * A <code>Queue</code> containing the <code>PathSeed</code>s returned by
+	 * seeding tasks that have not yet been supplied as Metropolis Light
+	 * Transport tasks via {@link #getNextTask()}.
+	 */
+	private final Queue<PathSeed> seeds = new LinkedList<PathSeed>();
 
 	/**
 	 *
@@ -103,15 +184,13 @@ public final class MetropolisLightTransportJob extends
 		// TODO Auto-generated constructor stub
 	}
 
-	private final PathNode generateLightPath(long seed, WavelengthPacket lambda) {
-		Random rnd = new RandomAdapter(new java.util.Random(seed));
+	private final PathNode generateLightPath(Random rnd, WavelengthPacket lambda) {
 		Light light = scene.getLight();
 		PathInfo pathInfo = new PathInfo(scene, lambda);
 		return strategy.traceLightPath(light, pathInfo, rnd);
 	}
 
-	private final PathNode generateEyePath(long seed, WavelengthPacket lambda) {
-		Random rnd = new RandomAdapter(new java.util.Random(seed));
+	private final PathNode generateEyePath(Random rnd, WavelengthPacket lambda) {
 		Lens lens = scene.getLens();
 		Point2 p = RandomUtil.canonical2(rnd);
 		PathInfo pathInfo = new PathInfo(scene, lambda);
@@ -120,80 +199,97 @@ public final class MetropolisLightTransportJob extends
 
 	private static final class PathSeed implements Serializable {
 		private static final long serialVersionUID = 2446876045946528984L;
-		public long lightPathSeed;
-		public long lightPathLength;
-		public long eyePathSeed;
-		public long eyePathLength;
-		public WavelengthPacket lambda;
+		public long randomSeed;
+		public int lightPathLength;
+		public int eyePathLength;
 	};
-
-	private final Path generatePath(PathSeed seed) {
-		PathNode lightTail = generateLightPath(seed.lightPathSeed, seed.lambda);
-		PathNode eyeTail = generateEyePath(seed.eyePathSeed, seed.lambda);
-		Path path = new Path(lightTail, eyeTail);
-		return path.slice(seed.lightPathLength, seed.eyePathLength);
+	
+	private static final class SeedTaskInfo implements Serializable {
+		private static final long serialVersionUID = 7253264352598221713L;
+		public long initialRandomSeed;
+		public int numPathSeeds;
+	};
+	
+	private final Path generatePath(long seed) {
+		Random rnd = new RandomAdapter(new java.util.Random(seed));
+		Color sample = colorModel.sample(rnd);
+		WavelengthPacket lambda = sample.getWavelengthPacket();
+		PathNode lightTail = generateLightPath(rnd, lambda);
+		PathNode eyeTail = generateEyePath(rnd, lambda);
+		return new Path(lightTail, eyeTail);		
 	}
 
+	private final Path generatePath(PathSeed seed) {
+		Path path = generatePath(seed.randomSeed);
+		return path.slice(seed.lightPathLength, seed.eyePathLength);
+	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jdcp.job.ParallelizableJob#getNextTask()
 	 */
-	public Object getNextTask() throws Exception {
-		Task task = new Task();
-		if (tasksProvided < tasks) {
-			return tasksProvided++ < extraPasses ? minPassesPerTask + 1
-					: minPassesPerTask;
+	public synchronized Object getNextTask() throws Exception {
+		if (seedTasksProvided < seedTasks) {
+			SeedTaskInfo info = new SeedTaskInfo();
+			info.initialRandomSeed = nextRandomSeed;
+			info.numPathSeeds = (seedTasksProvided < extraSeeds)
+					? minSeedsPerSeedTask + 1
+					: minSeedsPerSeedTask;
+			seedTasksProvided++;
+			nextRandomSeed += (long) pairsPerSeedTask;
+			return info;
 		} else {
-			return null;
+			return seeds.poll();
 		}
-
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jdcp.job.ParallelizableJob#isComplete()
 	 */
 	public boolean isComplete() throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+		return tasksSubmitted >= (numberOfSeeds + seedTasks);
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jdcp.job.ParallelizableJob#submitTaskResults(java.lang.Object, java.lang.Object, ca.eandb.util.progress.ProgressMonitor)
 	 */
-	public void submitTaskResults(Object task_, Object results,
+	@SuppressWarnings("unchecked")
+	public void submitTaskResults(Object task, Object results,
 			ProgressMonitor monitor) throws Exception {
 
-		Task task = (Task) task_;
-		Raster taskRaster = (Raster) results;
+		if (task instanceof PathSeed) {
+			submitTaskResults_MLT((Raster) results);
+		} else if (task instanceof SeedTaskInfo) {
+			submitTaskResults_generateSeeds((Collection<PathSeed>) results);
+		} else {
+			throw new IllegalArgumentException("Unrecognized task type");
+		}
+		
+		monitor.notifyProgress(++tasksSubmitted, seedTasks + numberOfSeeds);
+	}
 
-		monitor.notifyStatusChanged("Accumulating partial results...");
-
-		passesSubmitted += taskPasses;
+	private void submitTaskResults_MLT(Raster results) {
+		mltTasksSubmitted++;
 		if (displayPartialResults) {
-			double alpha = (double) taskPasses / (double) passesSubmitted;
+			double alpha = 1.0 / (double) mltTasksSubmitted;
 			for (int y = 0; y < height; y++) {
 				for (int x = 0; x < width; x++) {
-					raster.setPixel(x, y, raster.getPixel(x, y).times(
+					image.setPixel(x, y, image.getPixel(x, y).times(
 							1.0 - alpha).plus(
-							taskRaster.getPixel(x, y).times(alpha)));
+							results.getPixel(x, y).times(alpha)));
 				}
 			}
-			display.setPixels(0, 0, raster);
+			display.setPixels(0, 0, image);
 		} else {
 			for (int y = 0; y < height; y++) {
 				for (int x = 0; x < width; x++) {
-					raster.setPixel(x, y, raster.getPixel(x, y).plus(taskRaster.getPixel(x, y)));
+					image.addPixel(x, y, results.getPixel(x, y));
 				}
 			}
 		}
-
-		monitor.notifyProgress(++tasksSubmitted, tasks);
-		if (tasksSubmitted == tasks) {
-			monitor.notifyStatusChanged("Ready to write results");
-		} else {
-			monitor.notifyStatusChanged("Waiting for partial results");
-		}
-
+	}
+	
+	private void submitTaskResults_generateSeeds(Collection<PathSeed> results) {
+    	seeds.addAll(results);
 	}
 
 	/* (non-Javadoc)
@@ -227,30 +323,10 @@ public final class MetropolisLightTransportJob extends
 		return new Worker();
 	}
 
-//	private static final class Task implements Serializable {
-//		private static final long serialVersionUID = 4952461377760496702L;
-//		public PathSeed seed = new PathSeed();
-//		public int mutations;
-//	};
-	
-	private static interface Task extends Serializable {
-		Object perform(Object worker);
-		void submit(Object results);
-	};
-	
-	private final class SeedTask implements Task {
-		
-		public Object perform(Object worker) {
-			List<PathSeed> seeds = new ArrayList<PathSeed>();
-			return seeds;
-		}
-		public void submit(Object results) {
-			List<PathSeed> seeds = (List<PathSeed>) results;
-			MetropolisLightTransportJob.this.seeds.addAll(seeds);
-		}
-	}
-
 	private final class Worker implements TaskWorker {
+
+		/** Serialization version ID. */
+		private static final long serialVersionUID = 2227396964245126946L;
 
 		private final ThreadLocal<Raster> raster = new ThreadLocal<Raster>() {
 			protected Raster initialValue() {
@@ -261,16 +337,147 @@ public final class MetropolisLightTransportJob extends
 		private final Random random = new ThreadLocalRandom(
 				MetropolisLightTransportJob.this.random);
 
-		public Object performTask(Object task_, ProgressMonitor monitor) {
-			Task task = (Task) task_;
-			Color white = colorModel.getWhite(task.seed.lambda);
+		public Object performTask(Object task, ProgressMonitor monitor) {
+			assert(task != null);
+			if (task instanceof PathSeed) {
+				return performTask_MLT((PathSeed) task, mutationsPerSeed,
+						monitor);
+			} else if (task instanceof SeedTaskInfo) {
+				SeedTaskInfo info = (SeedTaskInfo) task;
+				return performTask_generateSeeds(info.initialRandomSeed,
+						info.numPathSeeds, monitor);
+			} else {
+				throw new IllegalArgumentException("Unrecognized task type");
+			}
+		}
+		
+		private Object performTask_generateSeeds(long initialRandomSeed,
+				int numPathSeeds, ProgressMonitor monitor) {
+			
+			monitor.notifyStatusChanged("Generating seeds for MLT");
+			
+			int callbackInterval = Math.min(1000,
+					Math.max(1, pairsPerSeedTask / 100));
+			int nextCallback = 0;
+			
+			DoubleArray weight = new DoubleArray();
+			short[] lightPathLength = new short[pairsPerSeedTask];
+			short[] eyePathLength = new short[pairsPerSeedTask];
+			
+			for (int i = 0; i < pairsPerSeedTask; i++) {
+				if (--nextCallback <= 0) {
+					if (monitor.notifyProgress(i, pairsPerSeedTask)) {
+						monitor.notifyCancelled();
+						return null;
+					}
+					nextCallback = callbackInterval;
+				}
 
-			Path x = generatePath(task.seed);
-			for (int i = 0; i < task.mutations; i++) {
+				Path path = generatePath(initialRandomSeed++);
+				
+				/* store information about the path so we don't have to
+				 * regenerate it during the resampling phase.
+				 */
+				if (path.getLightPathLength() > Short.MAX_VALUE) {
+					throw new UnexpectedException("Light subpath too long.");
+				}
+				if (path.getEyePathLength() > Short.MAX_VALUE) {
+					throw new UnexpectedException("Eye subpath too long.");
+				}
+				lightPathLength[i] = (short) path.getLightPathLength();
+				eyePathLength[i] = (short) path.getEyePathLength();
+				
+				join(path.getLightTail(), path.getEyeTail(), weight);
+			}
+			
+			monitor.notifyStatusChanged("Resampling MLT seeds");
+			
+			double totalWeight = MathUtil.sum(weight);			
+			double scale = (double) numPathSeeds / totalWeight;
+			double x = 0.5;
+			int x0 = (int) Math.floor(x);
+			int x1;
+			List<PathSeed> seeds = new ArrayList<PathSeed>();
+			
+			for (int i = 0, n = 0; i < pairsPerSeedTask; i++) {
+				int s0 = lightPathLength[i];
+				int t0 = eyePathLength[i];
+				for (int s = s0; s >= 0; s--) {
+					for (int t = t0; t >= 0; t--, n++) {
+						x += scale * weight.get(n);
+						x1 = (int) Math.floor(x);
+						for (int j = x0; j < x1; j++) {
+							PathSeed seed = new PathSeed();
+							seed.randomSeed = initialRandomSeed + (long) i;
+							seed.lightPathLength = s;
+							seed.eyePathLength = t;
+							seeds.add(seed);
+						}
+						x0 = x1;
+					}
+				}
+			}
+			
+			monitor.notifyProgress(pairsPerSeedTask, pairsPerSeedTask);
+			monitor.notifyComplete();
+			
+			return seeds;
+			
+		}
+		
+		private void join(PathNode lightTail, PathNode eyeTail,
+				DoubleArray weights) {
+
+			PathNode lightNode = lightTail;
+			while (true) {
+				
+				PathNode eyeNode = eyeTail;
+				while (true) {
+					Color c = pathMeasure.evaluate(lightNode, eyeNode);					
+					weights.add(colorMeasure.evaluate(c));
+					
+					if (eyeNode == null) {
+						break;
+					}
+					eyeNode = eyeNode.getParent();
+				}
+				
+				if (lightNode == null) {
+					break;
+				}
+				lightNode = lightNode.getParent();
+			}
+			
+		}
+
+		private Object performTask_MLT(PathSeed seed, int mutations,
+				ProgressMonitor monitor) {
+			
+			int callbackInterval = Math	.min(10000, 
+					Math.max(1, mutations / 100));
+			int nextCallback = 0;
+			
+			Path x = generatePath(seed);
+			PathInfo pi = x.getPathInfo();
+			WavelengthPacket lambda = pi.getWavelengthPacket();
+			ColorModel colorModel = pi.getColorModel();
+			Color white = colorModel.getWhite(lambda);
+			
+			for (int i = 0; i < mutations; i++) {
+				if (--nextCallback <= 0) {
+					if (!monitor.notifyProgress(i, mutations)) {
+						monitor.notifyCancelled();
+						return null;
+					}
+					nextCallback = callbackInterval;
+				}
 				x = mutate(x);
 				record(x, raster.get(), white);
 			}
-
+			
+			monitor.notifyProgress(mutations, mutations);
+			monitor.notifyComplete();
+			
 			return raster.get();
 		}
 
@@ -298,7 +505,8 @@ public final class MetropolisLightTransportJob extends
 		}
 
 		private double f(Path x) {
-			return measure.evaluate(x.getLightTail(), x.getEyeTail()).luminance();
+			Color c = pathMeasure.evaluate(x.getLightTail(), x.getEyeTail());
+			return colorMeasure.evaluate(c);
 		}
 
 	}
