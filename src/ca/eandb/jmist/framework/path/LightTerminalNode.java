@@ -24,4 +24,11 @@ public abstract class LightTerminalNode extends AbstractTerminalNode implements
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.path.PathNode#reverse(ca.eandb.jmist.framework.path.PathNode, ca.eandb.jmist.framework.path.PathNode)
+	 */
+	public PathNode reverse(PathNode newParent, PathNode grandChild) {
+		return null;
+	}
+
 }

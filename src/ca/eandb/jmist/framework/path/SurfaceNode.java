@@ -97,6 +97,64 @@ public final class SurfaceNode extends AbstractScatteringNode {
 	public HPoint3 getPosition() {
 		return surf.getPosition();
 	}
+	
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.path.PathNode#reverse(ca.eandb.jmist.framework.path.PathNode, ca.eandb.jmist.framework.path.PathNode)
+	 */
+	public PathNode reverse(PathNode newParent, PathNode grandChild) {
+		if (newParent != null) {
+			PathNode child = (grandChild != null) ? grandChild.getParent() : null;
+			if (grandChild != null) {
+				if (!PathUtil.isSameNode(child, newParent)) {
+					throw new IllegalArgumentException(
+							"newParent and grandChild.getParent() are different.");
+				} else if (child.getParent() != this) {
+					throw new IllegalArgumentException(
+							"grandChild is not a grandchild of this node.");
+				} else if (!PathUtil.isSameNode(newParent.getParent(),
+						grandChild)) {
+					throw new IllegalArgumentException(
+							"grandChild and newParent.getParent() are different.");
+				}
+			}
+			
+			Vector3 v = PathUtil.getDirection(newParent, this);
+			Point3 origin = newParent.isAtInfinity()
+					? surf.getPosition().minus(v)
+					: newParent.getPosition().toPoint3();
+			Ray3 ray = new Ray3(origin, v);			
+			ScatteredRay sr;
+			
+			if (grandChild != null) {
+				double rpdf = grandChild.getReversePDF();
+				double pdf = grandChild.getPDF();
+				Color color = grandChild.getCumulativeWeight()
+						.divide(child.getCumulativeWeight())
+						.times(pdf / rpdf);
+				sr = grandChild.isSpecular()
+						? ScatteredRay.specular(ray, color, rpdf)
+						: ScatteredRay.diffuse(ray, color, rpdf);
+			} else { // grandChild == null
+				double pdf = newParent.getPDF(v);
+				Color color = newParent.scatter(v).divide(pdf);
+				sr = ScatteredRay.diffuse(ray, color, pdf);
+			}
+
+			return new SurfaceNode(newParent, sr, surf);
+		} else { // newParent == null
+			if (grandChild != null) {
+				throw new IllegalArgumentException(
+						"newParent == null && grandChild != null");
+			}
+			
+			PathInfo pi = getPathInfo();
+			Scene scene = pi.getScene();
+			Light light = scene.getLight();
+			double pdf = light.getSamplePDF(surf, pi);
+			
+			return ScaledLightNode.create(pdf, new SurfaceLightNode(pi, surf));
+		}
+	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.path.PathNode#scatter(ca.eandb.jmist.math.Vector3)

@@ -96,4 +96,11 @@ public final class BackgroundNode extends AbstractScatteringNode {
 		return 0;
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.path.PathNode#reverse(ca.eandb.jmist.framework.path.PathNode, ca.eandb.jmist.framework.path.PathNode)
+	 */
+	public PathNode reverse(PathNode newParent, PathNode grandChild) {
+		return null;
+	}
+
 }

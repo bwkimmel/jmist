@@ -25,16 +25,22 @@
 
 package ca.eandb.jmist.framework.job.mlt;
 
+import ca.eandb.jmist.framework.Lens;
+import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.job.bidi.MeasurementContributionMeasure;
 import ca.eandb.jmist.framework.job.bidi.PathMeasure;
+import ca.eandb.jmist.framework.path.LightNode;
 import ca.eandb.jmist.framework.path.Path;
+import ca.eandb.jmist.framework.path.PathInfo;
 import ca.eandb.jmist.framework.path.PathNode;
 import ca.eandb.jmist.framework.path.PathUtil;
+import ca.eandb.jmist.framework.path.ScatteringNode;
 import ca.eandb.jmist.framework.random.CategoricalRandom;
 import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.math.MathUtil;
+import ca.eandb.jmist.math.Point2;
 
 /**
  * @author brad
@@ -64,6 +70,8 @@ public final class BidirectionalPathMutator implements PathMutator {
 			this.t = t;
 		}
 	};
+	
+	private final void bp() {}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.job.mlt.PathMutator#getTransitionPDF(ca.eandb.jmist.framework.path.Path, ca.eandb.jmist.framework.path.Path)
@@ -84,17 +92,22 @@ public final class BidirectionalPathMutator implements PathMutator {
 		 */
 		double pa = pa1 / (double) ka;
 		
+		if (ka == 1) {
+			if (Double.isNaN(pd) || Double.isNaN(pa)) bp();
+			return pd * pa;
+		}
+		
 		int sy = y.getLightPathLength();
 		int ty = y.getEyePathLength();
 		
 		PathNode lightNode = y.getLightTail();
 		PathNode eyeNode = y.getEyeTail();
 		double p0 = 1.0;
-		for (int l1 = sy - slice.s; l1 >= 0; l1--) {
+		for (int l1 = sy - slice.s; l1 > 0; l1--) { // FIXME check this
 			p0 *= (lightNode.getPDF() * lightNode.getGeometricFactor());
 			lightNode = lightNode.getParent();
 		}
-		for (int m1 = ty - slice.t; m1 >= 0; m1--) {
+		for (int m1 = ty - slice.t; m1 > 0; m1--) { // FIXME check this
 			p0 *= (eyeNode.getPDF() * eyeNode.getGeometricFactor());
 			eyeNode = eyeNode.getParent();
 		}
@@ -106,19 +119,31 @@ public final class BidirectionalPathMutator implements PathMutator {
 		
 		double[] p = new double[ka];
 		
+		if (sy - slice.s >= 0 || sy - slice.s < p.length) {
+			p[sy - slice.s] = p0;
+		}
+		
 		PathNode x0, x1, x2;
+		double p1;
 		
 		x2 = y.getLightTail();
 		x1 = y.getEyeTail();
-		x0 = x1.getParent();
+		
+		p1 = p0;
+		x0 = x1 != null ? x1.getParent() : null;
 		for (int l1 = sy - slice.s - 1; l1 >= 0; l1--) {
 			assert(x2 != null);
 			
-			double g = x1.isOnEyePath() ? gle : x1.getGeometricFactor();
+			double g = (x1 == null || x1.isOnEyePath())
+					? gle : x1.getGeometricFactor();
 			double rpdf;
 			
-			if (x1.isOnEyePath()) {
+			if (x1 == null) {
+				rpdf = 0.0; // Aperture not modeled as part of scene
+			} else if (x1.isOnEyePath()) {
 				rpdf = x1.getPDF(PathUtil.getDirection(x1, x2));
+			} else if (x0 == null) {
+				rpdf = 0.0;
 			} else if (x0.isOnLightPath() && x0.isSpecular()) {
 				rpdf = x0.getPDF();
 			} else {
@@ -126,7 +151,10 @@ public final class BidirectionalPathMutator implements PathMutator {
 			}
 			
 			double ratio = (rpdf * g) / (x2.getPDF() * x2.getGeometricFactor());
-			p[l1] = p[l1 + 1] * ratio;
+			p1 *= Double.isNaN(ratio) ? 0.0 : ratio;
+			if (l1 >= 0 && l1 < p.length) {
+				p[l1] = p1;
+			}
 			
 			x0 = x1;
 			x1 = x2;
@@ -135,16 +163,26 @@ public final class BidirectionalPathMutator implements PathMutator {
 		
 		x2 = y.getEyeTail();
 		x1 = y.getLightTail();
-		x0 = x1.getParent();
+		
+		p1 = p0;
+		x0 = x1 != null ? x1.getParent() : null;
 		for (int m1 = ty - slice.t - 1; m1 >= 0; m1--) {
 			int l1 = ka - 1 - m1;
 			assert(x2 != null);
 			
-			double g = x1.isOnLightPath() ? gle : x1.getGeometricFactor();
+			double g = (x1 == null || x1.isOnLightPath())
+					? gle : x1.getGeometricFactor();
 			double rpdf;
 			
-			if (x1.isOnLightPath()) {
+			if (x1 == null) {
+				rpdf = x2 instanceof ScatteringNode
+						? ((ScatteringNode) x2).getSourcePDF()
+						: 0.0;				
+			} else if (x1.isOnLightPath()) {
 				rpdf = x1.getPDF(PathUtil.getDirection(x1, x2));
+			} else if (x0 == null) {
+				rpdf = 1.0;
+				bp();
 			} else if (x0.isOnEyePath() && x0.isSpecular()) {
 				rpdf = x0.getPDF();
 			} else {
@@ -152,7 +190,10 @@ public final class BidirectionalPathMutator implements PathMutator {
 			}
 			
 			double ratio = (rpdf * g) / (x2.getPDF() * x2.getGeometricFactor());
-			p[l1] = p[l1 - 1] * ratio;
+			p1 *= Double.isNaN(ratio) ? 0.0 : ratio;
+			if (l1 >= 0 && l1 < p.length) {
+				p[l1] = p1;
+			}
 			
 			x0 = x1;
 			x1 = x2;
@@ -249,19 +290,29 @@ public final class BidirectionalPathMutator implements PathMutator {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.job.mlt.PathMutator#mutate(ca.eandb.jmist.framework.path.Path, ca.eandb.jmist.framework.Random)
 	 */
-	public Path mutate(Path path, Random rnd) {
+	public Path mutate(Path x, Random rnd) {
 
-		CategoricalRandom r = generateDeletedSubpathProbabilities(path);
-		IntPair slice = getSlice(path, r.next(rnd));
+		int k = x.getLength();
+		CategoricalRandom r = generateDeletedSubpathProbabilities(x);
+		IntPair slice = getSlice(x, r.next(rnd));
+		
+		//slice = new IntPair(0, 0);
 
-		path = path.slice(slice.s, slice.t);
+		PathNode newLightTail = x.getLightTail();
+		PathNode newEyeTail = x.getEyeTail();
+		
+		while (newLightTail != null && newLightTail.getDepth() > slice.s) {
+			newLightTail = newLightTail.getParent();
+		}
+		while (newEyeTail != null && newEyeTail.getDepth() > slice.t) {
+			newEyeTail = newEyeTail.getParent();
+		}
+		
 
-		PathNode newLightTail = path.getLightTail();
-		PathNode newEyeTail = path.getEyeTail();
-
-		int k = path.getLength();
 		int kd = k - (slice.s + slice.t);
 		int ka = getAddedSubpathLength(kd, rnd);
+		
+		//ka = 2;
 		
 		if (ka == 1 && kd == 1) { // mutation has no effect
 			return null;
@@ -270,6 +321,12 @@ public final class BidirectionalPathMutator implements PathMutator {
 		int l1 = RandomUtil.discrete(0, ka - 1, rnd);
 		int m1 = ka - 1 - l1;
 
+		if (newLightTail == null && l1 > 0) {
+			PathInfo pi = x.getPathInfo();
+			Light light = pi.getScene().getLight();
+			newLightTail = light.sample(pi, rnd);
+			l1--;
+		}
 		while (l1-- > 0) {
 			newLightTail = newLightTail.expand(rnd);
 			if (newLightTail == null || newLightTail.isAtInfinity()) {
@@ -277,6 +334,13 @@ public final class BidirectionalPathMutator implements PathMutator {
 			}
 		}
 
+		if (newEyeTail == null && m1 > 0) {
+			PathInfo pi = x.getPathInfo();
+			Lens lens = pi.getScene().getLens();
+			Point2 p = RandomUtil.canonical2(rnd);
+			newEyeTail = lens.sample(p, pi, rnd);
+			m1--;
+		}
 		while (m1-- > 0) {
 			newEyeTail = newEyeTail.expand(rnd);
 			if (newEyeTail == null || newEyeTail.isAtInfinity()) {
@@ -284,24 +348,24 @@ public final class BidirectionalPathMutator implements PathMutator {
 			}
 		}
 		
-		if (!PathUtil.visibility(newLightTail, newEyeTail)) {
-			return null;
+		if (newLightTail == null || newEyeTail == null
+				|| PathUtil.visibility(newLightTail, newEyeTail)) {
+			return new Path(newLightTail, newEyeTail);
 		}
 
-		return new Path(newLightTail, newEyeTail);
+		return null;
 
 	}
 	
 	private double[] getAllUnweightedContributions(Path x) {
 		int k = x.getLength();
-		double[] c = new double[k + 1];
+		double[] c = new double[k + 2];
 		
-		x = x.shift(-x.getLightPathLength());
-		for (int s = 0; s <= k; s++) {
-			Color color = importance.evaluate(x.getLightTail(), x.getEyeTail());
-			c[s] = color.luminance();
-			if (s < k) {
-				x = x.shift(1);
+		for (int s = -1, t = k; s <= k; s++, t--) {
+			Path y = x.slice(s, t);
+			if (y != null) {
+				Color color = importance.evaluate(y.getLightTail(), y.getEyeTail());
+				c[s + 1] = color != null ? color.luminance() : 0.0; // FIXME use a ColorMeasure
 			}
 		}
 		
@@ -322,7 +386,7 @@ public final class BidirectionalPathMutator implements PathMutator {
 				double pd2 = 0.0;
 				
 				for (int s = l + 1; s <= m; s++) {
-					if (c[s] > MathUtil.SMALL_EPSILON) {
+					if (c[s] > MathUtil.SMALL_EPSILON) { // FIXME
 						pd2 += 1.0 / c[s];
 					}
 				}

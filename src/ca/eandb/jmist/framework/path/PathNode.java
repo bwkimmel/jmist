@@ -49,7 +49,7 @@ public interface PathNode {
 
 	ScatteringNode expand(Random rnd);
 	
-//	PathNode reverse(PathNode newParent, PathNode grandChild);
+	PathNode reverse(PathNode newParent, PathNode grandChild);
 
 	PathInfo getPathInfo();
 	

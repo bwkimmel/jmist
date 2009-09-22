@@ -26,9 +26,9 @@
 package ca.eandb.jmist.framework.path;
 
 import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.job.bidi.PathMeasure;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.util.UnexpectedException;
-import ca.eandb.util.UnimplementedException;
 
 /**
  * @author brad
@@ -81,9 +81,8 @@ public final class Path {
 			throw new UnexpectedException();
 		} else if (eyeTail.getParent() == null) {
 			EyeNode eyeNode = (EyeNode) eyeTail;
-			PathNode firstNode = lightTail;
 
-			return eyeNode.project(firstNode.getPosition());
+			return eyeNode.project(lightTail.getPosition());
 		} else { // eyeTail != null && eyeTail.getParent() != null
 			PathNode firstNode = eyeTail;
 			while (firstNode.getDepth() > 1) {
@@ -110,15 +109,40 @@ public final class Path {
 
 		PathNode newLightTail = lightTail;
 		PathNode newEyeTail = eyeTail;
-
+		PathNode grandChild;
+		
+		grandChild = null;
 		while (s0 < s1) {
-			newLightTail = reverse(newEyeTail, newLightTail);
+			if (grandChild == null) {
+				PathNode parent = eyeTail.getParent();
+				if (parent != null && parent.getParent() == newEyeTail) {
+					grandChild = eyeTail;
+				}
+			} else {
+				grandChild = grandChild.getParent();
+			}
+			newLightTail = newEyeTail.reverse(newLightTail, grandChild);
+			if (newLightTail == null) {
+				return null;
+			}
 			newEyeTail = newEyeTail.getParent();
 			s0++; t0--;
 		}
 
+		grandChild = null;
 		while (t0 < t1) {
-			newEyeTail = reverse(newLightTail, newEyeTail);
+			if (grandChild == null) {
+				PathNode parent = lightTail.getParent();
+				if (parent != null && parent.getParent() == newLightTail) {
+					grandChild = lightTail;
+				}
+			} else {
+				grandChild = grandChild.getParent();
+			}
+			newEyeTail = newLightTail.reverse(newEyeTail, grandChild);
+			if (newEyeTail == null) {
+				return null;
+			}
 			newLightTail = newLightTail.getParent();
 			s0--; t0++;
 		}
@@ -134,32 +158,32 @@ public final class Path {
 		return new Path(newLightTail, newEyeTail);
 	}
 
-	public Path shift(int ds) {
-		if (ds > 0) {
-			PathNode newLightTail = lightTail;
-			PathNode newEyeTail = eyeTail;
-			while (ds-- > 0) {
-				newLightTail = reverse(newEyeTail, newLightTail);
-				newEyeTail = newEyeTail.getParent();
-			}
-			return new Path(newLightTail, newEyeTail);
-		} else if (ds < 0) {
-			PathNode newLightTail = lightTail;
-			PathNode newEyeTail = eyeTail;
-			while (ds++ < 0) {
-				newEyeTail = reverse(newLightTail, newEyeTail);
-				newLightTail = newLightTail.getParent();
-			}
-			return new Path(newLightTail, newEyeTail);
-		} else {
-			return this;
-		}
-	}
+//	public Path shift(int ds) {
+//		if (ds > 0) {
+//			PathNode newLightTail = lightTail;
+//			PathNode newEyeTail = eyeTail;
+//			while (ds-- > 0) {
+//				newLightTail = reverse(newEyeTail, newLightTail);
+//				newEyeTail = newEyeTail.getParent();
+//			}
+//			return new Path(newLightTail, newEyeTail);
+//		} else if (ds < 0) {
+//			PathNode newLightTail = lightTail;
+//			PathNode newEyeTail = eyeTail;
+//			while (ds++ < 0) {
+//				newEyeTail = reverse(newLightTail, newEyeTail);
+//				newLightTail = newLightTail.getParent();
+//			}
+//			return new Path(newLightTail, newEyeTail);
+//		} else {
+//			return this;
+//		}
+//	}
 
-	private PathNode reverse(PathNode node, PathNode newParent) {
-		throw new UnimplementedException();
-	}
-	
+//	private PathNode reverse(PathNode node, PathNode newParent) {
+//		throw new UnimplementedException();
+//	}
+//	
 	public PathNode[] toPathNodes() {
 		int k = getLength();
 		PathNode[] nodes = new PathNode[k + 1];
@@ -195,6 +219,10 @@ public final class Path {
 			PathInfo pi = getPathInfo();
 			return pi.getColorModel().getBlack(pi.getWavelengthPacket());
 		}
+	}
+	
+	public Color measure(PathMeasure m) {
+		return m.evaluate(lightTail, eyeTail);
 	}
 
 }

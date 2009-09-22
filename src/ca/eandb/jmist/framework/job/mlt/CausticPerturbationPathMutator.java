@@ -52,6 +52,9 @@ public final class CausticPerturbationPathMutator implements PathMutator {
 		int t = path.getEyePathLength();
 
 		path = path.slice(0, s + t - 1);
+		if (path == null) {
+			return null;
+		}
 
 		PathNode newEyeTail = path.getEyeTail();
 		PathNode newLightTail = path.getLightTail();

@@ -52,6 +52,9 @@ public final class LensPerturbationPathMutator implements PathMutator {
 		int t = path.getEyePathLength();
 
 		path = path.slice(s + t - 1, 0);
+		if (path == null) {
+			return null;
+		}
 
 		PathNode newEyeTail = path.getEyeTail();
 		PathNode newLightTail = path.getLightTail();

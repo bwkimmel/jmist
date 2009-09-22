@@ -25,4 +25,11 @@ public abstract class EyeTerminalNode extends AbstractTerminalNode implements
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.path.PathNode#reverse(ca.eandb.jmist.framework.path.PathNode, ca.eandb.jmist.framework.path.PathNode)
+	 */
+	public PathNode reverse(PathNode newParent, PathNode grandChild) {
+		return null;
+	}
+
 }

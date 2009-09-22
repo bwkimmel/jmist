@@ -140,4 +140,9 @@ public final class ScaledLightNode extends AbstractPathNode implements
 		return inner.getReversePDF(v);
 	}
 
+	@Override
+	public PathNode reverse(PathNode newParent, PathNode grandChild) {
+		return inner.reverse(newParent, grandChild);
+	}
+
 }
