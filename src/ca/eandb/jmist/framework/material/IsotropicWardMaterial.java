@@ -4,7 +4,6 @@
 package ca.eandb.jmist.framework.material;
 
 import ca.eandb.jmist.framework.Painter;
-import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
@@ -145,7 +144,7 @@ public final class IsotropicWardMaterial extends OpaqueMaterial {
 	 */
 	@Override
 	public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint,
-			WavelengthPacket lambda, Random rng) {
+			WavelengthPacket lambda, double ru, double rv, double rj) {
 
 		Vector3 n = x.getNormal();
 		if (n.dot(v) > 0.0) {
@@ -161,20 +160,18 @@ public final class IsotropicWardMaterial extends OpaqueMaterial {
 		Basis3 basis = x.getShadingBasis();
 		Vector3 out;
 
-		if (RandomUtil.bernoulli(davg / total, rng)) { // diffuse
+		if (RandomUtil.bernoulli(davg / total, rj)) { // diffuse
 
 			do {
-				out = RandomUtil.diffuse(rng).toCartesian(basis);
+				out = RandomUtil.diffuse(ru, rv).toCartesian(basis);
 			} while (n.dot(out) <= 0.0);
 
 		} else { // specular
 
 			do {
-				double r1 = rng.next();
-				double r2 = rng.next();
 				SphericalCoordinates sc = new SphericalCoordinates(
-						Math.atan(alpha * Math.sqrt(-Math.log(1.0 - r1))),
-						2.0 * Math.PI * r2);
+						Math.atan(alpha * Math.sqrt(-Math.log(1.0 - ru))),
+						2.0 * Math.PI * rv);
 
 				Vector3 h = sc.toCartesian(basis);
 				out = Optics.reflect(v, h);

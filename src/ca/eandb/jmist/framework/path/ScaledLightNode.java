@@ -3,7 +3,6 @@
  */
 package ca.eandb.jmist.framework.path;
 
-import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.math.HPoint3;
@@ -20,18 +19,18 @@ public final class ScaledLightNode extends AbstractPathNode implements
 
 	private final double pdf;
 
-	private ScaledLightNode(double pdf, LightNode inner) {
-		super(inner.getPathInfo());
+	private ScaledLightNode(double pdf, LightNode inner, double rj) {
+		super(inner.getPathInfo(), inner.getRU(), inner.getRV(), rj);
 		this.pdf = pdf;
 		this.inner = inner;
 	}
 
-	public static LightNode create(double pdf, LightNode node) {
+	public static LightNode create(double pdf, LightNode node, double rj) {
 		if (node instanceof ScaledLightNode) {
 			ScaledLightNode n = (ScaledLightNode) node;
-			return new ScaledLightNode(pdf * n.pdf, n.inner);
+			return new ScaledLightNode(pdf * n.pdf, n.inner, rj);
 		} else {
-			return new ScaledLightNode(pdf, node);
+			return new ScaledLightNode(pdf, node, rj);
 		}
 	}
 
@@ -113,10 +112,10 @@ public final class ScaledLightNode extends AbstractPathNode implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.path.PathNode#sample(ca.eandb.jmist.framework.Random)
+	 * @see ca.eandb.jmist.framework.path.PathNode#sample(double, double, double)
 	 */
-	public ScatteredRay sample(Random rnd) {
-		return inner.sample(rnd);
+	public ScatteredRay sample(double ru, double rv, double rj) {
+		return inner.sample(ru, rv, rj);
 	}
 
 	/* (non-Javadoc)

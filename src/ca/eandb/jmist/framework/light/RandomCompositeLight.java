@@ -15,6 +15,7 @@ import ca.eandb.jmist.framework.path.LightNode;
 import ca.eandb.jmist.framework.path.PathInfo;
 import ca.eandb.jmist.framework.path.ScaledLightNode;
 import ca.eandb.jmist.framework.random.RandomUtil;
+import ca.eandb.jmist.framework.random.SeedReference;
 
 /**
  * @author Brad Kimmel
@@ -50,10 +51,11 @@ public final class RandomCompositeLight extends CompositeLight {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Light#sample(ca.eandb.jmist.framework.path.PathInfo, ca.eandb.jmist.framework.Random)
 	 */
-	public LightNode sample(PathInfo pathInfo, Random rnd) {
-		int index = RandomUtil.discrete(0, children().size() - 1, rnd);
+	public LightNode sample(PathInfo pathInfo, double ru, double rv, double rj) {
+		SeedReference ref = new SeedReference(rj);
+		int index = RandomUtil.discrete(0, children().size() - 1, ref);
 		return ScaledLightNode.create(1.0 / children().size(),
-				children().get(index).sample(pathInfo, rnd));
+				children().get(index).sample(pathInfo, ru, rv, ref.seed), rj);
 	}
 
 	/* (non-Javadoc)

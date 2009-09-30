@@ -5,7 +5,6 @@ package ca.eandb.jmist.framework.geometry.primitive;
 
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.geometry.PrimitiveGeometry;
 import ca.eandb.jmist.framework.random.RandomUtil;
@@ -25,9 +24,7 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class DiscGeometry extends PrimitiveGeometry {
 
-	/**
-	 * Serialization version ID.
-	 */
+	/** Serialization version ID. */
 	private static final long serialVersionUID = 7682212284130537132L;
 
 	/**
@@ -158,16 +155,15 @@ public final class DiscGeometry extends PrimitiveGeometry {
 	 * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext)
 	 */
 	@Override
-	public void generateRandomSurfacePoint(ShadingContext context) {
-		Random random = context.getRandom();
-		Vector2 uv = RandomUtil.uniformOnDisc(boundingSphere.radius(), random).toCartesian();
+	public void generateRandomSurfacePoint(ShadingContext context, double ru, double rv, double rj) {
+		Vector2 uv = RandomUtil.uniformOnDisc(boundingSphere.radius(), ru, rv).toCartesian();
 		Basis3 basis = Basis3.fromW(this.plane.normal(), Basis3.Orientation.RIGHT_HANDED);
 
 		Point3 p = boundingSphere.center()
 				.plus(basis.u().times(uv.x()))
 				.plus(basis.v().times(uv.y()));
 
-		int id = (twoSided && RandomUtil.coin(random))
+		int id = (twoSided && RandomUtil.coin(rj))
 				? DISC_SURFACE_BOTTOM
 				: DISC_SURFACE_TOP;
 

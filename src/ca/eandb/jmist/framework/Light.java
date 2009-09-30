@@ -18,7 +18,7 @@ public interface Light extends Serializable {
 
 	void illuminate(SurfacePoint x, WavelengthPacket lambda, Random rnd, Illuminable target);
 
-	LightNode sample(PathInfo pathInfo, Random rnd);
+	LightNode sample(PathInfo pathInfo, double ru, double rv, double rj);
 
 	ScatteredRay emit(WavelengthPacket lambda, Random rnd);
 
@@ -32,7 +32,8 @@ public interface Light extends Serializable {
 		public void illuminate(SurfacePoint x, WavelengthPacket lambda,
 				Random rng, Illuminable target) {
 		}
-		public LightNode sample(PathInfo pathInfo, Random rnd) {
+		public LightNode sample(PathInfo pathInfo, double ru, double rv,
+				double rj) {
 			return null;
 		}
 		public double getSamplePDF(SurfacePoint x, PathInfo pathInfo) {

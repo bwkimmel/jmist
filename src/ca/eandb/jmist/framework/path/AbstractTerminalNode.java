@@ -15,8 +15,8 @@ public abstract class AbstractTerminalNode extends AbstractPathNode {
 	/**
 	 * @param pathInfo
 	 */
-	public AbstractTerminalNode(PathInfo pathInfo) {
-		super(pathInfo);
+	public AbstractTerminalNode(PathInfo pathInfo, double ru, double rv, double rj) {
+		super(pathInfo, ru, rv, rj);
 	}
 
 	/* (non-Javadoc)

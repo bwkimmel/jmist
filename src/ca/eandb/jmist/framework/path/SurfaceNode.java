@@ -5,7 +5,6 @@ package ca.eandb.jmist.framework.path;
 
 import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.Material;
-import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.Scene;
 import ca.eandb.jmist.framework.SurfacePoint;
@@ -29,8 +28,8 @@ public final class SurfaceNode extends AbstractScatteringNode {
 	 * @param sr
 	 * @param surf
 	 */
-	public SurfaceNode(PathNode parent, ScatteredRay sr, SurfacePoint surf) {
-		super(parent, sr);
+	public SurfaceNode(PathNode parent, ScatteredRay sr, SurfacePoint surf, double ru, double rv, double rj) {
+		super(parent, sr, ru, rv, rj);
 		this.surf = surf;
 	}
 
@@ -73,14 +72,14 @@ public final class SurfaceNode extends AbstractScatteringNode {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.path.PathNode#sample(ca.eandb.jmist.framework.Random)
+	 * @see ca.eandb.jmist.framework.path.PathNode#sample(double, double, double)
 	 */
-	public ScatteredRay sample(Random rnd) {
+	public ScatteredRay sample(double ru, double rv, double rj) {
 		PathInfo path = getPathInfo();
 		WavelengthPacket lambda = path.getWavelengthPacket();
 		Vector3 v = PathUtil.getDirection(getParent(), this);
 		Material material = surf.getMaterial();
-		return material.scatter(surf, v, isOnEyePath(), lambda, rnd);
+		return material.scatter(surf, v, isOnEyePath(), lambda, ru, rv, rj);
 	}
 
 	/* (non-Javadoc)
@@ -140,7 +139,7 @@ public final class SurfaceNode extends AbstractScatteringNode {
 				sr = ScatteredRay.diffuse(ray, color, pdf);
 			}
 
-			return new SurfaceNode(newParent, sr, surf);
+			return new SurfaceNode(newParent, sr, surf, getRU(), getRV(), getRJ());
 		} else { // newParent == null
 			if (grandChild != null) {
 				throw new IllegalArgumentException(
@@ -152,7 +151,7 @@ public final class SurfaceNode extends AbstractScatteringNode {
 			Light light = scene.getLight();
 			double pdf = light.getSamplePDF(surf, pi);
 			
-			return ScaledLightNode.create(pdf, new SurfaceLightNode(pi, surf));
+			return ScaledLightNode.create(pdf, new SurfaceLightNode(pi, surf, getRU(), getRV(), getRJ()), getRJ());
 		}
 	}
 

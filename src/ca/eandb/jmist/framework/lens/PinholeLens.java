@@ -3,7 +3,6 @@
  */
 package ca.eandb.jmist.framework.lens;
 
-import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.path.EyeNode;
@@ -115,8 +114,8 @@ public final class PinholeLens extends AbstractLens {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Lens#sample(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.path.PathInfo, ca.eandb.jmist.framework.Random)
 	 */
-	public EyeNode sample(Point2 p, PathInfo pathInfo, Random rnd) {
-		return new Node(p, pathInfo);
+	public EyeNode sample(Point2 p, PathInfo pathInfo, double ru, double rv, double rj) {
+		return new Node(p, pathInfo, ru, rv, rj);
 	}
 
 	/**
@@ -133,15 +132,15 @@ public final class PinholeLens extends AbstractLens {
 		 * @param pathInfo The <code>PathInfo</code> describing the context for
 		 * 		this node.
 		 */
-		public Node(Point2 pointOnImagePlane, PathInfo pathInfo) {
-			super(pathInfo);
+		public Node(Point2 pointOnImagePlane, PathInfo pathInfo, double ru, double rv, double rj) {
+			super(pathInfo, ru, rv, rj);
 			this.pointOnImagePlane = pointOnImagePlane;
 		}
 
 		/* (non-Javadoc)
 		 * @see ca.eandb.jmist.framework.path.EyeNode#sample(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.Random)
 		 */
-		public ScatteredRay sample(Random rnd) {
+		public ScatteredRay sample(double ru, double rv, double rj) {
 			Point2 p = pointOnImagePlane;
 			Vector3 v = new Vector3(
 					width * (p.x() - 0.5),

@@ -7,6 +7,7 @@ import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.VisibilityFunction3;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorUtil;
+import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.math.HPoint3;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point3;
@@ -94,7 +95,10 @@ public final class PathUtil {
 	public static PathNode expand(PathNode node, int depth, Random rnd) {
 		if (node != null) {
 			for (int i = 0; i < depth; i++) {
-				PathNode next = node.expand(rnd);
+				double ru = RandomUtil.canonical(rnd);
+				double rv = RandomUtil.canonical(rnd);
+				double rj = RandomUtil.canonical(rnd);
+				PathNode next = node.expand(ru, rv, rj);
 				if (next == null) {
 					break;
 				}

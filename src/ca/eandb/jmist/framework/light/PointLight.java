@@ -59,10 +59,10 @@ public final class PointLight extends AbstractLight implements Serializable {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Light#sample(ca.eandb.jmist.framework.path.PathInfo, ca.eandb.jmist.framework.Random)
+	 * @see ca.eandb.jmist.framework.Light#sample(ca.eandb.jmist.framework.path.PathInfo, double, double, double)
 	 */
-	public LightNode sample(PathInfo pathInfo, Random rnd) {
-		return new Node(pathInfo);
+	public LightNode sample(PathInfo pathInfo, double ru, double rv, double rj) {
+		return new Node(pathInfo, ru, rv, rj);
 	}
 
 	/* (non-Javadoc)
@@ -74,8 +74,8 @@ public final class PointLight extends AbstractLight implements Serializable {
 
 	private final class Node extends LightTerminalNode {
 
-		public Node(PathInfo pathInfo) {
-			super(pathInfo);
+		public Node(PathInfo pathInfo, double ru, double rv, double rj) {
+			super(pathInfo, ru, rv, rj);
 		}
 
 		public double getCosine(Vector3 v) {
@@ -94,8 +94,8 @@ public final class PointLight extends AbstractLight implements Serializable {
 			return true;
 		}
 
-		public ScatteredRay sample(Random rnd) {
-			Vector3 v = RandomUtil.uniformOnSphere(rnd).toCartesian();
+		public ScatteredRay sample(double ru, double rv, double rj) {
+			Vector3 v = RandomUtil.uniformOnSphere(ru, rv).toCartesian();
 			Ray3 ray = new Ray3(position, v);
 			return ScatteredRay.diffuse(ray, sample(emittedPower),
 					1.0 / (4.0 * Math.PI));

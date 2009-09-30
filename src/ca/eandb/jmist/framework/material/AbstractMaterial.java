@@ -4,7 +4,6 @@
 package ca.eandb.jmist.framework.material;
 
 import ca.eandb.jmist.framework.Material;
-import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
@@ -17,6 +16,9 @@ import ca.eandb.jmist.math.Vector3;
  */
 public abstract class AbstractMaterial implements Material {
 
+	/** Serialization version ID. */
+	private static final long serialVersionUID = 8504241794694541559L;
+
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Material#emission(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
@@ -27,7 +29,7 @@ public abstract class AbstractMaterial implements Material {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Material#emit(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random)
 	 */
-	public ScatteredRay emit(SurfacePoint x, WavelengthPacket lambda, Random rng) {
+	public ScatteredRay emit(SurfacePoint x, WavelengthPacket lambda, double ru, double rv, double rj) {
 		return null;
 	}
 
@@ -39,9 +41,9 @@ public abstract class AbstractMaterial implements Material {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Material#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, boolean, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random)
+	 * @see ca.eandb.jmist.framework.Material#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, boolean, ca.eandb.jmist.framework.color.WavelengthPacket, double, double, double)
 	 */
-	public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint, WavelengthPacket lambda, Random rng) {
+	public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint, WavelengthPacket lambda, double ru, double rv, double rj) {
 		return null;
 	}
 

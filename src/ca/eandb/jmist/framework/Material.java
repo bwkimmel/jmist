@@ -25,8 +25,8 @@ public interface Material extends Medium, Serializable {
 //	void scatter(SurfacePoint x, Vector3 v, WavelengthPacket lambda, Random rng, ScatteredRayRecorder recorder);
 //	void emit(SurfacePoint x, WavelengthPacket lambda, Random rng, ScatteredRayRecorder recorder);
 
-	ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint, WavelengthPacket lambda, Random rnd);
-	ScatteredRay emit(SurfacePoint x, WavelengthPacket lambda, Random rnd);
+	ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint, WavelengthPacket lambda, double ru, double rv, double rj);
+	ScatteredRay emit(SurfacePoint x, WavelengthPacket lambda, double ru, double rv, double rj);
 
 	double getScatteringPDF(SurfacePoint x, Vector3 in, Vector3 out, boolean adjoint, WavelengthPacket lambda);
 	double getEmissionPDF(SurfacePoint x, Vector3 out, WavelengthPacket lambda);
@@ -69,7 +69,7 @@ public interface Material extends Medium, Serializable {
 		}
 
 		public ScatteredRay emit(SurfacePoint x, WavelengthPacket lambda,
-				Random rnd) {
+				double ru, double rv, double rj) {
 			return null;
 		}
 
@@ -84,7 +84,7 @@ public interface Material extends Medium, Serializable {
 		}
 
 		public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint,
-				WavelengthPacket lambda, Random rnd) {
+				WavelengthPacket lambda, double ru, double rv, double rj) {
 			return null;
 		}
 

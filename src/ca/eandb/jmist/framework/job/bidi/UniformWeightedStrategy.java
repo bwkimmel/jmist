@@ -66,7 +66,7 @@ public final class UniformWeightedStrategy implements BidiPathStrategy {
 	public PathNode traceEyePath(Lens lens, Point2 p, PathInfo pathInfo,
 			Random rnd) {
 		if (maxEyeDepth > 0) {
-			PathNode head = lens.sample(p, pathInfo, rnd);
+			PathNode head = lens.sample(p, pathInfo, rnd.next(), rnd.next(), rnd.next());
 			return PathUtil.expand(head, maxEyeDepth - 1, rnd);
 		}
 		return null;
@@ -77,7 +77,7 @@ public final class UniformWeightedStrategy implements BidiPathStrategy {
 	 */
 	public PathNode traceLightPath(Light light, PathInfo pathInfo, Random rnd) {
 		if (maxLightDepth > 0) {
-			PathNode head = light.sample(pathInfo, rnd);
+			PathNode head = light.sample(pathInfo, rnd.next(), rnd.next(), rnd.next());
 			return PathUtil.expand(head, maxLightDepth - 1, rnd);
 		}
 		return null;

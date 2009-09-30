@@ -32,16 +32,16 @@ public final class TestLens extends AbstractLens {
 	private static final Basis3 BASIS = Basis3.fromUV(Vector3.K,
 			Vector3.NEGATIVE_I, Basis3.Orientation.LEFT_HANDED);
 
-	public EyeNode sample(Point2 p, PathInfo pathInfo, Random rnd) {
-		return new Node(p, pathInfo);
+	public EyeNode sample(Point2 p, PathInfo pathInfo, double ru, double rv, double rj) {
+		return new Node(p, pathInfo, ru, rv, rj);
 	}
 
 	private final class Node extends EyeTerminalNode {
 
 		private final Point2 pointOnImagePlane;
 
-		public Node(Point2 pointOnImagePlane, PathInfo pathInfo) {
-			super(pathInfo);
+		public Node(Point2 pointOnImagePlane, PathInfo pathInfo, double ru, double rv, double rj) {
+			super(pathInfo, ru, rv, rj);
 			this.pointOnImagePlane = pointOnImagePlane;
 		}
 
@@ -78,7 +78,7 @@ public final class TestLens extends AbstractLens {
 			return true;
 		}
 
-		public ScatteredRay sample(Random rnd) {
+		public ScatteredRay sample(double ru, double rv, double rj) {
 			Point2 p = pointOnImagePlane;
 			SphericalCoordinates v = new SphericalCoordinates(
 					Math.acos(1.0 - 2.0 * p.y()),

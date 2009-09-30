@@ -51,7 +51,7 @@ public final class PathTracingStrategy implements BidiPathStrategy {
 	 */
 	public PathNode traceEyePath(Lens lens, Point2 p, PathInfo pathInfo,
 			Random rnd) {
-		PathNode head = lens.sample(p, pathInfo, rnd);
+		PathNode head = lens.sample(p, pathInfo, rnd.next(), rnd.next(), rnd.next());
 		return PathUtil.expand(head, maxDepth - 1, rnd);
 	}
 
@@ -59,7 +59,7 @@ public final class PathTracingStrategy implements BidiPathStrategy {
 	 * @see ca.eandb.jmist.framework.path.BidiPathStrategy#traceLightPath(ca.eandb.jmist.framework.Light, ca.eandb.jmist.framework.path.PathInfo, ca.eandb.jmist.framework.Random)
 	 */
 	public PathNode traceLightPath(Light light, PathInfo pathInfo, Random rnd) {
-		return light.sample(pathInfo, rnd);
+		return light.sample(pathInfo, rnd.next(), rnd.next(), rnd.next());
 	}
 
 }

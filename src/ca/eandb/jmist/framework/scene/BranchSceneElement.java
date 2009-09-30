@@ -39,6 +39,7 @@ import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.light.RandomCompositeLight;
 import ca.eandb.jmist.framework.random.CategoricalRandom;
+import ca.eandb.jmist.framework.random.SeedReference;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
@@ -49,9 +50,7 @@ import ca.eandb.jmist.math.Sphere;
  */
 public final class BranchSceneElement implements SceneElement {
 
-	/**
-	 * Serialization version ID.
-	 */
+	/** Serialization version ID. */
 	private static final long serialVersionUID = -8500645819577622768L;
 
 	private final List<SceneElement> children = new ArrayList<SceneElement>();
@@ -100,8 +99,8 @@ public final class BranchSceneElement implements SceneElement {
 	 * @see ca.eandb.jmist.framework.SceneElement#generateImportanceSampledSurfacePoint(int, ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext)
 	 */
 	public double generateImportanceSampledSurfacePoint(int index,
-			SurfacePoint x, ShadingContext context) {
-		double weight = children.get(index).generateImportanceSampledSurfacePoint(x, context);
+			SurfacePoint x, ShadingContext context, double ru, double rv, double rj) {
+		double weight = children.get(index).generateImportanceSampledSurfacePoint(x, context, ru, rv, rj);
 		context.setPrimitiveIndex(index);
 		return weight;
 	}
@@ -110,29 +109,33 @@ public final class BranchSceneElement implements SceneElement {
 	 * @see ca.eandb.jmist.framework.SceneElement#generateImportanceSampledSurfacePoint(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext)
 	 */
 	public double generateImportanceSampledSurfacePoint(SurfacePoint x,
-			ShadingContext context) {
+			ShadingContext context, double ru, double rv, double rj) {
 		if (rnd == null) {
 			buildChildSelector();
 		}
-		return generateImportanceSampledSurfacePoint(rnd.next(context.getRandom()), x, context);
+		SeedReference ref = new SeedReference(rj);
+		int index = rnd.next(ref);
+		return generateImportanceSampledSurfacePoint(index, x, context, ru, rv, ref.seed);
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(int, ca.eandb.jmist.framework.ShadingContext)
 	 */
-	public void generateRandomSurfacePoint(int index, ShadingContext context) {
-		children.get(index).generateRandomSurfacePoint(context);
+	public void generateRandomSurfacePoint(int index, ShadingContext context, double ru, double rv, double rj) {
+		children.get(index).generateRandomSurfacePoint(context, ru, rv, rj);
 		context.setPrimitiveIndex(index);
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext)
 	 */
-	public void generateRandomSurfacePoint(ShadingContext context) {
+	public void generateRandomSurfacePoint(ShadingContext context, double ru, double rv, double rj) {
 		if (rnd == null) {
 			buildChildSelector();
 		}
-		generateRandomSurfacePoint(rnd.next(context.getRandom()), context);
+		SeedReference ref = new SeedReference(rj);
+		int index = rnd.next(ref);
+		generateRandomSurfacePoint(index, context, ru, rv, ref.seed);
 	}
 
 	/* (non-Javadoc)

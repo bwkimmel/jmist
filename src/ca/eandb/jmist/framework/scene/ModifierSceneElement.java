@@ -89,8 +89,8 @@ public class ModifierSceneElement extends SceneElementDecorator implements
 	 *      ca.eandb.jmist.framework.ShadingContext)
 	 */
 	@Override
-	public void generateRandomSurfacePoint(int index, ShadingContext context) {
-		super.generateRandomSurfacePoint(index, context);
+	public void generateRandomSurfacePoint(int index, ShadingContext context, double ru, double rv, double rj) {
+		super.generateRandomSurfacePoint(index, context, ru, rv, rj);
 		modifier.modify(context);
 	}
 
@@ -100,8 +100,8 @@ public class ModifierSceneElement extends SceneElementDecorator implements
 	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext)
 	 */
 	@Override
-	public void generateRandomSurfacePoint(ShadingContext context) {
-		super.generateRandomSurfacePoint(context);
+	public void generateRandomSurfacePoint(ShadingContext context, double ru, double rv, double rj) {
+		super.generateRandomSurfacePoint(context, ru, rv, rj);
 		modifier.modify(context);
 	}
 
@@ -114,9 +114,9 @@ public class ModifierSceneElement extends SceneElementDecorator implements
 	 */
 	@Override
 	public double generateImportanceSampledSurfacePoint(int index,
-			SurfacePoint x, ShadingContext context) {
+			SurfacePoint x, ShadingContext context, double ru, double rv, double rj) {
 		double weight = super.generateImportanceSampledSurfacePoint(index, x,
-				context);
+				context, ru, rv, rj);
 		modifier.modify(context);
 		return weight;
 	}
@@ -129,8 +129,8 @@ public class ModifierSceneElement extends SceneElementDecorator implements
 	 */
 	@Override
 	public double generateImportanceSampledSurfacePoint(SurfacePoint x,
-			ShadingContext context) {
-		double weight = super.generateImportanceSampledSurfacePoint(x, context);
+			ShadingContext context, double ru, double rv, double rj) {
+		double weight = super.generateImportanceSampledSurfacePoint(x, context, ru, rv, rj);
 		modifier.modify(context);
 		return weight;
 	}

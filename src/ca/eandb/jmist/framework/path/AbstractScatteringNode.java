@@ -34,8 +34,8 @@ public abstract class AbstractScatteringNode extends AbstractPathNode implements
 	/**
 	 * @param pathInfo
 	 */
-	public AbstractScatteringNode(PathNode parent, ScatteredRay sr) {
-		super(parent.getPathInfo());
+	public AbstractScatteringNode(PathNode parent, ScatteredRay sr, double ru, double rv, double rj) {
+		super(parent.getPathInfo(), ru, rv, rj);
 		this.parent = parent;
 		this.depth = parent.getDepth() + 1;
 		this.cumulativeWeight = parent.getCumulativeWeight().times(sr.getColor());

@@ -82,7 +82,7 @@ public final class MaterialSceneElement extends ModifierSceneElement {
 			public void illuminate(SurfacePoint x, WavelengthPacket lambda, Random rng, Illuminable target) {
 
 				ShadingContext context = new MinimalShadingContext(rng);
-				generateImportanceSampledSurfacePoint(x, context);
+				generateImportanceSampledSurfacePoint(x, context, rng.next(), rng.next(), rng.next());
 				context.getModifier().modify(context);
 
 				Point3 p = context.getPosition();
@@ -99,13 +99,13 @@ public final class MaterialSceneElement extends ModifierSceneElement {
 
 			}
 
-			public LightNode sample(PathInfo pathInfo, Random rnd) {
-				ShadingContext context = new MinimalShadingContext(rnd);
-				generateRandomSurfacePoint(context);
+			public LightNode sample(PathInfo pathInfo, double ru, double rv, double rj) {
+				ShadingContext context = new MinimalShadingContext(null);
+				generateRandomSurfacePoint(context, ru, rv, rj);
 				context.getModifier().modify(context);
 
 				return ScaledLightNode.create(1.0 / surfaceArea,
-						new SurfaceLightNode(pathInfo, context));
+						new SurfaceLightNode(pathInfo, context, ru, rv, rj), rj);
 			}
 
 			public double getSamplePDF(SurfacePoint x, PathInfo pathInfo) {
