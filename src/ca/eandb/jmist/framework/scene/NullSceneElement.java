@@ -38,7 +38,7 @@ public final class NullSceneElement implements SceneElement {
 	 * @see ca.eandb.jmist.framework.SceneElement#generateImportanceSampledSurfacePoint(int, ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext)
 	 */
 	public double generateImportanceSampledSurfacePoint(int index,
-			SurfacePoint x, ShadingContext context) {
+			SurfacePoint x, ShadingContext context, double ru, double rv, double rj) {
 		throw new IndexOutOfBoundsException();
 	}
 
@@ -46,21 +46,21 @@ public final class NullSceneElement implements SceneElement {
 	 * @see ca.eandb.jmist.framework.SceneElement#generateImportanceSampledSurfacePoint(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext)
 	 */
 	public double generateImportanceSampledSurfacePoint(SurfacePoint x,
-			ShadingContext context) {
+			ShadingContext context, double ru, double rv, double rj) {
 		throw new UnsupportedOperationException();
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(int, ca.eandb.jmist.framework.ShadingContext)
 	 */
-	public void generateRandomSurfacePoint(int index, ShadingContext context) {
+	public void generateRandomSurfacePoint(int index, ShadingContext context, double ru, double rv, double rj) {
 		throw new IndexOutOfBoundsException();
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext)
 	 */
-	public void generateRandomSurfacePoint(ShadingContext context) {
+	public void generateRandomSurfacePoint(ShadingContext context, double ru, double rv, double rj) {
 		throw new UnsupportedOperationException();
 	}
 

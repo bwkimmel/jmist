@@ -13,8 +13,8 @@ public abstract class LightTerminalNode extends AbstractTerminalNode implements
 	/**
 	 * @param pathInfo
 	 */
-	public LightTerminalNode(PathInfo pathInfo) {
-		super(pathInfo);
+	public LightTerminalNode(PathInfo pathInfo, double ru, double rv, double rj) {
+		super(pathInfo, ru, rv, rj);
 	}
 
 	/* (non-Javadoc)

@@ -24,9 +24,26 @@ import ca.eandb.jmist.math.Ray3;
 public abstract class AbstractPathNode implements PathNode {
 
 	private final PathInfo pathInfo;
+	
+	private final double ru, rv, rj;
 
-	protected AbstractPathNode(PathInfo pathInfo) {
+	protected AbstractPathNode(PathInfo pathInfo, double ru, double rv, double rj) {
 		this.pathInfo = pathInfo;
+		this.ru = ru;
+		this.rv = rv;
+		this.rj = rj;
+	}
+	
+	public final double getRU() {
+		return ru;
+	}
+	
+	public final double getRV() {
+		return rv;
+	}
+	
+	public final double getRJ() {
+		return rj;
 	}
 
 	protected final Color getWhite() {
@@ -45,7 +62,7 @@ public abstract class AbstractPathNode implements PathNode {
 		return s.sample(pathInfo.getWavelengthPacket());
 	}
 
-	protected final ScatteringNode trace(ScatteredRay sr) {
+	protected final ScatteringNode trace(ScatteredRay sr, double ru, double rv, double rj) {
 		if (sr == null) {
 			return null;
 		}
@@ -58,17 +75,17 @@ public abstract class AbstractPathNode implements PathNode {
 			ShadingContext context = new MinimalShadingContext(Random.DEFAULT);
 			x.prepareShadingContext(context);
 			context.getModifier().modify(context);
-			return new SurfaceNode(this, sr, context);
+			return new SurfaceNode(this, sr, context, ru, rv, rj);
 		} else {
-			return new BackgroundNode(this, sr);
+			return new BackgroundNode(this, sr, ru, rv, rj);
 		}
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.path.PathNode#expand(ca.eandb.jmist.framework.Random)
+	 * @see ca.eandb.jmist.framework.path.PathNode#expand(double, double, double)
 	 */
-	public final ScatteringNode expand(Random rnd) {
-		return trace(sample(rnd));
+	public final ScatteringNode expand(double ru, double rv, double rj) {
+		return trace(sample(ru, rv, rj), ru, rv, rj);
 	}
 
 	/* (non-Javadoc)

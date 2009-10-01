@@ -4,7 +4,6 @@
 package ca.eandb.jmist.framework.path;
 
 import ca.eandb.jmist.framework.Material;
-import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
@@ -25,8 +24,8 @@ public final class SurfaceLightNode extends LightTerminalNode {
 	/**
 	 * @param pathInfo
 	 */
-	public SurfaceLightNode(PathInfo pathInfo, SurfacePoint surf) {
-		super(pathInfo);
+	public SurfaceLightNode(PathInfo pathInfo, SurfacePoint surf, double ru, double rv, double rj) {
+		super(pathInfo, ru, rv, rj);
 		this.surf = surf;
 	}
 
@@ -60,13 +59,13 @@ public final class SurfaceLightNode extends LightTerminalNode {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.path.PathNode#sample(ca.eandb.jmist.framework.Random)
+	 * @see ca.eandb.jmist.framework.path.PathNode#sample(double, double, double)
 	 */
-	public ScatteredRay sample(Random rnd) {
+	public ScatteredRay sample(double ru, double rv, double rj) {
 		PathInfo path = getPathInfo();
 		WavelengthPacket lambda = path.getWavelengthPacket();
 		Material material = surf.getMaterial();
-		return material.emit(surf, lambda, rnd);
+		return material.emit(surf, lambda, ru, rv, rj);
 	}
 
 	/* (non-Javadoc)
@@ -129,7 +128,7 @@ public final class SurfaceLightNode extends LightTerminalNode {
 				sr = ScatteredRay.diffuse(ray, color, pdf);
 			}
 
-			return new SurfaceNode(newParent, sr, surf);
+			return new SurfaceNode(newParent, sr, surf, getRU(), getRV(), getRJ());
 		} else { // newParent == null
 			if (grandChild != null) {
 				throw new IllegalArgumentException(

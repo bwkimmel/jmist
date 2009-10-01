@@ -4,7 +4,6 @@
 package ca.eandb.jmist.framework.material;
 
 import ca.eandb.jmist.framework.Medium;
-import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
@@ -72,10 +71,10 @@ public class DielectricMaterial extends AbstractMaterial {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, boolean, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, boolean, ca.eandb.jmist.framework.color.WavelengthPacket, double, double, double)
 	 */
 	@Override
-	public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint, WavelengthPacket lambda, Random rng) {
+	public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint, WavelengthPacket lambda, double ru, double rv, double rj) {
 
 		ColorModel	cm			= lambda.getColorModel();
 		Point3		p			= x.getPosition();
@@ -89,7 +88,7 @@ public class DielectricMaterial extends AbstractMaterial {
 		Color		T			= cm.getWhite(lambda).minus(R);
 		double		r			= ColorUtil.getMeanChannelValue(R);
 
-		if (RandomUtil.bernoulli(r, rng)) {
+		if (RandomUtil.bernoulli(r, rj)) {
 			Vector3		out		= Optics.reflect(v, normal);
 			boolean		toSide	= x.getNormal().dot(out) >= 0.0;
 

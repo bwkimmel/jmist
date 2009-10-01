@@ -4,7 +4,6 @@
 package ca.eandb.jmist.framework.material;
 
 import ca.eandb.jmist.framework.Painter;
-import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
@@ -79,14 +78,14 @@ public final class LambertianMaterial extends OpaqueMaterial {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#emit(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#emit(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.color.WavelengthPacket, double, double, double)
 	 */
 	@Override
-	public ScatteredRay emit(SurfacePoint x, WavelengthPacket lambda, Random rng) {
+	public ScatteredRay emit(SurfacePoint x, WavelengthPacket lambda, double ru, double rv, double rj) {
 
 		if (this.emittance != null) {
 
-			SphericalCoordinates out = RandomUtil.diffuse(rng);
+			SphericalCoordinates out = RandomUtil.diffuse(ru, rv);
 			Ray3 ray = new Ray3(x.getPosition(), out.toCartesian(x.getShadingBasis()));
 
 			if (x.getNormal().dot(ray.direction()) > 0.0) {
@@ -103,11 +102,12 @@ public final class LambertianMaterial extends OpaqueMaterial {
 	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, boolean, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random)
 	 */
 	@Override
-	public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint, WavelengthPacket lambda, Random rng) {
+	public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint,
+			WavelengthPacket lambda, double ru, double rv, double rj) {
 
 		if (this.reflectance != null) {
 
-			SphericalCoordinates out = RandomUtil.diffuse(rng);
+			SphericalCoordinates out = RandomUtil.diffuse(ru, rv);
 			Ray3 ray = new Ray3(x.getPosition(), out.toCartesian(x.getShadingBasis()));
 
 			if (ray.direction().dot(x.getNormal()) > 0.0) {

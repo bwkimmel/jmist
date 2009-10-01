@@ -38,13 +38,16 @@ import ca.eandb.jmist.framework.path.PathInfo;
  */
 public abstract class AbstractLight implements Light {
 
+	/** Serialization version ID. */
+	private static final long serialVersionUID = 4969272856518133591L;
+
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Light#emit(ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random)
 	 */
 	public final ScatteredRay emit(WavelengthPacket lambda, Random rnd) {
 		PathInfo path = new PathInfo(lambda);
-		LightNode node = sample(path, rnd);
-		return node.sample(rnd);
+		LightNode node = sample(path, rnd.next(), rnd.next(), rnd.next());
+		return node.sample(rnd.next(), rnd.next(), rnd.next());
 	}
 
 }

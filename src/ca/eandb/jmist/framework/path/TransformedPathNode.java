@@ -3,7 +3,6 @@
  */
 package ca.eandb.jmist.framework.path;
 
-import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.math.AffineMatrix3;
@@ -26,7 +25,7 @@ public abstract class TransformedPathNode extends AbstractPathNode {
 	 * @param pathInfo
 	 */
 	public TransformedPathNode(PathNode inner, AffineMatrix3 localToWorld, AffineMatrix3 worldToLocal) {
-		super(inner.getPathInfo());
+		super(inner.getPathInfo(), inner.getRU(), inner.getRV(), inner.getRJ());
 		this.inner = inner;
 		this.localToWorld = localToWorld;
 		this.worldToLocal = worldToLocal;
@@ -103,8 +102,8 @@ public abstract class TransformedPathNode extends AbstractPathNode {
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.path.PathNode#sample(ca.eandb.jmist.framework.Random)
 	 */
-	public ScatteredRay sample(Random rnd) {
-		ScatteredRay sr = inner.sample(rnd);
+	public ScatteredRay sample(double ru, double rv, double rj) {
+		ScatteredRay sr = inner.sample(ru, rv, rj);
 		return sr != null ? sr.transform(localToWorld) : null;
 	}
 

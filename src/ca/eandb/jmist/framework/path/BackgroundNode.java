@@ -3,7 +3,6 @@
  */
 package ca.eandb.jmist.framework.path;
 
-import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.math.HPoint3;
@@ -21,8 +20,8 @@ public final class BackgroundNode extends AbstractScatteringNode {
 	 * @param parent
 	 * @param sr
 	 */
-	public BackgroundNode(PathNode parent, ScatteredRay sr) {
-		super(parent, sr);
+	public BackgroundNode(PathNode parent, ScatteredRay sr, double ru, double rv, double rj) {
+		super(parent, sr, ru, rv, rj);
 		this.direction = sr.getRay().direction();
 	}
 
@@ -55,9 +54,9 @@ public final class BackgroundNode extends AbstractScatteringNode {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.path.PathNode#sample(ca.eandb.jmist.framework.Random)
+	 * @see ca.eandb.jmist.framework.path.PathNode#sample(double, double, double)
 	 */
-	public ScatteredRay sample(Random rnd) {
+	public ScatteredRay sample(double ru, double rv, double rj) {
 		return null;
 	}
 

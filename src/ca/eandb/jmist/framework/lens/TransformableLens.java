@@ -6,7 +6,6 @@ package ca.eandb.jmist.framework.lens;
 import ca.eandb.jmist.framework.AffineTransformable3;
 import ca.eandb.jmist.framework.InvertibleAffineTransformation3;
 import ca.eandb.jmist.framework.Lens;
-import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.path.EyeNode;
 import ca.eandb.jmist.framework.path.PathInfo;
 import ca.eandb.jmist.framework.path.TransformedEyeNode;
@@ -49,8 +48,8 @@ public final class TransformableLens extends AbstractLens implements
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Lens#sample(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.path.PathInfo, ca.eandb.jmist.framework.Random)
 	 */
-	public EyeNode sample(Point2 p, PathInfo pathInfo, Random rnd) {
-		EyeNode eye = inner.sample(p, pathInfo, rnd);
+	public EyeNode sample(Point2 p, PathInfo pathInfo, double ru, double rv, double rj) {
+		EyeNode eye = inner.sample(p, pathInfo, ru, rv, rj);
 		AffineMatrix3 ltow = view.apply(AffineMatrix3.IDENTITY);
 		AffineMatrix3 wtol = view.applyInverse(AffineMatrix3.IDENTITY);
 		return new TransformedEyeNode(eye, ltow, wtol);

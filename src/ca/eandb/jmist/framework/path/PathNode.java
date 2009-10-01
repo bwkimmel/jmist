@@ -3,7 +3,6 @@
  */
 package ca.eandb.jmist.framework.path;
 
-import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.math.HPoint3;
@@ -37,7 +36,7 @@ public interface PathNode {
 
 	int getDepth();
 
-	ScatteredRay sample(Random rnd);
+	ScatteredRay sample(double ru, double rv, double rj);
 
 	Color scatter(Vector3 v);
 
@@ -47,7 +46,13 @@ public interface PathNode {
 
 	double getReversePDF(Vector3 v);
 
-	ScatteringNode expand(Random rnd);
+	ScatteringNode expand(double ru, double rv, double rj);
+	
+	double getRU();
+	
+	double getRV();
+	
+	double getRJ();
 	
 	PathNode reverse(PathNode newParent, PathNode grandChild);
 

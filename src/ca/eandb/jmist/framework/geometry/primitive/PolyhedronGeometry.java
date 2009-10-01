@@ -12,7 +12,6 @@ import ca.eandb.jmist.framework.Bounded3;
 import ca.eandb.jmist.framework.BoundingBoxBuilder3;
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.geometry.AbstractGeometry;
 import ca.eandb.jmist.framework.random.CategoricalRandom;
@@ -202,9 +201,8 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#generateRandomSurfacePoint(int, ca.eandb.jmist.framework.ShadingContext)
 	 */
 	@Override
-	public void generateRandomSurfacePoint(int index, ShadingContext context) {
-		Random random = context.getRandom();
-		Point3 p = faces.get(index).generateRandomSurfacePoint(random);
+	public void generateRandomSurfacePoint(int index, ShadingContext context, double ru, double rv, double rj) {
+		Point3 p = faces.get(index).generateRandomSurfacePoint(ru, rv, rj);
 		Intersection x = super.newSurfacePoint(p, index).setPrimitiveIndex(index);
 		x.prepareShadingContext(context);
 	}
@@ -309,13 +307,13 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 			return 0.5 * Math.abs(n.dot(r));
 		}
 
-		public Point3 generateRandomSurfacePoint(Random random) {
+		public Point3 generateRandomSurfacePoint(double ru, double rv, double rj) {
 			decompose();
-			int tri = 3 * rnd.next(random);
+			int tri = 3 * rnd.next(rj);
 			Point3 a = vertices.get(decomp[tri]);
 			Point3 b = vertices.get(decomp[tri + 1]);
 			Point3 c = vertices.get(decomp[tri + 2]);
-			return RandomUtil.uniformOnTriangle(a, b, c, random);
+			return RandomUtil.uniformOnTriangle(a, b, c, ru, rv);
 		}
 
 		private Point2 getUV(Point3 p) {

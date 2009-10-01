@@ -117,9 +117,25 @@ public final class CategoricalRandom implements Serializable {
 	 * 		same value given the same seed.
 	 * @return The next sample.
 	 */
-	private int next(double seed) {
+	public int next(double seed) {
 		int index = Arrays.binarySearch(this.cpf, seed);
 		return index >= 0 ? index : -(index + 1);
+	}
+	
+	private void bp() {}
+	
+	public int next(SeedReference ref) {
+		int index = Arrays.binarySearch(this.cpf, ref.seed);
+		if (ref.seed > 1.0) {
+			bp();
+		}
+		index = (index >= 0) ? index : -(index + 1);
+		if (index > 0) {
+			ref.seed -= cpf[index - 1];
+		}
+		ref.seed /= getProbability(index);
+		if (ref.seed > 1.0) bp();
+		return index;
 	}
 
 	/**

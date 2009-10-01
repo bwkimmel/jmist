@@ -35,6 +35,9 @@ import ca.eandb.jmist.math.Sphere;
  */
 public abstract class AbstractScene implements Scene {
 
+	/** Serialization version ID. */
+	private static final long serialVersionUID = -4940169789326164886L;
+
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
 	 */

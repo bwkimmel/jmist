@@ -34,7 +34,6 @@ import ca.eandb.jmist.framework.scene.SceneElementDecorator;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.math.MathUtil;
-import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.util.ArrayUtil;
 
@@ -43,6 +42,9 @@ import ca.eandb.jmist.util.ArrayUtil;
  *
  */
 public final class BoundingIntervalHierarchy extends SceneElementDecorator {
+
+	/** Serialization version ID. */
+	private static final long serialVersionUID = -5882424225852208674L;
 
 	private transient int[] items;
 

@@ -42,6 +42,9 @@ import ca.eandb.jmist.math.Sphere;
  */
 public abstract class SceneElementDecorator implements SceneElement, Serializable {
 
+	/** Serialization version ID. */
+	private static final long serialVersionUID = 7406144984143234198L;
+	
 	private final SceneElement inner;
 
 	/**
@@ -87,31 +90,31 @@ public abstract class SceneElementDecorator implements SceneElement, Serializabl
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(int, ca.eandb.jmist.framework.ShadingContext)
 	 */
-	public void generateRandomSurfacePoint(int index, ShadingContext context) {
-		inner.generateRandomSurfacePoint(index, context);
+	public void generateRandomSurfacePoint(int index, ShadingContext context, double ru, double rv, double rj) {
+		inner.generateRandomSurfacePoint(index, context, ru, rv, rj);
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext)
 	 */
-	public void generateRandomSurfacePoint(ShadingContext context) {
-		inner.generateRandomSurfacePoint(context);
+	public void generateRandomSurfacePoint(ShadingContext context, double ru, double rv, double rj) {
+		inner.generateRandomSurfacePoint(context, ru, rv, rj);
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SceneElement#generateImportanceSampledSurfacePoint(int, ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext)
 	 */
 	public double generateImportanceSampledSurfacePoint(int index,
-			SurfacePoint x, ShadingContext context) {
-		return inner.generateImportanceSampledSurfacePoint(index, x, context);
+			SurfacePoint x, ShadingContext context, double ru, double rv, double rj) {
+		return inner.generateImportanceSampledSurfacePoint(index, x, context, ru, rv, rj);
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SceneElement#generateImportanceSampledSurfacePoint(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext)
 	 */
 	public double generateImportanceSampledSurfacePoint(SurfacePoint x,
-			ShadingContext context) {
-		return inner.generateImportanceSampledSurfacePoint(x, context);
+			ShadingContext context, double ru, double rv, double rj) {
+		return inner.generateImportanceSampledSurfacePoint(x, context, ru, rv, rj);
 	}
 
 	/**

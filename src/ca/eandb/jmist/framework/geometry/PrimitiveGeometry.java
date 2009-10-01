@@ -41,6 +41,9 @@ import ca.eandb.jmist.math.Sphere;
  */
 public abstract class PrimitiveGeometry extends AbstractGeometry {
 
+	/** Serialization version ID. */
+	private static final long serialVersionUID = 5445535598470809422L;
+
 	/**
 	 * Ensures that the specified primitive index is valid for this
 	 * <code>PrimitiveGeometry</code>.  Since there is only one primitive, it
@@ -59,9 +62,9 @@ public abstract class PrimitiveGeometry extends AbstractGeometry {
 	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#generateRandomSurfacePoint(int, ca.eandb.jmist.framework.ShadingContext)
 	 */
 	@Override
-	public final void generateRandomSurfacePoint(int index, ShadingContext context) {
+	public final void generateRandomSurfacePoint(int index, ShadingContext context, double ru, double rv, double rj) {
 		validate(index);
-		generateRandomSurfacePoint(context);
+		generateRandomSurfacePoint(context, ru, rv, rj);
 	}
 
 	/**
@@ -69,7 +72,7 @@ public abstract class PrimitiveGeometry extends AbstractGeometry {
 	 * this <code>PrimitiveGeometry</code> (optional operation).
 	 * @return A random <code>SurfacePoint</code>.
 	 */
-	public void generateRandomSurfacePoint(ShadingContext context) {
+	public void generateRandomSurfacePoint(ShadingContext context, double ru, double rv, double rj) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -78,9 +81,9 @@ public abstract class PrimitiveGeometry extends AbstractGeometry {
 	 */
 	@Override
 	public final double generateImportanceSampledSurfacePoint(int index,
-			SurfacePoint x, ShadingContext context) {
+			SurfacePoint x, ShadingContext context, double ru, double rv, double rj) {
 		validate(index);
-		return generateImportanceSampledSurfacePoint(0, x, context);
+		return generateImportanceSampledSurfacePoint(0, x, context, ru, rv, rj);
 	}
 
 	/* (non-Javadoc)

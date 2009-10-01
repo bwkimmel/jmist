@@ -14,8 +14,8 @@ public abstract class EyeTerminalNode extends AbstractTerminalNode implements
 	/**
 	 * @param pathInfo
 	 */
-	public EyeTerminalNode(PathInfo pathInfo) {
-		super(pathInfo);
+	public EyeTerminalNode(PathInfo pathInfo, double ru, double rv, double rj) {
+		super(pathInfo, ru, rv, rj);
 	}
 
 	/* (non-Javadoc)

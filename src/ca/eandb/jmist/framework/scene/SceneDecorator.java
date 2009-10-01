@@ -38,6 +38,9 @@ import ca.eandb.jmist.math.Sphere;
  */
 public abstract class SceneDecorator implements Scene {
 
+	/** Serialization version ID. */
+	private static final long serialVersionUID = 5875837932212956822L;
+	
 	/** The <code>Scene</code> that this scene is to be based on. */
 	private final Scene inner;
 
