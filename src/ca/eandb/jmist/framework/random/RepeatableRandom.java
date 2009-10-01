@@ -30,6 +30,15 @@ public final class RepeatableRandom implements Random {
 		this.inner = inner;
 		values.add(new DoubleArray());
 	}
+	
+	public RepeatableRandom cloneSequence() {
+		RepeatableRandom rnd = new RepeatableRandom(
+				inner.createCompatibleRandom());
+		for (DoubleArray seq : values) {
+			rnd.values.add(seq.clone());
+		}
+		return rnd;
+	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Random#createCompatibleRandom()

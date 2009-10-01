@@ -275,7 +275,14 @@ public final class PoorMansMetropolisLightTransportJob extends AbstractParalleli
 			}
 		};
 		
-		private transient ThreadLocal<RepeatableRandom> sequenceList = new ThreadLocal<RepeatableRandom>() {
+		private transient ThreadLocal<RepeatableRandom> seqX = new ThreadLocal<RepeatableRandom>() {
+			public RepeatableRandom initialValue() {
+				return new RepeatableRandom(
+						PoorMansMetropolisLightTransportJob.this.random);
+			}
+		};
+		
+		private transient ThreadLocal<RepeatableRandom> seqY = new ThreadLocal<RepeatableRandom>() {
 			public RepeatableRandom initialValue() {
 				return new RepeatableRandom(
 						PoorMansMetropolisLightTransportJob.this.random);
@@ -290,8 +297,8 @@ public final class PoorMansMetropolisLightTransportJob extends AbstractParalleli
 		};
 		
 		private Path generateNewPath() {
-			RepeatableRandom seq = sequenceList.get();
-			seq.clear();
+			RepeatableRandom seq = (RepeatableRandom) seqX.get().createCompatibleRandom();
+			seqY.set(seq);
 			
 			int index			= lcg.get().next();
 			int x				= index % width;
@@ -326,7 +333,8 @@ public final class PoorMansMetropolisLightTransportJob extends AbstractParalleli
 		}
 		
 		private Path mutateImagePoint(Path path, double width) {
-			RepeatableRandom seq = sequenceList.get();
+			RepeatableRandom seq = seqX.get().cloneSequence();
+			seqY.set(seq);
 			seq.reset();
 			
 			seq.mutate(width);
@@ -349,7 +357,8 @@ public final class PoorMansMetropolisLightTransportJob extends AbstractParalleli
 		}
 		
 		private Path mutateAll(Path path, double width) {
-			RepeatableRandom seq = sequenceList.get();
+			RepeatableRandom seq = seqX.get().cloneSequence();
+			seqY.set(seq);
 			seq.reset();
 			
 			seq.mutate(width);
@@ -457,6 +466,7 @@ public final class PoorMansMetropolisLightTransportJob extends AbstractParalleli
 				}
 				
 				if (accept) {
+					seqX.set(seqY.get());
 					x = y;
 					fx = fy;
 					List<Contribution> temp = cx;
