@@ -64,6 +64,13 @@ import ca.eandb.jmist.math.MathUtil;
 	public RGB toRGB() {
 		return new RGB(r, g, b);
 	}
+	
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.Color#abs()
+	 */
+	public Color abs() {
+		return new RGBColor(Math.abs(r), Math.abs(g), Math.abs(b));
+	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.Color#divide(ca.eandb.jmist.framework.color.Color)

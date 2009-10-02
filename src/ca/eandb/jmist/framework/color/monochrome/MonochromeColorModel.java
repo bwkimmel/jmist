@@ -69,6 +69,13 @@ public final class MonochromeColorModel extends ColorModel {
 		public RGB toRGB() {
 			return ColorUtil.convertSample2RGB(wavelength, value);
 		}
+		
+		/* (non-Javadoc)
+		 * @see ca.eandb.jmist.framework.color.Color#abs()
+		 */
+		public Color abs() {
+			return new Sample(Math.abs(value));
+		}
 
 		/* (non-Javadoc)
 		 * @see ca.eandb.jmist.framework.color.Color#divide(ca.eandb.jmist.framework.color.Color)

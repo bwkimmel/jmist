@@ -78,6 +78,14 @@ public final class PolychromeColorModel extends ColorModel {
 		public RGB toRGB() {
 			return ColorUtil.convertSpectrum2RGB(wavelengths, values);
 		}
+		
+		public Color abs() {
+			PolychromeColor result = new PolychromeColor();
+			for (int i = 0; i < values.length; i++) {
+				result.values[i] = Math.abs(values[i]);
+			}
+			return result;
+		}
 
 		public Color clamp(double max) {
 			PolychromeColor result = new PolychromeColor();

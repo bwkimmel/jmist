@@ -45,6 +45,13 @@ import ca.eandb.jmist.math.MathUtil;
 		return new LuminanceColor(value,
 				(lambda == compat.getWavelengthPacket()) ? lambda : null);
 	}
+	
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.Color#abs()
+	 */
+	public Color abs() {
+		return new LuminanceColor(Math.abs(value), lambda);
+	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.Color#clamp(double)
