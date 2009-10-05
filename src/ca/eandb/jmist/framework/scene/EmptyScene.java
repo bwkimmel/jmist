@@ -3,6 +3,7 @@
  */
 package ca.eandb.jmist.framework.scene;
 
+import ca.eandb.jmist.framework.Animator;
 import ca.eandb.jmist.framework.Lens;
 import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.Scene;
@@ -58,6 +59,13 @@ public final class EmptyScene implements Scene {
 	 */
 	public Sphere boundingSphere() {
 		return Sphere.EMPTY;
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Scene#getAnimator()
+	 */
+	public Animator getAnimator() {
+		return Animator.STATIC;
 	}
 
 }

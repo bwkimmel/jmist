@@ -17,14 +17,25 @@ public final class PathInfo {
 	private final Scene scene;
 
 	private final WavelengthPacket wavelengthPacket;
+	
+	private final double time;
 
 	public PathInfo(WavelengthPacket wavelengthPacket) {
-		this(EmptyScene.INSTANCE, wavelengthPacket);
+		this(EmptyScene.INSTANCE, wavelengthPacket, 0.0);
+	}
+
+	public PathInfo(WavelengthPacket wavelengthPacket, double time) {
+		this(EmptyScene.INSTANCE, wavelengthPacket, time);
+	}
+
+	public PathInfo(Scene scene, WavelengthPacket wavelengthPacket, double time) {
+		this.scene = scene;
+		this.wavelengthPacket = wavelengthPacket;
+		this.time = time;
 	}
 
 	public PathInfo(Scene scene, WavelengthPacket wavelengthPacket) {
-		this.scene = scene;
-		this.wavelengthPacket = wavelengthPacket;
+		this(scene, wavelengthPacket, 0.0);
 	}
 
 	public ColorModel getColorModel() {
@@ -37,6 +48,10 @@ public final class PathInfo {
 
 	public Scene getScene() {
 		return scene;
+	}
+	
+	public double getTime() {
+		return time;
 	}
 
 }

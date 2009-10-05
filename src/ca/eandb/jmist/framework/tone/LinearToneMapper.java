@@ -29,7 +29,7 @@ public final class LinearToneMapper implements ToneMapper {
 	 * @see ca.eandb.jmist.framework.tone.ToneMapper#apply(ca.eandb.jmist.framework.color.CIEXYZ)
 	 */
 	public CIEXYZ apply(CIEXYZ hdr) {
-		return hdr.divide(white);
+		return hdr.abs().divide(white);
 	}
 
 }

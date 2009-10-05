@@ -25,6 +25,7 @@
 
 package ca.eandb.jmist.framework.scene;
 
+import ca.eandb.jmist.framework.Animator;
 import ca.eandb.jmist.framework.Scene;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Sphere;
@@ -50,6 +51,13 @@ public abstract class AbstractScene implements Scene {
 	 */
 	public Sphere boundingSphere() {
 		return getRoot().boundingSphere();
+	}
+	
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Scene#getAnimator()
+	 */
+	public Animator getAnimator() {
+		return Animator.STATIC;
 	}
 
 }

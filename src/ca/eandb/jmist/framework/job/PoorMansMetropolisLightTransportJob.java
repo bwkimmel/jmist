@@ -300,19 +300,20 @@ public final class PoorMansMetropolisLightTransportJob extends AbstractParalleli
 			RepeatableRandom seq = (RepeatableRandom) seqX.get().createCompatibleRandom();
 			seqY.set(seq);
 			
-			int index			= lcg.get().next();
-			int x				= index % width;
-			int y				= index / width;
+//			int index			= lcg.get().next();
+//			int x				= index % width;
+//			int y				= index / width;
+//
+//			double y0			= (double) y / height;
+//			double y1			= (double) (y + 1) / height;
+//
+//			double x0			= (double) x / width;
+//			double x1			= (double) (x + 1) / width;
+//
+//			Box2 bounds			= new Box2(x0, y0, x1, y1);
 
-			double y0			= (double) y / height;
-			double y1			= (double) (y + 1) / height;
-
-			double x0			= (double) x / width;
-			double x1			= (double) (x + 1) / width;
-
-			Box2 bounds			= new Box2(x0, y0, x1, y1);
-
-			Point2 p			= RandomUtil.uniform(bounds, seq);
+			//Point2 p			= RandomUtil.uniform(bounds, seq);
+			Point2 p			= RandomUtil.canonical2(seq);
 			seq.mark();
 			
 			Color sample		= colorModel.sample(seq);
@@ -447,7 +448,7 @@ public final class PoorMansMetropolisLightTransportJob extends AbstractParalleli
 					// always accept
 					accept = true;
 					
-					if (mutations > initialMutations && fy > 0.0) {
+					if (i > initialMutations && fy > 0.0) {
 						// add contributions from y
 						record(cy, 1.0 / fy);
 					}
@@ -456,12 +457,17 @@ public final class PoorMansMetropolisLightTransportJob extends AbstractParalleli
 					double a = fy / fx;
 					accept = RandomUtil.bernoulli(a, random);
 					
-					if (mutations > initialMutations) {
+					if (i > initialMutations) {
 						// add weighted contributions from x and y
 						if (fy > 0.0) {
 							record(cy, a / fy);
 						}
 						record(cx, (1.0 - a) / fx);
+//						if (accept) {
+//							record(cy, 1.0 / fy);
+//						} else {
+//							record(cx, 1.0 / fx);
+//						}
 					}					
 				}
 				

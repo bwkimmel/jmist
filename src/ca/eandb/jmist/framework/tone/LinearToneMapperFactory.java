@@ -36,7 +36,7 @@ public final class LinearToneMapperFactory implements ToneMapperFactory {
 		int n = 0;
 		for (CIEXYZ sample : samples) {
 			if (sample != null) {
-				double Y = sample.Y();
+				double Y = Math.abs(sample.Y());
 				if (Y > Ymax) {
 					Ymax = Y;
 				}
@@ -48,7 +48,7 @@ public final class LinearToneMapperFactory implements ToneMapperFactory {
 		Yavg = Math.exp(Yavg) - delta;
 
 		double Ymid = 1.03 - 2.0 / (2.0 + Math.log10(Yavg + 1.0));
-		CIExyY white = new CIExyY(1.0 / 3.0, 1.0 / 3.0, Yavg / Ymid);
+		CIExyY white = new CIExyY(1.0 / 3.0, 1.0 / 3.0, Ymax);
 		return new LinearToneMapper(white.toXYZ());
 	}
 
