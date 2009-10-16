@@ -82,6 +82,10 @@ public final class RepeatableRandom implements Random {
 		position = 0;
 	}
 	
+	public void mutate() {
+		mutate(1.0 / 16.0);
+	}
+	
 	public void mutate(double width) {
 		DoubleArray seq = values.get(sequence);
 		for (int i = position, n = seq.size(); i < n; i++) {
@@ -89,9 +93,9 @@ public final class RepeatableRandom implements Random {
 		}
 	}
 	
-	public void mutate(int n, double width) {
+	public void mutate(double width, int n) {
 		DoubleArray seq = values.get(sequence);
-		for (int i = position, j = 0; j < n; i++, j++) {
+		for (int i = position, j = 0; j < n && i < seq.size(); i++, j++) {
 			seq.set(i, mutate(seq.get(i), width));
 		}
 	}
@@ -101,12 +105,11 @@ public final class RepeatableRandom implements Random {
 //		return x - Math.floor(x);
 //	}
 	
-	private static final double s1 = 1.0 / 512.0;
-	private static final double s2 = 1.0 / 16.0;
+	private static final double s1 = 32.0;
 	private double mutate(double x, double width) {
 		final double rnd = inner.next();
-		final double dx = s1 / (s1 / s2 + Math.abs(2.0 * inner.next() - 1.0)) -
-				s1 / (s1 / s2 + 1.0);
+		final double dx = width / (1.0 + s1 * Math.abs(2.0 * rnd - 1.0)) -
+				width / (1.0 + s1);
 		if (rnd < 0.5) {
 			double x1 = x + dx;
 			return (x1 < 1.0) ? x1 : x1 - 1.0;

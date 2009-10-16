@@ -432,6 +432,8 @@ public final class PoorMansMetropolisLightTransportJob extends AbstractParalleli
 			for (int i = 0; i < mutations; i++) {
 				if (!monitor.notifyProgress(i, mutations))
 					return null;
+				
+				cy.clear();
 
 				Path y = (x != null) ? mutate(x) : generateNewPath();
 
@@ -477,8 +479,7 @@ public final class PoorMansMetropolisLightTransportJob extends AbstractParalleli
 					fx = fy;
 					List<Contribution> temp = cx;
 					cx = cy;
-					cy = temp;
-					cy.clear();					
+					cy = temp;		
 				}				
 			}
 
