@@ -27,6 +27,7 @@ package ca.eandb.jmist.framework.job;
 
 import ca.eandb.jdcp.job.AbstractParallelizableJob;
 import ca.eandb.jdcp.job.TaskWorker;
+import ca.eandb.jmist.framework.Animator;
 import ca.eandb.jmist.framework.Display;
 import ca.eandb.jmist.framework.Lens;
 import ca.eandb.jmist.framework.Light;
@@ -46,6 +47,7 @@ import ca.eandb.jmist.framework.path.PathNode;
 import ca.eandb.jmist.framework.path.ScatteringNode;
 import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.math.Box2;
+import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.util.progress.ProgressMonitor;
 
@@ -77,6 +79,8 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 	private final int width;
 
 	private final int height;
+	
+	private final Interval shutter;
 
 	private final int eyePathsPerPixel;
 
@@ -95,7 +99,7 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 	private transient int passesSubmitted = 0;
 
 	public BidiPathTracerJob(Scene scene, Display display, int width,
-			int height, ColorModel colorModel, Random random,
+			int height, Interval shutter, ColorModel colorModel, Random random,
 			BidiPathStrategy strategy, PathMeasure measure, int eyePathsPerPixel,
 			int lightPathsPerEyePath, int tasks, boolean displayPartialResults) {
 		this.scene = scene;
@@ -105,6 +109,7 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 		this.tasks = tasks;
 		this.width = width;
 		this.height = height;
+		this.shutter = shutter;
 		this.strategy = strategy;
 		this.measure = measure;
 		this.eyePathsPerPixel = eyePathsPerPixel;
@@ -113,7 +118,16 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 		this.extraPasses = eyePathsPerPixel - minPassesPerTask * tasks;
 		this.displayPartialResults = displayPartialResults;
 	}
-
+	
+	public BidiPathTracerJob(Scene scene, Display display, int width,
+			int height, ColorModel colorModel, Random random,
+			BidiPathStrategy strategy, PathMeasure measure, int eyePathsPerPixel,
+			int lightPathsPerEyePath, int tasks, boolean displayPartialResults) {
+		this(scene, display, width, height, null, colorModel, random, strategy,
+				measure, eyePathsPerPixel, lightPathsPerEyePath, tasks,
+				displayPartialResults);
+	}
+	
 	/* (non-Javadoc)
 	 * @see ca.eandb.jdcp.job.ParallelizableJob#getNextTask()
 	 */
@@ -223,16 +237,17 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 		 */
 		public Object performTask(Object task, ProgressMonitor monitor) {
 
-			int		passes				= (Integer) task;
-			Box2	bounds;
-			double	x0, y0, x1, y1;
-			double	w					= width;
-			double	h					= height;
-			int		numPixels			= width * height;
-			int		samplesPerPixel		= passes * lightPathsPerEyePath;
-			double	lightImageWeight	= 1.0 / (double) samplesPerPixel;
-			Light	light				= scene.getLight();
-			Lens	lens				= scene.getLens();
+			int			passes				= (Integer) task;
+			Box2		bounds;
+			double		x0, y0, x1, y1;
+			double		w					= width;
+			double		h					= height;
+			int			numPixels			= width * height;
+			int			samplesPerPixel		= passes * lightPathsPerEyePath;
+			double		lightImageWeight	= 1.0 / (double) samplesPerPixel;
+			Light		light				= scene.getLight();
+			Lens		lens				= scene.getLens();
+			Animator	animator			= scene.getAnimator();
 
 			raster.get().clear();
 
@@ -252,6 +267,11 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 					bounds		= new Box2(x0, y0, x1, y1);
 
 					for (int i = 0; i < passes; i++) {
+						
+						if (shutter != null) {
+							double time		= RandomUtil.uniform(shutter, random);
+							animator.setTime(time);
+						}
 
 						Point2 p			= RandomUtil.uniform(bounds, random);
 						Color sample		= colorModel.sample(random);
