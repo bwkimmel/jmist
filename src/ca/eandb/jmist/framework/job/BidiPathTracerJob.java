@@ -226,11 +226,17 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 		/** Serialization version ID. */
 		private static final long serialVersionUID = -7848301189373426210L;
 
-		private transient ThreadLocal<Raster> raster = new ThreadLocal<Raster>() {
-			protected Raster initialValue() {
-				return colorModel.createRaster(width, height);
+		private transient ThreadLocal<Raster> raster = null;
+		
+		private synchronized void initialize() {
+			if (raster == null) {
+				raster = new ThreadLocal<Raster>() {
+					protected Raster initialValue() {
+						return colorModel.createRaster(width, height);
+					}
+				};
 			}
-		};
+		}
 
 		/* (non-Javadoc)
 		 * @see ca.eandb.jdcp.job.TaskWorker#performTask(java.lang.Object, ca.eandb.util.progress.ProgressMonitor)
@@ -249,6 +255,7 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 			Lens		lens				= scene.getLens();
 			Animator	animator			= scene.getAnimator();
 
+			initialize();
 			raster.get().clear();
 
 			for (int n = 0, y = 0; y < height; y++) {
