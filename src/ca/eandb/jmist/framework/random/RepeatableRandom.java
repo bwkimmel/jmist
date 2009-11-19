@@ -34,6 +34,7 @@ public final class RepeatableRandom implements Random {
 	public RepeatableRandom cloneSequence() {
 		RepeatableRandom rnd = new RepeatableRandom(
 				inner.createCompatibleRandom());
+		rnd.values.clear();
 		for (DoubleArray seq : values) {
 			rnd.values.add(seq.clone());
 		}
