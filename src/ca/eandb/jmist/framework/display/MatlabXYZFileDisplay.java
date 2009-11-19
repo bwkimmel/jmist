@@ -89,7 +89,7 @@ public final class MatlabXYZFileDisplay implements Display, Serializable {
 				CIEXYZ c = color.toXYZ();
 				array[index++] = c.X();
 				array[index++] = c.Y();
-				array[index] = c.Z();
+				array[index++] = c.Z();
 			}
 		}
 	}
@@ -158,7 +158,7 @@ public final class MatlabXYZFileDisplay implements Display, Serializable {
 				CIEXYZ c = pixel.toXYZ();
 				array[index++] = c.X();
 				array[index++] = c.Y();
-				array[index] = c.Z();
+				array[index++] = c.Z();
 			}
 		}
 	}
