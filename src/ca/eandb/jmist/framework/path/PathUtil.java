@@ -27,15 +27,15 @@ public final class PathUtil {
 			return 0.0;
 		} else if (bAtInf) {
 			Vector3 v = (Vector3) b.getPosition();
-			return a.getCosine(v);
+			return Math.max(a.getCosine(v), 0.0);
 		} else if (aAtInf) {
 			Vector3 v = (Vector3) a.getPosition();
-			return b.getCosine(v);
+			return Math.max(b.getCosine(v), 0.0);
 		} else {
 			Point3 p = (Point3) a.getPosition();
 			Point3 q = (Point3) b.getPosition();
 			Vector3 v = p.vectorTo(q);
-			return a.getCosine(v) * b.getCosine(v.opposite())
+			return Math.max(a.getCosine(v), 0.0) * Math.max(b.getCosine(v.opposite()), 0.0)
 					/ v.squaredLength();
 		}
 	}
@@ -51,13 +51,20 @@ public final class PathUtil {
 		}
 	}
 
-	public static Color join(PathNode a, PathNode b) {
+	public static Color join(PathNode a, PathNode b) {		
+
 		Vector3 v = PathUtil.getDirection(a, b);
 
 		if (v == null) {
 			return null;
 		}
-
+		
+		double g = PathUtil.getGeometricFactor(a, b);
+		
+		if (g <= 0.0) {
+			return null;
+		}
+		
 		Color etol = a.scatter(v);
 		Color ltoe = b.scatter(v.opposite());
 		Color c = etol.times(ltoe);
@@ -65,7 +72,7 @@ public final class PathUtil {
 		if (ColorUtil.getTotalChannelValue(c) > 0.0
 				&& PathUtil.visibility(a, b)) {
 
-			c = c.times(PathUtil.getGeometricFactor(a, b));
+			c = c.times(g);
 
 			c = c.times(a.getCumulativeWeight()).times(
 					b.getCumulativeWeight());
