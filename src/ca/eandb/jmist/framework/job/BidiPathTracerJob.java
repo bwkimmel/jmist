@@ -25,6 +25,11 @@
 
 package ca.eandb.jmist.framework.job;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+
 import ca.eandb.jdcp.job.AbstractParallelizableJob;
 import ca.eandb.jdcp.job.TaskWorker;
 import ca.eandb.jmist.framework.Animator;
@@ -49,6 +54,8 @@ import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.math.Box2;
 import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.math.Point2;
+import ca.eandb.jmist.util.matlab.MatlabWriter;
+import ca.eandb.util.FloatArray;
 import ca.eandb.util.progress.ProgressMonitor;
 
 /**
@@ -97,6 +104,8 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 	private transient int tasksSubmitted = 0;
 
 	private transient int passesSubmitted = 0;
+	
+	private final FloatArray contribList = new FloatArray();
 
 	public BidiPathTracerJob(Scene scene, Display display, int width,
 			int height, Interval shutter, ColorModel colorModel, Random random,
@@ -176,6 +185,8 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 				}
 			}
 		}
+		
+		writeContribList();
 
 		monitor.notifyProgress(++tasksSubmitted, tasks);
 		if (tasksSubmitted == tasks) {
@@ -184,6 +195,21 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 			monitor.notifyStatusChanged("Waiting for partial results");
 		}
 
+	}
+	
+	private synchronized void writeContribList() {
+//		try {
+////			synchronized (contribList) {
+////				System.out.printf("Writing %d contributions", contribList.size());
+////				MatlabWriter writer = new MatlabWriter(new FileOutputStream("contribs.mat"));
+////				writer.write("contribs", contribList.toFloatArray(), new int[]{ contribList.size(), 1 });
+////				writer.close();
+////				System.exit(0);
+////			}
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 
 	/* (non-Javadoc)
@@ -380,25 +406,41 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 		private Color joinAt(PathNode lightNode, PathNode eyeNode, double lightImageWeight) {
 			int l = lightNode != null ? lightNode.getDepth() : -1;
 			int e = eyeNode != null ? eyeNode.getDepth() : -1;
-
+			Color c = null;
 			if (e == 0 && l == 0) {
-				return joinLightToEye((LightNode) lightNode, (EyeNode) eyeNode,
+				c = joinLightToEye((LightNode) lightNode, (EyeNode) eyeNode,
 						lightImageWeight);
 			} else if (e <= 0 && l <= 0) {
-				return null;
+				c = null;
 			} else if (e < 0) {
-				return lightPathOnCamera((ScatteringNode) lightNode,
+				c = lightPathOnCamera((ScatteringNode) lightNode,
 						lightImageWeight);
 			} else if (l < 0) {
-				return eyePathOnLight((ScatteringNode) eyeNode);
+				c = eyePathOnLight((ScatteringNode) eyeNode);
 			} else if (e == 0) {
-				return joinInnerToEye(lightNode, (EyeNode) eyeNode,
+				c = joinInnerToEye(lightNode, (EyeNode) eyeNode,
 						lightImageWeight);
 			} else if (l == 0) {
-				return joinLightToInner((LightNode) lightNode, eyeNode);
+				c = joinLightToInner((LightNode) lightNode, eyeNode);
 			} else {
-				return joinInnerToInner((ScatteringNode) lightNode, eyeNode);
+				c = joinInnerToInner((ScatteringNode) lightNode, eyeNode);
 			}
+			
+			if (c != null) {
+//				synchronized (contribList) {
+//					contribList.add((float) c.luminance());
+//				}
+				
+				if (c.luminance() < 0.0) {
+					bp();
+				}
+			}
+			
+			return c;
+		}
+		
+		private void bp() {
+		
 		}
 
 		private Color joinInnerToInner(PathNode lightNode, PathNode eyeNode) {
@@ -426,6 +468,12 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 					Color c = measure.evaluate(lightNode, eyeNode);
 					c = ColorUtil.mul(c, weight * w);
 					if (c != null) {
+//						synchronized (contribList) {
+//							contribList.add((float) c.luminance());
+//						}
+						if (c.luminance() < 0.0) {
+							bp();
+						}
 						RasterUtil.addPixel(raster.get(), p, c);
 					}
 				}

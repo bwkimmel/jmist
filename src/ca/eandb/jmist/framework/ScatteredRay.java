@@ -25,7 +25,7 @@ public final class ScatteredRay {
 	private final double pdf;
 	private final boolean transmitted;;
 
-	private ScatteredRay(Ray3 scatteredRay, Color color, Type type, double pdf, boolean transmitted) {
+	public ScatteredRay(Ray3 scatteredRay, Color color, Type type, double pdf, boolean transmitted) {
 
 		assert(scatteredRay != null);
 
