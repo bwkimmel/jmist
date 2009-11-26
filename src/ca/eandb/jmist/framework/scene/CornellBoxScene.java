@@ -7,6 +7,7 @@ import ca.eandb.jmist.framework.Function1;
 import ca.eandb.jmist.framework.Lens;
 import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.Material;
+import ca.eandb.jmist.framework.ScatteringStrategy;
 import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.accel.BoundingIntervalHierarchy;
 import ca.eandb.jmist.framework.color.ColorModel;
@@ -15,6 +16,7 @@ import ca.eandb.jmist.framework.geometry.primitive.PolyhedronGeometry;
 import ca.eandb.jmist.framework.lens.PinholeLens;
 import ca.eandb.jmist.framework.lens.TransformableLens;
 import ca.eandb.jmist.framework.material.LambertianMaterial;
+import ca.eandb.jmist.framework.material.ScatteringAdapterMaterial;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Vector3;
 import ca.eandb.jmist.util.ArrayUtil;
@@ -38,6 +40,38 @@ public final class CornellBoxScene extends AbstractScene {
 		Material matteGreen = new LambertianMaterial(colorModel.getContinuous(green));
 		Material matteRed = new LambertianMaterial(colorModel.getContinuous(red));
 		Material matteEmissive = new LambertianMaterial(colorModel.getGray(0.78), colorModel.getContinuous(emission));
+
+		SceneElement materialMap = new MaterialMapSceneElement(geometry)
+				.addMaterial("white", matteWhite)
+				.addMaterial("red", matteRed)
+				.addMaterial("green", matteGreen)
+				.addMaterial("emissive", matteEmissive)
+				.setMaterialRange(0, 4, "white")		// ceiling
+				.setMaterialRange(4, 1, "emissive")		// light
+				.setMaterialRange(5, 14, "white")		// floor
+				.setMaterialRange(19, 1, "white") 		// back wall
+				.setMaterialRange(20, 1, "green") 		// right wall
+				.setMaterialRange(21, 1, "red") 		// left wall
+				.setMaterialRange(22, 5, "white") 		// short block
+				.setMaterialRange(27, 5, "white"); 		// tall block
+
+		this.cornellBox = new BoundingIntervalHierarchy(materialMap);
+		this.light = cornellBox.createLight();
+	}
+
+	/**
+	 * Creates a new <code>CornellBoxModel</code>.
+	 */
+	public CornellBoxScene(ColorModel colorModel, ScatteringStrategy strategy, double weight) {
+		Material matteWhite = new LambertianMaterial(colorModel.getContinuous(white));
+		Material matteGreen = new LambertianMaterial(colorModel.getContinuous(green));
+		Material matteRed = new LambertianMaterial(colorModel.getContinuous(red));
+		Material matteEmissive = new LambertianMaterial(colorModel.getGray(0.78), colorModel.getContinuous(emission));
+		
+		matteWhite = new ScatteringAdapterMaterial(matteWhite, strategy, weight);
+		matteGreen = new ScatteringAdapterMaterial(matteGreen, strategy, weight);
+		matteRed = new ScatteringAdapterMaterial(matteRed, strategy, weight);
+		matteEmissive = new ScatteringAdapterMaterial(matteEmissive, strategy, weight);
 
 		SceneElement materialMap = new MaterialMapSceneElement(geometry)
 				.addMaterial("white", matteWhite)

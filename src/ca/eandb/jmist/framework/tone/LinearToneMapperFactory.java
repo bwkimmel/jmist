@@ -48,7 +48,7 @@ public final class LinearToneMapperFactory implements ToneMapperFactory {
 		Yavg = Math.exp(Yavg) - delta;
 
 		double Ymid = 1.03 - 2.0 / (2.0 + Math.log10(Yavg + 1.0));
-		CIExyY white = new CIExyY(1.0 / 3.0, 1.0 / 3.0, Ymax);
+		CIExyY white = new CIExyY(1.0 / 3.0, 1.0 / 3.0, Yavg / Ymid);
 		return new LinearToneMapper(white.toXYZ());
 	}
 
