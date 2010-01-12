@@ -14,6 +14,9 @@ import ca.eandb.jmist.math.Ray3;
  */
 public abstract class OpaqueMaterial extends AbstractMaterial {
 
+	/** Serialization version ID. */
+	private static final long serialVersionUID = -1152259343035236209L;
+
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Medium#extinctionIndex(ca.eandb.jmist.math.Point3, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */

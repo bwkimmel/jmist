@@ -25,6 +25,7 @@
 
 package ca.eandb.jmist.framework.scene;
 
+import ca.eandb.jmist.framework.Animator;
 import ca.eandb.jmist.framework.Lens;
 import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.Scene;
@@ -38,6 +39,9 @@ import ca.eandb.jmist.math.Sphere;
  */
 public abstract class SceneDecorator implements Scene {
 
+	/** Serialization version ID. */
+	private static final long serialVersionUID = 5875837932212956822L;
+	
 	/** The <code>Scene</code> that this scene is to be based on. */
 	private final Scene inner;
 
@@ -82,6 +86,13 @@ public abstract class SceneDecorator implements Scene {
 	 */
 	public Sphere boundingSphere() {
 		return inner.boundingSphere();
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Scene#getAnimator()
+	 */
+	public Animator getAnimator() {
+		return inner.getAnimator();
 	}
 
 }

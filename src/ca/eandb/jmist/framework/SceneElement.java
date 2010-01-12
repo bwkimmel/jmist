@@ -106,7 +106,7 @@ public interface SceneElement extends Bounded3, VisibilityFunction3, Serializabl
 	 * @throws UnsupportedOperationException If the operation is not supported
 	 * 		by this <code>SceneElement</code>.
 	 */
-	void generateRandomSurfacePoint(int index, ShadingContext context);
+	void generateRandomSurfacePoint(int index, ShadingContext context, double ru, double rv, double rj);
 
 	/**
 	 * Generates a <code>SurfacePoint</code> randomly that is uniformly
@@ -115,7 +115,7 @@ public interface SceneElement extends Bounded3, VisibilityFunction3, Serializabl
 	 * @throws UnsupportedOperationException If the operation is not supported
 	 * 		by this <code>SceneElement</code>.
 	 */
-	void generateRandomSurfacePoint(ShadingContext context);
+	void generateRandomSurfacePoint(ShadingContext context, double ru, double rv, double rj);
 
 	/**
 	 * Generates a <code>SurfacePoint</code> randomly that is uniformly
@@ -125,7 +125,7 @@ public interface SceneElement extends Bounded3, VisibilityFunction3, Serializabl
 	 * @throws UnsupportedOperationException If the operation is not supported
 	 * 		by this <code>SceneElement</code>.
 	 */
-	double generateImportanceSampledSurfacePoint(int index, SurfacePoint x, ShadingContext context);
+	double generateImportanceSampledSurfacePoint(int index, SurfacePoint x, ShadingContext context, double ru, double rv, double rj);
 
 	/**
 	 * Generates a <code>SurfacePoint</code> randomly that is uniformly
@@ -134,7 +134,7 @@ public interface SceneElement extends Bounded3, VisibilityFunction3, Serializabl
 	 * @throws UnsupportedOperationException If the operation is not supported
 	 * 		by this <code>SceneElement</code>.
 	 */
-	double generateImportanceSampledSurfacePoint(SurfacePoint x, ShadingContext context);
+	double generateImportanceSampledSurfacePoint(SurfacePoint x, ShadingContext context, double ru, double rv, double rj);
 
 	/**
 	 * Creates a <code>Light</code> from the emissive surfaces in this scene

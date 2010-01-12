@@ -24,6 +24,9 @@ import ca.eandb.jmist.math.Ray3;
  */
 public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 
+	/** Serialization version ID. */
+	private static final long serialVersionUID = 2972169138865609527L;
+
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SceneElement#intersect(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */

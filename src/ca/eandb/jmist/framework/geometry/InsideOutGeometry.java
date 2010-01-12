@@ -55,8 +55,8 @@ public final class InsideOutGeometry extends SceneElementDecorator {
 	 */
 	@Override
 	public double generateImportanceSampledSurfacePoint(int index,
-			SurfacePoint x, ShadingContext context) {
-		double weight = super.generateImportanceSampledSurfacePoint(index, x, context);
+			SurfacePoint x, ShadingContext context, double ru, double rv, double rj) {
+		double weight = super.generateImportanceSampledSurfacePoint(index, x, context, ru, rv, rj);
 		flip(context);
 		return weight;
 	}
@@ -66,8 +66,8 @@ public final class InsideOutGeometry extends SceneElementDecorator {
 	 */
 	@Override
 	public double generateImportanceSampledSurfacePoint(SurfacePoint x,
-			ShadingContext context) {
-		double weight = super.generateImportanceSampledSurfacePoint(x, context);
+			ShadingContext context, double ru, double rv, double rj) {
+		double weight = super.generateImportanceSampledSurfacePoint(x, context, ru, rv, rj);
 		flip(context);
 		return weight;
 	}
@@ -76,8 +76,8 @@ public final class InsideOutGeometry extends SceneElementDecorator {
 	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#generateRandomSurfacePoint(int, ca.eandb.jmist.framework.ShadingContext)
 	 */
 	@Override
-	public void generateRandomSurfacePoint(int index, ShadingContext context) {
-		super.generateRandomSurfacePoint(index, context);
+	public void generateRandomSurfacePoint(int index, ShadingContext context, double ru, double rv, double rj) {
+		super.generateRandomSurfacePoint(index, context, ru, rv, rj);
 		flip(context);
 	}
 
@@ -85,8 +85,8 @@ public final class InsideOutGeometry extends SceneElementDecorator {
 	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext)
 	 */
 	@Override
-	public void generateRandomSurfacePoint(ShadingContext context) {
-		super.generateRandomSurfacePoint(context);
+	public void generateRandomSurfacePoint(ShadingContext context, double ru, double rv, double rj) {
+		super.generateRandomSurfacePoint(context, ru, rv, rj);
 		flip(context);
 	}
 

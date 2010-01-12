@@ -21,10 +21,6 @@ public final class Vector3 extends HPoint3 {
 		super(x, y, z);
 	}
 
-	public Vector3 toVector3() {
-		return this;
-	}
-
 	public double w() {
 		return 0.0;
 	}

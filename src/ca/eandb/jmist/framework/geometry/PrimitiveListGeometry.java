@@ -44,9 +44,7 @@ import ca.eandb.jmist.math.Sphere;
  */
 public final class PrimitiveListGeometry extends AbstractGeometry {
 
-	/**
-	 * Serialization version ID.
-	 */
+	/** Serialization version ID. */
 	private static final long serialVersionUID = -7468724116325274242L;
 
 	private final List<PrimitiveGeometry> primitives = new ArrayList<PrimitiveGeometry>();
@@ -124,8 +122,8 @@ public final class PrimitiveListGeometry extends AbstractGeometry {
 	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#generateRandomSurfacePoint(int, ca.eandb.jmist.framework.ShadingContext)
 	 */
 	@Override
-	public void generateRandomSurfacePoint(int index, ShadingContext context) {
-		primitives.get(index).generateRandomSurfacePoint(context);
+	public void generateRandomSurfacePoint(int index, ShadingContext context, double ru, double rv, double rj) {
+		primitives.get(index).generateRandomSurfacePoint(context, ru, rv, rj);
 		context.setPrimitiveIndex(index);
 	}
 

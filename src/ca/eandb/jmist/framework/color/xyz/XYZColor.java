@@ -85,6 +85,13 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
 	private XYZColor create(double x, double y, double z, Color compat) {
 		return new XYZColor(x, y, z, (lambda == compat.getWavelengthPacket()) ? lambda : null);
 	}
+	
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.Color#abs()
+	 */
+	public Color abs() {
+		return new XYZColor(Math.abs(x), Math.abs(y), Math.abs(z), lambda);
+	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.color.Color#clamp(double)

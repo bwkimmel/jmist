@@ -27,14 +27,14 @@ public final class RandomUtil {
 		return diffuse(random.next(), random.next());
 	}
 
-	private static SphericalCoordinates diffuse(double xi1, double xi2) {
+	public static SphericalCoordinates diffuse(double ru, double rv) {
 
-		assert(0.0 <= xi1 && xi1 <= 1.0);
-		assert(0.0 <= xi2 && xi2 <= 1.0);
+		assert(0.0 <= ru && ru <= 1.0);
+		assert(0.0 <= rv && rv <= 1.0);
 
 		return new SphericalCoordinates(
-				Math.acos(Math.sqrt(1.0 - xi1)),
-				2.0 * Math.PI * xi2
+				Math.acos(Math.sqrt(1.0 - ru)),
+				2.0 * Math.PI * rv
 		);
 
 	}
@@ -47,10 +47,10 @@ public final class RandomUtil {
 		return uniformOnUpperHemisphere(radius, random.next(), random.next());
 	}
 
-	private static SphericalCoordinates uniformOnUpperHemisphere(double radius, double xi1, double xi2) {
+	public static SphericalCoordinates uniformOnUpperHemisphere(double radius, double ru, double rv) {
 
 		// TODO implement this directly so it's more efficient.
-		SphericalCoordinates result = uniformOnSphere(radius, xi1, xi2);
+		SphericalCoordinates result = uniformOnSphere(radius, ru, rv);
 
 		if (result.polar() > (Math.PI / 2.0))
 			result = new SphericalCoordinates(Math.PI - result.polar(), result.azimuthal(), radius);
@@ -66,15 +66,19 @@ public final class RandomUtil {
 	public static SphericalCoordinates uniformOnSphere(double radius, Random random) {
 		return uniformOnSphere(radius, random.next(), random.next());
 	}
+	
+	public static SphericalCoordinates uniformOnSphere(double ru, double rv) {
+		return uniformOnSphere(1.0, ru, rv);
+	}
 
-	private static SphericalCoordinates uniformOnSphere(double radius, double xi1, double xi2) {
+	public static SphericalCoordinates uniformOnSphere(double radius, double ru, double rv) {
 
-		assert(0.0 <= xi1 && xi1 <= 1.0);
-		assert(0.0 <= xi2 && xi2 <= 1.0);
+		assert(0.0 <= ru && ru <= 1.0);
+		assert(0.0 <= rv && rv <= 1.0);
 
 		return new SphericalCoordinates(
-				Math.acos(2.0 * xi1 - 1.0),
-				2.0 * Math.PI * xi2,
+				Math.acos(2.0 * ru - 1.0),
+				2.0 * Math.PI * rv,
 				radius
 		);
 
@@ -88,14 +92,14 @@ public final class RandomUtil {
 		return uniformOnDisc(radius, random.next(), random.next());
 	}
 
-	private static PolarCoordinates uniformOnDisc(double radius, double xi1, double xi2) {
+	public static PolarCoordinates uniformOnDisc(double radius, double ru, double rv) {
 
-		assert(0.0 <= xi1 && xi1 <= 1.0);
-		assert(0.0 <= xi2 && xi2 <= 1.0);
+		assert(0.0 <= ru && ru <= 1.0);
+		assert(0.0 <= rv && rv <= 1.0);
 
 		return new PolarCoordinates(
-				2.0 * Math.PI * xi1,
-				radius * Math.sqrt(xi2)
+				2.0 * Math.PI * ru,
+				radius * Math.sqrt(rv)
 		);
 
 	}
@@ -104,7 +108,7 @@ public final class RandomUtil {
 		return uniformOnTriangle(a, b, c, random.next(), random.next());
 	}
 
-	private static Point3 uniformOnTriangle(Point3 a, Point3 b, Point3 c, double alpha, double beta) {
+	public static Point3 uniformOnTriangle(Point3 a, Point3 b, Point3 c, double alpha, double beta) {
 		if (alpha + beta > 1.0) {
 			alpha = 1.0 - alpha;
 			beta = 1.0 - beta;
@@ -118,7 +122,7 @@ public final class RandomUtil {
 		return uniformOnTriangle(a, b, c, random.next(), random.next());
 	}
 
-	private static Point2 uniformOnTriangle(Point2 a, Point2 b, Point2 c, double alpha, double beta) {
+	public static Point2 uniformOnTriangle(Point2 a, Point2 b, Point2 c, double alpha, double beta) {
 		if (alpha + beta > 1.0) {
 			alpha = 1.0 - alpha;
 			beta = 1.0 - beta;
@@ -127,26 +131,56 @@ public final class RandomUtil {
 		Vector2 ac = a.vectorTo(c).times(beta);
 		return a.plus(ab).plus(ac);
 	}
-
+	
 	public static boolean bernoulli(double probability, Random random) {
 		return bernoulli(probability, random.next());
 	}
 
-	private static boolean bernoulli(double probability, double seed) {
+	public static boolean bernoulli(double probability, double seed) {
 		return seed < probability;
+	}
+	
+	private static void bp() {}
+	
+	public static boolean bernoulli(double probability, SeedReference ref) {
+		if (ref.seed < probability) {
+			ref.seed /= probability;
+			if (ref.seed < 0.0 || ref.seed > 1.0) bp();
+			return true;
+		} else {
+			ref.seed = (ref.seed - probability) / (1.0 - probability);
+			if (ref.seed < 0.0 || ref.seed > 1.0) bp();
+			return false;
+		}
 	}
 
 	public static boolean coin(Random random) {
 		return coin(random.next());
 	}
 
-	private static boolean coin(double seed) {
+	public static boolean coin(double seed) {
 		return seed < 0.5;
+	}
+	
+	public static boolean coin(SeedReference ref) {
+		if (ref.seed < 0.5) {
+			ref.seed *= 2;
+			if (ref.seed < 0.0 || ref.seed > 1.0) bp();
+			return true;
+		} else {
+			ref.seed = (ref.seed * 2) - 1;
+			if (ref.seed < 0.0 || ref.seed > 1.0) bp();
+			return false;
+		}
 	}
 
 	public static int categorical(double[] weights, Random random) {
+		return categorical(weights, random.next());
+	}
+	
+	public static int categorical(double[] weights, double seed) {
 
-		double	x		= random.next() / MathUtil.sum(weights);
+		double	x		= seed / MathUtil.sum(weights);
 		double	mark	= 0.0;
 
 		for (int i = 0; i < weights.length; i++) {
@@ -158,13 +192,44 @@ public final class RandomUtil {
 		return weights.length - 1;
 
 	}
+	
+	public static int categorical(double[] weights, SeedReference ref) {
+
+		ref.seed /= MathUtil.sum(weights);
+		
+		int n = weights.length - 1;
+		for (int i = 0; i < n; i++) {
+			if (ref.seed < weights[i]) {
+				ref.seed /= weights[i];
+				if (ref.seed < 0.0 || ref.seed > 1.0) bp();
+				return i;
+			}
+			ref.seed -= weights[i];
+		}
+		
+		ref.seed /= weights[n];
+		if (ref.seed < 0.0 || ref.seed > 1.0) bp();
+		return n;
+		
+	}
 
 	public static int discrete(int minimum, int maximum, Random random) {
 		return discrete(minimum, maximum, random.next());
 	}
 
-	private static int discrete(int minimum, int maximum, double seed) {
+	public static int discrete(int minimum, int maximum, double seed) {
 		return minimum + (int) Math.floor(seed * (double) (maximum - minimum + 1));
+	}
+	
+	public static int discrete(int minimum, int maximum, SeedReference ref) {
+		double offset;
+		
+		ref.seed *= (double) (maximum - minimum + 1);
+		offset = Math.floor(ref.seed);
+		ref.seed -= offset;
+		
+		if (ref.seed < 0.0 || ref.seed > 1.0) bp();
+		return minimum + (int) offset;
 	}
 
 	public static double canonical(Random random) {
@@ -179,7 +244,7 @@ public final class RandomUtil {
 		return new Point3(random.next(), random.next(), random.next());
 	}
 
-	private static double uniform(double minimum, double maximum, double seed) {
+	public static double uniform(double minimum, double maximum, double seed) {
 		return minimum + seed * (maximum - minimum);
 	}
 
@@ -191,21 +256,29 @@ public final class RandomUtil {
 		return uniform(I, random.next());
 	}
 
-	private static double uniform(Interval I, double seed) {
+	public static double uniform(Interval I, double seed) {
 		return uniform(I.minimum(), I.maximum(), seed);
 	}
 
 	public static Point2 uniform(Box2 box, Random random) {
+		return uniform(box, random.next(), random.next());
+	}
+	
+	public static Point2 uniform(Box2 box, double ru, double rv) {
 		return new Point2(
-				uniform(box.minimumX(), box.maximumX(), random),
-				uniform(box.minimumY(), box.maximumY(), random));
+				uniform(box.minimumX(), box.maximumX(), ru),
+				uniform(box.minimumY(), box.maximumY(), rv));		
+	}
+	
+	public static Point3 uniform(Box3 box, Random random) {
+		return uniform(box, random.next(), random.next(), random.next());
 	}
 
-	public static Point3 uniform(Box3 box, Random random) {
+	public static Point3 uniform(Box3 box, double ru, double rv, double rw) {
 		return new Point3(
-				uniform(box.minimumX(), box.maximumX(), random.next()),
-				uniform(box.minimumY(), box.maximumY(), random.next()),
-				uniform(box.minimumZ(), box.maximumZ(), random.next()));
+				uniform(box.minimumX(), box.maximumX(), ru),
+				uniform(box.minimumY(), box.maximumY(), rv),
+				uniform(box.minimumZ(), box.maximumZ(), rw));
 	}
 
 }

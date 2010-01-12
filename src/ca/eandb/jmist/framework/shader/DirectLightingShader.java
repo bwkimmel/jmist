@@ -56,7 +56,7 @@ public final class DirectLightingShader implements Shader {
 			if (!sample.castShadowRay(sc)) {
 				Vector3 in = sample.getDirToLight().opposite();
 				Vector3 out = sc.getIncident().opposite();
-				Color bsdf = mat.scattering(sc, in, out, lambda);
+				Color bsdf = mat.bsdf(sc, in, out, lambda);
 				double dot = Math.abs(in.dot(normal));
 				sum = sum.plus(sample.getRadiantIntensity().times(bsdf.times(dot)));
 			}

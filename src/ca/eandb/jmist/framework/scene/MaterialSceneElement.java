@@ -25,7 +25,6 @@
 
 package ca.eandb.jmist.framework.scene;
 
-import ca.eandb.jmist.framework.Emitter;
 import ca.eandb.jmist.framework.Illuminable;
 import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.LightSample;
@@ -39,8 +38,10 @@ import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.light.AbstractLight;
 import ca.eandb.jmist.framework.light.PointLightSample;
-import ca.eandb.jmist.framework.light.ScaledEmitter;
-import ca.eandb.jmist.framework.light.SurfaceEmitter;
+import ca.eandb.jmist.framework.path.LightNode;
+import ca.eandb.jmist.framework.path.PathInfo;
+import ca.eandb.jmist.framework.path.ScaledLightNode;
+import ca.eandb.jmist.framework.path.SurfaceLightNode;
 import ca.eandb.jmist.framework.shader.MinimalShadingContext;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Vector3;
@@ -81,7 +82,7 @@ public final class MaterialSceneElement extends ModifierSceneElement {
 			public void illuminate(SurfacePoint x, WavelengthPacket lambda, Random rng, Illuminable target) {
 
 				ShadingContext context = new MinimalShadingContext(rng);
-				generateImportanceSampledSurfacePoint(x, context);
+				generateImportanceSampledSurfacePoint(x, context, rng.next(), rng.next(), rng.next());
 				context.getModifier().modify(context);
 
 				Point3 p = context.getPosition();
@@ -98,12 +99,17 @@ public final class MaterialSceneElement extends ModifierSceneElement {
 
 			}
 
-			public Emitter sample(Random rng) {
-				ShadingContext context = new MinimalShadingContext(rng);
-				generateRandomSurfacePoint(context);
+			public LightNode sample(PathInfo pathInfo, double ru, double rv, double rj) {
+				ShadingContext context = new MinimalShadingContext(null);
+				generateRandomSurfacePoint(context, ru, rv, rj);
 				context.getModifier().modify(context);
 
-				return new ScaledEmitter(surfaceArea, new SurfaceEmitter(context));
+				return ScaledLightNode.create(1.0 / surfaceArea,
+						new SurfaceLightNode(pathInfo, context, ru, rv, rj), rj);
+			}
+
+			public double getSamplePDF(SurfacePoint x, PathInfo pathInfo) {
+				return 1.0 / surfaceArea;
 			}
 
 		};

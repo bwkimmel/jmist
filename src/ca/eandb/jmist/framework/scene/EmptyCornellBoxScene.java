@@ -10,7 +10,6 @@ import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.function.PiecewiseLinearFunction1;
-import ca.eandb.jmist.framework.function.ScaledFunction1;
 import ca.eandb.jmist.framework.geometry.primitive.PolyhedronGeometry;
 import ca.eandb.jmist.framework.lens.PinholeLens;
 import ca.eandb.jmist.framework.lens.TransformableLens;
@@ -136,10 +135,10 @@ public final class EmptyCornellBoxScene extends AbstractScene {
 	});
 
 	/** The emission spectrum for the light box. */
-	private static final Function1 emission = new ScaledFunction1(1e7, new PiecewiseLinearFunction1(
+	private static final Function1 emission = new PiecewiseLinearFunction1(
 			new double[]{ 400.0e-9, 500.0e-9, 600.0e-9, 700.0e-9 },
 			new double[]{   0.0   ,   8.0   ,  15.6   ,  18.4    }
-	));
+	);
 
 	/** The <code>Lens</code> to use to view the box. */
 	private static final Lens lens = createLens();

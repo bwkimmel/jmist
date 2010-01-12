@@ -48,6 +48,29 @@ public final class RandomAdapter implements Random {
 	public RandomAdapter(java.util.Random rnd) {
 		this.rnd = rnd;
 	}
+	
+	/**
+	 * Creates a new <code>RandomAdapter</code>.
+	 */
+	public RandomAdapter() {
+		this(new java.util.Random());
+	}
+	
+	/**
+	 * Creates a new <code>RandomAdapter</code>.
+	 * @param seed The seed used by the random number generator.
+	 */
+	public RandomAdapter(long seed) {
+		this(new java.util.Random(seed));
+	}
+	
+	/**
+	 * Sets the seed used by the inner <code>java.util.Random</code>.
+	 * @param seed The seed used by the random number generator.
+	 */
+	public void setSeed(long seed) {
+		rnd.setSeed(seed);
+	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Random#createCompatibleRandom()

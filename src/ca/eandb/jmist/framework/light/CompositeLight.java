@@ -1,4 +1,4 @@
-/**
+/**s
  *
  */
 package ca.eandb.jmist.framework.light;
@@ -14,6 +14,9 @@ import ca.eandb.jmist.framework.Light;
  *
  */
 public abstract class CompositeLight extends AbstractLight {
+
+	/** Serialization version ID. */
+	private static final long serialVersionUID = -741001548686087987L;
 
 	/**
 	 * Initializes this <code>CompositeLight</code> with no light sources.

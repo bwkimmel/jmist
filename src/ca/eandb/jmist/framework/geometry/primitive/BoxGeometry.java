@@ -5,10 +5,10 @@ package ca.eandb.jmist.framework.geometry.primitive;
 
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.geometry.PrimitiveGeometry;
 import ca.eandb.jmist.framework.random.RandomUtil;
+import ca.eandb.jmist.framework.random.SeedReference;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box2;
 import ca.eandb.jmist.math.Box3;
@@ -24,9 +24,7 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class BoxGeometry extends PrimitiveGeometry {
 
-	/**
-	 * Serialization version ID.
-	 */
+	/** Serialization version ID. */
 	private static final long serialVersionUID = 2733253411334817090L;
 
 	/**
@@ -243,36 +241,36 @@ public final class BoxGeometry extends PrimitiveGeometry {
 	 * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext)
 	 */
 	@Override
-	public void generateRandomSurfacePoint(ShadingContext context) {
-		Random random = context.getRandom();
-
+	public void generateRandomSurfacePoint(ShadingContext context, double ru, double rv, double rj) {
 		double xyArea = box.lengthX() * box.lengthY();
 		double xzArea = box.lengthX() * box.lengthZ();
 		double yzArea = box.lengthY() * box.lengthZ();
 
+		SeedReference ref = new SeedReference(rj);
 		double total = xyArea + xzArea + yzArea;
-		double rnd = random.next() * total;
-		boolean dir = RandomUtil.coin(random);
+		boolean dir = RandomUtil.coin(ref);
 		int id;
 		Point3 p;
+		
+		ref.seed *= total;
 
-		if (rnd < xyArea) {
+		if (ref.seed < xyArea) {
 			id = dir ? BOX_SURFACE_MAX_Z : BOX_SURFACE_MIN_Z;
 			p = new Point3(
-					RandomUtil.uniform(box.spanX(), random),
-					RandomUtil.uniform(box.spanY(), random),
+					RandomUtil.uniform(box.spanX(), ru),
+					RandomUtil.uniform(box.spanY(), rv),
 					dir ? box.maximumZ() : box.minimumZ());
-		} else if (rnd < xyArea + xzArea) {
+		} else if (ref.seed < xyArea + xzArea) {
 			id = dir ? BOX_SURFACE_MAX_Y : BOX_SURFACE_MIN_Y;
-			p = new Point3(RandomUtil.uniform(box.spanX(), random),
+			p = new Point3(RandomUtil.uniform(box.spanX(), ru),
 					dir ? box.maximumY() : box.minimumY(),
-					RandomUtil.uniform(box.spanZ(), random));
+					RandomUtil.uniform(box.spanZ(), rv));
 
 		} else {
 			id = dir ? BOX_SURFACE_MAX_X : BOX_SURFACE_MIN_X;
 			p = new Point3(dir ? box.maximumX() : box.minimumX(),
-					RandomUtil.uniform(box.spanY(), random),
-					RandomUtil.uniform(box.spanZ(), random));
+					RandomUtil.uniform(box.spanY(), ru),
+					RandomUtil.uniform(box.spanZ(), rv));
 		}
 
 		Intersection x = newSurfacePoint(p, id);

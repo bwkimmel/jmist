@@ -5,12 +5,11 @@ package ca.eandb.jmist.framework;
 
 import java.io.Serializable;
 
+import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.framework.path.EyeNode;
+import ca.eandb.jmist.framework.path.PathInfo;
 import ca.eandb.jmist.math.Box2;
-import ca.eandb.jmist.math.HPoint3;
 import ca.eandb.jmist.math.Point2;
-import ca.eandb.jmist.math.Point3;
-import ca.eandb.jmist.math.Ray3;
-import ca.eandb.jmist.math.Vector3;
 
 /**
  * Generates the ray to cast corresponding to given points on the
@@ -29,80 +28,88 @@ public interface Lens extends Serializable {
 	 * @return The ray to cast for ray shading.
 	 * @see {@link Box2#UNIT}
 	 */
-	Ray3 rayAt(Point2 p);
+	ScatteredRay rayAt(Point2 p, WavelengthPacket lambda, Random rnd);
 
-	/**
-	 * Gets the area of aperture of this <code>Lens</code> in square meters.
-	 * @return The area of the aperture of this <code>Lens</code> (in m^2).
-	 */
-	double areaOfAperture();
+	EyeNode sample(Point2 p, PathInfo pathInfo, double ru, double rv, double rj);
 
-	/**
-	 * Projects a point in three-dimensional space onto the image plane.
-	 * @param p The <code>Point3</code> to project onto the image plane.
-	 * @return The <code>Projection</code> representing the projection of
-	 * 		<code>p</code> onto the image plane, or <code>null</code> if
-	 * 		<code>p</code> does not project onto the image plane.
-	 */
-	Projection project(Point3 p);
+	public static final Lens NULL = new Lens() {
+		private static final long serialVersionUID = 2076070894932926479L;
+		public ScatteredRay rayAt(Point2 p, WavelengthPacket lambda, Random rnd) {
+			return null;
+		}
+		public EyeNode sample(Point2 p, PathInfo pathInfo, double ru,
+				double rv, double rj) {
+			return null;
+		}
+	};
 
-	/**
-	 * Projects a point at infinite distance in three-dimensional space onto
-	 * the image plane.
-	 * @param v The <code>Vector3</code> indicating the direction of the point
-	 * 		at an infinite distance.  This is assumed to be a unit vector.  If
-	 * 		it is not, the results are undefined.
-	 * @return The <code>Projection</code> representing the projection of a
-	 * 		point at an infinite distance in the direction of <code>v</code>
-	 * 		onto the image plane, or <code>null</code> if <code>v</code> does
-	 * 		not project onto the image plane.
-	 */
-	Projection project(Vector3 v);
-
-	/**
-	 * Projects a homogenized point in three-dimensional space onto the image
-	 * plane.  This is equivalent to {@link #project(Point3)} or to
-	 * {@link #project(Vector3)} depending on whether the homogenized point is
-	 * a point or a vector.
-	 * @param p The <code>HPoint3</code> representing the homogenized point to
-	 * 		project.
-	 * @return The <code>Projection</code> representing the projection of
-	 * 		<code>p</code> onto the image plane, or <code>null</code> if
-	 * 		<code>p</code> does not project onto the image plane.
-	 */
-	Projection project(HPoint3 p);
-
-	/**
-	 * A representation of the projection of a point in three dimensional space
-	 * onto the image plane represented by a <code>Lens</code>.
-	 * @author Brad Kimmel
-	 */
-	public static interface Projection {
-
-		/**
-		 * Returns the <code>Point2</code> representing the normalized point on
-		 * the image plane.
-		 * @return The <code>Point2</code> representing the normalized point on
-		 * 		the image plane.
-		 */
-		Point2 pointOnImagePlane();
-
-		/**
-		 * Returns the <code>Point3</code> representing the physical point on
-		 * the <code>Lens</code>.
-		 * @return The <code>Point3</code> representing the physical point on
-		 * 		the <code>Lens</code>.
-		 */
-		Point3 pointOnLens();
-
-		/**
-		 * Returns the importance associated with this projection.  This is the
-		 * value that should be used to attenuate contribution rays during
-		 * light tracing.
-		 * @return The importance associated with this projection.
-		 */
-		double importance();
-
-	}
+//
+//	/**
+//	 * Projects a point in three-dimensional space onto the image plane.
+//	 * @param p The <code>Point3</code> to project onto the image plane.
+//	 * @return The <code>Projection</code> representing the projection of
+//	 * 		<code>p</code> onto the image plane, or <code>null</code> if
+//	 * 		<code>p</code> does not project onto the image plane.
+//	 */
+//	Projection project(Point3 p);
+//
+//	/**
+//	 * Projects a point at infinite distance in three-dimensional space onto
+//	 * the image plane.
+//	 * @param v The <code>Vector3</code> indicating the direction of the point
+//	 * 		at an infinite distance.  This is assumed to be a unit vector.  If
+//	 * 		it is not, the results are undefined.
+//	 * @return The <code>Projection</code> representing the projection of a
+//	 * 		point at an infinite distance in the direction of <code>v</code>
+//	 * 		onto the image plane, or <code>null</code> if <code>v</code> does
+//	 * 		not project onto the image plane.
+//	 */
+//	Projection project(Vector3 v);
+//
+//	/**
+//	 * Projects a homogenized point in three-dimensional space onto the image
+//	 * plane.  This is equivalent to {@link #project(Point3)} or to
+//	 * {@link #project(Vector3)} depending on whether the homogenized point is
+//	 * a point or a vector.
+//	 * @param p The <code>HPoint3</code> representing the homogenized point to
+//	 * 		project.
+//	 * @return The <code>Projection</code> representing the projection of
+//	 * 		<code>p</code> onto the image plane, or <code>null</code> if
+//	 * 		<code>p</code> does not project onto the image plane.
+//	 */
+//	Projection project(HPoint3 p);
+//
+//	/**
+//	 * A representation of the projection of a point in three dimensional space
+//	 * onto the image plane represented by a <code>Lens</code>.
+//	 * @author Brad Kimmel
+//	 */
+//	public static interface Projection {
+//
+//		/**
+//		 * Returns the <code>Point2</code> representing the normalized point on
+//		 * the image plane.
+//		 * @return The <code>Point2</code> representing the normalized point on
+//		 * 		the image plane.
+//		 */
+//		Point2 pointOnImagePlane();
+//
+//		/**
+//		 * Returns the <code>Point3</code> representing the physical point on
+//		 * the <code>Lens</code>.
+//		 * @return The <code>Point3</code> representing the physical point on
+//		 * 		the <code>Lens</code>.
+//		 */
+//		Point3 pointOnLens();
+//
+//		/**
+//		 * Returns the importance associated with this projection.  This is the
+//		 * value that should be used to attenuate contribution rays during
+//		 * light tracing.
+//		 * @return The importance associated with this projection.
+//		 */
+//		double importance();
+//
+//	}
 
 }

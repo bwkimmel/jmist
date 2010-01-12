@@ -403,6 +403,23 @@ public final class ColorUtil {
 	public static Color add(Color a, Color b) {
 		return a != null ? (b != null ? a.plus(b) : a) : b;
 	}
+	
+	/**
+	 * Subtracts two <code>Color</code>s, one or both of which may be
+	 * <code>null</code>.
+	 * @param a The <code>Color</code> to subtract from.
+	 * @param b The <code>Color</code> to subtract.
+	 * @return If <code>a != null</code> and <code>b != null</code>, then the
+	 * 		difference <code>a.minus(b)</code> is returned.  If <code>b ==
+	 * 		null</code>, then <code>a</code> is returned.  If <code>a ==
+	 * 		null</code>, then <code>b.negative()</code> is returned.  If both
+	 * 		are null, then <code>null</code> is returned.
+	 * @see Color#minus(Color)
+	 * @see Color#negative() 
+	 */
+	public static Color sub(Color a, Color b) {
+		return b != null ? (a != null ? a.minus(b) : b.negative()) : a;
+	}
 
 	/**
 	 * Multiplies two <code>Color</code>, one or both of which may be
@@ -441,6 +458,18 @@ public final class ColorUtil {
 	 */
 	public static Color div(Color a, double c) {
 		return a != null ? a.divide(c) : null;
+	}
+
+	public static Color getWhite(WavelengthPacket lambda) {
+		return lambda.getColorModel().getWhite(lambda);
+	}
+
+	public static Color getBlack(WavelengthPacket lambda) {
+		return lambda.getColorModel().getBlack(lambda);
+	}
+
+	public static Color getGray(double value, WavelengthPacket lambda) {
+		return lambda.getColorModel().getGray(value, lambda);
 	}
 
 	/** Instances of <code>ColorUtil</code>	cannot be created. */

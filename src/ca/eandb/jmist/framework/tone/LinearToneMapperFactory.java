@@ -36,7 +36,7 @@ public final class LinearToneMapperFactory implements ToneMapperFactory {
 		int n = 0;
 		for (CIEXYZ sample : samples) {
 			if (sample != null) {
-				double Y = sample.Y();
+				double Y = Math.abs(sample.Y());
 				if (Y > Ymax) {
 					Ymax = Y;
 				}

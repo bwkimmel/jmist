@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import ca.eandb.jmist.framework.Emitter;
 import ca.eandb.jmist.framework.Illuminable;
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionDecorator;
@@ -24,9 +23,12 @@ import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.light.AbstractLight;
 import ca.eandb.jmist.framework.light.PointLightSample;
-import ca.eandb.jmist.framework.light.ScaledEmitter;
-import ca.eandb.jmist.framework.light.SurfaceEmitter;
+import ca.eandb.jmist.framework.path.LightNode;
+import ca.eandb.jmist.framework.path.PathInfo;
+import ca.eandb.jmist.framework.path.ScaledLightNode;
+import ca.eandb.jmist.framework.path.SurfaceLightNode;
 import ca.eandb.jmist.framework.random.CategoricalRandom;
+import ca.eandb.jmist.framework.random.SeedReference;
 import ca.eandb.jmist.framework.shader.MinimalShadingContext;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
@@ -156,30 +158,30 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 
 	@Override
 	public double generateImportanceSampledSurfacePoint(int index,
-			SurfacePoint x, ShadingContext context) {
+			SurfacePoint x, ShadingContext context, double ru, double rv, double rj) {
 		double weight = super.generateImportanceSampledSurfacePoint(index, x,
-				context);
+				context, ru, rv, rj);
 		applyMaterial(context);
 		return weight;
 	}
 
 	@Override
 	public double generateImportanceSampledSurfacePoint(SurfacePoint x,
-			ShadingContext context) {
-		double weight = super.generateImportanceSampledSurfacePoint(x, context);
+			ShadingContext context, double ru, double rv, double rj) {
+		double weight = super.generateImportanceSampledSurfacePoint(x, context, ru, rv, rj);
 		applyMaterial(context);
 		return weight;
 	}
 
 	@Override
-	public void generateRandomSurfacePoint(int index, ShadingContext context) {
-		super.generateRandomSurfacePoint(index, context);
+	public void generateRandomSurfacePoint(int index, ShadingContext context, double ru, double rv, double rj) {
+		super.generateRandomSurfacePoint(index, context, ru, rv, rj);
 		applyMaterial(context);
 	}
 
 	@Override
-	public void generateRandomSurfacePoint(ShadingContext context) {
-		super.generateRandomSurfacePoint(context);
+	public void generateRandomSurfacePoint(ShadingContext context, double ru, double rv, double rj) {
+		super.generateRandomSurfacePoint(context, ru, rv, rj);
 		applyMaterial(context);
 	}
 
@@ -216,6 +218,7 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 		}
 
 		final double scale = totalSurfaceArea / emissive.size();
+		final double totalWeight = totalSurfaceArea;
 		final CategoricalRandom rnd = new CategoricalRandom(weight);
 
 		return new AbstractLight() {
@@ -229,7 +232,7 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 				int index = rnd.next(rng);
 				int primitive = primIndex[index];
 
-				generateImportanceSampledSurfacePoint(primitive, x, context);
+				generateImportanceSampledSurfacePoint(primitive, x, context, rng.next(), rng.next(), rng.next());
 				context.getModifier().modify(context);
 
 				Point3 p = context.getPosition();
@@ -237,7 +240,7 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 				Vector3 v = x.getPosition().unitVectorFrom(p);
 				Vector3 n = context.getShadingNormal();
 				double d2 = x.getPosition().squaredDistanceTo(p);
-				double atten = Math.max(n.dot(v), 0.0) * scale
+				double atten = Math.max(n.dot(v), 0.0) * totalWeight
 						/ (4.0 * Math.PI * d2);
 				Color ri = mat.emission(context, v, lambda).times(atten);
 				LightSample sample = new PointLightSample(x, p, ri);
@@ -245,16 +248,22 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 				target.addLightSample(sample);
 			}
 
-			public Emitter sample(Random rng) {
-				ShadingContext context = new MinimalShadingContext(rng);
+			public LightNode sample(PathInfo pathInfo, double ru, double rv, double rj) {
+				ShadingContext context = new MinimalShadingContext(null);
 
-				int index = rnd.next(rng);
+				SeedReference ref = new SeedReference(rj);
+				int index = rnd.next(ref);
 				int primitive = primIndex[index];
 
-				generateRandomSurfacePoint(primitive, context);
+				generateRandomSurfacePoint(primitive, context, ru, rv, ref.seed);
 				context.getModifier().modify(context);
 
-				return new ScaledEmitter(scale, new SurfaceEmitter(context));
+				return ScaledLightNode.create(1.0 / totalWeight,
+						new SurfaceLightNode(pathInfo, context, ru, rv, ref.seed), rj);
+			}
+
+			public double getSamplePDF(SurfacePoint x, PathInfo pathInfo) {
+				return 1.0 / totalWeight;
 			}
 
 		};

@@ -4,15 +4,14 @@
 package ca.eandb.jmist.framework.material;
 
 import ca.eandb.jmist.framework.Medium;
-import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ScatteredRay;
-import ca.eandb.jmist.framework.ScatteredRayRecorder;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.ColorUtil;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.math.Complex;
 import ca.eandb.jmist.math.Optics;
 import ca.eandb.jmist.math.Point3;
@@ -72,10 +71,10 @@ public class DielectricMaterial extends AbstractMaterial {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random, ca.eandb.jmist.framework.ScatteredRayRecorder)
+	 * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, boolean, ca.eandb.jmist.framework.color.WavelengthPacket, double, double, double)
 	 */
 	@Override
-	public void scatter(SurfacePoint x, Vector3 v, WavelengthPacket lambda, Random rng, ScatteredRayRecorder recorder) {
+	public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint, WavelengthPacket lambda, double ru, double rv, double rj) {
 
 		ColorModel	cm			= lambda.getColorModel();
 		Point3		p			= x.getPosition();
@@ -87,27 +86,28 @@ public class DielectricMaterial extends AbstractMaterial {
 		boolean		fromSide	= x.getNormal().dot(v) < 0.0;
 		Color		R			= MaterialUtil.reflectance(v, n1, k1, n2, null, normal);
 		Color		T			= cm.getWhite(lambda).minus(R);
+		double		r			= ColorUtil.getMeanChannelValue(R);
 
-		{
+		if (RandomUtil.bernoulli(r, rj)) {
 			Vector3		out		= Optics.reflect(v, normal);
 			boolean		toSide	= x.getNormal().dot(out) >= 0.0;
 
 			if (fromSide == toSide) {
-				recorder.add(ScatteredRay.specular(new Ray3(p, out), R));
+				return ScatteredRay.specular(new Ray3(p, out), R.divide(r), r);
 			}
-		}
+		} else {
 
-		if (disperse) {
-			for (int i = 0, channels = cm.getNumChannels(); i < channels; i++) {
-				Complex		eta1	= new Complex(n1.getValue(i), k1.getValue(i));
-				Complex		eta2	= new Complex(n2.getValue(i));
-				Vector3		out		= Optics.refract(v, eta1, eta2, normal);
-				boolean		toSide	= x.getNormal().dot(out) >= 0.0;
-
-				if (fromSide != toSide) {
-					recorder.add(ScatteredRay.transmitSpecular(new Ray3(p, out), T.disperse(i)));
-				}
-			}
+		if (false && disperse) {
+//			for (int i = 0, channels = cm.getNumChannels(); i < channels; i++) {
+//				Complex		eta1	= new Complex(n1.getValue(i), k1.getValue(i));
+//				Complex		eta2	= new Complex(n2.getValue(i));
+//				Vector3		out		= Optics.refract(v, eta1, eta2, normal);
+//				boolean		toSide	= x.getNormal().dot(out) >= 0.0;
+//
+//				if (fromSide != toSide) {
+//					recorder.add(ScatteredRay.transmitSpecular(new Ray3(p, out), T.disperse(i), 1.0));
+//				}
+//			}
 		} else { // !disperse
 			double		n1avg	= ColorUtil.getMeanChannelValue(n1);
 			double		k1avg	= ColorUtil.getMeanChannelValue(k1);
@@ -118,9 +118,12 @@ public class DielectricMaterial extends AbstractMaterial {
 			boolean		toSide	= x.getNormal().dot(out) >= 0.0;
 
 			if (fromSide != toSide) {
-				recorder.add(ScatteredRay.transmitSpecular(new Ray3(p, out), T));
+				return ScatteredRay.transmitSpecular(new Ray3(p, out), T.divide(1 - r), 1 - r);
 			}
 		}
+		}
+
+		return null;
 
 	}
 

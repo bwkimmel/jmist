@@ -27,6 +27,7 @@ package ca.eandb.jmist.framework;
 
 import java.io.Serializable;
 
+
 /**
  * @author brad
  *
@@ -38,5 +39,7 @@ public interface Scene extends Bounded3, Serializable {
 	SceneElement getRoot();
 
 	Lens getLens();
+	
+	Animator getAnimator();
 
 }

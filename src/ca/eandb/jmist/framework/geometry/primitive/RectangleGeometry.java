@@ -6,7 +6,6 @@ package ca.eandb.jmist.framework.geometry.primitive;
 import ca.eandb.jmist.framework.BoundingBoxBuilder3;
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
-import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.geometry.PrimitiveGeometry;
 import ca.eandb.jmist.framework.random.RandomUtil;
@@ -26,9 +25,7 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class RectangleGeometry extends PrimitiveGeometry {
 
-	/**
-	 * Serialization version ID.
-	 */
+	/** Serialization version ID. */
 	private static final long serialVersionUID = -7544786348196730015L;
 
 	/**
@@ -190,13 +187,12 @@ public final class RectangleGeometry extends PrimitiveGeometry {
 	 *
 	 */
 	@Override
-	public void generateRandomSurfacePoint(ShadingContext context) {
-		Random random = context.getRandom();
+	public void generateRandomSurfacePoint(ShadingContext context, double xu, double xv, double xj) {
 		Point3 p = center
-				.plus(basis.u().times(RandomUtil.uniform(-ru, ru, random)))
-				.plus(basis.v().times(RandomUtil.uniform(-rv, rv, random)));
+				.plus(basis.u().times(RandomUtil.uniform(-ru, ru, xu)))
+				.plus(basis.v().times(RandomUtil.uniform(-rv, rv, xv)));
 
-		int id = (twoSided && RandomUtil.coin(random))
+		int id = (twoSided && RandomUtil.coin(xj))
 				? RECTANGLE_SURFACE_BOTTOM
 				: RECTANGLE_SURFACE_TOP;
 

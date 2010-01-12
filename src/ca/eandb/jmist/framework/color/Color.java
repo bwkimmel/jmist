@@ -36,6 +36,8 @@ public interface Color extends Serializable {
 	Color invert();
 
 	Color negative();
+	
+	Color abs();
 
 	Color pow(Color other);
 

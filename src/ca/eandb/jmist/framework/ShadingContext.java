@@ -58,7 +58,7 @@ public interface ShadingContext extends SurfacePoint, VisibilityFunction3 {
 
 	ColorModel getColorModel();
 
-	ScatteredRays getScatteredRays();
+	ScatteredRay getScatteredRay();
 
 	Color castRay(ScatteredRay ray);
 
@@ -71,8 +71,6 @@ public interface ShadingContext extends SurfacePoint, VisibilityFunction3 {
 	Modifier getModifier();
 
 	Color getAmbientLight();
-
-	Random getRandom();
 
 	void setPosition(Point3 position);
 

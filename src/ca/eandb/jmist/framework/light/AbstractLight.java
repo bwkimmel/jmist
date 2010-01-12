@@ -26,10 +26,11 @@
 package ca.eandb.jmist.framework.light;
 
 import ca.eandb.jmist.framework.Light;
-import ca.eandb.jmist.framework.Photon;
 import ca.eandb.jmist.framework.Random;
+import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
-import ca.eandb.jmist.math.Sphere;
+import ca.eandb.jmist.framework.path.LightNode;
+import ca.eandb.jmist.framework.path.PathInfo;
 
 /**
  * @author brad
@@ -37,11 +38,16 @@ import ca.eandb.jmist.math.Sphere;
  */
 public abstract class AbstractLight implements Light {
 
+	/** Serialization version ID. */
+	private static final long serialVersionUID = 4969272856518133591L;
+
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Light#emit(ca.eandb.jmist.math.Sphere, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random)
+	 * @see ca.eandb.jmist.framework.Light#emit(ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random)
 	 */
-	public Photon emit(Sphere target, WavelengthPacket lambda, Random rng) {
-		return sample(rng).emit(target, lambda, rng);
+	public final ScatteredRay emit(WavelengthPacket lambda, Random rnd) {
+		PathInfo path = new PathInfo(lambda);
+		LightNode node = sample(path, rnd.next(), rnd.next(), rnd.next());
+		return node.sample(rnd.next(), rnd.next(), rnd.next());
 	}
 
 }

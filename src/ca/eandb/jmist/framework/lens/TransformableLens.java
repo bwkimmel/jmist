@@ -6,11 +6,12 @@ package ca.eandb.jmist.framework.lens;
 import ca.eandb.jmist.framework.AffineTransformable3;
 import ca.eandb.jmist.framework.InvertibleAffineTransformation3;
 import ca.eandb.jmist.framework.Lens;
+import ca.eandb.jmist.framework.path.EyeNode;
+import ca.eandb.jmist.framework.path.PathInfo;
+import ca.eandb.jmist.framework.path.TransformedEyeNode;
 import ca.eandb.jmist.math.AffineMatrix3;
 import ca.eandb.jmist.math.LinearMatrix3;
 import ca.eandb.jmist.math.Point2;
-import ca.eandb.jmist.math.Point3;
-import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
 
 /**
@@ -45,35 +46,13 @@ public final class TransformableLens extends AbstractLens implements
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Lens#rayAt(ca.eandb.jmist.toolkit.Point2)
+	 * @see ca.eandb.jmist.framework.Lens#sample(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.path.PathInfo, ca.eandb.jmist.framework.Random)
 	 */
-	public final Ray3 rayAt(Point2 p) {
-		Ray3 ray = inner.rayAt(p);
-		return ray != null ? this.view.apply(ray) : null;
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Lens#areaOfAperture()
-	 */
-	public final double areaOfAperture() {
-		// The transformation may not change the size of the aperture.
-		return inner.areaOfAperture();
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.Point3)
-	 */
-	public final Projection project(Point3 p) {
-		final Projection viewProj = inner.project(view.applyInverse(p));
-		return viewProj != null ? new TransformedProjection(viewProj) : null;
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.lens.AbstractLens#project(ca.eandb.jmist.math.Vector3)
-	 */
-	public final Projection project(Vector3 v) {
-		final Projection viewProj = inner.project(view.applyInverse(v));
-		return viewProj != null ? new TransformedProjection(viewProj) : null;
+	public EyeNode sample(Point2 p, PathInfo pathInfo, double ru, double rv, double rj) {
+		EyeNode eye = inner.sample(p, pathInfo, ru, rv, rj);
+		AffineMatrix3 ltow = view.apply(AffineMatrix3.IDENTITY);
+		AffineMatrix3 wtol = view.applyInverse(AffineMatrix3.IDENTITY);
+		return new TransformedEyeNode(eye, ltow, wtol);
 	}
 
 	/* (non-Javadoc)
@@ -165,47 +144,6 @@ public final class TransformableLens extends AbstractLens implements
 	 */
 	public void translate(Vector3 v) {
 		view.translate(v);
-	}
-
-	/**
-	 * A <code>Projection</code> decorator that transforms its results to
-	 * world coordinates.
-	 * @author Brad Kimmel
-	 */
-	private final class TransformedProjection implements Projection {
-
-		/** The <code>Projection</code> being decorated. */
-		private final Projection inner;
-
-		/**
-		 * Creates a new <code>TransformedProjection</code>.
-		 * @param inner The <code>Projection</code> to be transformed.
-		 */
-		private TransformedProjection(Projection inner) {
-			this.inner = inner;
-		}
-
-		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.Lens.Projection#pointOnImagePlane()
-		 */
-		public Point2 pointOnImagePlane() {
-			return inner.pointOnImagePlane();
-		}
-
-		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.Lens.Projection#pointOnLens()
-		 */
-		public Point3 pointOnLens() {
-			return view.apply(inner.pointOnLens());
-		}
-
-		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.Lens.Projection#importance()
-		 */
-		public double importance() {
-			return inner.importance();
-		}
-
 	}
 
 }
