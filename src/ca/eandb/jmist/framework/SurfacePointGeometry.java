@@ -22,5 +22,32 @@ public interface SurfacePointGeometry {
 	Point2 getUV();
 
 	int getPrimitiveIndex();
+	
+	public static final SurfacePointGeometry STANDARD = new SurfacePointGeometry() {
+		public Basis3 getBasis() {
+			return Basis3.STANDARD;
+		}
+		public Vector3 getNormal() {
+			return Vector3.K;
+		}
+		public Point3 getPosition() {
+			return Point3.ORIGIN;
+		}
+		public int getPrimitiveIndex() {
+			return 0;
+		}
+		public Basis3 getShadingBasis() {
+			return Basis3.STANDARD;
+		}
+		public Vector3 getShadingNormal() {
+			return Vector3.K;
+		}
+		public Vector3 getTangent() {
+			return Vector3.I;
+		}
+		public Point2 getUV() {
+			return Point2.ORIGIN;
+		}
+	};
 
 }
