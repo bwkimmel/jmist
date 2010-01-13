@@ -3,43 +3,35 @@
  */
 package ca.eandb.jmist.framework.scatter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.SurfacePointGeometry;
-import ca.eandb.jmist.framework.ScatteredRay.Type;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.framework.random.RandomUtil;
+import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
 
 /**
- * @author brad
+ * @author bwkimmel
  *
  */
-public final class SequentialSurfaceScatterer implements SurfaceScatterer {
+public final class DiffusingSurfaceScatterer implements SurfaceScatterer {
 
-	private final List<SurfaceScatterer> inner = new ArrayList<SurfaceScatterer>();
-	
-	public SequentialSurfaceScatterer addScatterer(SurfaceScatterer e) {
-		inner.add(e);
-		return this;
-	}
-	
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.scatter.SurfaceScatterer#scatter(ca.eandb.jmist.framework.SurfacePointGeometry, ca.eandb.jmist.math.Vector3, boolean, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random)
 	 */
 	public Vector3 scatter(SurfacePointGeometry x, Vector3 v,
 			boolean adjoint, double lambda, Random rnd) {
 		
-		for (SurfaceScatterer e : inner) {
-			v = e.scatter(x, v, adjoint, lambda, rnd);
-			if (v == null) break;
+		Vector3 N = x.getNormal();
+		
+		if (v.dot(N) < 0.0) {
+			N = N.opposite();
 		}
-
-		return v;
+		
+		return RandomUtil.diffuse(rnd).toCartesian(Basis3.fromW(N));
 	}
 
 }

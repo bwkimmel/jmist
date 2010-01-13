@@ -17,7 +17,23 @@ import ca.eandb.jmist.math.Vector3;
  */
 public interface SurfaceScatterer extends Serializable {
 	
-	ScatteredRay scatter(SurfacePointGeometry x, Vector3 v, boolean adjoint,
-			WavelengthPacket lambda, Random rnd);
+	Vector3 scatter(SurfacePointGeometry x, Vector3 v, boolean adjoint,
+			double wavelength, Random rnd);
+	
+	public static final SurfaceScatterer ABSORB = new SurfaceScatterer() {
+		private static final long serialVersionUID = 8194517746654987095L;
+		public Vector3 scatter(SurfacePointGeometry x, Vector3 v,
+				boolean adjoint, double wavelength, Random rnd) {
+			return null;
+		}
+	};
+	
+	public static final SurfaceScatterer TRANSMIT = new SurfaceScatterer() {
+		private static final long serialVersionUID = -927167595504776971L;
+		public Vector3 scatter(SurfacePointGeometry x, Vector3 v,
+				boolean adjoint, double wavelength, Random rnd) {
+			return v;
+		}
+	};
 	
 }
