@@ -672,7 +672,7 @@ public final class BioSpecSurfaceScatterer implements SurfaceScatterer {
 								pctMelanosomesInEpidermis * concentrationPheomelanin,
 								OMLC_PHEOMELANIN_EXT_MGML))
 							.addChild(new ScaledFunction1(
-								(1.0 - pctMelanosomesInEpidermis) * concentrationBetaCaroteneInEpidermis,
+								(1.0 - pctMelanosomesInEpidermis) * concentrationBetaCaroteneInEpidermis / 537.0,
 								OMLC_PRAHL_BETACAROTENE)),
 						thicknessEpidermis)))
 			.addLayerToBottom( // epidermis / papillary dermis interface
