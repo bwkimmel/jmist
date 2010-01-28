@@ -54,13 +54,14 @@ public final class TrowbridgeReitzSurfaceScatterer implements SurfaceScatterer {
 			double sigma2 = oblateness * oblateness;
 			double sigma4 = sigma2 * sigma2;
 			Vector3 out;
-			do {
-				double theta = Math.acos(Math.sqrt(((sigma2 / Math.sqrt(sigma4 + (1.0 - sigma4) * rnd.next())) - 1.0) / (sigma2 - 1.0)));
-				double phi = 2.0 * Math.PI * rnd.next();
-				SphericalCoordinates sc = new SphericalCoordinates(theta, phi);
-				Vector3 microN = sc.toCartesian(basis);
-				out = Optics.reflect(v, microN);
-			} while (out.dot(N) <= 0.0);
+			double theta = Math.acos(Math.sqrt(((sigma2 / Math.sqrt(sigma4 + (1.0 - sigma4) * rnd.next())) - 1.0) / (sigma2 - 1.0)));
+			double phi = 2.0 * Math.PI * rnd.next();
+			SphericalCoordinates sc = new SphericalCoordinates(theta, phi);
+			Vector3 microN = sc.toCartesian(basis);
+			out = Optics.reflect(v, microN);
+			if (out.dot(N) <= 0.0) {
+				return null;
+			}
 			return out;
 		} else {
 			return Optics.refract(v, n1, n2, N);
