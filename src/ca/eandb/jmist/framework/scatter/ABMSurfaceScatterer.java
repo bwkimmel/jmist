@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package ca.eandb.jmist.framework.scatter;
 
@@ -15,6 +15,7 @@ import ca.eandb.jmist.framework.SurfacePointGeometry;
 import ca.eandb.jmist.framework.ScatteredRay.Type;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.framework.function.AXpBFunction1;
 import ca.eandb.jmist.framework.function.PiecewiseLinearFunction1;
 import ca.eandb.jmist.framework.function.ScaledFunction1;
 import ca.eandb.jmist.framework.function.SumFunction1;
@@ -28,9 +29,9 @@ import ca.eandb.jmist.util.ArrayUtil;
  *
  */
 public final class ABMSurfaceScatterer implements SurfaceScatterer {
-	
+
 	private static final double[] WAVELENGTHS = ArrayUtil.range(400e-9, 700e-9, 61); // m
-	
+
 	private static final double[] SAC_CHLOROPHYLL_AB_VALUES = { // cm^2/g
 		73400, 67700, 62300, 58000, 55600, 53400, 52700, 52200,
 		51000, 49400, 46700, 44400, 43500, 43500, 43000, 42600,
@@ -41,7 +42,7 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 		25300, 27400, 29400, 30600, 32700, 36100, 38900, 40500,
 		40300, 36900, 28200, 19100, 12600
 	};
-	
+
 	private static final double[] SAC_CAROTENOIDS_VALUES = { // cm^2/g
 		 6535.506923,  7207.118815,  8017.169001,  8559.258518,
 		 9328.970969,  9942.106999, 10669.577847, 11562.119164,
@@ -60,7 +61,7 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 		  870.516749,   881.011273,   897.284130,   913.556987,
 		  894.049970
 	};
-	
+
 	private static final double[] SAC_WATER_VALUES = { // cm^-1
 		0.000066, 0.000053, 0.000047, 0.000044,
 		0.000045, 0.000048, 0.000049, 0.000053,
@@ -79,7 +80,7 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 		0.004650, 0.004860, 0.005160, 0.005590,
 		0.006240
 	};
-	
+
 	public static final double[] IOR_WATER_VALUES = {
 		1.346, 1.345, 1.344, 1.343, 1.342, 1.341, 1.340, 1.339,
 		1.338, 1.338, 1.337, 1.336, 1.336, 1.335, 1.335, 1.334,
@@ -88,9 +89,9 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 		1.333, 1.333, 1.333, 1.333, 1.333, 1.333, 1.333, 1.333,
 		1.333, 1.333, 1.333, 1.333, 1.333, 1.332, 1.332, 1.332,
 		1.332, 1.332, 1.332, 1.332, 1.332, 1.332, 1.332, 1.332,
-		1.332, 1.332, 1.332, 1.332, 1.332	
+		1.332, 1.332, 1.332, 1.332, 1.332
 	};
-	
+
 	public static final double[] IOR_CUTICLE_VALUES = {
 		1.539712, 1.539678, 1.537372, 1.536209,
 		1.534937, 1.533561, 1.532009, 1.530511,
@@ -109,44 +110,52 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 		1.494879, 1.494510, 1.494139, 1.493768,
 		1.493398
 	};
-	
+
 	static {
-		
+
 		// convert everything to base SI units
 		for (int i = 0; i < WAVELENGTHS.length; i++) {
 
 			// convert cm^2/g to m^2/kg  (divide by 10)
 			SAC_CHLOROPHYLL_AB_VALUES[i] /= 10.0;
 			SAC_CAROTENOIDS_VALUES[i] /= 10.0;
-			
+
 			// convert cm^-1 to m^-1  (multiply by 100)
 			SAC_WATER_VALUES[i] *= 100.0;
 
 		}
-		
+
 	}
-	
+
 	private static final Function1 SAC_CHLOROPHYLL_AB = new PiecewiseLinearFunction1(
 			WAVELENGTHS, SAC_CHLOROPHYLL_AB_VALUES);
-	
+
 	private static final Function1 SAC_CAROTENOIDS = new PiecewiseLinearFunction1(
 			WAVELENGTHS, SAC_CAROTENOIDS_VALUES);
-	
+
 	private static final Function1 SAC_WATER = new PiecewiseLinearFunction1(
 			WAVELENGTHS, SAC_WATER_VALUES);
-	
+
 	private static final Function1 IOR_WATER = new PiecewiseLinearFunction1(
 			WAVELENGTHS, IOR_WATER_VALUES);
-	
+
 	private static final Function1 IOR_CUTICLE = new PiecewiseLinearFunction1(
 			WAVELENGTHS, IOR_CUTICLE_VALUES);
+
+	private static final Function1 IOR_AIR = Function1.ONE;
 
 	private double cuticleUndulationsAspectRatio = 5.0;
 	private double epidermisCellCapsAspectRatio = 5.0;
 	private double palisadeCellCapsAspectRatio = 1.0;
 	private double spongyCellCapsAspectRatio = 5.0;
-	
-	
+
+
+	private double mesophyllThickness;
+
+	private double concentrationScatterersAntidermalWall;
+	private double concentrationScatterersMesophyll;
+
+
 	private double collagenFiberRadius = 2.5e-8;
 	private double thicknessStratumCorneum = 1e-3; // cm
 	private double thicknessEpidermis = 1e-2; // cm
@@ -166,82 +175,64 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 	private double foldsAspectRatio = 0.75;
 
 	private final LayeredSurfaceScatterer subsurface = new LayeredSurfaceScatterer();
-	
+
 	private void build() {
 		subsurface.clear();
+
+		Function1 iorMesophyll = new AXpBFunction1(
+				(1.0 - concentrationScatterersMesophyll),
+				1.5608 * concentrationScatterersMesophyll,
+				IOR_WATER);
+		Function1 iorAntidermalWall = new AXpBFunction1(
+				(1.0 - concentrationScatterersAntidermalWall),
+				1.535 * concentrationScatterersAntidermalWall,
+				IOR_WATER);
+		Function1 mesophyllAbsorptionCoefficient = null;
+
 		subsurface
-			.addLayerToBottom( // air / stratum corneum interface
-				new TrowbridgeReitzSurfaceScatterer(foldsAspectRatio, IOR_STRATUM_CORNEUM, 1.0))
-			.addLayerToBottom( // stratum corneum
-				new SequentialSurfaceScatterer()
-					.addScatterer(new TabularPerturbingSurfaceScatterer(stratum_corneum_wavelengths, exitant_angles, stratum_corneum_perturb, 1000))
-					.addScatterer(new AbsorbingSurfaceScatterer(
-						new ScaledFunction1(
-							concentrationBetaCaroteneInStratumCorneum / 537.0,
-							OMLC_PRAHL_BETACAROTENE),
-						thicknessStratumCorneum)))
-			.addLayerToBottom( // stratum corneum / epidermis interface
-				new FresnelSurfaceScatterer(IOR_EPIDERMIS, IOR_STRATUM_CORNEUM))
-			.addLayerToBottom( // epidermis
-				new SequentialSurfaceScatterer()
-					.addScatterer(new TabularPerturbingSurfaceScatterer(epidermis_wavelengths, exitant_angles, epidermis_perturb, 1000))
-					.addScatterer(new AbsorbingSurfaceScatterer(
-						new SumFunction1()
-							.addChild(new ScaledFunction1(
-								pctMelanosomesInEpidermis * concentrationEumelanin,
-								OMLC_EUMELANIN_EXT_MGML))
-							.addChild(new ScaledFunction1(
-								pctMelanosomesInEpidermis * concentrationPheomelanin,
-								OMLC_PHEOMELANIN_EXT_MGML))
-							.addChild(new ScaledFunction1(
-								(1.0 - pctMelanosomesInEpidermis) * concentrationBetaCaroteneInEpidermis / 537.0,
-								OMLC_PRAHL_BETACAROTENE)),
-						thicknessEpidermis)))
-			.addLayerToBottom( // epidermis / papillary dermis interface
-				new FresnelSurfaceScatterer(IOR_PAPILLARY_DERMIS, IOR_EPIDERMIS))
-			.addLayerToBottom( // papillary dermis
-				new SequentialSurfaceScatterer()
-					.addScatterer(new DiffusingSurfaceScatterer())
-					.addScatterer(new AbsorbingSurfaceScatterer(
-						new SumFunction1()
-							.addChild(new ScaledFunction1(
-								pctWholeBloodInPapillaryDermis * concentrationHemoglobinInBlood * ratioOxyDeoxyHemoglobin / 66500.0,
-								OMLC_PRAHL_OXYHEMOGLOBIN))
-							.addChild(new ScaledFunction1(
-								pctWholeBloodInPapillaryDermis * concentrationHemoglobinInBlood * (1.0 - ratioOxyDeoxyHemoglobin) / 66500.0,
-								OMLC_PRAHL_DEOXYHEMOGLOBIN))
-							.addChild(new ScaledFunction1(
-								pctWholeBloodInPapillaryDermis * concentrationBetaCaroteneInBlood / 537.0,
-								OMLC_PRAHL_BETACAROTENE))
-							.addChild(new ScaledFunction1(
-								pctWholeBloodInPapillaryDermis * concentrationBilirubinInBlood / 585.0,
-								OMLC_PRAHL_BILIRUBIN)),
-						thicknessPapillaryDermis)))
-			.addLayerToBottom( // papillary dermis / reticular dermis interface
-				new FresnelSurfaceScatterer(IOR_RETICULAR_DERMIS, IOR_PAPILLARY_DERMIS))
-			.addLayerToBottom( // reticular dermis
-				new SequentialSurfaceScatterer()
-					.addScatterer(new DiffusingSurfaceScatterer())
-					.addScatterer(new AbsorbingSurfaceScatterer(
-						new SumFunction1()
-							.addChild(new ScaledFunction1(
-								pctWholeBloodInReticularDermis * concentrationHemoglobinInBlood * ratioOxyDeoxyHemoglobin / 66500.0,
-								OMLC_PRAHL_OXYHEMOGLOBIN))
-							.addChild(new ScaledFunction1(
-								pctWholeBloodInReticularDermis * concentrationHemoglobinInBlood * (1.0 - ratioOxyDeoxyHemoglobin) / 66500.0,
-								OMLC_PRAHL_DEOXYHEMOGLOBIN))
-							.addChild(new ScaledFunction1(
-								pctWholeBloodInReticularDermis * concentrationBetaCaroteneInBlood / 537.0,
-								OMLC_PRAHL_BETACAROTENE))
-							.addChild(new ScaledFunction1(
-								pctWholeBloodInReticularDermis * concentrationBilirubinInBlood / 585.0,
-								OMLC_PRAHL_BILIRUBIN)),
-						thicknessReticularDermis)))
-			.addLayerToBottom( // reticular dermis / hypodermis interface
-				new LambertianSurfaceScatterer());	
+			.addLayerToBottom(new ABMInterfaceSurfaceScatterer(
+					IOR_CUTICLE, IOR_AIR,
+					cuticleUndulationsAspectRatio,
+					epidermisCellCapsAspectRatio,
+					Double.POSITIVE_INFINITY,
+					epidermisCellCapsAspectRatio
+					))
+			.addLayerToBottom(new ABMInterfaceSurfaceScatterer(
+					iorMesophyll, IOR_CUTICLE,
+					epidermisCellCapsAspectRatio,
+					palisadeCellCapsAspectRatio,
+					epidermisCellCapsAspectRatio,
+					palisadeCellCapsAspectRatio))
+			.addLayerToBottom(new AbsorbingSurfaceScatterer(
+					mesophyllAbsorptionCoefficient,
+					mesophyllThickness))
+			.addLayerToBottom(new ABMInterfaceSurfaceScatterer(
+					IOR_AIR, iorMesophyll,
+					palisadeCellCapsAspectRatio,
+					spongyCellCapsAspectRatio,
+					palisadeCellCapsAspectRatio,
+					spongyCellCapsAspectRatio))
+			.addLayerToBottom(new ABMInterfaceSurfaceScatterer(
+					iorAntidermalWall, IOR_AIR,
+					Double.POSITIVE_INFINITY,
+					Double.POSITIVE_INFINITY,
+					Double.POSITIVE_INFINITY,
+					Double.POSITIVE_INFINITY))
+			.addLayerToBottom(new ABMInterfaceSurfaceScatterer(
+					IOR_CUTICLE, iorAntidermalWall,
+					Double.POSITIVE_INFINITY,
+					epidermisCellCapsAspectRatio,
+					Double.POSITIVE_INFINITY,
+					epidermisCellCapsAspectRatio))
+			.addLayerToBottom(new ABMInterfaceSurfaceScatterer(
+					IOR_AIR, IOR_CUTICLE,
+					epidermisCellCapsAspectRatio,
+					Double.POSITIVE_INFINITY,
+					epidermisCellCapsAspectRatio,
+					cuticleUndulationsAspectRatio));
 	}
-	
-	
+
+
 	/**
 	 * @return the collagenFiberRadius
 	 */
@@ -536,20 +527,20 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 		this.foldsAspectRatio = foldsAspectRatio;
 		subsurface.clear();
 	}
-	
+
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.scatter.SurfaceScatterer#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, boolean, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random)
 	 */
 	public Vector3 scatter(SurfacePointGeometry x, Vector3 v, boolean adjoint,
 			double lambda, Random rnd) {
-		
+
 		if (subsurface.getNumLayers() == 0) {
 			build();
 		}
-		
+
 		return subsurface.scatter(x, v, adjoint, lambda, rnd);
 	}
 
-	
+
 }
