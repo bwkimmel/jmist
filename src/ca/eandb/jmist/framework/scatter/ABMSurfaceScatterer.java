@@ -16,6 +16,7 @@ import ca.eandb.jmist.framework.ScatteredRay.Type;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.function.AXpBFunction1;
+import ca.eandb.jmist.framework.function.ConstantFunction1;
 import ca.eandb.jmist.framework.function.PiecewiseLinearFunction1;
 import ca.eandb.jmist.framework.function.ScaledFunction1;
 import ca.eandb.jmist.framework.function.SumFunction1;
@@ -29,6 +30,38 @@ import ca.eandb.jmist.util.ArrayUtil;
  *
  */
 public final class ABMSurfaceScatterer implements SurfaceScatterer {
+	
+	private static final class VariableThicknessAbsorbingSurfaceScatterer
+			implements SurfaceScatterer {
+		
+		private final Function1 absorptionCoefficient;
+		
+		private final ThreadLocal<Double> thickness = new ThreadLocal<Double>();
+
+		/**
+		 * @param absorptionCoefficient
+		 */
+		public VariableThicknessAbsorbingSurfaceScatterer(Function1 absorptionCoefficient) {
+			this.absorptionCoefficient = absorptionCoefficient;
+		}
+		
+		public void setThickness(double thickness) {
+			this.thickness.set(thickness);
+		}
+
+		/* (non-Javadoc)
+		 * @see ca.eandb.jmist.framework.scatter.SurfaceScatterer#scatter(ca.eandb.jmist.framework.SurfacePointGeometry, ca.eandb.jmist.math.Vector3, boolean, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random)
+		 */
+		public Vector3 scatter(SurfacePointGeometry x, Vector3 v,
+				boolean adjoint, double lambda, Random rnd) {
+			
+			double abs = absorptionCoefficient.evaluate(lambda);
+			double p = -Math.log(1.0 - rnd.next()) * Math.abs(x.getNormal().dot(v)) / abs;
+			
+			return (p > thickness.get()) ? v : null;
+		}
+
+	}
 
 	private static final double[] WAVELENGTHS = ArrayUtil.range(400e-9, 700e-9, 61); // m
 
@@ -153,11 +186,31 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 	private double palisadeCellCapsAspectRatio = 1.0;
 	private double spongyCellCapsAspectRatio = 5.0;
 
+	private double wholeLeafThickness = 1.66e-4; // meters
+	
+	private double dryBulkDensity = 1.19e-5 / (4.1e-4 * 1.66e-4); // kg/m^3
+	
+	private double airVolumeFraction = 0.31;
+	
+	private double proteinFraction = 0.3106;
+	private double celluloseFraction = 0.1490;
+	private double ligninFraction = 0.0424;
+	
+	private boolean bifacial = true;
 
+	private double scattererFractionInAntidermalWall = 0.3872;
+	private double scattererFractionInMesophyll = 0.3872;
+	
+	private double concChlorophyllAInMesophyll = 3.978; // kg/m^3
+	
+	private double concChlorophyllBInMesophyll = 1.161; // kg/m^3
+	
+	private double concCarotenoidsInMesophyll = 1.132; // kg/m^3;
+	
 	private double mesophyllThickness;
-
-	private double concentrationScatterersAntidermalWall;
-	private double concentrationScatterersMesophyll;
+	
+	private VariableThicknessAbsorbingSurfaceScatterer topSpongyMesophyllLayer;
+	private VariableThicknessAbsorbingSurfaceScatterer bottomSpongyMesophyllLayer;
 
 	private final LayeredSurfaceScatterer subsurface = new LayeredSurfaceScatterer();
 
@@ -165,60 +218,125 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 		subsurface.clear();
 
 		Function1 iorMesophyll = new AXpBFunction1(
-				(1.0 - concentrationScatterersMesophyll),
-				1.5608 * concentrationScatterersMesophyll,
+				(1.0 - scattererFractionInMesophyll),
+				1.5608 * scattererFractionInMesophyll,
 				IOR_WATER);
 		Function1 iorAntidermalWall = new AXpBFunction1(
-				(1.0 - concentrationScatterersAntidermalWall),
-				1.535 * concentrationScatterersAntidermalWall,
+				(1.0 - scattererFractionInAntidermalWall),
+				1.535 * scattererFractionInAntidermalWall,
 				IOR_WATER);
+		
+		double concDryMatter = dryBulkDensity / (1.0 - airVolumeFraction);
+		
+		double concProtein = concDryMatter * proteinFraction;
+		double concCellulose = concDryMatter * celluloseFraction;
+		double concLignin = concDryMatter * ligninFraction;
+		
+		double absProtein = concProtein * SAC_PROTEIN;
+		double absCellulose = concCellulose * SAC_CELLULOSE_LIGNIN;
+		double absLignin = concLignin * SAC_CELLULOSE_LIGNIN;
+		
+		Function1 mesophyllAbsorptionCoefficient = new SumFunction1()
+			.addChild(new ScaledFunction1(
+					concChlorophyllAInMesophyll + concChlorophyllBInMesophyll,
+					SAC_CHLOROPHYLL_AB))
+			.addChild(new ScaledFunction1(
+					concCarotenoidsInMesophyll,
+					SAC_CAROTENOIDS))
+			.addChild(new ConstantFunction1(absProtein + absCellulose + absLignin));
+		
+		double mesophyllFraction = bifacial ? 0.5 : 0.8;
+		mesophyllThickness = mesophyllFraction * wholeLeafThickness;
 
-		double concChlorophyllInMesophyll = 0.0;
-		double concCarotenoidsInMesophyll = 0.0;
-		double concProteinInMesophyll = 0.0;
-		double concCelluloseLigninInMesophyll = 0.0;
-
-		subsurface
-			.addLayerToBottom(new ABMInterfaceSurfaceScatterer(
-					IOR_CUTICLE, IOR_AIR,
-					cuticleUndulationsAspectRatio,
-					epidermisCellCapsAspectRatio,
-					Double.POSITIVE_INFINITY,
-					epidermisCellCapsAspectRatio
-					))
-			.addLayerToBottom(new ABMInterfaceSurfaceScatterer(
-					iorMesophyll, IOR_CUTICLE,
-					epidermisCellCapsAspectRatio,
-					palisadeCellCapsAspectRatio,
-					epidermisCellCapsAspectRatio,
-					palisadeCellCapsAspectRatio))
-			.addLayerToBottom(new AbsorbingSurfaceScatterer(
-					mesophyllAbsorptionCoefficient,
-					mesophyllThickness))
-			.addLayerToBottom(new ABMInterfaceSurfaceScatterer(
-					IOR_AIR, iorMesophyll,
-					palisadeCellCapsAspectRatio,
-					spongyCellCapsAspectRatio,
-					palisadeCellCapsAspectRatio,
-					spongyCellCapsAspectRatio))
-			.addLayerToBottom(new ABMInterfaceSurfaceScatterer(
-					iorAntidermalWall, IOR_AIR,
-					Double.POSITIVE_INFINITY,
-					Double.POSITIVE_INFINITY,
-					Double.POSITIVE_INFINITY,
-					Double.POSITIVE_INFINITY))
-			.addLayerToBottom(new ABMInterfaceSurfaceScatterer(
-					IOR_CUTICLE, iorAntidermalWall,
-					Double.POSITIVE_INFINITY,
-					epidermisCellCapsAspectRatio,
-					Double.POSITIVE_INFINITY,
-					epidermisCellCapsAspectRatio))
-			.addLayerToBottom(new ABMInterfaceSurfaceScatterer(
-					IOR_AIR, IOR_CUTICLE,
-					epidermisCellCapsAspectRatio,
-					Double.POSITIVE_INFINITY,
-					epidermisCellCapsAspectRatio,
-					cuticleUndulationsAspectRatio));
+		if (bifacial) {
+			subsurface
+				.addLayerToBottom(new ABMInterfaceSurfaceScatterer(
+						IOR_CUTICLE, IOR_AIR,
+						cuticleUndulationsAspectRatio,
+						epidermisCellCapsAspectRatio,
+						Double.POSITIVE_INFINITY,
+						epidermisCellCapsAspectRatio
+						))
+				.addLayerToBottom(new ABMInterfaceSurfaceScatterer(
+						iorMesophyll, IOR_CUTICLE,
+						epidermisCellCapsAspectRatio,
+						palisadeCellCapsAspectRatio,
+						epidermisCellCapsAspectRatio,
+						palisadeCellCapsAspectRatio))
+				.addLayerToBottom(new AbsorbingSurfaceScatterer(
+						mesophyllAbsorptionCoefficient,
+						mesophyllThickness))
+				.addLayerToBottom(new ABMInterfaceSurfaceScatterer(
+						IOR_AIR, iorMesophyll,
+						palisadeCellCapsAspectRatio,
+						spongyCellCapsAspectRatio,
+						palisadeCellCapsAspectRatio,
+						spongyCellCapsAspectRatio))
+				.addLayerToBottom(new ABMInterfaceSurfaceScatterer(
+						iorAntidermalWall, IOR_AIR,
+						Double.POSITIVE_INFINITY,
+						Double.POSITIVE_INFINITY,
+						Double.POSITIVE_INFINITY,
+						Double.POSITIVE_INFINITY))
+				.addLayerToBottom(new ABMInterfaceSurfaceScatterer(
+						IOR_CUTICLE, iorAntidermalWall,
+						Double.POSITIVE_INFINITY,
+						epidermisCellCapsAspectRatio,
+						Double.POSITIVE_INFINITY,
+						epidermisCellCapsAspectRatio))
+				.addLayerToBottom(new ABMInterfaceSurfaceScatterer(
+						IOR_AIR, IOR_CUTICLE,
+						epidermisCellCapsAspectRatio,
+						Double.POSITIVE_INFINITY,
+						epidermisCellCapsAspectRatio,
+						cuticleUndulationsAspectRatio));
+		} else { // unifacial
+			topSpongyMesophyllLayer = new VariableThicknessAbsorbingSurfaceScatterer(
+					mesophyllAbsorptionCoefficient);
+			bottomSpongyMesophyllLayer = new VariableThicknessAbsorbingSurfaceScatterer(
+					mesophyllAbsorptionCoefficient);
+			subsurface
+				.addLayerToBottom(new ABMInterfaceSurfaceScatterer(
+						IOR_CUTICLE, IOR_AIR,
+						cuticleUndulationsAspectRatio,
+						epidermisCellCapsAspectRatio,
+						Double.POSITIVE_INFINITY,
+						epidermisCellCapsAspectRatio
+						))
+				.addLayerToBottom(new ABMInterfaceSurfaceScatterer(
+						iorMesophyll, IOR_CUTICLE,
+						epidermisCellCapsAspectRatio,
+						spongyCellCapsAspectRatio,
+						epidermisCellCapsAspectRatio,
+						spongyCellCapsAspectRatio))
+				.addLayerToBottom(topSpongyMesophyllLayer)
+				.addLayerToBottom(new ABMInterfaceSurfaceScatterer(
+						IOR_AIR, iorMesophyll,
+						spongyCellCapsAspectRatio,
+						spongyCellCapsAspectRatio,
+						spongyCellCapsAspectRatio,
+						spongyCellCapsAspectRatio))
+				.addLayerToBottom(new ABMInterfaceSurfaceScatterer(
+						iorMesophyll, IOR_AIR,
+						spongyCellCapsAspectRatio,
+						spongyCellCapsAspectRatio,
+						spongyCellCapsAspectRatio,
+						spongyCellCapsAspectRatio))
+				.addLayerToBottom(bottomSpongyMesophyllLayer)
+				.addLayerToBottom(new ABMInterfaceSurfaceScatterer(
+						IOR_CUTICLE, iorMesophyll,
+						spongyCellCapsAspectRatio,
+						epidermisCellCapsAspectRatio,
+						spongyCellCapsAspectRatio,
+						epidermisCellCapsAspectRatio))						
+				.addLayerToBottom(new ABMInterfaceSurfaceScatterer(
+						IOR_AIR, IOR_CUTICLE,
+						epidermisCellCapsAspectRatio,
+						Double.POSITIVE_INFINITY,
+						epidermisCellCapsAspectRatio,
+						cuticleUndulationsAspectRatio));
+			
+		}
 	}
 
 
@@ -230,6 +348,12 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 
 		if (subsurface.getNumLayers() == 0) {
 			build();
+		}
+		
+		if (!bifacial) {
+			double split = rnd.next();
+			topSpongyMesophyllLayer.setThickness(split * mesophyllThickness);
+			bottomSpongyMesophyllLayer.setThickness((1.0 - split) * mesophyllThickness);
 		}
 
 		return subsurface.scatter(x, v, adjoint, lambda, rnd);
