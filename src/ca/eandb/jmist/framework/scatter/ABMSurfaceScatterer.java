@@ -144,6 +144,10 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 
 	private static final Function1 IOR_AIR = Function1.ONE;
 
+	private static final double SAC_PROTEIN = 1.992; // m^2/kg
+
+	private static final double SAC_CELLULOSE_LIGNIN = 0.876; // m^2/kg
+
 	private double cuticleUndulationsAspectRatio = 5.0;
 	private double epidermisCellCapsAspectRatio = 5.0;
 	private double palisadeCellCapsAspectRatio = 1.0;
@@ -168,7 +172,11 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 				(1.0 - concentrationScatterersAntidermalWall),
 				1.535 * concentrationScatterersAntidermalWall,
 				IOR_WATER);
-		Function1 mesophyllAbsorptionCoefficient = null;
+
+		double concChlorophyllInMesophyll = 0.0;
+		double concCarotenoidsInMesophyll = 0.0;
+		double concProteinInMesophyll = 0.0;
+		double concCelluloseLigninInMesophyll = 0.0;
 
 		subsurface
 			.addLayerToBottom(new ABMInterfaceSurfaceScatterer(
