@@ -47,9 +47,9 @@ public final class LayeredSurfaceScatterer implements SurfaceScatterer {
 	public Vector3 scatter(SurfacePointGeometry x, Vector3 v, boolean adjoint,
 			double lambda, Random rnd) {
 
-		int depth = 0;
-		int dir = 1; // downward
 		Vector3 N = x.getNormal();
+		int	depth = (v.dot(N) > 0.0) ? (layers.size() - 1) : 0;
+		int dir;
 		
 		do  {
 
