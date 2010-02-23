@@ -78,6 +78,67 @@ public final class Basis3 implements Serializable {
 		return u.cross(v).dot(w) > 0.0 ? Orientation.RIGHT_HANDED
 				: Orientation.LEFT_HANDED;
 	}
+	
+	/**
+	 * Re-expresses the specified vector (expressed using the standard basis)
+	 * using this basis.
+	 * Equivalent to <code>fromStandard(new Vector3(tu, tv, tw))</code>.
+	 * @param tu The first component of the vector to re-express.
+	 * @param tv The second component of the vector to re-express.
+	 * @param tw The third component of the vector to re-express.
+	 * @return The re-expressed <code>Vector3</code>.
+	 * @see #fromStandard(Vector3)
+	 * @see Basis3#STANDARD
+	 */
+	public Vector3 fromStandard(double tu, double tv, double tw) {
+		return new Vector3(
+				tu * u.x() + tv * u.y() + tw * u.z(),
+				tu * v.x() + tv * v.y() + tw * v.z(),
+				tu * w.x() + tv * w.y() + tw * w.z());
+	}
+	
+	/**
+	 * Re-expresses the specified <code>Vector3</code> (expressed using the
+	 * standard basis) using this basis.
+	 * Equivalent to <code>fromStandard(r.x(), r.y(), r.z())</code>.
+	 * @param r The <code>Vector3</code> expressed using the standard basis.
+	 * @return The <code>Vector3</code> re-expressed using this basis.
+	 * @see #fromStandard(double, double, double)
+	 * @see Basis3#STANDARD
+	 */
+	public Vector3 fromStandard(Vector3 r) {
+		return new Vector3(r.dot(u), r.dot(v), r.dot(w));
+	}
+	
+	/**
+	 * Re-expresses the specified vector using the standard basis.
+	 * Equivalent to <code>toStandard(new Vector3(tu, tv, tw))</code>.
+	 * @param tu The first component of the vector to re-express.
+	 * @param tv The second component of the vector to re-express.
+	 * @param tw The third component of the vector to re-express.
+	 * @return The re-expressed <code>Vector3</code>.
+	 * @see #toStandard(Vector3)
+	 * @see Basis3#STANDARD
+	 */
+	public Vector3 toStandard(double tu, double tv, double tw) {
+		return new Vector3(
+				tu * u.x() + tv * v.x() + tw * w.x(),
+				tu * u.y() + tv * v.y() + tw * w.y(),
+				tu * u.z() + tv * v.z() + tw * w.z());
+	}
+	
+	/**
+	 * Re-expresses the specified <code>Vector3</code> using the standard
+	 * basis.
+	 * Equivalent to <code>toVector(r.x(), r.y(), r.z())</code>.
+	 * @param r The <code>Vector3</code> to re-express.
+	 * @return The re-expressed <code>Vector3</code>.
+	 * @see #toStandard(double, double, double)
+	 * @see Basis3#STANDARD
+	 */
+	public Vector3 toStandard(Vector3 r) {
+		return toStandard(r.x(), r.y(), r.z());
+	}
 
 	/**
 	 * Gets the <code>Basis3</code> opposite from this one (i.e., where each
