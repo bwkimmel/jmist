@@ -147,6 +147,14 @@ public final class Matrix4 implements Serializable {
 					  _11 * (_22 * _30 - _20 * _32) +
 					  _12 * (_20 * _31 - _21 * _30));
 	}
+	
+	/**
+	 * Gets the trace of this matrix (i.e., the sum of the diagonal elements).
+	 * @return The trace of this matrix.
+	 */
+	public double trace() {
+		return _00 + _11 + _22 + _33;
+	}
 
 	/**
 	 * Gets an element of the matrix.

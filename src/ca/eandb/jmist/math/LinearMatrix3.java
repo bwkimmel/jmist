@@ -111,6 +111,14 @@ public final class LinearMatrix3 implements Serializable {
 	}
 
 	/**
+	 * Gets the trace of this matrix (i.e., the sum of the diagonal elements).
+	 * @return The trace of this matrix.
+	 */
+	public double trace() {
+		return _00 + _11 + _22;
+	}
+
+	/**
 	 * Gets an element of the matrix.
 	 * @param row The row containing the element to get (0 <= row < 3).
 	 * @param col The column containing the element to get (0 <= col < 3).
