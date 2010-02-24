@@ -3,6 +3,10 @@
  */
 package ca.eandb.jmist.framework.scatter;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+
 import ca.eandb.jmist.framework.Function1;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ScatteredRay;
@@ -18,6 +22,7 @@ import ca.eandb.jmist.math.Optics;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.SphericalCoordinates;
 import ca.eandb.jmist.math.Vector3;
+import ca.eandb.util.io.CompositeOutputStream;
 
 /**
  * @author brad
@@ -52,6 +57,43 @@ public final class ABMInterfaceSurfaceScatterer implements SurfaceScatterer {
 		this.n12 = n12;
 		this.n21 = n21;
 		this.n22 = n22;
+		
+//		try {
+//			FileOutputStream file = new FileOutputStream("/Users/brad/interface.csv", true);
+//			PrintStream out = new PrintStream(new CompositeOutputStream().addChild(System.out).addChild(file));
+//			
+//			Vector3 N = Vector3.K;
+//			for (int angle = 0; angle < 90; angle++) {
+//				double rad = Math.toRadians(angle);
+//				Vector3 v = new Vector3(Math.sin(rad), 0.0, -Math.cos(rad));
+//				for (int lambda = 400; lambda <= 700; lambda += 5) {
+//					double n1 = riAbove.evaluate(1e-9 * (double) lambda);
+//					double n2 = riBelow.evaluate(1e-9 * (double) lambda);
+//					double R = Optics.reflectance(v, n1, n2, N);
+//					if (lambda > 400) {
+//						out.print(',');
+//					}
+//					out.print(R);
+//				}
+//				out.println();
+//			}
+//			for (int angle = 0; angle < 90; angle++) {
+//				double rad = Math.toRadians(angle);
+//				Vector3 v = new Vector3(Math.sin(rad), 0.0, Math.cos(rad));
+//				for (int lambda = 400; lambda <= 700; lambda += 5) {
+//					double n1 = riAbove.evaluate(1e-9 * (double) lambda);
+//					double n2 = riBelow.evaluate(1e-9 * (double) lambda);
+//					double R = Optics.reflectance(v, n1, n2, N);
+//					if (lambda > 400) {
+//						out.print(',');
+//					}
+//					out.print(R);
+//				}
+//				out.println();
+//			}
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	public ABMInterfaceSurfaceScatterer(double riBelow, double riAbove, double n11, double n12, double n21, double n22) {
@@ -87,10 +129,8 @@ public final class ABMInterfaceSurfaceScatterer implements SurfaceScatterer {
 		if (!Double.isInfinite(specularity)) {
 			Basis3 basis = Basis3.fromW(w);
 			do {
-				// The azimuthal angle is the cosine of what it would
-				// normally be for a phong perturbation.
 				SphericalCoordinates perturb = new SphericalCoordinates(
-						Math.pow(1.0 - rnd.next(), 1.0 / (specularity + 1.0)),
+						Math.acos(Math.pow(1.0 - rnd.next(), 1.0 / (specularity + 1.0))),
 						2.0 * Math.PI * rnd.next());
 				w = perturb.toCartesian(basis);
 			} while ((w.dot(N) > 0.0) != toSide);

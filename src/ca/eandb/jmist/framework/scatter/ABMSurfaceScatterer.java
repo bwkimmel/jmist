@@ -3,6 +3,11 @@
  */
 package ca.eandb.jmist.framework.scatter;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +29,7 @@ import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.SphericalCoordinates;
 import ca.eandb.jmist.math.Vector3;
 import ca.eandb.jmist.util.ArrayUtil;
+import ca.eandb.util.io.CompositeOutputStream;
 
 /**
  * @author brad
@@ -56,7 +62,7 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 				boolean adjoint, double lambda, Random rnd) {
 			
 			double abs = absorptionCoefficient.evaluate(lambda);
-			double p = -Math.log(1.0 - rnd.next()) * Math.abs(x.getNormal().dot(v)) / abs;
+			double p = -Math.log(1.0 - rnd.next()) * Math.cos(x.getNormal().dot(v)) / abs;
 			
 			return (p > thickness.get()) ? v : null;
 		}
@@ -192,9 +198,9 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 	
 	private double airVolumeFraction = 0.31;
 	
-	private double proteinFraction = 0.3106;
-	private double celluloseFraction = 0.1490;
-	private double ligninFraction = 0.0424;
+	private double proteinFraction = 0.0;// 0.3106;
+	private double celluloseFraction = 0.0;// 0.1490;
+	private double ligninFraction = 0.0;// 0.0424;
 	
 	private boolean bifacial = true;
 
@@ -214,13 +220,274 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 
 	private final LayeredSurfaceScatterer subsurface = new LayeredSurfaceScatterer();
 
+	/**
+	 * @return the cuticleUndulationsAspectRatio
+	 */
+	public double getCuticleUndulationsAspectRatio() {
+		return cuticleUndulationsAspectRatio;
+	}
+
+
+	/**
+	 * @param cuticleUndulationsAspectRatio the cuticleUndulationsAspectRatio to set
+	 */
+	public void setCuticleUndulationsAspectRatio(
+			double cuticleUndulationsAspectRatio) {
+		this.cuticleUndulationsAspectRatio = cuticleUndulationsAspectRatio;
+	}
+
+
+	/**
+	 * @return the epidermisCellCapsAspectRatio
+	 */
+	public double getEpidermisCellCapsAspectRatio() {
+		return epidermisCellCapsAspectRatio;
+	}
+
+
+	/**
+	 * @param epidermisCellCapsAspectRatio the epidermisCellCapsAspectRatio to set
+	 */
+	public void setEpidermisCellCapsAspectRatio(double epidermisCellCapsAspectRatio) {
+		this.epidermisCellCapsAspectRatio = epidermisCellCapsAspectRatio;
+	}
+
+
+	/**
+	 * @return the palisadeCellCapsAspectRatio
+	 */
+	public double getPalisadeCellCapsAspectRatio() {
+		return palisadeCellCapsAspectRatio;
+	}
+
+
+	/**
+	 * @param palisadeCellCapsAspectRatio the palisadeCellCapsAspectRatio to set
+	 */
+	public void setPalisadeCellCapsAspectRatio(double palisadeCellCapsAspectRatio) {
+		this.palisadeCellCapsAspectRatio = palisadeCellCapsAspectRatio;
+	}
+
+
+	/**
+	 * @return the spongyCellCapsAspectRatio
+	 */
+	public double getSpongyCellCapsAspectRatio() {
+		return spongyCellCapsAspectRatio;
+	}
+
+
+	/**
+	 * @param spongyCellCapsAspectRatio the spongyCellCapsAspectRatio to set
+	 */
+	public void setSpongyCellCapsAspectRatio(double spongyCellCapsAspectRatio) {
+		this.spongyCellCapsAspectRatio = spongyCellCapsAspectRatio;
+	}
+
+
+	/**
+	 * @return the wholeLeafThickness
+	 */
+	public double getWholeLeafThickness() {
+		return wholeLeafThickness;
+	}
+
+
+	/**
+	 * @param wholeLeafThickness the wholeLeafThickness to set
+	 */
+	public void setWholeLeafThickness(double wholeLeafThickness) {
+		this.wholeLeafThickness = wholeLeafThickness;
+	}
+
+
+	/**
+	 * @return the dryBulkDensity
+	 */
+	public double getDryBulkDensity() {
+		return dryBulkDensity;
+	}
+
+
+	/**
+	 * @param dryBulkDensity the dryBulkDensity to set
+	 */
+	public void setDryBulkDensity(double dryBulkDensity) {
+		this.dryBulkDensity = dryBulkDensity;
+	}
+
+
+	/**
+	 * @return the airVolumeFraction
+	 */
+	public double getAirVolumeFraction() {
+		return airVolumeFraction;
+	}
+
+
+	/**
+	 * @param airVolumeFraction the airVolumeFraction to set
+	 */
+	public void setAirVolumeFraction(double airVolumeFraction) {
+		this.airVolumeFraction = airVolumeFraction;
+	}
+
+
+	/**
+	 * @return the proteinFraction
+	 */
+	public double getProteinFraction() {
+		return proteinFraction;
+	}
+
+
+	/**
+	 * @param proteinFraction the proteinFraction to set
+	 */
+	public void setProteinFraction(double proteinFraction) {
+		this.proteinFraction = proteinFraction;
+	}
+
+
+	/**
+	 * @return the celluloseFraction
+	 */
+	public double getCelluloseFraction() {
+		return celluloseFraction;
+	}
+
+
+	/**
+	 * @param celluloseFraction the celluloseFraction to set
+	 */
+	public void setCelluloseFraction(double celluloseFraction) {
+		this.celluloseFraction = celluloseFraction;
+	}
+
+
+	/**
+	 * @return the ligninFraction
+	 */
+	public double getLigninFraction() {
+		return ligninFraction;
+	}
+
+
+	/**
+	 * @param ligninFraction the ligninFraction to set
+	 */
+	public void setLigninFraction(double ligninFraction) {
+		this.ligninFraction = ligninFraction;
+	}
+
+
+	/**
+	 * @return the bifacial
+	 */
+	public boolean isBifacial() {
+		return bifacial;
+	}
+
+
+	/**
+	 * @param bifacial the bifacial to set
+	 */
+	public void setBifacial(boolean bifacial) {
+		this.bifacial = bifacial;
+	}
+
+
+	/**
+	 * @return the scattererFractionInAntidermalWall
+	 */
+	public double getScattererFractionInAntidermalWall() {
+		return scattererFractionInAntidermalWall;
+	}
+
+
+	/**
+	 * @param scattererFractionInAntidermalWall the scattererFractionInAntidermalWall to set
+	 */
+	public void setScattererFractionInAntidermalWall(
+			double scattererFractionInAntidermalWall) {
+		this.scattererFractionInAntidermalWall = scattererFractionInAntidermalWall;
+	}
+
+
+	/**
+	 * @return the scattererFractionInMesophyll
+	 */
+	public double getScattererFractionInMesophyll() {
+		return scattererFractionInMesophyll;
+	}
+
+
+	/**
+	 * @param scattererFractionInMesophyll the scattererFractionInMesophyll to set
+	 */
+	public void setScattererFractionInMesophyll(double scattererFractionInMesophyll) {
+		this.scattererFractionInMesophyll = scattererFractionInMesophyll;
+	}
+
+
+	/**
+	 * @return the concChlorophyllAInMesophyll
+	 */
+	public double getConcChlorophyllAInMesophyll() {
+		return concChlorophyllAInMesophyll;
+	}
+
+
+	/**
+	 * @param concChlorophyllAInMesophyll the concChlorophyllAInMesophyll to set
+	 */
+	public void setConcChlorophyllAInMesophyll(double concChlorophyllAInMesophyll) {
+		this.concChlorophyllAInMesophyll = concChlorophyllAInMesophyll;
+	}
+
+
+	/**
+	 * @return the concChlorophyllBInMesophyll
+	 */
+	public double getConcChlorophyllBInMesophyll() {
+		return concChlorophyllBInMesophyll;
+	}
+
+
+	/**
+	 * @param concChlorophyllBInMesophyll the concChlorophyllBInMesophyll to set
+	 */
+	public void setConcChlorophyllBInMesophyll(double concChlorophyllBInMesophyll) {
+		this.concChlorophyllBInMesophyll = concChlorophyllBInMesophyll;
+	}
+
+
+	/**
+	 * @return the concCarotenoidsInMesophyll
+	 */
+	public double getConcCarotenoidsInMesophyll() {
+		return concCarotenoidsInMesophyll;
+	}
+
+
+	/**
+	 * @param concCarotenoidsInMesophyll the concCarotenoidsInMesophyll to set
+	 */
+	public void setConcCarotenoidsInMesophyll(double concCarotenoidsInMesophyll) {
+		this.concCarotenoidsInMesophyll = concCarotenoidsInMesophyll;
+	}
+
+
 	private void build() {
 		subsurface.clear();
 
-		Function1 iorMesophyll = new AXpBFunction1(
-				(1.0 - scattererFractionInMesophyll),
-				1.5608 * scattererFractionInMesophyll,
-				IOR_WATER);
+//		Function1 iorMesophyll = new AXpBFunction1(
+//				(1.0 - scattererFractionInMesophyll),
+//				1.5608 * scattererFractionInMesophyll,
+//				IOR_WATER);
+
+		Function1 iorMesophyll = new ConstantFunction1(1.415);
+		
 		Function1 iorAntidermalWall = new AXpBFunction1(
 				(1.0 - scattererFractionInAntidermalWall),
 				1.535 * scattererFractionInAntidermalWall,
@@ -243,7 +510,22 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 			.addChild(new ScaledFunction1(
 					concCarotenoidsInMesophyll,
 					SAC_CAROTENOIDS))
-			.addChild(new ConstantFunction1(absProtein + absCellulose + absLignin));
+			.addChild(new ConstantFunction1(absProtein + absCellulose + absLignin))
+			.addChild(SAC_WATER);
+		
+		try {
+			OutputStream file = new FileOutputStream("/Users/brad/mesosac.csv");
+			PrintStream out = new PrintStream(new CompositeOutputStream()
+					.addChild(System.out)
+					.addChild(file));
+			for (int i = 400; i <= 700; i += 5) {
+				out.println(mesophyllAbsorptionCoefficient.evaluate(1e-9 * (double) i));
+			}
+			out.flush();
+			file.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		double mesophyllFraction = bifacial ? 0.5 : 0.8;
 		mesophyllThickness = mesophyllFraction * wholeLeafThickness;
@@ -255,8 +537,7 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 						cuticleUndulationsAspectRatio,
 						epidermisCellCapsAspectRatio,
 						Double.POSITIVE_INFINITY,
-						epidermisCellCapsAspectRatio
-						))
+						epidermisCellCapsAspectRatio))
 				.addLayerToBottom(new ABMInterfaceSurfaceScatterer(
 						iorMesophyll, IOR_CUTICLE,
 						epidermisCellCapsAspectRatio,
@@ -298,10 +579,10 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 			subsurface
 				.addLayerToBottom(new ABMInterfaceSurfaceScatterer(
 						IOR_CUTICLE, IOR_AIR,
-						cuticleUndulationsAspectRatio,
-						epidermisCellCapsAspectRatio,
-						Double.POSITIVE_INFINITY,
-						epidermisCellCapsAspectRatio
+						cuticleUndulationsAspectRatio,  // \/
+						epidermisCellCapsAspectRatio,   // \
+						Double.POSITIVE_INFINITY,       // /
+						epidermisCellCapsAspectRatio    // /\
 						))
 				.addLayerToBottom(new ABMInterfaceSurfaceScatterer(
 						iorMesophyll, IOR_CUTICLE,
@@ -337,6 +618,7 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 						cuticleUndulationsAspectRatio));
 			
 		}
+		//System.exit(1);
 	}
 
 
