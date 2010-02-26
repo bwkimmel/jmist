@@ -5,6 +5,8 @@ package ca.eandb.jmist.math;
 
 import java.io.Serializable;
 
+import ca.eandb.util.UnimplementedException;
+
 /**
  * @author brad
  *
@@ -240,6 +242,83 @@ public final class Spheroid implements Serializable {
 
 		return new Interval(tmin, tmax);
 
+	}
+	
+	public boolean contains(Spheroid other) {
+		throw new UnimplementedException();
+	}
+	
+	public boolean intersects(Spheroid other) {
+		Matrix4 A = getMatrixRepresentation();
+		Matrix4 B = other.getMatrixRepresentation();
+		Matrix4 AdivB = A.divide(B);
+		double[] lambda = AdivB.eigenvalues();
+		
+		int count = 0;
+		for (int i = 0; i < lambda.length; i++) {
+			if (lambda[i] < 0.0) {
+				count++;
+			}
+			if (count >= 2) {
+				return false;
+			}	
+		}
+		return true;
+	}
+		
+	/**
+	 * Gets the <code>Matrix4</code> representation of this
+	 * <code>Spheroid</code>.  The <code>Matrix4</code> returned,
+	 * <code><b>A</b></code>, will satisfy:
+	 * 
+	 * <ul>
+	 * 		<li>
+	 * 			<code><b>x<sup>t</sup>Ax</b> &lt; 0</code> whenever
+	 *			<code><b>x</b> = (x y z 1)<sup>t</sup></code> lies inside this
+	 *			<code>Spheroid</code>,
+	 *		<li>
+	 * 			<code><b>x<sup>t</sup>Ax</b> &gt; 0</code> whenever
+	 *			<code><b>x</b></code> lies outside this <code>Spheroid</code>,
+	 *			and
+	 *		<li>
+	 * 			<code><b>x<sup>t</sup>Ax</b> = 0</code> whenever
+	 *			<code><b>x</b></code> lies on the surface of this
+	 *			<code>Spheroid</code>.
+	 * </ul>	
+	 * @return The <code>Matrix4</code> representation of this
+	 * 		<code>Spheroid</code>.
+	 */
+	public Matrix4 getMatrixRepresentation() {
+		double Tx = -center.x();
+		double Ty = -center.y();
+		double Tz = -center.z();
+		Matrix4 T = new Matrix4(
+				1.0, 0.0, 0.0, Tx,
+				0.0, 1.0, 0.0, Ty,
+				0.0, 0.0, 1.0, Tz,
+				0.0, 0.0, 0.0, 1.0);
+		
+		Vector3 u = basis.u();
+		Vector3 v = basis.v();
+		Vector3 w = basis.w();
+		Matrix4 B = new Matrix4(
+				u.x(), u.y(), u.z(), 0.0,
+				v.x(), v.y(), v.z(), 0.0,
+				w.x(), w.y(), w.z(), 0.0,
+				0.0  , 0.0  , 0.0  , 1.0);
+		
+		Matrix4	BT = B.times(T);
+		Matrix4 TtBt = BT.transposed();
+		
+		double a2i = 1.0 / (a * a);
+		double c2i = 1.0 / (c * c); 
+		Matrix4 S = new Matrix4(
+				a2i, 0.0, 0.0, 0.0,
+				0.0, a2i, 0.0, 0.0,
+				0.0, 0.0, c2i, 0.0,
+				0.0, 0.0, 0.0, -1.0);
+		
+		return TtBt.times(S).times(BT);		
 	}
 	
 }

@@ -277,6 +277,48 @@ public final class Sphere implements Serializable {
 				center.z() + radius
 		);
 	}
+	
+	/**
+	 * Gets the <code>Matrix4</code> representation of this <code>Sphere</code>.
+	 * The <code>Matrix4</code> returned, <code><b>A</b></code>, will satisfy:
+	 * 
+	 * <ul>
+	 * 		<li>
+	 * 			<code><b>x<sup>t</sup>Ax</b> &lt; 0</code> whenever
+	 *			<code><b>x</b> = (x y z 1)<sup>t</sup></code> lies inside this
+	 *			<code>Sphere</code>,
+	 *		<li>
+	 * 			<code><b>x<sup>t</sup>Ax</b> &gt; 0</code> whenever
+	 *			<code><b>x</b></code> lies outside this <code>Sphere</code>,
+	 *			and
+	 *		<li>
+	 * 			<code><b>x<sup>t</sup>Ax</b> = 0</code> whenever
+	 *			<code><b>x</b></code> lies on the surface of this
+	 *			<code>Sphere</code>.
+	 * </ul>	
+	 * @return The <code>Matrix4</code> representation of this
+	 * 		<code>Sphere</code>.
+	 */
+	public Matrix4 getMatrixRepresentation() {
+		double Tx = -center.x();
+		double Ty = -center.y();
+		double Tz = -center.z();
+		Matrix4 T = new Matrix4(
+				1.0, 0.0, 0.0, Tx,
+				0.0, 1.0, 0.0, Ty,
+				0.0, 0.0, 1.0, Tz,
+				0.0, 0.0, 0.0, 1.0);
+		Matrix4 Tt = T.transposed();
+		
+		double r2i = 1.0 / (radius * radius);
+		Matrix4 S = new Matrix4(
+				r2i, 0.0, 0.0, 0.0,
+				0.0, r2i, 0.0, 0.0,
+				0.0, 0.0, r2i, 0.0,
+				0.0, 0.0, 0.0, -1.0);
+		
+		return Tt.times(S).times(T);
+	}
 
 	/**
 	 * Default constructor.
