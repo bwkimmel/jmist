@@ -117,6 +117,46 @@ public final class LinearMatrix3 implements Serializable {
 	public double trace() {
 		return _00 + _11 + _22;
 	}
+	
+	/**
+	 * Gets the characteristic polynomial of this matrix (i.e., the univariate
+	 * polynomial in <code>&lambda;</code> given by
+	 * <code>det(A - &lambda;I)</code>).
+	 * @return The characteristic <code>Polynomial</code> of this matrix.
+	 * @see ca.eandb.jmist.math.Polynomial
+	 */
+	public Polynomial characteristic() {
+		double c0 = determinant();
+		double c1 = _10 * _01 + _20 * _02 + _12 * _21 - _00 * _11 - _00 * _22 - _11 * _22;
+		double c2 = trace();
+		double c3 = -1.0;
+	
+		return new Polynomial(c0, c1, c2, c3);		
+	}
+	
+	/**
+	 * Returns an array of the real eigenvalues of this matrix (i.e., the
+	 * values <code>&lambda;</code> for which there exists a non-trivial
+	 * vector <code>v</code> satisfying <code>Av = &lambda;v</code>).
+	 * @return An array containing the real eigenvalues of this matrix.
+	 */
+	public double[] eigenvalues() {
+		return characteristic().roots();
+	}
+	
+	/**
+	 * Returns an array of the <code>Complex</code> eigenvalues of this matrix
+	 * (i.e., the values <code>&lambda;</code> for which there exists a
+	 * non-trivial vector <code>v</code> satisfying
+	 * <code>Av = &lambda;v</code>).  This method is guaranteed to return an
+	 * array of three (3) elements.
+	 * @return An array containing the <code>Complex</code> eigenvalues of
+	 * 		this matrix.
+	 * @see ca.eandb.jmist.math.Complex
+	 */
+	public Complex[] complexEigenvalues() {
+		return characteristic().complexRoots();
+	}
 
 	/**
 	 * Gets an element of the matrix.

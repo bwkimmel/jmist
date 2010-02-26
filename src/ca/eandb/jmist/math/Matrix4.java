@@ -155,6 +155,47 @@ public final class Matrix4 implements Serializable {
 	public double trace() {
 		return _00 + _11 + _22 + _33;
 	}
+	
+	/**
+	 * Gets the characteristic polynomial of this matrix (i.e., the univariate
+	 * polynomial in <code>&lambda;</code> given by
+	 * <code>det(A - &lambda;I)</code>).
+	 * @return The characteristic <code>Polynomial</code> of this matrix.
+	 * @see ca.eandb.jmist.math.Polynomial
+	 */
+	public Polynomial characteristic() {
+		double c0 = determinant();
+		double c1 = -_00*_11*_22-_00*_11*_33-_00*_22*_33+_00*_23*_32+_00*_21*_12+_00*_31*_13-_11*_22*_33+_11*_23*_32+_21*_12*_33-_21*_13*_32-_31*_12*_23+_31*_13*_22+_10*_01*_22+_10*_01*_33-_10*_21*_02-_10*_31*_03-_20*_01*_12+_20*_11*_02+_20*_02*_33-_20*_03*_32-_30*_01*_13+_30*_11*_03-_30*_02*_23+_30*_03*_22;
+		double c2 = _00*_11-_20*_02-_10*_01-_30*_03+_11*_22+_11*_33+_22*_33-_23*_32-_21*_12-_31*_13+_00*_22+_00*_33;
+		double c3 = -trace();
+		double c4 = 1.0;
+	
+		return new Polynomial(c0, c1, c2, c3, c4);
+	}
+	
+	/**
+	 * Returns an array of the real eigenvalues of this matrix (i.e., the
+	 * values <code>&lambda;</code> for which there exists a non-trivial
+	 * vector <code>v</code> satisfying <code>Av = &lambda;v</code>).
+	 * @return An array containing the real eigenvalues of this matrix.
+	 */
+	public double[] eigenvalues() {
+		return characteristic().roots();
+	}
+	
+	/**
+	 * Returns an array of the <code>Complex</code> eigenvalues of this matrix
+	 * (i.e., the values <code>&lambda;</code> for which there exists a
+	 * non-trivial vector <code>v</code> satisfying
+	 * <code>Av = &lambda;v</code>).  This method is guaranteed to return an
+	 * array of four (4) elements.
+	 * @return An array containing the <code>Complex</code> eigenvalues of
+	 * 		this matrix.
+	 * @see ca.eandb.jmist.math.Complex
+	 */
+	public Complex[] complexEigenvalues() {
+		return characteristic().complexRoots();
+	}
 
 	/**
 	 * Gets an element of the matrix.
