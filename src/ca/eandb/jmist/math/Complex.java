@@ -208,6 +208,16 @@ public final class Complex implements Serializable {
 	public Complex sqrt() {
 		return polar(this.arg() / 2.0, Math.sqrt(this.abs()));
 	}
+	
+	/**
+	 * Computes the square root of a real number.
+	 * @param x The value of which to compute the square root.
+	 * @return The square root.
+	 */
+	public static Complex sqrt(double x) {
+		return x >= 0.0 ? new Complex(Math.sqrt(x))
+						: new Complex(0.0, Math.sqrt(-x));
+	}
 
 	/**
 	 * Computes the cube root of a complex number.
@@ -287,6 +297,11 @@ public final class Complex implements Serializable {
 	 * The complex number 0 + 0i.
 	 */
 	public static final Complex ZERO = new Complex(0.0);
+	
+	/**
+	 * The real unit (1).
+	 */
+	public static final Complex ONE = new Complex(1.0, 0.0);
 
 	/**
 	 * The imaginary unit, sqrt(-1).
