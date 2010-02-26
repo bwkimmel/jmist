@@ -314,6 +314,188 @@ public final class Solver {
 	}
 
 	/**
+	 * Finds the real roots of a polynomial:
+	 * 0 = sum(c[j] * x^j, j = 0 to c.length).
+	 * @param c		an array of coefficients of the polynomial to
+	 * 				find the roots of.
+	 * @return An array containing the roots of the polynomial with
+	 * 		the specified coefficients.
+	 */
+	public static final Complex[] complexRoots(double[] c) {
+
+		switch (c.length) {
+
+			case 1:		/* constant -- no roots */
+				return new Complex[0];
+
+			case 2:		/* linear */
+				return complexRoots(c[0], c[1]);
+
+			case 3:		/* quadratic */
+				return complexRoots(c[0], c[1], c[2]);
+
+			case 4:		/* cubic */
+				return complexRoots(c[0], c[1], c[2], c[3]);
+
+			case 5:		/* quartic */
+				return complexRoots(c[0], c[1], c[2], c[3], c[4]);
+
+			default:
+				// TODO: handle higher order polynomials.
+				assert(false);
+				return new Complex[0];
+
+		}
+
+	}
+
+	/**
+	 * Computes the real roots of the linear equation:
+	 * 0 = c0 + (c1 * x)
+	 * @param c0	the coefficient to x^0
+	 * @param c1	the coefficient to x^1
+	 * @return An array containing the real roots of the linear
+	 * 		equation.
+	 */
+	public static final Complex[] complexRoots(double c0, double c1) {
+
+		/*
+		 * c0 is the y-intercept and c1 is the slope.  If the c1 (the
+		 * slope) is zero, then there is no root.  Otherwise, the root
+		 * is at x = -c0 / c1.
+		 */
+		return (c1 != 0.0) ? new Complex[]{ new Complex(-c0 / c1) } : new Complex[0];
+
+	}
+
+	/**
+	 * Computes the real roots of the quadratic equation:
+	 * 0 = c0 + (c1 * x) + (c2 * x^2)
+	 * @param c0	the coefficient to x^0
+	 * @param c1	the coefficient to x^1
+	 * @param c2	the coefficient to x^2
+	 * @return An array containing the real roots of the quadratic
+	 * 		equation with the given coefficients.
+	 */
+	public static final Complex[] complexRoots(double c0, double c1, double c2) {
+
+		/*
+		 * If c2 is zero, then this is not a quadratic equation, but a
+		 * linear equation.  In this case, call the method to solve for
+		 * the roots of the linear equation.
+		 */
+		if (c2 == 0.0)
+			return complexRoots(c0, c1);
+
+		/* The descriminant in the quadratic equation. */
+		double descriminant = (c1 * c1) - (4.0 * c2 * c0);
+		
+		Complex h = Complex.sqrt(descriminant);
+		double d = 2.0 * c2;
+
+		return new Complex[]{
+				h.negative().minus(c1).divide(d),
+				h.minus(c1).divide(d)
+		};
+
+	}
+
+	/**
+	 * Computes the real roots of the cubic equation:
+	 * 0 = c0 + (c1 * x) + (c2 * x^2) + (c3 * x^3)
+	 * @param c0	the coefficient to x^0
+	 * @param c1	the coefficient to x^1
+	 * @param c2	the coefficient to x^2
+	 * @param c3	the coefficient to x^3
+	 * @return An array containing the real roots of the cubic
+	 * 		equation with the given coefficients.
+	 */
+	public static final Complex[] complexRoots(double c0, double c1, double c2, double c3) {
+
+		// Make sure the cubic coefficient is non-zero.
+		if (c3 == 0.0)
+			return complexRoots(c0, c1, c2);
+		
+		double		a			= c2 / c3;
+		double		b			= c1 / c3;
+		double		c			= c0 / c3;
+		
+		double		A			= a / 3.0;
+		double		B			= b / 3.0;
+		double		P			= B - A * A;
+		double		Q			= 0.5 * c + A * A * A - 1.5 * A * B;
+		
+		double		D			= Q * Q + P * P * P;
+		Complex		zeta1		= new Complex(-0.5, 0.5 * Math.sqrt(3.0));
+		Complex		zeta2		= zeta1.conjugate();
+		
+		Complex		z1			= Complex.sqrt(D).minus(Q).cbrt();
+		Complex		z2			= Complex.sqrt(D).negative().minus(Q).cbrt();
+		
+		return new Complex[]{
+				z1.plus(z2).minus(A),
+				zeta1.times(z1).plus(zeta2.times(z2)).minus(A),
+				zeta2.times(z1).plus(zeta1.times(z2)).minus(A)
+		};
+
+	}
+
+	/**
+	 * Computes the real roots of the quartic equation:
+	 * 0 = c0 + (c1 * x) + (c2 * x^2) + (c3 * x^3) + (c4 * x^4)
+	 * @param c0	the coefficient to x^0
+	 * @param c1	the coefficient to x^1
+	 * @param c2	the coefficient to x^2
+	 * @param c3	the coefficient to x^3
+	 * @param c4	the coefficient to x^4
+	 * @return An array containing the real roots of the quartic
+	 * 		equation with the given coefficients.
+	 */
+	public static Complex[] complexRoots(double c0, double c1, double c2, double c3, double c4) {
+
+		/*
+		 *  Before we do anything, make sure it's not really a cubic (or a
+		 *  polynomial of lesser degree).
+		 */
+		if (c4 == 0.0)
+			return complexRoots(c0, c1, c2, c3);
+		
+		c3 /= c4;
+		c2 /= c4;
+		c1 /= c4;
+		c0 /= c4;
+
+		double		a = -0.375 * c3 * c3 + c2;
+		double		b = 0.125 * c3 * c3 * c3 - 0.5 * c3 * c2 + c1;
+		double		c = -0.01171875 * c3 * c3 * c3 * c3 + 0.0625 * c2 * c3 * c3 - 0.25 * c3 * c1 + c0;
+
+		double		p = -(1.0 / 12.0) * a * a - c;
+		double		q = -(1.0 / 108.0) * a * a * a + (1.0 / 3.0) * a * c - 0.125 * b * b;
+		Complex		r = Complex.sqrt(0.25 * q * q + (1.0 / 27.0) * p * p * p).minus(0.5 * q);
+		Complex		u = r.cbrt();
+		Complex		y = u.abs() < MathUtil.TINY_EPSILON
+						? u.plus(-(5.0 / 6.0) * a - Math.cbrt(q))
+						: u.plus(-(5.0 / 6.0) * a).minus(u.reciprocal().times(p / 3.0));
+		
+		Complex		w = y.times(2.0).plus(a).sqrt();
+		Complex		wInv = w.reciprocal();
+		Complex		wNeg = w.negative();
+		
+		Complex		_3aADD2y = y.times(2.0).plus(3.0 * a);
+		Complex		_2bDIVw = wInv.times(2.0 * b);
+		Complex		sPos = _3aADD2y.plus(_2bDIVw).negative().sqrt();
+		Complex		sNeg = _3aADD2y.minus(_2bDIVw).negative().sqrt();
+		
+		return new Complex[]{
+				w.plus(sPos).times(0.5).minus(0.25 * c3),
+				w.minus(sPos).times(0.5).minus(0.25 * c3),
+				wNeg.plus(sNeg).times(0.5).minus(0.25 * c3),
+				wNeg.minus(sNeg).times(0.5).minus(0.25 * c3)
+		};
+		
+	}
+
+	/**
 	 * Determines if the specified floating point value is close to zero.
 	 * @param value The value to compare with zero.
 	 * @return A value that indicates whether {@code value} is near zero.

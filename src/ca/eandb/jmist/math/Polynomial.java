@@ -68,6 +68,26 @@ public final class Polynomial implements Serializable {
 		return value;
 
 	}
+	
+	/**
+	 * Evaluates this <code>Polynomial</code> at the specified domain value.
+	 * @param z The domain value at which to evaluate this
+	 * 		<code>Polynomial</code>.
+	 * @return The value of this <code>Polynomial</code> at <code>z</code>.
+	 */
+	public Complex at(Complex z) {
+		
+		Complex value = Complex.ZERO;
+		Complex power = Complex.ONE;
+		
+		for (int i = 0; i < this.coeff.length; i++) {
+			value = value.plus(power.times(this.coeff[i]));
+			power = power.times(z);
+		}
+		
+		return value;
+		
+	}
 
 	/**
 	 * Adds this polynomial to another.
@@ -153,6 +173,16 @@ public final class Polynomial implements Serializable {
 	public double[] roots() {
 		this.checkInvariant();
 		return Solver.roots(this.coeff);
+	}
+	
+	/**
+	 * Computes the complex roots of this polynomial.
+	 * @return {@link AncestorEvent} array containing the complex roots of this
+	 * 		polynomial.
+	 */
+	public Complex[] complexRoots() {
+		this.checkInvariant();
+		return Solver.complexRoots(this.coeff);
 	}
 
 	/**
