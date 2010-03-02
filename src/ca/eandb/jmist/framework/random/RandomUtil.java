@@ -11,6 +11,7 @@ import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.PolarCoordinates;
+import ca.eandb.jmist.math.Sphere;
 import ca.eandb.jmist.math.SphericalCoordinates;
 import ca.eandb.jmist.math.Vector2;
 import ca.eandb.jmist.math.Vector3;
@@ -83,6 +84,32 @@ public final class RandomUtil {
 		);
 
 	}
+	
+	public static SphericalCoordinates uniformInsideSphere(Random random) {
+		return uniformInsideSphere(1.0, random.next(), random.next(), random.next());
+	}
+	
+	public static SphericalCoordinates uniformInsideSphere(double radius, Random random) {
+		return uniformInsideSphere(radius, random.next(), random.next(), random.next());
+	}
+	
+	public static SphericalCoordinates uniformInsideSphere(double ru, double rv, double rw) {
+		return uniformInsideSphere(1.0, ru, rv, rw);
+	}
+	
+	public static SphericalCoordinates uniformInsideSphere(double radius, double ru, double rv, double rw) {
+
+		assert(0.0 <= ru && ru <= 1.0);
+		assert(0.0 <= rv && rv <= 1.0);
+		assert(0.0 <= rw && rw <= 1.0);
+
+		return new SphericalCoordinates(
+				Math.acos(2.0 * ru - 1.0),
+				2.0 * Math.PI * rv,
+				radius * Math.cbrt(rw)
+		);
+
+	}
 
 	public static PolarCoordinates uniformOnDisc(Random random) {
 		return uniformOnDisc(1.0, random.next(), random.next());
@@ -90,6 +117,10 @@ public final class RandomUtil {
 
 	public static PolarCoordinates uniformOnDisc(double radius, Random random) {
 		return uniformOnDisc(radius, random.next(), random.next());
+	}
+	
+	public static PolarCoordinates uniformOnDisc(double ru, double rv) {
+		return uniformOnDisc(1.0, ru, rv);
 	}
 
 	public static PolarCoordinates uniformOnDisc(double radius, double ru, double rv) {
