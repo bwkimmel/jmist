@@ -277,6 +277,23 @@ public final class Matrix4 implements Serializable {
 				_20 - m._20, _21 - m._21, _22 - m._22, _23 - m._23,
 				_30 - m._30, _31 - m._31, _32 - m._32, _33 - m._33);
 	}
+	
+	/**
+	 * Computes the general dot product of <code>u</code> and <code>v</code>
+	 * defined by this <code>Matrix4</code> (i.e, <code>u<sup>t</sup>Qv</code>,
+	 * where <code>Q</code> is this <code>Matrix4</code>).
+	 * @param u The first <code>Vector4</code>.
+	 * @param v The second <code>Vector4</code>.
+	 * @return The general dot product of <code>u</code> and <code>v</code>
+	 * 		defined by this <code>Matrix4</code>.
+	 */
+	public double dot(Vector4 u, Vector4 v) {
+		return
+			u.x() * (_00 * v.x() + _01 * v.y() + _02 * v.z() + _03 * v.w()) +
+			u.y() * (_10 * v.x() + _11 * v.y() + _12 * v.z() + _13 * v.w()) +
+			u.z() * (_20 * v.x() + _21 * v.y() + _22 * v.z() + _23 * v.w()) +
+			u.w() * (_30 * v.x() + _31 * v.y() + _32 * v.z() + _33 * v.w());
+	}
 
 	/**
 	 * The identity matrix ({@code this * IDENTITY == this}).
