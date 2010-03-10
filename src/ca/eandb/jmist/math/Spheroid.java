@@ -3,6 +3,7 @@
  */
 package ca.eandb.jmist.math;
 
+import java.io.PrintStream;
 import java.io.Serializable;
 
 import ca.eandb.util.UnimplementedException;
@@ -146,26 +147,8 @@ public final class Spheroid implements Serializable {
 		);
 	}
 	
-	private Ray3 localize(Ray3 ray) {
-		Vector3 r = ray.origin().vectorFrom(center);
-		Vector3	d = ray.direction();
-
-		double	f = a / c;
-		
-		Vector3 u = basis.u();
-		Vector3 v = basis.v();
-		Vector3 w = basis.w();
-		double ru = r.dot(u);
-		double rv = r.dot(v);
-		double rw = r.dot(w);
-		double du = d.dot(u);
-		double dv = d.dot(v);
-		double dw = d.dot(w);
-		
-		r = basis.toStandard(ru, rv, f * rw);
-		d = basis.toStandard(du, dv, f * dw);
-		
-		return new Ray3(center.plus(r), d);
+	public Vector3 normalAt(Point3 p) {
+		return gradient(p).unit();
 	}
 	
 	public boolean intersects(Ray3 ray) {
@@ -176,22 +159,8 @@ public final class Spheroid implements Serializable {
 		 *			Section 2.2
 		 */
 
-		if (isEmpty() || ray == null) return false;
 
-		Ray3	lray = localize(ray);
-
-		Vector3	oc = lray.origin().vectorTo(center);
-
-		double	r2 = a * a;
-		double	L2oc = oc.squaredLength();
-
-		if (L2oc < r2) return true;
-
-		double	tca = lray.direction().dot(oc);
-
-		if (tca < 0.0) return false;
-
-		return lray.pointAt(tca).squaredDistanceTo(center) < r2;
+		return !intersect(ray).isEmpty();
 	}
 	
 	public Interval intersect(Ray3 ray) {
@@ -202,46 +171,23 @@ public final class Spheroid implements Serializable {
 		 */
 
 		if (isEmpty() || ray == null) return Interval.EMPTY;
-
-		Ray3	lray = localize(ray);
-
-		double	dlen = lray.direction().length();
-		lray = new Ray3(ray.origin(), ray.direction().divide(dlen));
-
-		double	r2 = a * a;
-		Vector3	oc = lray.origin().vectorTo(center);
-
-		double	L2oc = oc.squaredLength();
-		boolean	startInside = false;
-
-		if (L2oc < r2)
-			startInside = true;
-
-		// distance along ray to point on ray closest to center of sphere (equation (A10))
-		double	tca = lray.direction().dot(oc);
-
-		// if ray starts outside the sphere and points away from
-		// the center of the sphere, then the ray does not hit
-		// the sphere
-		if (!startInside && (tca < 0.0))
-			return Interval.EMPTY;
-
-		// compute half chord distance squared (equation (A13))
-		double	t2hc = r2 - L2oc + (tca * tca);
-
-		if (t2hc < 0.0)
-			return Interval.EMPTY;
-
-		double	thc = Math.sqrt(t2hc);
-
-		// compute interval (equation (A14))
-		double	tmin = startInside ? 0.0 : (tca - thc) / dlen;
-		double	tmax = (tca + thc) / dlen;
-
-		assert((startInside || Math.abs(characterize(ray.pointAt(tmin))) < MathUtil.EPSILON) && Math.abs(characterize(ray.pointAt(tmax))) < MathUtil.EPSILON);
-
-		return new Interval(tmin, tmax);
-
+		
+		Matrix4 Q = getMatrixRepresentation();
+		Vector4 p = ray.origin().toVector4();
+		Vector4 v = ray.direction().toVector4();
+		
+		double a = Q.dot(v, v);
+		double b = 2.0 * Q.dot(v, p);
+		double c = Q.dot(p, p);
+		
+		Polynomial f = new Polynomial(c, b, a);
+		double[] x = f.roots();
+		
+		if (x.length == 2 && (x[0] > 0.0 || x[1] > 0.0)) {
+			return Interval.between(Math.max(x[0], 0.0), Math.max(x[1], 0.0));
+		}
+		
+		return Interval.EMPTY;
 	}
 	
 	public boolean contains(Spheroid other) {
@@ -319,6 +265,54 @@ public final class Spheroid implements Serializable {
 				0.0, 0.0, 0.0, -1.0);
 		
 		return TtBt.times(S).times(BT);		
+	}
+	
+	public void writeObjToStream(int stacks, int slices, PrintStream out) {
+		for (int i = 0; i <= stacks; i++) {
+			double beta = ((double) i / (double) stacks) * Math.PI;
+			double cb = Math.cos(beta);
+			double sb = Math.sin(beta);
+			int vertices = (i == 0 || i == stacks) ? 1 : slices;
+			for (int j = 0; j < vertices; j++) {
+				double lambda = ((double) j / (double) vertices) * 2.0 * Math.PI;
+				double cl = Math.cos(lambda);
+				double sl = Math.sin(lambda);
+				Point3 p = center.plus(basis.toStandard(a * sb * cl, a * sb * sl, c * cb));
+				out.printf("v %f %f %f", p.x(), p.y(), p.z());
+				out.println();
+			}
+		}
+		int count = 2 + (stacks - 1) * slices;
+		for (int j = 0; j < slices; j++) {
+			int v0 = 0;
+			int v1 = 1 + j;
+			int v2 = 1 + (j + 1) % slices;
+			out.printf("f %d %d %d", v0 - count, v1 - count, v2 - count);
+			out.println();
+		}
+		for (int i = 1; i < stacks - 1; i++) {
+			for (int j = 0; j < slices; j++) {
+				int v0, v1, v2;
+				
+				v0 = 1 + (i - 1) * slices + j;
+				v1 = 1 + i * slices + j;
+				v2 = 1 + (i - 1) * slices + (j + 1) % slices;
+				out.printf("f %d %d %d", v0 - count, v1 - count, v2 - count);
+				out.println();
+
+				v0 = v2;
+				v2 = 1 + i * slices + (j + 1) % slices;
+				out.printf("f %d %d %d", v0 - count, v1 - count, v2 - count);
+				out.println();
+			}
+		}
+		for (int j = 0; j < slices; j++) {
+			int v0 = 1 + (stacks - 1) * slices;
+			int v1 = 1 + (stacks - 2) * slices + (j + 1) % slices;
+			int v2 = 1 + (stacks - 2) * slices + j;
+			out.printf("f %d %d %d", v0 - count, v1 - count, v2 - count);
+			out.println();
+		}
 	}
 	
 }
