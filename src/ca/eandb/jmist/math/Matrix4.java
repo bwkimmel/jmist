@@ -147,7 +147,7 @@ public final class Matrix4 implements Serializable {
 					  _11 * (_22 * _30 - _20 * _32) +
 					  _12 * (_20 * _31 - _21 * _30));
 	}
-	
+
 	/**
 	 * Gets the trace of this matrix (i.e., the sum of the diagonal elements).
 	 * @return The trace of this matrix.
@@ -155,7 +155,7 @@ public final class Matrix4 implements Serializable {
 	public double trace() {
 		return _00 + _11 + _22 + _33;
 	}
-	
+
 	/**
 	 * Gets the characteristic polynomial of this matrix (i.e., the univariate
 	 * polynomial in <code>&lambda;</code> given by
@@ -169,10 +169,10 @@ public final class Matrix4 implements Serializable {
 		double c2 = _00*_11-_20*_02-_10*_01-_30*_03+_11*_22+_11*_33+_22*_33-_23*_32-_21*_12-_31*_13+_00*_22+_00*_33;
 		double c3 = -trace();
 		double c4 = 1.0;
-	
+
 		return new Polynomial(c0, c1, c2, c3, c4);
 	}
-	
+
 	/**
 	 * Returns an array of the real eigenvalues of this matrix (i.e., the
 	 * values <code>&lambda;</code> for which there exists a non-trivial
@@ -182,7 +182,7 @@ public final class Matrix4 implements Serializable {
 	public double[] eigenvalues() {
 		return characteristic().roots();
 	}
-	
+
 	/**
 	 * Returns an array of the <code>Complex</code> eigenvalues of this matrix
 	 * (i.e., the values <code>&lambda;</code> for which there exists a
@@ -277,7 +277,49 @@ public final class Matrix4 implements Serializable {
 				_20 - m._20, _21 - m._21, _22 - m._22, _23 - m._23,
 				_30 - m._30, _31 - m._31, _32 - m._32, _33 - m._33);
 	}
-	
+
+	/**
+	 * Gets the Hermitian part of this <code>Matrix4</code> (i.e.,
+	 * <code>0.5 * (A + A<sup>t</sup>)</code>, where <code>A</code> is this
+	 * <code>Matrix4</code>.
+	 * @return The Hermitian part of this <code>Matrix4</code>.
+	 */
+	public Matrix4 hermitian() {
+		double h01 = 0.5 * (_01 + _10);
+		double h02 = 0.5 * (_02 + _20);
+		double h03 = 0.5 * (_03 + _30);
+		double h12 = 0.5 * (_12 + _21);
+		double h13 = 0.5 * (_13 + _31);
+		double h23 = 0.5 * (_23 + _32);
+
+		return new Matrix4(
+				_00, h01, h02, h03,
+				h01, _11, h12, h13,
+				h02, h12, _22, h23,
+				h03, h13, h23, _33);
+	}
+
+	/**
+	 * Gets the Antihermitian part of this <code>Matrix4</code> (i.e.,
+	 * <code>0.5 * (A - A<sup>t</sup>)</code>, where <code>A</code> is this
+	 * <code>Matrix4</code>.
+	 * @return The Antihermitian part of this <code>Matrix4</code>.
+	 */
+	public Matrix4 antihermitian() {
+		double h01 = 0.5 * (_01 - _10);
+		double h02 = 0.5 * (_02 - _20);
+		double h03 = 0.5 * (_03 - _30);
+		double h12 = 0.5 * (_12 - _21);
+		double h13 = 0.5 * (_13 - _31);
+		double h23 = 0.5 * (_23 - _32);
+
+		return new Matrix4(
+				 0.0,  h01,  h02,  h03,
+				-h01,  0.0,  h12,  h13,
+				-h02, -h12,  0.0,  h23,
+				-h03, -h13, -h23,  0.0);
+	}
+
 	/**
 	 * Computes the general dot product of <code>u</code> and <code>v</code>
 	 * defined by this <code>Matrix4</code> (i.e, <code>u<sup>t</sup>Qv</code>,
