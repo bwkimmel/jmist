@@ -91,6 +91,15 @@ public final class Point3 extends HPoint3 {
 	}
 
 	/**
+	 * Computes the vector to {@link #ORIGIN}.
+	 * @return The vector to {@link #ORIGIN} from this point.
+	 * @see #ORIGIN
+	 */
+	public Vector3 vectorToOrigin() {
+		return new Vector3(-x, -y, -z);
+	}
+
+	/**
 	 * Computes the unit vector from the specified point to this point.
 	 * @param p The point at the start of the vector.
 	 * @return The unit vector from p to this point.

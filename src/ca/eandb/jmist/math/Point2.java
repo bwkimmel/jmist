@@ -108,6 +108,15 @@ public final class Point2 extends Tuple2 {
 	}
 
 	/**
+	 * Computes the vector to {@link #ORIGIN}.
+	 * @return The vector to {@link #ORIGIN} from this point.
+	 * @see #ORIGIN
+	 */
+	public Vector2 vectorToOrigin() {
+		return new Vector2(-x, -y);
+	}
+
+	/**
 	 * Computes the unit vector from the specified point to this point.
 	 * @param p The point at the start of the vector.
 	 * @return The unit vector from p to this point.
