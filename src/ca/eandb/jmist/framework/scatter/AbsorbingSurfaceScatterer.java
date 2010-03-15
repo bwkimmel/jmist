@@ -17,13 +17,17 @@ public final class AbsorbingSurfaceScatterer implements SurfaceScatterer {
 	/** Serialization version ID. */
 	private static final long serialVersionUID = -8261906690789778531L;
 
+	/** The absorption coefficient of the medium (in m<sup>-1</sup>). */
 	private final Function1 absorptionCoefficient;
 
+	/** The thickness of the medium (in meters). */
 	private final double thickness;
 
 	/**
-	 * @param absorptionCoefficient
-	 * @param thickness
+	 * Creates a new <code>AbsorbingSurfaceScatterer</code>.
+	 * @param absorptionCoefficient The absorption coefficient of the medium
+	 * 		(in m<sup>-1</sup>).
+	 * @param thickness The thickness of the medium (in meters).
 	 */
 	public AbsorbingSurfaceScatterer(Function1 absorptionCoefficient,
 			double thickness) {
