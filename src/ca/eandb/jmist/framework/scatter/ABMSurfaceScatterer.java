@@ -32,25 +32,46 @@ import ca.eandb.jmist.util.ArrayUtil;
 import ca.eandb.util.io.CompositeOutputStream;
 
 /**
- * @author brad
- *
+ * A <code>SurfaceScatterer</code> implementing the ABM-U/ABM-B light transport
+ * models.
+ * @author Brad Kimmel
  */
 public final class ABMSurfaceScatterer implements SurfaceScatterer {
-	
+
+	/**
+	 * An absorbing <code>SurfaceScatterer</code> whose thickness may be
+	 * varied at runtime on a per-thread basis.  This allows the thickness to
+	 * be determined randomly for each call to
+	 * <code>ABMSurfaceScatterer.scatter</code>.
+	 * @author Brad Kimmel
+	 */
 	private static final class VariableThicknessAbsorbingSurfaceScatterer
 			implements SurfaceScatterer {
-		
+
+		/**
+		 * The <code>Function1</code> indicating the absorption coefficient
+		 * (in m<sup>-1</sup>).
+		 */
 		private final Function1 absorptionCoefficient;
-		
+
+		/** The per-thread thickness of the absorbing medium (in meters). */
 		private final ThreadLocal<Double> thickness = new ThreadLocal<Double>();
 
 		/**
-		 * @param absorptionCoefficient
+		 * Creates a new
+		 * <code>VariableThicknessAbsorbingSurfaceScatterer</code>.
+		 * @param absorptionCoefficient The <code>Function1</code> indicating
+		 *		the absorption coefficient of the medium (in m<sup>-1</sup>).
 		 */
 		public VariableThicknessAbsorbingSurfaceScatterer(Function1 absorptionCoefficient) {
 			this.absorptionCoefficient = absorptionCoefficient;
 		}
-		
+
+		/**
+		 * Sets the thickness of the absorbing medium for the current thread.
+		 * @param thickness The new thickness of the absorbing medium (in
+		 * 		meters).
+		 */
 		public void setThickness(double thickness) {
 			this.thickness.set(thickness);
 		}
@@ -60,18 +81,23 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 		 */
 		public Vector3 scatter(SurfacePointGeometry x, Vector3 v,
 				boolean adjoint, double lambda, Random rnd) {
-			
+
 			double abs = absorptionCoefficient.evaluate(lambda);
 			double p = -Math.log(1.0 - rnd.next()) * Math.cos(x.getNormal().dot(v)) / abs;
-			
+
 			return (p > thickness.get()) ? v : null;
 		}
 
 	}
 
+	/** Array of wavelengths for the associated with the data to follow. */
 	private static final double[] WAVELENGTHS = ArrayUtil.range(400e-9, 700e-9, 61); // m
 
-	private static final double[] SAC_CHLOROPHYLL_AB_VALUES = { // cm^2/g
+	/**
+	 * Specific absorption coefficient for chlorophyll a+b (in
+	 * m<sup>2</sup> kg<sup>-1</sup>).
+	 */
+	private static final double[] SAC_CHLOROPHYLL_AB_VALUES = { // cm^2/g (to be converted)
 		73400, 67700, 62300, 58000, 55600, 53400, 52700, 52200,
 		51000, 49400, 46700, 44400, 43500, 43500, 43000, 42600,
 		42100, 41300, 40000, 37900, 34800, 30700, 26500, 22100,
@@ -82,7 +108,11 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 		40300, 36900, 28200, 19100, 12600
 	};
 
-	private static final double[] SAC_CAROTENOIDS_VALUES = { // cm^2/g
+	/**
+	 * Specific absorption coefficient for carotenoids (in
+	 * m<sup>2</sup> kg<sup>-1</sup>).
+	 */
+	private static final double[] SAC_CAROTENOIDS_VALUES = { // cm^2/g (to be converted)
 		 6535.506923,  7207.118815,  8017.169001,  8559.258518,
 		 9328.970969,  9942.106999, 10669.577847, 11562.119164,
 		11975.755432, 12370.904604, 12843.907698, 13162.723765,
@@ -101,7 +131,8 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 		  894.049970
 	};
 
-	private static final double[] SAC_WATER_VALUES = { // cm^-1
+	/** Specific absorption coefficient for water (in m<sup>-1</sup>). */
+	private static final double[] SAC_WATER_VALUES = { // cm^-1 (to be converted)
 		0.000066, 0.000053, 0.000047, 0.000044,
 		0.000045, 0.000048, 0.000049, 0.000053,
 		0.000063, 0.000075, 0.000092, 0.000096,
@@ -120,6 +151,7 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 		0.006240
 	};
 
+	/** The index of refraction for water. */
 	public static final double[] IOR_WATER_VALUES = {
 		1.346, 1.345, 1.344, 1.343, 1.342, 1.341, 1.340, 1.339,
 		1.338, 1.338, 1.337, 1.336, 1.336, 1.335, 1.335, 1.334,
@@ -131,6 +163,7 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 		1.332, 1.332, 1.332, 1.332, 1.332
 	};
 
+	/** The index of refraction for the cuticle. */
 	public static final double[] IOR_CUTICLE_VALUES = {
 		1.539712, 1.539678, 1.537372, 1.536209,
 		1.534937, 1.533561, 1.532009, 1.530511,
@@ -166,58 +199,98 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 
 	}
 
+	/**
+	 * Specific absorption coefficient of chlorophyll a+b (in
+	 * m<sup>2</sup> kg<sup>-1</sup>).
+	 */
 	private static final Function1 SAC_CHLOROPHYLL_AB = new PiecewiseLinearFunction1(
 			WAVELENGTHS, SAC_CHLOROPHYLL_AB_VALUES);
 
+	/**
+	 * Specific absorption coefficient of carotenoids (in
+	 * m<sup>2</sup> kg<sup>-1</sup>).
+	 */
 	private static final Function1 SAC_CAROTENOIDS = new PiecewiseLinearFunction1(
 			WAVELENGTHS, SAC_CAROTENOIDS_VALUES);
 
+	/** Absorption coefficient of water (in m<sup>-1</sup>). */
 	private static final Function1 SAC_WATER = new PiecewiseLinearFunction1(
 			WAVELENGTHS, SAC_WATER_VALUES);
 
+	/** Index of refraction for water. */
 	private static final Function1 IOR_WATER = new PiecewiseLinearFunction1(
 			WAVELENGTHS, IOR_WATER_VALUES);
 
+	/** Index of refraction for the cuticle. */
 	private static final Function1 IOR_CUTICLE = new PiecewiseLinearFunction1(
 			WAVELENGTHS, IOR_CUTICLE_VALUES);
 
+	/** Index of refraction for air. */
 	private static final Function1 IOR_AIR = Function1.ONE;
 
+	/**
+	 * Specific absorption coefficient for protein (in
+	 * m<sup>2</sup> kg<sup>-1</sup>).
+	 */
 	private static final double SAC_PROTEIN = 1.992; // m^2/kg
 
+	/**
+	 * Specific absorption coefficient for cellulose+lignin (in
+	 * m<sup>2</sup> kg<sup>-1</sup>).
+	 */
 	private static final double SAC_CELLULOSE_LIGNIN = 0.876; // m^2/kg
 
+	/** Aspect ratio of cuticle undulations. */
 	private double cuticleUndulationsAspectRatio = 5.0;
+
+	/** Aspect ratio of cell caps. */
 	private double epidermisCellCapsAspectRatio = 5.0;
+
+	/** Aspect ratio of palisade mesophyll cell caps. */
 	private double palisadeCellCapsAspectRatio = 1.0;
+
+	/** Aspect ratio of spongy mesophyll cell caps. */
 	private double spongyCellCapsAspectRatio = 5.0;
 
+	/** Thickness of the whole leaf (in meters). */
 	private double wholeLeafThickness = 1.66e-4; // meters
-	
+
+	/** Bulk density of the whole leaf (in kg m<sup>-3</sup>). */
 	private double dryBulkDensity = 1.19e-5 / (4.1e-4 * 1.66e-4); // kg/m^3
-	
+
 	private double airVolumeFraction = 0.31;
-	
 	private double proteinFraction = 0.0;// 0.3106;
 	private double celluloseFraction = 0.0;// 0.1490;
 	private double ligninFraction = 0.0;// 0.0424;
-	
+
+	/**
+	 * A value indicating if the leaf is bifacial.  If so, the ABM-B model is
+	 * used.  Otherwise, ABM-U is used.
+	 */
 	private boolean bifacial = true;
 
 	private double scattererFractionInAntidermalWall = 0.3872;
 	private double scattererFractionInMesophyll = 0.3872;
-	
+
 	private double concChlorophyllAInMesophyll = 3.978; // kg/m^3
-	
+
 	private double concChlorophyllBInMesophyll = 1.161; // kg/m^3
-	
+
 	private double concCarotenoidsInMesophyll = 1.132; // kg/m^3;
-	
+
+	/**
+	 * Total thickness of the mesophyll layers (in meters).  This value is set
+	 * internally, rather than directly by the user.
+	 */
 	private double mesophyllThickness;
-	
+
+	/** The upper spongy mesophyll layer used in the ABM-U implementation. */
 	private VariableThicknessAbsorbingSurfaceScatterer topSpongyMesophyllLayer;
+
+	/** The lower spongy mesophyll layer used in the ABM-U implementation. */
 	private VariableThicknessAbsorbingSurfaceScatterer bottomSpongyMesophyllLayer;
 
+	/** The <code>LayeredSurfaceScatterer</code> representing the ABM model. */
 	private final LayeredSurfaceScatterer subsurface = new LayeredSurfaceScatterer();
 
 	/**
@@ -477,7 +550,10 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 		this.concCarotenoidsInMesophyll = concCarotenoidsInMesophyll;
 	}
 
-
+	/**
+	 * Populates the <code>LayeredSurfaceScatterer</code> according to the ABM
+	 * model from the model parameters.
+	 */
 	private void build() {
 		subsurface.clear();
 
@@ -487,22 +563,22 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 //				IOR_WATER);
 
 		Function1 iorMesophyll = new ConstantFunction1(1.415);
-		
+
 		Function1 iorAntidermalWall = new AXpBFunction1(
 				(1.0 - scattererFractionInAntidermalWall),
 				1.535 * scattererFractionInAntidermalWall,
 				IOR_WATER);
-		
+
 		double concDryMatter = dryBulkDensity / (1.0 - airVolumeFraction);
-		
+
 		double concProtein = concDryMatter * proteinFraction;
 		double concCellulose = concDryMatter * celluloseFraction;
 		double concLignin = concDryMatter * ligninFraction;
-		
+
 		double absProtein = concProtein * SAC_PROTEIN;
 		double absCellulose = concCellulose * SAC_CELLULOSE_LIGNIN;
 		double absLignin = concLignin * SAC_CELLULOSE_LIGNIN;
-		
+
 		Function1 mesophyllAbsorptionCoefficient = new SumFunction1()
 			.addChild(new ScaledFunction1(
 					concChlorophyllAInMesophyll + concChlorophyllBInMesophyll,
@@ -512,21 +588,21 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 					SAC_CAROTENOIDS))
 			.addChild(new ConstantFunction1(absProtein + absCellulose + absLignin))
 			.addChild(SAC_WATER);
-		
-		try {
-			OutputStream file = new FileOutputStream("/Users/brad/mesosac.csv");
-			PrintStream out = new PrintStream(new CompositeOutputStream()
-					.addChild(System.out)
-					.addChild(file));
-			for (int i = 400; i <= 700; i += 5) {
-				out.println(mesophyllAbsorptionCoefficient.evaluate(1e-9 * (double) i));
-			}
-			out.flush();
-			file.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
+
+//		try {
+//			OutputStream file = new FileOutputStream("/Users/brad/mesosac.csv");
+//			PrintStream out = new PrintStream(new CompositeOutputStream()
+//					.addChild(System.out)
+//					.addChild(file));
+//			for (int i = 400; i <= 700; i += 5) {
+//				out.println(mesophyllAbsorptionCoefficient.evaluate(1e-9 * (double) i));
+//			}
+//			out.flush();
+//			file.close();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+
 		double mesophyllFraction = bifacial ? 0.5 : 0.8;
 		mesophyllThickness = mesophyllFraction * wholeLeafThickness;
 
@@ -609,18 +685,17 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 						spongyCellCapsAspectRatio,
 						epidermisCellCapsAspectRatio,
 						spongyCellCapsAspectRatio,
-						epidermisCellCapsAspectRatio))						
+						epidermisCellCapsAspectRatio))
 				.addLayerToBottom(new ABMInterfaceSurfaceScatterer(
 						IOR_AIR, IOR_CUTICLE,
 						epidermisCellCapsAspectRatio,
 						Double.POSITIVE_INFINITY,
 						epidermisCellCapsAspectRatio,
 						cuticleUndulationsAspectRatio));
-			
+
 		}
 		//System.exit(1);
 	}
-
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.scatter.SurfaceScatterer#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, boolean, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random)
@@ -631,7 +706,7 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 		if (subsurface.getNumLayers() == 0) {
 			build();
 		}
-		
+
 		if (!bifacial) {
 			double split = rnd.next();
 			topSpongyMesophyllLayer.setThickness(split * mesophyllThickness);
@@ -640,6 +715,5 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 
 		return subsurface.scatter(x, v, adjoint, lambda, rnd);
 	}
-
 
 }
