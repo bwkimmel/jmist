@@ -3,52 +3,66 @@
  */
 package ca.eandb.jmist.framework.scatter;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
-
 import ca.eandb.jmist.framework.Function1;
 import ca.eandb.jmist.framework.Random;
-import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.SurfacePointGeometry;
-import ca.eandb.jmist.framework.color.ColorModel;
-import ca.eandb.jmist.framework.color.ColorUtil;
-import ca.eandb.jmist.framework.color.Spectrum;
-import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.function.ConstantFunction1;
 import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Optics;
-import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.SphericalCoordinates;
 import ca.eandb.jmist.math.Vector3;
-import ca.eandb.util.io.CompositeOutputStream;
 
 /**
- * @author brad
- *
+ * A <code>SurfaceScatterer</code> that represents an interface between two
+ * layers in the ABM-U or ABM-B implementation.
+ * @see ABMSurfaceScatterer
+ * @author Brad Kimmel
  */
 public final class ABMInterfaceSurfaceScatterer implements SurfaceScatterer {
 
+	/** The refractive index of the medium above the interface. */
 	private final Function1 riBelow;
 
+	/** The refractive index of the medium below the interface. */
 	private final Function1 riAbove;
 
+	/**
+	 * The perturbation exponent used for a ray reflected from the top side of
+	 * the interface.
+	 */
 	private final double n11;
 
+	/**
+	 * The perturbation exponent used for a ray transmitted from the top side
+	 * to the bottom side of the interface.
+	 */
 	private final double n12;
 
+	/**
+	 * The perturbation exponent used for a ray transmitted from the bottom
+	 * side to the top side of the interface.
+	 */
 	private final double n21;
 
+	/**
+	 * The perturbation exponent used for a ray reflected from the bottom side
+	 * of the interface.
+	 */
 	private final double n22;
 
 	/**
-	 * @param riBelow
-	 * @param riAbove
-	 * @param n11
-	 * @param n12
-	 * @param n21
-	 * @param n22
+	 * Creates a new <code>ABMInterfaceSurfaceScatterer</code>.
+	 * @param riBelow The refractive index of the medium above the interface.
+	 * @param riAbove The refractive index of the medium below the interface.
+	 * @param n11 The perturbation exponent used for a ray reflected from the
+	 * 		top side of the interface.
+	 * @param n12 The perturbation exponent used for a ray transmitted from the
+	 * 		top side to the bottom side of the interface.
+	 * @param n21 The perturbation exponent used for a ray transmitted from the
+	 * 		bottom side to the top side of the interface.
+	 * @param n22 The perturbation exponent used for a ray reflected from the
+	 * 		bottom side of the interface.
 	 */
 	public ABMInterfaceSurfaceScatterer(Function1 riBelow, Function1 riAbove, double n11, double n12, double n21, double n22) {
 		this.riBelow = riBelow;
@@ -57,11 +71,11 @@ public final class ABMInterfaceSurfaceScatterer implements SurfaceScatterer {
 		this.n12 = n12;
 		this.n21 = n21;
 		this.n22 = n22;
-		
+
 //		try {
 //			FileOutputStream file = new FileOutputStream("/Users/brad/interface.csv", true);
 //			PrintStream out = new PrintStream(new CompositeOutputStream().addChild(System.out).addChild(file));
-//			
+//
 //			Vector3 N = Vector3.K;
 //			for (int angle = 0; angle < 90; angle++) {
 //				double rad = Math.toRadians(angle);
@@ -96,6 +110,19 @@ public final class ABMInterfaceSurfaceScatterer implements SurfaceScatterer {
 //		}
 	}
 
+	/**
+	 * Creates a new <code>ABMInterfaceSurfaceScatterer</code>.
+	 * @param riBelow The refractive index of the medium above the interface.
+	 * @param riAbove The refractive index of the medium below the interface.
+	 * @param n11 The perturbation exponent used for a ray reflected from the
+	 * 		top side of the interface.
+	 * @param n12 The perturbation exponent used for a ray transmitted from the
+	 * 		top side to the bottom side of the interface.
+	 * @param n21 The perturbation exponent used for a ray transmitted from the
+	 * 		bottom side to the top side of the interface.
+	 * @param n22 The perturbation exponent used for a ray reflected from the
+	 * 		bottom side of the interface.
+	 */
 	public ABMInterfaceSurfaceScatterer(double riBelow, double riAbove, double n11, double n12, double n21, double n22) {
 		this(new ConstantFunction1(riBelow), new ConstantFunction1(riAbove), n11, n12, n21, n22);
 	}
