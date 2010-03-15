@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package ca.eandb.jmist.framework.scatter;
 
@@ -16,27 +16,48 @@ import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
 
 /**
- * @author brad
- *
+ * A <code>SurfaceScatterer</code> constructed by layering child
+ * <code>SurfaceScatterer</code>s.
+ * @author Brad Kimmel
  */
 public final class LayeredSurfaceScatterer implements SurfaceScatterer {
 
+	/**
+	 * A <code>List</code> of the <code>SurfaceScatterer</code>s representing
+	 * the layers of this <code>SurfaceScatterer</code>.
+	 */
 	private final List<SurfaceScatterer> layers = new ArrayList<SurfaceScatterer>();
 
+	/**
+	 * Adds a <code>SurfaceScatterer</code> as a new layer on the top.
+	 * @param e The <code>SurfaceScatterer</code> to add as the new top layer.
+	 * @return This <code>LayeredSurfaceScatterer</code>.
+	 */
 	public LayeredSurfaceScatterer addLayerToTop(SurfaceScatterer e) {
 		layers.add(0, e);
 		return this;
 	}
-	
+
+	/**
+	 * Adds a <code>SurfaceScatterer</code> as a new layer on the bottom.
+	 * @param e The <code>SurfaceScatterer</code> to add as the new bottom
+	 * 		layer.
+	 * @return This <code>LayeredSurfaceScatterer</code>.
+	 */
 	public LayeredSurfaceScatterer addLayerToBottom(SurfaceScatterer e) {
 		layers.add(e);
 		return this;
 	}
-	
+
+	/** Removes all layers. */
 	public void clear() {
 		layers.clear();
 	}
-	
+
+	/**
+	 * Gets the number of layers.
+	 * @return The number of layers.
+	 */
 	public int getNumLayers() {
 		return layers.size();
 	}
@@ -50,20 +71,20 @@ public final class LayeredSurfaceScatterer implements SurfaceScatterer {
 		Vector3 N = x.getNormal();
 		int	depth = (v.dot(N) > 0.0) ? (layers.size() - 1) : 0;
 		int dir;
-		
+
 		do  {
 
 			SurfaceScatterer layer = layers.get(depth);
 			v = layer.scatter(x, v, adjoint, lambda, rnd);
-			
+
 			if (v == null) break;
-		
+
 			dir = (v.dot(N) > 0.0) ? -1 : 1;
 			depth += dir;
 
 		} while (depth >= 0 && depth < layers.size());
-		
+
 		return v;
-	}	
-	
+	}
+
 }
