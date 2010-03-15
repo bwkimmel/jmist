@@ -3,6 +3,8 @@
  */
 package ca.eandb.jmist.math;
 
+import java.io.Serializable;
+
 /**
  * Represents a quadric surface, i.e., the solution to
  * <code><b>x<sup>t</sup>Qx</b> = 0</code>, where
@@ -13,7 +15,10 @@ package ca.eandb.jmist.math;
  * @see <a href="http://mathworld.wolfram.com/QuadraticSurface.html">Quadratic Surface (MathWorld)</a>
  * @author Brad Kimmel
  */
-public final class Quadric {
+public final class Quadric implements Serializable {
+
+	/** Serialization version ID. */
+	private static final long serialVersionUID = 6807159479632893773L;
 
 	/**
 	 * The symmetric <code>Matrix4</code> that characterizes this
