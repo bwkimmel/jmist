@@ -21,6 +21,9 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class ABMInterfaceSurfaceScatterer implements SurfaceScatterer {
 
+	/** Serialization version ID. */
+	private static final long serialVersionUID = -6973525891522551378L;
+
 	/** The refractive index of the medium above the interface. */
 	private final Function1 riBelow;
 

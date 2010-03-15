@@ -1,17 +1,11 @@
 /**
- * 
+ *
  */
 package ca.eandb.jmist.framework.scatter;
 
 import ca.eandb.jmist.framework.Function1;
 import ca.eandb.jmist.framework.Random;
-import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.SurfacePointGeometry;
-import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.framework.color.ColorUtil;
-import ca.eandb.jmist.framework.color.Spectrum;
-import ca.eandb.jmist.framework.color.WavelengthPacket;
-import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
 
 /**
@@ -19,9 +13,12 @@ import ca.eandb.jmist.math.Vector3;
  *
  */
 public final class AbsorbingSurfaceScatterer implements SurfaceScatterer {
-	
+
+	/** Serialization version ID. */
+	private static final long serialVersionUID = -8261906690789778531L;
+
 	private final Function1 absorptionCoefficient;
-	
+
 	private final double thickness;
 
 	/**
@@ -39,10 +36,10 @@ public final class AbsorbingSurfaceScatterer implements SurfaceScatterer {
 	 */
 	public Vector3 scatter(SurfacePointGeometry x, Vector3 v,
 			boolean adjoint, double lambda, Random rnd) {
-		
+
 		double abs = absorptionCoefficient.evaluate(lambda);
 		double p = -Math.log(1.0 - rnd.next()) * Math.abs(Math.cos(x.getNormal().dot(v))) / abs;
-		
+
 		return (p > thickness) ? v : null;
 	}
 

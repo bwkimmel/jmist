@@ -1,23 +1,21 @@
 /**
- * 
+ *
  */
 package ca.eandb.jmist.framework.scatter;
 
 import java.io.Serializable;
 
 import ca.eandb.jmist.framework.Random;
-import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.SurfacePointGeometry;
-import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Vector3;
 
 /**
  * Represents the surface scattering properties of a material.
- * 
+ *
  * @author Brad Kimmel
  */
 public interface SurfaceScatterer extends Serializable {
-	
+
 	/**
 	 * Simulates surface scattering.
 	 * @param x The <code>SurfacePointGeometry</code> describing the geometry
@@ -32,7 +30,7 @@ public interface SurfaceScatterer extends Serializable {
 	 */
 	Vector3 scatter(SurfacePointGeometry x, Vector3 v, boolean adjoint,
 			double wavelength, Random rnd);
-	
+
 	/** A <code>SurfaceScatterer</code> that absorbs all incident light. */
 	public static final SurfaceScatterer ABSORB = new SurfaceScatterer() {
 		private static final long serialVersionUID = 8194517746654987095L;
@@ -41,7 +39,7 @@ public interface SurfaceScatterer extends Serializable {
 			return null;
 		}
 	};
-	
+
 	/** A <code>SurfaceScatterer</code> that transmits all incident light. */
 	public static final SurfaceScatterer TRANSMIT = new SurfaceScatterer() {
 		private static final long serialVersionUID = -927167595504776971L;
@@ -50,5 +48,5 @@ public interface SurfaceScatterer extends Serializable {
 			return v;
 		}
 	};
-	
+
 }

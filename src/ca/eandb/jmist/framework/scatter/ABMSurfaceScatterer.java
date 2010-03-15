@@ -3,33 +3,16 @@
  */
 package ca.eandb.jmist.framework.scatter;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 import ca.eandb.jmist.framework.Function1;
 import ca.eandb.jmist.framework.Random;
-import ca.eandb.jmist.framework.ScatteredRay;
-import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.SurfacePointGeometry;
-import ca.eandb.jmist.framework.ScatteredRay.Type;
-import ca.eandb.jmist.framework.color.ColorModel;
-import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.function.AXpBFunction1;
 import ca.eandb.jmist.framework.function.ConstantFunction1;
 import ca.eandb.jmist.framework.function.PiecewiseLinearFunction1;
 import ca.eandb.jmist.framework.function.ScaledFunction1;
 import ca.eandb.jmist.framework.function.SumFunction1;
-import ca.eandb.jmist.math.Basis3;
-import ca.eandb.jmist.math.SphericalCoordinates;
 import ca.eandb.jmist.math.Vector3;
 import ca.eandb.jmist.util.ArrayUtil;
-import ca.eandb.util.io.CompositeOutputStream;
 
 /**
  * A <code>SurfaceScatterer</code> implementing the ABM-U/ABM-B light transport
@@ -37,6 +20,9 @@ import ca.eandb.util.io.CompositeOutputStream;
  * @author Brad Kimmel
  */
 public final class ABMSurfaceScatterer implements SurfaceScatterer {
+
+	/** Serialization version ID. */
+	private static final long serialVersionUID = 969983861047935903L;
 
 	/**
 	 * An absorbing <code>SurfaceScatterer</code> whose thickness may be
@@ -47,6 +33,9 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 	 */
 	private static final class VariableThicknessAbsorbingSurfaceScatterer
 			implements SurfaceScatterer {
+
+		/** Serialization version ID. */
+		private static final long serialVersionUID = 4413776349916702845L;
 
 		/**
 		 * The <code>Function1</code> indicating the absorption coefficient

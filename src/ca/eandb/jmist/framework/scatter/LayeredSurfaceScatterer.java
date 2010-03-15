@@ -7,12 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.eandb.jmist.framework.Random;
-import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.SurfacePointGeometry;
-import ca.eandb.jmist.framework.ScatteredRay.Type;
-import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.framework.color.WavelengthPacket;
-import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
 
 /**
@@ -21,6 +16,9 @@ import ca.eandb.jmist.math.Vector3;
  * @author Brad Kimmel
  */
 public final class LayeredSurfaceScatterer implements SurfaceScatterer {
+
+	/** Serialization version ID. */
+	private static final long serialVersionUID = -8457484575034697420L;
 
 	/**
 	 * A <code>List</code> of the <code>SurfaceScatterer</code>s representing
