@@ -7,13 +7,12 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.Serializable;
 
-import ca.eandb.jmist.framework.Material;
-import ca.eandb.jmist.framework.measurement.CollectorSphere;
-import ca.eandb.jmist.framework.measurement.Photometer;
-import ca.eandb.jmist.math.SphericalCoordinates;
-
 import ca.eandb.jdcp.job.AbstractParallelizableJob;
 import ca.eandb.jdcp.job.TaskWorker;
+import ca.eandb.jmist.framework.measurement.CollectorSphere;
+import ca.eandb.jmist.framework.measurement.Photometer;
+import ca.eandb.jmist.framework.scatter.SurfaceScatterer;
+import ca.eandb.jmist.math.SphericalCoordinates;
 import ca.eandb.util.io.Archive;
 import ca.eandb.util.progress.ProgressMonitor;
 
@@ -23,7 +22,7 @@ import ca.eandb.util.progress.ProgressMonitor;
  */
 public final class PhotometerJob extends AbstractParallelizableJob {
 
-	public PhotometerJob(Material specimen,
+	public PhotometerJob(SurfaceScatterer specimen,
 			SphericalCoordinates[] incidentAngles, double[] wavelengths,
 			long samplesPerMeasurement, long samplesPerTask, CollectorSphere prototype) {
 
@@ -236,11 +235,11 @@ public final class PhotometerJob extends AbstractParallelizableJob {
 
 		/**
 		 * Creates a new <code>PhotometerTaskWorker</code>.
-		 * @param specimen The <code>Material</code> to be measured.
+		 * @param specimen The <code>SurfaceScatterer</code> to be measured.
 		 * @param prototype The prototype <code>CollectorSphere</code> from
 		 * 		which clones are constructed to record hits to.
 		 */
-		public PhotometerTaskWorker(Material specimen, CollectorSphere prototype) {
+		public PhotometerTaskWorker(SurfaceScatterer specimen, CollectorSphere prototype) {
 			this.specimen = specimen;
 			this.prototype = prototype;
 		}
@@ -250,11 +249,11 @@ public final class PhotometerJob extends AbstractParallelizableJob {
 		 */
 		public Object performTask(Object task, ProgressMonitor monitor) {
 
-			CollectorSphere		collector		= this.prototype.clone();
+			CollectorSphere		collector		= prototype.clone();
 			Photometer			photometer		= new Photometer(collector);
 			PhotometerTask		info			= (PhotometerTask) task;
 
-			photometer.setSpecimen(this.specimen);
+			photometer.setSpecimen(specimen);
 			photometer.setIncidentAngle(info.incident);
 			photometer.setWavelength(info.wavelength);
 			photometer.castPhotons(info.samples, monitor);
@@ -264,9 +263,9 @@ public final class PhotometerJob extends AbstractParallelizableJob {
 		}
 
 		/**
-		 * The <code>Material</code> to be measured.
+		 * The <code>SurfaceScatterer</code> to be measured.
 		 */
-		private final Material specimen;
+		private final SurfaceScatterer specimen;
 
 		/**
 		 * The prototype <code>CollectorSphere</code> from which clones are
