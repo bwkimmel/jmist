@@ -42,7 +42,7 @@ public final class AbsorbingSurfaceScatterer implements SurfaceScatterer {
 			boolean adjoint, double lambda, Random rnd) {
 
 		double abs = absorptionCoefficient.evaluate(lambda);
-		double p = -Math.log(1.0 - rnd.next()) * Math.abs(Math.cos(x.getNormal().dot(v))) / abs;
+		double p = -Math.log(1.0 - rnd.next()) * Math.abs(x.getNormal().dot(v)) / abs;
 
 		return (p > thickness) ? v : null;
 	}
