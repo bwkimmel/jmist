@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.SurfacePointGeometry;
+import ca.eandb.jmist.math.Optics;
 import ca.eandb.jmist.math.Vector3;
 
 /**
@@ -46,6 +47,15 @@ public interface SurfaceScatterer extends Serializable {
 		public Vector3 scatter(SurfacePointGeometry x, Vector3 v,
 				boolean adjoint, double wavelength, Random rnd) {
 			return v;
+		}
+	};
+
+	/** A <code>SurfaceScatterer</code> that reflects all incident light. */
+	public static final SurfaceScatterer REFLECT = new SurfaceScatterer() {
+		private static final long serialVersionUID = 3125984180868998388L;
+		public Vector3 scatter(SurfacePointGeometry x, Vector3 v,
+				boolean adjoint, double wavelength, Random rnd) {
+			return Optics.reflect(v, x.getNormal());
 		}
 	};
 
