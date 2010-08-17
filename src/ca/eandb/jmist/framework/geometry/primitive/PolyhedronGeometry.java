@@ -13,9 +13,11 @@ import ca.eandb.jmist.framework.BoundingBoxBuilder3;
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
 import ca.eandb.jmist.framework.ShadingContext;
+import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.geometry.AbstractGeometry;
 import ca.eandb.jmist.framework.random.CategoricalRandom;
 import ca.eandb.jmist.framework.random.RandomUtil;
+import ca.eandb.jmist.framework.random.SeedReference;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.GeometryUtil;
@@ -32,9 +34,7 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class PolyhedronGeometry extends AbstractGeometry {
 
-	/**
-	 * Serialization version ID.
-	 */
+	/** Serialization version ID. */
 	private static final long serialVersionUID = 262374288661771750L;
 
 	/**
@@ -206,6 +206,26 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 		Intersection x = super.newSurfacePoint(p, index).setPrimitiveIndex(index);
 		x.prepareShadingContext(context);
 	}
+	
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext, double, double, double)
+	 */
+	@Override
+	public void generateRandomSurfacePoint(ShadingContext context, double ru,
+			double rv, double rj) {
+		double base = 0.0;
+		double x = ru * getSurfaceArea();
+		for (int i = 0; i < faces.size(); i++) {
+			Face face = faces.get(i);
+			double area = face.getSurfaceArea();
+			if (x < base + area) {
+				generateRandomSurfacePoint(i, context, (x - base) / area, rv, rj);
+				return;
+			}
+			base += area;
+		}
+		super.generateRandomSurfacePoint(context, ru, rv, rj);
+	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getSurfaceArea(int)
@@ -213,6 +233,23 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	@Override
 	public double getSurfaceArea(int index) {
 		return faces.get(index).getSurfaceArea();
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getSurfaceArea()
+	 */
+	@Override
+	public double getSurfaceArea() {
+		if (surfaceArea < 0.0) {
+			synchronized (this) {
+				double area = 0.0;
+				for (Face face : faces) {
+					area += face.getSurfaceArea();
+				}
+				surfaceArea = area;
+			}
+		}
+		return surfaceArea;
 	}
 
 	/* (non-Javadoc)
@@ -230,9 +267,7 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	 */
 	private final class Face implements Bounded3, Serializable {
 
-		/**
-		 * Serialization version ID.
-		 */
+		/** Serialization version ID. */
 		private static final long serialVersionUID = 5733963094194933946L;
 
 		/**
@@ -295,25 +330,31 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 		}
 
 		public double getSurfaceArea() {
-			Vector3 n = computeFaceNormal();
-			Vector3 v0 = vertices.get(indices[indices.length - 1]).vectorFromOrigin();
-			Vector3 v1;
-			Vector3 r = Vector3.ZERO;
-			for (int i = 0; i < indices.length; i++) {
-				v1 = vertices.get(indices[i]).vectorFromOrigin();
-				r = r.plus(v0.cross(v1));
-				v0 = v1;
+			if (area < 0.0) {
+				synchronized (this) {
+					Vector3 n = computeFaceNormal();
+					Vector3 v0 = vertices.get(indices[indices.length - 1]).vectorFromOrigin();
+					Vector3 v1;
+					Vector3 r = Vector3.ZERO;
+					for (int i = 0; i < indices.length; i++) {
+						v1 = vertices.get(indices[i]).vectorFromOrigin();
+						r = r.plus(v0.cross(v1));
+						v0 = v1;
+					}
+					area = 0.5 * Math.abs(n.dot(r));					
+				}
 			}
-			return 0.5 * Math.abs(n.dot(r));
+			return area;
 		}
 
 		public Point3 generateRandomSurfacePoint(double ru, double rv, double rj) {
 			decompose();
-			int tri = 3 * rnd.next(rj);
+			SeedReference vref = new SeedReference(rv);
+			int tri = 3 * rnd.next(vref);
 			Point3 a = vertices.get(decomp[tri]);
 			Point3 b = vertices.get(decomp[tri + 1]);
 			Point3 c = vertices.get(decomp[tri + 2]);
-			return RandomUtil.uniformOnTriangle(a, b, c, ru, rv);
+			return RandomUtil.uniformOnTriangle(a, b, c, ru, vref.seed);
 		}
 
 		private Point2 getUV(Point3 p) {
@@ -410,6 +451,9 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 		 * for corresponding to the vertices on this face.
 		 */
 		public final int[] normalIndices;
+		
+		/** The area of this face. */
+		public double area = -1.0;
 
 	}
 
@@ -427,5 +471,8 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 
 	/** An array of the <code>Face</code>s of this polyhedron. */
 	private final List<Face> faces = new ArrayList<Face>();
+	
+	/** The surface area of this polyhedron. */
+	private double surfaceArea = -1.0;
 
 }
