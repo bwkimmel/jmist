@@ -173,7 +173,7 @@ final class WavefrontMaterialReader {
 		lineInterpreters.put("map_Tf", LI_MAP);
 		lineInterpreters.put("Ns", LI_SHARPNESS);
 		lineInterpreters.put("sharpness", LI_SHARPNESS);
-		lineInterpreters.put("optical_density", LI_OPTICAL_DENSITY);
+		lineInterpreters.put("Ni", LI_OPTICAL_DENSITY);
 		lineInterpreters.put("illum", LI_ILLUM);
 	}
 
