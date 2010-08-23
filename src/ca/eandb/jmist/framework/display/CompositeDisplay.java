@@ -3,6 +3,7 @@
  */
 package ca.eandb.jmist.framework.display;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,10 @@ import ca.eandb.jmist.framework.color.ColorModel;
  * 
  * @author Brad Kimmel
  */
-public final class CompositeDisplay implements Display {
+public final class CompositeDisplay implements Display, Serializable {
+	
+	/** Serialization version ID. */
+	private static final long serialVersionUID = 1296043359308113088L;
 	
 	/** The <code>List</code> of child <code>Display</code>s to draw to. */
 	private final List<Display> children = new ArrayList<Display>();
