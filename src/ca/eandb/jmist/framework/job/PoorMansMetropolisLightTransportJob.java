@@ -25,6 +25,8 @@
 
 package ca.eandb.jmist.framework.job;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -263,38 +265,48 @@ public final class PoorMansMetropolisLightTransportJob extends AbstractParalleli
 		/** Serialization version ID. */
 		private static final long serialVersionUID = -7848301189373426210L;
 		
-		private transient ThreadLocal<LCG> lcg = new ThreadLocal<LCG>() {
-			protected LCG initialValue() {
-				return new LCG(width * height);
-			}
-		};
+		private transient ThreadLocal<LCG> lcg;
 
-		private transient ThreadLocal<Raster> raster = new ThreadLocal<Raster>() {
-			protected Raster initialValue() {
-				return colorModel.createRaster(width, height);
-			}
-		};
+		private transient ThreadLocal<Raster> raster;
 		
-		private transient ThreadLocal<RepeatableRandom> seqX = new ThreadLocal<RepeatableRandom>() {
-			public RepeatableRandom initialValue() {
-				return new RepeatableRandom(
-						PoorMansMetropolisLightTransportJob.this.random);
-			}
-		};
+		private transient ThreadLocal<RepeatableRandom> seqX;
 		
-		private transient ThreadLocal<RepeatableRandom> seqY = new ThreadLocal<RepeatableRandom>() {
-			public RepeatableRandom initialValue() {
-				return new RepeatableRandom(
-						PoorMansMetropolisLightTransportJob.this.random);
-			}
-		};
+		private transient ThreadLocal<RepeatableRandom> seqY;
 		
-		private transient ThreadLocal<CategoricalRandom> mutationType = new ThreadLocal<CategoricalRandom>() {
-			final double[] weights = new double[]{ 40, 0, 60 };
-			public CategoricalRandom initialValue() {
-				return new CategoricalRandom(weights);
+		private transient ThreadLocal<CategoricalRandom> mutationType;
+
+		private synchronized void initialize() {
+			if (lcg == null) {
+				lcg = new ThreadLocal<LCG>() {
+					protected LCG initialValue() {
+						return new LCG(width * height);
+					}
+				};
+				raster = new ThreadLocal<Raster>() {
+					protected Raster initialValue() {
+						return colorModel.createRaster(width, height);
+					}
+				};
+				seqX = new ThreadLocal<RepeatableRandom>() {
+					public RepeatableRandom initialValue() {
+						return new RepeatableRandom(
+								PoorMansMetropolisLightTransportJob.this.random);
+					}
+				};
+				seqY = new ThreadLocal<RepeatableRandom>() {
+					public RepeatableRandom initialValue() {
+						return new RepeatableRandom(
+								PoorMansMetropolisLightTransportJob.this.random);
+					}
+				};
+				mutationType = new ThreadLocal<CategoricalRandom>() {
+					final double[] weights = new double[]{ 40, 0, 60 };
+					public CategoricalRandom initialValue() {
+						return new CategoricalRandom(weights);
+					}
+				};
 			}
-		};
+		}
 		
 		private Path generateNewPath() {
 			RepeatableRandom seq = (RepeatableRandom) seqX.get().createCompatibleRandom();
@@ -414,7 +426,7 @@ public final class PoorMansMetropolisLightTransportJob extends AbstractParalleli
 		 * @see ca.eandb.jdcp.job.TaskWorker#performTask(java.lang.Object, ca.eandb.util.progress.ProgressMonitor)
 		 */
 		public Object performTask(Object task, ProgressMonitor monitor) {
-
+			
 			int		mutations			= (Integer) task;
 			int		numPixels			= width * height;
 			double	mutationsPerPixel	= (double) mutations / (double) numPixels;
@@ -426,6 +438,7 @@ public final class PoorMansMetropolisLightTransportJob extends AbstractParalleli
 			List<Contribution> cy		= new ArrayList<Contribution>();
 			boolean accept;
 			
+			initialize();
 			raster.get().clear();
 			
 			mutations += initialMutations;
