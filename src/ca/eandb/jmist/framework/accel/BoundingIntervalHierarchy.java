@@ -57,6 +57,8 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
 	private transient boolean ready = false;
 
 	private final int maxItemsPerLeaf = 2;
+	
+	private final double tolerance = MathUtil.EPSILON;
 
 	/**
 	 * @param inner
@@ -129,13 +131,14 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
 			ready = true;
 		}
 	}
-
+	
 	private void build(int offset, Bound bound, int start, int end, Clip clip) {
 		assert(end > start);
 
 		double lenx = bound.maxx - bound.minx;
 		double leny = bound.maxy - bound.miny;
 		double lenz = bound.maxz - bound.minz;
+		double maxlen = Math.max(Math.max(lenx, leny), lenz);
 		int axis;
 		double plane;
 		if (lenx > leny && lenx > lenz) {
@@ -152,8 +155,8 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
 		int left = split - start;
 		int right = end - split;
 
-		int leftChild = (left > maxItemsPerLeaf) ? buffer.allocateInternal() : (left > 0) ? buffer.allocateLeaf() : -1;
-		int rightChild = (right > maxItemsPerLeaf) ? buffer.allocateInternal() : (right > 0) ? buffer.allocateLeaf() : -1;
+		int leftChild = (left > maxItemsPerLeaf && maxlen >= tolerance) ? buffer.allocateInternal() : (left > 0) ? buffer.allocateLeaf() : -1;
+		int rightChild = (right > maxItemsPerLeaf && maxlen >= tolerance) ? buffer.allocateInternal() : (right > 0) ? buffer.allocateLeaf() : -1;
 
 		assert(offset >= 0);
 		int firstChild = (left > 0) ? leftChild : rightChild;
@@ -161,7 +164,7 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
 		buffer.writeInternal(offset, axis, clip, firstChild);
 
 		// add new node here
-		if (left > maxItemsPerLeaf) {
+		if (left > maxItemsPerLeaf && maxlen >= tolerance) {
 			double temp = bound.setMax(axis, plane);
 			build(leftChild, bound, start, split, clip);
 			bound.setMax(axis, temp);
@@ -172,7 +175,7 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
 			}
 			buffer.writeLeaf(leftChild, start, split);
 		}
-		if (right > maxItemsPerLeaf) {
+		if (right > maxItemsPerLeaf && maxlen >= tolerance) {
 			double temp = bound.setMin(axis, plane);
 			build(rightChild, bound, split, end, clip);
 			bound.setMin(axis, temp);
