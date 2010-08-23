@@ -3,6 +3,7 @@
  */
 package ca.eandb.jmist.framework.scene;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -61,7 +62,11 @@ public final class AppearanceMapSceneElement extends SceneElementDecorator {
 		super(inner);
 	}
 
-	private static final class Appearance {
+	private static final class Appearance implements Serializable {
+		
+		/** Serialization version ID. */
+		private static final long serialVersionUID = 1004659206467144573L;
+		
 		public final Material material;
 		public final Shader shader;
 
@@ -69,6 +74,7 @@ public final class AppearanceMapSceneElement extends SceneElementDecorator {
 			this.material = material;
 			this.shader = shader;
 		}
+		
 	}
 
 	private class AppearanceIntersectionRecorder extends IntersectionRecorderDecorator {
