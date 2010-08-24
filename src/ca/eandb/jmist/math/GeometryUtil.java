@@ -33,6 +33,22 @@ public final class GeometryUtil {
 				b.x() * (c.y() - a.y()) +
 				c.x() * (a.y() - b.y())));
 	}
+	
+	public static double rayIntersectTriangle(Ray3 ray, Point3 a, Point3 b, Point3 c) {
+		Plane3 plane = Plane3.throughPoints(a, b, c);
+		double t = plane.intersect(ray);
+		Point3 p = ray.pointAt(t);
+		double abp = areaOfTriangle(a, b, p);
+		double bcp = areaOfTriangle(b, c, p);
+		double cap = areaOfTriangle(c, a, p);
+		double abc = areaOfTriangle(a, b, c);
+		
+		if (abp + bcp > abc || bcp + cap > abc || cap + abp > abc) {
+			return Double.NaN;
+		} else {
+			return t;
+		}
+	}
 
 	/**
 	 * This class cannot be instantiated.
