@@ -321,7 +321,7 @@ public final class Box3 implements Serializable {
 				minimumZ - amount,
 				maximumX + amount,
 				maximumY + amount,
-				minimumZ + amount
+				maximumZ + amount
 		);
 	}
 
