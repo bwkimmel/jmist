@@ -8,6 +8,9 @@ import java.awt.image.Raster;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
@@ -35,27 +38,18 @@ public final class RasterTexture2 implements Texture2 {
 
 	/**
 	 * Creates a new <code>RasterTexture2</code>.
-	 * @param raster The <code>Raster</code> to use as the basis for the new
-	 * 		<code>Texture2</code>.
-	 */
-	public RasterTexture2(Raster raster) {
-		this(raster, null);
-	}
-
-	/**
-	 * Creates a new <code>RasterTexture2</code>.
-	 * @param raster The <code>Raster</code> to use as the basis for the new
-	 * 		<code>Texture2</code>.
+	 * @param raster The <code>BufferedImage</code> to use as the basis for the
+	 * 		new <code>Texture2</code>.
 	 * @param factory The <code>PixelSpectrumFactory</code> to use to create
 	 * 		spectra from <code>Pixel</code>s.
 	 */
-	public RasterTexture2(Raster raster, PixelSpectrumFactory factory) {
-		this.raster = raster;
+	public RasterTexture2(BufferedImage image, PixelSpectrumFactory factory) {
+		this.image = image;
 		this.factory = factory;
 	}
 
 	public RasterTexture2(BufferedImage image) {
-		this(image.getRaster());
+		this(image, null);
 	}
 
 	public RasterTexture2(File file) throws IOException {
@@ -74,24 +68,31 @@ public final class RasterTexture2 implements Texture2 {
 		this(ImageIO.read(input));
 	}
 
-	/**
-	 * A place holder to hold a double array for the pixel, so that one is not
-	 * allocated on every call to {@link #evaluate(Point2, WavelengthPacket)}.
-	 */
-	private final ThreadLocal<double[]> placeholder = new ThreadLocal<double[]>();
+	private void writeObject(ObjectOutputStream oos) throws IOException {
+		oos.defaultWriteObject();
+		ImageIO.write(image, "png", oos);
+	}
+
+	private void readObject(ObjectInputStream ois)
+			throws ClassNotFoundException, IOException {
+		ois.defaultReadObject();
+		image = ImageIO.read(ois);
+		placeholder = new ThreadLocal<double[]>();
+	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Texture2#evaluate(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
 	public Color evaluate(Point2 p, WavelengthPacket lambda) {
-
+		
+		Raster		raster	= image.getRaster();
 		double		u		= p.x() - Math.floor(p.x());
 		double		v		= p.y() - Math.floor(p.y());
 		int			w		= raster.getWidth();
 		int			h		= raster.getHeight();
 		int			x		= MathUtil.threshold((int) Math.floor(u * (double) w), 0, w - 1);
 		int			y		= MathUtil.threshold((int) Math.floor(v * (double) h), 0, h - 1);
-		double[]	pixel	= this.raster.getPixel(x, y, placeholder.get());
+		double[]	pixel	= raster.getPixel(x, y, placeholder.get());
 		ColorModel	cm		= lambda.getColorModel();
 
 		placeholder.set(pixel);
@@ -103,7 +104,7 @@ public final class RasterTexture2 implements Texture2 {
 			case 1:
 				return cm.getGray(pixel[0], lambda);
 			case 3:
-				return cm.fromRGB(pixel[0], pixel[1], pixel[2]).sample(lambda);
+				return cm.fromRGB(pixel[0]/255.0, pixel[1]/255.0, pixel[2]/255.0).sample(lambda);
 			default:
 				throw new RuntimeException("Raster has unrecognized number of bands.");
 			}
@@ -112,10 +113,16 @@ public final class RasterTexture2 implements Texture2 {
 	}
 
 	/**
-	 * The <code>Raster</code> that serves as the basis for this
+	 * A place holder to hold a double array for the pixel, so that one is not
+	 * allocated on every call to {@link #evaluate(Point2, WavelengthPacket)}.
+	 */
+	private transient ThreadLocal<double[]> placeholder = new ThreadLocal<double[]>();
+
+	/**
+	 * The <code>BufferedImage</code> that serves as the basis for this
 	 * <code>Texture2</code>.
 	 */
-	private final Raster raster;
+	private transient BufferedImage image;
 
 	/**
 	 * The <code>PixelSpectrumFactory</code> to use to extrapolate
