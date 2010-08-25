@@ -278,10 +278,12 @@ public final class EqualPolarAnglesCollectorSphere extends
 		} else if (stack == 2 * stacks - 1) {
 			return sensors() - 1;
 		} else { /* 0 < stack < 2 * stacks - 1 */
+			phi += Math.PI / (double) slices;
+			
 			if (phi < 0.0) phi += 2.0 * Math.PI;
 			if (phi >= 2.0 * Math.PI) phi -= 2.0 * Math.PI;
 			
-			int slice = (int) ((double) slices / (phi / (2.0 * Math.PI)));
+			int slice = (int) ((double) slices * (phi / (2.0 * Math.PI)));
 			slice = MathUtil.threshold(slice, 0, slices - 1);
 			
 			return 1 + (stack - 1) * slices + slice;
