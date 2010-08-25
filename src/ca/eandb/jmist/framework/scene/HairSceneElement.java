@@ -40,15 +40,15 @@ public final class HairSceneElement implements SceneElement {
 	
 	private final int base;
 
-	private final int amount = 10000;
+	private final int amount = 100000;
 	
 	private final int segments = 4;
 
 	private final Vector3 meanInitialVelocity = new Vector3(0.0, 0.0, 0.2);
 	
-	private final double randomInitialVelocity = 0.005;
+	private final double randomInitialVelocity = 0.07;
 	
-	private final double roughness = 0.002;
+	private final double roughness = 0.01;
 	
 	private final boolean renderEmitter = false;
 	
