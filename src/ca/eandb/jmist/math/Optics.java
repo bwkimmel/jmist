@@ -556,7 +556,6 @@ public final class Optics {
 			//
 			RefractResult result = refractAngle(-ci, n2, n1);
 			result.cosT = -result.cosT;
-			result.nEff = 1.0 / result.nEff;
 			return result;
 
 		}
