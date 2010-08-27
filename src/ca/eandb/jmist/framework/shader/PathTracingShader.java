@@ -25,12 +25,14 @@
 
 package ca.eandb.jmist.framework.shader;
 
+import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.Shader;
 import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorUtil;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.framework.random.NRooksRandom;
 import ca.eandb.jmist.framework.random.RandomUtil;
 
 /**
@@ -44,23 +46,38 @@ public final class PathTracingShader implements Shader {
 
 	/** The default maximum path depth. */
 	private static final int DEFAULT_MAX_DEPTH = 10;
+	
+	private static final int DEFAULT_FIRST_BOUNCE_RAYS = 1;
 
 	/** The maximum path depth. */
 	private final int maxDepth;
+	
+	private final int firstBounceRays;
 
 	/**
 	 * Creates a new <code>PathTracingShader</code>.
 	 */
 	public PathTracingShader() {
-		this(DEFAULT_MAX_DEPTH);
+		this(DEFAULT_MAX_DEPTH, DEFAULT_FIRST_BOUNCE_RAYS);
 	}
-
+	
 	/**
 	 * Creates a new <code>PathTracingShader</code>.
 	 * @param maxDepth The maximum path depth.
 	 */
 	public PathTracingShader(int maxDepth) {
+		this(maxDepth, DEFAULT_FIRST_BOUNCE_RAYS);
+	}
+
+	/**
+	 * Creates a new <code>PathTracingShader</code>.
+	 * @param maxDepth The maximum path depth.
+	 * @param firstBounceRays The number of secondary rays to cast on the first
+	 * 		bounce.
+	 */
+	public PathTracingShader(int maxDepth, int firstBounceRays) {
 		this.maxDepth = maxDepth;
+		this.firstBounceRays = firstBounceRays;
 	}
 
 	/* (non-Javadoc)
@@ -68,19 +85,32 @@ public final class PathTracingShader implements Shader {
 	 */
 	public Color shade(ShadingContext sc) {
 
-		if (sc.getPathDepth() < maxDepth) {
-			ScatteredRay ray = sc.getScatteredRay();
-			double prob = ColorUtil.getMeanChannelValue(ray.getColor());
-			if (prob < 1.0) {
-				if (RandomUtil.bernoulli(prob, sc.getRandom())) {
-					ray = ScatteredRay.select(ray, prob);
-				} else {
-					ray = null;
+		if (firstBounceRays > 0 && sc.getPathDepth() < 1) {
+			Random rnd = new NRooksRandom(firstBounceRays, 3);
+			WavelengthPacket lambda = sc.getWavelengthPacket();
+			Color shade = sc.getColorModel().getBlack(lambda);
+			for (int i = 0; i < firstBounceRays; i++) {
+				ScatteredRay ray = sc.getMaterial().scatter(sc, sc.getIncident(), true, sc.getWavelengthPacket(), rnd.next(), rnd.next(), rnd.next());
+				if (ray != null) {
+					shade = shade.plus(sc.castRay(ray).times(ray.getColor()));
 				}
 			}
-
+			return shade.divide(firstBounceRays);
+		} else if (sc.getPathDepth() < maxDepth) {
+			ScatteredRay ray = sc.getScatteredRay();
 			if (ray != null) {
-				return sc.castRay(ray);
+				double prob = ColorUtil.getMeanChannelValue(ray.getColor());
+				if (prob < 1.0) {
+					if (RandomUtil.bernoulli(prob, Random.DEFAULT)) {
+						ray = ScatteredRay.select(ray, prob);
+					} else {
+						ray = null;
+					}
+				}
+	
+				if (ray != null) {
+					return sc.castRay(ray).times(ray.getColor());
+				}
 			}
 		}
 
