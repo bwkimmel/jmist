@@ -15,45 +15,6 @@ public final class SpectrophotometerCollectorSphere extends
 		AbstractCollectorSphere {
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.measurement.AbstractCollectorSphere#getSensor(ca.eandb.jmist.toolkit.SphericalCoordinates)
-	 */
-	@Override
-	protected int getSensor(SphericalCoordinates v) {
-		return (v.polar() < (Math.PI / 2.0)) ? UPPER_HEMISPHERE : LOWER_HEMISPHERE;
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.measurement.AbstractCollectorSphere#getSensor(ca.eandb.jmist.toolkit.Vector3)
-	 */
-	@Override
-	protected int getSensor(Vector3 v) {
-		return (v.z() > 0.0) ? UPPER_HEMISPHERE : LOWER_HEMISPHERE;
-	}
-
-	/**
-	 * Creates a new <code>SpectrophotometerCollectorSphere</code>.
-	 */
-	public SpectrophotometerCollectorSphere() {
-		super(2);
-	}
-
-	/**
-	 * Creates a copy of an existing <code>SpectrophotometerCollectorSphere</code>.
-	 * @param other The <code>SpectrophotometerCollectorSphere</code> to copy.
-	 */
-	public SpectrophotometerCollectorSphere(SpectrophotometerCollectorSphere other) {
-		super(other);
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.measurement.AbstractCollectorSphere#clone()
-	 */
-	@Override
-	public CollectorSphere clone() {
-		return new SpectrophotometerCollectorSphere(this);
-	}
-
-	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.measurement.CollectorSphere#getSensorCenter(int)
 	 */
 	public SphericalCoordinates getSensorCenter(int sensor) {
@@ -73,6 +34,27 @@ public final class SpectrophotometerCollectorSphere extends
 	 */
 	public double getSensorSolidAngle(int sensor) {
 		return 2.0 * Math.PI;
+	}
+	
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.measurement.CollectorSphere#record(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.measurement.CollectorSphere.Callback, java.lang.Object)
+	 */
+	public void record(Vector3 v, Callback f, Object obj) {
+		f.record((v.z() > 0.0) ? UPPER_HEMISPHERE : LOWER_HEMISPHERE, obj);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.measurement.CollectorSphere#record(ca.eandb.jmist.math.SphericalCoordinates, ca.eandb.jmist.framework.measurement.CollectorSphere.Callback, java.lang.Object)
+	 */
+	public void record(SphericalCoordinates v, Callback f, Object obj) {
+		f.record((v.polar() < (Math.PI / 2.0)) ? UPPER_HEMISPHERE : LOWER_HEMISPHERE, obj);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.measurement.CollectorSphere#sensors()
+	 */
+	public int sensors() {
+		return 2;
 	}
 
 	/** The sensor ID for the upper hemisphere sensor. */

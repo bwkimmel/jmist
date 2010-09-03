@@ -10,6 +10,7 @@ import java.io.Serializable;
 import ca.eandb.jdcp.job.AbstractParallelizableJob;
 import ca.eandb.jdcp.job.TaskWorker;
 import ca.eandb.jmist.framework.measurement.CollectorSphere;
+import ca.eandb.jmist.framework.measurement.IntegerSensorArray;
 import ca.eandb.jmist.framework.measurement.Photometer;
 import ca.eandb.jmist.framework.scatter.SurfaceScatterer;
 import ca.eandb.jmist.math.SphericalCoordinates;
@@ -24,9 +25,9 @@ public final class PhotometerJob extends AbstractParallelizableJob {
 
 	public PhotometerJob(SurfaceScatterer specimen,
 			SphericalCoordinates[] incidentAngles, double[] wavelengths,
-			long samplesPerMeasurement, long samplesPerTask, CollectorSphere prototype) {
+			long samplesPerMeasurement, long samplesPerTask, CollectorSphere collector) {
 
-		this.worker						= new PhotometerTaskWorker(specimen, prototype);
+		this.worker						= new PhotometerTaskWorker(specimen, collector);
 		this.incidentAngles				= incidentAngles.clone();
 		this.wavelengths				= wavelengths.clone();
 		this.samplesPerMeasurement		= samplesPerMeasurement;
@@ -44,9 +45,9 @@ public final class PhotometerJob extends AbstractParallelizableJob {
 	 */
 	@Override
 	public void initialize() {
-		this.results = new CollectorSphere[wavelengths.length * incidentAngles.length];
+		this.results = new IntegerSensorArray[wavelengths.length * incidentAngles.length];
 		for (int i = 0; i < this.results.length; i++) {
-			this.results[i] = worker.prototype.clone();
+			this.results[i] = new IntegerSensorArray(worker.collector);
 		}
 	}
 
@@ -100,9 +101,9 @@ public final class PhotometerJob extends AbstractParallelizableJob {
 			ProgressMonitor monitor) {
 
 		PhotometerTask		info		= (PhotometerTask) task;
-		CollectorSphere		collector	= (CollectorSphere) results;
+		IntegerSensorArray	sensorArray	= (IntegerSensorArray) results;
 
-		this.results[info.measurementIndex].merge(collector);
+		this.results[info.measurementIndex].merge(sensorArray);
 
 		monitor.notifyProgress(++this.tasksReturned, this.totalTasks);
 
@@ -131,14 +132,14 @@ public final class PhotometerJob extends AbstractParallelizableJob {
 			for (int wavelengthIndex = 0; wavelengthIndex < this.wavelengths.length; wavelengthIndex++, n++) {
 
 				double						wavelength				= this.wavelengths[wavelengthIndex];
-				CollectorSphere				collector				= this.results[n];
+				IntegerSensorArray			sensorArray				= this.results[n];
 
-				for (int sensor = 0; sensor < collector.sensors(); sensor++) {
+				for (int sensor = 0; sensor < worker.collector.sensors(); sensor++) {
 
-					SphericalCoordinates	exitantAngle			= collector.getSensorCenter(sensor);
-					double					solidAngle				= collector.getSensorSolidAngle(sensor);
-					double					projectedSolidAngle		= collector.getSensorProjectedSolidAngle(sensor);
-					long					hits					= collector.hits(sensor);
+					SphericalCoordinates	exitantAngle			= worker.collector.getSensorCenter(sensor);
+					double					solidAngle				= worker.collector.getSensorSolidAngle(sensor);
+					double					projectedSolidAngle		= worker.collector.getSensorProjectedSolidAngle(sensor);
+					long					hits					= sensorArray.hits(sensor);
 					double					reflectance				= (double) hits / (double) this.samplesPerMeasurement;
 
 					out.printf(
@@ -197,7 +198,7 @@ public final class PhotometerJob extends AbstractParallelizableJob {
 	 */
 	@Override
 	protected void archiveState(Archive ar) throws IOException, ClassNotFoundException {
-		results = (CollectorSphere[]) ar.archiveObject(results);
+		results = (IntegerSensorArray[]) ar.archiveObject(results);
 		nextMeasurementIndex = ar.archiveInt(nextMeasurementIndex);
 		outstandingSamplesPerMeasurement = ar.archiveLong(outstandingSamplesPerMeasurement);
 		tasksReturned = ar.archiveInt(tasksReturned);
@@ -236,12 +237,12 @@ public final class PhotometerJob extends AbstractParallelizableJob {
 		/**
 		 * Creates a new <code>PhotometerTaskWorker</code>.
 		 * @param specimen The <code>SurfaceScatterer</code> to be measured.
-		 * @param prototype The prototype <code>CollectorSphere</code> from
+		 * @param collector The collector <code>CollectorSphere</code> from
 		 * 		which clones are constructed to record hits to.
 		 */
-		public PhotometerTaskWorker(SurfaceScatterer specimen, CollectorSphere prototype) {
+		public PhotometerTaskWorker(SurfaceScatterer specimen, CollectorSphere collector) {
 			this.specimen = specimen;
-			this.prototype = prototype;
+			this.collector = collector;
 		}
 
 		/* (non-Javadoc)
@@ -249,7 +250,6 @@ public final class PhotometerJob extends AbstractParallelizableJob {
 		 */
 		public Object performTask(Object task, ProgressMonitor monitor) {
 
-			CollectorSphere		collector		= prototype.clone();
 			Photometer			photometer		= new Photometer(collector);
 			PhotometerTask		info			= (PhotometerTask) task;
 
@@ -258,7 +258,7 @@ public final class PhotometerJob extends AbstractParallelizableJob {
 			photometer.setWavelength(info.wavelength);
 			photometer.castPhotons(info.samples, monitor);
 
-			return collector;
+			return photometer.getSensorArray();
 
 		}
 
@@ -268,10 +268,10 @@ public final class PhotometerJob extends AbstractParallelizableJob {
 		private final SurfaceScatterer specimen;
 
 		/**
-		 * The prototype <code>CollectorSphere</code> from which clones are
+		 * The collector <code>CollectorSphere</code> from which clones are
 		 * constructed to record hits to.
 		 */
-		private final CollectorSphere prototype;
+		private final CollectorSphere collector;
 
 		/**
 		 * Serialization version ID.
@@ -288,7 +288,7 @@ public final class PhotometerJob extends AbstractParallelizableJob {
 	private final long samplesPerMeasurement;
 	private final long samplesPerTask;
 	private final int totalTasks;
-	private transient CollectorSphere[] results;
+	private transient IntegerSensorArray[] results;
 	private transient int nextMeasurementIndex = 0;
 	private transient long outstandingSamplesPerMeasurement = 0;
 	private transient int tasksReturned = 0;

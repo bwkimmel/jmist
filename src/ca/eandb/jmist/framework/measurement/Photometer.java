@@ -5,7 +5,6 @@ package ca.eandb.jmist.framework.measurement;
 
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.SurfacePointGeometry;
-import ca.eandb.jmist.framework.random.RandomAdapter;
 import ca.eandb.jmist.framework.random.SimpleRandom;
 import ca.eandb.jmist.framework.scatter.SurfaceScatterer;
 import ca.eandb.jmist.math.SphericalCoordinates;
@@ -21,10 +20,11 @@ public final class Photometer {
 
 	public Photometer(CollectorSphere collectorSphere) {
 		this.collectorSphere = collectorSphere;
+		this.sensorArray = new IntegerSensorArray(collectorSphere);
 	}
 
 	public void reset() {
-		this.collectorSphere.reset();
+		this.sensorArray.reset();
 	}
 
 	public void setSpecimen(SurfaceScatterer specimen) {
@@ -54,6 +54,10 @@ public final class Photometer {
 
 	public CollectorSphere getCollectorSphere() {
 		return this.collectorSphere;
+	}
+	
+	public IntegerSensorArray getSensorArray() {
+		return this.sensorArray;
 	}
 
 	public void castPhoton() {
@@ -97,7 +101,7 @@ public final class Photometer {
 			Vector3 v = specimen.scatter(SurfacePointGeometry.STANDARD, in, false, wavelength, rng);
 
 			if (v != null) {
-				collectorSphere.record(v);
+				collectorSphere.record(v, sensorArray);
 			}
 
 		}
@@ -106,6 +110,7 @@ public final class Photometer {
 
 	}
 
+	private final IntegerSensorArray sensorArray;
 	private final CollectorSphere collectorSphere;
 	private SurfaceScatterer specimen;
 	private SphericalCoordinates incident;

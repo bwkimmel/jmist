@@ -29,8 +29,6 @@ public final class EqualSolidAnglesCollectorSphere extends
 	 */
 	public EqualSolidAnglesCollectorSphere(int stacks, int slices, boolean upper, boolean lower) {
 
-		super();
-
 		if (!upper && !lower) {
 			throw new IllegalArgumentException("One of upper or lower must be true.");
 		}
@@ -41,36 +39,13 @@ public final class EqualSolidAnglesCollectorSphere extends
 		 * of the upper hemisphere and the bottom of the lower hemisphere,
 		 * which have one (circular) patch.
 		 */
-		int sensors = hemispheres * ((stacks - 1) * slices + 1);
-
-		super.initialize(sensors);
+		this.sensors = hemispheres * ((stacks - 1) * slices + 1);
 
 		this.stacks = stacks;
 		this.slices = slices;
 		this.upper = upper;
 		this.lower = lower;
 
-	}
-
-	/**
-	 * Creates a copy of an existing
-	 * <code>EqualSolidAnglesCollectorSphere</code>.
-	 * @param other The <code>EqualSolidAnglesCollectorSphere</code> to copy.
-	 */
-	public EqualSolidAnglesCollectorSphere(EqualSolidAnglesCollectorSphere other) {
-		super(other);
-		this.stacks = other.stacks;
-		this.slices = other.slices;
-		this.upper = other.upper;
-		this.lower = other.lower;
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.measurement.AbstractCollectorSphere#clone()
-	 */
-	@Override
-	public CollectorSphere clone() {
-		return new EqualSolidAnglesCollectorSphere(this);
 	}
 
 	/* (non-Javadoc)
@@ -185,20 +160,12 @@ public final class EqualSolidAnglesCollectorSphere extends
 		return hemispheres * (2.0 * Math.PI) / (double) this.sensors();
 	}
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.measurement.AbstractCollectorSphere#getSensor(ca.eandb.jmist.toolkit.SphericalCoordinates)
-	 */
-	@Override
-	protected int getSensor(SphericalCoordinates v) {
+	private int getSensor(SphericalCoordinates v) {
 		v = v.canonical();
 		return this.getSensor(v.azimuthal(), Math.acos(v.polar()));
 	}
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.measurement.AbstractCollectorSphere#getSensor(ca.eandb.jmist.toolkit.Vector3)
-	 */
-	@Override
-	protected int getSensor(Vector3 v) {
+	private int getSensor(Vector3 v) {
 		return this.getSensor(Math.atan2(v.y(), v.x()), v.z() / v.length());
 	}
 
@@ -213,7 +180,7 @@ public final class EqualSolidAnglesCollectorSphere extends
 		boolean hitUpper = z > 0.0;
 
 		if ((hitUpper && !upper) || (!hitUpper && !lower)) {
-			return AbstractCollectorSphere.MISS;
+			return -1;
 		}
 
 		z = upper ? z : -z;
@@ -246,6 +213,36 @@ public final class EqualSolidAnglesCollectorSphere extends
 		return 1 + (stack - 1) * slices + slice;
 
 	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.measurement.CollectorSphere#record(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.measurement.CollectorSphere.Callback, java.lang.Object)
+	 */
+	public void record(Vector3 v, Callback f, Object obj) {
+		int sensor = getSensor(v);
+		if (sensor >= 0) {
+			f.record(sensor, obj);
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.measurement.CollectorSphere#record(ca.eandb.jmist.math.SphericalCoordinates, ca.eandb.jmist.framework.measurement.CollectorSphere.Callback, java.lang.Object)
+	 */
+	public void record(SphericalCoordinates v, Callback f, Object obj) {
+		int sensor = getSensor(v);
+		if (sensor >= 0) {
+			f.record(sensor, obj);
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.measurement.CollectorSphere#sensors()
+	 */
+	public int sensors() {
+		return sensors;
+	}
+	
+	/** The total number of sensors. */
+	private final int sensors;
 
 	/** The number of stacks per hemisphere. */
 	private final int stacks;

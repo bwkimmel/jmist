@@ -31,8 +31,6 @@ public final class EqualPolarAnglesCollectorSphere extends
 	 */
 	public EqualPolarAnglesCollectorSphere(int stacks, int slices, boolean upper, boolean lower) {
 
-		super();
-
 		if (!upper && !lower) {
 			throw new IllegalArgumentException("One of upper or lower must be true.");
 		}
@@ -43,9 +41,7 @@ public final class EqualPolarAnglesCollectorSphere extends
 		 * of the upper hemisphere and the bottom of the lower hemisphere,
 		 * which have one (circular) patch.
 		 */
-		int sensors = hemispheres * ((stacks - 1) * slices + 1);
-
-		super.initialize(sensors);
+		this.sensors = hemispheres * ((stacks - 1) * slices + 1);
 
 		this.stacks = stacks;
 		this.slices = slices;
@@ -77,28 +73,6 @@ public final class EqualPolarAnglesCollectorSphere extends
 		}
 		
 
-	}
-
-	/**
-	 * Creates a copy of an existing
-	 * <code>EqualPolarAnglesCollectorSphere</code>.
-	 * @param other The <code>EqualPolarAnglesCollectorSphere</code> to copy.
-	 */
-	public EqualPolarAnglesCollectorSphere(EqualPolarAnglesCollectorSphere other) {
-		super(other);
-		this.stacks = other.stacks;
-		this.slices = other.slices;
-		this.upper = other.upper;
-		this.lower = other.lower;
-		this.boundaries = other.boundaries;
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.measurement.AbstractCollectorSphere#clone()
-	 */
-	@Override
-	public CollectorSphere clone() {
-		return new EqualPolarAnglesCollectorSphere(this);
 	}
 
 	/* (non-Javadoc)
@@ -238,11 +212,7 @@ public final class EqualPolarAnglesCollectorSphere extends
 
 	}
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.measurement.AbstractCollectorSphere#getSensor(ca.eandb.jmist.toolkit.SphericalCoordinates)
-	 */
-	@Override
-	protected int getSensor(SphericalCoordinates v) {
+	private int getSensor(SphericalCoordinates v) {
 		v = v.canonical();
 
 		double theta = v.polar();
@@ -250,7 +220,7 @@ public final class EqualPolarAnglesCollectorSphere extends
 		boolean hitUpper = theta < (0.5 * Math.PI);
 
 		if ((hitUpper && !upper) || (!hitUpper && !lower)) {
-			return AbstractCollectorSphere.MISS;
+			return -1;
 		}
 
 		theta = upper ? theta : Math.PI - theta;
@@ -292,13 +262,31 @@ public final class EqualPolarAnglesCollectorSphere extends
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.measurement.AbstractCollectorSphere#getSensor(ca.eandb.jmist.toolkit.Vector3)
+	 * @see ca.eandb.jmist.framework.measurement.CollectorSphere#record(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.measurement.CollectorSphere.Callback, java.lang.Object)
 	 */
-	@Override
-	protected int getSensor(Vector3 v) {
-		return this.getSensor(SphericalCoordinates.fromCartesian(v));
+	public void record(Vector3 v, Callback f, Object obj) {
+		record(SphericalCoordinates.fromCartesian(v), f, obj);
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.measurement.CollectorSphere#record(ca.eandb.jmist.math.SphericalCoordinates, ca.eandb.jmist.framework.measurement.CollectorSphere.Callback, java.lang.Object)
+	 */
+	public void record(SphericalCoordinates v, Callback f, Object obj) {
+		int sensor = getSensor(v);
+		if (sensor >= 0) {
+			f.record(sensor, obj);
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.measurement.CollectorSphere#sensors()
+	 */
+	public int sensors() {
+		return sensors;
+	}
+
+	/** The total number of sensors. */
+	private final int sensors;
 
 	/** The number of stacks per hemisphere. */
 	private final int stacks;

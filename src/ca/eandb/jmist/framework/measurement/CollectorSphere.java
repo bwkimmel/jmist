@@ -14,16 +14,16 @@ import ca.eandb.jmist.math.Vector3;
  */
 public interface CollectorSphere extends Serializable {
 
-	CollectorSphere clone();
-
-	void reset();
-	void record(Vector3 v);
-	void record(SphericalCoordinates v);
-
-	long hits(int sensor);
-
-	void merge(CollectorSphere other) throws IllegalArgumentException;
-
+	public static interface Callback {
+		void record(int sensor, Object obj);
+	};
+	
+	void record(Vector3 v, Callback f, Object obj);
+	void record(SphericalCoordinates v, Callback f, Object obj);
+	
+	void record(Vector3 v, Callback f);
+	void record(SphericalCoordinates v, Callback f);
+	
 	int sensors();
 
 	double getSensorSolidAngle(int sensor);
