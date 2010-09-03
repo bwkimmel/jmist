@@ -14,8 +14,7 @@ import ca.eandb.jmist.math.Vector3;
  * polar angle.
  * @author Brad Kimmel
  */
-public final class EqualPolarAnglesCollectorSphere extends
-		AbstractCollectorSphere {
+public final class EqualPolarAnglesCollectorSphere implements CollectorSphere {
 
 	/**
 	 * Creates a new <code>EqualPolarAnglesCollectorSphere</code>.
@@ -262,19 +261,19 @@ public final class EqualPolarAnglesCollectorSphere extends
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.measurement.CollectorSphere#record(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.measurement.CollectorSphere.Callback, java.lang.Object)
+	 * @see ca.eandb.jmist.framework.measurement.CollectorSphere#record(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.measurement.CollectorSphere.Callback)
 	 */
-	public void record(Vector3 v, Callback f, Object obj) {
-		record(SphericalCoordinates.fromCartesian(v), f, obj);
+	public void record(Vector3 v, Callback f) {
+		record(SphericalCoordinates.fromCartesian(v), f);
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.measurement.CollectorSphere#record(ca.eandb.jmist.math.SphericalCoordinates, ca.eandb.jmist.framework.measurement.CollectorSphere.Callback, java.lang.Object)
+	 * @see ca.eandb.jmist.framework.measurement.CollectorSphere#record(ca.eandb.jmist.math.SphericalCoordinates, ca.eandb.jmist.framework.measurement.CollectorSphere.Callback)
 	 */
-	public void record(SphericalCoordinates v, Callback f, Object obj) {
+	public void record(SphericalCoordinates v, Callback f) {
 		int sensor = getSensor(v);
 		if (sensor >= 0) {
-			f.record(sensor, obj);
+			f.record(sensor);
 		}
 	}
 

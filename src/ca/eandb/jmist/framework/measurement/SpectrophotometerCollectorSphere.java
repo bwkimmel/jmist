@@ -11,8 +11,7 @@ import ca.eandb.jmist.math.Vector3;
  * the upper hemisphere and one for the lower hemisphere.
  * @author Brad Kimmel
  */
-public final class SpectrophotometerCollectorSphere extends
-		AbstractCollectorSphere {
+public final class SpectrophotometerCollectorSphere implements CollectorSphere {
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.measurement.CollectorSphere#getSensorCenter(int)
@@ -37,17 +36,17 @@ public final class SpectrophotometerCollectorSphere extends
 	}
 	
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.measurement.CollectorSphere#record(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.measurement.CollectorSphere.Callback, java.lang.Object)
+	 * @see ca.eandb.jmist.framework.measurement.CollectorSphere#record(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.measurement.CollectorSphere.Callback)
 	 */
-	public void record(Vector3 v, Callback f, Object obj) {
-		f.record((v.z() > 0.0) ? UPPER_HEMISPHERE : LOWER_HEMISPHERE, obj);
+	public void record(Vector3 v, Callback f) {
+		f.record((v.z() > 0.0) ? UPPER_HEMISPHERE : LOWER_HEMISPHERE);
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.measurement.CollectorSphere#record(ca.eandb.jmist.math.SphericalCoordinates, ca.eandb.jmist.framework.measurement.CollectorSphere.Callback, java.lang.Object)
+	 * @see ca.eandb.jmist.framework.measurement.CollectorSphere#record(ca.eandb.jmist.math.SphericalCoordinates, ca.eandb.jmist.framework.measurement.CollectorSphere.Callback)
 	 */
-	public void record(SphericalCoordinates v, Callback f, Object obj) {
-		f.record((v.polar() < (Math.PI / 2.0)) ? UPPER_HEMISPHERE : LOWER_HEMISPHERE, obj);
+	public void record(SphericalCoordinates v, Callback f) {
+		f.record((v.polar() < (Math.PI / 2.0)) ? UPPER_HEMISPHERE : LOWER_HEMISPHERE);
 	}
 
 	/* (non-Javadoc)

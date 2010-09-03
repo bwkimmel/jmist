@@ -15,11 +15,8 @@ import ca.eandb.jmist.math.Vector3;
 public interface CollectorSphere extends Serializable {
 
 	public static interface Callback {
-		void record(int sensor, Object obj);
+		void record(int sensor);
 	};
-	
-	void record(Vector3 v, Callback f, Object obj);
-	void record(SphericalCoordinates v, Callback f, Object obj);
 	
 	void record(Vector3 v, Callback f);
 	void record(SphericalCoordinates v, Callback f);

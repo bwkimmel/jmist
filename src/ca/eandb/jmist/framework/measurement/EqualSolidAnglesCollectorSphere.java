@@ -12,8 +12,7 @@ import ca.eandb.jmist.math.Vector3;
  * <code>4*PI / this.sensors()</code> (in steradians).
  * @author Brad Kimmel
  */
-public final class EqualSolidAnglesCollectorSphere extends
-		AbstractCollectorSphere {
+public final class EqualSolidAnglesCollectorSphere implements CollectorSphere {
 
 	/**
 	 * Creates a new <code>EqualSolidAnglesCollectorSphere</code>.
@@ -215,22 +214,22 @@ public final class EqualSolidAnglesCollectorSphere extends
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.measurement.CollectorSphere#record(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.measurement.CollectorSphere.Callback, java.lang.Object)
+	 * @see ca.eandb.jmist.framework.measurement.CollectorSphere#record(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.measurement.CollectorSphere.Callback)
 	 */
-	public void record(Vector3 v, Callback f, Object obj) {
+	public void record(Vector3 v, Callback f) {
 		int sensor = getSensor(v);
 		if (sensor >= 0) {
-			f.record(sensor, obj);
+			f.record(sensor);
 		}
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.measurement.CollectorSphere#record(ca.eandb.jmist.math.SphericalCoordinates, ca.eandb.jmist.framework.measurement.CollectorSphere.Callback, java.lang.Object)
+	 * @see ca.eandb.jmist.framework.measurement.CollectorSphere#record(ca.eandb.jmist.math.SphericalCoordinates, ca.eandb.jmist.framework.measurement.CollectorSphere.Callback)
 	 */
-	public void record(SphericalCoordinates v, Callback f, Object obj) {
+	public void record(SphericalCoordinates v, Callback f) {
 		int sensor = getSensor(v);
 		if (sensor >= 0) {
-			f.record(sensor, obj);
+			f.record(sensor);
 		}
 	}
 
