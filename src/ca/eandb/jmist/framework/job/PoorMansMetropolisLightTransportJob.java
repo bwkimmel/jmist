@@ -25,8 +25,6 @@
 
 package ca.eandb.jmist.framework.job;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +51,6 @@ import ca.eandb.jmist.framework.path.ScatteringNode;
 import ca.eandb.jmist.framework.random.CategoricalRandom;
 import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.framework.random.RepeatableRandom;
-import ca.eandb.jmist.math.Box2;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.util.UnexpectedException;
 import ca.eandb.util.progress.ProgressMonitor;
@@ -475,7 +472,10 @@ public final class PoorMansMetropolisLightTransportJob extends AbstractParalleli
 					if (i > initialMutations) {
 						// add weighted contributions from x and y
 						if (fy > 0.0) {
-							record(cy, a / fy);
+							// The correct weight is a/fy, but a/fy == 1/fx,
+							// and the latter should be a more stable
+							// computation, since fx > fy.
+							record(cy, 1.0 / fx);
 						}
 						record(cx, (1.0 - a) / fx);
 //						if (accept) {
