@@ -1067,6 +1067,56 @@ public final class MathUtil {
 	}
 
 	/**
+	 * Adds the elements of one array of <code>int</code>s to another. The
+	 * lengths of <code>accumulator</code> and <code>summand</code> must be
+	 * equal.
+	 * @param accumulator The array of <code>int</code>s to add the
+	 * 		elements of <code>summand</code> to (the elements of this array
+	 * 		will be modified).  This may be <code>null</code>, in which case a
+	 * 		new array will be created of the same length of
+	 * 		<code>summand</code> and will be initialized to zeros before adding
+	 * 		the values of <code>summand</code>.
+	 * @param summand The array of <code>int</code>s to add to each
+	 * 		corresponding element of <code>accumulator</code>.
+	 * @return A reference to <code>accumulator</code>.
+	 */
+	public static int[] add(int[] accumulator, int[] summand) {
+		if (accumulator == null) {
+			return summand.clone();
+		}
+		assert(accumulator.length == summand.length);
+		for (int i = 0; i < accumulator.length; i++) {
+			accumulator[i] += summand[i];
+		}
+		return accumulator;
+	}
+
+	/**
+	 * Adds the elements of one array of <code>long</code>s to another. The
+	 * lengths of <code>accumulator</code> and <code>summand</code> must be
+	 * equal.
+	 * @param accumulator The array of <code>long</code>s to add the
+	 * 		elements of <code>summand</code> to (the elements of this array
+	 * 		will be modified).  This may be <code>null</code>, in which case a
+	 * 		new array will be created of the same length of
+	 * 		<code>summand</code> and will be initialized to zeros before adding
+	 * 		the values of <code>summand</code>.
+	 * @param summand The array of <code>long</code>s to add to each
+	 * 		corresponding element of <code>accumulator</code>.
+	 * @return A reference to <code>accumulator</code>.
+	 */
+	public static long[] add(long[] accumulator, long[] summand) {
+		if (accumulator == null) {
+			return summand.clone();
+		}
+		assert(accumulator.length == summand.length);
+		for (int i = 0; i < accumulator.length; i++) {
+			accumulator[i] += summand[i];
+		}
+		return accumulator;
+	}
+
+	/**
 	 * Subtracts the elements of one array of <code>double</code>s from
 	 * another. The lengths of <code>accumulator</code> and <code>values</code>
 	 * must be equal.
@@ -1082,6 +1132,54 @@ public final class MathUtil {
 	public static double[] subtract(double[] accumulator, double[] values) {
 		if (accumulator == null) {
 			accumulator = new double[values.length];
+		}
+		assert(accumulator.length == values.length);
+		for (int i = 0; i < accumulator.length; i++) {
+			accumulator[i] -= values[i];
+		}
+		return accumulator;
+	}
+
+	/**
+	 * Subtracts the elements of one array of <code>int</code>s from
+	 * another. The lengths of <code>accumulator</code> and <code>values</code>
+	 * must be equal.
+	 * @param accumulator The array of <code>int</code>s to subtract the
+	 * 		elements of <code>values</code> from (the elements of this array
+	 * 		will be modified).  This may be <code>null</code>, in which case a
+	 * 		new array will be created and initialized to zeros before
+	 * 		subtracting the values from <code>values</code>.
+	 * @param values The array of <code>int</code>s to subtract from each
+	 * 		corresponding element of <code>accumulator</code>.
+	 * @return A reference to <code>accumulator</code>.
+	 */
+	public static int[] subtract(int[] accumulator, int[] values) {
+		if (accumulator == null) {
+			accumulator = new int[values.length];
+		}
+		assert(accumulator.length == values.length);
+		for (int i = 0; i < accumulator.length; i++) {
+			accumulator[i] -= values[i];
+		}
+		return accumulator;
+	}
+
+	/**
+	 * Subtracts the elements of one array of <code>long</code>s from
+	 * another. The lengths of <code>accumulator</code> and <code>values</code>
+	 * must be equal.
+	 * @param accumulator The array of <code>long</code>s to subtract the
+	 * 		elements of <code>values</code> from (the elements of this array
+	 * 		will be modified).  This may be <code>null</code>, in which case a
+	 * 		new array will be created and initialized to zeros before
+	 * 		subtracting the values from <code>values</code>.
+	 * @param values The array of <code>long</code>s to subtract from each
+	 * 		corresponding element of <code>accumulator</code>.
+	 * @return A reference to <code>accumulator</code>.
+	 */
+	public static long[] subtract(long[] accumulator, long[] values) {
+		if (accumulator == null) {
+			accumulator = new long[values.length];
 		}
 		assert(accumulator.length == values.length);
 		for (int i = 0; i < accumulator.length; i++) {
@@ -1115,6 +1213,54 @@ public final class MathUtil {
 	}
 
 	/**
+	 * Multiplies all the elements in an array of <code>int</code>s by the
+	 * elements of an equally sized array of <code>int</code>s.  The lengths
+	 * of <code>accumulator</code> and <code>modulator</code> must be equal.
+	 * @param accumulator The array of <code>int</code>s that is to have its
+	 * 		elements scaled (the elements of this array will be modified).
+	 * 		This may be <code>null</code>, in which case a new array will be
+	 * 		created and initialized to ones before multiplying by the values of
+	 * 		<code>modulator</code>.
+	 * @param modulator The array of <code>int</code>s by which to multiply
+	 * 		each corresponding element of <code>accumulator</code>.
+	 * @return A reference to <code>accumulator</code>.
+	 */
+	public static int[] multiply(int[] accumulator, int[] modulator) {
+		if (accumulator == null) {
+			return modulator.clone();
+		}
+		assert(accumulator.length == modulator.length);
+		for (int i = 0; i < accumulator.length; i++) {
+			accumulator[i] *= modulator[i];
+		}
+		return accumulator;
+	}
+
+	/**
+	 * Multiplies all the elements in an array of <code>long</code>s by the
+	 * elements of an equally sized array of <code>long</code>s.  The lengths
+	 * of <code>accumulator</code> and <code>modulator</code> must be equal.
+	 * @param accumulator The array of <code>long</code>s that is to have its
+	 * 		elements scaled (the elements of this array will be modified).
+	 * 		This may be <code>null</code>, in which case a new array will be
+	 * 		created and initialized to ones before multiplying by the values of
+	 * 		<code>modulator</code>.
+	 * @param modulator The array of <code>long</code>s by which to multiply
+	 * 		each corresponding element of <code>accumulator</code>.
+	 * @return A reference to <code>accumulator</code>.
+	 */
+	public static long[] multiply(long[] accumulator, long[] modulator) {
+		if (accumulator == null) {
+			return modulator.clone();
+		}
+		assert(accumulator.length == modulator.length);
+		for (int i = 0; i < accumulator.length; i++) {
+			accumulator[i] *= modulator[i];
+		}
+		return accumulator;
+	}
+
+	/**
 	 * Multiplies all of the values in the specified array of
 	 * <code>double</code>s by the same value.
 	 * @param array The array of <code>double</code>s the elements of which are
@@ -1125,6 +1271,40 @@ public final class MathUtil {
 	 * @return A reference to <code>array</code>.
 	 */
 	public static double[] scale(double[] array, double factor) {
+		for (int i = 0; i < array.length; i++) {
+			array[i] *= factor;
+		}
+		return array;
+	}
+
+	/**
+	 * Multiplies all of the values in the specified array of
+	 * <code>int</code>s by the same value.
+	 * @param array The array of <code>int</code>s the elements of which are
+	 * 		to be multiplied by a constant factor (the elements of this array
+	 * 		will be modified).
+	 * @param factor The value by which to multiply each element of
+	 * 		<code>array</code>.
+	 * @return A reference to <code>array</code>.
+	 */
+	public static int[] scale(int[] array, int factor) {
+		for (int i = 0; i < array.length; i++) {
+			array[i] *= factor;
+		}
+		return array;
+	}
+
+	/**
+	 * Multiplies all of the values in the specified array of
+	 * <code>long</code>s by the same value.
+	 * @param array The array of <code>long</code>s the elements of which are
+	 * 		to be multiplied by a constant factor (the elements of this array
+	 * 		will be modified).
+	 * @param factor The value by which to multiply each element of
+	 * 		<code>array</code>.
+	 * @return A reference to <code>array</code>.
+	 */
+	public static long[] scale(long[] array, long factor) {
 		for (int i = 0; i < array.length; i++) {
 			array[i] *= factor;
 		}
@@ -1158,6 +1338,24 @@ public final class MathUtil {
 	 * @return x, if min <= x <= max.  min, if x < min.  max, if x > max.
 	 */
 	public static int threshold(int x, int min, int max) {
+		if (x < min) {
+			return min;
+		} else if (x > max) {
+			return max;
+		} else {
+			return x;
+		}
+	}
+
+	/**
+	 * Returns x if it is within the specified range, or the closest
+	 * value within the specified range if x is outside the range.
+	 * @param x The value to threshold.
+	 * @param min The minimum of the range to threshold to.
+	 * @param max The maximum of the range to threshold to.
+	 * @return x, if min <= x <= max.  min, if x < min.  max, if x > max.
+	 */
+	public static long threshold(long x, long min, long max) {
 		if (x < min) {
 			return min;
 		} else if (x > max) {
