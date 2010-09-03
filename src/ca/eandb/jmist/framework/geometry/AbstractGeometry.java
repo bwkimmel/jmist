@@ -114,14 +114,38 @@ public abstract class AbstractGeometry implements SceneElement {
 		 * @see ca.eandb.jmist.framework.SurfacePoint#shadingBasis()
 		 */
 		public Basis3 getShadingBasis() {
-			return this.getBasis();
+			if (this.shadingBasis == null) {
+				Basis3 basis = this.geometry.getShadingBasis(this);
+				if (basis == null) {
+					basis = getBasis();
+				}
+				this.setShadingBasis(basis);				
+			}
+			return shadingBasis;
+		}
+		
+		public GeometryIntersection setShadingBasis(Basis3 shadingBasis) {
+			this.shadingBasis = shadingBasis;
+			return this;
 		}
 
 		/* (non-Javadoc)
 		 * @see ca.eandb.jmist.framework.SurfacePoint#shadingNormal()
 		 */
 		public Vector3 getShadingNormal() {
-			return this.getNormal();
+			if (this.shadingNormal == null) {
+				Vector3 normal = shadingBasis != null ? shadingBasis.w() : this.geometry.getShadingNormal(this);
+				if (normal == null) {
+					normal = getNormal();
+				}
+				this.setShadingNormal(normal);				
+			}
+			return shadingNormal;
+		}
+		
+		public GeometryIntersection setShadingNormal(Vector3 shadingNormal) {
+			this.shadingNormal = shadingNormal;
+			return this;
 		}
 
 		/* (non-Javadoc)
@@ -191,7 +215,7 @@ public abstract class AbstractGeometry implements SceneElement {
 			context.setPosition(getPosition());
 			context.setPrimitiveIndex(getPrimitiveIndex());
 			context.setBasis(getBasis());
-			context.setShadingBasis(getBasis());
+			context.setShadingBasis(getShadingBasis());
 			context.setUV(getUV());
 		}
 
@@ -214,6 +238,8 @@ public abstract class AbstractGeometry implements SceneElement {
 		private Point3				location		= null;
 		private Basis3				basis			= null;
 		private Vector3				normal			= null;
+		private Basis3				shadingBasis	= null;
+		private Vector3				shadingNormal	= null;
 		private Point2				uv				= null;
 		private double				tolerance		= DEFAULT_TOLERANCE;
 
@@ -238,6 +264,14 @@ public abstract class AbstractGeometry implements SceneElement {
 
 		return this.newSurfacePoint(p, true, surfaceId);
 
+	}
+	
+	protected Basis3 getShadingBasis(GeometryIntersection x) {
+		return null;
+	}
+	
+	protected Vector3 getShadingNormal(GeometryIntersection x) {
+		return null;
 	}
 
 	protected Basis3 getBasis(GeometryIntersection x) {
