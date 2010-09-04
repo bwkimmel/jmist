@@ -48,6 +48,28 @@ public final class Ray2 implements Serializable {
 	}
 
 	/**
+	 * Creates a <code>Ray2</code> from one point along a direction or to
+	 * another point.
+	 * @param p The <code>Point2</code> at the origin of the ray.
+	 * @param q The <code>HPoint2</code> indicating the direction and limit of
+	 * 		the ray.  If <code>q</code> is a <code>Point2</code>, this creates
+	 * 		a finite ray from <code>p</code> to <code>q</code>.  If
+	 * 		<code>q</code> is a <code>Vector2</code>, this creates an infinite
+	 * 		ray from <code>p</code> in the direction indicated by
+	 * 		<code>q</code>.
+	 */
+	public Ray2(Point2 p, HPoint2 q) {
+		this.origin = p;
+		if (q.isPoint()) {
+			this.limit = p.distanceTo((Point2) q);
+			this.direction = p.vectorTo((Point2) q).divide(limit);
+		} else {
+			this.direction = (Vector2) q;
+			this.limit = Double.POSITIVE_INFINITY;
+		}
+	}
+
+	/**
 	 * Gets the origin of this ray.
 	 * @return The origin of this ray.
 	 */
@@ -109,6 +131,21 @@ public final class Ray2 implements Serializable {
 	 */
 	public Point2 pointAtLimit() {
 		return pointAt(limit);
+	}
+
+	/**
+	 * Transforms this <code>Ray2</code> according to the specified
+	 * transformation matrix.
+	 * @param T The <code>AffineMatrix2</code> representing the transformation
+	 * 		to apply.
+	 * @return The transformed <code>Ray2</code>.
+	 */
+	public Ray2 transform(AffineMatrix2 T) {
+		return new Ray2(
+				T.times(origin),
+				T.times(direction),
+				limit
+		);
 	}
 
 	/** The origin of the ray. */
