@@ -284,7 +284,7 @@ public final class LinearMatrix2 implements Serializable {
 	}
 
 	/**
-	 * Returns a matrix for rotating about the x-axis.
+	 * Returns a matrix for rotating.
 	 * @param theta The angle to rotate by.
 	 * @return The rotation matrix.
 	 */
