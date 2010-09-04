@@ -32,6 +32,9 @@ package ca.eandb.jmist.math;
  */
 public abstract class HPoint3 extends Tuple3 {
 
+	/** Serialization version ID. */
+	private static final long serialVersionUID = 5667239684184414779L;
+
 	/** The zero <code>HPoint3</code>. */
 	public static final HPoint3 ZERO = Vector3.ZERO;
 
