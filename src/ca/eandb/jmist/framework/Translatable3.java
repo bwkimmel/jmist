@@ -14,7 +14,7 @@ public interface Translatable3 {
 
 	/**
 	 * Translates the object along the specified vector.
-	 * @param v The vector to translate the object by.s
+	 * @param v The vector to translate the object by.
 	 */
 	void translate(Vector3 v);
 
