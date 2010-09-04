@@ -214,10 +214,10 @@ public final class LinearMatrix3 implements Serializable {
 	}
 
 	/**
-	 * Transforms the specified <code>Vector3</code> according to the
+	 * Transforms the specified <code>Point3</code> according to the
 	 * transformation representing by this <code>LinearMatrix3</code>.
-	 * @param p The <code>Vector3</code> to transform.
-	 * @return The transformed <code>Vector3</code>.
+	 * @param p The <code>Point3</code> to transform.
+	 * @return The transformed <code>Point3</code>.
 	 */
 	public Point3 times(Point3 p) {
 		return new Point3(
