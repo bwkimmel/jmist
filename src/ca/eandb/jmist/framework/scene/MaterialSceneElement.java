@@ -32,12 +32,15 @@ import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.Modifier;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.SceneElement;
+import ca.eandb.jmist.framework.Shader;
 import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.light.AbstractLight;
 import ca.eandb.jmist.framework.light.PointLightSample;
+import ca.eandb.jmist.framework.modifier.CompositeModifier;
+import ca.eandb.jmist.framework.modifier.ShaderModifier;
 import ca.eandb.jmist.framework.path.LightNode;
 import ca.eandb.jmist.framework.path.PathInfo;
 import ca.eandb.jmist.framework.path.ScaledLightNode;
@@ -61,6 +64,11 @@ public final class MaterialSceneElement extends ModifierSceneElement {
 
 	public MaterialSceneElement(Material material, SceneElement inner) {
 		super(new MaterialModifier(material), inner);
+		this.material = material;
+	}
+
+	public MaterialSceneElement(Material material, Shader shader, SceneElement inner) {
+		super(new CompositeModifier().addModifier(new MaterialModifier(material)).addModifier(new ShaderModifier(shader)), inner);
 		this.material = material;
 	}
 
