@@ -271,7 +271,8 @@ public final class SceneRayShader implements RayShader {
 		public ScatteredRay getScatteredRay() {
 			if (stack.peek().scatteredRay == null) {
 				stack.peek().scatteredRay = stack.peek().material.scatter(this,
-						getIncident(), true, getWavelengthPacket(), rng);
+						getIncident(), true, getWavelengthPacket(), rng.next(),
+						rng.next(), rng.next());
 			}
 			return stack.peek().scatteredRay;
 		}
@@ -305,11 +306,12 @@ public final class SceneRayShader implements RayShader {
 		}
 
 		public Basis3 getShadingBasis() {
-			return stack.peek().shadingBasis;
+			Basis3 basis = stack.peek().shadingBasis;
+			return basis != null ? basis : stack.peek().basis;
 		}
 
 		public Vector3 getShadingNormal() {
-			return stack.peek().shadingBasis.w();
+			return getShadingBasis().w();
 		}
 
 		public Vector3 getTangent() {
