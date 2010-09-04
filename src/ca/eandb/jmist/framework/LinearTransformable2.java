@@ -9,7 +9,7 @@ import ca.eandb.jmist.math.LinearMatrix2;
  * Represents a two dimensional object to which linear transformations can be applied.
  * @author Brad Kimmel
  */
-public interface LinearTransformable2 extends Rotatable3 {
+public interface LinearTransformable2 extends Rotatable2 {
 
 	/**
 	 * Transforms this object according to the specified linear transformation.
