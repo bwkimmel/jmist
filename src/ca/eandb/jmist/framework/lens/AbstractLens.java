@@ -39,13 +39,16 @@ import ca.eandb.jmist.math.Point2;
  */
 public abstract class AbstractLens implements Lens {
 
+	/** Serialization version ID. */
+	private static final long serialVersionUID = 693720662240456494L;
+
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Lens#rayAt(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random)
 	 */
 	public final ScatteredRay rayAt(Point2 p, WavelengthPacket lambda, Random rnd) {
 		PathInfo path = new PathInfo(lambda);
-		EyeNode node = sample(p, path, rnd);
-		return node.sample(rnd);
+		EyeNode node = sample(p, path, rnd.next(), rnd.next(), rnd.next());
+		return node.sample(rnd.next(), rnd.next(), rnd.next());
 	}
 
 }
