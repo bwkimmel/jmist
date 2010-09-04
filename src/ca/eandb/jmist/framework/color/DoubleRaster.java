@@ -34,6 +34,9 @@ import ca.eandb.jmist.util.ArrayUtil;
  */
 public abstract class DoubleRaster implements Raster {
 
+	/** Serialization version ID. */
+	private static final long serialVersionUID = 3651188089171016945L;
+
 	private final double[] raster;
 
 	private final int width;

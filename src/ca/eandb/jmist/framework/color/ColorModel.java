@@ -15,6 +15,9 @@ import ca.eandb.jmist.framework.Raster;
  */
 public abstract class ColorModel implements Serializable {
 
+	/** Serialization version ID. */
+	private static final long serialVersionUID = -102213996206421899L;
+
 	public abstract Spectrum getBlack();
 
 	public abstract Spectrum getWhite();
