@@ -52,4 +52,6 @@ public abstract class ColorModel implements Serializable {
 
 	public abstract int getNumChannels();
 
+	public abstract String getChannelName(int channel);
+	
 }

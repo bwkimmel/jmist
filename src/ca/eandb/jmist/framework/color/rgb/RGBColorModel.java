@@ -26,6 +26,9 @@ public final class RGBColorModel extends ColorModel {
 	/** The single <code>RGBColorModel</code> instance. */
 	private static final RGBColorModel instance = new RGBColorModel();
 
+	/** The names of the channels for this <code>ColorModel</code>. */
+	private static final String[] CHANNEL_NAMES = { "R", "G", "B" };
+	
 	/**
 	 * Creates a new <code>RGBColorModel</code>.
 	 * This constructor is private because this class is a singleton.
@@ -152,6 +155,16 @@ public final class RGBColorModel extends ColorModel {
 				return new RGBColor(raster[index], raster[index + 1], raster[index + 2]);
 			}
 		};
+	}
+	
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.ColorModel#getChannelName(int)
+	 */
+	public String getChannelName(int channel) {
+		if (channel < 0 || channel >= 3) {
+			throw new IllegalArgumentException("Invalid channel");
+		}
+		return CHANNEL_NAMES[channel];
 	}
 
 }

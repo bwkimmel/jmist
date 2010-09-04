@@ -278,4 +278,20 @@ public final class MultiXYZColorModel extends ColorModel {
 		};
 	}
 
+	
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.ColorModel#getChannelName(int)
+	 */
+	public String getChannelName(int channel) {
+		if (channel < 0 || channel >= channelsX + channelsY + channelsZ) {
+			throw new IllegalArgumentException("Invalid channel");
+		} else if (channel < channelsX) {
+			return String.format("X%d", channel);
+		} else if (channel < channelsX + channelsY) {
+			return String.format("Y%d", channel - channelsX);
+		} else {
+			return String.format("Z%d", channel - (channelsX + channelsY));
+		}
+	}
+	
 }

@@ -24,6 +24,8 @@ public final class LuminanceColorModel extends ColorModel {
 
 	/** Serialization version ID. */
 	private static final long serialVersionUID = -3535058346087410384L;
+	
+	private static final String CHANNEL_NAME = "Y";
 
 	private static final ProbabilityDensityFunction Y_PDF = new PiecewiseLinearProbabilityDensityFunction(ColorUtil.XYZ_WAVELENGTHS, ColorUtil.Y_BAR);
 
@@ -171,6 +173,16 @@ public final class LuminanceColorModel extends ColorModel {
 	@Override
 	public Color sample(Random random) {
 		return new LuminanceColor(Y_CONST, Y_PDF.sample(random));
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.ColorModel#getChannelName(int)
+	 */
+	public String getChannelName(int channel) {
+		if (channel != 0) {
+			throw new IllegalArgumentException("Invalid channel");
+		}
+		return CHANNEL_NAME;
 	}
 
 }

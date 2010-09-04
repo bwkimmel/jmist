@@ -64,6 +64,9 @@ public final class XYZColorModel extends ColorModel {
 			* MathUtil.trapz(ColorUtil.XYZ_WAVELENGTHS, ColorUtil.Z_BAR);
 
 	private static final XYZColorModel instance = new XYZColorModel();
+	
+	/** The channel names for this <code>ColorModel</code>. */
+	private static final String[] CHANNEL_NAMES = { "X", "Y", "Z" };
 
 	public static XYZColorModel getInstance() {
 		return instance;
@@ -199,6 +202,16 @@ public final class XYZColorModel extends ColorModel {
 				return new XYZColor(raster[index], raster[index + 1], raster[index + 2], null);
 			}
 		};
+	}
+	
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.ColorModel#getChannelName(int)
+	 */
+	public String getChannelName(int channel) {
+		if (channel < 0 || channel >= 3) {
+			throw new IllegalArgumentException("Invalid channel");
+		}
+		return CHANNEL_NAMES[channel];
 	}
 
 }

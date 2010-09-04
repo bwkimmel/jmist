@@ -367,5 +367,15 @@ public final class MonochromeColorModel extends ColorModel {
 			}
 		};
 	}
+	
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.ColorModel#getChannelName(int)
+	 */
+	public String getChannelName(int channel) {
+		if (channel != 0) {
+			throw new IllegalArgumentException("Invalid channel");
+		}
+		return String.format("%em", wavelength);
+	}
 
 }
