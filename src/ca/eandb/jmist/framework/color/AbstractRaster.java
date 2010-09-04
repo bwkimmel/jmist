@@ -33,6 +33,9 @@ import ca.eandb.jmist.framework.Raster;
  */
 public abstract class AbstractRaster implements Raster {
 
+	/** Serialization version ID. */
+	private static final long serialVersionUID = -3717804516623958287L;
+
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Raster#addPixel(int, int, ca.eandb.jmist.framework.color.Color)
 	 */
