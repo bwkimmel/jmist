@@ -13,7 +13,6 @@ import ca.eandb.jmist.framework.BoundingBoxBuilder3;
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
 import ca.eandb.jmist.framework.ShadingContext;
-import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.geometry.AbstractGeometry;
 import ca.eandb.jmist.framework.random.CategoricalRandom;
 import ca.eandb.jmist.framework.random.RandomUtil;
@@ -93,6 +92,11 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 		faces.add(new Face(vi, vti, vni));
 		return this;
 	}
+	
+	public PolyhedronGeometry setMaximumVertexNormalAngle(double angle) {
+		this.minVertexNormalDotProduct = Math.cos(angle);
+		return this;
+	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.SceneElement#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
@@ -152,6 +156,23 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 		Face face = faces.get(x.getTag());
 		Vector3 n = face.plane.normal();
 		return Basis3.fromW(n, Basis3.Orientation.RIGHT_HANDED);
+	}
+	
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getShadingBasis(ca.eandb.jmist.framework.geometry.AbstractGeometry.GeometryIntersection)
+	 */
+	@Override
+	protected Basis3 getShadingBasis(GeometryIntersection x) {
+		return Basis3.fromW(getShadingNormal(x));
+	}
+	
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getShadingNormal(ca.eandb.jmist.framework.geometry.AbstractGeometry.GeometryIntersection)
+	 */
+	@Override
+	protected Vector3 getShadingNormal(GeometryIntersection x) {
+		Face face = faces.get(x.getTag());
+		return face.getShadingNormal(x.getPosition());
 	}
 
 	/* (non-Javadoc)
@@ -356,6 +377,60 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 			Point3 c = vertices.get(decomp[tri + 2]);
 			return RandomUtil.uniformOnTriangle(a, b, c, ru, vref.seed);
 		}
+		
+		public Vector3 getShadingNormal(Point3 p) {
+			Vector3 nf = plane.normal();
+			if (this.normalIndices == null) {
+				return nf;
+			}
+
+			decompose();
+
+			Vector3 n = plane.normal();
+			p = plane.project(p);
+
+
+			for (int i = 0; i < decomp.length; i += 3) {
+				Point3 a = vertices.get(decomp[i]);
+				Point3 b = vertices.get(decomp[i + 1]);
+				Point3 c = vertices.get(decomp[i + 2]);
+				Vector3 ab = a.vectorTo(b);
+				Vector3 ac = a.vectorTo(c);
+				Vector3 pa = p.vectorTo(a);
+				Vector3 pb = p.vectorTo(b);
+				Vector3 pc = p.vectorTo(c);
+
+				double area = n.dot(ab.cross(ac));
+				double A = n.dot(pb.cross(pc)) / area;
+				if (A < 0.0) continue;
+				double B = n.dot(pc.cross(pa)) / area;
+				if (B < 0.0) continue;
+				double C = 1.0 - A - B;
+				if (C < 0.0) continue;
+
+				// XXX oops.. i guess decomp shouldn't refer directly to the vertex array.
+				Vector3 na = null, nb = null, nc = null;
+				for (int j = 0; j < indices.length; j++) {
+					if (indices[j] == decomp[i]) {
+						na = normals.get(normalIndices[j]);
+					} else if (indices[j] == decomp[i + 1]) {
+						nb = normals.get(normalIndices[j]);
+					} else if (indices[j] == decomp[i + 2]) {
+						nc = normals.get(normalIndices[j]);
+					}
+				}
+				
+				if (minVertexNormalDotProduct < Double.POSITIVE_INFINITY) {
+					na = nf.dot(na) < minVertexNormalDotProduct ? nf : na;
+					nb = nf.dot(nb) < minVertexNormalDotProduct ? nf : nb;
+					nc = nf.dot(nc) < minVertexNormalDotProduct ? nf : nc;
+				}
+
+				return na.times(A).plus(nb.times(B)).plus(nc.times(C)).unit();
+			}
+
+			return nf;
+		}
 
 		private Point2 getUV(Point3 p) {
 			if (this.texIndices == null) {
@@ -474,5 +549,13 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	
 	/** The surface area of this polyhedron. */
 	private double surfaceArea = -1.0;
+	
+	/**
+	 * The cosine of the maximum angle to accept between a vertex normal and
+	 * the corresponding face normal.  Vertex normals that deviate from the
+	 * face normal by more than this will be replaced with the face normal for
+	 * the purposes of computing the interpolated normal.
+	 */
+	private double minVertexNormalDotProduct = Double.POSITIVE_INFINITY;
 
 }
