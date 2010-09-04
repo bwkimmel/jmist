@@ -29,20 +29,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.eandb.jmist.framework.BoundingBoxBuilder3;
+import ca.eandb.jmist.framework.Illuminable;
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionDecorator;
 import ca.eandb.jmist.framework.IntersectionRecorder;
 import ca.eandb.jmist.framework.IntersectionRecorderDecorator;
 import ca.eandb.jmist.framework.Light;
+import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.SurfacePoint;
-import ca.eandb.jmist.framework.light.RandomCompositeLight;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.framework.light.AbstractLight;
+import ca.eandb.jmist.framework.path.LightNode;
+import ca.eandb.jmist.framework.path.PathInfo;
+import ca.eandb.jmist.framework.path.ScaledLightNode;
 import ca.eandb.jmist.framework.random.CategoricalRandom;
+import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.framework.random.SeedReference;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
+import ca.eandb.util.UnimplementedException;
 
 /**
  * @author brad
@@ -78,20 +86,58 @@ public final class BranchSceneElement implements SceneElement {
 	 * @see ca.eandb.jmist.framework.SceneElement#createLight()
 	 */
 	public Light createLight() {
-		List<Light> lights = new ArrayList<Light>();
+		final List<Light> lights = new ArrayList<Light>();
+		Light light = null;
+		int numLights = 0;
 		for (SceneElement child : children) {
-			Light light = child.createLight();
+			light = child.createLight();
+			lights.add(light);
 			if (light != null) {
-				lights.add(light);
+				numLights++;
 			}
 		}
-		switch (lights.size()) {
+		final int lightCount = numLights;
+		switch (numLights) {
 		case 0:
 			return null;
 		case 1:
-			return lights.get(0);
+			return light;
 		default:
-			return new RandomCompositeLight(lights);
+			return new AbstractLight() {
+
+				/** Serialization version ID. */
+				private static final long serialVersionUID = 6299798465595032610L;
+
+				@Override
+				public double getSamplePDF(final SurfacePoint x, final PathInfo pathInfo) {
+					return lights.get(x.getPrimitiveIndex()).getSamplePDF(x, pathInfo) / (double) lightCount;
+				}
+
+				@Override
+				public void illuminate(SurfacePoint x, WavelengthPacket lambda,
+						Random rnd, Illuminable target) {
+					throw new UnimplementedException();
+				}
+
+				@Override
+				public LightNode sample(PathInfo pathInfo, double ru,
+						double rv, double rj) {
+					SeedReference ref = new SeedReference(rj);
+					int index = RandomUtil.discrete(0, lightCount - 1, ref);
+					for (int i = 0, n = lights.size(); i < n; i++) {
+						Light light = lights.get(i);
+						if (light != null) {
+							if (index-- == 0) {
+								return ScaledLightNode.create(1.0 / (double) lightCount,
+										light.sample(pathInfo, ru, rv, ref.seed), rj);
+								
+							}
+						}
+					}
+					return null;
+				}
+				
+			};
 		}
 	}
 
