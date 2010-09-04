@@ -9,7 +9,7 @@ package ca.eandb.jmist.math;
  * This class is immutable.
  * @author Brad Kimmel
  */
-public final class Vector2 extends Tuple2 {
+public final class Vector2 extends HPoint2 {
 
 	/**
 	 * Initializes the components for the vector.
@@ -19,25 +19,13 @@ public final class Vector2 extends Tuple2 {
 	public Vector2(double x, double y) {
 		super(x, y);
 	}
-
-	/**
-	 * Gets the distance from the origin along the x-axis.
-	 * Equivalent to {@code this.dot(Vector2s.I);}
-	 * @return The distance from the origin along the x-axis.
-	 * @see {@link #I}, {@link #dot(Vector2)}.
+	
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.math.HPoint2#w()
 	 */
-	public double x() {
-		return x;
-	}
-
-	/**
-	 * Gets the distance from the origin along the y-axis.
-	 * Equivalent to {@code this.dot(Vector2.J);}
-	 * @return The distance from the origin along the y-axis.
-	 * @see {@link #J}, {@link #dot(Vector2)}.
-	 */
-	public double y() {
-		return y;
+	@Override
+	public double w() {
+		return 0.0;
 	}
 
 	/**

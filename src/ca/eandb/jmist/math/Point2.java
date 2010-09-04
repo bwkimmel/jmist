@@ -10,7 +10,7 @@ package ca.eandb.jmist.math;
  * This class is immutable.
  * @author Brad Kimmel
  */
-public final class Point2 extends Tuple2 {
+public final class Point2 extends HPoint2 {
 
 	/**
 	 * Initializes the components for the point.
@@ -21,26 +21,12 @@ public final class Point2 extends Tuple2 {
 		super(x, y);
 	}
 
-	/**
-	 * Gets the distance from the origin along the x-axis.
-	 * Equivalent to {@code this.minus(Point2.ORIGIN).dot(Vector2.I);}
-	 * @return The distance from the origin along the x-axis.
-	 * @see {@link #getX()}, {@link Vector2#I},
-	 * 		{@link Vector3#dot(Vector3)}.
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.math.HPoint2#w()
 	 */
-	public double x() {
-		return x;
-	}
-
-	/**
-	 * Gets the distance from the origin along the y-axis.
-	 * Equivalent to {@code this.minus(Point2.ORIGIN).dot(Vector2.J);}
-	 * @return The distance from the origin along the y-axis.
-	 * @see {@link #getY()}, {@link Vector2#J},
-	 * 		{@link Vector3#dot(Vector3)}.
-	 */
-	public double y() {
-		return y;
+	@Override
+	public double w() {
+		return 1.0;
 	}
 
 	/**
