@@ -14,6 +14,7 @@ import ca.eandb.jmist.math.Vector3;
  * Maps directions in three dimensional space to spectra.
  * @author Brad Kimmel
  */
+@Deprecated
 public interface DirectionalTexture3 extends Serializable {
 
 	/**
