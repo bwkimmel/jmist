@@ -543,7 +543,7 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 	 * Populates the <code>LayeredSurfaceScatterer</code> according to the ABM
 	 * model from the model parameters.
 	 */
-	private void build() {
+	private synchronized void build() {
 		subsurface.clear();
 
 //		Function1 iorMesophyll = new AXpBFunction1(
@@ -685,6 +685,16 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 		}
 		//System.exit(1);
 	}
+	
+	/**
+	 * Checks if the layers have been created yet.  Creates them if they have
+	 * not been.
+	 */
+	private synchronized void checkBuild() {
+		if (subsurface.getNumLayers() == 0) {
+			build();
+		}
+	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.scatter.SurfaceScatterer#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, boolean, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random)
@@ -692,8 +702,9 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 	public Vector3 scatter(SurfacePointGeometry x, Vector3 v, boolean adjoint,
 			double lambda, Random rnd) {
 
-		if (subsurface.getNumLayers() == 0) {
-			build();
+		if (subsurface.getNumLayers() == 0) { // check once before proceeding to
+			                                  // avoid unnecessary synchronization.
+			checkBuild();
 		}
 
 		if (!bifacial) {
