@@ -58,7 +58,7 @@ public final class MultipleSpecimenPhotometerJob extends AbstractParallelizableJ
 	 *
 	 * @see ca.eandb.jmist.framework.ParallelizableJob#getNextTask()
 	 */
-	public Object getNextTask() {
+	public synchronized Object getNextTask() {
 
 		if (!this.isComplete()) {
 
@@ -84,7 +84,7 @@ public final class MultipleSpecimenPhotometerJob extends AbstractParallelizableJ
 				this.getSpecimen(measurementIndex),
 				this.getIncidentAngle(measurementIndex),
 				this.getWavelength(measurementIndex),
-				this.samplesPerTask,
+				Math.min(samplesPerTask, samplesPerMeasurement - outstandingSamplesPerMeasurement),
 				measurementIndex
 		);
 	}
@@ -122,7 +122,7 @@ public final class MultipleSpecimenPhotometerJob extends AbstractParallelizableJ
 	 * @see ca.eandb.jmist.framework.ParallelizableJob#isComplete()
 	 */
 	public boolean isComplete() {
-		return this.outstandingSamplesPerMeasurement >= this.samplesPerMeasurement;
+		return this.tasksReturned >= this.totalTasks;
 	}
 
 	/* (non-Javadoc)
@@ -151,7 +151,7 @@ public final class MultipleSpecimenPhotometerJob extends AbstractParallelizableJ
 						double					solidAngle				= worker.collector.getSensorSolidAngle(sensor);
 						double					projectedSolidAngle		= worker.collector.getSensorProjectedSolidAngle(sensor);
 						long					hits					= sensorArray.hits(sensor);
-						double					reflectance				= (double) hits / (double) this.outstandingSamplesPerMeasurement;
+						double					reflectance				= (double) hits / (double) this.samplesPerMeasurement;
 	
 						out.printf(
 								"%d,%f,%f,%e,%d,%f,%f,%f,%f,%d,%d,%f,%e,%e",
@@ -164,7 +164,7 @@ public final class MultipleSpecimenPhotometerJob extends AbstractParallelizableJ
 								exitantAngle.azimuthal(),
 								solidAngle,
 								projectedSolidAngle,
-								this.outstandingSamplesPerMeasurement,
+								this.samplesPerMeasurement,
 								hits,
 								reflectance,
 								reflectance / projectedSolidAngle,
