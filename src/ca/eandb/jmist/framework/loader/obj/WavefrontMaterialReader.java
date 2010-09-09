@@ -39,6 +39,7 @@ import ca.eandb.jmist.framework.Shader;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.material.LambertianMaterial;
+import ca.eandb.jmist.framework.material.ModifiedPhongMaterial;
 import ca.eandb.jmist.framework.painter.ProductPainter;
 import ca.eandb.jmist.framework.painter.Texture2Painter;
 import ca.eandb.jmist.framework.painter.UniformPainter;
@@ -244,7 +245,7 @@ final class WavefrontMaterialReader {
 					ka = getPainter("Ka");
 					kd = getPainter("Kd");
 					ks = getPainter("Ks");
-					material = new LambertianMaterial(kd); // FIXME should be phong material
+					material = new ModifiedPhongMaterial(kd, ks, exponent);
 					shader = new PhongShader(kd, ks, ka, new UniformPainter(colorModel.getGray(exponent)));
 					break;
 
