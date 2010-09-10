@@ -74,13 +74,7 @@ public final class Photometer {
 
 	public void castPhotons(long n, ProgressMonitor monitor, long progressInterval) {
 
-		long untilCallback = progressInterval;
-
-		if (!monitor.notifyProgress(0.0)) {
-			monitor.notifyCancelled();
-			return;
-		}
-
+		long untilCallback = 0;
 		Random rng = new SimpleRandom();
 
 		for (int i = 0; i < n; i++) {
@@ -106,6 +100,7 @@ public final class Photometer {
 
 		}
 
+		monitor.notifyProgress(1.0);
 		monitor.notifyComplete();
 
 	}

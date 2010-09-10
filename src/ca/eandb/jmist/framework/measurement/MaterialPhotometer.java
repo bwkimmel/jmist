@@ -135,13 +135,7 @@ public final class MaterialPhotometer {
 
 	public void castPhotons(long n, ProgressMonitor monitor, long progressInterval) {
 
-		long untilCallback = progressInterval;
-
-		if (!monitor.notifyProgress(0.0)) {
-			monitor.notifyCancelled();
-			return;
-		}
-
+		long untilCallback = 0;
 		Random rng = new SimpleRandom();
 		int sqrt = (int) Math.floor(Math.sqrt(n));
 		int nbox = sqrt * sqrt;
@@ -179,6 +173,7 @@ public final class MaterialPhotometer {
 
 		}
 
+		monitor.notifyProgress(1.0);
 		monitor.notifyComplete();
 
 	}
