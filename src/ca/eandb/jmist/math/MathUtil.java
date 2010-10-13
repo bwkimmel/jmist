@@ -988,20 +988,6 @@ public final class MathUtil {
 	}
 
 	/**
-	 * Computes the sum of the values in a collection of <code>int</code>s.
-	 * @param values The collection of <code>int</code>s of which to compute
-	 * 		the	sum.
-	 * @return The sum of the values in <code>values</code>.
-	 */
-	public static int sum(Iterable<Integer> values) {
-		int sum = 0;
-		for (int x : values) {
-			sum += x;
-		}
-		return sum;
-	}
-
-	/**
 	 * Computes the product of the values in an array of <code>int</code>s.
 	 * @param array The array of <code>int</code>s of which to compute the
 	 * 		product.
@@ -1011,20 +997,6 @@ public final class MathUtil {
 		int prod = 1;
 		for (int i = 0; i < array.length; i++) {
 			prod *= array[i];
-		}
-		return prod;
-	}
-
-	/**
-	 * Computes the product of the values in a collection of <code>int</code>s.
-	 * @param values The collection of <code>int</code>s of which to
-	 * 		compute the product.
-	 * @return The product of the values in <code>values</code>.
-	 */
-	public static int product(Iterable<Integer> values) {
-		int prod = 1;
-		for (int x : values) {
-			prod *= x;
 		}
 		return prod;
 	}
