@@ -4,7 +4,10 @@
 package ca.eandb.jmist.framework.scene;
 
 import ca.eandb.jmist.framework.BoundingBoxBuilder3;
+import ca.eandb.jmist.framework.Intersection;
+import ca.eandb.jmist.framework.IntersectionDecorator;
 import ca.eandb.jmist.framework.IntersectionRecorder;
+import ca.eandb.jmist.framework.IntersectionRecorderDecorator;
 import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.ShadingContext;
@@ -160,11 +163,22 @@ public class RangeSceneElement implements SceneElement {
 	 * @see ca.eandb.jmist.framework.SceneElement#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
 	 */
 	@Override
-	public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
+	public void intersect(final int index, Ray3 ray, IntersectionRecorder recorder) {
 		if (index < 0 || index >= size) {
 			throw new IllegalArgumentException("index out of bounds");
 		}
-		inner.intersect(offset + index, ray, recorder);
+		inner.intersect(offset + index, ray, new IntersectionRecorderDecorator(recorder) {
+			@Override
+			public void record(Intersection intersection) {
+				inner.record(new IntersectionDecorator(intersection) {
+					@Override
+					protected void transformShadingContext(
+							ShadingContext context) {
+						context.setPrimitiveIndex(index);
+					}
+				});
+			}
+		});
 	}
 
 	/* (non-Javadoc)
@@ -172,6 +186,22 @@ public class RangeSceneElement implements SceneElement {
 	 */
 	@Override
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
+		recorder = new IntersectionRecorderDecorator(recorder) {
+
+			@Override
+			public void record(Intersection intersection) {
+				inner.record(new IntersectionDecorator(intersection) {
+
+					@Override
+					protected void transformShadingContext(
+							ShadingContext context) {
+						context.setPrimitiveIndex(context.getPrimitiveIndex() - offset);
+					}
+					
+				});
+			}
+			
+		};
 		for (int i = 0, j = offset; i < size; i++, j++) {
 			inner.intersect(j, ray, recorder);
 		}
