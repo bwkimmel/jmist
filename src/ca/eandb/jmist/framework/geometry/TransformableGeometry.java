@@ -55,6 +55,19 @@ public final class TransformableGeometry extends AbstractGeometry implements
 		geometry.intersect(index, ray, recorder);
 
 	}
+	
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+	 */
+	@Override
+	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
+
+		ray			= this.model.applyInverse(ray);
+		recorder	= new TransformedIntersectionRecorder(recorder);
+
+		geometry.intersect(ray, recorder);
+		
+	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
