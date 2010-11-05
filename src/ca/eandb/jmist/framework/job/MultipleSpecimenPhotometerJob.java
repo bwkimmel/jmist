@@ -60,7 +60,7 @@ public final class MultipleSpecimenPhotometerJob extends AbstractParallelizableJ
 	 */
 	public synchronized Object getNextTask() {
 
-		if (!this.isComplete()) {
+		if (outstandingSamplesPerMeasurement < samplesPerMeasurement) {
 
 			PhotometerTask task = this.getPhotometerTask(this.nextMeasurementIndex);
 
