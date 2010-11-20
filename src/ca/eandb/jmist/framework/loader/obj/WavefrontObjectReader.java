@@ -21,6 +21,7 @@ import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.rgb.RGBColorModel;
 import ca.eandb.jmist.framework.geometry.primitive.PolyhedronGeometry;
 import ca.eandb.jmist.framework.scene.AppearanceMapSceneElement;
+import ca.eandb.jmist.framework.scene.RangeSceneElement;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Vector3;
@@ -40,10 +41,22 @@ public final class WavefrontObjectReader {
 	}
 
 	public synchronized SceneElement read(File in, Map<String, Material> materials, double scale, ColorModel cm) throws IOException {
+		return read(in, materials, scale, cm, null);
+	}
+	
+	public synchronized SceneElement read(File in, ColorModel cm, Map<String, SceneElement> groups) throws IOException {
+		return read(in, 1.0, cm, groups);
+	}
+
+	public synchronized SceneElement read(File in, double scale, ColorModel cm, Map<String, SceneElement> groups) throws IOException {
+		return read(in, new HashMap<String, Material>(), scale, cm, groups);
+	}
+
+	public synchronized SceneElement read(File in, Map<String, Material> materials, double scale, ColorModel cm, Map<String, SceneElement> groups) throws IOException {
 
 		FileInputStream stream = new FileInputStream(in);
 		LineNumberReader reader = new LineNumberReader(new InputStreamReader(stream));
-		State state = new State(in.getParentFile(), scale, cm);
+		State state = new State(in.getParentFile(), scale, cm, groups);
 
 		for (Map.Entry<String, Material> entry : this.materials.entrySet()) {
 			state.addAppearance(entry.getKey(), entry.getValue(), null);
@@ -74,6 +87,7 @@ public final class WavefrontObjectReader {
 
 		}
 
+		state.endGroup();		
 		return state.result;
 
 	}
@@ -107,10 +121,11 @@ public final class WavefrontObjectReader {
 		/**
 		 * @param geometry
 		 */
-		public State(File directory, double scale, ColorModel colorModel) {
+		public State(File directory, double scale, ColorModel colorModel, Map<String, SceneElement> groups) {
 			this.directory = directory;
 			this.scale = scale;
 			this.colorModel = colorModel;
+			this.groups = groups;
 		}
 
 		public void addErrorMessage(String format) {
@@ -121,6 +136,28 @@ public final class WavefrontObjectReader {
 		public void addWarningMessage(String format) {
 			// TODO Auto-generated method stub
 
+		}
+		
+		public void endGroup() {
+			if (groups != null) {
+				int fi = geometry.getNumPrimitives();
+				if (groupOffset >= 0) {
+					groups.put(groupName, new RangeSceneElement(groupOffset, fi - groupOffset, result));
+				}
+				groupOffset = -1;
+				groupName = "";
+			}			
+		}
+		
+		public void beginGroup(String name) {
+			if (groups != null) {
+				int fi = geometry.getNumPrimitives();
+				if (groupOffset >= 0) {
+					groups.put(groupName, new RangeSceneElement(groupOffset, fi - groupOffset, result));
+				}
+				groupOffset = fi;
+				groupName = name;
+			}
 		}
 
 		public void addFace(int[] vi, int[] vti, int[] vni) {
@@ -182,8 +219,11 @@ public final class WavefrontObjectReader {
 		private final List<Point2> vts = new ArrayList<Point2>();
 		private final List<Vector3> vns = new ArrayList<Vector3>();
 		private final List<Double> weights = new ArrayList<Double>();
-
+		
 		private String activeMaterialName = null;
+		
+		private int groupOffset = -1;
+		private String groupName = "";
 
 		private final PolyhedronGeometry geometry = new PolyhedronGeometry(vs, vts, vns);
 		private AppearanceMapSceneElement appearance = null;
@@ -195,6 +235,8 @@ public final class WavefrontObjectReader {
 		private final File directory;
 
 		private final ColorModel colorModel;
+
+		private final Map<String, SceneElement> groups;
 
 	}
 
@@ -220,6 +262,7 @@ public final class WavefrontObjectReader {
 		lineInterpreters.put("f", LI_F);
 		lineInterpreters.put("usemtl", LI_USEMTL);
 		lineInterpreters.put("mtllib", LI_MTLLIB);
+		lineInterpreters.put("g", LI_G);
 	}
 
 	private static Map<String, LineInterpreter> lineInterpreters = null;
@@ -354,7 +397,14 @@ public final class WavefrontObjectReader {
 		}
 
 	};
+	private static LineInterpreter LI_G = new LineInterpreter() {
 
+		public void process(String[] args, State state) {
+			checkArgs(args, state, 1);
+			state.beginGroup(args[1]);
+		}
+		
+	};
 
 
 }
