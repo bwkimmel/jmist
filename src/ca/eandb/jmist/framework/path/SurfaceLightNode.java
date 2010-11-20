@@ -34,7 +34,7 @@ public final class SurfaceLightNode extends LightTerminalNode {
 	 */
 	public double getCosine(Vector3 v) {
 		Vector3 n = surf.getShadingNormal();
-		return v.unit().dot(n);
+		return Math.abs(v.unit().dot(n));
 	}
 
 	/* (non-Javadoc)
