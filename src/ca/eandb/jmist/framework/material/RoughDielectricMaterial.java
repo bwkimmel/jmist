@@ -7,28 +7,43 @@ import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.framework.material.support.IsotropicMicrofacetModel;
 import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.math.Optics;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
-import ca.eandb.jmist.math.SphericalCoordinates;
 import ca.eandb.jmist.math.Vector3;
 
 /**
- * @author Brad
- *
+ * A <code>Material</code> representing a dielectric material having a rough
+ * surface, based on:
+ * 
+ * B. Walter, S.R. Marschner, H. Li, K.E. Torrance, "Microfacet models for
+ * reflection through rough surfaces", In proceedings of Eurographics Symposium
+ * on Rendering, 2007.
+ * 
+ * @author Brad Kimmel
  */
-public final class EtchedGlassMaterial extends AbstractMaterial {
+public final class RoughDielectricMaterial extends AbstractMaterial {
 	
 	/** Serialization version ID */
 	private static final long serialVersionUID = -2137062689589252464L;
 
-	private final double n1 = 1.0;
+	private final double n1;
 	
-	private final double n2 = 1.5;
+	private final double n2;
 	
-	private final double alpha = 0.454;
-	
+	private final IsotropicMicrofacetModel microfacets;
+
+	public RoughDielectricMaterial(double n2, IsotropicMicrofacetModel microfacets) {
+		this(1.0, n2, microfacets);
+	}
+
+	public RoughDielectricMaterial(double n1, double n2, IsotropicMicrofacetModel microfacets) {
+		this.n1 = n1;
+		this.n2 = n2;
+		this.microfacets = microfacets;
+	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Medium#extinctionIndex(ca.eandb.jmist.math.Point3, ca.eandb.jmist.framework.color.WavelengthPacket)
@@ -82,8 +97,12 @@ public final class EtchedGlassMaterial extends AbstractMaterial {
 		Vector3 hr = out.minus(in).times(Math.signum(ndoti)).unit();
 		hr = hr.dot(n) > 0.0 ? hr : hr.opposite();
 		
+		double g = microfacets.getShadowingAndMasking(in, out, hr, n);
+		double d = microfacets.getDistributionPDF(hr, n);
+		double f = Optics.reflectance(in, n1, n2, hr);
+		
 		/* Eq. (20) */
-		return fresnel(in, hr) * shadowAndMask(in, out, hr, n) * distribution(hr, n) / (4.0 * Math.abs(ndoti * ndoto));
+		return f * g * d / (4.0 * Math.abs(ndoti * ndoto));
 	}
 
 	private double btdf(SurfacePoint x, Vector3 in, Vector3 out, Vector3 n) {
@@ -107,68 +126,14 @@ public final class EtchedGlassMaterial extends AbstractMaterial {
 		double ndoto = n.dot(out);
 		
 		double k = Math.abs(hdoti * hdoto / (ndoti * ndoto));
-		double d = ni * hdoti + no * hdoto;
+		double c = ni * hdoti + no * hdoto;
+		
+		double f = Optics.reflectance(in, n1, n2, ht);
+		double g = microfacets.getShadowingAndMasking(in, out, ht, n);
+		double d = microfacets.getDistributionPDF(ht, n);
 		
 		/* Eq. (21) */
-		return k * no * no * (1.0 - fresnel(in, ht)) * shadowAndMask(in, out, ht, n) * distribution(ht, n) / (d * d);		
-	}
-	
-	private double fresnel(Vector3 in, Vector3 n) {
-		return Optics.reflectance(in, n1, n2, n);
-//		double c = Math.abs(in.dot(n));
-//		double det = (nt * nt) / (ni * ni) - 1.0 + c * c;
-//		
-//		if (det < 0.0) {
-//			return 1.0;
-//		}
-//		
-//		double g = Math.sqrt(det);
-//		double gmc = g - c;
-//		double gpc = g + c;
-//		double a = c * gpc - 1.0;
-//		double b = c * gmc + 1.0;
-//		double f = 0.5 * ((gmc * gmc) / (gpc * gpc)) * (1.0 + ((a * a) / (b * b)));
-//		
-//		return f;
-	}
-	
-	private double shadowAndMask(Vector3 in, Vector3 out, Vector3 m, Vector3 n) {
-		double mdoti = -m.dot(in);
-		double ndoti = -n.dot(in);
-		double mdoto = m.dot(out);
-		double ndoto = n.dot(out);
-		
-		if (mdoti / ndoti < 0.0 || mdoto / ndoto < 0.0) {
-			return 0.0;
-		}
-		
-		double a2 = alpha * alpha;
-		double ti = Math.tan(Math.acos(ndoti));
-		double t2i = ti * ti;
-		double to = Math.tan(Math.acos(ndoto));
-		double t2o = to * to;
-
-		return 4.0 / ((1.0 + Math.sqrt(1.0 + a2 * t2i)) * (1.0 + Math.sqrt(1.0 + a2 * t2o)));
-	}
-	
-	private double distribution(Vector3 m, Vector3 n) {
-		double mdotn = m.dot(n);
-		if (mdotn < 0.0) {
-			return 0.0;
-		}
-		
-		double a2 = alpha * alpha;
-		double c4 = mdotn * mdotn * mdotn * mdotn;
-		double t = Math.tan(Math.acos(mdotn));
-		double t2 = t * t;
-		double a2pt2 = a2 + t2;
-		
-		return a2 / (Math.PI * c4 * a2pt2 * a2pt2);
-	}
-	
-	private SphericalCoordinates sampleMicrofacetNormal(double x1, double x2) {
-		return new SphericalCoordinates(Math.atan(alpha
-				* Math.sqrt(x1 / (1.0 - x1))), 2.0 * Math.PI * x2);
+		return k * no * no * (1.0 - f) * g * d / (c * c);		
 	}
 
 	/* (non-Javadoc)
@@ -184,8 +149,11 @@ public final class EtchedGlassMaterial extends AbstractMaterial {
 		
 		if (reflected) {
 			Vector3 hr = out.minus(in).times(Math.signum(ndoti)).unit();
+			hr = hr.dot(n) > 0.0 ? hr : hr.opposite();
+
 			double partial = 1.0 / (4.0 * Math.abs(hr.dot(out)));
-			double pm = distribution(hr, n) * Math.abs(hr.dot(n));
+			double d = microfacets.getDistributionPDF(hr, n);
+			double pm = d * Math.abs(hr.dot(n));
 			double po = pm * partial;
 			return po;// / Math.abs(n.dot(out));
 		} else {
@@ -207,10 +175,11 @@ public final class EtchedGlassMaterial extends AbstractMaterial {
 			double hdoto = ht.dot(out);
 			
 			double k = Math.abs(hdoti * hdoto / (ndoti * ndoto));
-			double d = ni * hdoti + no * hdoto;
+			double c = ni * hdoti + no * hdoto;
 			
-			double partial = no * no * Math.abs(hdoto) / (d * d);
-			double pm = distribution(ht, n) * Math.abs(ht.dot(n));
+			double partial = no * no * Math.abs(hdoto) / (c * c);
+			double d = microfacets.getDistributionPDF(ht, n);
+			double pm = d * Math.abs(ht.dot(n));
 			double po = pm * partial;
 			return po;// / Math.abs(n.dot(out));			
 		}
@@ -224,7 +193,7 @@ public final class EtchedGlassMaterial extends AbstractMaterial {
 			WavelengthPacket lambda, double ru, double rv, double rj) {
 		
 		Vector3 n = x.getNormal();
-		Vector3 m = sampleMicrofacetNormal(ru, rv).toCartesian(x.getBasis());
+		Vector3 m = microfacets.sample(ru, rv).toCartesian(x.getBasis());
 		double mdoti = Math.abs(m.dot(v));
 		double ndoti = Math.abs(n.dot(v));
 		double mdotn = Math.abs(m.dot(n));
@@ -232,17 +201,15 @@ public final class EtchedGlassMaterial extends AbstractMaterial {
 		double ni = -v.dot(n) >= 0.0 ? n1 : n2;
 		double nt = -v.dot(n) >= 0.0 ? n2 : n1;
 		
-		double r = fresnel(v, m.dot(n) > 0.0 ? m : m.opposite());
+		double r = Optics.reflectance(v, n1, n2, m.dot(n) > 0.0 ? m : m.opposite());
 		boolean reflected = RandomUtil.bernoulli(r, rj);
 		Vector3 out = reflected ? Optics.reflect(v, m) : Optics.refract(v, n1, n2, m);
 		
-		double weight = (mdoti / (ndoti * mdotn)) * shadowAndMask(v, out, m, n);
+		double g = microfacets.getShadowingAndMasking(v, out, m, n);
+		double weight = (mdoti / (ndoti * mdotn)) * g;
 		double pdf = getScatteringPDF(x, v, out, adjoint, lambda);
 		
 		return new ScatteredRay(new Ray3(x.getPosition(), out), lambda.getColorModel().getGray(weight, lambda), ScatteredRay.Type.GLOSSY, pdf, !reflected);
 		
 	}
-	
-	
-
 }
