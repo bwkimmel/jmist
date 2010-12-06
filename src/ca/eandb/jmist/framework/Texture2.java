@@ -25,4 +25,20 @@ public interface Texture2 extends Serializable {
 	 */
 	Color evaluate(Point2 p, WavelengthPacket lambda);
 
+	/** A solid black <code>Texture2</code>. */
+	public static final Texture2 BLACK = new Texture2() {
+		private static final long serialVersionUID = 7911041095970042301L;
+		public Color evaluate(Point2 p, WavelengthPacket lambda) {
+			return lambda.getColorModel().getBlack(lambda);
+		}
+	};
+	
+	/** A solid white <code>Texture2</code>. */
+	public static final Texture2 WHITE = new Texture2() {
+		private static final long serialVersionUID = 8200945534829723005L;
+		public Color evaluate(Point2 p, WavelengthPacket lambda) {
+			return lambda.getColorModel().getWhite(lambda);
+		}		
+	};
+
 }
