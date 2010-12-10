@@ -41,14 +41,48 @@ public final class RasterTexture2 implements Texture2 {
 	 * 		new <code>Texture2</code>.
 	 * @param factory The <code>PixelSpectrumFactory</code> to use to create
 	 * 		spectra from <code>Pixel</code>s.
+	 * @param background The <code>Texture2</code> to render underneath if the
+	 * 		image has an alpha channel.
 	 */
-	public RasterTexture2(BufferedImage image, PixelSpectrumFactory factory) {
+	public RasterTexture2(BufferedImage image, PixelSpectrumFactory factory, Texture2 background) {
 		this.image = image;
 		this.factory = factory;
+		this.background = background;
+	}
+
+	public RasterTexture2(BufferedImage image, Texture2 background) {
+		this(image, null, background);
+	}
+
+	public RasterTexture2(File file, Texture2 background) throws IOException {
+		this(ImageIO.read(file), background);
+	}
+
+	public RasterTexture2(URL input, Texture2 background) throws IOException {
+		this(ImageIO.read(input), background);
+	}
+
+	public RasterTexture2(ImageInputStream stream, Texture2 background) throws IOException {
+		this(ImageIO.read(stream), background);
+	}
+
+	public RasterTexture2(InputStream input, Texture2 background) throws IOException {
+		this(ImageIO.read(input), background);
+	}
+
+	/**
+	 * Creates a new <code>RasterTexture2</code>.
+	 * @param raster The <code>BufferedImage</code> to use as the basis for the
+	 * 		new <code>Texture2</code>.
+	 * @param factory The <code>PixelSpectrumFactory</code> to use to create
+	 * 		spectra from <code>Pixel</code>s.
+	 */
+	public RasterTexture2(BufferedImage image, PixelSpectrumFactory factory) {
+		this(image, factory, Texture2.BLACK);
 	}
 
 	public RasterTexture2(BufferedImage image) {
-		this(image, null);
+		this(image, null, Texture2.BLACK);
 	}
 
 	public RasterTexture2(File file) throws IOException {
@@ -104,6 +138,19 @@ public final class RasterTexture2 implements Texture2 {
 				return cm.getGray(pixel[0], lambda);
 			case 3:
 				return cm.fromRGB(pixel[0]/255.0, pixel[1]/255.0, pixel[2]/255.0).sample(lambda);
+			case 4:
+			{
+				double alpha = pixel[3] / 255.0;
+				if (MathUtil.equal(alpha, 1.0)) {
+					return cm.fromRGB(pixel[0]/255.0, pixel[1]/255.0, pixel[2]/255.0).sample(lambda);
+				} else if (MathUtil.equal(alpha, 0.0)) {
+					return background.evaluate(p, lambda);
+				} else {
+					Color bg = background.evaluate(p, lambda);
+					Color fg = cm.fromRGB(pixel[0]/255.0, pixel[1]/255.0, pixel[2]/255.0).sample(lambda);
+					return fg.times(alpha).plus(bg.times(1.0 - alpha));
+				}
+			}
 			default:
 				throw new RuntimeException("Raster has unrecognized number of bands.");
 			}
@@ -128,5 +175,11 @@ public final class RasterTexture2 implements Texture2 {
 	 * <code>Pixel</code>s.
 	 */
 	private final PixelSpectrumFactory factory;
+	
+	/**
+	 * The <code>Texture2</code> to render underneath this texture if the image
+	 * has an alpha channel.
+	 */
+	private final Texture2 background;
 
 }
