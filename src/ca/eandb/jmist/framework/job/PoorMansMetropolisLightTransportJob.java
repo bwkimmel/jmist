@@ -31,6 +31,7 @@ import java.util.List;
 import ca.eandb.jdcp.job.AbstractParallelizableJob;
 import ca.eandb.jdcp.job.TaskWorker;
 import ca.eandb.jmist.framework.Display;
+import ca.eandb.jmist.framework.Function1;
 import ca.eandb.jmist.framework.Lens;
 import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.Random;
@@ -77,6 +78,13 @@ public final class PoorMansMetropolisLightTransportJob extends AbstractParalleli
 	private final BidiPathStrategy strategy;
 
 	private final PathMeasure measure;
+	
+	private final Function1 reweighting = new Function1() {
+		private static final long serialVersionUID = 5042576352662136283L;
+		public double evaluate(double x) {
+			return x / (1.0 + x);
+		}
+	};
 
 	private final int tasks;
 
@@ -410,7 +418,7 @@ public final class PoorMansMetropolisLightTransportJob extends AbstractParalleli
 			for (Contribution c : contrib) {
 				f += c.score.luminance();
 			}
-			return f;
+			return reweighting.evaluate(f);
 		}
 		
 		public void record(List<Contribution> contrib, double weight) {
