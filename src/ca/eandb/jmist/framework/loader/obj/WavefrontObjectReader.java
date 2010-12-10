@@ -58,8 +58,9 @@ public final class WavefrontObjectReader {
 		LineNumberReader reader = new LineNumberReader(new InputStreamReader(stream));
 		State state = new State(in.getParentFile(), scale, cm, groups);
 
-		for (Map.Entry<String, Material> entry : this.materials.entrySet()) {
-			state.addAppearance(entry.getKey(), entry.getValue(), null);
+		for (Map.Entry<String, Appearance> entry : this.appearance.entrySet()) {
+			Appearance a = entry.getValue();
+			state.addAppearance(entry.getKey(), a.material, a.shader);
 		}
 
 		while (true) {
@@ -93,10 +94,22 @@ public final class WavefrontObjectReader {
 	}
 
 	public void addMaterial(String name, Material material) {
-		this.materials.put(name, material);
+		this.addAppearance(name, material, null);
 	}
+	
+	public void addAppearance(String name, Material material, Shader shader) {
+		Appearance a = new Appearance();
+		a.material = material;
+		a.shader = shader;
+		appearance.put(name, a);
+	}
+	
+	private static final class Appearance {
+		public Material material;
+		public Shader shader;
+	};
 
-	private final Map<String, Material> materials = new HashMap<String, Material>();
+	private final Map<String, Appearance> appearance = new HashMap<String, Appearance>();
 
 	private static void checkArgs(String[] args, State state, int min, int max) {
 		int count = args.length - 1;
