@@ -10,6 +10,7 @@ import ca.eandb.jmist.framework.BoundingBoxBuilder3;
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
 import ca.eandb.jmist.framework.Light;
+import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.SurfacePoint;
@@ -38,23 +39,25 @@ public final class HairSceneElement implements SceneElement {
 
 	private final SceneElement emitter;
 	
+	private final Material hairMaterial;
+	
 	private final int base;
 
-	private final int amount = 100000;
+	private final int amount = 1000;//500000;
 	
 	private final int segments = 4;
 
-	private final Vector3 meanInitialVelocity = new Vector3(0.0, 0.0, 0.2);
+	private final Vector3 meanInitialVelocity = new Vector3(0.0, 0.0, 0.2);//0.05);
 	
-	private final double randomInitialVelocity = 0.07;
+	private final double randomInitialVelocity = 0.02;
 	
-	private final double roughness = 0.01;
+	private final double roughness = 0.05;//0.01;
 	
-	private final boolean renderEmitter = false;
+	private final boolean renderEmitter = true;
 	
-	private final double baseWidth = 0.002;
+	private final double baseWidth = 0.01;
 	
-	private final double tipWidth = 0.001;
+	private final double tipWidth = 0.01;
 	
 	private class Strand implements Bounded3 {
 		
@@ -98,7 +101,7 @@ public final class HairSceneElement implements SceneElement {
 							Vector3 v = ray.direction();
 							context.setPosition(ray.pointAt(t));
 							context.setNormal(v.dot(n) > 0.0 ? n.opposite() : n);
-							context.setMaterial(emitterContext.getMaterial());
+							context.setMaterial(hairMaterial != null ? hairMaterial : emitterContext.getMaterial());
 							context.setModifier(emitterContext.getModifier());
 							context.setPrimitiveIndex(base + strandIndex);
 							context.setShader(emitterContext.getShader());
@@ -128,6 +131,11 @@ public final class HairSceneElement implements SceneElement {
 	};
 	
 	public HairSceneElement(SceneElement emitter) {
+		this(null, emitter);
+	}
+	
+	public HairSceneElement(Material hairMaterial, SceneElement emitter) {
+		this.hairMaterial = hairMaterial;
 		this.emitter = emitter;
 		this.base = renderEmitter ? emitter.getNumPrimitives() : 0;
 	}
