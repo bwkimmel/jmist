@@ -567,6 +567,7 @@ public final class BioSpecSurfaceScatterer implements SurfaceScatterer {
 	private static final double IOR_COLLAGEN_FIBERS = 1.5;
 
 	static {
+		// convert everything to base SI units
 		for (int i = 0; i < omlc_pheomelanin_wavelengths.length; i++) {
 			omlc_pheomelanin_wavelengths[i] *= 1e-9;
 		}
@@ -1016,7 +1017,11 @@ public final class BioSpecSurfaceScatterer implements SurfaceScatterer {
 			double lambda, Random rnd) {
 
 		if (subsurface.getNumLayers() == 0) {
-			build();
+			synchronized (this) {
+				if (subsurface.getNumLayers() == 0) {
+					build();
+				}
+			}
 		}
 
 		return subsurface.scatter(x, v, adjoint, lambda, rnd);
