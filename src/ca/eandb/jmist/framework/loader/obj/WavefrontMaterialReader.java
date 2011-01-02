@@ -150,6 +150,8 @@ final class WavefrontMaterialReader {
 			}
 
 		}
+		
+		state.visitMaterial();
 
 	}
 
