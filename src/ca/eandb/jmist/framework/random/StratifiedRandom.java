@@ -96,7 +96,7 @@ public final class StratifiedRandom implements Random {
 	 * @see ca.eandb.jmist.framework.Random#createCompatibleRandom()
 	 */
 	public StratifiedRandom createCompatibleRandom() {
-		return new StratifiedRandom(this.sequence.length);
+		return new StratifiedRandom(this.sequence.length, inner.createCompatibleRandom());
 	}
 
 	/**
