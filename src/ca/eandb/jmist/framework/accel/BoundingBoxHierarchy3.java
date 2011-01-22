@@ -24,6 +24,9 @@ import ca.eandb.jmist.math.Ray3;
  */
 public final class BoundingBoxHierarchy3 implements RayTraversalStrategy3 {
 
+	/** Serialization version ID. */
+	private static final long serialVersionUID = -7768577656591759503L;
+
 	/**
 	 * Creates a new <code>BoundingBoxHierarchy3</code>.
 	 */
