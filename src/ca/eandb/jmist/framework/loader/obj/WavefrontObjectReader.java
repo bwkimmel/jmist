@@ -11,14 +11,15 @@ import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.Shader;
 import ca.eandb.jmist.framework.color.ColorModel;
-import ca.eandb.jmist.framework.color.rgb.RGBColorModel;
 import ca.eandb.jmist.framework.geometry.primitive.PolyhedronGeometry;
 import ca.eandb.jmist.framework.scene.AppearanceMapSceneElement;
 import ca.eandb.jmist.framework.scene.RangeSceneElement;
@@ -200,6 +201,11 @@ public final class WavefrontObjectReader {
 		public void addAppearance(String name, Material material, Shader shader) {
 			ensureAppearanceMap();
 			appearance.addAppearance(name, material, shader);
+			appearanceNames.add(name);
+		}
+		
+		public boolean hasAppearance(String name) {
+			return appearanceNames.contains(name);
 		}
 
 		public void addVertex(Point3 p, double w) {
@@ -232,6 +238,7 @@ public final class WavefrontObjectReader {
 		private final List<Point2> vts = new ArrayList<Point2>();
 		private final List<Vector3> vns = new ArrayList<Vector3>();
 		private final List<Double> weights = new ArrayList<Double>();
+		private final Set<String> appearanceNames = new HashSet<String>();
 		
 		private String activeMaterialName = null;
 		
@@ -394,7 +401,9 @@ public final class WavefrontObjectReader {
 					reader.read(file, state.colorModel, new AppearanceVisitor() {
 						public void visit(String name, Material material,
 								Shader shader) {
-							state.addAppearance(name, material, shader);
+							if (!state.hasAppearance(name)) {
+								state.addAppearance(name, material, shader);
+							}
 						}
 					});
 				} catch (FileNotFoundException e) {
