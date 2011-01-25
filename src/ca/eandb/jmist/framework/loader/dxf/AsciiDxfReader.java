@@ -115,6 +115,8 @@ public final class AsciiDxfReader implements DxfReader {
 
 	private final LineNumberReader reader;
 	
+	private DxfElement currentElement;
+	
 	private boolean eof = false;
 	
 	public AsciiDxfReader(Reader reader) {
@@ -122,12 +124,21 @@ public final class AsciiDxfReader implements DxfReader {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.dxf.DxfElementProvider#getNextElement()
+	 * @see ca.eandb.jmist.framework.loader.dxf.DxfReader#getCurrentElement()
 	 */
 	@Override
-	public synchronized DxfElement getNextElement() {
+	public synchronized DxfElement getCurrentElement() {
+		return currentElement;
+	}
+	
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.loader.dxf.DxfReader#advance()
+	 */
+	@Override
+	public synchronized void advance() throws DxfException {
 		if (eof) {
-			return null;
+			currentElement = null;
+			return;
 		}
 		
 		int ln = reader.getLineNumber();
@@ -155,7 +166,7 @@ public final class AsciiDxfReader implements DxfReader {
 			eof = true;
 		}
 
-		return new AsciiDxfElement(groupCode, valueLine, ln);
+		currentElement = new AsciiDxfElement(groupCode, valueLine, ln);
 	}
 
 }
