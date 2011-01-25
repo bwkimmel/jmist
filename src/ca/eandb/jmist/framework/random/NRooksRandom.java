@@ -3,6 +3,12 @@
  */
 package ca.eandb.jmist.framework.random;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+import javax.imageio.ImageIO;
+
 import ca.eandb.jmist.framework.Random;
 
 /**
@@ -79,9 +85,28 @@ public final class NRooksRandom implements Random {
 	public NRooksRandom createCompatibleRandom() {
 		return new NRooksRandom(this.sources);
 	}
+	
+	private void writeObject(ObjectOutputStream oos) throws IOException {
+		oos.defaultWriteObject();
+		oos.writeInt(this.sources.length);
+		oos.writeObject(this.sources[0]);
+	}
 
-	private StratifiedRandom[] sources;
-	private int nextSourceIndex = 0;
+	private void readObject(ObjectInputStream ois)
+			throws ClassNotFoundException, IOException {
+		ois.defaultReadObject();
+		int n = ois.readInt();
+		this.sources = new StratifiedRandom[n];
+		this.sources[0] = (StratifiedRandom) ois.readObject();
+		for (int i = 1; i < n; i++) {
+			this.sources[i] = sources[0].createCompatibleRandom();
+		}
+		this.nextSourceIndex = 0;
+	}
+
+
+	private transient StratifiedRandom[] sources;
+	private transient int nextSourceIndex = 0;
 
 	/**
 	 * Serialization version ID.

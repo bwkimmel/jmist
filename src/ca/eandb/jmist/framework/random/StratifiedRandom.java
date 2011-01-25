@@ -3,6 +3,12 @@
  */
 package ca.eandb.jmist.framework.random;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+import javax.imageio.ImageIO;
+
 import ca.eandb.jmist.framework.Random;
 
 /**
@@ -132,6 +138,19 @@ public final class StratifiedRandom implements Random {
 		}
 
 	}
+	
+
+	private void writeObject(ObjectOutputStream oos) throws IOException {
+		oos.defaultWriteObject();
+		oos.writeInt(sequence.length);
+	}
+
+	private void readObject(ObjectInputStream ois)
+			throws ClassNotFoundException, IOException {
+		ois.defaultReadObject();
+		int n = ois.readInt();
+		this.initialize(n);
+	}
 
 	/**
 	 * This <code>Random</code> is used to permute the buckets and to select
@@ -145,14 +164,14 @@ public final class StratifiedRandom implements Random {
 	 * During each call to {@link #next()}, we will randomly choose one of
 	 * the remaining buckets and generate a random number in that bucket.
 	 */
-	private int[] sequence;
+	private transient int[] sequence;
 
 	/**
 	 * The index (into {@link #sequence} of the last unused bucket.  All
 	 * buckets in {@link #sequence} after this index have been used, all
 	 * buckets not after this index have not yet been used.
 	 */
-	private int nextPartition;
+	private transient int nextPartition;
 
 	/**
 	 * Serialization version ID.
