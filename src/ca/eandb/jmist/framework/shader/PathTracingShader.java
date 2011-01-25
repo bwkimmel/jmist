@@ -34,6 +34,8 @@ import ca.eandb.jmist.framework.color.ColorUtil;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.random.NRooksRandom;
 import ca.eandb.jmist.framework.random.RandomUtil;
+import ca.eandb.jmist.framework.random.SimpleRandom;
+import ca.eandb.jmist.framework.random.ThreadLocalRandom;
 
 /**
  * A <code>Shader</code> that traces up to one randomly selected scattered ray.
@@ -53,6 +55,8 @@ public final class PathTracingShader implements Shader {
 	private final int maxDepth;
 	
 	private final int firstBounceRays;
+	
+	private final Random rnd = new ThreadLocalRandom(new SimpleRandom());
 
 	/**
 	 * Creates a new <code>PathTracingShader</code>.
@@ -101,7 +105,7 @@ public final class PathTracingShader implements Shader {
 			if (ray != null) {
 				double prob = ColorUtil.getMeanChannelValue(ray.getColor());
 				if (prob < 1.0) {
-					if (RandomUtil.bernoulli(prob, Random.DEFAULT)) {
+					if (RandomUtil.bernoulli(prob, rnd)) {
 						ray = ScatteredRay.select(ray, prob);
 					} else {
 						ray = null;
