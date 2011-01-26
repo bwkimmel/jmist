@@ -185,7 +185,7 @@ public final class Sphere implements Serializable {
 		double		tca = oc.dot(ray.direction());
 
 		// if the ray starts outside the sphere and points away from the center of the
-		// sphwere, then the ray does not hit the sphere.
+		// sphere, then the ray does not hit the sphere.
 		if (!startInside && tca < 0.0) {
 			return Interval.EMPTY;
 		}
