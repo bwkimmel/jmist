@@ -105,12 +105,18 @@ public final class LambertianMaterial extends OpaqueMaterial {
 	public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint,
 			WavelengthPacket lambda, double ru, double rv, double rj) {
 
-		if (this.reflectance != null && x.getNormal().dot(v) < 0.0) {
+		if (this.reflectance != null) {
 
+			boolean fromFront = x.getNormal().dot(v) < 0.0;
 			SphericalCoordinates out = RandomUtil.diffuse(ru, rv);
+			if (!fromFront) {
+				out = out.opposite();
+			}
+			
 			Ray3 ray = new Ray3(x.getPosition(), out.toCartesian(x.getShadingBasis()));
-
-			if (ray.direction().dot(x.getNormal()) > 0.0) {
+			boolean toFront = ray.direction().dot(x.getNormal()) > 0.0;
+			
+			if (fromFront == toFront) {
 				return ScatteredRay.diffuse(ray, reflectance.getColor(x, lambda), 1.0 / Math.PI);
 			}
 
@@ -130,7 +136,7 @@ public final class LambertianMaterial extends OpaqueMaterial {
 		boolean fromFront = (n.dot(in) < 0.0);
 		boolean toFront = (n.dot(out) > 0.0);
 
-		if (this.reflectance != null && toFront && fromFront) {
+		if (this.reflectance != null && (toFront == fromFront)) {
 			return reflectance.getColor(x, lambda).divide(Math.PI);
 		} else {
 			return lambda.getColorModel().getBlack(lambda);
