@@ -115,7 +115,7 @@ public final class AsciiDxfReader implements DxfReader {
 
 	private final LineNumberReader reader;
 	
-	private DxfElement currentElement;
+	private DxfElement currentElement = null;
 	
 	private boolean eof = false;
 	
@@ -128,6 +128,9 @@ public final class AsciiDxfReader implements DxfReader {
 	 */
 	@Override
 	public synchronized DxfElement getCurrentElement() {
+		if (!eof && currentElement == null) {
+			advance();
+		}
 		return currentElement;
 	}
 	
@@ -141,12 +144,12 @@ public final class AsciiDxfReader implements DxfReader {
 			return;
 		}
 		
-		int ln = reader.getLineNumber();
+		int ln = 1 + reader.getLineNumber();
 		
 		String groupCodeLine, valueLine;
 		try {
-			groupCodeLine = reader.readLine();
-			valueLine = reader.readLine();
+			groupCodeLine = reader.readLine().trim();
+			valueLine = reader.readLine().trim();
 		} catch (IOException e) {
 			throw new AsciiDxfException(ln, "Error reading DXF stream", e);
 		}
