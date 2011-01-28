@@ -50,6 +50,7 @@ import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.random.SimpleRandom;
+import ca.eandb.jmist.framework.random.ThreadLocalRandom;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
@@ -94,7 +95,7 @@ public final class SceneRayShader implements RayShader {
 	 * @param background
 	 */
 	public SceneRayShader(SceneElement root, Light light, RayShader background) {
-		this(root, light, background, new SimpleRandom());
+		this(root, light, background, new ThreadLocalRandom(new SimpleRandom()));
 	}
 
 	/**
@@ -103,7 +104,7 @@ public final class SceneRayShader implements RayShader {
 	 * @param background
 	 */
 	public SceneRayShader(Scene scene, RayShader background) {
-		this(scene.getRoot(), scene.getLight(), background, new SimpleRandom());
+		this(scene.getRoot(), scene.getLight(), background, new ThreadLocalRandom(new SimpleRandom()));
 	}
 
 	/**
@@ -112,7 +113,7 @@ public final class SceneRayShader implements RayShader {
 	 * @param background
 	 */
 	public SceneRayShader(Scene scene) {
-		this(scene.getRoot(), scene.getLight(), RayShader.BLACK, new SimpleRandom());
+		this(scene.getRoot(), scene.getLight(), RayShader.BLACK, new ThreadLocalRandom(new SimpleRandom()));
 	}
 
 	/* (non-Javadoc)
