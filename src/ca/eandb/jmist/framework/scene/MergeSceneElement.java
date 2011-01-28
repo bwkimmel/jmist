@@ -35,18 +35,36 @@ public final class MergeSceneElement implements SceneElement {
 
 	private final List<SceneElement> children = new ArrayList<SceneElement>();
 	
-	private final IntegerArray offsets = new IntegerArray();
+	private transient IntegerArray offsets = null;
 	
 	private double surfaceArea = Double.NaN;
 	
 	private Box3 bbox = null;
 	
 	public MergeSceneElement addChild(SceneElement child) {
-		offsets.add(getNumPrimitives());
 		children.add(child);
+		offsets = null;
 		surfaceArea = Double.NaN;
 		bbox = null;
 		return this;
+	}
+	
+	private synchronized void computeOffsets() {
+		if (offsets != null) {
+			return;
+		}
+		offsets = new IntegerArray();
+		int offset = 0;
+		for (int i = 0, n = children.size(); i < n; i++) {
+			offsets.add(offset);
+			offset += children.get(i).getNumPrimitives();
+		}
+	}
+	
+	private void checkOffsets() {
+		if (offsets == null) {
+			computeOffsets();
+		}
 	}
 	
 	private int getChildIndex(int primIndex) {
@@ -79,6 +97,7 @@ public final class MergeSceneElement implements SceneElement {
 	public double generateImportanceSampledSurfacePoint(int index,
 			SurfacePoint x, ShadingContext context, double ru, double rv,
 			double rj) {
+		checkOffsets();
 		int childIndex = getChildIndex(index);
 		int childPrimIndex = index - offsets.get(childIndex);
 		double weight = children.get(childIndex).generateImportanceSampledSurfacePoint(childPrimIndex, x, context, ru, rv, rj);
@@ -101,6 +120,7 @@ public final class MergeSceneElement implements SceneElement {
 	@Override
 	public void generateRandomSurfacePoint(int index, ShadingContext context,
 			double ru, double rv, double rj) {
+		checkOffsets();
 		int childIndex = getChildIndex(index);
 		int childPrimIndex = index - offsets.get(childIndex);
 		children.get(childIndex).generateRandomSurfacePoint(childPrimIndex, context, ru, rv, rj);
@@ -121,6 +141,7 @@ public final class MergeSceneElement implements SceneElement {
 	 */
 	@Override
 	public Box3 getBoundingBox(int index) {
+		checkOffsets();
 		int childIndex = getChildIndex(index);
 		int childPrimIndex = index - offsets.get(childIndex);
 		return children.get(childIndex).getBoundingBox(childPrimIndex);
@@ -131,6 +152,7 @@ public final class MergeSceneElement implements SceneElement {
 	 */
 	@Override
 	public Sphere getBoundingSphere(int index) {
+		checkOffsets();
 		int childIndex = getChildIndex(index);
 		int childPrimIndex = index - offsets.get(childIndex);
 		return children.get(childIndex).getBoundingSphere(childPrimIndex);
@@ -141,6 +163,7 @@ public final class MergeSceneElement implements SceneElement {
 	 */
 	@Override
 	public int getNumPrimitives() {
+		checkOffsets();
 		int numChildren = offsets.size();
 		return numChildren > 0 ? offsets.get(numChildren - 1) + children.get(numChildren - 1).getNumPrimitives() : 0;
 	}
@@ -150,6 +173,7 @@ public final class MergeSceneElement implements SceneElement {
 	 */
 	@Override
 	public double getSurfaceArea(int index) {
+		checkOffsets();
 		int childIndex = getChildIndex(index);
 		int childPrimIndex = index - offsets.get(childIndex);
 		return children.get(childIndex).getSurfaceArea(childPrimIndex);
@@ -181,6 +205,7 @@ public final class MergeSceneElement implements SceneElement {
 	 */
 	@Override
 	public void intersect(final int index, Ray3 ray, IntersectionRecorder recorder) {
+		checkOffsets();
 		int childIndex = getChildIndex(index);
 		int childPrimIndex = index - offsets.get(childIndex);
 		children.get(childIndex).intersect(childPrimIndex, ray, new IntersectionRecorderDecorator(recorder) {
@@ -202,6 +227,7 @@ public final class MergeSceneElement implements SceneElement {
 	 */
 	@Override
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
+		checkOffsets();
 		for (int i = 0, n = children.size(); i < n; i++) {
 			final int offset = offsets.get(i);
 			children.get(i).intersect(ray, new IntersectionRecorderDecorator(recorder) {
@@ -224,6 +250,7 @@ public final class MergeSceneElement implements SceneElement {
 	 */
 	@Override
 	public boolean intersects(int index, Box3 box) {
+		checkOffsets();
 		int childIndex = getChildIndex(index);
 		int childPrimIndex = index - offsets.get(childIndex);
 		return children.get(childIndex).intersects(childPrimIndex, box);
@@ -234,6 +261,7 @@ public final class MergeSceneElement implements SceneElement {
 	 */
 	@Override
 	public boolean visibility(int index, Ray3 ray) {
+		checkOffsets();
 		int childIndex = getChildIndex(index);
 		int childPrimIndex = index - offsets.get(childIndex);
 		return children.get(childIndex).visibility(childPrimIndex, ray);
