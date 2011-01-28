@@ -176,16 +176,17 @@ public final class Sphere implements Serializable {
 		}
 
 		// Check if the ray starts from within the box.
-		double		r2 = radius * radius;
+		double		d2 = ray.direction().squaredLength();
+		double		r2 = radius * radius / d2;
 		Vector3		oc = ray.origin().vectorTo(center);
-		double		L2oc = oc.dot(oc);
+		double		L2oc = oc.dot(oc) / d2;
 		boolean		startInside = (L2oc < r2);
 
 		// distance along ray to point on ray closest to center of sphere (equation (A10)).
-		double		tca = oc.dot(ray.direction());
+		double		tca = oc.dot(ray.direction()) / d2;
 
 		// if the ray starts outside the sphere and points away from the center of the
-		// sphwere, then the ray does not hit the sphere.
+		// sphere, then the ray does not hit the sphere.
 		if (!startInside && tca < 0.0) {
 			return Interval.EMPTY;
 		}
