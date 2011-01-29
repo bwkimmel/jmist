@@ -13,7 +13,7 @@ import ca.eandb.jmist.framework.SceneElement;
  * 
  * @author Brad Kimmel
  */
-public final class DefaultVisitor implements Visitor {
+final class DefaultVisitor implements Visitor {
 	
 	/** The single <code>DefaultVisitor</code> instance. */
 	public static final DefaultVisitor INSTANCE = new DefaultVisitor();
