@@ -42,10 +42,10 @@ final class Util {
 	}
 
 	public static List<Point2> getTextureCoordinates(GeometryArray geom) {
-		int nt = geom.getTexCoordSetCount();
+		int nv = geom.getVertexCount();
 		float[] coord = new float[2];
-		Point2[] vt = new Point2[nt];
-		for (int i = 0; i < nt; i++) {
+		Point2[] vt = new Point2[nv];
+		for (int i = 0; i < nv; i++) {
 			geom.getTextureCoordinate(0, i, coord);
 			vt[i] = new Point2(coord[0], coord[1]);
 		}
