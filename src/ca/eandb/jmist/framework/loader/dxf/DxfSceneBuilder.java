@@ -28,7 +28,7 @@ import ca.eandb.jmist.math.Vector3;
  * @author Brad
  *
  */
-public final class SceneBuilder {
+public final class DxfSceneBuilder {
 	
 	private static final int ACCEL_THRESHOLD = Integer.MAX_VALUE; 
 	
@@ -441,7 +441,7 @@ public final class SceneBuilder {
 
 	private static final Map<String, GroupHandler> handlers = new HashMap<String, GroupHandler>();
 	{
-		Class<?>[] classes = SceneBuilder.class.getDeclaredClasses();
+		Class<?>[] classes = DxfSceneBuilder.class.getDeclaredClasses();
 		for (Class<?> clazz : classes) {
 			String name = clazz.getSimpleName();
 			if (name.startsWith("GroupHandler_")) {
@@ -499,7 +499,7 @@ public final class SceneBuilder {
 			return;
 		}
 		DxfReader dxf = new AsciiDxfReader(fr);
-		SceneBuilder builder = new SceneBuilder();
+		DxfSceneBuilder builder = new DxfSceneBuilder();
 		ColorModel cm = RGBColorModel.getInstance();
 		SceneElement elem = builder.createScene(cm, dxf);
 		System.out.println(elem.toString());
