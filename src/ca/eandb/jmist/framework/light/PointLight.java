@@ -52,7 +52,7 @@ public final class PointLight extends AbstractLight implements Serializable {
 		lightIn = lightIn.divide(Math.sqrt(dSquared));
 
 		double		ndotl			= x.getShadingNormal().dot(lightIn);
-		double		attenuation		= ndotl / (4.0 * Math.PI * dSquared);
+		double		attenuation		= Math.abs(ndotl) / (4.0 * Math.PI * dSquared);
 
 		target.addLightSample(new PointLightSample(x, position, emittedPower.sample(lambda).times(attenuation), shadows));
 

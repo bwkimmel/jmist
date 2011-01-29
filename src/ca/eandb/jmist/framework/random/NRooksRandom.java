@@ -5,9 +5,6 @@ package ca.eandb.jmist.framework.random;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-
-import javax.imageio.ImageIO;
 
 import ca.eandb.jmist.framework.Random;
 
@@ -17,16 +14,24 @@ import ca.eandb.jmist.framework.Random;
  */
 public final class NRooksRandom implements Random {
 
+	/** Serialization version ID. */
+	private static final long serialVersionUID = 2399501352737062538L;
+
+	private final Random inner;
+	private final int n;
+	private final int dimensions;
+	private transient StratifiedRandom[] sources;
+	private transient int nextSourceIndex = 0;
+
 	public NRooksRandom(int n, int dimensions) {
-		this.initialize(n, dimensions);
+		this(n, dimensions, new SimpleRandom());
 	}
 
-	private NRooksRandom(StratifiedRandom[] sources) {
-		this.sources = new StratifiedRandom[sources.length];
-		for (int i = 0; i < sources.length; i++) {
-			this.sources[i] = sources[i].createCompatibleRandom();
-		}
-		this.nextSourceIndex = sources.length - 1;
+	public NRooksRandom(int n, int dimensions, Random inner) {
+		this.inner = inner;
+		this.n = n;
+		this.dimensions = dimensions;
+		initialize();
 	}
 
 	/*
@@ -54,26 +59,11 @@ public final class NRooksRandom implements Random {
 		this.nextSourceIndex = 0;
 	}
 
-	public void reset(int n) {
-		for (int i = 0; i < this.sources.length; i++) {
-			this.sources[i].reset(n);
-		}
-		this.nextSourceIndex = 0;
-	}
-
-	public void reset(int n, int dimensions) {
-		if (dimensions == this.sources.length) {
-			this.reset(n);
-		} else {
-			this.initialize(n, dimensions);
-		}
-	}
-
-	private void initialize(int n, int dimensions) {
+	private void initialize() {
 		this.sources = new StratifiedRandom[dimensions];
 
 		for (int i = 0; i < dimensions; i++) {
-			this.sources[i] = new StratifiedRandom(n);
+			this.sources[i] = new StratifiedRandom(n, inner);
 		}
 
 		this.nextSourceIndex = 0;
@@ -83,34 +73,13 @@ public final class NRooksRandom implements Random {
 	 * @see ca.eandb.jmist.framework.Random#createCompatibleRandom()
 	 */
 	public NRooksRandom createCompatibleRandom() {
-		return new NRooksRandom(this.sources);
-	}
-	
-	private void writeObject(ObjectOutputStream oos) throws IOException {
-		oos.defaultWriteObject();
-		oos.writeInt(this.sources.length);
-		oos.writeObject(this.sources[0]);
+		return new NRooksRandom(n, dimensions, inner.createCompatibleRandom());
 	}
 
 	private void readObject(ObjectInputStream ois)
 			throws ClassNotFoundException, IOException {
 		ois.defaultReadObject();
-		int n = ois.readInt();
-		this.sources = new StratifiedRandom[n];
-		this.sources[0] = (StratifiedRandom) ois.readObject();
-		for (int i = 1; i < n; i++) {
-			this.sources[i] = sources[0].createCompatibleRandom();
-		}
-		this.nextSourceIndex = 0;
+		initialize();
 	}
-
-
-	private transient StratifiedRandom[] sources;
-	private transient int nextSourceIndex = 0;
-
-	/**
-	 * Serialization version ID.
-	 */
-	private static final long serialVersionUID = 2399501352737062538L;
 
 }

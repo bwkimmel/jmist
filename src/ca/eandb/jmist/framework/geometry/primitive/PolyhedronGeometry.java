@@ -193,6 +193,22 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	 * @see ca.eandb.jmist.framework.SceneElement#getNumPrimitives()
 	 */
 	public int getNumPrimitives() {
+		return getNumFaces();
+	}
+	
+	/**
+	 * Gets the number of vertices in this mesh.
+	 * @return The number of vertices in this mesh.
+	 */
+	public int getNumVertices() {
+		return vertices.size();
+	}
+	
+	/**
+	 * Gets the number of faces in this mesh.
+	 * @return The number of faces in this mesh.
+	 */
+	public int getNumFaces() {
 		return faces.size();
 	}
 

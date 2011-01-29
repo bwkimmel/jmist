@@ -25,6 +25,9 @@
 
 package ca.eandb.jmist.framework.shader;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.Shader;
@@ -35,7 +38,6 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.random.NRooksRandom;
 import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.framework.random.SimpleRandom;
-import ca.eandb.jmist.framework.random.ThreadLocalRandom;
 
 /**
  * A <code>Shader</code> that traces up to one randomly selected scattered ray.
@@ -56,7 +58,9 @@ public final class PathTracingShader implements Shader {
 	
 	private final int firstBounceRays;
 	
-	private final Random rnd = new ThreadLocalRandom(new SimpleRandom());
+	private transient ThreadLocal<Random> rnd;
+	
+	private transient ThreadLocal<Random> firstBounceSampler;
 
 	/**
 	 * Creates a new <code>PathTracingShader</code>.
@@ -82,6 +86,29 @@ public final class PathTracingShader implements Shader {
 	public PathTracingShader(int maxDepth, int firstBounceRays) {
 		this.maxDepth = maxDepth;
 		this.firstBounceRays = firstBounceRays;
+		initialize();
+	}
+
+	/** Sets up the random number generated used by this shader. */
+	private void initialize() {
+		rnd = new ThreadLocal<Random>() {
+			protected Random initialValue() {
+				return new SimpleRandom();
+			}
+		};
+		if (firstBounceRays > 0) {
+			firstBounceSampler = new ThreadLocal<Random>() {
+				protected Random initialValue() {
+					return new NRooksRandom(firstBounceRays, 3, rnd.get());
+				}
+			};
+		}
+	}
+	
+	private void readObject(ObjectInputStream ois)
+			throws ClassNotFoundException, IOException {
+		ois.defaultReadObject();
+		initialize();
 	}
 
 	/* (non-Javadoc)
@@ -90,11 +117,11 @@ public final class PathTracingShader implements Shader {
 	public Color shade(ShadingContext sc) {
 
 		if (firstBounceRays > 0 && sc.getPathDepth() < 1) {
-			Random rnd = new NRooksRandom(firstBounceRays, 3);
+			Random sampler = firstBounceSampler.get();
 			WavelengthPacket lambda = sc.getWavelengthPacket();
 			Color shade = sc.getColorModel().getBlack(lambda);
 			for (int i = 0; i < firstBounceRays; i++) {
-				ScatteredRay ray = sc.getMaterial().scatter(sc, sc.getIncident(), true, sc.getWavelengthPacket(), rnd.next(), rnd.next(), rnd.next());
+				ScatteredRay ray = sc.getMaterial().scatter(sc, sc.getIncident(), true, sc.getWavelengthPacket(), sampler.next(), sampler.next(), sampler.next());
 				if (ray != null) {
 					shade = shade.plus(sc.castRay(ray).times(ray.getColor()));
 				}
@@ -105,7 +132,7 @@ public final class PathTracingShader implements Shader {
 			if (ray != null) {
 				double prob = ColorUtil.getMeanChannelValue(ray.getColor());
 				if (prob < 1.0) {
-					if (RandomUtil.bernoulli(prob, rnd)) {
+					if (RandomUtil.bernoulli(prob, rnd.get())) {
 						ray = ScatteredRay.select(ray, prob);
 					} else {
 						ray = null;
