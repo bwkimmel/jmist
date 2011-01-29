@@ -16,10 +16,6 @@ import com.sun.j3d.loaders.objectfile.ObjectFile;
 public final class J3DSceneBuilder {
 
 	public SceneElement createScene(com.sun.j3d.loaders.Scene j3d) {
-		
-		BranchGroup group = j3d.getSceneGroup();
-		group.setCapability(BranchGroup.ALLOW_CHILDREN_READ);
-		
 		SceneElement root = VisitorFactory.createSceneElement(j3d.getSceneGroup());
 		return root;
 	}
