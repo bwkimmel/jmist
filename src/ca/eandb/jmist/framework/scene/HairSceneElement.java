@@ -19,7 +19,7 @@ import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.framework.shader.MinimalShadingContext;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
-import ca.eandb.jmist.math.GeometryUtil;
+import ca.eandb.jmist.math.Geometry3Util;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Plane3;
 import ca.eandb.jmist.math.Point3;
@@ -82,7 +82,7 @@ public final class HairSceneElement implements SceneElement {
 		
 		public void intersect(final Ray3 ray, IntersectionRecorder recorder) {
 			for (int i = 0; i < vertices.length - 3; i++) {
-				final double t = GeometryUtil.rayIntersectTriangle(ray, vertices[i], vertices[i+1], vertices[i+2]);
+				final double t = Geometry3Util.rayIntersectTriangle(ray, vertices[i], vertices[i+1], vertices[i+2]);
 				final int vertexIndex = i;
 				if (!Double.isNaN(t)) {
 					recorder.record(new Intersection() {
@@ -116,7 +116,7 @@ public final class HairSceneElement implements SceneElement {
 		
 		public boolean visibility(Ray3 ray) {
 			for (int i = 0; i < vertices.length - 3; i++) {
-				final double t = GeometryUtil.rayIntersectTriangle(ray, vertices[i], vertices[i+1], vertices[i+1]);
+				final double t = Geometry3Util.rayIntersectTriangle(ray, vertices[i], vertices[i+1], vertices[i+1]);
 				if (!Double.isNaN(t) && t > MathUtil.SMALL_EPSILON) {
 					return false;
 				}
