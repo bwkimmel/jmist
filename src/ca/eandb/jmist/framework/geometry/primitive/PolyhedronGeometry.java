@@ -19,7 +19,7 @@ import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.framework.random.SeedReference;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
-import ca.eandb.jmist.math.GeometryUtil;
+import ca.eandb.jmist.math.Geometry3Util;
 import ca.eandb.jmist.math.Plane3;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
@@ -510,7 +510,7 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 				decomp[3 * i] = indices[0];
 				decomp[3 * i + 1] = indices[i + 1];
 				decomp[3 * i + 2] = indices[i + 2];
-				weight[i] = GeometryUtil.areaOfTriangle(
+				weight[i] = Geometry3Util.areaOfTriangle(
 						vertices.get(decomp[3 * i]),
 						vertices.get(decomp[3 * i + 1]),
 						vertices.get(decomp[3 * i + 2]));
