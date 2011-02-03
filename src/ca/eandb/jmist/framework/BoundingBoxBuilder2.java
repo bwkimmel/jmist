@@ -4,10 +4,12 @@
 package ca.eandb.jmist.framework;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 import ca.eandb.jmist.math.Box2;
 import ca.eandb.jmist.math.Circle;
 import ca.eandb.jmist.math.Point2;
+import ca.eandb.jmist.math.Point3;
 
 /**
  * Builds a box that contains the elements added to it.
@@ -42,6 +44,25 @@ public class BoundingBoxBuilder2 implements Serializable {
 	 */
 	public void reset() {
 		minimumX = Double.NaN;
+	}
+
+	/**
+	 * Extends the bounding box to encompass the given collection of points.
+	 * @param points The collection of points to extend the bounding box to.
+	 */
+	public void addAll(Collection<Point3> points) {
+		if (!points.isEmpty()) {
+			if (isEmpty()) {
+				minimumX = minimumY = Double.POSITIVE_INFINITY;
+				maximumX = maximumY = Double.NEGATIVE_INFINITY;
+			}
+			for (Point3 p : points) {
+				if (p.x() < minimumX) {	minimumX = p.x(); }
+				if (p.x() > maximumX) {	maximumX = p.x(); }
+				if (p.y() < minimumY) {	minimumY = p.y(); }
+				if (p.y() > maximumY) { maximumY = p.y(); }
+			}
+		}
 	}
 
 	/**
