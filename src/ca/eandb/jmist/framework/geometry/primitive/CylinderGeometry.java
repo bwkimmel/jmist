@@ -24,6 +24,30 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class CylinderGeometry extends PrimitiveGeometry {
 
+	/** Serialization version ID. */
+	private static final long serialVersionUID = 1128440316229322913L;
+
+	/** The point at the base of the cylinder */
+	private final Point3 base;
+
+	/** The radius of the cylinder */
+	private final double radius;
+
+	/** The height of the cylinder */
+	private final double height;
+	
+	/** Indicates whether the cylinder is capped at the ends. */
+	private final boolean capped;
+
+	/** The surface ID for the base of the cylinder. */
+	private static final int CYLINDER_SURFACE_BASE = 0;
+
+	/** The surface ID for the top of the cylinder. */
+	private static final int CYLINDER_SURFACE_TOP = 1;
+
+	/** The surface ID for the body of the cylinder. */
+	private static final int CYLINDER_SURFACE_BODY = 2;
+
 	/**
 	 * Initializes the dimensions of this cylinder.
 	 * @param base		the center of the base of the cylinder
@@ -31,9 +55,22 @@ public final class CylinderGeometry extends PrimitiveGeometry {
 	 * @param height	the height of the cylinder
 	 */
 	public CylinderGeometry(Point3 base, double radius, double height) {
+		this(base, radius, height, true);
+	}
+
+	/**
+	 * Initializes the dimensions of this cylinder.
+	 * @param base		the center of the base of the cylinder
+	 * @param radius	the radius of the cylinder
+	 * @param height	the height of the cylinder
+	 * @param capped	a value indicated whether the cylinder is capped at the
+	 *                  ends
+	 */
+	public CylinderGeometry(Point3 base, double radius, double height, boolean capped) {
 		this.base = base;
 		this.radius = radius;
 		this.height = height;
+		this.capped = capped;
 	}
 
 	/* (non-Javadoc)
@@ -47,36 +84,40 @@ public final class CylinderGeometry extends PrimitiveGeometry {
 
 		// first check for intersection of ray with the caps on the ends of the cylinder
 
-		// check bottom cap
-		t = (this.base.y() - ray.origin().y()) / ray.direction().y();
-		if (I.contains(t))
-		{
-			p = ray.pointAt(t);
-
-			if (this.base.squaredDistanceTo(p) < this.radius * this.radius)
+		if (capped) {
+			
+			// check bottom cap
+			t = (this.base.y() - ray.origin().y()) / ray.direction().y();
+			if (I.contains(t))
 			{
-				Intersection x = super.newIntersection(ray, t, (ray.direction().y() > 0.0), CYLINDER_SURFACE_BASE)
-					.setLocation(p);
-
-				recorder.record(x);
+				p = ray.pointAt(t);
+	
+				if (this.base.squaredDistanceTo(p) < this.radius * this.radius)
+				{
+					Intersection x = super.newIntersection(ray, t, (ray.direction().y() > 0.0), CYLINDER_SURFACE_BASE)
+						.setLocation(p);
+	
+					recorder.record(x);
+				}
 			}
-		}
-
-		// check top cap
-		t = (this.base.y() + this.height - ray.origin().y()) / ray.direction().y();
-		if (I.contains(t))
-		{
-			p = ray.pointAt(t);
-
-			double r = (p.x() - this.base.x()) * (p.x() - this.base.x()) + (p.z() - this.base.z()) * (p.z() - this.base.z());
-
-			if (r < this.radius * this.radius)
+	
+			// check top cap
+			t = (this.base.y() + this.height - ray.origin().y()) / ray.direction().y();
+			if (I.contains(t))
 			{
-				Intersection x = super.newIntersection(ray, t, (ray.direction().y() < 0.0), CYLINDER_SURFACE_TOP)
-					.setLocation(p);
-
-				recorder.record(x);
+				p = ray.pointAt(t);
+	
+				double r = (p.x() - this.base.x()) * (p.x() - this.base.x()) + (p.z() - this.base.z()) * (p.z() - this.base.z());
+	
+				if (r < this.radius * this.radius)
+				{
+					Intersection x = super.newIntersection(ray, t, (ray.direction().y() < 0.0), CYLINDER_SURFACE_TOP)
+						.setLocation(p);
+	
+					recorder.record(x);
+				}
 			}
+			
 		}
 
 		// now check for intersection of ray with the body
@@ -118,7 +159,7 @@ public final class CylinderGeometry extends PrimitiveGeometry {
 	 * @see ca.eandb.jmist.framework.SceneElement#isClosed()
 	 */
 	public boolean isClosed() {
-		return true;
+		return capped;
 	}
 
 	/* (non-Javadoc)
@@ -223,28 +264,5 @@ public final class CylinderGeometry extends PrimitiveGeometry {
 		return new Point2(tx, ty);
 
 	}
-
-	/** The point at the base of the cylinder */
-	private final Point3 base;
-
-	/** The radius of the cylinder */
-	private final double radius;
-
-	/** The height of the cylinder */
-	private final double height;
-
-	/** The surface ID for the base of the cylinder. */
-	private static final int CYLINDER_SURFACE_BASE = 0;
-
-	/** The surface ID for the top of the cylinder. */
-	private static final int CYLINDER_SURFACE_TOP = 1;
-
-	/** The surface ID for the body of the cylinder. */
-	private static final int CYLINDER_SURFACE_BODY = 2;
-
-	/**
-	 * Serialization version ID.
-	 */
-	private static final long serialVersionUID = 1128440316229322913L;
 
 }
