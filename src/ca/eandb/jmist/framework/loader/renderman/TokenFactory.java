@@ -12,13 +12,13 @@ import java.util.Map;
  */
 public final class TokenFactory {
 
-	public static final TokenFactory INSTANCE = new TokenFactory();
+	public static final TokenFactory BUILTIN = new TokenFactory();
 	
 	private static final class Token implements RtToken {};
 	
 	private final Map<String, RtToken> tokens = new HashMap<String, RtToken>();
 	
-	private TokenFactory() {
+	public TokenFactory() {
 	}
 	
 	public RtToken lookup(String name) {

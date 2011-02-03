@@ -9,6 +9,6 @@ package ca.eandb.jmist.framework.loader.renderman;
  */
 public interface RtErrorHandler {
 
-	void apply(int code, int severity, String message);
+	void apply(RtErrorType type, RtErrorSeverity severity, String message);
 	
 }

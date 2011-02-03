@@ -7,6 +7,6 @@ package ca.eandb.jmist.framework.loader.renderman;
  * @author Brad
  *
  */
-public interface RtBasis {
+public final class RtBasis {
 
 }
