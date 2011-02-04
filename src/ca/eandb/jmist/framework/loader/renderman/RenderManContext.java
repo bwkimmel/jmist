@@ -188,20 +188,20 @@ public interface RenderManContext {
 		}
 	};
 
-	public static final RtErrorHandler RiErrorIgnore = new RtErrorHandler() {
-		public void apply(RtErrorType type, RtErrorSeverity severity, String message) {
+	public static final RtErrorHandler RiErrorIgnore = new AbstractRtErrorHandler() {
+		public void apply(RtErrorType type, RtErrorSeverity severity, String message, Throwable cause) {
 		}
 	};
 	
-	public static final RtErrorHandler RiErrorPrint = new RtErrorHandler() {
-		public void apply(RtErrorType type, RtErrorSeverity severity, String message) {
+	public static final RtErrorHandler RiErrorPrint = new AbstractRtErrorHandler() {
+		public void apply(RtErrorType type, RtErrorSeverity severity, String message, Throwable cause) {
 			System.err.printf("ERROR(%d,%d): %s", type.code(), severity.level(), message);
 			System.err.println();
 		}
 	};
-	public static final RtErrorHandler RiErrorAbort = new RtErrorHandler() {
-		public void apply(RtErrorType type, RtErrorSeverity severity, String message) {
-			throw new RenderManException(type, severity, message);
+	public static final RtErrorHandler RiErrorAbort = new AbstractRtErrorHandler() {
+		public void apply(RtErrorType type, RtErrorSeverity severity, String message, Throwable cause) {
+			throw new RenderManException(type, severity, message, cause);
 		}
 	};
 	
@@ -280,7 +280,7 @@ public interface RenderManContext {
 	/* 5. Geometric Primitives */
 	
 	/* 5.1 Polygons */
-	void polygon(int nvertices /* not necessary */, Map<RtToken, Object> params);
+	void polygon(Map<RtToken, Object> params);
 	void generalPolygon(int nloops, int[] nvertices, Map<RtToken, Object> params);
 	void pointsPolygons(int npolys, int[] nvertices, int[] vertices, Map<RtToken, Object> params);
 	void pointsGeneralPolygons(int npolys, int[] nloops, int[] nvertices, int[] vertices, Map<RtToken, Object> params);

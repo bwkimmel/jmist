@@ -657,12 +657,12 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#polygon(int, java.util.Map)
+	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#polygon(java.util.Map)
 	 */
 	@Override
-	public void polygon(int nvertices, Map<RtToken, Object> params) {
+	public void polygon(Map<RtToken, Object> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
-			inner.polygon(nvertices, params);
+			inner.polygon(params);
 		}
 	}
 

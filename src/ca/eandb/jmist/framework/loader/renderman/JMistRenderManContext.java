@@ -695,11 +695,11 @@ public final class JMistRenderManContext implements RenderManContext {
 	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#polygon(int, java.util.Map)
 	 */
 	@Override
-	public void polygon(int nvertices, Map<RtToken, Object> params) {
+	public void polygon(Map<RtToken, Object> params) {
 		if (geometry != null) {
 			PolygonMesh mesh = new PolygonMesh();
 			double[] p = (double[]) params.get(RI_P);
-			for (int i = 0; i < nvertices; i += 3) {
+			for (int i = 0; i < p.length; i += 3) {
 				mesh.addVertex(new Point3(p[i + 0], p[i + 1], p[i + 2]));
 			}
 			geometry.addChild(new MeshGeometry(mesh));
@@ -1043,7 +1043,7 @@ public final class JMistRenderManContext implements RenderManContext {
 				RetainedObject obj = (RetainedObject) handle;
 				geometry.addChild(obj.geometry);
 			} catch (ClassCastException e) {
-				errorHandler.apply(BADHANDLE, ERROR, "Invalid object handle");
+				errorHandler.apply(BADHANDLE, ERROR, "Invalid object handle", e);
 			}
 		} else {
 			errorHandler.apply(ILLSTATE, ERROR, "Current mode does not permit geometry");

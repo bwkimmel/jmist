@@ -22,6 +22,12 @@ public final class RenderManException extends RuntimeException {
 		this.severity = severity;
 	}
 	
+	public RenderManException(RtErrorType type, RtErrorSeverity severity, String message, Throwable cause) {
+		super(String.format("(%d,%d): %s", type.code(), severity.level(), message), cause);
+		this.type = type;
+		this.severity = severity;
+	}
+	
 	public RtErrorType getType() {
 		return type;
 	}
