@@ -352,8 +352,26 @@ public final class LinearMatrix3 implements Serializable {
 	 * @return The rotation matrix.
 	 */
 	public static LinearMatrix3 rotateMatrix(Vector3 axis, double theta) {
-		// TODO implement this method.
-		throw new UnsupportedOperationException("not yet implemented");
+		double u = axis.x();
+		double v = axis.y();
+		double w = axis.z();
+		double u2 = u * u;
+		double v2 = v * v;
+		double w2 = w * w;
+		double r2 = u2 + v2 + w2;
+		double r = Math.sqrt(r2);
+		double c = Math.cos(theta);
+		double s = Math.sin(theta);
+		return new LinearMatrix3(
+				(u2 + (v2 + w2) * c) / r2, 
+				(u * v * (1 - c) - w * r * s) / r2,
+				(u * w * (1 - c) + v * r * s) / r2,
+				(u * v * (1 - c) + w * r * s) / r2,
+				(v2 + (u2 + w2) * c) / r2,
+				(v * w * (1 - c) - u * r * s) / r2,
+				(u * w * (1 - c) - v * r * s) / r2,
+				(v * w * (1 - c) + u * r * s) / r2,
+				(w2 + (u2 + v2) * c) / r2);
 	}
 
 	/**
