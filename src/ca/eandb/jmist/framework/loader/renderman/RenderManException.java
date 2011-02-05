@@ -17,13 +17,13 @@ public final class RenderManException extends RuntimeException {
 	private final RtErrorSeverity severity;
 	
 	public RenderManException(RtErrorType type, RtErrorSeverity severity, String message) {
-		super(String.format("(%d,%d): %s", type.code(), severity.level(), message));
+		super(String.format("%s(%d-%s): %s", severity, type.code(), type, message));
 		this.type = type;
 		this.severity = severity;
 	}
 	
 	public RenderManException(RtErrorType type, RtErrorSeverity severity, String message, Throwable cause) {
-		super(String.format("(%d,%d): %s", type.code(), severity.level(), message), cause);
+		super(String.format("%s(%d-%s): %s", severity, type.code(), type, message), cause);
 		this.type = type;
 		this.severity = severity;
 	}

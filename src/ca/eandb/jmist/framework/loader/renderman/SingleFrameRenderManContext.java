@@ -124,7 +124,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#projection(ca.eandb.jmist.framework.loader.renderman.RtToken, java.util.Map)
 	 */
 	@Override
-	public void projection(RtToken name, Map<RtToken, Object> params) {
+	public void projection(RtToken name, Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			inner.projection(name, params);
 		}
@@ -216,7 +216,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#imager(ca.eandb.jmist.framework.loader.renderman.RtToken, java.util.Map)
 	 */
 	@Override
-	public void imager(RtToken name, Map<RtToken, Object> params) {
+	public void imager(RtToken name, Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			inner.imager(name, params);
 		}
@@ -234,13 +234,13 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#display(java.lang.String, ca.eandb.jmist.framework.loader.renderman.RtToken, ca.eandb.jmist.framework.loader.renderman.RtToken, java.lang.Object[])
+	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#display(java.lang.String, ca.eandb.jmist.framework.loader.renderman.RtToken, ca.eandb.jmist.framework.loader.renderman.RtToken, java.util.Map)
 	 */
 	@Override
 	public void display(String name, RtToken type, RtToken mode,
-			Object... parmaterlist) {
+			Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
-			inner.display(name, type, mode, parmaterlist);
+			inner.display(name, type, mode, params);
 		}
 	}
 
@@ -248,7 +248,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#hider(ca.eandb.jmist.framework.loader.renderman.RtToken, java.util.Map)
 	 */
 	@Override
-	public void hider(RtToken type, Map<RtToken, Object> params) {
+	public void hider(RtToken type, Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			inner.hider(type, params);
 		}
@@ -278,7 +278,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#option(ca.eandb.jmist.framework.loader.renderman.RtToken, java.util.Map)
 	 */
 	@Override
-	public void option(RtToken name, Map<RtToken, Object> params) {
+	public void option(RtToken name, Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			inner.option(name, params);
 		}
@@ -340,7 +340,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public RtLightHandle lightSource(RtToken shadername,
-			Map<RtToken, Object> params) {
+			Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			return inner.lightSource(shadername, params);
 		} else {
@@ -353,7 +353,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public RtLightHandle areaLightSource(RtToken shadername,
-			Map<RtToken, Object> params) {
+			Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			return inner.areaLightSource(shadername, params);
 		} else {
@@ -375,7 +375,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#surface(ca.eandb.jmist.framework.loader.renderman.RtToken, java.util.Map)
 	 */
 	@Override
-	public void surface(RtToken shadername, Map<RtToken, Object> params) {
+	public void surface(RtToken shadername, Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			inner.surface(shadername, params);
 		}
@@ -385,7 +385,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#displacement(ca.eandb.jmist.framework.loader.renderman.RtToken, java.util.Map)
 	 */
 	@Override
-	public void displacement(RtToken shadername, Map<RtToken, Object> params) {
+	public void displacement(RtToken shadername, Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			inner.displacement(shadername, params);
 		}
@@ -395,7 +395,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#atmosphere(ca.eandb.jmist.framework.loader.renderman.RtToken, java.util.Map)
 	 */
 	@Override
-	public void atmosphere(RtToken shadername, Map<RtToken, Object> params) {
+	public void atmosphere(RtToken shadername, Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			inner.atmosphere(shadername, params);
 		}
@@ -405,7 +405,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#interior(ca.eandb.jmist.framework.loader.renderman.RtToken, java.util.Map)
 	 */
 	@Override
-	public void interior(RtToken shadername, Map<RtToken, Object> params) {
+	public void interior(RtToken shadername, Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			inner.interior(shadername, params);
 		}
@@ -415,7 +415,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#exterior(ca.eandb.jmist.framework.loader.renderman.RtToken, java.util.Map)
 	 */
 	@Override
-	public void exterior(RtToken shadername, Map<RtToken, Object> params) {
+	public void exterior(RtToken shadername, Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			inner.exterior(shadername, params);
 		}
@@ -571,6 +571,16 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 			inner.translate(dx, dy, dz);
 		}
 	}
+	
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#rotate(double, double, double, double)
+	 */
+	@Override
+	public void rotate(double angle, double dx, double dy, double dz) {
+		if (currentFrame < 0 || currentFrame == frame) {
+			inner.rotate(angle, dx, dy, dz);
+		}
+	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#scale(double, double, double)
@@ -650,7 +660,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#attribute(ca.eandb.jmist.framework.loader.renderman.RtToken, java.util.Map)
 	 */
 	@Override
-	public void attribute(RtToken name, Map<RtToken, Object> params) {
+	public void attribute(RtToken name, Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			inner.attribute(name, params);
 		}
@@ -660,7 +670,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#polygon(java.util.Map)
 	 */
 	@Override
-	public void polygon(Map<RtToken, Object> params) {
+	public void polygon(Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			inner.polygon(params);
 		}
@@ -671,7 +681,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void generalPolygon(int nloops, int[] nvertices,
-			Map<RtToken, Object> params) {
+			Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			inner.generalPolygon(nloops, nvertices, params);
 		}
@@ -682,7 +692,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void pointsPolygons(int npolys, int[] nvertices, int[] vertices,
-			Map<RtToken, Object> params) {
+			Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			inner.pointsPolygons(npolys, nvertices, vertices, params);
 		}
@@ -693,7 +703,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void pointsGeneralPolygons(int npolys, int[] nloops,
-			int[] nvertices, int[] vertices, Map<RtToken, Object> params) {
+			int[] nvertices, int[] vertices, Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			inner.pointsGeneralPolygons(npolys, nloops, nvertices, vertices, params);
 		}
@@ -713,7 +723,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#patch(ca.eandb.jmist.framework.loader.renderman.RtToken, java.util.Map)
 	 */
 	@Override
-	public void patch(RtToken type, Map<RtToken, Object> params) {
+	public void patch(RtToken type, Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			inner.patch(type, params);
 		}
@@ -724,7 +734,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void patchMesh(RtToken type, int nu, RtToken uwrap, int nv,
-			RtToken vwrap, Map<RtToken, Object> params) {
+			RtToken vwrap, Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			inner.patchMesh(type, nu, uwrap, nv, vwrap, params);
 		}
@@ -760,7 +770,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	@Override
 	public void subdivisionMesh(RtToken scheme, int nfaces, int[] nvertices,
 			int[] vertices, int ntags, RtToken[] tags, int[] nargs,
-			int[] intargs, double[] doubleargs, Map<RtToken, Object> params) {
+			int[] intargs, double[] doubleargs, Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			inner.subdivisionMesh(scheme, nfaces, nvertices, vertices, ntags, tags, nargs, intargs, doubleargs, params);
 		}
@@ -771,7 +781,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void sphere(double radius, double zmin, double zmax,
-			double thetamax, Map<RtToken, Object> params) {
+			double thetamax, Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			inner.sphere(radius, zmin, zmax, thetamax, params);
 		}
@@ -782,7 +792,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void cone(double height, double radius, double thetamax,
-			Map<RtToken, Object> params) {
+			Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			inner.cone(height, radius, thetamax, params);
 		}
@@ -793,7 +803,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void cylinder(double radius, double zmin, double zmax,
-			double thetamax, Map<RtToken, Object> params) {
+			double thetamax, Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			inner.cylinder(radius, zmin, zmax, thetamax, params);
 		}
@@ -804,7 +814,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void hyperboloid(RtPoint point1, RtPoint point2, double thetamax,
-			Map<RtToken, Object> params) {
+			Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			inner.hyperboloid(point1, point2, thetamax, params);
 		}
@@ -815,7 +825,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void paraboloid(double rmax, double zmin, double zmax,
-			double thetamax, Map<RtToken, Object> params) {
+			double thetamax, Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			inner.paraboloid(rmax, zmin, zmax, thetamax, params);
 		}
@@ -826,7 +836,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void disk(double height, double radius, double thetamax,
-			Map<RtToken, Object> params) {
+			Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			inner.disk(height, radius, thetamax, params);
 		}
@@ -837,7 +847,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void torus(double majorradius, double minorradius, double phimin,
-			double phimax, double thetamax, Map<RtToken, Object> params) {
+			double phimax, double thetamax, Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			inner.torus(majorradius, minorradius, phimin, phimax, thetamax, params);
 		}
@@ -847,7 +857,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#points(int, java.util.Map)
 	 */
 	@Override
-	public void points(int npoints, Map<RtToken, Object> params) {
+	public void points(int npoints, Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			inner.points(npoints, params);
 		}
@@ -858,7 +868,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void curves(RtToken type, int ncurves, int[] nvertices,
-			RtToken wrap, Map<RtToken, Object> params) {
+			RtToken wrap, Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			inner.curves(type, ncurves, nvertices, wrap, params);
 		}
@@ -870,7 +880,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	@Override
 	public void blobby(int nleaf, int ncode, int[] code, int ndoubles,
 			double[] doubles, int nstrings, String[] strings,
-			Map<RtToken, Object> params) {
+			Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			inner.blobby(nleaf, ncode, code, ndoubles, doubles, nstrings, strings, params);
 		}
@@ -911,7 +921,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#geometry(ca.eandb.jmist.framework.loader.renderman.RtToken, java.util.Map)
 	 */
 	@Override
-	public void geometry(RtToken type, Map<RtToken, Object> params) {
+	public void geometry(RtToken type, Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			inner.geometry(type, params);
 		}
@@ -995,7 +1005,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	@Override
 	public void makeTexture(String picturename, String texturename,
 			RtToken swrap, RtToken twrap, RtFilterFunc filterfunc,
-			double swidth, double twidth, Map<RtToken, Object> params) {
+			double swidth, double twidth, Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			inner.makeTexture(picturename, texturename, swrap, twrap, filterfunc, swidth, twidth, params);
 		}
@@ -1007,7 +1017,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	@Override
 	public void makeLatLongEnvironment(String picturename, String texturename,
 			RtFilterFunc filterfunc, double swidth, double twidth,
-			Map<RtToken, Object> params) {
+			Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			inner.makeLatLongEnvironment(picturename, texturename, filterfunc, swidth, twidth, params);
 		}
@@ -1020,7 +1030,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	public void makeCubeFaceEnvironment(String px, String nx, String py,
 			String ny, String pz, String nz, String texturename, double fov,
 			RtFilterFunc filterfunc, double swidth, double twidth,
-			Map<RtToken, Object> params) {
+			Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			inner.makeCubeFaceEnvironment(px, nx, py, ny, pz, nz, texturename, fov, filterfunc, swidth, twidth, params);
 		}
@@ -1031,7 +1041,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void makeShadow(String picturename, String texturename,
-			Map<RtToken, Object> params) {
+			Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			inner.makeShadow(picturename, texturename, params);
 		}
@@ -1062,7 +1072,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void readArchive(RtToken name, RtArchiveCallback callback,
-			Map<RtToken, Object> params) {
+			Map<RtToken, RtValue> params) {
 		if (currentFrame < 0 || currentFrame == frame) {
 			inner.readArchive(name, callback, params);
 		}

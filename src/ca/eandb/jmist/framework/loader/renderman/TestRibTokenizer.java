@@ -15,47 +15,48 @@ public final class TestRibTokenizer {
 	
 	public static void main(String[] args) {
 		try {
-			FileReader fr = new FileReader("C:\\Users\\Brad\\Download\\UtahTeapot.rib");
+			FileReader fr = new FileReader("C:\\Users\\Brad\\Downloads\\UtahTeapot.rib");
 			RibTokenizer tokenizer = new RibTokenizer(fr);
 		
 			RibToken token;
 			do {
-				token = tokenizer.nextToken();
+				token = tokenizer.getCurrentToken();
+				tokenizer.advance();
 				switch (token.type) {
-				case RibToken.RT_IDENTIFIER:
-					System.out.print("IDENT ");
-					System.out.println(token.stringValue);
+				case IDENTIFIER:
+					System.out.printf("IDENT (%s)", token.stringValue);
+					System.out.println();
 					break;
 					
-				case RibToken.RT_STRING:
-					System.out.print("STRING ");
-					System.out.println(token.stringValue);
+				case STRING:
+					System.out.printf("STRING (%s)", token.stringValue);
+					System.out.println();
 					break;
 					
-				case RibToken.RT_INTEGER:
+				case INTEGER:
 					System.out.print("INTEGER ");
 					System.out.println(token.intValue);
 					break;
 					
-				case RibToken.RT_REAL:
+				case REAL:
 					System.out.print("REAL ");
 					System.out.println(token.realValue);
 					break;
 					
-				case RibToken.RT_OPEN_ARRAY:
+				case OPEN_ARRAY:
 					System.out.println("OPEN ARRAY");
 					break;
 	
-				case RibToken.RT_CLOSE_ARRAY:
+				case CLOSE_ARRAY:
 					System.out.println("CLOSE ARRAY");
 					break;
 	
-				case RibToken.RT_EOF:
+				case EOF:
 					System.out.println("EOF");
 					break;
 	
 				}
-			} while (token.type != RibToken.RT_EOF);
+			} while (token.type != RibToken.Type.EOF);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

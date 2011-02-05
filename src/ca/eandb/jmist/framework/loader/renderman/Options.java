@@ -276,7 +276,7 @@ final class Options implements State {
 	 * @return the clippingPlanes
 	 */
 	public Set<Plane3> getClippingPlanes() {
-		return clippingPlanes;
+		return null;
 	}
 
 

@@ -3,15 +3,13 @@
  */
 package ca.eandb.jmist.framework.loader.renderman;
 
-import java.io.IOException;
 import java.io.Reader;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 import ca.eandb.util.UnexpectedException;
-import ca.eandb.util.UnimplementedException;
 
 
 /**
@@ -20,24 +18,351 @@ import ca.eandb.util.UnimplementedException;
  */
 public final class RibReader {
 	
-	public void read(Reader reader, RenderManContext context) throws IOException {
+	private Map<Integer, RtObjectHandle> objects = new HashMap<Integer, RtObjectHandle>();
+	private Map<Integer, RtLightHandle> lights = new HashMap<Integer, RtLightHandle>();
+	private RtErrorHandler errorHandler = RenderManContext.RiErrorAbort;
+	private int colorSamples = 3;
+	
+	final class BasisRibBinding implements RibBinding {
 
+		/* (non-Javadoc)
+		 * @see ca.eandb.jmist.framework.loader.renderman.RibBinding#processBinding(ca.eandb.jmist.framework.loader.renderman.RibTokenizer, ca.eandb.jmist.framework.loader.renderman.RenderManContext)
+		 */
+		@Override
+		public void processBinding(RibTokenizer tokenizer,
+				RenderManContext context) throws RibException {
+			
+			tokenizer.advance();
+			
+			RtBasis[] basis = { null, null };
+			int[] step = { 0, 0 };
+			
+			for (int i = 0; i < 2; i++) {
+				RibToken token = tokenizer.getCurrentToken();
+				switch (token.type) {
+				case STRING:
+					if (token.stringValue.equals("bezier")) {
+						basis[i] = RenderManContext.RiBezierBasis;
+					} else if (token.stringValue.equals("b-spline")) {
+						basis[i] = RenderManContext.RiBSplineBasis;
+					} else if (token.stringValue.equals("catmull-rom")) {
+						basis[i] = RenderManContext.RiCatmullRomBasis;
+					} else if (token.stringValue.equals("hermite")) {
+						basis[i] = RenderManContext.RiHermiteBasis;
+					} else if (token.stringValue.equals("power")) {
+						basis[i] = RenderManContext.RiPowerBasis;
+					} else {
+						throw new RibException(RtErrorType.BADTOKEN,
+								RtErrorSeverity.ERROR,
+								String.format("Invalid basis `%s'",
+										token.stringValue));
+					}
+					tokenizer.advance();
+					break;
+					
+				case OPEN_ARRAY:
+					double[] b = RibBindingUtil.parseRealArray(16, tokenizer);
+					basis[i] = new RtBasis(
+							b[0] , b[1] , b[2] , b[3] ,
+							b[4] , b[5] , b[6] , b[7] ,
+							b[8] , b[9] , b[10], b[11],
+							b[12], b[13], b[14], b[15]);
+					break;
+					
+				default:
+					throw new RenderManException(RtErrorType.BADTOKEN,
+							RtErrorSeverity.ERROR, "Basis name or '[' expected");
+					
+				}
+				
+				step[i] = RibBindingUtil.parseInteger(tokenizer);
+			}
+			
+			context.basis(basis[0], step[0], basis[1], step[1]);
+			
+		}
+		
+	}
+	
+	final class ColorSamplesRibBinding implements RibBinding {
+
+		/* (non-Javadoc)
+		 * @see ca.eandb.jmist.framework.loader.renderman.RibBinding#processBinding(ca.eandb.jmist.framework.loader.renderman.RibTokenizer, ca.eandb.jmist.framework.loader.renderman.RenderManContext)
+		 */
+		@Override
+		public void processBinding(RibTokenizer tokenizer,
+				RenderManContext context) throws RibException {
+			
+			int n = RibBindingUtil.parseInteger(tokenizer);
+			double[] nRGB = RibBindingUtil.parseRealArray(3 * n, tokenizer);
+			double[] RGBn = RibBindingUtil.parseRealArray(3 * n, tokenizer);
+			
+			context.colorSamples(n, nRGB, RGBn);
+			colorSamples = n;
+			
+		}
+		
+	}
+	
+	final class ColorRibBinding implements RibBinding {
+
+		/* (non-Javadoc)
+		 * @see ca.eandb.jmist.framework.loader.renderman.RibBinding#processBinding(ca.eandb.jmist.framework.loader.renderman.RibTokenizer, ca.eandb.jmist.framework.loader.renderman.RenderManContext)
+		 */
+		@Override
+		public void processBinding(RibTokenizer tokenizer,
+				RenderManContext context) throws RibException {
+			
+			tokenizer.advance();
+			double[] channels = RibBindingUtil.parseRealArray(colorSamples, tokenizer);
+			RtColor color = new RtColor(channels);
+			
+			context.color(color);
+			
+		}
+		
+	}
+	
+	final class OpacityRibBinding implements RibBinding {
+
+		/* (non-Javadoc)
+		 * @see ca.eandb.jmist.framework.loader.renderman.RibBinding#processBinding(ca.eandb.jmist.framework.loader.renderman.RibTokenizer, ca.eandb.jmist.framework.loader.renderman.RenderManContext)
+		 */
+		@Override
+		public void processBinding(RibTokenizer tokenizer,
+				RenderManContext context) throws RibException {
+			
+			tokenizer.advance();
+			double[] channels = RibBindingUtil.parseRealArray(colorSamples, tokenizer);
+			RtColor color = new RtColor(channels);
+			
+			context.opacity(color);
+			
+		}
+		
+	}
+	
+	final class ErrorHandlerRibBinding implements RibBinding {
+
+		/* (non-Javadoc)
+		 * @see ca.eandb.jmist.framework.loader.renderman.RibBinding#processBinding(ca.eandb.jmist.framework.loader.renderman.RibTokenizer, ca.eandb.jmist.framework.loader.renderman.RenderManContext)
+		 */
+		@Override
+		public void processBinding(RibTokenizer tokenizer,
+				RenderManContext context) throws RibException {
+			
+			tokenizer.advance();
+			RtToken token = RibBindingUtil.parseToken(tokenizer, context);
+
+			if (token == RenderManContext.RI_ABORT) {
+				errorHandler = RenderManContext.RiErrorAbort;
+			} else if (token == RenderManContext.RI_IGNORE) {
+				errorHandler = RenderManContext.RiErrorIgnore;				
+			} else if (token == RenderManContext.RI_PRINT) {
+				errorHandler = RenderManContext.RiErrorPrint;
+			} else {
+				throw new RenderManException(RtErrorType.BADTOKEN, RtErrorSeverity.ERROR, "Invalid error handler");
+			}
+			
+			context.errorHandler(errorHandler);
+			
+		}
+		
+	}
+	
+	final class ObjectBeginRibBinding implements RibBinding {
+
+		/* (non-Javadoc)
+		 * @see ca.eandb.jmist.framework.loader.renderman.RibBinding#processBinding(ca.eandb.jmist.framework.loader.renderman.RibTokenizer, ca.eandb.jmist.framework.loader.renderman.RenderManContext)
+		 */
+		@Override
+		public void processBinding(RibTokenizer tokenizer,
+				RenderManContext context) throws RibException {
+			
+			tokenizer.advance();
+			int sequenceNumber = RibBindingUtil.parseInteger(tokenizer);
+			RtObjectHandle h = context.objectBegin();
+			
+			if (h != null) {
+				objects.put(sequenceNumber, h);
+			}
+			
+		}
+		
+	}
+	
+	final class ObjectInstanceRibBinding implements RibBinding {
+
+		/* (non-Javadoc)
+		 * @see ca.eandb.jmist.framework.loader.renderman.RibBinding#processBinding(ca.eandb.jmist.framework.loader.renderman.RibTokenizer, ca.eandb.jmist.framework.loader.renderman.RenderManContext)
+		 */
+		@Override
+		public void processBinding(RibTokenizer tokenizer,
+				RenderManContext context) throws RibException {
+			
+			tokenizer.advance();
+			
+			int sequenceNumber = RibBindingUtil.parseInteger(tokenizer);
+			RtObjectHandle h = objects.get(sequenceNumber);
+			if (h == null) {
+				throw new RenderManException(RtErrorType.BADHANDLE,
+						RtErrorSeverity.ERROR, String.format(
+								"Invalid object sequence number (%d)",
+								sequenceNumber));
+			}
+			
+			context.objectInstance(h);
+
+		}
+		
+	}
+	
+	final class LightSourceRibBinding implements RibBinding {
+
+		/* (non-Javadoc)
+		 * @see ca.eandb.jmist.framework.loader.renderman.RibBinding#processBinding(ca.eandb.jmist.framework.loader.renderman.RibTokenizer, ca.eandb.jmist.framework.loader.renderman.RenderManContext)
+		 */
+		@Override
+		public void processBinding(RibTokenizer tokenizer,
+				RenderManContext context) throws RibException {
+
+			tokenizer.advance();
+			
+			RtToken shader = RibBindingUtil.parseToken(tokenizer, context);
+			int sequenceNumber = RibBindingUtil.parseInteger(tokenizer);
+			Map<RtToken, RtValue> params = RibBindingUtil.parseParameterList(tokenizer, context);
+			
+			RtLightHandle h = context.lightSource(shader, params);
+			if (h != null) {
+				lights.put(sequenceNumber, h);
+			}
+			
+		}
+		
+	}
+	
+	final class AreaLightSourceRibBinding implements RibBinding {
+
+		/* (non-Javadoc)
+		 * @see ca.eandb.jmist.framework.loader.renderman.RibBinding#processBinding(ca.eandb.jmist.framework.loader.renderman.RibTokenizer, ca.eandb.jmist.framework.loader.renderman.RenderManContext)
+		 */
+		@Override
+		public void processBinding(RibTokenizer tokenizer,
+				RenderManContext context) throws RibException {
+
+			tokenizer.advance();
+			
+			RtToken shader = RibBindingUtil.parseToken(tokenizer, context);
+			int sequenceNumber = RibBindingUtil.parseInteger(tokenizer);
+			Map<RtToken, RtValue> params = RibBindingUtil.parseParameterList(tokenizer, context);
+			
+			RtLightHandle h = context.areaLightSource(shader, params);
+			if (h != null) {
+				lights.put(sequenceNumber, h);
+			}
+			
+		}
+		
+	}
+	
+	final class IlluminateRibBinding implements RibBinding {
+
+		/* (non-Javadoc)
+		 * @see ca.eandb.jmist.framework.loader.renderman.RibBinding#processBinding(ca.eandb.jmist.framework.loader.renderman.RibTokenizer, ca.eandb.jmist.framework.loader.renderman.RenderManContext)
+		 */
+		@Override
+		public void processBinding(RibTokenizer tokenizer,
+				RenderManContext context) throws RibException {
+
+			tokenizer.advance();
+			
+			int sequenceNumber = RibBindingUtil.parseInteger(tokenizer);
+			boolean onoff = RibBindingUtil.parseBoolean(tokenizer);
+			
+			RtLightHandle h = lights.get(sequenceNumber);
+			if (h == null) {
+				throw new RenderManException(RtErrorType.BADHANDLE,
+						RtErrorSeverity.ERROR, String.format(
+								"Invalid light sequence number (%d)",
+								sequenceNumber));
+			}
+			
+			context.illuminate(h, onoff);
+			
+		}
+		
+	}
+	
+	private final Map<String, RibBinding> bindings = new HashMap<String, RibBinding>();
+	
+	public RibReader() {
+		Class<?>[] declaredClasses = RibReader.class.getDeclaredClasses();
+		for (int i = 0; i < declaredClasses.length; i++) {
+			String name = declaredClasses[i].getSimpleName();
+			if (name.endsWith("RibBinding") && RibBinding.class.isAssignableFrom(declaredClasses[i])) {
+				String key = name.substring(0, name.length() - 10).toLowerCase();
+				RibBinding binding;
+				try {
+					Constructor<?> constructor = declaredClasses[i].getDeclaredConstructor(RibReader.class);
+					binding = (RibBinding) constructor.newInstance(RibReader.this);
+				} catch (Exception e) {
+					throw new UnexpectedException(e);
+				}
+				bindings.put(key, binding);
+			}
+		}
+		
+		Method[] methods = RenderManContext.class.getDeclaredMethods();
+		for (int i = 0; i < methods.length; i++) {
+			String key = methods[i].getName().toLowerCase();
+			if (!bindings.containsKey(key)) {
+				RibBinding binding = new ReflectionRibBinding(methods[i]);
+				bindings.put(key, binding);
+			}
+		}
+	}
+	
+	private void reset() {
+		objects.clear();
+		lights.clear();
+	}
+	
+	public void read(Reader reader, RenderManContext context) {
+		
+		reset();
+		
 		RibTokenizer tokenizer = new RibTokenizer(reader);
+		boolean resync = false;
 		
 		while (true) {
 			
-			RibToken token = tokenizer.nextToken();
-			
-			switch (token.type) {
-			case RibToken.RT_EOF:
-				return;
+			RibToken token = tokenizer.getCurrentToken();
+
+			try {
+				if (resync) {
+					while (token.type != RibToken.Type.IDENTIFIER) {
+						tokenizer.advance();
+					}
+					resync = false;
+				}
 				
-			case RibToken.RT_IDENTIFIER:
-				processCommand(token.stringValue, tokenizer);
-				break;
+				switch (token.type) {
+				case EOF:
+					return;
+					
+				case IDENTIFIER:
+					processCommand(token.stringValue, tokenizer, context);
+					break;
+					
+				default:
+					throw new RibException(RtErrorType.SYNTAX, RtErrorSeverity.ERROR, "Identifier expected");
+					
+				}
 				
-			default:
-				break;
+			} catch (RibException e) {
+				
+				errorHandler.apply(e.type(), e.severity(), e.getMessage(), e);
+				resync = true;
 				
 			}
 			
@@ -45,190 +370,17 @@ public final class RibReader {
 		
 	}
 	
-	private Method findMethod(String command) {
-		return null;
-	}
-
-	private void processCommand(String command, RibTokenizer tokenizer, RenderManContext context) {
-		
-		Method method = findMethod(command);
-		
-		Class<?>[] paramTypes = method.getParameterTypes();
-		Object[] params = new Object[paramTypes.length];
-
-		for (int i = 0; i < params.length; i++) {
-			params[i] = parseArgument(paramTypes[i], tokenizer);
+	private void processCommand(String command, RibTokenizer tokenizer, RenderManContext context) throws RibException {
+	
+		RibBinding binding = bindings.get(command.toLowerCase());
+		if (binding == null) {
+			throw new RibException(RtErrorType.SYNTAX,
+					RtErrorSeverity.ERROR, String.format(
+							"Unrecognized command `%s'", command));
 		}
 		
-		try {
-			method.invoke(context, params);
-		} catch (Exception e) {
-			throw new UnexpectedException(e);
-		}
+		binding.processBinding(tokenizer, context);
 		
 	}
-	
-	private Object parseArray(int elementType, RibTokenizer tokenizer) throws IOException {
-		RibToken token = tokenizer.nextToken();
-		if (token.type != RibToken.RT_OPEN_ARRAY) {
-			throw new RenderManException(RtErrorType.SYNTAX, RtErrorSeverity.ERROR, "Expected '['");
-		}
-		List<RibToken> elements = new ArrayList<RibToken>();
-		while (true) {
-			token = tokenizer.nextToken();
-			elements.add(token);
-
-			switch (elementType) {
-			
-			case RibToken.RT_REAL:
-				if (token.type != RibToken.RT_REAL && token.type != RibToken.RT_INTEGER) {
-					throw new RenderManException(RtErrorType.SYNTAX, RtErrorSeverity.ERROR, "Floating point value or ']' expected");
-				}
-				break;
-				
-			case RibToken.RT_INTEGER:
-				if (token.type != RibToken.RT_INTEGER) {
-					throw new RenderManException(RtErrorType.SYNTAX, RtErrorSeverity.ERROR, "Integer value or ']' expected");					
-				}
-				break;
-				
-			case RibToken.RT_STRING:
-				if (token.type != RibToken.RT_STRING) {
-					throw new RenderManException(RtErrorType.SYNTAX, RtErrorSeverity.ERROR, "String value or ']' expected");					
-				}
-				break;
-				
-			case RibToken.RT_CLOSE_ARRAY:
-				switch (elementType) {
-				case RibToken.RT_REAL: {
-					double[] result = new double[elements.size()];
-					for (int i = 0, n = elements.size(); i < n; i++) {
-						result[i] = elements.get(i).realValue;
-					}
-					return result;
-				}
-				case RibToken.RT_INTEGER: {
-					int[] result = new int[elements.size()];
-					for (int i = 0, n = elements.size(); i < n; i++) {
-						result[i] = elements.get(i).intValue;
-					}
-					return result;
-				}
-				case RibToken.RT_STRING: {
-					String[] result = new String[elements.size()];
-					for (int i = 0, n = elements.size(); i < n; i++) {
-						result[i] = elements.get(i).stringValue;
-					}
-					return result;
-				}	
-				}
-				
-			default:
-				throw new RenderManException(RtErrorType.SYNTAX, RtErrorSeverity.ERROR, "Expected ']'");
-				
-			}
-		}
-	}
-	
-	private String parseString(RibTokenizer tokenizer) throws IOException {
-		RibToken token = tokenizer.nextToken();
-		if (token.type != RibToken.RT_STRING) {
-			throw new RenderManException(RtErrorType.SYNTAX, RtErrorSeverity.ERROR, "String value expected");
-		}
-		return token.stringValue;
-	}
-	
-	private RtToken parseToken(RibTokenizer tokenizer) throws IOException {
-		RibToken token = tokenizer.nextToken();
-		if (token.type != RibToken.RT_STRING) {
-			throw new RenderManException(RtErrorType.SYNTAX, RtErrorSeverity.ERROR, "Token expected");
-		}
-		return TokenFactory.BUILTIN.create(token.stringValue);
-	}
-
-	private double parseDouble(RibTokenizer tokenizer) throws IOException {
-		RibToken token = tokenizer.nextToken();
-		if (token.type != RibToken.RT_REAL && token.type != RibToken.RT_INTEGER) {
-			throw new RenderManException(RtErrorType.SYNTAX, RtErrorSeverity.ERROR, "Floating point value expected");
-		}
-		return token.realValue;
-	}
-
-	private int parseInteger(RibTokenizer tokenizer) throws IOException {
-		RibToken token = tokenizer.nextToken();
-		if (token.type != RibToken.RT_INTEGER) {
-			throw new RenderManException(RtErrorType.SYNTAX, RtErrorSeverity.ERROR, "Integer value expected");
-		}
-		return token.intValue;
-	}
-	
-	private RtFilterFunc parseFilterFunc(RibTokenizer tokenizer) throws IOException {
-		String name = parseString(tokenizer);
-		if (name.equals("box")) {
-			return RenderManContext.RiBoxFilter;
-		} else if (name.equals("triangle")) {
-			return RenderManContext.RiTriangleFilter;
-		} else if (name.equals("catmull-rom")) {
-			return RenderManContext.RiCatmullRomFilter;
-		} else if (name.equals("gaussian")) {
-			return RenderManContext.RiGaussianFilter;
-		} else if (name.equals("b-spline")) {
-			throw new UnimplementedException("RiBSplineFilter");
-		} else if (name.equals("sinc")) {
-			return RenderManContext.RiSincFilter;
-		} else {
-			throw new RenderManException(RtErrorType.BADTOKEN, RtErrorSeverity.ERROR, "Invalid filter function");
-		}
-	}
-	
-	private RtErrorHandler parseErrorHandler(RibTokenizer tokenizer) throws IOException {
-		String name = parseString(tokenizer);
-		if (name.equals("ignore")) {
-			return RenderManContext.RiErrorIgnore;
-		} else if (name.equals("print")) {
-			return RenderManContext.RiErrorPrint;
-		} else if (name.equals("abort")) {
-			return RenderManContext.RiErrorAbort;
-		} else {
-			throw new RenderManException(RtErrorType.BADTOKEN, RtErrorSeverity.ERROR, "Invalid filter function");
-		}
-	}
-	
-	private Map<RtToken, Object> parseParameterList(RibTokenizer tokenizer) throws IOException {
 		
-	}
-
-	private Object parseArgument(Class<?> type, RibTokenizer tokenizer) throws IOException {
-		
-		if (type == RtToken.class) {
-			return parseToken(tokenizer);
-		} else if (type == Double.TYPE) {
-			return parseDouble(tokenizer);
-		} else if (type == Integer.TYPE) {
-			return parseInteger(tokenizer);
-		} else if (type == String.class) {
-			return parseString(tokenizer);
-		} else if (type == double[].class) {
-			return parseArray(RibToken.RT_REAL, tokenizer);
-		} else if (type == int[].class) {
-			return parseArray(RibToken.RT_INTEGER, tokenizer);
-		} else if (type == String[].class) {
-			return parseArray(RibToken.RT_STRING, tokenizer);
-		} else if (type == RtBound.class) {
-			
-		} else if (type == RtColor.class) {
-			
-		} else if (type == RtMatrix.class) {
-		} else if (type == RtPoint.class) {
-		} else if (type == RtPoint[].class) {
-		} else if (type == RtFilterFunc.class) {
-			return parseFilterFunc(tokenizer);
-		} else if (type == RtErrorHandler.class) {
-			return parseErrorHandler(tokenizer);
-		} else if (type == Map.class) {
-			return parseParameterList(tokenizer);
-		} 
-		
-	}
-	
 }

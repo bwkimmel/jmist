@@ -8,5 +8,9 @@ package ca.eandb.jmist.framework.loader.renderman;
  *
  */
 public final class RtColor {
+	
+	public RtColor(double... channels) {
+		
+	}
 
 }

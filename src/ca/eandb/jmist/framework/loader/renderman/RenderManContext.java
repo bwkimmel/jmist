@@ -3,6 +3,8 @@
  */
 package ca.eandb.jmist.framework.loader.renderman;
 
+import static ca.eandb.jmist.framework.loader.renderman.RtErrorSeverity.*;
+
 import java.util.Map;
 
 /**
@@ -127,11 +129,35 @@ public interface RenderManContext {
 	public static final RtToken RI_WIDTH = TokenFactory.BUILTIN.create("width");
 	public static final RtToken RI_CONSTANTWIDTH = TokenFactory.BUILTIN.create("constantwidth");
 
-	public static final RtBasis RiBezierBasis = new RtBasis();
-	public static final RtBasis RiBSplineBasis = new RtBasis();
-	public static final RtBasis RiCatmullRomBasis = new RtBasis();
-	public static final RtBasis RiHermiteBasis = new RtBasis();
-	public static final RtBasis RiPowerBasis = new RtBasis();
+	public static final RtBasis RiBezierBasis = new RtBasis(
+			-1,  3, -3,  1,
+			 3, -6,  3,  0,
+			-3,  3,  0,  0,
+			 1,  0,  0,  0);
+	
+	public static final RtBasis RiBSplineBasis = new RtBasis(
+			-1.0 / 6.0,  3.0 / 6.0, -3.0 / 6.0,  1.0 / 6.0,
+			 3.0 / 6.0, -6.0 / 6.0,  3.0 / 6.0,  0.0 / 6.0,
+			-3.0 / 6.0,  0.0 / 6.0,  3.0 / 6.0,  0.0 / 6.0,
+			 1.0 / 6.0,  4.0 / 6.0,  1.0 / 6.0,  0.0 / 0.0);
+			
+	public static final RtBasis RiCatmullRomBasis = new RtBasis(
+			-0.5,  1.5, -1.5,  0.5,
+			 1.0, -2.5,  2.0, -0.5,
+			-0.5,  0.0,  0.5,  0.0,
+			 0.0,  1.0,  0.0,  0.0);
+	
+	public static final RtBasis RiHermiteBasis = new RtBasis(
+			 2,  1, -2,  1,
+			-3, -2,  3, -1,
+			 0,  1,  0,  0,
+			 1,  0,  0,  0);
+	
+	public static final RtBasis RiPowerBasis = new RtBasis(
+			1, 0, 0, 0,
+			0, 1, 0, 0,
+			0, 0, 1, 0,
+			0, 0, 0, 1);
 	
 	public static final int RI_BEZIERSTEP = 3;
 	public static final int RI_BSPLINESTEP = 1;
@@ -190,18 +216,27 @@ public interface RenderManContext {
 
 	public static final RtErrorHandler RiErrorIgnore = new AbstractRtErrorHandler() {
 		public void apply(RtErrorType type, RtErrorSeverity severity, String message, Throwable cause) {
+			/* do nothing */
 		}
 	};
 	
 	public static final RtErrorHandler RiErrorPrint = new AbstractRtErrorHandler() {
 		public void apply(RtErrorType type, RtErrorSeverity severity, String message, Throwable cause) {
-			System.err.printf("ERROR(%d,%d): %s", type.code(), severity.level(), message);
-			System.err.println();
+			if (severity == INFO) {
+				System.out.println(message);
+			} else {
+				System.err.printf("%s(%s): %s", severity, type, message);
+				System.err.println();				
+			}
 		}
 	};
+	
 	public static final RtErrorHandler RiErrorAbort = new AbstractRtErrorHandler() {
 		public void apply(RtErrorType type, RtErrorSeverity severity, String message, Throwable cause) {
-			throw new RenderManException(type, severity, message, cause);
+			RiErrorPrint.apply(type, severity, message, cause);
+			if (severity.compareTo(WARNING) > 0) {
+				throw new RenderManException(type, severity, message, cause);
+			}
 		}
 	};
 	
@@ -218,7 +253,7 @@ public interface RenderManContext {
 	void frameAspectRatio(double frameaspectratio);
 	void screenWindow(double left, double right, double bottom, double top);
 	void cropWindow(double xmin, double xmax, double ymin, double ymax);
-	void projection(RtToken name, Map<RtToken, Object> params);
+	void projection(RtToken name, Map<RtToken, RtValue> params);
 	void clipping(double near, double far);
 	void clippingPlane(double x, double y, double z, double nx, double ny, double nz);
 	void depthOfField(double fstop, double focallength, double focaldistance);
@@ -227,13 +262,13 @@ public interface RenderManContext {
 	void pixelSamples(double xsamples, double ysamples);
 	void pixelFilter(RtFilterFunc filterfunc, double xwidth, double ywidth);
 	void exposure(double gain, double gamma);
-	void imager(RtToken name, Map<RtToken, Object> params);
+	void imager(RtToken name, Map<RtToken, RtValue> params);
 	void quantize(RtToken type, int one, int min, int max, double ditheramplitude);
-	void display(String name, RtToken type, RtToken mode, Object... parmaterlist);
-	void hider(RtToken type, Map<RtToken, Object> params);
+	void display(String name, RtToken type, RtToken mode, Map<RtToken, RtValue> params);
+	void hider(RtToken type, Map<RtToken, RtValue> params);
 	void colorSamples(int n, double[] nRGB, double[] RGBn);
 	void relativeDetail(double relativedetail);
-	void option(RtToken name, Map<RtToken, Object> params);
+	void option(RtToken name, Map<RtToken, RtValue> params);
 	
 	/* 4.2 Attributes */
 	void attributeBegin();
@@ -241,14 +276,14 @@ public interface RenderManContext {
 	void color(RtColor color);
 	void opacity(RtColor color);
 	void textureCoordinates(double s1, double t1, double s2, double t2, double s3, double t3, double s4, double t4);
-	RtLightHandle lightSource(RtToken shadername, Map<RtToken, Object> params);
-	RtLightHandle areaLightSource(RtToken shadername, Map<RtToken, Object> params);
+	RtLightHandle lightSource(RtToken shadername, Map<RtToken, RtValue> params);
+	RtLightHandle areaLightSource(RtToken shadername, Map<RtToken, RtValue> params);
 	void illuminate(RtLightHandle light, boolean onoff);
-	void surface(RtToken shadername, Map<RtToken, Object> params);
-	void displacement(RtToken shadername, Map<RtToken, Object> params);
-	void atmosphere(RtToken shadername, Map<RtToken, Object> params);
-	void interior(RtToken shadername, Map<RtToken, Object> params);
-	void exterior(RtToken shadername, Map<RtToken, Object> params);
+	void surface(RtToken shadername, Map<RtToken, RtValue> params);
+	void displacement(RtToken shadername, Map<RtToken, RtValue> params);
+	void atmosphere(RtToken shadername, Map<RtToken, RtValue> params);
+	void interior(RtToken shadername, Map<RtToken, RtValue> params);
+	void exterior(RtToken shadername, Map<RtToken, RtValue> params);
 	void shadingRate(double size);
 	void shadingInterpolation(RtToken type);
 	void matte(boolean onoff);
@@ -266,6 +301,7 @@ public interface RenderManContext {
 	void concatTransform(RtMatrix transform);
 	void perspective(double fov);
 	void translate(double dx, double dy, double dz);
+	void rotate(double angle, double dx, double dy, double dz);
 	void scale(double sx, double sy, double sz);
 	void skew(double angle, double dx1, double dy1, double dz1, double dx2, double dy2, double dz2);
 	void coordinateSystem(RtToken name);
@@ -275,41 +311,41 @@ public interface RenderManContext {
 	void transformEnd();
 	
 	/* 4.4 Implementation-specific Attributes */
-	void attribute(RtToken name, Map<RtToken, Object> params);
+	void attribute(RtToken name, Map<RtToken, RtValue> params);
 	
 	/* 5. Geometric Primitives */
 	
 	/* 5.1 Polygons */
-	void polygon(Map<RtToken, Object> params);
-	void generalPolygon(int nloops, int[] nvertices, Map<RtToken, Object> params);
-	void pointsPolygons(int npolys, int[] nvertices, int[] vertices, Map<RtToken, Object> params);
-	void pointsGeneralPolygons(int npolys, int[] nloops, int[] nvertices, int[] vertices, Map<RtToken, Object> params);
+	void polygon(Map<RtToken, RtValue> params);
+	void generalPolygon(int nloops, int[] nvertices, Map<RtToken, RtValue> params);
+	void pointsPolygons(int npolys, int[] nvertices, int[] vertices, Map<RtToken, RtValue> params);
+	void pointsGeneralPolygons(int npolys, int[] nloops, int[] nvertices, int[] vertices, Map<RtToken, RtValue> params);
 	
 	/* 5.2 Patches */
 	void basis(RtBasis ubasis, int ustep, RtBasis vbasis, int vstep);
-	void patch(RtToken type, Map<RtToken, Object> params);
-	void patchMesh(RtToken type, int nu, RtToken uwrap, int nv, RtToken vwrap, Map<RtToken, Object> params);
+	void patch(RtToken type, Map<RtToken, RtValue> params);
+	void patchMesh(RtToken type, int nu, RtToken uwrap, int nv, RtToken vwrap, Map<RtToken, RtValue> params);
 	void nuPatch(int nu, int uorder, double[] uknot, double umin, double umax, int nv, int vorder, double[] vknot, double vmin, double vmax);
 	void trimCurve(int nloops, int[] ncurves, int[] order, double[] knot, double min, double max, int[] n, double[] u, double[] v, double[] w);
 	
 	/* 5.3 Subdivision Surfaces */
-	void subdivisionMesh(RtToken scheme, int nfaces, int[] nvertices, int[] vertices, int ntags, RtToken[] tags, int[] nargs, int[] intargs, double[] doubleargs, Map<RtToken, Object> params);
+	void subdivisionMesh(RtToken scheme, int nfaces, int[] nvertices, int[] vertices, int ntags, RtToken[] tags, int[] nargs, int[] intargs, double[] doubleargs, Map<RtToken, RtValue> params);
 	
 	/* 5.4 Quadrics */
-	void sphere(double radius, double zmin, double zmax, double thetamax, Map<RtToken, Object> params);
-	void cone(double height, double radius, double thetamax, Map<RtToken, Object> params);
-	void cylinder(double radius, double zmin, double zmax, double thetamax, Map<RtToken, Object> params);
-	void hyperboloid(RtPoint point1, RtPoint point2, double thetamax, Map<RtToken, Object> params);
-	void paraboloid(double rmax, double zmin, double zmax, double thetamax, Map<RtToken, Object> params);
-	void disk(double height, double radius, double thetamax, Map<RtToken, Object> params);
-	void torus(double majorradius, double minorradius, double phimin, double phimax, double thetamax, Map<RtToken, Object> params);
+	void sphere(double radius, double zmin, double zmax, double thetamax, Map<RtToken, RtValue> params);
+	void cone(double height, double radius, double thetamax, Map<RtToken, RtValue> params);
+	void cylinder(double radius, double zmin, double zmax, double thetamax, Map<RtToken, RtValue> params);
+	void hyperboloid(RtPoint point1, RtPoint point2, double thetamax, Map<RtToken, RtValue> params);
+	void paraboloid(double rmax, double zmin, double zmax, double thetamax, Map<RtToken, RtValue> params);
+	void disk(double height, double radius, double thetamax, Map<RtToken, RtValue> params);
+	void torus(double majorradius, double minorradius, double phimin, double phimax, double thetamax, Map<RtToken, RtValue> params);
 	
 	/* 5.5 Point and Curve Primitives */
-	void points(int npoints, Map<RtToken, Object> params);
-	void curves(RtToken type, int ncurves, int[] nvertices, RtToken wrap, Map<RtToken, Object> params);
+	void points(int npoints, Map<RtToken, RtValue> params);
+	void curves(RtToken type, int ncurves, int[] nvertices, RtToken wrap, Map<RtToken, RtValue> params);
 	
 	/* 5.6 Blobby Implicit Surfaces */
-	void blobby(int nleaf, int ncode, int[] code, int ndoubles, double[] doubles, int nstrings, String[] strings, Map<RtToken, Object> params);
+	void blobby(int nleaf, int ncode, int[] code, int ndoubles, double[] doubles, int nstrings, String[] strings, Map<RtToken, RtValue> params);
 	
 	/* 5.7 Procedural Primitives */
 	void procedural(Object data, RtBound bound, RtProcSubdivFunc subdividefunc);
@@ -317,7 +353,7 @@ public interface RenderManContext {
 	void procDynamicLoad(Object data, double detail);
 	
 	/* 5.8 Implementation-specific Geometric Primitives */
-	void geometry(RtToken type, Map<RtToken, Object> params);
+	void geometry(RtToken type, Map<RtToken, RtValue> params);
 	
 	/* 5.9 Solids and Spatial Set Operations */
 	void solidBegin(RtToken operation);
@@ -337,17 +373,17 @@ public interface RenderManContext {
 	/* 7. External Resources */
 	
 	/* 7.1 Texture Map Utilities */
-	void makeTexture(String picturename, String texturename, RtToken swrap, RtToken twrap, RtFilterFunc filterfunc, double swidth, double twidth, Map<RtToken, Object> params);
-	void makeLatLongEnvironment(String picturename, String texturename, RtFilterFunc filterfunc, double swidth, double twidth, Map<RtToken, Object> params);
-	void makeCubeFaceEnvironment(String px, String nx, String py, String ny, String pz, String nz, String texturename, double fov, RtFilterFunc filterfunc, double swidth, double twidth, Map<RtToken, Object> params);
-	void makeShadow(String picturename, String texturename, Map<RtToken, Object> params);
+	void makeTexture(String picturename, String texturename, RtToken swrap, RtToken twrap, RtFilterFunc filterfunc, double swidth, double twidth, Map<RtToken, RtValue> params);
+	void makeLatLongEnvironment(String picturename, String texturename, RtFilterFunc filterfunc, double swidth, double twidth, Map<RtToken, RtValue> params);
+	void makeCubeFaceEnvironment(String px, String nx, String py, String ny, String pz, String nz, String texturename, double fov, RtFilterFunc filterfunc, double swidth, double twidth, Map<RtToken, RtValue> params);
+	void makeShadow(String picturename, String texturename, Map<RtToken, RtValue> params);
 	
 	/* 7.2 Errors */
 	void errorHandler(RtErrorHandler handler);
 	
 	/* 7.3 Archive Files */
 	void archiveRecord(RtToken type, String format, String... arg);
-	void readArchive(RtToken name, RtArchiveCallback callback, Map<RtToken, Object> params);
+	void readArchive(RtToken name, RtArchiveCallback callback, Map<RtToken, RtValue> params);
 	
 	
 }

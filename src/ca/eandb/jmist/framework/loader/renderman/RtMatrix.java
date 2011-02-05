@@ -3,7 +3,9 @@
  */
 package ca.eandb.jmist.framework.loader.renderman;
 
+import ca.eandb.jmist.math.LinearMatrix3;
 import ca.eandb.jmist.math.Matrix4;
+import ca.eandb.jmist.math.Vector3;
 import ca.eandb.util.UnimplementedException;
 
 /**
@@ -52,6 +54,15 @@ public final class RtMatrix {
 				0 , 1 , 0 , 0,
 				0 , 0 , 1 , 0,
 				dx, dy, dz, 1);
+	}
+
+	public static RtMatrix rotate(double angle, double dx, double dy, double dz) {
+		LinearMatrix3 T = LinearMatrix3.rotateMatrix(new Vector3(dx, dy, dz), Math.toRadians(angle));
+		return new RtMatrix(
+				T.at(0, 0), T.at(1, 0), T.at(2, 0), 0.0,
+				T.at(0, 1), T.at(1, 1), T.at(2, 1), 0.0,
+				T.at(0, 2), T.at(1, 2), T.at(2, 2), 0.0,
+				0.0       , 0.0       , 0.0       , 1.0);
 	}
 	
 	static RtMatrix scale(double sx, double sy, double sz) {

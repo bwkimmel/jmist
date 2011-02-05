@@ -17,11 +17,30 @@ public final class RibTokenizer {
 	
 	private final PushbackReader reader;
 	
+	private RibToken currentToken = null;
+	
 	public RibTokenizer(Reader reader) {
 		this.reader = new PushbackReader(reader);
 	}
 	
-	public RibToken nextToken() throws IOException {
+	public void advance() {
+		try {
+			currentToken = nextToken();
+		} catch (EOFException e) {
+			throw new RenderManException(RtErrorType.SYNTAX, RtErrorSeverity.ERROR, "Unexpected end of file", e);
+		} catch (IOException e) {
+			throw new RenderManException(RtErrorType.SYSTEM, RtErrorSeverity.SEVERE, "Could not read file", e);
+		}
+	}
+	
+	public RibToken getCurrentToken() {
+		if (currentToken == null) {
+			advance();
+		}
+		return currentToken;
+	}
+	
+	private RibToken nextToken() throws IOException {
 		
 		while (true) {
 			int c = reader.read();
@@ -51,6 +70,7 @@ public final class RibTokenizer {
 			case ' ': // whitespace
 			case '\t':
 			case '\n':
+			case '\r':
 				break;
 				
 			default:
@@ -80,6 +100,7 @@ public final class RibTokenizer {
 			case ' ': // whitespace
 			case '\t':
 			case '\n':
+			case '\r':
 				reader.unread(c);
 				/* fall through */
 				
