@@ -16,7 +16,7 @@ public final class TestRibReader {
 	 */
 	public static void main(String[] args) {
 		try {
-			FileReader fr = new FileReader("C:\\Users\\Brad\\Downloads\\UtahTeapot.rib");
+			FileReader fr = new FileReader("C:\\Users\\Brad\\Downloads\\cornell.rib");
 			RenderManContext context = new JMistRenderManContext();
 			RibReader rib = new RibReader();
 			

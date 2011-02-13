@@ -6,10 +6,13 @@ package ca.eandb.jmist.framework.loader.renderman;
 import static ca.eandb.jmist.framework.loader.renderman.RtErrorSeverity.ERROR;
 import static ca.eandb.jmist.framework.loader.renderman.RtErrorSeverity.SEVERE;
 import static ca.eandb.jmist.framework.loader.renderman.RtErrorSeverity.WARNING;
-import static ca.eandb.jmist.framework.loader.renderman.RtErrorType.*;
+import static ca.eandb.jmist.framework.loader.renderman.RtErrorType.BADHANDLE;
 import static ca.eandb.jmist.framework.loader.renderman.RtErrorType.BADTOKEN;
 import static ca.eandb.jmist.framework.loader.renderman.RtErrorType.ILLSTATE;
 import static ca.eandb.jmist.framework.loader.renderman.RtErrorType.NESTING;
+import static ca.eandb.jmist.framework.loader.renderman.RtErrorType.NOSHADER;
+import static ca.eandb.jmist.framework.loader.renderman.RtErrorType.NOTOPTIONS;
+import static ca.eandb.jmist.framework.loader.renderman.RtErrorType.NOTPRIMS;
 import static ca.eandb.jmist.framework.loader.renderman.RtErrorType.RANGE;
 import static ca.eandb.jmist.framework.loader.renderman.RtErrorType.UNIMPLEMENT;
 
@@ -18,7 +21,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Stack;
 
+import ca.eandb.jmist.framework.Light;
+import ca.eandb.jmist.framework.SceneElement;
+import ca.eandb.jmist.framework.geometry.ConstructiveSolidGeometry;
+import ca.eandb.jmist.framework.geometry.IntersectionGeometry;
 import ca.eandb.jmist.framework.geometry.MeshGeometry;
+import ca.eandb.jmist.framework.geometry.SubtractionGeometry;
+import ca.eandb.jmist.framework.geometry.UnionGeometry;
 import ca.eandb.jmist.framework.geometry.mesh.PolygonMesh;
 import ca.eandb.jmist.framework.geometry.primitive.PartialConeGeometry;
 import ca.eandb.jmist.framework.geometry.primitive.PartialCylinderGeometry;
@@ -65,6 +74,8 @@ public final class JMistRenderManContext implements RenderManContext {
 	private MergeSceneElement geometry;
 	
 	private Map<RtToken, RtMatrix> coordinateSystems = new HashMap<RtToken, RtMatrix>();
+	
+	private Stack<ConstructiveSolidGeometry> solidStack = new Stack<ConstructiveSolidGeometry>();
 	
 	
 	
@@ -480,7 +491,36 @@ public final class JMistRenderManContext implements RenderManContext {
 	@Override
 	public RtLightHandle lightSource(RtToken shadername,
 			Map<RtToken, RtValue> params) {
-		errorHandler.apply(UNIMPLEMENT, WARNING, "Not yet implemented");
+		
+		Light light = null;
+		if (shadername == RI_AMBIENTLIGHT) {
+			double intensity = RibBindingUtil.getRealParameter(params, RI_INTENSITY, 1.0);
+			double[] lightColor = RibBindingUtil.getRealArrayParameter(params, RI_LIGHTCOLOR, null);
+			
+		} else if (shadername == RI_DISTANTLIGHT) {
+			double intensity = RibBindingUtil.getRealParameter(params, RI_INTENSITY, 1.0);
+			double[] lightColor = RibBindingUtil.getRealArrayParameter(params, RI_LIGHTCOLOR, null);
+			double[] from = RibBindingUtil.getRealArrayParameter(params, RI_FROM, new double[]{ 0.0, 0.0, 0.0 });
+			double[] to = RibBindingUtil.getRealArrayParameter(params, RI_TO, new double[]{ 0.0, 0.0, 1.0 });
+
+		} else if (shadername == RI_POINTLIGHT) {
+			double intensity = RibBindingUtil.getRealParameter(params, RI_INTENSITY, 1.0);
+			double[] lightColor = RibBindingUtil.getRealArrayParameter(params, RI_LIGHTCOLOR, null);
+			double[] from = RibBindingUtil.getRealArrayParameter(params, RI_FROM, new double[]{ 0.0, 0.0, 0.0 });
+			
+		} else if (shadername == RI_SPOTLIGHT) {
+			double intensity = RibBindingUtil.getRealParameter(params, RI_INTENSITY, 1.0);
+			double[] lightColor = RibBindingUtil.getRealArrayParameter(params, RI_LIGHTCOLOR, null);
+			double[] from = RibBindingUtil.getRealArrayParameter(params, RI_FROM, new double[]{ 0.0, 0.0, 0.0 });
+			double[] to = RibBindingUtil.getRealArrayParameter(params, RI_TO, new double[]{ 0.0, 0.0, 1.0 });
+			double coneAngle = RibBindingUtil.getRealParameter(params, RI_CONEANGLE, Math.toRadians(30.0));
+			double coneDeltaAngle = RibBindingUtil.getRealParameter(params, RI_CONEDELTAANGLE, Math.toRadians(5.0));
+			double beamDistribution = RibBindingUtil.getRealParameter(params, RI_BEAMDISTRIBUTION, 2.0);
+			
+			errorHandler.apply(UNIMPLEMENT, WARNING, "spotlight not yet implemented");			
+		} else {
+			errorHandler.apply(BADTOKEN, ERROR, "Invalid light shader");
+		}
 		return null;
 	}
 
@@ -507,6 +547,44 @@ public final class JMistRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void surface(RtToken shadername, Map<RtToken, RtValue> params) {
+		
+		if (shadername == RI_CONSTANT) {
+			
+		} else if (shadername == RI_MATTE) {
+			double ka = RibBindingUtil.getRealParameter(params, RI_KA, 1.0);
+			double kd = RibBindingUtil.getRealParameter(params, RI_KD, 1.0);
+			
+		} else if (shadername == RI_METAL) {
+			double ka = RibBindingUtil.getRealParameter(params, RI_KA, 1.0);
+			double ks = RibBindingUtil.getRealParameter(params, RI_KS, 1.0);
+			double roughness = RibBindingUtil.getRealParameter(params, RI_ROUGHNESS, 0.1);
+			
+		} else if (shadername == RI_SHINYMETAL) {
+			double ka = RibBindingUtil.getRealParameter(params, RI_KA, 1.0);
+			double ks = RibBindingUtil.getRealParameter(params, RI_KS, 1.0);
+			double kr = RibBindingUtil.getRealParameter(params, RI_KR, 1.0);
+			double roughness = RibBindingUtil.getRealParameter(params, RI_ROUGHNESS, 0.1);
+			String textureName = RibBindingUtil.getStringParameter(params, RI_TEXTURENAME, "");
+			
+		} else if (shadername == RI_PLASTIC) {
+			double ka = RibBindingUtil.getRealParameter(params, RI_KA, 1.0);
+			double kd = RibBindingUtil.getRealParameter(params, RI_KD, 0.5);
+			double ks = RibBindingUtil.getRealParameter(params, RI_KS, 0.5);
+			double roughness = RibBindingUtil.getRealParameter(params, RI_ROUGHNESS, 0.1);
+			double[] specularColor = RibBindingUtil.getRealArrayParameter(params, RI_SPECULARCOLOR, null);
+			
+		} else if (shadername == RI_PAINTEDPLASTIC) {
+			double ka = RibBindingUtil.getRealParameter(params, RI_KA, 1.0);
+			double kd = RibBindingUtil.getRealParameter(params, RI_KD, 0.5);
+			double ks = RibBindingUtil.getRealParameter(params, RI_KS, 0.5);
+			double roughness = RibBindingUtil.getRealParameter(params, RI_ROUGHNESS, 0.1);
+			double[] specularColor = RibBindingUtil.getRealArrayParameter(params, RI_SPECULARCOLOR, null);
+			String textureName = RibBindingUtil.getStringParameter(params, RI_TEXTURENAME, "");
+			
+		} else {
+			errorHandler.apply(NOSHADER, WARNING, "Unrecognized surface shader, using default shader");
+		}
+		
 		errorHandler.apply(UNIMPLEMENT, WARNING, "Not yet implemented");
 	}
 
@@ -1101,14 +1179,40 @@ public final class JMistRenderManContext implements RenderManContext {
 			}
 		}
 	}
+	
+	private boolean checkSolid() {
+		if (solidStack.isEmpty() && geometry == null) {
+			errorHandler.apply(NOTPRIMS, ERROR, "Current mode does not permit geometry");
+			return false;			
+		} else if (!solidStack.isEmpty() && solidStack.peek() == null) {
+			errorHandler.apply(ILLSTATE, ERROR, "SolidBegin-SolidEnd block may not be nested inside primitive");
+			return false;
+		}
+		return true;
+	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#solidBegin(ca.eandb.jmist.framework.loader.renderman.RtToken)
 	 */
 	@Override
 	public void solidBegin(RtToken operation) {
-		begin(Mode.SOLID);
-		saveAttributes();
+		if (checkSolid()) {
+			if (operation == RI_PRIMITIVE) {
+				geometry = new MergeSceneElement();
+				solidStack.push(null);
+			} else if (operation == RI_INTERSECTION) {
+				solidStack.push(new IntersectionGeometry());
+			} else if (operation == RI_UNION) {
+				solidStack.push(new UnionGeometry());
+			} else if (operation == RI_DIFFERENCE) {
+				solidStack.push(new SubtractionGeometry());
+			} else {
+				errorHandler.apply(BADTOKEN, ERROR, "Invalid solid type");
+			}
+
+			begin(Mode.SOLID);
+			saveAttributes();
+		}
 	}
 
 	/* (non-Javadoc)
@@ -1118,6 +1222,19 @@ public final class JMistRenderManContext implements RenderManContext {
 	public void solidEnd() {
 		restoreAttributes();
 		end(Mode.SOLID);
+		
+		SceneElement child = solidStack.pop();
+		if (child == null) {
+			child = geometry;
+		}
+
+		if (solidStack.isEmpty()) {
+			geometry.addChild(child);
+		} else {
+			ConstructiveSolidGeometry parent = solidStack.peek();
+			parent.addChild(child);
+		}
+		
 	}
 
 	/* (non-Javadoc)

@@ -351,7 +351,11 @@ public final class RibReader {
 					return;
 					
 				case IDENTIFIER:
-					processCommand(token.stringValue, tokenizer, context);
+					if (token.stringValue.equalsIgnoreCase("version")) {
+						checkVersion(tokenizer);
+					} else {
+						processCommand(token.stringValue, tokenizer, context);
+					}
 					break;
 					
 				default:
@@ -370,6 +374,13 @@ public final class RibReader {
 		
 	}
 	
+	private void checkVersion(RibTokenizer tokenizer) throws RibException {
+		tokenizer.advance();
+		double version = RibBindingUtil.parseReal(tokenizer);
+		System.out.printf("version %f", version);
+		System.out.println();
+	}
+
 	private void processCommand(String command, RibTokenizer tokenizer, RenderManContext context) throws RibException {
 	
 		RibBinding binding = bindings.get(command.toLowerCase());

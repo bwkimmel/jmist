@@ -19,6 +19,36 @@ final class RibBindingUtil {
 	
 	private RibBindingUtil() {}
 	
+	public static double[] getRealArrayParameter(Map<RtToken, RtValue> params, RtToken key, double[] def) {
+		RtValue value = params.get(key);
+		return value != null ? value.realArrayValue() : def;
+	}
+	
+	public static int[] getIntArrayParameter(Map<RtToken, RtValue> params, RtToken key, int[] def) {
+		RtValue value = params.get(key);
+		return value != null ? value.intArrayValue() : def;
+	}
+	
+	public static String[] getStringArrayParameter(Map<RtToken, RtValue> params, RtToken key, String[] def) {
+		RtValue value = params.get(key);
+		return value != null ? value.stringArrayValue() : def;
+	}
+	
+	public static double getRealParameter(Map<RtToken, RtValue> params, RtToken key, double def) {
+		RtValue value = params.get(key);
+		return value != null ? value.realValue() : def;
+	}
+	
+	public static int getIntParameter(Map<RtToken, RtValue> params, RtToken key, int def) {
+		RtValue value = params.get(key);
+		return value != null ? value.intValue() : def;
+	}
+	
+	public static String getStringParameter(Map<RtToken, RtValue> params, RtToken key, String def) {
+		RtValue value = params.get(key);
+		return value != null ? value.stringValue() : def;
+	}
+
 	public static Object parseArgument(Class<?> type, RibTokenizer tokenizer, RenderManContext context) throws RibException {
 		if (type == Double.TYPE || type == Double.class) {
 			return parseReal(tokenizer);
