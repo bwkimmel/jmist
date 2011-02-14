@@ -1020,7 +1020,8 @@ public final class JMistRenderManContext implements RenderManContext {
 	public void sphere(double radius, double zmin, double zmax,
 			double thetamax, Map<RtToken, RtValue> params) {
 		if (checkPrimitive()) {
-			geometry.addChild(new PartialSphereGeometry(radius, zmin, zmax, thetamax));
+			geometry.addChild(new PartialSphereGeometry(radius, zmin, zmax,
+					Math.toRadians(thetamax)));
 		}
 	}
 
@@ -1031,7 +1032,8 @@ public final class JMistRenderManContext implements RenderManContext {
 	public void cone(double height, double radius, double thetamax,
 			Map<RtToken, RtValue> params) {
 		if (checkPrimitive()) {
-			geometry.addChild(new PartialConeGeometry(height, radius, thetamax));
+			geometry.addChild(new PartialConeGeometry(height, radius,
+					Math.toRadians(thetamax)));
 		}
 	}
 
@@ -1042,7 +1044,8 @@ public final class JMistRenderManContext implements RenderManContext {
 	public void cylinder(double radius, double zmin, double zmax,
 			double thetamax, Map<RtToken, RtValue> params) {
 		if (checkPrimitive()) {
-			geometry.addChild(new PartialCylinderGeometry(radius, zmin, zmax, thetamax));
+			geometry.addChild(new PartialCylinderGeometry(radius, zmin, zmax,
+					Math.toRadians(thetamax)));
 		}
 	}
 
@@ -1053,7 +1056,8 @@ public final class JMistRenderManContext implements RenderManContext {
 	public void hyperboloid(RtPoint point1, RtPoint point2, double thetamax,
 			Map<RtToken, RtValue> params) {
 		if (checkPrimitive()) {
-			geometry.addChild(new PartialHyperboloidGeometry(point1.toPoint(), point2.toPoint(), thetamax));
+			geometry.addChild(new PartialHyperboloidGeometry(point1.toPoint(),
+					point2.toPoint(), Math.toRadians(thetamax)));
 		}
 	}
 
@@ -1064,7 +1068,8 @@ public final class JMistRenderManContext implements RenderManContext {
 	public void paraboloid(double rmax, double zmin, double zmax,
 			double thetamax, Map<RtToken, RtValue> params) {
 		if (checkPrimitive()) {
-			geometry.addChild(new PartialParaboloidGeometry(rmax, zmin, zmax, thetamax));
+			geometry.addChild(new PartialParaboloidGeometry(rmax, zmin, zmax,
+					Math.toRadians(thetamax)));
 		}
 	}
 
@@ -1075,7 +1080,8 @@ public final class JMistRenderManContext implements RenderManContext {
 	public void disk(double height, double radius, double thetamax,
 			Map<RtToken, RtValue> params) {
 		if (checkPrimitive()) {
-			geometry.addChild(new PartialDiscGeometry(height, radius, thetamax));
+			geometry.addChild(new PartialDiscGeometry(height, radius,
+					Math.toRadians(thetamax)));
 		}
 	}
 
@@ -1086,7 +1092,9 @@ public final class JMistRenderManContext implements RenderManContext {
 	public void torus(double majorradius, double minorradius, double phimin,
 			double phimax, double thetamax, Map<RtToken, RtValue> params) {
 		if (checkPrimitive()) {
-			geometry.addChild(new PartialTorusGeometry(majorradius, minorradius, phimin, phimax, thetamax));
+			geometry.addChild(new PartialTorusGeometry(majorradius,
+					minorradius, Math.toRadians(phimin),
+					Math.toRadians(phimax), Math.toRadians(thetamax)));
 		}
 	}
 
