@@ -537,6 +537,17 @@ public final class Box2 implements Serializable {
 				(index & 0x2) == 0 ? this.minimumY : this.maximumY
 		);
 	}
+	
+	/**
+	 * Computes the closest point within the box to a given point.
+	 * @param p The <code>Point2</code> to project.
+	 * @return The closest point to <code>p</code> within this box.
+	 */
+	public final Point2 closestPointTo(Point2 p) {
+		return new Point2(
+				MathUtil.threshold(p.x(), minimumX, maximumX),
+				MathUtil.threshold(p.y(), minimumY, maximumY));
+	}
 
 	/**
 	 * Computes the smallest <code>Box2</code> that contains all of the given

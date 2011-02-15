@@ -637,6 +637,18 @@ public final class Box3 implements Serializable {
 				(index & 0x4) == 0 ? this.minimumZ : this.maximumZ
 		);
 	}
+	
+	/**
+	 * Computes the closest point within the box to a given point.
+	 * @param p The <code>Point2</code> to project.
+	 * @return The closest point to <code>p</code> within this box.
+	 */
+	public final Point3 closestPointTo(Point3 p) {
+		return new Point3(
+				MathUtil.threshold(p.x(), minimumX, maximumX),
+				MathUtil.threshold(p.y(), minimumY, maximumY),
+				MathUtil.threshold(p.z(), minimumZ, maximumZ));
+	}
 
 	/**
 	 * Computes the smallest <code>Box3</code> that contains all of the given
