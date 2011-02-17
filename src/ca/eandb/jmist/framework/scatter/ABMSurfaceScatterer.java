@@ -609,7 +609,7 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 						palisadeCellCapsAspectRatio,
 						epidermisCellCapsAspectRatio,
 						palisadeCellCapsAspectRatio))
-				.addLayerToBottom(new AbsorbingSurfaceScatterer(
+				.addLayerToBottom(new ABMSieveAbsorbingSurfaceScatterer(
 						mesophyllAbsorptionCoefficient,
 						mesophyllThickness))
 				.addLayerToBottom(new ABMInterfaceSurfaceScatterer(
