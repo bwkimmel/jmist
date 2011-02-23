@@ -48,6 +48,96 @@ public final class MatlabWriter {
 	public void close() throws IOException {
 		this.out.close();
 	}
+	
+	/**
+	 * Writes a one-dimensional array of <code>double</code>s to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param pr The array of elements to write.
+	 * @throws IOException If writing to the underlying stream fails.
+	 */
+	public void write(String name, double[] pr) throws IOException {
+		write(name, pr, new int[]{ pr.length, 1 });
+	}
+	
+	/**
+	 * Writes a one-dimensional array of <code>float</code>s to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param pr The array of elements to write.
+	 * @throws IOException If writing to the underlying stream fails.
+	 */
+	public void write(String name, float[] pr) throws IOException {
+		write(name, pr, new int[]{ pr.length, 1 });		
+	}
+	
+	/**
+	 * Writes a one-dimensional array of <code>boolean</code>s to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param pr The array of elements to write.
+	 * @throws IOException If writing to the underlying stream fails.
+	 */
+	public void write(String name, boolean[] pr) throws IOException {
+		write(name, pr, new int[]{ pr.length, 1 });				
+	}
+	
+	/**
+	 * Writes a one-dimensional array of <code>int</code>s to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param pr The array of elements to write.
+	 * @throws IOException If writing to the underlying stream fails.
+	 */
+	public void write(String name, int[] pr) throws IOException {
+		write(name, pr, new int[]{ pr.length, 1 });
+	}
+	
+	/**
+	 * Writes a one-dimensional array of <code>short</code>s to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param pr The array of elements to write.
+	 * @throws IOException If writing to the underlying stream fails.
+	 */
+	public void write(String name, short[] pr) throws IOException {
+		write(name, pr, new int[]{ pr.length, 1 });
+	}
+	
+	/**
+	 * Writes a one-dimensional array of <code>byte</code>s to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param pr The array of elements to write.
+	 * @throws IOException If writing to the underlying stream fails.
+	 */
+	public void write(String name, byte[] pr) throws IOException {
+		write(name, pr, new int[]{ pr.length, 1 });
+	}
+	
+	/**
+	 * Writes a one-dimensional array of <code>int</code>s to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param pr The array of elements to write.
+	 * @throws IOException If writing to the underlying stream fails.
+	 */
+	public void writeUnsigned(String name, int[] pr) throws IOException {
+		writeUnsigned(name, pr, new int[]{ pr.length, 1 });
+	}
+	
+	/**
+	 * Writes a one-dimensional array of <code>short</code>s to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param pr The array of elements to write.
+	 * @throws IOException If writing to the underlying stream fails.
+	 */
+	public void writeUnsigned(String name, short[] pr) throws IOException {
+		writeUnsigned(name, pr, new int[]{ pr.length, 1 });
+	}
+	
+	/**
+	 * Writes a one-dimensional array of <code>byte</code>s to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param pr The array of elements to write.
+	 * @throws IOException If writing to the underlying stream fails.
+	 */
+	public void writeUnsigned(String name, byte[] pr) throws IOException {
+		writeUnsigned(name, pr, new int[]{ pr.length, 1 });
+	}
 
 	/**
 	 * Writes a <code>double</code> array variable to the MAT-file.
