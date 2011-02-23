@@ -1089,6 +1089,63 @@ public final class MathUtil {
 	}
 
 	/**
+	 * Adds the elements of one array of <code>double</code>s to another.
+	 * @param accumulator The array of <code>double</code>s to add the
+	 * 		elements of <code>summand</code> to (the elements of this array
+	 * 		will be modified).
+	 * @param offset The index into <code>accumulator</code> at which to
+	 * 		start adding elements of <code>summand</code>.
+	 * @param summand The array of <code>double</code>s to add to each
+	 * 		corresponding element of <code>accumulator</code>.
+	 * @return A reference to <code>accumulator</code>.
+	 */
+	public static double[] addRange(double[] accumulator, int offset, double[] summand) {
+		assert(accumulator.length >= offset + summand.length);
+		for (int i = offset, j = 0; j < summand.length; i++, j++) {
+			accumulator[i] += summand[j];
+		}
+		return accumulator;
+	}
+
+	/**
+	 * Adds the elements of one array of <code>int</code>s to another.
+	 * @param accumulator The array of <code>int</code>s to add the
+	 * 		elements of <code>summand</code> to (the elements of this array
+	 * 		will be modified).
+	 * @param offset The index into <code>accumulator</code> at which to
+	 * 		start adding elements of <code>summand</code>.
+	 * @param summand The array of <code>int</code>s to add to each
+	 * 		corresponding element of <code>accumulator</code>.
+	 * @return A reference to <code>accumulator</code>.
+	 */
+	public static int[] addRange(int[] accumulator, int offset, int[] summand) {
+		assert(accumulator.length >= offset + summand.length);
+		for (int i = offset, j = 0; j < summand.length; i++, j++) {
+			accumulator[i] += summand[j];
+		}
+		return accumulator;
+	}
+
+	/**
+	 * Adds the elements of one array of <code>long</code>s to another.
+	 * @param accumulator The array of <code>long</code>s to add the
+	 * 		elements of <code>summand</code> to (the elements of this array
+	 * 		will be modified).
+	 * @param offset The index into <code>accumulator</code> at which to
+	 * 		start adding elements of <code>summand</code>.
+	 * @param summand The array of <code>long</code>s to add to each
+	 * 		corresponding element of <code>accumulator</code>.
+	 * @return A reference to <code>accumulator</code>.
+	 */
+	public static long[] addRange(long[] accumulator, int offset, long[] summand) {
+		assert(accumulator.length >= offset + summand.length);
+		for (int i = offset, j = 0; j < summand.length; i++, j++) {
+			accumulator[i] += summand[j];
+		}
+		return accumulator;
+	}
+
+	/**
 	 * Subtracts the elements of one array of <code>double</code>s from
 	 * another. The lengths of <code>accumulator</code> and <code>values</code>
 	 * must be equal.
@@ -1161,6 +1218,66 @@ public final class MathUtil {
 	}
 
 	/**
+	 * Subtracts the elements of one array of <code>double</code>s from
+	 * another.
+	 * @param accumulator The array of <code>double</code>s to subtract the
+	 * 		elements of <code>values</code> from (the elements of this array
+	 * 		will be modified).
+	 * @param offset The index into <code>accumulator</code> at which to start
+	 * 		subtracting the elements of <code>values</code>.
+	 * @param values The array of <code>double</code>s to subtract from each
+	 * 		corresponding element of <code>accumulator</code>.
+	 * @return A reference to <code>accumulator</code>.
+	 */
+	public static double[] subtractRange(double[] accumulator, int offset, double[] values) {
+		assert(accumulator.length >= offset + values.length);
+		for (int i = offset, j = 0; j < values.length; i++, j++) {
+			accumulator[i] -= values[j];
+		}
+		return accumulator;
+	}
+
+	/**
+	 * Subtracts the elements of one array of <code>int</code>s from
+	 * another.
+	 * @param accumulator The array of <code>int</code>s to subtract the
+	 * 		elements of <code>values</code> from (the elements of this array
+	 * 		will be modified).
+	 * @param offset The index into <code>accumulator</code> at which to start
+	 * 		subtracting the elements of <code>values</code>.
+	 * @param values The array of <code>int</code>s to subtract from each
+	 * 		corresponding element of <code>accumulator</code>.
+	 * @return A reference to <code>accumulator</code>.
+	 */
+	public static int[] subtractRange(int[] accumulator, int offset, int[] values) {
+		assert(accumulator.length >= offset + values.length);
+		for (int i = offset, j = 0; j < values.length; i++, j++) {
+			accumulator[i] -= values[j];
+		}
+		return accumulator;
+	}
+
+	/**
+	 * Subtracts the elements of one array of <code>long</code>s from
+	 * another.
+	 * @param accumulator The array of <code>long</code>s to subtract the
+	 * 		elements of <code>values</code> from (the elements of this array
+	 * 		will be modified).
+	 * @param offset The index into <code>accumulator</code> at which to start
+	 * 		subtracting the elements of <code>values</code>.
+	 * @param values The array of <code>long</code>s to subtract from each
+	 * 		corresponding element of <code>accumulator</code>.
+	 * @return A reference to <code>accumulator</code>.
+	 */
+	public static long[] subtractRange(long[] accumulator, int offset, long[] values) {
+		assert(accumulator.length >= offset + values.length);
+		for (int i = offset, j = 0; j < values.length; i++, j++) {
+			accumulator[i] -= values[j];
+		}
+		return accumulator;
+	}
+
+	/**
 	 * Multiplies all the elements in an array of <code>double</code>s by the
 	 * elements of an equally sized array of <code>double</code>s.  The lengths
 	 * of <code>accumulator</code> and <code>modulator</code> must be equal.
@@ -1228,6 +1345,63 @@ public final class MathUtil {
 		assert(accumulator.length == modulator.length);
 		for (int i = 0; i < accumulator.length; i++) {
 			accumulator[i] *= modulator[i];
+		}
+		return accumulator;
+	}
+
+	/**
+	 * Multiplies all the elements in an array of <code>double</code>s by the
+	 * elements of an equally sized array of <code>double</code>s.
+	 * @param accumulator The array of <code>double</code>s that is to have its
+	 * 		elements scaled (the elements of this array will be modified).
+	 * @param offset The index into <code>accumulator</code> at which to start
+	 * 		multiplying by elements of <code>modulator</code>.
+	 * @param modulator The array of <code>double</code>s by which to multiply
+	 * 		each corresponding element of <code>accumulator</code>.
+	 * @return A reference to <code>accumulator</code>.
+	 */
+	public static double[] multiplyRange(double[] accumulator, int offset, double[] modulator) {
+		assert(accumulator.length >= offset + modulator.length);
+		for (int i = offset, j = 0; j < modulator.length; i++, j++) {
+			accumulator[i] *= modulator[j];
+		}
+		return accumulator;
+	}
+
+	/**
+	 * Multiplies all the elements in an array of <code>int</code>s by the
+	 * elements of an equally sized array of <code>int</code>s.
+	 * @param accumulator The array of <code>int</code>s that is to have its
+	 * 		elements scaled (the elements of this array will be modified).
+	 * @param offset The index into <code>accumulator</code> at which to start
+	 * 		multiplying by elements of <code>modulator</code>.
+	 * @param modulator The array of <code>int</code>s by which to multiply
+	 * 		each corresponding element of <code>accumulator</code>.
+	 * @return A reference to <code>accumulator</code>.
+	 */
+	public static int[] multiplyRange(int[] accumulator, int offset, int[] modulator) {
+		assert(accumulator.length >= offset + modulator.length);
+		for (int i = offset, j = 0; j < modulator.length; i++, j++) {
+			accumulator[i] *= modulator[j];
+		}
+		return accumulator;
+	}
+
+	/**
+	 * Multiplies all the elements in an array of <code>long</code>s by the
+	 * elements of an equally sized array of <code>long</code>s.
+	 * @param accumulator The array of <code>long</code>s that is to have its
+	 * 		elements scaled (the elements of this array will be modified).
+	 * @param offset The index into <code>accumulator</code> at which to start
+	 * 		multiplying by elements of <code>modulator</code>.
+	 * @param modulator The array of <code>long</code>s by which to multiply
+	 * 		each corresponding element of <code>accumulator</code>.
+	 * @return A reference to <code>accumulator</code>.
+	 */
+	public static long[] multiplyRange(long[] accumulator, int offset, long[] modulator) {
+		assert(accumulator.length >= offset + modulator.length);
+		for (int i = offset, j = 0; j < modulator.length; i++, j++) {
+			accumulator[i] *= modulator[j];
 		}
 		return accumulator;
 	}
