@@ -161,7 +161,7 @@ public final class EqualSolidAnglesCollectorSphere implements CollectorSphere {
 
 	private int getSensor(SphericalCoordinates v) {
 		v = v.canonical();
-		return this.getSensor(v.azimuthal(), Math.acos(v.polar()));
+		return this.getSensor(v.azimuthal(), Math.cos(v.polar()));
 	}
 
 	private int getSensor(Vector3 v) {
