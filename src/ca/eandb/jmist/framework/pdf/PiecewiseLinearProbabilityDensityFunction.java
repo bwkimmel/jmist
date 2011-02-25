@@ -17,9 +17,7 @@ import ca.eandb.jmist.math.Tuple;
 public final class PiecewiseLinearProbabilityDensityFunction extends
 		AbstractProbabilityDensityFunction {
 
-	/**
-	 * Serialization version ID.
-	 */
+	/** Serialization version ID. */
 	private static final long serialVersionUID = -8212588260953242116L;
 
 	/**
