@@ -100,6 +100,13 @@ public final class RGB extends Tuple3 {
 			(MathUtil.threshold((int) Math.floor(z * v), 0, 255) <<  8) |
 			MathUtil.threshold(e + 128, 0, 255);
 	}
+	
+	public static RGB fromR8G8B8(int rgb) {
+		double r = ((double) ((rgb & 0x00ff0000) >> 16)) / 255.0;
+		double g = ((double) ((rgb & 0x0000ff00) >>  8)) / 255.0;
+		double b = ((double) ((rgb & 0x000000ff) >>  0)) / 255.0;
+		return new RGB(r, g, b);
+	}
 
 	public static RGB fromRGBE(int rgbe) {
 		int e = (rgbe & 0x000000ff);
