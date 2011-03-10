@@ -449,11 +449,11 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 		}
 
 		private Point2 getUV(Point3 p) {
-			if (this.texIndices == null) {
+			decompose();
+			
+			if (decomp.length > 6 && this.texIndices == null) {
 				return Point2.ORIGIN;
 			}
-
-			decompose();
 
 			Vector3 n = plane.normal();
 			p = plane.project(p);
@@ -481,11 +481,11 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 				Point2 ta = null, tb = null, tc = null;
 				for (int j = 0; j < indices.length; j++) {
 					if (indices[j] == decomp[i]) {
-						ta = texCoords.get(texIndices[j]);
+						ta = texIndices != null ? texCoords.get(texIndices[j]) : Point2.ORIGIN;
 					} else if (indices[j] == decomp[i + 1]) {
-						tb = texCoords.get(texIndices[j]);
+						tb = texIndices != null ? texCoords.get(texIndices[j]) : i == 0 ? new Point2(1, 0) : new Point2(1, 1);
 					} else if (indices[j] == decomp[i + 2]) {
-						tc = texCoords.get(texIndices[j]);
+						tc = texIndices != null ? texCoords.get(texIndices[j]) : i == 0 ? new Point2(1, 1) : new Point2(0, 1);
 					}
 				}
 
