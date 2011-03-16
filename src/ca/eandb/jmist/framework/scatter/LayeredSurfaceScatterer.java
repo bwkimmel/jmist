@@ -4,6 +4,7 @@
 package ca.eandb.jmist.framework.scatter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import ca.eandb.jmist.framework.Random;
@@ -58,6 +59,17 @@ public final class LayeredSurfaceScatterer implements SurfaceScatterer {
 	 */
 	public int getNumLayers() {
 		return layers.size();
+	}
+	
+	/**
+	 * Gets the <code>List</code> of layers that comprise this
+	 * <code>LayeredSurfaceScatterer</code>.  The returned list is
+	 * unmodifiable.
+	 * @return The <code>List</code> of layers that comprise this
+	 * 		<code>LayeredSurfaceScatterer</code>.
+	 */
+	public List<SurfaceScatterer> getLayers() {
+		return Collections.unmodifiableList(layers);
 	}
 
 	/* (non-Javadoc)
