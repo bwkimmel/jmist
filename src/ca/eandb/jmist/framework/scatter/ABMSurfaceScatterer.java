@@ -3,6 +3,14 @@
  */
 package ca.eandb.jmist.framework.scatter;
 
+import java.io.File;
+import java.util.UUID;
+import java.util.concurrent.Executors;
+
+import javax.swing.JFrame;
+
+import ca.eandb.jdcp.job.ParallelizableJob;
+import ca.eandb.jdcp.job.ParallelizableJobRunner;
 import ca.eandb.jmist.framework.Function1;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.SurfacePointGeometry;
@@ -11,8 +19,13 @@ import ca.eandb.jmist.framework.function.ConstantFunction1;
 import ca.eandb.jmist.framework.function.PiecewiseLinearFunction1;
 import ca.eandb.jmist.framework.function.ScaledFunction1;
 import ca.eandb.jmist.framework.function.SumFunction1;
+import ca.eandb.jmist.framework.job.TransferMatrixJob;
+import ca.eandb.jmist.framework.measurement.CollectorSphere;
+import ca.eandb.jmist.framework.measurement.UncappedLatLongCollectorSphere;
 import ca.eandb.jmist.math.Vector3;
 import ca.eandb.jmist.util.ArrayUtil;
+import ca.eandb.util.concurrent.BackgroundThreadFactory;
+import ca.eandb.util.progress.ProgressPanel;
 
 /**
  * A <code>SurfaceScatterer</code> implementing the ABM-U/ABM-B light transport
@@ -594,6 +607,26 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 
 		double mesophyllFraction = bifacial ? 0.5 : 0.8;
 		mesophyllThickness = mesophyllFraction * wholeLeafThickness;
+		
+		double lambda = 550e-9;
+		System.out.printf("mesophyllAbsorptionCoefficient=%f", mesophyllAbsorptionCoefficient.evaluate(lambda));
+		System.out.println();
+		System.out.printf("mesophyllThickness=%f", mesophyllThickness);
+		System.out.println();
+		System.out.printf("mesophyllOpticalDepth=%f", mesophyllAbsorptionCoefficient.evaluate(lambda) * mesophyllThickness);
+		System.out.println();
+		System.out.printf("nCuticle=%f", IOR_CUTICLE.evaluate(lambda));
+		System.out.println();
+		System.out.printf("nWater=%f", IOR_WATER.evaluate(lambda));
+		System.out.println();
+		System.out.printf("sacWater=%f", SAC_WATER.evaluate(lambda));
+		System.out.println();
+		System.out.printf("nWall=%f", iorAntidermalWall.evaluate(lambda));
+		System.out.println();
+		System.out.printf("nMesophyll=%f", iorMesophyll.evaluate(lambda));
+		System.out.println();
+		System.out.printf("dryBulkDensity=%f", dryBulkDensity);
+		System.out.println();
 
 		if (bifacial) {
 			subsurface
@@ -714,6 +747,54 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 		}
 
 		return subsurface.scatter(x, v, adjoint, lambda, rnd);
+	}
+	
+	
+	public static void main(String[] args) {
+		
+
+//		public TransferMatrixJob(SurfaceScatterer[] specimens, double[] wavelengths,
+//				long samplesPerMeasurement, long samplesPerTask, CollectorSphere collector) {
+
+		double[] stacks = ArrayUtil.range(0.0, Math.PI, 181);
+		double[] slices = new double[]{ 0.0, 2.0 * Math.PI };
+		CollectorSphere collector = new UncappedLatLongCollectorSphere(stacks, slices);
+//		CollectorSphere collector = new EqualPolarAnglesCollectorSphere(90, 1, true, true);
+		double[] wavelengths = new double[]{ 550e-9 };
+		
+		ABMSurfaceScatterer abm = new ABMSurfaceScatterer();
+		abm.build();
+		
+//		SurfaceScatterer[] specimens = new SurfaceScatterer[]{ 
+////				new LambertianSurfaceScatterer()
+////				SurfaceScatterer.TRANSMIT
+//				new AbsorbingSurfaceScatterer(new ConstantFunction1(0.1), 1.0)
+////				SurfaceScatterer.REFLECT
+////				new FresnelSurfaceScatterer(1.0, 1.5)
+//		};
+		int numLayers = abm.subsurface.getNumLayers();
+		SurfaceScatterer[] specimens = abm.subsurface.getLayers().toArray(new SurfaceScatterer[numLayers]);
+		
+		int N = 100000000;
+		int m = N / 8;
+		
+		ParallelizableJob job = new TransferMatrixJob(specimens, wavelengths, N, m, collector);
+
+		int threads = Runtime.getRuntime().availableProcessors();
+
+		ProgressPanel panel = new ProgressPanel();
+		JFrame frame = new JFrame();
+		frame.add(panel);
+		frame.pack();
+		frame.setVisible(true);
+
+		File base = new File("C:\\Users\\Brad\\My Documents\\jmist");
+		UUID id = UUID.randomUUID();
+		File dir = new File(base, id.toString());
+
+		Runnable runner = new ParallelizableJobRunner(job, dir, Executors.newFixedThreadPool(threads, new BackgroundThreadFactory()), threads, panel, panel.createProgressMonitor("Rendering Cornell Box"));//Runtime.getRuntime().availableProcessors());
+		runner.run();
+
 	}
 
 }
