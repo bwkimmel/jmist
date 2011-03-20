@@ -96,15 +96,7 @@ public final class UniformPiecewiseLinearFunction1 implements Function1 {
 	 */
 	@Override
 	public double evaluate(double x) {
-		if (x < domain.minimum()) {
-			return values[0];
-		} else if (x >= domain.maximum()) {
-			return values[values.length - 1];
-		} else {
-			double t = (values.length - 1) * ((x - domain.minimum()) / domain.length());
-			int i = (int) Math.floor(t);
-			return MathUtil.interpolate(values[i], values[i + 1], t - i);
-		}
+		return MathUtil.interpolate(domain.minimum(), domain.maximum(), values, x);
 	}
 
 }

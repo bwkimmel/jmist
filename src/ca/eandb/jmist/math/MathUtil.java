@@ -1691,6 +1691,30 @@ public final class MathUtil {
 
 	/**
 	 * Interpolates a piecewise linear curve.
+	 * @param x0 The minimum value in the domain.
+	 * @param x1 The maximum value in the domain (must not be less than
+	 * 		<code>x0</code>).
+	 * @param y An array of the y-coordinates (must have at least two elements).
+	 * @param x0 The x-coordinate at which to interpolate.
+	 * @return The y-coordinate corresponding to <code>x</code>.
+	 */
+	public static double interpolate(double x0, double x1, double[] y, double x) {
+
+		if (x <= x0) {
+			return y[0];
+		}
+		if (x >= x1) {
+			return y[y.length - 1];
+		}
+		
+		double t = (y.length - 1) * ((x - x0) / (x1 - x0));
+		int i = (int) Math.floor(t);
+		return interpolate(y[i], y[i + 1], t - i);
+
+	}
+
+	/**
+	 * Interpolates a piecewise linear curve.
 	 * @param x A <code>Tuple</code> of x-coordinates (this must be sorted in
 	 * 		ascending order).
 	 * @param y A <code>Tuple</code> of y-coordinates (must be of the same
@@ -1719,6 +1743,31 @@ public final class MathUtil {
 		assert(index < n - 1);
 
 		return interpolate(x.at(index - 1), y.at(index - 1), x.at(index), y.at(index), x0);
+
+	}
+
+	/**
+	 * Interpolates a piecewise linear curve.
+	 * @param x0 The minimum value in the domain.
+	 * @param x1 The maximum value in the domain (must not be less than
+	 * 		<code>x0</code>).
+	 * @param y A <code>Tuple</code> of y-coordinates (must have at least two
+	 * 		elements).
+	 * @param x0 The x-coordinate at which to interpolate.
+	 * @return The y-coordinate corresponding to <code>x</code>.
+	 */
+	public static double interpolate(double x0, double x1, Tuple y, double x) {
+
+		if (x <= x0) {
+			return y.at(0);
+		}
+		if (x >= x1) {
+			return y.at(y.size() - 1);
+		}
+		
+		double t = (y.size() - 1) * ((x - x0) / (x1 - x0));
+		int i = (int) Math.floor(t);
+		return interpolate(y.at(i), y.at(i + 1), t - i);
 
 	}
 
