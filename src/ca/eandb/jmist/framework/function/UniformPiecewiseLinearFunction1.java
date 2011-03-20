@@ -47,20 +47,31 @@ public final class UniformPiecewiseLinearFunction1 implements Function1 {
 	}
 	
 	/**
-	 * Creates a new <code>UniformPiecewiseLinearFunction1</code>.
-	 * 
-	 * NOTE: This constructor is for internal use only, so that an unnecessary
-	 * clone of <code>values</code> is not performed by static constructor
-	 * methods.
-     *
-	 * @param domain The <code>Interval</code> within which values are
-	 * 		specified.  It must be non-empty and finite.
-	 * @param values The array of function values.  There must be at least two
-	 * 		values.
+	 * Creates a new <code>UniformPiecewiseLinearFunction1</code> by sampling
+	 * the provided <code>Function1</code> uniformly within the specified
+	 * domain. 
+	 * @param f The <code>Function1</code> to sample.
+	 * @param domain The <code>Interval</code> within which to sample
+	 * 		<code>f</code>.  This interval must be non-empty and finite.
+	 * @param count The number of sub-intervals to divide the <code>domain</code>
+	 * 		into.  The function <code>f</code> will be sampled at
+	 * 		<code>count + 1</code> points uniformly spaced within
+	 * 		<code>domain</code>.
+	 * @return A new <code>UniformPiecewiseLinearFunction1</code>.
 	 */
-	private UniformPiecewiseLinearFunction1(double[] values, Interval domain) {
+	private UniformPiecewiseLinearFunction1(Function1 f, Interval domain, int count) {
+		if (count <= 0) {
+			throw new IllegalArgumentException("count must be positive");
+		}
+		if (domain.isEmpty() || domain.isInfinite()) {
+			throw new IllegalArgumentException("domain must be finite and non-empty");
+		}
 		this.domain = domain;
-		this.values = values;
+		this.values = new double[count + 1];
+		for (int i = 0; i <= count; i++) {
+			double x = domain.interpolate((double) i / (double) count);
+			values[i] = f.evaluate(x);
+		}
 	}
 	
 	/**
@@ -77,18 +88,7 @@ public final class UniformPiecewiseLinearFunction1 implements Function1 {
 	 * @return A new <code>UniformPiecewiseLinearFunction1</code>.
 	 */
 	public static UniformPiecewiseLinearFunction1 sample(Function1 f, Interval domain, int count) {
-		if (count <= 0) {
-			throw new IllegalArgumentException("count must be positive");
-		}
-		if (domain.isEmpty() || domain.isInfinite()) {
-			throw new IllegalArgumentException("domain must be finite and non-empty");
-		}
-		double[] values = new double[count + 1];
-		for (int i = 0; i <= count; i++) {
-			double x = domain.interpolate((double) i / (double) count);
-			values[i] = f.evaluate(x);
-		}
-		return new UniformPiecewiseLinearFunction1(values, domain);
+		return new UniformPiecewiseLinearFunction1(f, domain, count);
 	}
 
 	/* (non-Javadoc)
