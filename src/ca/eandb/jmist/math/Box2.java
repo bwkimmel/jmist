@@ -166,6 +166,17 @@ public final class Box2 implements Serializable {
 	public boolean isEmpty() {
 		return Double.isNaN(minimumX);
 	}
+	
+	/** 
+	 * Determines if this box is infinite.
+	 * @return A value indicating if this interval is infinite.
+	 */
+	public boolean isInfinite() {
+		return !isEmpty()
+				&& (Double.isInfinite(minimumX) || Double.isInfinite(maximumX)
+						|| Double.isInfinite(minimumY) || Double
+						.isInfinite(maximumY));
+	}
 
 	/**
 	 * Gets the point at the center of this box.
