@@ -64,7 +64,7 @@ import ca.eandb.jmist.math.MathUtil;
 	 * @see ca.eandb.jmist.framework.color.Color#clamp(double, double)
 	 */
 	public Color clamp(double min, double max) {
-		return new LuminanceColor(MathUtil.threshold(value, min, max), lambda);
+		return new LuminanceColor(MathUtil.clamp(value, min, max), lambda);
 	}
 
 	/* (non-Javadoc)

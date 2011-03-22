@@ -37,7 +37,7 @@ public final class RoundedBoxGeometry extends PrimitiveGeometry {
 	public RoundedBoxGeometry(Box3 box, double bevelRadius) {
 		double maxBevelRadius = Math.min(Math.min(box.lengthX(), box.lengthY()), box.lengthZ());
 		this.box = box;
-		this.bevelRadius = MathUtil.threshold(bevelRadius, 0.0, maxBevelRadius);
+		this.bevelRadius = MathUtil.clamp(bevelRadius, 0.0, maxBevelRadius);
 	}
 
 	/* (non-Javadoc)

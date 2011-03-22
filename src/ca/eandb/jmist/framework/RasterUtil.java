@@ -52,8 +52,8 @@ public final class RasterUtil {
 	public static void setPixel(RasterWriter raster, Point2 p, Color c) {
 		int w = raster.getWidth();
 		int h = raster.getHeight();
-		int x = MathUtil.threshold((int) Math.floor(p.x() * w), 0, w - 1);
-		int y = MathUtil.threshold((int) Math.floor(p.y() * h), 0, h - 1);
+		int x = MathUtil.clamp((int) Math.floor(p.x() * w), 0, w - 1);
+		int y = MathUtil.clamp((int) Math.floor(p.y() * h), 0, h - 1);
 		raster.setPixel(x, y, c);
 	}
 
@@ -68,8 +68,8 @@ public final class RasterUtil {
 	public static void addPixel(Raster raster, Point2 p, Color c) {
 		int w = raster.getWidth();
 		int h = raster.getHeight();
-		int x = MathUtil.threshold((int) Math.floor(p.x() * w), 0, w - 1);
-		int y = MathUtil.threshold((int) Math.floor(p.y() * h), 0, h - 1);
+		int x = MathUtil.clamp((int) Math.floor(p.x() * w), 0, w - 1);
+		int y = MathUtil.clamp((int) Math.floor(p.y() * h), 0, h - 1);
 		raster.addPixel(x, y, c);
 	}
 
@@ -84,8 +84,8 @@ public final class RasterUtil {
 	public static Color getPixel(Raster raster, Point2 p) {
 		int w = raster.getWidth();
 		int h = raster.getHeight();
-		int x = MathUtil.threshold((int) Math.floor(p.x() * w), 0, w - 1);
-		int y = MathUtil.threshold((int) Math.floor(p.y() * h), 0, h - 1);
+		int x = MathUtil.clamp((int) Math.floor(p.x() * w), 0, w - 1);
+		int y = MathUtil.clamp((int) Math.floor(p.y() * h), 0, h - 1);
 		return raster.getPixel(x, y);
 	}
 

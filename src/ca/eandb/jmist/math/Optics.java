@@ -187,7 +187,7 @@ public final class Optics {
 		double TE = (cost - A) / (cost + A);
 		double TM = (nSquared * cost - A) / (nSquared * cost + A);
 
-		return new Vector2(MathUtil.threshold(TE * TE, 0.0, 1.0), MathUtil.threshold(TM * TM, 0.0, 1.0));
+		return new Vector2(MathUtil.clamp(TE * TE, 0.0, 1.0), MathUtil.clamp(TM * TM, 0.0, 1.0));
 
 	}
 
@@ -264,8 +264,8 @@ public final class Optics {
 		Complex		absTM = nSquared.times(cost).minus(A).divide(nSquared.times(cost).plus(A));
 
 		return new Vector2(
-				MathUtil.threshold(absTE.times(absTE).abs(), 0.0, 1.0),
-				MathUtil.threshold(absTM.times(absTM).abs(), 0.0, 1.0));
+				MathUtil.clamp(absTE.times(absTE).abs(), 0.0, 1.0),
+				MathUtil.clamp(absTM.times(absTM).abs(), 0.0, 1.0));
 
 	}
 
@@ -305,7 +305,7 @@ public final class Optics {
 		double TE = (cost - A) / (cost + A);
 		double TM = (nSquared * cost - A) / (nSquared * cost + A);
 
-		return new Vector2(MathUtil.threshold(TE * TE, 0.0, 1.0), MathUtil.threshold(TM * TM, 0.0, 1.0));
+		return new Vector2(MathUtil.clamp(TE * TE, 0.0, 1.0), MathUtil.clamp(TM * TM, 0.0, 1.0));
 
 	}
 
@@ -376,8 +376,8 @@ public final class Optics {
 		Complex		absTM = nSquared.times(cost).minus(A).divide(nSquared.times(cost).plus(A));
 
 		return new Vector2(
-				MathUtil.threshold(absTE.times(absTE).abs(), 0.0, 1.0),
-				MathUtil.threshold(absTM.times(absTM).abs(), 0.0, 1.0));
+				MathUtil.clamp(absTE.times(absTE).abs(), 0.0, 1.0),
+				MathUtil.clamp(absTM.times(absTM).abs(), 0.0, 1.0));
 
 	}
 

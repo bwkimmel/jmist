@@ -53,8 +53,8 @@ public final class RadianceTexture2 implements Texture2 {
 		double		v		= 1.0 - (p.y() - Math.floor(p.y()));
 		int			w		= picture.getSizeX();
 		int			h		= picture.getSizeY();
-		int			x		= MathUtil.threshold((int) Math.floor(u * (double) w), 0, w - 1);
-		int			y		= MathUtil.threshold((int) Math.floor(v * (double) h), 0, h - 1);
+		int			x		= MathUtil.clamp((int) Math.floor(u * (double) w), 0, w - 1);
+		int			y		= MathUtil.clamp((int) Math.floor(v * (double) h), 0, h - 1);
 		ColorModel	cm		= lambda.getColorModel();
 
 		switch (picture.getFormat()) {

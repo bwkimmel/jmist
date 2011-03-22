@@ -123,8 +123,8 @@ public final class RasterTexture2 implements Texture2 {
 		double		v		= p.y() - Math.floor(p.y());
 		int			w		= raster.getWidth();
 		int			h		= raster.getHeight();
-		int			x		= MathUtil.threshold((int) Math.floor(u * (double) w), 0, w - 1);
-		int			y		= MathUtil.threshold((int) Math.floor(v * (double) h), 0, h - 1);
+		int			x		= MathUtil.clamp((int) Math.floor(u * (double) w), 0, w - 1);
+		int			y		= MathUtil.clamp((int) Math.floor(v * (double) h), 0, h - 1);
 		double[]	pixel	= raster.getPixel(x, y, placeholder.get());
 		ColorModel	cm		= lambda.getColorModel();
 

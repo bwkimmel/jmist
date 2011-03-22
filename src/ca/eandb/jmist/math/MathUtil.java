@@ -1544,7 +1544,7 @@ public final class MathUtil {
 	 * @param max The maximum of the range to threshold to.
 	 * @return x, if min <= x <= max.  min, if x < min.  max, if x > max.
 	 */
-	public static double threshold(double x, double min, double max) {
+	public static double clamp(double x, double min, double max) {
 		if (x < min) {
 			return min;
 		} else if (x > max) {
@@ -1562,7 +1562,7 @@ public final class MathUtil {
 	 * @param max The maximum of the range to threshold to.
 	 * @return x, if min <= x <= max.  min, if x < min.  max, if x > max.
 	 */
-	public static int threshold(int x, int min, int max) {
+	public static int clamp(int x, int min, int max) {
 		if (x < min) {
 			return min;
 		} else if (x > max) {
@@ -1580,7 +1580,7 @@ public final class MathUtil {
 	 * @param max The maximum of the range to threshold to.
 	 * @return x, if min <= x <= max.  min, if x < min.  max, if x > max.
 	 */
-	public static long threshold(long x, long min, long max) {
+	public static long clamp(long x, long min, long max) {
 		if (x < min) {
 			return min;
 		} else if (x > max) {

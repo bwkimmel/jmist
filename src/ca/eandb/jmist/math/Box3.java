@@ -658,9 +658,9 @@ public final class Box3 implements Serializable {
 	 */
 	public final Point3 closestPointTo(Point3 p) {
 		return new Point3(
-				MathUtil.threshold(p.x(), minimumX, maximumX),
-				MathUtil.threshold(p.y(), minimumY, maximumY),
-				MathUtil.threshold(p.z(), minimumZ, maximumZ));
+				MathUtil.clamp(p.x(), minimumX, maximumX),
+				MathUtil.clamp(p.y(), minimumY, maximumY),
+				MathUtil.clamp(p.z(), minimumZ, maximumZ));
 	}
 
 	/**

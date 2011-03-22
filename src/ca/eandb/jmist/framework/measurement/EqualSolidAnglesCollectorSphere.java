@@ -206,8 +206,8 @@ public final class EqualSolidAnglesCollectorSphere implements CollectorSphere {
 
 		int slice = (int) ((double) slices * (phi / (2.0 * Math.PI)));
 
-		stack = MathUtil.threshold(stack, 1, hemispheres * (stacks - 1));
-		slice = MathUtil.threshold(slice, 0, slices - 1);
+		stack = MathUtil.clamp(stack, 1, hemispheres * (stacks - 1));
+		slice = MathUtil.clamp(slice, 0, slices - 1);
 
 		return 1 + (stack - 1) * slices + slice;
 

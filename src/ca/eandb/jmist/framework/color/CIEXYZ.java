@@ -83,9 +83,9 @@ public class CIEXYZ extends Tuple3 {
 
 	public final CIEXYZ clamp(double min, double max) {
 		return new CIEXYZ(
-				MathUtil.threshold(x, min, max),
-				MathUtil.threshold(y, min, max),
-				MathUtil.threshold(y, min, max));
+				MathUtil.clamp(x, min, max),
+				MathUtil.clamp(y, min, max),
+				MathUtil.clamp(y, min, max));
 	}
 
 	public final CIEXYZ adapt(CIEXYZ fromRef, CIEXYZ toRef) {
@@ -106,10 +106,10 @@ public class CIEXYZ extends Tuple3 {
 		v = Double.longBitsToDouble((bits & 0x800fffffffffffffL) | 0x3fe0000000000000L) * 256.0 / v;
 
 		return
-			(MathUtil.threshold((int) Math.floor(x * v), 0, 255) << 24) |
-			(MathUtil.threshold((int) Math.floor(y * v), 0, 255) << 16) |
-			(MathUtil.threshold((int) Math.floor(z * v), 0, 255) <<  8) |
-			MathUtil.threshold(e + 128, 0, 255);
+			(MathUtil.clamp((int) Math.floor(x * v), 0, 255) << 24) |
+			(MathUtil.clamp((int) Math.floor(y * v), 0, 255) << 16) |
+			(MathUtil.clamp((int) Math.floor(z * v), 0, 255) <<  8) |
+			MathUtil.clamp(e + 128, 0, 255);
 	}
 
 	public static CIEXYZ fromXYZE(int xyze) {

@@ -205,9 +205,9 @@ public final class Grid3 implements Serializable {
 	 */
 	public Cell nearestCell(Point3 p) {
 		return new Cell(
-			MathUtil.threshold((int) Math.floor((p.x() - bound.minimumX()) / dx), 0, nx - 1),
-			MathUtil.threshold((int) Math.floor((p.y() - bound.minimumY()) / dy), 0, ny - 1),
-			MathUtil.threshold((int) Math.floor((p.z() - bound.minimumZ()) / dz), 0, nz - 1)
+			MathUtil.clamp((int) Math.floor((p.x() - bound.minimumX()) / dx), 0, nx - 1),
+			MathUtil.clamp((int) Math.floor((p.y() - bound.minimumY()) / dy), 0, ny - 1),
+			MathUtil.clamp((int) Math.floor((p.z() - bound.minimumZ()) / dz), 0, nz - 1)
 		);
 	}
 

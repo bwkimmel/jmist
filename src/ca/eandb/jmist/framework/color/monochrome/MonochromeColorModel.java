@@ -192,7 +192,7 @@ public final class MonochromeColorModel extends ColorModel {
 		 * @see ca.eandb.jmist.framework.color.Color#clamp(double, double)
 		 */
 		public Color clamp(double min, double max) {
-			return new Sample(MathUtil.threshold(value, min, max));
+			return new Sample(MathUtil.clamp(value, min, max));
 		}
 
 		/* (non-Javadoc)

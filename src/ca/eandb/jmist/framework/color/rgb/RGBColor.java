@@ -188,9 +188,9 @@ import ca.eandb.jmist.math.MathUtil;
 	 */
 	public Color clamp(double min, double max) {
 		return new RGBColor(
-				MathUtil.threshold(r, min, max),
-				MathUtil.threshold(g, min, max),
-				MathUtil.threshold(b, min, max));
+				MathUtil.clamp(r, min, max),
+				MathUtil.clamp(g, min, max),
+				MathUtil.clamp(b, min, max));
 	}
 
 	/* (non-Javadoc)

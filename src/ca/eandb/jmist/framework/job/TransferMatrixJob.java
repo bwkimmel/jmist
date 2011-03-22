@@ -267,7 +267,7 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 			Random				rng				= new SimpleRandom();
 			final int			numSensors		= collector.sensors();
 			final TaskResult	result			= new TaskResult(numSensors);
-			final long			progInterval	= MathUtil.threshold(info.samples / 1000, 1, 1000);
+			final long			progInterval	= MathUtil.clamp(info.samples / 1000, 1, 1000);
 			long				progCountdown	= 1;
 			final int[]			sensor0			= new int[]{ -1 };
 			

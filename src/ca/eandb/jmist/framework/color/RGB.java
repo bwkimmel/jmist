@@ -69,9 +69,9 @@ public final class RGB extends Tuple3 {
 
 	public final RGB clamp(double min, double max) {
 		return new RGB(
-				MathUtil.threshold(x, min, max),
-				MathUtil.threshold(y, min, max),
-				MathUtil.threshold(y, min, max));
+				MathUtil.clamp(x, min, max),
+				MathUtil.clamp(y, min, max),
+				MathUtil.clamp(y, min, max));
 	}
 
 	public final double luminance() {
@@ -80,9 +80,9 @@ public final class RGB extends Tuple3 {
 
 	public final int toR8G8B8() {
 		return
-			(MathUtil.threshold((int) Math.floor(256.0 * x), 0, 255) << 16) |
-			(MathUtil.threshold((int) Math.floor(256.0 * y), 0, 255) <<  8) |
-			(MathUtil.threshold((int) Math.floor(256.0 * z), 0, 255) <<  0);
+			(MathUtil.clamp((int) Math.floor(256.0 * x), 0, 255) << 16) |
+			(MathUtil.clamp((int) Math.floor(256.0 * y), 0, 255) <<  8) |
+			(MathUtil.clamp((int) Math.floor(256.0 * z), 0, 255) <<  0);
 	}
 
 	public final int toRGBE() {
@@ -95,10 +95,10 @@ public final class RGB extends Tuple3 {
 		v = Double.longBitsToDouble((bits & 0x800fffffffffffffL) | 0x3fe0000000000000L) * 256.0 / v;
 
 		return
-			(MathUtil.threshold((int) Math.floor(x * v), 0, 255) << 24) |
-			(MathUtil.threshold((int) Math.floor(y * v), 0, 255) << 16) |
-			(MathUtil.threshold((int) Math.floor(z * v), 0, 255) <<  8) |
-			MathUtil.threshold(e + 128, 0, 255);
+			(MathUtil.clamp((int) Math.floor(x * v), 0, 255) << 24) |
+			(MathUtil.clamp((int) Math.floor(y * v), 0, 255) << 16) |
+			(MathUtil.clamp((int) Math.floor(z * v), 0, 255) <<  8) |
+			MathUtil.clamp(e + 128, 0, 255);
 	}
 	
 	public static RGB fromR8G8B8(int rgb) {

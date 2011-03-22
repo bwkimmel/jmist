@@ -253,7 +253,7 @@ public final class EqualPolarAnglesCollectorSphere implements CollectorSphere {
 			if (phi >= 2.0 * Math.PI) phi -= 2.0 * Math.PI;
 			
 			int slice = (int) ((double) slices * (phi / (2.0 * Math.PI)));
-			slice = MathUtil.threshold(slice, 0, slices - 1);
+			slice = MathUtil.clamp(slice, 0, slices - 1);
 			
 			return 1 + (stack - 1) * slices + slice;
 		}
