@@ -2120,7 +2120,7 @@ public final class MathUtil {
 	 */
 	public static List<Double> cumsum(List<Double> x) {
 		for (int i = 1, n = x.size(); i < n; i++) {
-			x.set(i, x.get(i) + x.get(i + 1));
+			x.set(i, x.get(i) + x.get(i - 1));
 		}
 		return x;
 	}
