@@ -25,6 +25,14 @@
 
 package ca.eandb.jmist.framework.accel;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.nio.ByteBuffer;
 
 import ca.eandb.jmist.framework.IntersectionRecorder;
@@ -36,6 +44,7 @@ import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.util.ArrayUtil;
+import ca.eandb.util.UnexpectedException;
 
 /**
  * @author brad
@@ -66,6 +75,83 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
 	public BoundingIntervalHierarchy(SceneElement inner) {
 		super(inner);
 	}
+
+	/**
+	 * @param inner
+	 * @throws IOException 
+	 */
+	public BoundingIntervalHierarchy(SceneElement inner, String filename) throws IOException {
+		super(inner);
+		
+		File file = new File(filename);
+		if (file.isFile()) {
+			FileInputStream fs = new FileInputStream(file);
+			try {
+				restore(fs);
+			} finally {
+				fs.close();
+			}
+		} else {
+			FileOutputStream fs = new FileOutputStream(file);
+			try {
+				save(fs);
+				fs.flush();
+			} finally {
+				fs.close();
+			}
+		}
+	}
+	
+	public void save(OutputStream out) throws IOException {
+		ensureReady();
+		
+		ObjectOutputStream oos = new ObjectOutputStream(out);
+		oos.writeObject(items);
+		oos.writeInt(root);
+		oos.writeObject(boundingBox);
+		oos.writeInt(buffer.next);
+		
+		byte[] buf = buffer.buf.array();
+		oos.write(buf, 0, buffer.next);
+		
+		oos.flush();
+		
+		System.out.printf("Wrote %d bytes from backing array of size %d.", buffer.next, buf.length);
+		System.out.println();
+	}
+	
+	public void restore(InputStream in) throws IOException {
+		ObjectInputStream ois = new ObjectInputStream(in);
+		
+		try {
+			items = (int[]) ois.readObject();
+			root = ois.readInt();
+			boundingBox = (Box3) ois.readObject();
+			
+			buffer = new NodeBuffer();
+			int size = ois.readInt();
+			byte[] buf = new byte[size];
+			int pos = 0;
+			
+			while (pos < size) {
+				int read = ois.read(buf, pos, size - pos);
+				if (read <= 0) {
+					throw new IOException(String.format("Failed to read node buffer, only read %d of %d bytes (read=%d).", pos, size, read));	
+				}
+				pos += read;
+			}
+			
+			buffer.buf = ByteBuffer.wrap(buf);
+			buffer.next = size;
+			
+			ready = true;
+		} catch (ClassNotFoundException e) {
+			throw new UnexpectedException(e);
+		}
+		
+		System.out.println("Restored BIH from file.");
+	}
+	
 
 	public void dump() {
 		dump(root, 0);
@@ -295,7 +381,7 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
 
 		public static final int TYPE_LEAF = 3;
 
-		private ByteBuffer buf = ByteBuffer.allocateDirect(16384);
+		private ByteBuffer buf = ByteBuffer.allocate(16384);
 
 		private int next = 0;
 
@@ -333,7 +419,7 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
 			int result = next;
 			next += size;
 			if (next > buf.capacity()) {
-				ByteBuffer newBuf = ByteBuffer.allocateDirect(2 * buf.capacity());
+				ByteBuffer newBuf = ByteBuffer.allocate(2 * buf.capacity());
 				buf.clear();
 				newBuf.put(buf);
 				buf = newBuf;
