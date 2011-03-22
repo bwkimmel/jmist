@@ -6,6 +6,7 @@ package ca.eandb.jmist.math;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Static mathematical utility methods.
@@ -1087,6 +1088,84 @@ public final class MathUtil {
 		}
 		return accumulator;
 	}
+	
+	/**
+	 * Adds a value to all elements of an array in place.
+	 * @param x The array to add to.
+	 * @param value The value to add to each element in <code>x</code>.
+	 * @return A reference to <code>x</code>.
+	 */
+	public static double[] add(double[] x, double value) {
+		for (int i = 0; i < x.length; i++) {
+			x[i] += value;
+		}
+		return x;
+	}
+
+	/**
+	 * Subtracts a value from all elements of an array in place.
+	 * @param x The array to add to.
+	 * @param value The value to add to each element in <code>x</code>.
+	 * @return A reference to <code>x</code>.
+	 */
+	public static double[] subtract(double[] x, double value) {
+		for (int i = 0; i < x.length; i++) {
+			x[i] -= value;
+		}
+		return x;		
+	}
+	
+	/**
+	 * Adds a value to all elements of an array in place.
+	 * @param x The array to add to.
+	 * @param value The value to add to each element in <code>x</code>.
+	 * @return A reference to <code>x</code>.
+	 */
+	public static int[] add(int[] x, int value) {
+		for (int i = 0; i < x.length; i++) {
+			x[i] += value;
+		}
+		return x;
+	}
+
+	/**
+	 * Subtracts a value from all elements of an array in place.
+	 * @param x The array to add to.
+	 * @param value The value to add to each element in <code>x</code>.
+	 * @return A reference to <code>x</code>.
+	 */
+	public static int[] subtract(int[] x, int value) {
+		for (int i = 0; i < x.length; i++) {
+			x[i] -= value;
+		}
+		return x;		
+	}
+	
+	/**
+	 * Adds a value to all elements of an array in place.
+	 * @param x The array to add to.
+	 * @param value The value to add to each element in <code>x</code>.
+	 * @return A reference to <code>x</code>.
+	 */
+	public static long[] add(long[] x, long value) {
+		for (int i = 0; i < x.length; i++) {
+			x[i] += value;
+		}
+		return x;
+	}
+
+	/**
+	 * Subtracts a value from all elements of an array in place.
+	 * @param x The array to add to.
+	 * @param value The value to add to each element in <code>x</code>.
+	 * @return A reference to <code>x</code>.
+	 */
+	public static long[] subtract(long[] x, long value) {
+		for (int i = 0; i < x.length; i++) {
+			x[i] -= value;
+		}
+		return x;		
+	}
 
 	/**
 	 * Adds the elements of one array of <code>double</code>s to another.
@@ -1979,6 +2058,119 @@ public final class MathUtil {
 			throw new IllegalArgumentException("Lengths of x and y differ.");
 		}
 		return value / 2.0;
+	}
+	
+	/**
+	 * Computes the cumulative sum of the specified array in place.
+	 * 
+	 * Each element <code>x[i]</code> is replaced with
+	 * <code>x[0] + ... + x[i]</code>.
+	 * 
+	 * @param x The array of doubles for which to compute the cumulative sum.
+	 * @return A reference to <code>x</code>.
+	 */
+	public static double[] cumsum(double[] x) {
+		for (int i = 1; i < x.length; i++) {
+			x[i] += x[i - 1];
+		}
+		return x;
+	}
+	
+	/**
+	 * Computes the cumulative sum of the specified array in place.
+	 * 
+	 * Each element <code>x[i]</code> is replaced with
+	 * <code>x[0] + ... + x[i]</code>.
+	 * 
+	 * @param x The array of ints for which to compute the cumulative sum.
+	 * @return A reference to <code>x</code>.
+	 */
+	public static int[] cumsum(int[] x) {
+		for (int i = 1; i < x.length; i++) {
+			x[i] += x[i - 1];
+		}
+		return x;		
+	}
+	
+	/**
+	 * Computes the cumulative sum of the specified array in place.
+	 * 
+	 * Each element <code>x[i]</code> is replaced with
+	 * <code>x[0] + ... + x[i]</code>.
+	 * 
+	 * @param x The array of doubles for which to compute the cumulative sum.
+	 * @return A reference to <code>x</code>.
+	 */	
+	public static long[] cumsum(long[] x) {
+		for (int i = 1; i < x.length; i++) {
+			x[i] += x[i - 1];
+		}
+		return x;		
+	}
+	
+	/**
+	 * Computes the cumulative sum of the specified <code>List</code> in place.
+	 * 
+	 * Each element <code>x.get(i)</code> is replaced with
+	 * <code>x.get(0) + ... + x.get(1)</code>.
+	 * 
+	 * @param x The <code>List</code> of doubles for which to compute the
+	 * 		cumulative sum.
+	 * @return A reference to <code>x</code>.
+	 */
+	public static List<Double> cumsum(List<Double> x) {
+		for (int i = 1, n = x.size(); i < n; i++) {
+			x.set(i, x.get(i) + x.get(i + 1));
+		}
+		return x;
+	}
+
+	/**
+	 * Linearly remaps the values in an array to fit within the specified
+	 * interval.
+	 * @param x The array of doubles to remap. 
+	 * @param min The value to remap the minimum value of <code>x</code> to.
+	 * @param max The value to remap the maximum value of <code>x</code> to.
+	 * @return A reference to <code>x</code>.
+	 */
+	public static double[] remap(double[] x, double min, double max) {
+		double xmin = Double.POSITIVE_INFINITY;
+		double xmax = Double.NEGATIVE_INFINITY;
+		
+		for (int i = 0; i < x.length; i++) {
+			if (x[i] < xmin) { xmin = x[i]; }
+			if (x[i] > xmax) { xmax = x[i]; }
+		}
+		
+		double xrange = xmax - xmin;
+		double range = max - min;
+		
+		for (int i = 0; i < x.length; i++) {
+			x[i] = min + range * ((x[i] - xmin) / xrange);
+		}
+		
+		return x;
+	}
+	
+	/**
+	 * Linearly remaps the values in an array to fit within the specified
+	 * interval.
+	 * @param x The array of doubles to remap. 
+	 * @param I The <code>Interval</code> to remap <code>x</code> to.
+	 * @return A reference to <code>x</code>.
+	 */
+	public static double[] remap(double[] x, Interval I) {
+		return remap(x, I.minimum(), I.maximum());
+	}
+	
+	/**
+	 * Linearly remaps the values in an array to fit within the interval
+	 * <code>[0,1]</code>.
+	 * @param x The array of doubles to remap. 
+	 * @return A reference to <code>x</code>.
+	 */
+	public static double[] remap(double[] x) {
+		return remap(x, 0.0, 1.0);
 	}
 
 	/**
