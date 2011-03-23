@@ -2124,6 +2124,73 @@ public final class MathUtil {
 		}
 		return x;
 	}
+	
+	/**
+	 * Computes the cumulative product of the specified array in place.
+	 * 
+	 * Each element <code>x[i]</code> is replaced with
+	 * <code>x[0] * ... * x[i]</code>.
+	 * 
+	 * @param x The array of doubles for which to compute the cumulative
+	 * 		product.
+	 * @return A reference to <code>x</code>.
+	 */
+	public static double[] cumprod(double[] x) {
+		for (int i = 1; i < x.length; i++) {
+			x[i] *= x[i - 1];
+		}
+		return x;
+	}
+	
+	/**
+	 * Computes the cumulative product of the specified array in place.
+	 * 
+	 * Each element <code>x[i]</code> is replaced with
+	 * <code>x[0] * ... * x[i]</code>.
+	 * 
+	 * @param x The array of ints for which to compute the cumulative product.
+	 * @return A reference to <code>x</code>.
+	 */
+	public static int[] cumprod(int[] x) {
+		for (int i = 1; i < x.length; i++) {
+			x[i] *= x[i - 1];
+		}
+		return x;
+	}
+	
+	/**
+	 * Computes the cumulative product of the specified array in place.
+	 * 
+	 * Each element <code>x[i]</code> is replaced with
+	 * <code>x[0] * ... * x[i]</code>.
+	 * 
+	 * @param x The array of longs for which to compute the cumulative product.
+	 * @return A reference to <code>x</code>.
+	 */
+	public static long[] cumprod(long[] x) {
+		for (int i = 1; i < x.length; i++) {
+			x[i] *= x[i - 1];
+		}
+		return x;
+	}
+	
+	/**
+	 * Computes the cumulative product of the specified <code>List</code> in
+	 * place.
+	 * 
+	 * Each element <code>x.get(i)</code> is replaced with
+	 * <code>x.get(0) * ... * x.get(1)</code>.
+	 * 
+	 * @param x The <code>List</code> of doubles for which to compute the
+	 * 		cumulative product.
+	 * @return A reference to <code>x</code>.
+	 */
+	public static List<Double> cumprod(List<Double> x) {
+		for (int i = 1, n = x.size(); i < n; i++) {
+			x.set(i, x.get(i) * x.get(i - 1));
+		}
+		return x;
+	}
 
 	/**
 	 * Linearly remaps the values in an array to fit within the specified
