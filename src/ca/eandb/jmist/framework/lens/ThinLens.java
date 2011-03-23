@@ -102,95 +102,10 @@ public final class ThinLens extends AbstractLens {
 		this.objPlaneWidth		= 2.0 * focusDistance * Math.tan(fov / 2.0);
 		this.objPlaneHeight		= objPlaneWidth / aspect;
 	}
-//
-//	/* (non-Javadoc)
-//	 * @see ca.eandb.jmist.framework.Lens#rayAt(ca.eandb.jmist.math.Point2)
-//	 */
-//	public Ray3 rayAt(Point2 p) {
-//
-//		Vector2		ap				= RandomUtil.uniformOnDisc(apertureRadius, Random.DEFAULT).toCartesian();
-//		Point3		aperturePoint	= new Point3(ap.x(), ap.y(), 0.0);
-//		Point3		focalPoint		= new Point3(
-//											objPlaneWidth * (p.x() - 0.5),
-//											objPlaneHeight * (0.5 - p.y()),
-//											-focusDistance
-//									);
-//
-//		Vector3		direction		= aperturePoint.vectorTo(focalPoint).unit();
-//
-//		return new Ray3(aperturePoint, direction);
-//
-//	}
-//
-//	/* (non-Javadoc)
-//	 * @see ca.eandb.jmist.framework.Lens#areaOfAperture()
-//	 */
-//	public double areaOfAperture() {
-//		return apertureArea;
-//	}
-//
-//	private Projection project(Vector3 dir, final Point3 aperturePoint) {
-//		double			ratio			= -focusDistance / dir.z();
-//		double			x				= aperturePoint.x() + ratio * dir.x();
-//		double			y				= aperturePoint.y() + ratio * dir.y();
-//
-//		final double	u				= 0.5 + x / objPlaneWidth;
-//		if (!MathUtil.inRangeCC(u, 0.0, 1.0)) {
-//			return null;
-//		}
-//
-//		final double	v				= 0.5 - y / objPlaneHeight;
-//		if (!MathUtil.inRangeCC(v, 0.0, 1.0)) {
-//			return null;
-//		}
-//
-//		return new Projection() {
-//			public Point2 pointOnImagePlane() {
-//				return new Point2(u, v);
-//			}
-//
-//			public Point3 pointOnLens() {
-//				return aperturePoint;
-//			}
-//
-//			public double importance() {
-//				return 1.0; // FIXME Light tracing will not work until this is corrected.
-//			}
-//		};
-//
-//	}
-//
-//	private Point3 generateAperturePoint() {
-//		Vector2 ap = RandomUtil.uniformOnDisc(apertureRadius, Random.DEFAULT).toCartesian();
-//		return new Point3(ap.x(), ap.y(), 0.0);
-//	}
-//
-//	/* (non-Javadoc)
-//	 * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.Point3)
-//	 */
-//	public Projection project(Point3 p) {
-//		if (-p.z() < MathUtil.EPSILON) {
-//			return null;
-//		}
-//
-//		Point3 aperturePoint = generateAperturePoint();
-//		Vector3	dir = aperturePoint.vectorTo(p);
-//
-//		return project(dir, aperturePoint);
-//	}
-//
-//	/* (non-Javadoc)
-//	 * @see ca.eandb.jmist.framework.lens.AbstractLens#project(ca.eandb.jmist.math.Vector3)
-//	 */
-//	public Projection project(Vector3 v) {
-//		if (-v.z() < MathUtil.EPSILON) {
-//			return null;
-//		}
-//
-//		Point3 aperturePoint = generateAperturePoint();
-//		return project(v, aperturePoint);
-//	}
 
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Lens#sample(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.path.PathInfo, double, double, double)
+	 */
 	@Override
 	public EyeNode sample(Point2 p, PathInfo pathInfo, double ru, double rv,
 			double rj) {
