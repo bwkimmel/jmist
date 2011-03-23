@@ -2191,6 +2191,60 @@ public final class MathUtil {
 		}
 		return x;
 	}
+	
+	/**
+	 * Computes the dot product of two vectors.
+	 * @param a The first array.
+	 * @param b The second array.
+	 * @return The sum of <code>a[i] * b[i]</code>.
+	 * @throws IllegalArgumentException if <code>a.length != b.length</code>.
+	 */
+	public static double dot(double[] a, double[] b) {
+		if (a.length != b.length) {
+			throw new IllegalArgumentException("a.length != b.length");
+		}
+		double sum = 0.0;
+		for (int i = 0; i < a.length; i++) {
+			sum += a[i] * b[i];
+		}
+		return sum;
+	}
+	
+	/**
+	 * Computes the dot product of two vectors.
+	 * @param a The first array.
+	 * @param b The second array.
+	 * @return The sum of <code>a[i] * b[i]</code>.
+	 * @throws IllegalArgumentException if <code>a.length != b.length</code>.
+	 */
+	public static int dot(int[] a, int[] b) {
+		if (a.length != b.length) {
+			throw new IllegalArgumentException("a.length != b.length");
+		}
+		int sum = 0;
+		for (int i = 0; i < a.length; i++) {
+			sum += a[i] * b[i];
+		}
+		return sum;
+	}
+	
+	/**
+	 * Computes the dot product of two vectors.
+	 * @param a The first array.
+	 * @param b The second array.
+	 * @return The sum of <code>a[i] * b[i]</code>.
+	 * @throws IllegalArgumentException if <code>a.length != b.length</code>.
+	 */
+	public static long dot(long[] a, long[] b) {
+		if (a.length != b.length) {
+			throw new IllegalArgumentException("a.length != b.length");
+		}
+		long sum = 0;
+		for (int i = 0; i < a.length; i++) {
+			sum += a[i] * b[i];
+		}
+		return sum;
+	}
 
 	/**
 	 * Linearly remaps the values in an array to fit within the specified
