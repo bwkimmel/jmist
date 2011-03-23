@@ -10,7 +10,6 @@ import ca.eandb.jmist.framework.path.AbstractPathNode;
 import ca.eandb.jmist.framework.path.EyeNode;
 import ca.eandb.jmist.framework.path.PathInfo;
 import ca.eandb.jmist.framework.path.PathNode;
-import ca.eandb.jmist.framework.path.ScatteringNode;
 import ca.eandb.jmist.math.Box2;
 import ca.eandb.jmist.math.HPoint3;
 import ca.eandb.jmist.math.Point2;
