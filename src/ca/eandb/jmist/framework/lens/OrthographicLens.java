@@ -159,7 +159,11 @@ public final class OrthographicLens extends AbstractLens {
 		 * @see ca.eandb.jmist.framework.path.PathNode#getPosition()
 		 */
 		public HPoint3 getPosition() {
-			return Point3.ORIGIN;
+			Point2 p = pointOnImagePlane;
+			return new Point3(
+					(p.x() - 0.5) * width,
+					(0.5 - p.y()) * height,
+					0.0);
 		}
 
 		/* (non-Javadoc)
