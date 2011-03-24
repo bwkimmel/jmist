@@ -57,10 +57,28 @@ import ca.eandb.util.UnexpectedException;
 import ca.eandb.util.progress.ProgressMonitor;
 
 /**
- * @author brad
- *
+ * <p>A <code>Job</code> that renders an image using Metropolis Light Transport.
+ * Mutations are performed by perturbing the random number samples used to
+ * generate the paths, as suggested by Kelemen et al. [1], rather than by
+ * perturbing the paths themselves as originally proposed by Veach and
+ * Guibas [2].</p>
+ * 
+ * <ol>
+ *   <li>C. Kelemen, L. Szirmay-Kalos, G. Antal, F. Csonka,
+ *   "<a href="http://dx.doi.org/10.1111/1467-8659.t01-1-00703">A simple and
+ *   robust mutation strategy for the metropolis light transport algorithm</a>",
+ *   <em>Computer Graphics Forum</em> 21(3):531-540, September 2002.
+ *   <em>Proceedings of EUROGRAPHICS 2002.</em></li>
+ *   
+ *   <li>E. Veach, L.J. Guibas,
+ *   "<a href="http://graphics.stanford.edu/papers/metro/">Metropolis light
+ *   transport</a>", In <em>Proceedings of SIGGRAPH'97</em>, Addison-Wesley,
+ *   pp. 65-76, August 1997.</li>
+ * </ol>
+ * 
+ * @author Brad Kimmel
  */
-public final class PoorMansMetropolisLightTransportJob extends AbstractParallelizableJob {
+public final class KelemenMetropolisLightTransportJob extends AbstractParallelizableJob {
 
 	/** Serialization version ID. */
 	private static final long serialVersionUID = -6940841062797196504L;
@@ -108,7 +126,7 @@ public final class PoorMansMetropolisLightTransportJob extends AbstractParalleli
 
 	private transient int mutationsSubmitted = 0;
 
-	public PoorMansMetropolisLightTransportJob(Scene scene, Display display,
+	public KelemenMetropolisLightTransportJob(Scene scene, Display display,
 			int width, int height, ColorModel colorModel, Random random,
 			BidiPathStrategy strategy, PathMeasure measure, int mutations,
 			int initialMutations,
@@ -295,13 +313,13 @@ public final class PoorMansMetropolisLightTransportJob extends AbstractParalleli
 				seqX = new ThreadLocal<RepeatableRandom>() {
 					public RepeatableRandom initialValue() {
 						return new RepeatableRandom(
-								PoorMansMetropolisLightTransportJob.this.random);
+								KelemenMetropolisLightTransportJob.this.random);
 					}
 				};
 				seqY = new ThreadLocal<RepeatableRandom>() {
 					public RepeatableRandom initialValue() {
 						return new RepeatableRandom(
-								PoorMansMetropolisLightTransportJob.this.random);
+								KelemenMetropolisLightTransportJob.this.random);
 					}
 				};
 				mutationType = new ThreadLocal<CategoricalRandom>() {
