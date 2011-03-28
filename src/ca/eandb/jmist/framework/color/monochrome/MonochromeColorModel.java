@@ -3,6 +3,8 @@
  */
 package ca.eandb.jmist.framework.color.monochrome;
 
+import java.io.Serializable;
+
 import ca.eandb.jmist.framework.Function1;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.Raster;
@@ -33,17 +35,26 @@ public final class MonochromeColorModel extends ColorModel {
 
 	private final Sample white = new Sample(1);
 
-	private final WavelengthPacket lambda = new WavelengthPacket() {
+	private final WavelengthPacket lambda = new MonochromeWavelengthPacket();
+	
+	private final class MonochromeWavelengthPacket implements WavelengthPacket, Serializable {
+		
+		/** Serialization version ID. */
+		private static final long serialVersionUID = 5347416797625974900L;
+		
+		/* (non-Javadoc)
+		 * @see ca.eandb.jmist.framework.color.WavelengthPacket#getColorModel()
+		 */
 		public ColorModel getColorModel() {
 			return MonochromeColorModel.this;
-		}
-	};
+		}		
+	}
 
 	/**
 	 * @author Brad
 	 *
 	 */
-	private final class Sample implements Color, Spectrum {
+	private final class Sample implements Color, Spectrum, Serializable {
 
 		/**
 		 * Serialization version ID.
