@@ -3,8 +3,6 @@
  */
 package ca.eandb.jmist.framework.measurement;
 
-import java.util.Arrays;
-
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.SphericalCoordinates;
 import ca.eandb.jmist.math.Vector3;
@@ -45,32 +43,7 @@ public final class EqualPolarAnglesCollectorSphere implements CollectorSphere {
 		this.stacks = stacks;
 		this.slices = slices;
 		this.upper = upper;
-		this.lower = lower;
-		
-		if (stacks == 1) {
-			boundaries = new double[]{ Math.PI / 2.0 };
-		} else {
-			double theta = 0.5 * Math.PI / (double) (stacks - 1);
-			double A = (((double) slices) + 2.0 * Math.cos(theta)) / (double) (slices + 2);
-			double B;
-			
-			boundaries = new double[stacks];
-			boundaries[0] = Math.acos(A);
-			for (int i = 1; i < stacks - 1; i++) {
-				theta = 0.5 * Math.PI * ((double) i / (double) (stacks - 1));
-				B = 2.0 * Math.cos(theta) - A;
-				boundaries[i] = Math.acos(B);
-				
-				System.err.printf("theta=%f; theta_interval=(%f, %f)", Math.toDegrees(theta), Math.toDegrees(boundaries[i - 1]), Math.toDegrees(boundaries[i]));
-				System.err.println();
-				assert(MathUtil.inRangeOO(theta, boundaries[i-1], boundaries[i]));
-				
-				A = B;
-			}
-			
-			boundaries[stacks - 1] = 0.5 * Math.PI;
-		}
-		
+		this.lower = lower;		
 
 	}
 
@@ -119,8 +92,13 @@ public final class EqualPolarAnglesCollectorSphere implements CollectorSphere {
 		}
 
 		double phi = 2.0 * Math.PI * ((double) slice / (double) slices);
-		double theta = 0.5 * Math.PI * ((double) stack / (double) (stacks - 1));
-
+		double theta1 = 0.5 * Math.PI * ((double) stack / (double) stacks);
+		double theta2 = 0.5 * Math.PI * ((double) (stack + 1) / (double) stacks);
+		double z1 = Math.cos(theta1);
+		double z2 = Math.cos(theta2);
+		double z = 0.5 * (z1 + z2);
+		double theta = Math.acos(z);
+		
 		if (sensorOnLower) {
 			theta = Math.PI - theta;
 		}
@@ -156,17 +134,12 @@ public final class EqualPolarAnglesCollectorSphere implements CollectorSphere {
 
 		int stack = (sensor > 0) ? (sensor - 1) / slices + 1 : 0;
 
-		if (sensor > 0) {
+		double theta1 = 0.5 * Math.PI * ((double) stack / (double) stacks);
+		double theta2 = 0.5 * Math.PI * ((double) (stack + 1) / (double) stacks);
 
-			assert(stack > 0);
-
-			return 0.5 * Math.PI * (Math.cos(2.0 * boundaries[stack - 1]) - Math.cos(2.0 * boundaries[stack])) / (double) slices;
-
-		} else { /* sensor == 0 */
-
-			return 0.5 * Math.PI * (1.0 - Math.cos(2.0 * boundaries[0]));
-
-		}
+		return sensor > 0 ?
+				0.5 * Math.PI * (Math.cos(2.0 * theta1) - Math.cos(2.0 * theta2)) / (double) slices :
+				0.5 * Math.PI * (Math.cos(2.0 * theta1) - Math.cos(2.0 * theta2));
 
 	}
 
@@ -196,18 +169,13 @@ public final class EqualPolarAnglesCollectorSphere implements CollectorSphere {
 		assert(0 <= sensor && sensor < patchesPerHemisphere);
 
 		int stack = (sensor > 0) ? (sensor - 1) / slices + 1 : 0;
+			
+		double theta1 = 0.5 * Math.PI * ((double) stack / (double) stacks);
+		double theta2 = 0.5 * Math.PI * ((double) (stack + 1) / (double) stacks);
 
-		if (sensor > 0) {
-
-			assert(stack > 0);
-
-			return 2.0 * Math.PI * (Math.cos(boundaries[stack - 1]) - Math.cos(boundaries[stack])) / (double) slices;
-
-		} else { /* sensor == 0 */
-
-			return 2.0 * Math.PI * (1.0 - Math.cos(boundaries[0]));
-
-		}
+		return sensor > 0 ?
+				2.0 * Math.PI * (Math.cos(theta1) - Math.cos(theta2)) / (double) slices :
+				2.0 * Math.PI * (Math.cos(theta1) - Math.cos(theta2));
 
 	}
 
@@ -224,23 +192,9 @@ public final class EqualPolarAnglesCollectorSphere implements CollectorSphere {
 
 		theta = upper ? theta : Math.PI - theta;
 
-//		int hemispheres = (upper ? 1 : 0) + (lower ? 1 : 0);
-
-		int stack;
-		if (theta < 0.5 * Math.PI) {
-			stack = Arrays.binarySearch(boundaries, theta);
-			if (stack < 0) {
-				stack = -(stack + 1);
-			}
-			assert(stack < stacks);
-		} else { /* theta > 0.5 * Math.PI */
-			stack = Arrays.binarySearch(boundaries, Math.PI - theta);
-			if (stack < 0) {
-				stack = -(stack + 1);
-			}
-			assert(stack < stacks);
-			stack = 2 * stacks - 1 - stack;
-		}
+		int stack = MathUtil.clamp(
+				(int) Math.floor((double) stacks * theta / (0.5 * Math.PI)),
+				0, 2 * stacks - 1);
 		
 		if (stack == 0) {
 			return 0;
@@ -298,8 +252,6 @@ public final class EqualPolarAnglesCollectorSphere implements CollectorSphere {
 
 	/** A value indicating whether the lower hemisphere is measured. */
 	private final boolean lower;
-	
-	private final double[] boundaries;
 
 	/**
 	 * Serialization version ID.
