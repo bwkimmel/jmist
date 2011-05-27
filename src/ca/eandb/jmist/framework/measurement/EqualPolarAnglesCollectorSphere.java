@@ -92,12 +92,18 @@ public final class EqualPolarAnglesCollectorSphere implements CollectorSphere {
 		}
 
 		double phi = 2.0 * Math.PI * ((double) slice / (double) slices);
-		double theta1 = 0.5 * Math.PI * ((double) stack / (double) stacks);
-		double theta2 = 0.5 * Math.PI * ((double) (stack + 1) / (double) stacks);
-		double z1 = Math.cos(theta1);
-		double z2 = Math.cos(theta2);
-		double z = 0.5 * (z1 + z2);
-		double theta = Math.acos(z);
+		double theta;
+		
+		if (stack > 0) {
+			double theta1 = 0.5 * Math.PI * ((double) stack / (double) stacks);
+			double theta2 = 0.5 * Math.PI * ((double) (stack + 1) / (double) stacks);
+			double z1 = Math.cos(theta1);
+			double z2 = Math.cos(theta2);
+			double z = 0.5 * (z1 + z2);
+			theta = Math.acos(z);
+		} else {
+			theta = 0.0;
+		}
 		
 		if (sensorOnLower) {
 			theta = Math.PI - theta;
