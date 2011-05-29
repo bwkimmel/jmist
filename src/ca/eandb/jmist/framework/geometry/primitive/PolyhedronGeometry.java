@@ -388,9 +388,9 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 			decompose();
 			SeedReference vref = new SeedReference(rv);
 			int tri = 3 * rnd.next(vref);
-			Point3 a = vertices.get(decomp[tri]);
-			Point3 b = vertices.get(decomp[tri + 1]);
-			Point3 c = vertices.get(decomp[tri + 2]);
+			Point3 a = vertices.get(indices[decomp[tri]]);
+			Point3 b = vertices.get(indices[decomp[tri + 1]]);
+			Point3 c = vertices.get(indices[decomp[tri + 2]]);
 			return RandomUtil.uniformOnTriangle(a, b, c, ru, vref.seed);
 		}
 		
@@ -407,9 +407,9 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 
 
 			for (int i = 0; i < decomp.length; i += 3) {
-				Point3 a = vertices.get(decomp[i]);
-				Point3 b = vertices.get(decomp[i + 1]);
-				Point3 c = vertices.get(decomp[i + 2]);
+				Point3 a = vertices.get(indices[decomp[i]]);
+				Point3 b = vertices.get(indices[decomp[i + 1]]);
+				Point3 c = vertices.get(indices[decomp[i + 2]]);
 				Vector3 ab = a.vectorTo(b);
 				Vector3 ac = a.vectorTo(c);
 				Vector3 pa = p.vectorTo(a);
@@ -424,17 +424,9 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 				double C = 1.0 - A - B;
 				if (C < 0.0) continue;
 
-				// XXX oops.. i guess decomp shouldn't refer directly to the vertex array.
-				Vector3 na = null, nb = null, nc = null;
-				for (int j = 0; j < indices.length; j++) {
-					if (indices[j] == decomp[i]) {
-						na = normals.get(normalIndices[j]);
-					} else if (indices[j] == decomp[i + 1]) {
-						nb = normals.get(normalIndices[j]);
-					} else if (indices[j] == decomp[i + 2]) {
-						nc = normals.get(normalIndices[j]);
-					}
-				}
+				Vector3 na = normals.get(normalIndices[decomp[i]]);
+				Vector3 nb = normals.get(normalIndices[decomp[i + 1]]);
+				Vector3 nc = normals.get(normalIndices[decomp[i + 2]]);
 				
 				if (minVertexNormalDotProduct < Double.POSITIVE_INFINITY) {
 					na = nf.dot(na) < minVertexNormalDotProduct ? nf : na;
@@ -460,9 +452,9 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 
 
 			for (int i = 0; i < decomp.length; i += 3) {
-				Point3 a = vertices.get(decomp[i]);
-				Point3 b = vertices.get(decomp[i + 1]);
-				Point3 c = vertices.get(decomp[i + 2]);
+				Point3 a = vertices.get(indices[decomp[i]]);
+				Point3 b = vertices.get(indices[decomp[i + 1]]);
+				Point3 c = vertices.get(indices[decomp[i + 2]]);
 				Vector3 ab = a.vectorTo(b);
 				Vector3 ac = a.vectorTo(c);
 				Vector3 pa = p.vectorTo(a);
@@ -477,15 +469,19 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 				double C = 1.0 - A - B;
 				if (C < 0.0) continue;
 
-				// XXX oops.. i guess decomp shouldn't refer directly to the vertex array.
 				Point2 ta = null, tb = null, tc = null;
-				for (int j = 0; j < indices.length; j++) {
-					if (indices[j] == decomp[i]) {
-						ta = texIndices != null ? texCoords.get(texIndices[j]) : Point2.ORIGIN;
-					} else if (indices[j] == decomp[i + 1]) {
-						tb = texIndices != null ? texCoords.get(texIndices[j]) : i == 0 ? new Point2(1, 0) : new Point2(1, 1);
-					} else if (indices[j] == decomp[i + 2]) {
-						tc = texIndices != null ? texCoords.get(texIndices[j]) : i == 0 ? new Point2(1, 1) : new Point2(0, 1);
+				if (texIndices != null) {
+					ta = texCoords.get(texIndices[decomp[i]]); 
+					tb = texCoords.get(texIndices[decomp[i + 1]]); 
+					tc = texCoords.get(texIndices[decomp[i + 2]]); 
+				} else {
+					ta = Point2.ORIGIN;
+					if (i == 0) {
+						tb = new Point2(1, 0);
+						tc = new Point2(1, 1);
+					} else {
+						tb = new Point2(1, 1);
+						tc = new Point2(0, 1);
 					}
 				}
 
@@ -507,13 +503,13 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 			// the first vertex and each other vertex are contained inside the
 			// polygon).
 			for (int i = 0; i < indices.length - 2; i++) {
-				decomp[3 * i] = indices[0];
-				decomp[3 * i + 1] = indices[i + 1];
-				decomp[3 * i + 2] = indices[i + 2];
+				decomp[3 * i] = 0;
+				decomp[3 * i + 1] = i + 1;
+				decomp[3 * i + 2] = i + 2;
 				weight[i] = GeometryUtil.areaOfTriangle(
-						vertices.get(decomp[3 * i]),
-						vertices.get(decomp[3 * i + 1]),
-						vertices.get(decomp[3 * i + 2]));
+						vertices.get(indices[0]),
+						vertices.get(indices[i + 1]),
+						vertices.get(indices[i + 2]));
 			}
 			rnd = new CategoricalRandom(weight);
 		}
