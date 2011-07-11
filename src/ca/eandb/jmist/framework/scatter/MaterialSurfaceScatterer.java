@@ -29,12 +29,25 @@ public final class MaterialSurfaceScatterer implements SurfaceScatterer {
 	/** The <code>Material</code> to use for scattering. */
 	private final Material material;
 	
+	/** The ambient <code>Medium</code> to use for scattering. */
+	private final Medium ambientMedium;
+	
 	/**
 	 * Creates a new <code>MaterialSurfaceScatterer</code>.
 	 * @param material The <code>Material</code> to use for scattering.
 	 */
 	public MaterialSurfaceScatterer(Material material) {
+		this(material, Medium.VACUUM);
+	}
+	
+	/**
+	 * Creates a new <code>MaterialSurfaceScatterer</code>.
+	 * @param material The <code>Material</code> to use for scattering.
+	 * @param ambientMedium The ambient <code>Medium</code> to use.
+	 */
+	public MaterialSurfaceScatterer(Material material, Medium ambientMedium) {
 		this.material = material;
+		this.ambientMedium = ambientMedium;
 	}
 
 	/* (non-Javadoc)
@@ -48,7 +61,7 @@ public final class MaterialSurfaceScatterer implements SurfaceScatterer {
 		Color white = cm.sample(rnd);
 		SurfacePoint surf = new SurfacePoint() {
 			public Medium getAmbientMedium() {
-				return Medium.VACUUM;
+				return ambientMedium;
 			}
 			public Material getMaterial() {
 				return material;
