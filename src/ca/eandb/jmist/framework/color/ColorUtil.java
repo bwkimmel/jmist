@@ -471,6 +471,21 @@ public final class ColorUtil {
 	public static Color getGray(double value, WavelengthPacket lambda) {
 		return lambda.getColorModel().getGray(value, lambda);
 	}
+	
+	public static int getDispersionChannel(Color color) {
+		ColorModel cm = color.getColorModel();
+		int channel = -1;
+		for (int i = 0, n = cm.getNumChannels(); i < n; i++) {
+			if (!MathUtil.isZero(color.getValue(i))) {
+				if (channel < 0) {
+					channel = i;
+				} else {
+					return -1;
+				}
+			}
+		}
+		return 0;
+	}
 
 	/** Instances of <code>ColorUtil</code>	cannot be created. */
 	private ColorUtil() {}
