@@ -559,6 +559,18 @@ public final class Box2 implements Serializable {
 				MathUtil.clamp(p.x(), minimumX, maximumX),
 				MathUtil.clamp(p.y(), minimumY, maximumY));
 	}
+	
+	/**
+	 * Returns the affine transformation that maps the unit box to this one.
+	 * @return The <code>AffineMatrix2</code> representing the transformation
+	 * 		that maps points in {@link #UNIT} to this box.
+	 * @see #UNIT
+	 */
+	public final AffineMatrix2 toMatrix() {
+		return new AffineMatrix2(
+				lengthX(), 0.0      , minimumX,
+				0.0      , lengthY(), minimumY);
+	}
 
 	/**
 	 * Computes the smallest <code>Box2</code> that contains all of the given
