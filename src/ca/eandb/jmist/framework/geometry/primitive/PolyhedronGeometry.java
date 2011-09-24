@@ -6,26 +6,34 @@ package ca.eandb.jmist.framework.geometry.primitive;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ca.eandb.jmist.framework.Bounded3;
+import ca.eandb.jmist.framework.BoundingBoxBuilder2;
 import ca.eandb.jmist.framework.BoundingBoxBuilder3;
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
 import ca.eandb.jmist.framework.ShadingContext;
+import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.geometry.AbstractGeometry;
 import ca.eandb.jmist.framework.random.CategoricalRandom;
 import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.framework.random.SeedReference;
+import ca.eandb.jmist.math.AffineMatrix2;
 import ca.eandb.jmist.math.Basis3;
+import ca.eandb.jmist.math.Box2;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.GeometryUtil;
+import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Plane3;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
 import ca.eandb.jmist.math.Vector3;
+import ca.eandb.util.IntegerArray;
 
 /**
  * A polyhedron <code>SceneElement</code>.
@@ -96,6 +104,179 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	public PolyhedronGeometry setMaximumVertexNormalAngle(double angle) {
 		this.minVertexNormalDotProduct = Math.cos(angle);
 		return this;
+	}
+	
+	private transient int triangleLookupGridSize;
+	private transient int maximumTrianglesPerFace;
+	private transient Map<Integer, IntegerArray> triangleLookup;
+	private transient Box2 texBoundingBox = null;
+	
+	private static void bp() {}
+	
+	private synchronized void prepareTriangleLookup() {
+		int numTriangles = 0;
+		
+		maximumTrianglesPerFace = 0;
+		for (Face face : faces) {
+			if (face.texIndices != null) {
+				face.decompose();
+				
+				int ntri = face.decomp.length / 3;
+				if (ntri > maximumTrianglesPerFace) {
+					maximumTrianglesPerFace = ntri;
+				}
+				numTriangles += ntri;
+			}
+		}
+		
+		triangleLookupGridSize = Math.max(1, 2 * (int) Math.sqrt(numTriangles));
+		triangleLookup = new HashMap<Integer, IntegerArray>();
+		
+		BoundingBoxBuilder2 builder = new BoundingBoxBuilder2();
+		
+		for (Point2 p : texCoords) {
+			builder.add(p);
+		}
+		texBoundingBox = builder.getBoundingBox();
+		
+		AffineMatrix2 T = texBoundingBox.toMatrix().inverse();
+		
+		for (int fi = 0, nf = faces.size(); fi < nf; fi++) {
+			Face f = faces.get(fi);
+			if (f.texIndices != null) {
+				for (int tri = 0; tri < f.decomp.length; tri += 3) {
+					Point2 a = T.times(texCoords.get(f.texIndices[f.decomp[tri]]));
+					Point2 b = T.times(texCoords.get(f.texIndices[f.decomp[tri + 1]]));
+					Point2 c = T.times(texCoords.get(f.texIndices[f.decomp[tri + 2]]));
+					
+					builder.reset();
+					builder.add(a);
+					builder.add(b);
+					builder.add(c);
+					
+					Box2 bound = builder.getBoundingBox();
+					
+					int i0 = MathUtil.clamp((int) Math.floor(bound.minimumX() * (double) triangleLookupGridSize), 0, triangleLookupGridSize - 1);
+					int i1 = MathUtil.clamp((int) Math.floor(bound.maximumX() * (double) triangleLookupGridSize), 0, triangleLookupGridSize - 1);
+					int j0 = MathUtil.clamp((int) Math.floor(bound.minimumY() * (double) triangleLookupGridSize), 0, triangleLookupGridSize - 1);
+					int j1 = MathUtil.clamp((int) Math.floor(bound.maximumY() * (double) triangleLookupGridSize), 0, triangleLookupGridSize - 1);
+					
+					for (int i = i0; i <= i1; i++) {
+						double x0 = (double) i / (double) triangleLookupGridSize;
+						double x1 = (double) (i + 1) / (double) triangleLookupGridSize;
+						
+						for (int j = j0; j <= j1; j++) {
+							double y0 = (double) j / (double) triangleLookupGridSize;
+							double y1 = (double) (j + 1) / (double) triangleLookupGridSize;
+							
+							Box2 cell = new Box2(x0, y0, x1, y1);
+							
+							if (GeometryUtil.boxIntersectsTriangle(cell, a, b, c)) {
+								int cellIndex = j * triangleLookupGridSize + i;
+								int triIndex = fi * maximumTrianglesPerFace + tri / 3;
+								IntegerArray list = triangleLookup.get(cellIndex);
+								if (list == null) {
+									list = new IntegerArray();
+									triangleLookup.put(cellIndex, list);
+								}
+								list.add(triIndex);
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		int count = 0;
+		for (IntegerArray list : triangleLookup.values()) {
+			int n = list.size();
+			for (int i = 1; i < n; i++) {
+				int tri1 = list.get(i);
+				int fi1 = tri1 / maximumTrianglesPerFace;
+				int ti1 = (tri1 % maximumTrianglesPerFace) * 3;
+				Face f1 = faces.get(fi1);
+				Point2 a1 = texCoords.get(f1.texIndices[f1.decomp[ti1]]);
+				Point2 b1 = texCoords.get(f1.texIndices[f1.decomp[ti1 + 1]]);
+				Point2 c1 = texCoords.get(f1.texIndices[f1.decomp[ti1 + 2]]);
+				
+				for (int j = 0; j < i; j++) {
+					int tri2 = list.get(j);
+					int fi2 = tri2 / maximumTrianglesPerFace;
+					int ti2 = (tri2 % maximumTrianglesPerFace) * 3;
+					Face f2 = faces.get(fi2);
+					Point2 a2 = texCoords.get(f2.texIndices[f2.decomp[ti2]]);
+					Point2 b2 = texCoords.get(f2.texIndices[f2.decomp[ti2 + 1]]);
+					Point2 c2 = texCoords.get(f2.texIndices[f2.decomp[ti2 + 2]]);
+					
+					if (GeometryUtil.triangleIntersectsTriangle(a1, b1, c1, a2, b2, c2)) {
+						System.err.println("WARNING: Triangles intersect -------------------------------");
+						System.err.printf("% 5d: (%5.3f, %5.3f) - (%5.3f, %5.3f) - (%5.3f, %5.3f)", tri1,
+								a1.x(), a1.y(),
+								b1.x(), b1.y(),
+								c1.x(), c1.y());
+						System.err.println();
+						System.err.printf("% 5d: (%5.3f, %5.3f) - (%5.3f, %5.3f) - (%5.3f, %5.3f)", tri2,
+								a2.x(), a2.y(),
+								b2.x(), b2.y(),
+								c2.x(), c2.y());
+						System.err.println();
+						count++;
+					}
+				}
+			}
+		}
+		
+		if (count > 0) {
+			System.err.printf("WARNING: There are %d pairs of triangles that intersect.", count);
+			System.err.println();
+		}
+	}
+	
+	
+	
+	@Override
+	public double generateImportanceSampledSurfacePoint(SurfacePoint x,
+			ShadingContext context, double ru, double rv, double rj) {
+		
+		return getSurfacePointFromUV(context, new Point2(ru, rv));
+	}
+
+	public double getSurfacePointFromUV(ShadingContext context, Point2 uv) {
+		if (triangleLookup == null) {
+			synchronized (this) {
+				if (triangleLookup == null) {
+					prepareTriangleLookup();
+				}
+			}
+		}
+		
+		if (!texBoundingBox.contains(uv)) {
+			return -1.0;
+		}
+		
+		double x = (uv.x() - texBoundingBox.minimumX()) / texBoundingBox.lengthX();
+		double y = (uv.y() - texBoundingBox.minimumY()) / texBoundingBox.lengthY();
+		
+		int i = MathUtil.clamp((int) Math.floor(x * (double) triangleLookupGridSize), 0, triangleLookupGridSize - 1);
+		int j = MathUtil.clamp((int) Math.floor(y * (double) triangleLookupGridSize), 0, triangleLookupGridSize - 1);
+		
+		int cellIndex = j * triangleLookupGridSize + i;
+		IntegerArray list = triangleLookup.get(cellIndex);
+		if (list != null) {
+			for (int triIndex : list) {
+				int fi = triIndex / maximumTrianglesPerFace;
+				int ti = triIndex % maximumTrianglesPerFace;
+				
+				Face face = faces.get(fi);
+				double weight = face.getSurfacePointFromUV(context, uv, ti);
+				if (weight > 0.0) {
+					context.setPrimitiveIndex(fi);
+					return weight;
+				}
+			}
+		}
+		
+		return -1.0;
 	}
 
 	/* (non-Javadoc)
@@ -382,6 +563,49 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 				}
 			}
 			return area;
+		}
+		
+		public double getSurfacePointFromUV(ShadingContext context, Point2 uv, int tri) {
+			Point2 a = texCoords.get(texIndices[decomp[3 * tri]]);
+			Point2 b = texCoords.get(texIndices[decomp[3 * tri + 1]]);
+			Point2 c = texCoords.get(texIndices[decomp[3 * tri + 2]]);
+			
+			if (!GeometryUtil.pointInTriangle(uv, a, b, c)) {
+				return -1.0;
+			}
+			
+			double area = GeometryUtil.areaOfTriangle(a, b, c);
+			double A = GeometryUtil.areaOfTriangle(b, c, uv) / area;
+			double B = GeometryUtil.areaOfTriangle(c, a, uv) / area;
+			
+			assert(A > 0.0 && B > 0.0 && A + B < 1.0);
+
+			double C = 1.0 - A - B;
+			
+			Vector3 na = normals.get(normalIndices[decomp[3 * tri]]);
+			Vector3 nb = normals.get(normalIndices[decomp[3 * tri + 1]]);
+			Vector3 nc = normals.get(normalIndices[decomp[3 * tri + 2]]);
+			
+			Vector3 n = na.times(A).plus(nb.times(B)).plus(nc.times(C));
+			
+			Point3 pa = vertices.get(indices[decomp[3 * tri]]);
+			Point3 pb = vertices.get(indices[decomp[3 * tri + 1]]);
+			Point3 pc = vertices.get(indices[decomp[3 * tri + 2]]);
+			
+			double geomArea = GeometryUtil.areaOfTriangle(pa, pb, pc);
+			
+			Point3 p = new Point3(
+					pa.x() * A + pb.x() * B + pc.x() * C,
+					pa.y() * A + pb.y() * B + pc.y() * C,
+					pa.z() * A + pb.z() * B + pc.z() * C);
+		
+			context.setPosition(p);
+			context.setNormal(plane.normal());
+			context.setShadingNormal(n);
+			context.setUV(uv);
+			
+			return area / geomArea;
+
 		}
 
 		public Point3 generateRandomSurfacePoint(double ru, double rv, double rj) {
