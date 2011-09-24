@@ -72,7 +72,7 @@ public final class ModifiedPhongMaterial extends OpaqueMaterial {
 	@Override
 	public Color bsdf(SurfacePoint x, Vector3 in, Vector3 out,
 			WavelengthPacket lambda) {
-		if (in.dot(x.getNormal()) < 0.0 && out.dot(x.getNormal()) > 0.0) {
+		if ((in.dot(x.getNormal()) < 0.0) == (out.dot(x.getNormal()) > 0.0)) {
 			Color kd = kdPainter.getColor(x, lambda);
 			Color d = kd.divide(Math.PI);
 
@@ -99,7 +99,7 @@ public final class ModifiedPhongMaterial extends OpaqueMaterial {
 		
 		double vdotn = -in.dot(x.getNormal());
 		double odotn = out.dot(x.getNormal());
-		if (vdotn < 0.0 || odotn < 0.0) {
+		if ((vdotn > 0.0) != (odotn > 0.0)) {
 			return 0.0;
 		}
 
@@ -109,13 +109,13 @@ public final class ModifiedPhongMaterial extends OpaqueMaterial {
 		double rhod = kdY;
 		
 		double ksY = ColorUtil.getMeanChannelValue(ks);
-		double rhos = Math.min(1.0, ksY * vdotn * (n + 2.0) / (n + 1.0));
+		double rhos = Math.min(1.0, ksY * Math.abs(vdotn) * (n + 2.0) / (n + 1.0));
 		
 		Vector3 r = Optics.reflect(in, x.getNormal());
 		double rdoto = r.dot(out);
 
 		double pdfd = rhod / Math.PI;
-		double pdfs = rdoto > 0.0 ? rhos * (Math.pow(rdoto, n) / odotn) * (n + 1.0) / (2.0 * Math.PI) : 0.0;
+		double pdfs = rdoto > 0.0 ? rhos * (Math.pow(rdoto, n) / Math.abs(odotn)) * (n + 1.0) / (2.0 * Math.PI) : 0.0;
 
 		return pdfd + pdfs;
 		
@@ -129,9 +129,9 @@ public final class ModifiedPhongMaterial extends OpaqueMaterial {
 			WavelengthPacket lambda, double ru, double rv, double rj) {
 		
 		double vdotn = -v.dot(x.getNormal());
-		if (vdotn < 0.0) {
-			return null;
-		}
+//		if (vdotn < 0.0) {
+//			return null;
+//		}
 		
 		Color kd = kdPainter.getColor(x, lambda);
 		Color ks = ksPainter.getColor(x, lambda);
@@ -139,7 +139,7 @@ public final class ModifiedPhongMaterial extends OpaqueMaterial {
 		double rhod = kdY;
 		
 		double ksY = ColorUtil.getMeanChannelValue(ks);
-		double rhos = Math.min(1.0, ksY * vdotn * (n + 2.0) / (n + 1.0));
+		double rhos = Math.min(1.0, ksY * Math.abs(vdotn) * (n + 2.0) / (n + 1.0));
 		
 		if (rj < rhod) {
 			Vector3 out = RandomUtil.diffuse(ru, rv).toCartesian(x.getBasis());
