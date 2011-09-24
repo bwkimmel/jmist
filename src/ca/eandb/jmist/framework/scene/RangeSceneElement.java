@@ -72,7 +72,12 @@ public class RangeSceneElement implements SceneElement {
 	@Override
 	public double generateImportanceSampledSurfacePoint(SurfacePoint x,
 			ShadingContext context, double ru, double rv, double rj) {
-		throw new UnimplementedException();
+		double weight = inner.generateImportanceSampledSurfacePoint(x, context, ru, rv, rj);
+		int index = context.getPrimitiveIndex();
+		if (index >= offset && index - offset < size) {
+			return weight;
+		}
+		return -1.0;
 	}
 
 	/* (non-Javadoc)
