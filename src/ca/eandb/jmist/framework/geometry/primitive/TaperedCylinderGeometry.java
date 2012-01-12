@@ -107,21 +107,6 @@ public final class TaperedCylinderGeometry extends PrimitiveGeometry {
 //			}
 //		}
 		
-		
-		
-//		double x0 = org.x() / radius;
-//		double y0 = org.y() / height - 1.0;
-//		double z0 = org.z() / radius;
-//		double x1 = dir.x() / radius;
-//		double y1 = dir.y() / height;
-//		double z1 = dir.z() / radius;
-//		
-//		Polynomial f = new Polynomial(
-//				x0 * x0 - y0 * y0 + z0 * z0,
-//				2.0 * (x0 * x1 - y0 * y1 + z0 * z1),
-//				x1 * x1 - y1 * y1 + z1 * z1);
-
-		
 		double x0 = ray.origin().x();
 		double y0 = ray.origin().y();
 		double z0 = ray.origin().z();
