@@ -10,7 +10,7 @@ import ca.eandb.jmist.math.Tuple3;
  * @author Brad
  *
  */
-public final class RGB extends Tuple3 {
+public final class RGB extends Tuple3 implements Spectrum {
 
 	/** Serialization version ID. */
 	private static final long serialVersionUID = -4621493353796327474L;
@@ -132,6 +132,15 @@ public final class RGB extends Tuple3 {
 
 	public static RGB fromXYZ(CIEXYZ xyz) {
 		return ColorUtil.convertXYZ2RGB(xyz);
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.color.Spectrum#sample(ca.eandb.jmist.framework.color.WavelengthPacket)
+	 */
+	@Override
+	public Color sample(WavelengthPacket lambda) {
+		ColorModel cm = lambda.getColorModel();
+		return cm.fromRGB(this).sample(lambda);
 	}
 
 }
