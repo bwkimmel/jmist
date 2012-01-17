@@ -4,15 +4,12 @@
 package ca.eandb.jmist.framework.material.biospec;
 
 import ca.eandb.jmist.framework.Function1;
-import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.SurfacePoint;
-import ca.eandb.jmist.framework.SurfacePointGeometry;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
-import ca.eandb.jmist.framework.function.AXpBFunction1;
 import ca.eandb.jmist.framework.function.ConstantFunction1;
 import ca.eandb.jmist.framework.function.PiecewiseLinearFunction1;
 import ca.eandb.jmist.framework.function.ScaledFunction1;
