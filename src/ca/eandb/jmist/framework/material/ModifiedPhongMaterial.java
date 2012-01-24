@@ -149,13 +149,11 @@ public final class ModifiedPhongMaterial extends OpaqueMaterial {
 			Vector3 r = Optics.reflect(v, x.getNormal());
 			Vector3 out = new SphericalCoordinates(Math.acos(Math.pow(ru, 1.0 / (n + 1.0))), 2.0 * Math.PI * rv).toCartesian(Basis3.fromW(r));
 			double ndoto = x.getNormal().dot(out);
-			if (ndoto > 0.0) {
-				Color weight = ks.times(((n + 2.0) / (n + 1.0)) * ndoto / rhos);
-				//double rdoto = r.dot(out);
-				double pdf = getScatteringPDF(x, v, out, adjoint, lambda);//rhod / Math.PI + rhos * (Math.pow(rdoto, n) / ndoto) * (n + 1.0) / (2.0 * Math.PI);
-				Ray3 ray = new Ray3(x.getPosition(), out);
-				return ScatteredRay.glossy(ray, weight, pdf);
-			}
+			Color weight = ks.times(((n + 2.0) / (n + 1.0)) * Math.abs(ndoto) / rhos);
+			//double rdoto = r.dot(out);
+			double pdf = getScatteringPDF(x, v, out, adjoint, lambda);//rhod / Math.PI + rhos * (Math.pow(rdoto, n) / ndoto) * (n + 1.0) / (2.0 * Math.PI);
+			Ray3 ray = new Ray3(x.getPosition(), out);
+			return ScatteredRay.glossy(ray, weight, pdf);
 		}
 		return null;
 	}
