@@ -38,7 +38,7 @@ public final class RGBERadianceFileDisplay implements Display, Serializable {
 	 * Creates a new <code>RGBERadianceFileDisplay</code>.
 	 * @param fileName The name of the file to write.
 	 */
-	public RGBERadianceFileDisplay(String fileName, RadiancePicture.Format format) {
+	public RGBERadianceFileDisplay(String fileName) {
 		this.fileName = fileName;
 	}
 

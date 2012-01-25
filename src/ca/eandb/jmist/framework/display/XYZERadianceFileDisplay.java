@@ -38,7 +38,7 @@ public final class XYZERadianceFileDisplay implements Display, Serializable {
 	 * Creates a new <code>RGBERadianceFileDisplay</code>.
 	 * @param fileName The name of the file to write.
 	 */
-	public XYZERadianceFileDisplay(String fileName, RadiancePicture.Format format) {
+	public XYZERadianceFileDisplay(String fileName) {
 		this.fileName = fileName;
 	}
 
