@@ -388,6 +388,18 @@ public final class ColorUtil {
 		}
 		return sum;
 	}
+	
+	public static double getMaxChannelValue(Color color) {
+		int channels = color.getColorModel().getNumChannels();
+		double max = Double.NEGATIVE_INFINITY;
+		for (int i = 0; i < channels; i++) {
+			double c = color.getValue(i);
+			if (c > max) {
+				max = c;
+			}
+		}
+		return max;
+	}
 
 	/**
 	 * Adds two <code>Color</code>s, one or both of which may be
