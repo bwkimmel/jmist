@@ -19,6 +19,9 @@ import ca.eandb.jmist.math.Point2;
  */
 public abstract class ImageRasterizingPixelShader implements PixelShader {
 
+	/** Serialization version ID. */
+	private static final long serialVersionUID = -6845318344104841243L;
+
 	/**
 	 * Initializes the image shader to use for this pixel shader.
 	 * @param shader The <code>ImageShader</code> to use for this pixel shader.
