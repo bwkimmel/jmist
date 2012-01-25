@@ -27,6 +27,9 @@ public final class RGBERadianceFileDisplay implements Display, Serializable {
 	
 	/** Serialization version ID. */
 	private static final long serialVersionUID = -8735951495492670231L;
+	
+	/** Default filename. */
+	private static String DEFAULT_FILENAME = "output.hdr";
 
 	/** The name of the file to write. */
 	private final String fileName;
@@ -40,6 +43,13 @@ public final class RGBERadianceFileDisplay implements Display, Serializable {
 	 */
 	public RGBERadianceFileDisplay(String fileName) {
 		this.fileName = fileName;
+	}
+	
+	/**
+	 * Creates a new <code>RGBERadianceFileDisplay</code>.
+	 */
+	public RGBERadianceFileDisplay() {
+		this(DEFAULT_FILENAME);
 	}
 
 	/* (non-Javadoc)
