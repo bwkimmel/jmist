@@ -31,6 +31,9 @@ public final class VarianceTargetPixelShader implements PixelShader {
 	
 	/** Maximum number of samples to use. */
 	private final int maxSamples;
+	
+	/** The number of samples to compute between variance tests. */
+	private final int checkInterval;
 
 	/** The pixel shader from which to average the results. */
 	private final PixelShader pixelShader;
@@ -49,6 +52,8 @@ public final class VarianceTargetPixelShader implements PixelShader {
 	 * 		variance drops below this level.
 	 * @param minSamples The minimum number of samples to use.
 	 * @param maxSamples The maximum number of samples to use.
+	 * @param checkInterval The number of samples to compute between variance
+	 * 		tests.
 	 * @param testMode A value indicating whether to render in test mode.  In
 	 * 		test mode, the color of the pixel returned is a greyscale value
 	 * 		indicating how many samples were used (black represents the minimum
@@ -57,7 +62,7 @@ public final class VarianceTargetPixelShader implements PixelShader {
 	 * @param pixelShader The <code>PixelShader</code> to use to gather
 	 * 		samples.
 	 */
-	public VarianceTargetPixelShader(double varianceTarget, int minSamples, int maxSamples, boolean testMode, PixelShader pixelShader) {
+	public VarianceTargetPixelShader(double varianceTarget, int minSamples, int maxSamples, int checkInterval, boolean testMode, PixelShader pixelShader) {
 		if (minSamples < 2) {
 			throw new IllegalArgumentException("minSamples < 2");
 		}
@@ -67,9 +72,13 @@ public final class VarianceTargetPixelShader implements PixelShader {
 		if (varianceTarget < 0.0) {
 			throw new IllegalArgumentException("varianceTarget < 0.0");
 		}
+		if (checkInterval < 1) {
+			throw new IllegalArgumentException("checkInterval < 1");
+		}
 		this.varianceTarget = varianceTarget;
 		this.minSamples = minSamples;
 		this.maxSamples = maxSamples;
+		this.checkInterval = checkInterval;
 		this.testMode = testMode;
 		this.pixelShader = pixelShader;
 	}
@@ -80,11 +89,13 @@ public final class VarianceTargetPixelShader implements PixelShader {
 	 * 		variance drops below this level.
 	 * @param minSamples The minimum number of samples to use.
 	 * @param maxSamples The maximum number of samples to use.
+	 * @param checkInterval The number of samples to compute between variance
+	 * 		tests.
 	 * @param pixelShader The <code>PixelShader</code> to use to gather
 	 * 		samples.
 	 */
-	public VarianceTargetPixelShader(double varianceTarget, int minSamples, int maxSamples, PixelShader pixelShader) {
-		this(varianceTarget, minSamples, maxSamples, false, pixelShader);
+	public VarianceTargetPixelShader(double varianceTarget, int minSamples, int maxSamples, int checkInterval, PixelShader pixelShader) {
+		this(varianceTarget, minSamples, maxSamples, checkInterval, false, pixelShader);
 	}
 
 	/* (non-Javadoc)
@@ -94,10 +105,16 @@ public final class VarianceTargetPixelShader implements PixelShader {
 		Color pixel = pixelShader.shadePixel(bounds);
 		Color s = null;
 		int i;
+		int j = 1;
 
 		for (i = 1; i < this.maxSamples; i++) {
-			if (i >= minSamples && ColorUtil.getMaxChannelValue(s) < varianceTarget * (double) (i - 1)) {
-				break;
+			if (i >= minSamples) {
+				if (--j <= 0) {
+					j = checkInterval;
+					if (ColorUtil.getMaxChannelValue(s) < varianceTarget * (double) ((i - 1) * i)) {
+						break;
+					}
+				}
 			}
 			
 			Color sample = pixelShader.shadePixel(bounds);
