@@ -32,6 +32,13 @@ public enum CompressionMethod implements Attribute {
 		this.scanLinesPerBlock = scanLinesPerBlock;
 	}
 	
+	/**
+	 * @return the scanLinesPerBlock
+	 */
+	public final int getScanLinesPerBlock() {
+		return scanLinesPerBlock;
+	}
+
 	public static CompressionMethod read(DataInput in, int size) throws IOException {
 		int key = in.readByte();
 		for (CompressionMethod method : CompressionMethod.values()) {
