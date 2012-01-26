@@ -30,6 +30,7 @@ public final class AttributeFactory {
 		registerClass(FloatAttribute.class);
 		registerClass(LineOrder.class);
 		registerClass(StringAttribute.class);
+		registerClass(TileDescription.class);
 		registerClass(V2f.class);
 		registerClass(V2i.class);
 		registerClass(V3f.class);
