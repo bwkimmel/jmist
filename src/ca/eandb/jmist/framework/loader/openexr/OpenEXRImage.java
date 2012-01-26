@@ -62,6 +62,28 @@ public final class OpenEXRImage {
 			}			
 		}
 		
+		Box2i dw = image.getDataWindow();
+		CompressionMethod cm = image.getCompressionMethod();
+		
+		/* Skip over line/tile offset table. */
+		if (tiled) {
+			TileDescription td = image.getTiles();
+			int w = dw.getXSize();
+			int h = dw.getYSize();
+			int tw = td.getXSize();
+			int th = td.getYSize();
+			int tiles = (1 + (w - 1) / tw) * (1 + (h - 1) / th);
+			for (int i = 0; i < tiles; i++) {
+				dis.readLong();
+			}
+		} else { // scan lines
+			int blocks = 1 + (dw.getYSize() - 1) / cm.getScanLinesPerBlock();
+			for (int i = 0; i < blocks; i++) {
+				dis.readLong();
+			}
+		}
+		
+		
 		return image;
 	}
 	
@@ -95,6 +117,10 @@ public final class OpenEXRImage {
 	
 	public float getScreenWindowWidth() {
 		return ((FloatAttribute) attributes.get("screenWindowWidth")).getValue();
+	}
+	
+	public TileDescription getTiles() {
+		return (TileDescription) attributes.get("tiles");
 	}
 	
 	public static void main(String[] args) {
