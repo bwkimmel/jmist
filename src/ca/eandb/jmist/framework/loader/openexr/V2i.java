@@ -35,4 +35,35 @@ public final class V2i implements Attribute {
 		out.writeInt(y);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 */
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		return this;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		} else if (obj instanceof V2i) {
+			V2i other = (V2i) obj;
+			return (x == other.x && y == other.y);
+		} else {
+			return false;
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		return Integer.valueOf(x).hashCode() ^ Integer.valueOf(y).hashCode();
+	}
+
 }

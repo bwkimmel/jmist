@@ -38,4 +38,36 @@ public final class V3i implements Attribute {
 		out.writeInt(z);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 */
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		return this;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		} else if (obj instanceof V3i) {
+			V3i other = (V3i) obj;
+			return (x == other.x && y == other.y && z == other.z);
+		} else {
+			return false;
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		return Integer.valueOf(x).hashCode() ^ Integer.valueOf(y).hashCode()
+				^ Integer.valueOf(z).hashCode();
+	}
+
 }
