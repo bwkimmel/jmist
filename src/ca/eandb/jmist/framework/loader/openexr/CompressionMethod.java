@@ -7,6 +7,8 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
+import javax.imageio.stream.IIOByteBuffer;
+
 /**
  * @author brad
  *
@@ -14,22 +16,28 @@ import java.io.IOException;
 @OpenEXRAttributeType("compression")
 public enum CompressionMethod implements Attribute {
 	
-	NONE(0, 1),
-	RLE(1, 1),
-	ZIPS(2, 1),
-	ZIP(3, 16),
-	PIZ(4, 32),
-	PXR24(5, 16),
-	B44(6, 32),
-	B44A(7, 32);
+	NONE(0, 1, IdentityCodec.getInstance(), IdentityCodec.getInstance()),
+	RLE(1, 1, UnimplementedCodec.getInstance(), UnimplementedCodec.getInstance()),
+	ZIPS(2, 1, DeflateCodec.getInstance(), InflateCodec.getInstance()),
+	ZIP(3, 16, DeflateCodec.getInstance(), InflateCodec.getInstance()),
+	PIZ(4, 32, UnimplementedCodec.getInstance(), UnimplementedCodec.getInstance()),
+	PXR24(5, 16, UnimplementedCodec.getInstance(), UnimplementedCodec.getInstance()),
+	B44(6, 32, UnimplementedCodec.getInstance(), UnimplementedCodec.getInstance()),
+	B44A(7, 32, UnimplementedCodec.getInstance(), UnimplementedCodec.getInstance());
 	
 	private final int key;
 	
 	private final int scanLinesPerBlock;
 	
-	private CompressionMethod(int key, int scanLinesPerBlock) {
+	private final Codec compressor;
+	
+	private final Codec decompressor;
+	
+	private CompressionMethod(int key, int scanLinesPerBlock, Codec compressor, Codec decompressor) {
 		this.key = key;
 		this.scanLinesPerBlock = scanLinesPerBlock;
+		this.compressor = compressor;
+		this.decompressor = decompressor;
 	}
 	
 	/**
@@ -55,6 +63,14 @@ public enum CompressionMethod implements Attribute {
 	@Override
 	public void write(DataOutput out) throws IOException {
 		out.writeByte(key);
+	}
+	
+	public void compress(IIOByteBuffer buf) {
+		compressor.apply(buf);
+	}
+	
+	public void decompress(IIOByteBuffer buf) {
+		decompressor.apply(buf);
 	}
 
 }

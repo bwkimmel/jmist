@@ -55,11 +55,11 @@ public final class Box2i implements Attribute {
 	}
 	
 	public int getXSize() {
-		return xMax - xMin;
+		return xMax - xMin + 1;
 	}
 	
 	public int getYSize() {
-		return yMax - yMin;
+		return yMax - yMin + 1;
 	}
 
 	public static Box2i read(DataInput in, int size) throws IOException {

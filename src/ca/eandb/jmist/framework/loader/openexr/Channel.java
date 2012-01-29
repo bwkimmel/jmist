@@ -34,6 +34,41 @@ public final class Channel implements Attribute {
 		}
 	}
 	
+	/**
+	 * @return the name
+	 */
+	public final String getName() {
+		return name;
+	}
+
+	/**
+	 * @return the pixelType
+	 */
+	public final PixelType getPixelType() {
+		return pixelType;
+	}
+
+	/**
+	 * @return the pLinear
+	 */
+	public final byte getpLinear() {
+		return pLinear;
+	}
+
+	/**
+	 * @return the xSampling
+	 */
+	public final int getxSampling() {
+		return xSampling;
+	}
+
+	/**
+	 * @return the ySampling
+	 */
+	public final int getySampling() {
+		return ySampling;
+	}
+
 	public static Channel read(DataInput in) throws IOException {
 		String name = readString(in);
 		if (name.isEmpty()) {
