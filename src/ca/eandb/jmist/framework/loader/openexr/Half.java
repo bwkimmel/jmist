@@ -69,7 +69,11 @@ public final class Half extends Number implements Comparable<Half>, Serializable
 	}
 	
 	public Half(String s) throws NumberFormatException {
-		this.bits = valueOf(Float.parseFloat(s)).bits;
+		this.bits = parseHalf(s).bits;
+	}
+	
+	public static Half parseHalf(String s) {
+		return valueOf(Float.parseFloat(s));
 	}
 	
 	public static int compare(Half h1, Half h2) {
