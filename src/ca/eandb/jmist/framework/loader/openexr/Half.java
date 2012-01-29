@@ -77,12 +77,11 @@ public final class Half extends Number implements Comparable<Half>, Serializable
 		}
 		if (h1.bits == h2.bits) {
 			return 0;
-		} else if (h1.bits < h2.bits) {
-			return -1;
 		} else {
-			return 1;
+			int a = 0xffff & (int) (h1.bits ^ SIGN_MASK);
+			int b = 0xffff & (int) (h2.bits ^ SIGN_MASK);
+			return a < b ? -1 : 1;
 		}
-		
 	}
 
 	/* (non-Javadoc)
