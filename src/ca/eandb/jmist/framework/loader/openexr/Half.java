@@ -36,6 +36,8 @@ public final class Half extends Number implements Comparable<Half>, Serializable
 	
 	public static final Half ONE = new Half((short) 0x3c00);
 	
+	public static final Half NEGATIVE_ONE = new Half((short) 0xbc00);
+	
 	public static final int SIZE = 16;
 	
 	private static final short SIGN_MASK = (short) 0x8000;
@@ -45,6 +47,8 @@ public final class Half extends Number implements Comparable<Half>, Serializable
 	private static final short FRACTION_MASK = (short) 0x03ff;
 	
 	private static final int EXPONENT_SHIFT = 10;
+	
+	private static final int EXPONENT_BIAS = -15;
 	
 	private final short bits;
 	
@@ -346,6 +350,84 @@ public final class Half extends Number implements Comparable<Half>, Serializable
 	
 	public static Half copySign(Half magnitude, Half sign) {
 		return ((sign.bits ^ magnitude.bits) & SIGN_MASK) == 0 ? magnitude : negate(magnitude);
+	}
+	
+	public static Half cos(Half a) {
+		return valueOf(Math.cos(a.doubleValue()));
+	}
+	
+	public static Half cosh(Half x) {
+		return valueOf(Math.cosh(x.doubleValue()));
+	}
+	
+	public static Half expm1(Half x) {
+		return valueOf(Math.expm1(x.doubleValue()));
+	}
+	
+	public static int getExponent(Half x) {
+		return ((x.bits & EXPONENT_MASK) >> EXPONENT_SHIFT) + EXPONENT_BIAS;
+	}
+	
+	public static Half hypot(Half x, Half y) {
+		return valueOf(Math.hypot(x.doubleValue(), y.doubleValue()));
+	}
+	
+	public static Half log(Half a) {
+		return valueOf(Math.log(a.doubleValue()));
+	}
+	
+	public static Half log10(Half a) {
+		return valueOf(Math.log10(a.doubleValue()));
+	}
+	
+	public static Half log1p(Half x) {
+		return valueOf(Math.log1p(x.doubleValue()));
+	}
+	
+	public static Half max(Half a, Half b) {
+		return compare(a, b) >= 0 ? a : b;
+	}
+	
+	public static Half min(Half a, Half b) {
+		return compare(a, b) <= 0 ? a : b;
+	}
+	
+	public static int round(Half a) {
+		return (int) Math.round(a.floatValue());
+	}
+	
+	public static Half signum(Half a) {
+		if ((a.bits & ~SIGN_MASK) == 0) {
+			return Half.ZERO;
+		} else if ((a.bits & SIGN_MASK) == 0) {
+			return Half.ONE;
+		} else {
+			return Half.NEGATIVE_ONE;
+		}
+	}
+	
+	public static Half sin(Half a) {
+		return valueOf(Math.sin(a.doubleValue()));
+	}
+	
+	public static Half sinh(Half x) {
+		return valueOf(Math.sinh(x.doubleValue()));
+	}
+	
+	public static Half tan(Half a) {
+		return valueOf(Math.tan(a.doubleValue()));
+	}
+	
+	public static Half tanh(Half x) {
+		return valueOf(Math.tanh(x.doubleValue()));
+	}
+	
+	public static Half toDegrees(Half angrad) {
+		return valueOf(angrad.doubleValue() * (180.0 / Math.PI));
+	}
+	
+	public static Half toRadians(Half angdeg) {
+		return valueOf(angdeg.doubleValue() * (Math.PI / 180.0));
 	}
 
 	public static Half valueOf(double a) {
