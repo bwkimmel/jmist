@@ -13,14 +13,25 @@ import java.io.IOException;
  */
 public enum PixelType implements Attribute {
 
-	UINT(0),
-	HALF(1),
-	FLOAT(2);
+	UINT(0, 4),
+	HALF(1, 2),
+	FLOAT(2, 4);
 	
 	private final int key;
 	
-	private PixelType(int key) {
+	private final int sampleSize;
+	
+	private PixelType(int key, int sampleSize) {
 		this.key = key;
+		this.sampleSize = sampleSize;
+	}
+	
+	/**
+	 * Gets the size of a sample of this type, in bytes.
+	 * @return The size of a sample of this type, in bytes.
+	 */
+	public int getSampleSize() {
+		return sampleSize;
 	}
 	
 	public static PixelType read(DataInput in) throws IOException {
@@ -35,7 +46,7 @@ public enum PixelType implements Attribute {
 
 	@Override
 	public void write(DataOutput out) throws IOException {
-		out.writeByte(key);
+		out.writeInt(key);
 	}
 	
 }

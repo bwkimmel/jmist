@@ -33,7 +33,39 @@ public final class DeflateCodec implements Codec {
 		try {
 			ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 			DeflaterOutputStream inf = new DeflaterOutputStream(bytes);
-			inf.write(buf.getData(), buf.getOffset(), buf.getLength());
+			
+			int n = buf.getLength();
+			byte[] data = buf.getData();
+			byte[] pred = new byte[n];
+			
+			int t1 = 0;
+			int t2 = (n + 1) / 2;
+			int s = buf.getOffset();
+			int stop = s + n;
+			
+			while (true) {
+				if (s < stop) {
+					pred[t1++] = data[s++];
+				} else {
+					break;
+				}
+				
+				if (s < stop) {
+					pred[t2++] = data[s++];
+				} else {
+					break;
+				}
+			}
+			
+			int offset = buf.getOffset();
+			int p = pred[0];
+			for (int i = 1; i < n; i++) {
+				int d = (int) pred[i] - p + (128 + 256);
+				p = pred[i];
+				pred[i] = (byte) d;
+			}
+			
+			inf.write(pred);
 			inf.close();
 			buf.setData(bytes.toByteArray());
 			buf.setOffset(0);

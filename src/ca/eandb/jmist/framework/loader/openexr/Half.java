@@ -4,6 +4,8 @@
 package ca.eandb.jmist.framework.loader.openexr;
 
 import java.io.Serializable;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 /**
  * @author brad
@@ -499,7 +501,15 @@ public final class Half extends Number implements Comparable<Half>, Serializable
 	}
 	
 	public static void main(String[] args) {
-		System.out.println(Half.valueOf(0.0f).floatValue());
+		byte[] x = new byte[2];
+		ByteBuffer buf = ByteBuffer.wrap(x);
+		buf.order(ByteOrder.LITTLE_ENDIAN);
+		buf.asShortBuffer().put(Half.valueOf(3.283691e-2f).toShortBits());
+		System.out.printf("%02x %02x", x[0], x[1]);
+		System.out.println();
+		
+		
+		System.out.println(Half.valueOf(3.283691e-2f).floatValue());
 		System.out.println(Half.valueOf(1.0f).floatValue());
 		System.out.println(Half.valueOf(-1.0f).floatValue());
 		System.out.println(Half.valueOf(-2.0f).floatValue());

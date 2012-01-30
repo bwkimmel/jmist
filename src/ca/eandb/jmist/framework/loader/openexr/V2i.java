@@ -65,5 +65,13 @@ public final class V2i implements Attribute {
 	public int hashCode() {
 		return Integer.valueOf(x).hashCode() ^ Integer.valueOf(y).hashCode();
 	}
+	
+	public int getX() {
+		return x;
+	}
+	
+	public int getY() {
+		return y;
+	}
 
 }
