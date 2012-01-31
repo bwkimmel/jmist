@@ -11,6 +11,8 @@ import java.awt.event.ItemListener;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import ca.eandb.jmist.framework.color.CIEXYZ;
 import ca.eandb.jmist.framework.tone.ToneMapper;
@@ -26,7 +28,7 @@ public final class JUberToneMapperPanel extends JToneMapperPanel {
 
 	private static final String[] TONE_MAPPER_NAMES = { "None", "Linear", "Reinhard" };
 	
-	private static final JToneMapperPanel[] TONE_MAPPER_PANELS = {
+	private final JToneMapperPanel[] toneMapperPanel = {
 		new JIdentityToneMapperPanel(),
 		new JLinearToneMapperPanel(),
 		new JReinhardToneMapperPanel()
@@ -45,8 +47,16 @@ public final class JUberToneMapperPanel extends JToneMapperPanel {
 		
 		settingsContainerLayout = new CardLayout();
 		settingsContainerPanel = new JPanel(settingsContainerLayout);
+		
+		ChangeListener toneMapperPanelChangeListener = new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				toneMapperPanel_OnStateChanged(e);
+			}
+		};
+		
 		for (int i = 0; i < TONE_MAPPER_NAMES.length; i++) {
-			settingsContainerPanel.add(TONE_MAPPER_PANELS[i], TONE_MAPPER_NAMES[i]);
+			toneMapperPanel[i].addChangeListener(toneMapperPanelChangeListener);
+			settingsContainerPanel.add(toneMapperPanel[i], TONE_MAPPER_NAMES[i]);
 		}
 		
 		toneMapperComboBox.addItemListener(new ItemListener() {
@@ -58,6 +68,13 @@ public final class JUberToneMapperPanel extends JToneMapperPanel {
 		setLayout(new BorderLayout());
 		add(toneMapperComboBox, BorderLayout.NORTH);
 		add(settingsContainerPanel, BorderLayout.CENTER);
+	}
+	
+	private void toneMapperPanel_OnStateChanged(ChangeEvent e) {
+		int index = toneMapperComboBox.getSelectedIndex();
+		if (e.getSource() == toneMapperPanel[index]) {
+			fireStateChanged();
+		}
 	}
 
 	private void toneMapperComboBox_OnItemStateChanged(ItemEvent e) {
@@ -72,7 +89,7 @@ public final class JUberToneMapperPanel extends JToneMapperPanel {
 	@Override
 	public ToneMapper createToneMapper(Iterable<CIEXYZ> samples) {
 		int index = toneMapperComboBox.getSelectedIndex();
-		JToneMapperPanel settingsPanel = TONE_MAPPER_PANELS[index];
+		JToneMapperPanel settingsPanel = toneMapperPanel[index];
 		return settingsPanel.createToneMapper(samples);
 	}
 	
