@@ -4,6 +4,8 @@
 package ca.eandb.jmist.framework.display.uber;
 
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -57,9 +59,9 @@ public final class JLinearToneMapperPanel extends JToneMapperPanel {
 		whiteXChromaticitySlider.setEnabled(false);
 		whiteYChromaticitySlider.setEnabled(false);
 		
-		autoCheckBox.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				autoCheckBox_OnStateChanged(e);
+		autoCheckBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				autoCheckBox_OnActionPerformed(e);
 			}
 		});
 		
@@ -93,7 +95,9 @@ public final class JLinearToneMapperPanel extends JToneMapperPanel {
 	}
 	
 	private void whiteLuminanceSlider_OnStateChanged(ChangeEvent e) {
-		fireStateChanged();
+		if (!whiteLuminanceSlider.getValueIsAdjusting()) {
+			fireStateChanged();
+		}
 	}
 
 	private void whiteYChromaticitySlider_OnStateChanged(ChangeEvent e) {
@@ -104,7 +108,9 @@ public final class JLinearToneMapperPanel extends JToneMapperPanel {
 			whiteXChromaticitySlider.setValue(MAX_CHROMATICITY_SLIDER_VALUE - y);
 			suspendChangeEvents = false;
 		}
-		fireStateChanged();
+		if (!whiteYChromaticitySlider.getValueIsAdjusting()) {
+			fireStateChanged();
+		}
 	}
 
 	private void whiteXChromaticitySlider_OnStateChanged(ChangeEvent e) {
@@ -115,10 +121,12 @@ public final class JLinearToneMapperPanel extends JToneMapperPanel {
 			whiteYChromaticitySlider.setValue(MAX_CHROMATICITY_SLIDER_VALUE - x);
 			suspendChangeEvents = false;
 		}
-		fireStateChanged();
+		if (!whiteXChromaticitySlider.getValueIsAdjusting()) {
+			fireStateChanged();
+		}
 	}
 
-	private void autoCheckBox_OnStateChanged(ChangeEvent e) {
+	private void autoCheckBox_OnActionPerformed(ActionEvent e) {
 		boolean custom = !autoCheckBox.isSelected();
 		whiteLuminanceSlider.setEnabled(custom);
 		whiteXChromaticitySlider.setEnabled(custom);

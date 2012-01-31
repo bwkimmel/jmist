@@ -5,8 +5,8 @@ package ca.eandb.jmist.framework.display.uber;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,9 +44,9 @@ public final class JCompositeToneMapperPanel extends JToneMapperPanel {
 	 */
 	public JCompositeToneMapperPanel() {
 		toneMapperComboBox = new JComboBox();
-		toneMapperComboBox.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				toneMapperComboBox_OnItemStateChanged(e);
+		toneMapperComboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				toneMapperComboBox_OnActionPerformed(e);
 			}
 		});
 		
@@ -73,8 +73,8 @@ public final class JCompositeToneMapperPanel extends JToneMapperPanel {
 		}
 	}
 
-	private void toneMapperComboBox_OnItemStateChanged(ItemEvent e) {
-		String name = (String) e.getItem();
+	private void toneMapperComboBox_OnActionPerformed(ActionEvent e) {
+		String name = (String) toneMapperComboBox.getSelectedItem();
 		settingsContainerLayout.show(settingsContainerPanel, name);
 		fireStateChanged();
 	}
@@ -96,6 +96,11 @@ public final class JCompositeToneMapperPanel extends JToneMapperPanel {
 			.addChild("Linear", new JLinearToneMapperPanel())
 			.addChild("Reinhard", new JReinhardToneMapperPanel())
 			;
+		factory.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				System.out.println("fireStateChanged()");
+			}
+		});
 		frame.add(factory);
 		frame.pack();
 		frame.setVisible(true);

@@ -4,6 +4,8 @@
 package ca.eandb.jmist.framework.display.uber;
 
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -51,9 +53,9 @@ public final class JReinhardToneMapperPanel extends JToneMapperPanel {
 		whiteSlider.setEnabled(false);
 		scaleSlider.setEnabled(false);
 		
-		autoCheckBox.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				autoCheckBox_OnStateChanged(e);
+		autoCheckBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				autoCheckBox_OnActionPerformed(e);
 			}
 		});
 		
@@ -79,14 +81,18 @@ public final class JReinhardToneMapperPanel extends JToneMapperPanel {
 	}
 
 	private void whiteSlider_OnStateChanged(ChangeEvent e) {
-		fireStateChanged();
+		if (!whiteSlider.getValueIsAdjusting()) {
+			fireStateChanged();
+		}
 	}
 	
 	protected void scaleSlider_OnStateChanged(ChangeEvent e) {
-		fireStateChanged();
+		if (!scaleSlider.getValueIsAdjusting()) {
+			fireStateChanged();
+		}
 	}
 
-	private void autoCheckBox_OnStateChanged(ChangeEvent e) {
+	private void autoCheckBox_OnActionPerformed(ActionEvent e) {
 		boolean custom = !autoCheckBox.isSelected();
 		whiteSlider.setEnabled(custom);
 		scaleSlider.setEnabled(custom);
