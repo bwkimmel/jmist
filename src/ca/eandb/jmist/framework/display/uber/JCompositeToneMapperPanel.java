@@ -7,6 +7,8 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -21,58 +23,52 @@ import ca.eandb.jmist.framework.tone.ToneMapper;
  * @author brad
  *
  */
-public final class JUberToneMapperPanel extends JToneMapperPanel {
+public final class JCompositeToneMapperPanel extends JToneMapperPanel {
 	
 	/** Serialization version ID. */
-	private static final long serialVersionUID = -588386788937985315L;
-
-	private static final String[] TONE_MAPPER_NAMES = { "None", "Linear", "Reinhard" };
+	private static final long serialVersionUID = 3141927300066901460L;
 	
-	private final JToneMapperPanel[] toneMapperPanel = {
-		new JIdentityToneMapperPanel(),
-		new JLinearToneMapperPanel(),
-		new JReinhardToneMapperPanel()
-	};
-	
+	private final List<JToneMapperPanel> settingsPanels = new ArrayList<JToneMapperPanel>();
 	private final JComboBox toneMapperComboBox;
 	private final JPanel settingsContainerPanel;
 	private final CardLayout settingsContainerLayout;
 	
+	private final ChangeListener settingsPanelChangeListener = new ChangeListener() {
+		public void stateChanged(ChangeEvent e) {
+			settingsPanel_OnStateChanged(e);
+		}
+	};
+	
 	/**
 	 * 
 	 */
-	public JUberToneMapperPanel() {
-		toneMapperComboBox = new JComboBox(TONE_MAPPER_NAMES);
-		toneMapperComboBox.setSelectedIndex(0);
-		
-		settingsContainerLayout = new CardLayout();
-		settingsContainerPanel = new JPanel(settingsContainerLayout);
-		
-		ChangeListener toneMapperPanelChangeListener = new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				toneMapperPanel_OnStateChanged(e);
-			}
-		};
-		
-		for (int i = 0; i < TONE_MAPPER_NAMES.length; i++) {
-			toneMapperPanel[i].addChangeListener(toneMapperPanelChangeListener);
-			settingsContainerPanel.add(toneMapperPanel[i], TONE_MAPPER_NAMES[i]);
-		}
-		
+	public JCompositeToneMapperPanel() {
+		toneMapperComboBox = new JComboBox();
 		toneMapperComboBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				toneMapperComboBox_OnItemStateChanged(e);
 			}
 		});
 		
+		settingsContainerLayout = new CardLayout();
+		settingsContainerPanel = new JPanel(settingsContainerLayout);
+		
 		setLayout(new BorderLayout());
 		add(toneMapperComboBox, BorderLayout.NORTH);
 		add(settingsContainerPanel, BorderLayout.CENTER);
 	}
 	
-	private void toneMapperPanel_OnStateChanged(ChangeEvent e) {
+	public JCompositeToneMapperPanel addChild(String name, JToneMapperPanel panel) {
+		toneMapperComboBox.addItem(name);
+		settingsContainerPanel.add(panel, name);
+		settingsPanels.add(panel);
+		panel.addChangeListener(settingsPanelChangeListener);
+		return this;
+	}
+	
+	private void settingsPanel_OnStateChanged(ChangeEvent e) {
 		int index = toneMapperComboBox.getSelectedIndex();
-		if (e.getSource() == toneMapperPanel[index]) {
+		if (e.getSource() == settingsPanels.get(index)) {
 			fireStateChanged();
 		}
 	}
@@ -89,13 +85,17 @@ public final class JUberToneMapperPanel extends JToneMapperPanel {
 	@Override
 	public ToneMapper createToneMapper(Iterable<CIEXYZ> samples) {
 		int index = toneMapperComboBox.getSelectedIndex();
-		JToneMapperPanel settingsPanel = toneMapperPanel[index];
+		JToneMapperPanel settingsPanel = settingsPanels.get(index);
 		return settingsPanel.createToneMapper(samples);
 	}
 	
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
-		JUberToneMapperPanel factory = new JUberToneMapperPanel();
+		JCompositeToneMapperPanel factory = new JCompositeToneMapperPanel()
+			.addChild("None", new JIdentityToneMapperPanel())
+			.addChild("Linear", new JLinearToneMapperPanel())
+			.addChild("Reinhard", new JReinhardToneMapperPanel())
+			;
 		frame.add(factory);
 		frame.pack();
 		frame.setVisible(true);
