@@ -19,9 +19,9 @@ import ca.eandb.jmist.framework.Raster;
 import ca.eandb.jmist.framework.color.CIEXYZ;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
-import ca.eandb.jmist.framework.display.uber.JToneMapperPanel;
 import ca.eandb.jmist.framework.tone.ToneMapper;
 import ca.eandb.jmist.framework.tone.ToneMapperFactory;
+import ca.eandb.jmist.framework.tone.swing.JToneMapperPanel;
 import ca.eandb.jmist.math.Array2;
 
 /**
@@ -116,7 +116,7 @@ public final class JComponentDisplay extends JComponent implements Display,
 	 * Responds to a state-change event by the <code>ToneMapperFactory</code>
 	 * if it is an instance of a <code>JToneMapperPanel</code>.
 	 * @param e The <code>ChangeEvent</code> object describing the event.
-	 * @see ca.eandb.jmist.framework.display.uber.JToneMapperPanel
+	 * @see ca.eandb.jmist.framework.tone.swing.JToneMapperPanel
 	 */
 	private void toneMapperFactory_OnStateChanged(ChangeEvent e) {
 		regenerateToneMapper();

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ca.eandb.jmist.framework.display.uber;
+package ca.eandb.jmist.framework.tone.swing;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -135,7 +135,7 @@ public final class JLinearToneMapperPanel extends JToneMapperPanel {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.display.uber.JToneMapperPanel#fireStateChanged()
+	 * @see ca.eandb.jmist.framework.tone.swing.JToneMapperPanel#fireStateChanged()
 	 */
 	@Override
 	protected void fireStateChanged() {
