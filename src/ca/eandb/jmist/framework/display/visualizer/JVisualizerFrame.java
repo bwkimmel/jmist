@@ -36,9 +36,11 @@ public final class JVisualizerFrame extends JFrame implements Display {
 	/** Serialization version ID. */
 	private static final long serialVersionUID = 6053456293463524773L;
 	
+	private static final String DEFAULT_TITLE = "jMIST Visualizer";
+	
 	private final JVisualizerDisplay display;
 	
-	public JVisualizerFrame(JColorVisualizerPanel visualizerPanel) {
+	public JVisualizerFrame(JColorVisualizerPanel visualizerPanel) {		
 		display = new JVisualizerDisplay(visualizerPanel);
 		
 		JScrollPane displayScrollPane = new JScrollPane(display);
@@ -66,7 +68,8 @@ public final class JVisualizerFrame extends JFrame implements Display {
 		
 		menuBar.add(menu);
 		setJMenuBar(menuBar);
-		
+		setTitle(DEFAULT_TITLE);
+
 		pack();
 	}
 
