@@ -4,6 +4,7 @@
 package ca.eandb.jmist.framework.display.visualizer;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -38,6 +39,8 @@ public final class JVisualizerFrame extends JFrame implements Display {
 	
 	private static final String DEFAULT_TITLE = "jMIST Visualizer";
 	
+	private static final Dimension MINIMUM_SIZE = new Dimension(640, 480);
+	
 	private final JVisualizerDisplay display;
 	
 	public JVisualizerFrame(JColorVisualizerPanel visualizerPanel) {		
@@ -69,6 +72,7 @@ public final class JVisualizerFrame extends JFrame implements Display {
 		menuBar.add(menu);
 		setJMenuBar(menuBar);
 		setTitle(DEFAULT_TITLE);
+		setMinimumSize(MINIMUM_SIZE);
 
 		pack();
 	}
