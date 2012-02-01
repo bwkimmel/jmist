@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import java.util.BitSet;
 import java.util.Iterator;
 
@@ -44,6 +45,9 @@ public final class JVisualizerDisplay extends JComponent implements Display,
 	 * to <code>RGB</code> triplets.
 	 */
 	private final ColorVisualizer visualizer;
+	
+	/** The <code>ColorModel</code> used by the image. */
+	private ColorModel colorModel = null;
 	
 	/** A <code>BitSet</code> indicating which pixels have been recorded. */
 	private BitSet recorded = null;
@@ -149,6 +153,24 @@ public final class JVisualizerDisplay extends JComponent implements Display,
 			}
 		});
 	}
+	
+	public void export(Display display) {
+		if (rawImage == null || colorModel == null) {
+			throw new IllegalStateException("Display not initialized");
+		}
+		int w = rawImage.getWidth();
+		int h = rawImage.getHeight();
+		display.initialize(w, h, colorModel);
+		display.setPixels(0, 0, rawImage);
+		display.finish();
+	}
+	
+	public RenderedImage getRenderedImage() {
+		if (ldrImage == null) {
+			throw new IllegalStateException("Display not initialized");
+		}
+		return ldrImage;
+	}
 
 	/**
 	 * Responds to a state-change event by the <code>ColorVisualizer</code>.
@@ -252,6 +274,7 @@ public final class JVisualizerDisplay extends JComponent implements Display,
 	 * @see ca.eandb.jmist.framework.Display#initialize(int, int, ca.eandb.jmist.framework.color.ColorModel)
 	 */
 	public void initialize(int w, int h, ColorModel colorModel) {
+		this.colorModel = colorModel;
 		recorded = new BitSet(w * h);
 		rawImage = colorModel.createRaster(w, h);
 		ldrImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
