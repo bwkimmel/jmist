@@ -16,6 +16,18 @@ public final class RGB extends Tuple3 implements Spectrum {
 	private static final long serialVersionUID = -4621493353796327474L;
 
 	public static final RGB ZERO = new RGB(0.0, 0.0, 0.0);
+	
+	public static final RGB BLACK = new RGB(0.0, 0.0, 0.0);
+	public static final RGB WHITE = new RGB(1.0, 1.0, 1.0);
+	public static final RGB RED = new RGB(1.0, 0.0, 0.0);
+	public static final RGB GREEN = new RGB(0.0, 1.0, 0.0);
+	public static final RGB BLUE = new RGB(0.0, 0.0, 1.0);
+	public static final RGB YELLOW = new RGB(1.0, 1.0, 0.0);
+	public static final RGB MAGENTA = new RGB(1.0, 0.0, 1.0);
+	public static final RGB CYAN = new RGB(0.0, 1.0, 1.0);
+	public static final RGB GREY50 = new RGB(0.50, 0.50, 0.50);
+	public static final RGB GREY25 = new RGB(0.25, 0.25, 0.25);
+	public static final RGB GREY75 = new RGB(0.75, 0.75, 0.75);
 
 	/**
 	 *

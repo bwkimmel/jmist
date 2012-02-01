@@ -11,6 +11,8 @@ import java.awt.image.BufferedImage;
 import javax.swing.JComponent;
 import javax.swing.Scrollable;
 import javax.swing.SwingConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import ca.eandb.jmist.framework.Display;
 import ca.eandb.jmist.framework.Raster;
@@ -19,6 +21,7 @@ import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.tone.ToneMapper;
 import ca.eandb.jmist.framework.tone.ToneMapperFactory;
+import ca.eandb.jmist.framework.tone.swing.JToneMapperPanel;
 import ca.eandb.jmist.math.Array2;
 
 /**
@@ -99,6 +102,24 @@ public final class JComponentDisplay extends JComponent implements Display,
 	public JComponentDisplay(ToneMapperFactory toneMapperFactory, double toneMapperAgeThresholdFraction) {
 		this.toneMapperFactory =  toneMapperFactory;
 		this.toneMapperAgeThresholdFraction = toneMapperAgeThresholdFraction;
+		
+		if (toneMapperFactory instanceof JToneMapperPanel) {
+			((JToneMapperPanel) toneMapperFactory).addChangeListener(new ChangeListener() {
+				public void stateChanged(ChangeEvent e) {
+					toneMapperFactory_OnStateChanged(e);
+				}
+			});
+		}
+	}
+
+	/**
+	 * Responds to a state-change event by the <code>ToneMapperFactory</code>
+	 * if it is an instance of a <code>JToneMapperPanel</code>.
+	 * @param e The <code>ChangeEvent</code> object describing the event.
+	 * @see ca.eandb.jmist.framework.tone.swing.JToneMapperPanel
+	 */
+	private void toneMapperFactory_OnStateChanged(ChangeEvent e) {
+		regenerateToneMapper();
 	}
 
 	/* (non-Javadoc)
@@ -123,12 +144,19 @@ public final class JComponentDisplay extends JComponent implements Display,
 	private boolean prepareToneMapper(int samples) {
 		toneMapperAge += samples;
 		if (toneMapper == null || toneMapperAge >= toneMapperAgeThreshold) {
-			toneMapper = toneMapperFactory.createToneMapper(hdrImage);
-			toneMapperAge = 0;
-			reapplyToneMapper();
+			regenerateToneMapper();
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * Regenerates the <code>ToneMapper</code>.
+	 */
+	private void regenerateToneMapper() {
+		toneMapper = toneMapperFactory.createToneMapper(hdrImage);
+		toneMapperAge = 0;
+		reapplyToneMapper();
 	}
 
 	/**
