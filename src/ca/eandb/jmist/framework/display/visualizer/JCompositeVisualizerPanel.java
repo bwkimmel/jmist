@@ -46,7 +46,7 @@ public final class JCompositeVisualizerPanel extends JColorVisualizerPanel {
 		visualizerComboBox = new JComboBox();
 		visualizerComboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				toneMapperComboBox_OnActionPerformed(e);
+				visualizerComboBox_OnActionPerformed(e);
 			}
 		});
 		
@@ -72,7 +72,7 @@ public final class JCompositeVisualizerPanel extends JColorVisualizerPanel {
 		}
 	}
 
-	private void toneMapperComboBox_OnActionPerformed(ActionEvent e) {
+	private void visualizerComboBox_OnActionPerformed(ActionEvent e) {
 		String name = (String) visualizerComboBox.getSelectedItem();
 		settingsContainerLayout.show(settingsContainerPanel, name);
 		fireStateChanged();
