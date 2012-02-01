@@ -177,7 +177,7 @@ public final class JVisualizerDisplay extends JComponent implements Display,
 	 * @param e The <code>ChangeEvent</code> object describing the event.
 	 */
 	private void visualizer_OnStateChanged(ChangeEvent e) {
-		regenerateVisualizer();
+		regenerateVisualizer(true);
 	}
 
 	/* (non-Javadoc)
@@ -201,19 +201,22 @@ public final class JVisualizerDisplay extends JComponent implements Display,
 	private boolean prepareVisualizer(int samples) {
 		visualizerAge += samples;
 		if (visualizerAge >= visualizerAgeThreshold) {
-			return regenerateVisualizer();
+			return regenerateVisualizer(false);
 		}
 		return false;
 	}
 	
 	/**
 	 * Regenerates the <code>ColorVisualizer</code>.
+	 * @param forceReapply Forces the display to reapply the visualization
+	 * 		function even if {@link ColorVisualizer#analyze(Iterable)} reports
+	 * 		no changes.
 	 * @return A value indicating whether the visualization function has
 	 * 		changed.
 	 */
-	private boolean regenerateVisualizer() {
+	private boolean regenerateVisualizer(boolean forceReapply) {
 		visualizerAge = 0;
-		if (visualizer.analyze(new PixelIterator())) {
+		if (visualizer.analyze(new PixelIterator()) || forceReapply) {
 			reapplyVisualizer();
 			return true;
 		}
