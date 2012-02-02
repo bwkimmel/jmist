@@ -131,7 +131,11 @@ public final class JLinearToneMapperPanel extends JToneMapperPanel {
 		whiteLuminanceSlider.setEnabled(custom);
 		whiteXChromaticitySlider.setEnabled(custom);
 		whiteYChromaticitySlider.setEnabled(custom);
-		fireStateChanged();
+		if (!(custom
+				&& whiteLuminanceSlider.getMinimum() < whiteLuminanceSlider.getValue()
+				&& whiteLuminanceSlider.getValue() < whiteLuminanceSlider.getMaximum())) {
+			fireStateChanged();
+		}
 	}
 
 	/* (non-Javadoc)

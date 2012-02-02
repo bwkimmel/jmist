@@ -96,7 +96,13 @@ public final class JReinhardToneMapperPanel extends JToneMapperPanel {
 		boolean custom = !autoCheckBox.isSelected();
 		whiteSlider.setEnabled(custom);
 		scaleSlider.setEnabled(custom);
-		fireStateChanged();
+		if (!(custom
+				&& whiteSlider.getMinimum() < whiteSlider.getValue()
+				&& whiteSlider.getValue() < whiteSlider.getMaximum()
+				&& scaleSlider.getMinimum() < scaleSlider.getValue()
+				&& scaleSlider.getValue() < scaleSlider.getMaximum())) {
+			fireStateChanged();
+		}
 	}
 	
 	/* (non-Javadoc)
