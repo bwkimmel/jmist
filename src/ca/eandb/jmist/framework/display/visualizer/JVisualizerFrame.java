@@ -86,12 +86,24 @@ public final class JVisualizerFrame extends JFrame implements Display {
 	    int returnVal = chooser.showSaveDialog(this);
 	    if (returnVal == JFileChooser.APPROVE_OPTION) {
 	    	File file = chooser.getSelectedFile();
+			if (file.exists()) {
+				String message = String
+						.format("The file `%s' already exists.  Do you wish to overwrite this file?",
+								file.getName());
+				if (JOptionPane.showConfirmDialog(this, message, "File Exists",
+						JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) != JOptionPane.YES_OPTION) {
+					return;
+				}
+			}
 	    	String suffix = FileUtil.getExtension(file.getName());
 	    	try {
-				boolean foundWriter = ImageIO.write(display.getRenderedImage(), suffix, file);
+				boolean foundWriter = ImageIO.write(display.getRenderedImage(),
+						suffix, file);
 				if (!foundWriter) {
-					String message = String.format("Invalid image file format (%s)", suffix);
-					JOptionPane.showMessageDialog(this, message, "Error saving image", JOptionPane.WARNING_MESSAGE);
+					String message = String.format(
+							"Invalid image file format (%s)", suffix);
+					JOptionPane.showMessageDialog(this, message,
+							"Error saving image", JOptionPane.WARNING_MESSAGE);
 				}
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(this, e.getMessage(),
