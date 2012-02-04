@@ -184,10 +184,12 @@ public final class JVisualizerDisplay extends JComponent implements Display,
 	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
 	 */
 	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
+	public void paint(Graphics g) {
+//		super.paintComponent(g);
+		super.paint(g);
 		if (ldrImage != null) {
-			g.drawImage(ldrImage, 0, 0, null);
+			Dimension d = getSize();
+			g.drawImage(ldrImage, 0, 0, d.width, d.height, null);
 		}
 	}
 
@@ -237,6 +239,34 @@ public final class JVisualizerDisplay extends JComponent implements Display,
 		}
 		super.repaint();
 	}
+	
+	/**
+	 * Repaints the specified rectangular portion of the image.
+	 * @param x The x-coordinate of the upper left pixel in the image to
+	 * 		repaint.
+	 * @param y The y-coordinate of the upper left pixel in the image to
+	 * 		repaint.
+	 * @param w The width of the rectangular portion of the image to
+	 * 		repaint.
+	 * @param h The height of the rectangular portion of the image to
+	 * 		repaint.
+	 */
+	private void repaintPartialImage(int x, int y, int w, int h) {
+		Dimension d = getSize();
+		int imageW = ldrImage.getWidth();
+		int imageH = ldrImage.getHeight();
+		double sx = (double) d.width / (double) imageW;
+		double sy = (double) d.height / (double) imageH;
+		
+		int x0 = (int) Math.floor(sx * (double) x);
+		int y0 = (int) Math.floor(sy * (double) y);
+		int x1 = (int) Math.ceil(sx * (double) (x + w - 1));
+		int y1 = (int) Math.ceil(sy * (double) (y + h - 1));
+		int dx = x1 - x0 + 1;
+		int dy = y1 - y0 + 1;
+		
+		super.repaint(x0, y0, dx, dy);
+	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.Display#fill(int, int, int, int, ca.eandb.jmist.framework.color.Color)
@@ -257,7 +287,7 @@ public final class JVisualizerDisplay extends JComponent implements Display,
 					tile.setRGB(rx, ry, rgb);
 				}
 			}
-			super.repaint(x, y, w, h);
+			repaintPartialImage(x, y, w, h);
 		}
 	}
 
@@ -296,7 +326,7 @@ public final class JVisualizerDisplay extends JComponent implements Display,
 		if (!prepareVisualizer(1)) {
 			int rgb = visualizer.visualize(pixel).toR8G8B8();
 			ldrImage.setRGB(x, y, rgb);
-			super.repaint(x, y, 1, 1);
+			repaintPartialImage(x, y, 1, 1);
 		}
 	}
 
@@ -325,7 +355,7 @@ public final class JVisualizerDisplay extends JComponent implements Display,
 					ldrTile.setRGB(rx, ry, rgb);
 				}
 			}
-			super.repaint(x, y, w, h);
+			repaintPartialImage(x, y, w, h);
 		}
 	}
 
