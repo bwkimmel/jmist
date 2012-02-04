@@ -3,13 +3,16 @@
  */
 package ca.eandb.jmist.framework.tone.swing;
 
-import java.awt.GridLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -71,13 +74,65 @@ public final class JReinhardToneMapperPanel extends JToneMapperPanel {
 			}
 		});
 		
-		setLayout(new GridLayout(3,2));
-		add(new JLabel(""));
-		add(autoCheckBox);
-		add(new JLabel("White"));
-		add(whiteSlider);
-		add(new JLabel("Scale"));
-		add(scaleSlider);
+		
+		setLayout(new GridBagLayout());
+
+		JLabel label;
+		GridBagConstraints c;
+		
+		c = new GridBagConstraints();
+		c.gridy = 0;
+		c.gridx = 0;
+		label = new JLabel("");
+		label.setPreferredSize(new Dimension(100, 25));
+		add(label, c);
+		
+		c = new GridBagConstraints();
+		c.gridy = 0;
+		c.gridx = 1;
+		c.weightx = 1.0;
+		c.anchor = GridBagConstraints.LINE_START;
+		add(autoCheckBox, c);
+		
+		c = new GridBagConstraints();
+		c.gridy = 1;
+		c.gridx = 0;
+		c.anchor = GridBagConstraints.LINE_START;
+		label = new JLabel("White");
+		label.setPreferredSize(new Dimension(100, 25));
+		add(label, c);
+		
+		c = new GridBagConstraints();
+		c.gridy = 1;
+		c.gridx = 1;
+		c.weightx = 1.0;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		add(whiteSlider, c);
+		
+		c = new GridBagConstraints();
+		c.gridy = 2;
+		c.gridx = 0;
+		c.anchor = GridBagConstraints.LINE_START;
+		label = new JLabel("Scale");
+		label.setPreferredSize(new Dimension(100, 25));
+		add(label, c);
+
+		c = new GridBagConstraints();
+		c.gridy = 2;
+		c.gridx = 1;
+		c.weighty = 1.0;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		add(scaleSlider, c);
+		
+		JPanel panel = new JPanel();
+		panel.setPreferredSize(new Dimension(0, 0));
+		c = new GridBagConstraints();
+		c.gridy = 3;
+		c.gridx = 0;
+		c.gridwidth = GridBagConstraints.REMAINDER;
+		c.fill = GridBagConstraints.BOTH;
+		c.weighty = 1.0;
+		add(panel, c);
 	}
 
 	private void whiteSlider_OnStateChanged(ChangeEvent e) {

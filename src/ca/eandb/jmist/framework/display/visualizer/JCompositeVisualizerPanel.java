@@ -3,14 +3,17 @@
  */
 package ca.eandb.jmist.framework.display.visualizer;
 
-import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -27,6 +30,8 @@ public final class JCompositeVisualizerPanel extends JColorVisualizerPanel {
 	/** Serialization version ID. */
 	private static final long serialVersionUID = -232961900921714759L;
 	
+	private static final String DEFAULT_COMBOBOX_LABEL = "Render";
+	
 	private final List<JColorVisualizerPanel> settingsPanels = new ArrayList<JColorVisualizerPanel>();
 	private final JComboBox visualizerComboBox;
 	private final JPanel settingsContainerPanel;
@@ -42,7 +47,7 @@ public final class JCompositeVisualizerPanel extends JColorVisualizerPanel {
 	 * 
 	 */
 	public JCompositeVisualizerPanel() {
-		super(new BorderLayout());
+		super(new GridBagLayout());
 		visualizerComboBox = new JComboBox();
 		visualizerComboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -53,8 +58,29 @@ public final class JCompositeVisualizerPanel extends JColorVisualizerPanel {
 		settingsContainerLayout = new CardLayout();
 		settingsContainerPanel = new JPanel(settingsContainerLayout);
 		
-		add(visualizerComboBox, BorderLayout.NORTH);
-		add(settingsContainerPanel, BorderLayout.CENTER);
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridy = 0;
+		c.gridx = 0;
+		c.anchor = GridBagConstraints.LINE_START;
+		JLabel label = new JLabel(DEFAULT_COMBOBOX_LABEL);
+		label.setPreferredSize(new Dimension(100, 25));
+		add(label, c);
+		
+		c = new GridBagConstraints();
+		c.gridy = 0;
+		c.gridx = 1;
+		c.weightx = 1.0;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		add(visualizerComboBox, c);
+		
+		c = new GridBagConstraints();
+		c.gridy = 1;
+		c.gridx = 0;
+		c.weightx = 1.0;
+		c.weighty = 1.0;
+		c.gridwidth = GridBagConstraints.REMAINDER;
+		c.fill = GridBagConstraints.BOTH;
+		add(settingsContainerPanel, c);
 	}
 	
 	public JCompositeVisualizerPanel addChild(String name, JColorVisualizerPanel panel) {

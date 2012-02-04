@@ -3,12 +3,15 @@
  */
 package ca.eandb.jmist.framework.display.visualizer;
 
-import java.awt.GridLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
@@ -28,7 +31,7 @@ public final class JChannelVisualizerPanel extends JColorVisualizerPanel {
 	private ColorVisualizer visualizer = null;
 	
 	public JChannelVisualizerPanel(ColorModel cm) {
-		super(new GridLayout(1, 2));
+		super(new GridBagLayout());
 		
 		channelComboBox = new JComboBox();
 		for (int i = 0, n = cm.getNumChannels(); i < n; i++) {
@@ -44,8 +47,31 @@ public final class JChannelVisualizerPanel extends JColorVisualizerPanel {
 		
 		visualizer = new AutomaticLinearChannelVisualizer(0, false);
 		
-		add(new JLabel("Channel"));
-		add(channelComboBox);
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridy = 0;
+		c.gridx = 0;
+		c.anchor = GridBagConstraints.LINE_START;
+		JLabel label = new JLabel("Channel");
+		label.setPreferredSize(new Dimension(100, 25));
+		add(label, c);
+		
+		c = new GridBagConstraints();
+		c.gridy = 0;
+		c.gridx = 1;
+		c.weightx = 1.0;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		add(channelComboBox, c);
+		
+		c = new GridBagConstraints();
+		c.gridy = 1;
+		c.gridx = 0;
+		c.gridwidth = GridBagConstraints.REMAINDER;
+		c.weightx = 1.0;
+		c.weighty = 1.0;
+		c.fill = GridBagConstraints.BOTH;
+		JPanel panel = new JPanel();
+		panel.setPreferredSize(new Dimension(0, 0));
+		add(panel, c);
 	}
 
 	private void channelComboBox_OnActionPerformed(ActionEvent e) {

@@ -3,14 +3,14 @@
  */
 package ca.eandb.jmist.framework.display.visualizer;
 
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -45,7 +45,7 @@ public final class JHighlightAnomaliesVisualizerPanel extends
 	private RGB underexposed = RGB.GREEN;
 
 	public JHighlightAnomaliesVisualizerPanel(JColorVisualizerPanel inner) {
-		super(new BorderLayout());
+		super(new GridBagLayout());
 		this.inner = inner;
 		this.inner.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
@@ -53,7 +53,8 @@ public final class JHighlightAnomaliesVisualizerPanel extends
 			}
 		});
 		
-		JPanel settingsPanel = new JPanel(new GridLayout(1, 4));
+		JLabel label;
+		GridBagConstraints c;
 		
 		highlightNegativeCheckBox = new JCheckBox("Negative");
 		highlightNegativeCheckBox.addActionListener(new ActionListener() {
@@ -76,13 +77,44 @@ public final class JHighlightAnomaliesVisualizerPanel extends
 			}
 		});
 
-		settingsPanel.add(new JLabel("Highlight: "));
-		settingsPanel.add(highlightOverCheckBox);
-		settingsPanel.add(highlightUnderCheckBox);
-		settingsPanel.add(highlightNegativeCheckBox);
+		c = new GridBagConstraints();
+		c.gridy = 0;
+		c.gridx = 0;
+		c.anchor = GridBagConstraints.LINE_START;
+		label = new JLabel("Highlight");
+		label.setPreferredSize(new Dimension(100, 25));
+		add(label, c);
 		
-		add(settingsPanel, BorderLayout.NORTH);
-		add(inner, BorderLayout.CENTER);
+		c = new GridBagConstraints();
+		c.gridy = 0;
+		c.gridx = 1;
+		c.anchor = GridBagConstraints.LINE_START;
+		highlightOverCheckBox.setPreferredSize(new Dimension(150, 25));
+		add(highlightOverCheckBox, c);
+
+		c = new GridBagConstraints();
+		c.gridy = 0;
+		c.gridx = 2;
+		c.anchor = GridBagConstraints.LINE_START;
+		highlightUnderCheckBox.setPreferredSize(new Dimension(150, 25));
+		add(highlightUnderCheckBox, c);
+
+		c = new GridBagConstraints();
+		c.gridy = 0;
+		c.gridx = 3;
+		c.weightx = 1.0;
+		c.anchor = GridBagConstraints.LINE_START;
+		highlightNegativeCheckBox.setPreferredSize(new Dimension(150, 25));
+		add(highlightNegativeCheckBox, c);
+
+		c = new GridBagConstraints();
+		c.gridy = 1;
+		c.gridx = 0;
+		c.gridwidth = GridBagConstraints.REMAINDER;
+		c.weightx = 1.0;
+		c.weighty = 1.0;
+		c.fill = GridBagConstraints.BOTH;
+		add(inner, c);
 	}
 	
 	protected void highlightCheckBox_OnActionPerformed(ActionEvent e) {
