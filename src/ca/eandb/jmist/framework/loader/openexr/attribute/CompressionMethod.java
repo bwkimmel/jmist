@@ -67,12 +67,12 @@ public enum CompressionMethod implements Attribute {
 		out.writeByte(key);
 	}
 	
-	public void compress(IIOByteBuffer buf) {
-		codec.compress(buf);
+	public void compress(IIOByteBuffer buf, Box2i range) {
+		codec.compress(buf, range);
 	}
 	
-	public void decompress(IIOByteBuffer buf) {
-		codec.decompress(buf);
+	public void decompress(IIOByteBuffer buf, Box2i range) {
+		codec.decompress(buf, range);
 	}
 
 }

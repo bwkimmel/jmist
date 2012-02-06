@@ -10,6 +10,7 @@ import java.util.zip.InflaterOutputStream;
 
 import javax.imageio.stream.IIOByteBuffer;
 
+import ca.eandb.jmist.framework.loader.openexr.attribute.Box2i;
 import ca.eandb.util.UnexpectedException;
 
 /**
@@ -27,10 +28,10 @@ public final class FlateCodec implements Codec {
 	private FlateCodec() {}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.openexr.Codec#compress(javax.imageio.stream.IIOByteBuffer)
+	 * @see ca.eandb.jmist.framework.loader.openexr.codec.Codec#compress(javax.imageio.stream.IIOByteBuffer, ca.eandb.jmist.framework.loader.openexr.attribute.Box2i)
 	 */
 	@Override
-	public void compress(IIOByteBuffer buf) {
+	public void compress(IIOByteBuffer buf, Box2i range) {
 		try {
 			ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 			DeflaterOutputStream inf = new DeflaterOutputStream(bytes);
@@ -77,10 +78,10 @@ public final class FlateCodec implements Codec {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.openexr.Codec#decompress(javax.imageio.stream.IIOByteBuffer)
+	 * @see ca.eandb.jmist.framework.loader.openexr.codec.Codec#decompress(javax.imageio.stream.IIOByteBuffer, ca.eandb.jmist.framework.loader.openexr.attribute.Box2i)
 	 */
 	@Override
-	public void decompress(IIOByteBuffer buf) {
+	public void decompress(IIOByteBuffer buf, Box2i range) {
 		try {
 			ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 			InflaterOutputStream inf = new InflaterOutputStream(bytes);

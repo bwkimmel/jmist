@@ -207,13 +207,14 @@ public final class OpenEXRImage {
 				int x1 = dw.getXMax();
 				int y0 = source.readInt();
 				int y1 = Math.min(y0 + blockHeight - 1, ymax);
+				Box2i block = new Box2i(x0, y0, x1, y1);
 				int size = source.readInt();
-				int blockSize = computeTileSize(new Box2i(x0, y0, x1, y1));
+				int blockSize = computeTileSize(block);
 				
 				IIOByteBuffer buf = new IIOByteBuffer(null, 0, 0);
 				source.readBytes(buf, size);				
 				if (size < blockSize) {
-					cm.decompress(buf);
+					cm.decompress(buf, block);
 					if (buf.getLength() < blockSize) {
 						throw new RuntimeException("Undersized block");
 					}
@@ -437,7 +438,7 @@ public final class OpenEXRImage {
 			buf.setData(blockData);
 			buf.setOffset(0);
 			buf.setLength(blockSize);
-			cm.compress(buf);
+			cm.compress(buf, block);
 			
 			out.writeInt(y0);
 			if (buf.getLength() < blockSize) {
