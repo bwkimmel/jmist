@@ -3,7 +3,6 @@
  */
 package ca.eandb.jmist.framework.tone.swing;
 
-import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
