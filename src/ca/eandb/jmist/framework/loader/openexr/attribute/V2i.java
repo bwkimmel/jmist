@@ -1,31 +1,30 @@
 /**
  * 
  */
-package ca.eandb.jmist.framework.loader.openexr;
+package ca.eandb.jmist.framework.loader.openexr.attribute;
 
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
+
 /**
  * @author brad
  *
  */
-@OpenEXRAttributeType("v3i")
-public final class V3i implements Attribute {
+@OpenEXRAttributeType("v2i")
+public final class V2i implements Attribute {
 
 	private final int x;
 	private final int y;
-	private final int z;
 	
-	public V3i(int x, int y, int z) {
+	public V2i(int x, int y) {
 		this.x = x;
 		this.y = y;
-		this.z = z;
 	}
 	
-	public static V3i read(DataInput in, int size) throws IOException {
-		return new V3i(in.readInt(), in.readInt(), in.readInt());
+	public static V2i read(DataInput in, int size) throws IOException {
+		return new V2i(in.readInt(), in.readInt());
 	}
 
 	/* (non-Javadoc)
@@ -35,7 +34,6 @@ public final class V3i implements Attribute {
 	public void write(DataOutput out) throws IOException {
 		out.writeInt(x);
 		out.writeInt(y);
-		out.writeInt(z);
 	}
 
 	/* (non-Javadoc)
@@ -53,9 +51,9 @@ public final class V3i implements Attribute {
 	public boolean equals(Object obj) {
 		if (obj == null) {
 			return false;
-		} else if (obj instanceof V3i) {
-			V3i other = (V3i) obj;
-			return (x == other.x && y == other.y && z == other.z);
+		} else if (obj instanceof V2i) {
+			V2i other = (V2i) obj;
+			return (x == other.x && y == other.y);
 		} else {
 			return false;
 		}
@@ -66,8 +64,15 @@ public final class V3i implements Attribute {
 	 */
 	@Override
 	public int hashCode() {
-		return Integer.valueOf(x).hashCode() ^ Integer.valueOf(y).hashCode()
-				^ Integer.valueOf(z).hashCode();
+		return Integer.valueOf(x).hashCode() ^ Integer.valueOf(y).hashCode();
+	}
+	
+	public int getX() {
+		return x;
+	}
+	
+	public int getY() {
+		return y;
 	}
 
 }

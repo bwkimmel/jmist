@@ -1,31 +1,30 @@
 /**
  * 
  */
-package ca.eandb.jmist.framework.loader.openexr;
+package ca.eandb.jmist.framework.loader.openexr.attribute;
 
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
+
 /**
  * @author brad
  *
  */
-@OpenEXRAttributeType("v3f")
-public final class V3f implements Attribute {
+@OpenEXRAttributeType("v2f")
+public final class V2f implements Attribute {
 
 	private final float x;
 	private final float y;
-	private final float z;
 	
-	public V3f(float x, float y, float z) {
+	public V2f(float x, float y) {
 		this.x = x;
 		this.y = y;
-		this.z = z;
 	}
 	
-	public static V3f read(DataInput in, int size) throws IOException {
-		return new V3f(in.readFloat(), in.readFloat(), in.readFloat());
+	public static V2f read(DataInput in, int size) throws IOException {
+		return new V2f(in.readFloat(), in.readFloat());
 	}
 
 	/* (non-Javadoc)
@@ -35,7 +34,6 @@ public final class V3f implements Attribute {
 	public void write(DataOutput out) throws IOException {
 		out.writeFloat(x);
 		out.writeFloat(y);
-		out.writeFloat(z);
 	}
 
 }

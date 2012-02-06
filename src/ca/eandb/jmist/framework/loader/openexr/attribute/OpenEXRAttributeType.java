@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ca.eandb.jmist.framework.loader.openexr;
+package ca.eandb.jmist.framework.loader.openexr.attribute;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

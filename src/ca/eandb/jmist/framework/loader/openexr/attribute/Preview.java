@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ca.eandb.jmist.framework.loader.openexr;
+package ca.eandb.jmist.framework.loader.openexr.attribute;
 
 /**
  * @author brad
