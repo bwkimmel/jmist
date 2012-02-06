@@ -11,6 +11,8 @@ import javax.imageio.stream.IIOByteBuffer;
  */
 public interface Codec {
 	
-	void apply(IIOByteBuffer buf);
+	void compress(IIOByteBuffer buf);
+	
+	void decompress(IIOByteBuffer buf);
 
 }

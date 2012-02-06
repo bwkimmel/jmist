@@ -22,10 +22,18 @@ public final class UnimplementedCodec implements Codec {
 	private UnimplementedCodec() {}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.openexr.Codec#apply(javax.imageio.stream.IIOByteBuffer)
+	 * @see ca.eandb.jmist.framework.loader.openexr.Codec#compress(javax.imageio.stream.IIOByteBuffer)
 	 */
 	@Override
-	public void apply(IIOByteBuffer buf) {
+	public void compress(IIOByteBuffer buf) {
+		throw new UnimplementedException("Unimplemented codec");
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.loader.openexr.Codec#decompress(javax.imageio.stream.IIOByteBuffer)
+	 */
+	@Override
+	public void decompress(IIOByteBuffer buf) {
 		throw new UnimplementedException("Unimplemented codec");
 	}
 
