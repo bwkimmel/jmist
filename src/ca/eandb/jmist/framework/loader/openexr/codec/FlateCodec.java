@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ca.eandb.jmist.framework.loader.openexr;
+package ca.eandb.jmist.framework.loader.openexr.codec;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

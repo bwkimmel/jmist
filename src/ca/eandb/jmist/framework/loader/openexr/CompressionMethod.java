@@ -9,6 +9,11 @@ import java.io.IOException;
 
 import javax.imageio.stream.IIOByteBuffer;
 
+import ca.eandb.jmist.framework.loader.openexr.codec.Codec;
+import ca.eandb.jmist.framework.loader.openexr.codec.FlateCodec;
+import ca.eandb.jmist.framework.loader.openexr.codec.IdentityCodec;
+import ca.eandb.jmist.framework.loader.openexr.codec.UnimplementedCodec;
+
 /**
  * @author brad
  *
