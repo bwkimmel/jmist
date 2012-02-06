@@ -12,6 +12,7 @@ import javax.imageio.stream.IIOByteBuffer;
 import ca.eandb.jmist.framework.loader.openexr.codec.Codec;
 import ca.eandb.jmist.framework.loader.openexr.codec.FlateCodec;
 import ca.eandb.jmist.framework.loader.openexr.codec.IdentityCodec;
+import ca.eandb.jmist.framework.loader.openexr.codec.PizCodec;
 import ca.eandb.jmist.framework.loader.openexr.codec.UnimplementedCodec;
 
 /**
@@ -25,7 +26,7 @@ public enum CompressionMethod implements Attribute {
 	RLE(1, 1, UnimplementedCodec.getInstance()),
 	ZIPS(2, 1, FlateCodec.getInstance()),
 	ZIP(3, 16, FlateCodec.getInstance()),
-	PIZ(4, 32, UnimplementedCodec.getInstance()),
+	PIZ(4, 32, new PizCodec()),
 	PXR24(5, 16, UnimplementedCodec.getInstance()),
 	B44(6, 32, UnimplementedCodec.getInstance()),
 	B44A(7, 32, UnimplementedCodec.getInstance());
