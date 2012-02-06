@@ -58,7 +58,6 @@ public final class FlateCodec implements Codec {
 				}
 			}
 			
-			int offset = buf.getOffset();
 			int p = pred[0];
 			for (int i = 1; i < n; i++) {
 				int d = (int) pred[i] - p + (128 + 256);
