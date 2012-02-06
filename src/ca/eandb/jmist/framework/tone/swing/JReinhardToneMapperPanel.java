@@ -13,14 +13,13 @@ import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import ca.eandb.jmist.framework.color.CIEXYZ;
 import ca.eandb.jmist.framework.tone.ReinhardToneMapper;
 import ca.eandb.jmist.framework.tone.ToneMapper;
-import ca.eandb.jmist.math.MathUtil;
+import ca.eandb.util.ui.JNumberLine;
 
 /**
  * @author brad
@@ -35,13 +34,10 @@ public final class JReinhardToneMapperPanel extends JToneMapperPanel {
 	
 	private static final double MIN_STOP = -10.0;
 	private static final double MAX_STOP = 10.0;
-	private static final int STEPS_PER_STOP = 100;
-	private static final int MIN_STEP = (int) Math.round(MIN_STOP * (double) STEPS_PER_STOP);
-	private static final int MAX_STEP = (int) Math.round(MAX_STOP * (double) STEPS_PER_STOP);
 	
 	private final JCheckBox autoCheckBox;
-	private final JSlider whiteSlider;
-	private final JSlider scaleSlider;
+	private final JNumberLine whiteSlider;
+	private final JNumberLine scaleSlider;
 	
 	private boolean suspendChangeEvents = false;
 
@@ -50,8 +46,8 @@ public final class JReinhardToneMapperPanel extends JToneMapperPanel {
 	 */
 	public JReinhardToneMapperPanel() {
 		autoCheckBox = new JCheckBox("Automatic", true);
-		whiteSlider = new JSlider(MIN_STEP, MAX_STEP, 0);
-		scaleSlider = new JSlider(MIN_STEP, MAX_STEP, 0);
+		whiteSlider = new JNumberLine(MIN_STOP, MAX_STOP, 0);
+		scaleSlider = new JNumberLine(MIN_STOP, MAX_STOP, 0);
 		
 		whiteSlider.setEnabled(false);
 		scaleSlider.setEnabled(false);
@@ -151,11 +147,7 @@ public final class JReinhardToneMapperPanel extends JToneMapperPanel {
 		boolean custom = !autoCheckBox.isSelected();
 		whiteSlider.setEnabled(custom);
 		scaleSlider.setEnabled(custom);
-		if (!(custom
-				&& whiteSlider.getMinimum() < whiteSlider.getValue()
-				&& whiteSlider.getValue() < whiteSlider.getMaximum()
-				&& scaleSlider.getMinimum() < scaleSlider.getValue()
-				&& scaleSlider.getValue() < scaleSlider.getMaximum())) {
+		if (!custom) {
 			fireStateChanged();
 		}
 	}
@@ -199,22 +191,16 @@ public final class JReinhardToneMapperPanel extends JToneMapperPanel {
 			yWhite = Ymax;
 			yScale = Ymid / Yavg;
 			
-			int whiteSliderValue = MathUtil.clamp(
-					(int) Math.round(((double) STEPS_PER_STOP)
-							* Math.log(yWhite) / Math.log(2.0)), MIN_STEP,
-					MAX_STEP);
-			int scaleSliderValue = MathUtil.clamp(
-					(int) Math.round(((double) STEPS_PER_STOP)
-							* Math.log(yScale) / Math.log(2.0)), MIN_STEP,
-					MAX_STEP);
+			double whiteSliderValue = Math.log(yWhite) / Math.log(2.0);
+			double scaleSliderValue = Math.log(yScale) / Math.log(2.0);
 			
 			suspendChangeEvents = true;
 			whiteSlider.setValue(whiteSliderValue);
 			scaleSlider.setValue(scaleSliderValue);
 			suspendChangeEvents = false;
 		} else {
-			yWhite = Math.pow(2.0, ((double) whiteSlider.getValue()) / (double) STEPS_PER_STOP);
-			yScale = Math.pow(2.0, ((double) scaleSlider.getValue()) / (double) STEPS_PER_STOP);
+			yWhite = Math.pow(2.0, whiteSlider.getValue());
+			yScale = Math.pow(2.0, scaleSlider.getValue());
 		}
 		
 		return new ReinhardToneMapper(yScale, yWhite);

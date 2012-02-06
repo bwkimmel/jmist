@@ -21,7 +21,7 @@ import ca.eandb.jmist.framework.color.CIEXYZ;
 import ca.eandb.jmist.framework.color.CIExyY;
 import ca.eandb.jmist.framework.tone.LinearToneMapper;
 import ca.eandb.jmist.framework.tone.ToneMapper;
-import ca.eandb.jmist.math.MathUtil;
+import ca.eandb.util.ui.JNumberLine;
 
 /**
  * @author brad
@@ -38,12 +38,9 @@ public final class JLinearToneMapperPanel extends JToneMapperPanel {
 	
 	private static final double MIN_STOP = -10.0;
 	private static final double MAX_STOP = 10.0;
-	private static final int STEPS_PER_STOP = 100;
-	private static final int MIN_STEP = (int) Math.round(MIN_STOP * (double) STEPS_PER_STOP);
-	private static final int MAX_STEP = (int) Math.round(MAX_STOP * (double) STEPS_PER_STOP);
 	
 	private final JCheckBox autoCheckBox;
-	private final JSlider whiteLuminanceSlider;
+	private final JNumberLine whiteLuminanceSlider;
 	private final JSlider whiteXChromaticitySlider;
 	private final JSlider whiteYChromaticitySlider;
 	
@@ -54,7 +51,7 @@ public final class JLinearToneMapperPanel extends JToneMapperPanel {
 	 */
 	public JLinearToneMapperPanel() {
 		autoCheckBox = new JCheckBox("Automatic", true);
-		whiteLuminanceSlider = new JSlider(MIN_STEP, MAX_STEP, 0);
+		whiteLuminanceSlider = new JNumberLine(MIN_STOP, MAX_STOP, 0);
 		whiteXChromaticitySlider = new JSlider(0, MAX_CHROMATICITY_SLIDER_VALUE, MAX_CHROMATICITY_SLIDER_VALUE / 3);
 		whiteYChromaticitySlider = new JSlider(0, MAX_CHROMATICITY_SLIDER_VALUE, MAX_CHROMATICITY_SLIDER_VALUE / 3);
 		
@@ -197,9 +194,7 @@ public final class JLinearToneMapperPanel extends JToneMapperPanel {
 		whiteLuminanceSlider.setEnabled(custom);
 		whiteXChromaticitySlider.setEnabled(custom);
 		whiteYChromaticitySlider.setEnabled(custom);
-		if (!(custom
-				&& whiteLuminanceSlider.getMinimum() < whiteLuminanceSlider.getValue()
-				&& whiteLuminanceSlider.getValue() < whiteLuminanceSlider.getMaximum())) {
+		if (!custom) {
 			fireStateChanged();
 		}
 	}
@@ -241,10 +236,7 @@ public final class JLinearToneMapperPanel extends JToneMapperPanel {
 			double Ymid = 1.03 - 2.0 / (2.0 + Math.log10(Yavg + 1.0));
 			white = new CIExyY(1.0 / 3.0, 1.0 / 3.0, Yavg / Ymid);
 			
-			int ySliderValue = MathUtil.clamp(
-					(int) Math.round(((double) STEPS_PER_STOP)
-							* Math.log(white.Y()) / Math.log(2.0)), MIN_STEP,
-					MAX_STEP);
+			double ySliderValue = Math.log(white.Y()) / Math.log(2.0);
 	
 			suspendChangeEvents = true;
 			whiteLuminanceSlider.setValue(ySliderValue);
@@ -255,7 +247,7 @@ public final class JLinearToneMapperPanel extends JToneMapperPanel {
 			white = new CIExyY(
 					((double) whiteXChromaticitySlider.getValue()) / (double) MAX_CHROMATICITY_SLIDER_VALUE,
 					((double) whiteYChromaticitySlider.getValue()) / (double) MAX_CHROMATICITY_SLIDER_VALUE,
-					Math.pow(2.0, ((double) whiteLuminanceSlider.getValue()) / (double) STEPS_PER_STOP));
+					Math.pow(2.0, whiteLuminanceSlider.getValue()));
 		}
 		
 		return new LinearToneMapper(white.toXYZ());
