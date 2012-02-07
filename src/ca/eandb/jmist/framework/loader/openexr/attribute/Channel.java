@@ -25,6 +25,14 @@ public final class Channel implements Attribute {
 	
 	private final int ySampling;
 	
+	public Channel(String name, PixelType pixelType) {
+		this(name, pixelType, (byte) 0, 1, 1);
+	}
+	
+	public Channel(String name, PixelType pixelType, int xSampling, int ySampling) {
+		this(name, pixelType, (byte) 0, xSampling, ySampling);
+	}
+	
 	public Channel(String name, PixelType pixelType, byte pLinear, int xSampling, int ySampling) {
 		this.name = name;
 		this.pixelType = pixelType;
