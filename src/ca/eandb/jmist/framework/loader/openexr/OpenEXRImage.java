@@ -790,25 +790,33 @@ public final class OpenEXRImage {
 	
 	public static void main(String[] args) {
 		try {
-			OpenEXRImage image = new OpenEXRImage(new FileImageInputStream(new File("/home/brad/Downloads/openexr-images-1.5.0/ScanLines/Blobbies.exr")));
+			
+			
+//			OpenEXRImage image = new OpenEXRImage(new FileImageInputStream(new File("/home/brad/Downloads/openexr-images-1.5.0/ScanLines/Blobbies.exr")));
+			OpenEXRImage image = new OpenEXRImage(640, 480);
+			image.getChannelList().addChannel(new Channel("R", PixelType.FLOAT));
+			image.getChannelList().addChannel(new Channel("G", PixelType.FLOAT));
+			image.getChannelList().addChannel(new Channel("B", PixelType.FLOAT));
+			image.setCompressionMethod(CompressionMethod.ZIP);
+			image.setRGB(320, 240, new RGB(1,0,0));
 //			image.attributes.put("compression", CompressionMethod.NONE);
 			
-			PrintStream out = new PrintStream(new FileOutputStream("/home/brad/Downloads/openexr-images-1.5.0/ScanLines/Blobbies2.test"));
-			for (int y = -20; y < 1020; y++) {
-				for (int x = -20; x < 1020; x++) {
-					out.printf("% 8.6e,% 8.6e,% 8.6e,% 8.6e,% 8.6e",
-							image.getFloat(x, y, "A"),
-							image.getFloat(x, y, "B"),
-							image.getFloat(x, y, "G"),
-							image.getFloat(x, y, "R"),
-							image.getFloat(x, y, "Z"));
-					out.println();
-				}
-			}
-			out.flush();
-			out.close();
+//			PrintStream out = new PrintStream(new FileOutputStream("/home/brad/Downloads/openexr-images-1.5.0/ScanLines/Blobbies2.test"));
+//			for (int y = -20; y < 1020; y++) {
+//				for (int x = -20; x < 1020; x++) {
+//					out.printf("% 8.6e,% 8.6e,% 8.6e,% 8.6e,% 8.6e",
+//							image.getFloat(x, y, "A"),
+//							image.getFloat(x, y, "B"),
+//							image.getFloat(x, y, "G"),
+//							image.getFloat(x, y, "R"),
+//							image.getFloat(x, y, "Z"));
+//					out.println();
+//				}
+//			}
+//			out.flush();
+//			out.close();
 			
-			image.write(new FileImageOutputStream(new File("/home/brad/Downloads/openexr-images-1.5.0/ScanLines/Blobbies2.exr")));
+			image.write(new FileImageOutputStream(new File("/home/brad/Downloads/openexr-images-1.5.0/ScanLines/Test.exr")));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
