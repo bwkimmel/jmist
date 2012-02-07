@@ -14,6 +14,17 @@ import java.io.IOException;
  */
 @OpenEXRAttributeType("chromaticities")
 public final class Chromaticities implements Attribute {
+	
+	public static final Chromaticities DEFAULT = new Chromaticities(
+			0.6400f, 0.3300f,
+			0.3000f, 0.6000f,
+			0.1500f, 0.0600f,
+			0.3127f, 0.3290f);
+	public static final Chromaticities XYZ = new Chromaticities(
+			1.0000f, 0.0000f,
+			0.0000f, 1.0000f,
+			0.0000f, 0.0000f,
+			1.0f/3.0f, 1.0f/3.0f);
 
 	private final float redX;
 	private final float redY;
