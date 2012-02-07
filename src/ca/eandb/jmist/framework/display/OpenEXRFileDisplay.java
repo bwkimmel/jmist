@@ -27,7 +27,7 @@ import ca.eandb.util.UnexpectedException;
  * A <code>Display</code> that writes the results to an OpenEXR (.exr) image file.
  * @author Brad Kimmel
  */
-public final class OpenEXRDisplay implements Display {
+public final class OpenEXRFileDisplay implements Display {
 		
 	/** The name of the file to write. */
 	private final String fileName;
@@ -59,7 +59,7 @@ public final class OpenEXRDisplay implements Display {
 	 * @throws IllegalArgumentException if <code>rawPixelType</code> and
 	 * 		<code>rgbColorType</code> are both <code>null</code>.
 	 */
-	public OpenEXRDisplay(String fileName, PixelType rawPixelType, PixelType rgbPixelType) {
+	public OpenEXRFileDisplay(String fileName, PixelType rawPixelType, PixelType rgbPixelType) {
 		if (rawPixelType == PixelType.UINT) {
 			throw new IllegalArgumentException("rawPixelType == UINT");
 		}
