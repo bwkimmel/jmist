@@ -14,9 +14,8 @@ import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.imageio.stream.FileImageInputStream;
@@ -58,10 +57,44 @@ public final class OpenEXRImage {
 	private static final int VERSION_MASK = 0xff;
 	
 	private static final int VERSION = 2;
+	
+	private static final Map<String, Class<?>> ATTRIBUTE_TYPES;
+	static
+	{
+		Map<String, Class<?>> types = new HashMap<String, Class<?>>();
+		types.put("channels", ChannelList.class);
+		types.put("compression", CompressionMethod.class);
+		types.put("dataWindow", Box2i.class);
+		types.put("displayWindow", Box2i.class);
+		types.put("lineOrder", LineOrder.class);
+		types.put("pixelAspectRatio", FloatAttribute.class);
+		types.put("screenWindowCenter", V2f.class);
+		types.put("screenWindowWidth", FloatAttribute.class);
+		ATTRIBUTE_TYPES = Collections.unmodifiableMap(types);
+	}
 
 	private final Map<String, Attribute> attributes = new HashMap<String, Attribute>();
 	
-	private final List<Buffer> data = new ArrayList<Buffer>();
+	private final Map<String, Buffer> data = new HashMap<String, Buffer>();
+	
+	public OpenEXRImage(int w, int h) {
+		this(new Box2i(0, 0, w - 1, h - 1));
+	}
+	
+	public OpenEXRImage(Box2i dataWindow) {
+		this(dataWindow, dataWindow);
+	}
+	
+	public OpenEXRImage(Box2i dataWindow, Box2i displayWindow) {
+		attributes.put("channels", new ChannelList());
+		attributes.put("compression", CompressionMethod.NONE);
+		attributes.put("dataWindow", dataWindow);
+		attributes.put("displayWindow", displayWindow);
+		attributes.put("lineOrder", LineOrder.INCREASING_Y);
+		attributes.put("pixelAspectRatio", new FloatAttribute(1.0f));
+		attributes.put("screenWindowCenter", new V2f(0.0f, 0.0f));
+		attributes.put("screenWindowWidth", new FloatAttribute(1.0f));
+	}
 	
 	private OpenEXRImage(ImageInputStream source) throws IOException {
 		
@@ -174,29 +207,6 @@ public final class OpenEXRImage {
 			int blockHeight = cm.getScanLinesPerBlock();
 			int numBlocks = 1 + (h - 1) / blockHeight;
 			ChannelList chlist = getChannelList();
-			int numChannels = chlist.channels().size();
-			int lineSize = 0;
-			
-			for (Channel channel : chlist.channels()) {
-				int sx = 1 + (w - 1) / channel.getxSampling();
-				int sy = 1 + (h - 1) / channel.getySampling();
-				PixelType pt = channel.getPixelType();
-				
-				lineSize += sx * pt.getSampleSize();
-				switch (pt) {
-				case UINT:
-					data.add(IntBuffer.allocate(sx * sy));
-					break;
-					
-				case FLOAT:
-					data.add(FloatBuffer.allocate(sx * sy));
-					break;
-					
-				case HALF:
-					data.add(ShortBuffer.allocate(sx * sy));
-					break;
-				}
-			}
 			
 			source.seek(source.getFlushedPosition() + 8 * numBlocks);
 			
@@ -225,8 +235,8 @@ public final class OpenEXRImage {
 						.order(ByteOrder.LITTLE_ENDIAN);
 				
 				for (int y = y0; y <= y1; y++) {
-					for (int c = 0; c < numChannels; c++) {
-						Channel channel = chlist.channels().get(c);
+					for (Channel channel : chlist.channels()) {
+						String name = channel.getName();
 						int sx = channel.getxSampling();
 						int sy = channel.getySampling();
 						
@@ -236,7 +246,7 @@ public final class OpenEXRImage {
 							switch (pt) {
 							case UINT:
 								{
-									IntBuffer chBuf = (IntBuffer) data.get(c);
+									IntBuffer chBuf = (IntBuffer) getChannelBuffer(name);
 									chBuf.position(((y - ymin) / sy) * numElem);
 									chBuf.put((IntBuffer) inBuf.asIntBuffer().limit(numElem));
 									break;
@@ -244,7 +254,7 @@ public final class OpenEXRImage {
 								
 							case HALF:
 								{
-									ShortBuffer chBuf = (ShortBuffer) data.get(c);
+									ShortBuffer chBuf = (ShortBuffer) getChannelBuffer(name);
 									chBuf.position(((y - ymin) / sy) * numElem);
 									chBuf.put((ShortBuffer) inBuf.asShortBuffer().limit(numElem));
 									break;
@@ -252,7 +262,7 @@ public final class OpenEXRImage {
 								
 							case FLOAT:
 								{
-									FloatBuffer chBuf = (FloatBuffer) data.get(c);
+									FloatBuffer chBuf = (FloatBuffer) getChannelBuffer(name);
 									chBuf.position(((y - ymin) / sy) * numElem);
 									chBuf.put((FloatBuffer) inBuf.asFloatBuffer().limit(numElem));
 									break;
@@ -281,6 +291,45 @@ public final class OpenEXRImage {
 	
 	public static OpenEXRImage read(ImageInputStream source) throws IOException {
 		return new OpenEXRImage(source);
+	}
+	
+	private Buffer getChannelBuffer(String name) {
+		Buffer buf = data.get(name);
+		return buf != null ? buf : getChannelBufferSync(name);
+	}
+	
+	private synchronized Buffer getChannelBufferSync(String name) {
+		Buffer buf = data.get(name);
+		if (buf == null) {
+			ChannelList chlist = getChannelList();
+			Channel channel = chlist.getChannel(name);
+			Box2i dataWindow = getDataWindow();
+			int w = dataWindow.getXSize();
+			int h = dataWindow.getYSize();
+			int sx = 1 + (w - 1) / channel.getxSampling();
+			int sy = 1 + (h - 1) / channel.getySampling();
+			PixelType pt = channel.getPixelType();
+			
+			switch (pt) {
+			case UINT:
+				buf = IntBuffer.allocate(sx * sy);
+				break;
+				
+			case FLOAT:
+				buf = FloatBuffer.allocate(sx * sy);
+				break;
+				
+			case HALF:
+				buf = ShortBuffer.allocate(sx * sy);
+				break;
+				
+			default:
+				throw new UnexpectedException("Invalid pixel type");
+			}
+			
+			data.put(name, buf);
+		}
+		return buf;
 	}
 	
 	private int computeTileSize(Box2i tile) {
@@ -400,14 +449,14 @@ public final class OpenEXRImage {
 			int blockSize = computeTileSize(block);
 			
 			for (int y = y0; y <= y1; y++) {
-				for (int c = 0, nc = chlist.channels().size(); c < nc; c++) {
-					Channel channel = chlist.channels().get(c);
+				for (Channel channel : chlist.channels()) {
+					String name = channel.getName();
 					int sx = channel.getxSampling();
 					int sy = channel.getySampling();
 					if (y % sy == 0) {
 						int nx = 1 + (x1 - x0 - (x1 % sx)) / sx;
 						int offset = ((y - ymin) / sy) * nx;
-						Buffer chBuf = data.get(c);
+						Buffer chBuf = getChannelBuffer(name);
 						PixelType pt = channel.getPixelType();
 						
 						switch (pt) {
@@ -456,12 +505,34 @@ public final class OpenEXRImage {
 		out.close();
 	}
 	
+	public Attribute getAttribute(String name) {
+		return attributes.get(name);
+	}
+	
+	public void setAttribute(String name, Attribute value) {
+		if (name.equals("dataWindow")) {
+			throw new IllegalArgumentException("Cannot set dataWindow after instantiation");
+		}
+		Class<?> type = ATTRIBUTE_TYPES.get(name);
+		if (type != null && value.getClass() != type) {
+			String msg = String.format(
+					"value is of incorrect type, expected `%s' but got `%s'",
+					type.getName(), value.getClass().getName());
+			throw new IllegalArgumentException(msg);
+		}
+		attributes.put(name, value);
+	}
+	
 	public ChannelList getChannelList() {
 		return (ChannelList) attributes.get("channels");
 	}
 	
 	public CompressionMethod getCompressionMethod() {
 		return (CompressionMethod) attributes.get("compression");
+	}
+	
+	public void setCompressionMethod(CompressionMethod value) {
+		attributes.put("compression", value);
 	}
 	
 	public Box2i getDataWindow() {
@@ -472,24 +543,48 @@ public final class OpenEXRImage {
 		return (Box2i) attributes.get("displayWindow");
 	}
 	
+	public void setDisplayWindow(Box2i value) {
+		attributes.put("displayWindow", value);
+	}
+	
 	public LineOrder getLineOrder() {
 		return (LineOrder) attributes.get("lineOrder");
+	}
+	
+	public void setLineOrder(LineOrder value) {
+		attributes.put("lineOrder", value);
 	}
 	
 	public float getPixelAspectRatio() {
 		return ((FloatAttribute) attributes.get("pixelAspectRatio")).getValue();
 	}
 	
+	public void setPixelAspectRatio(float value) {
+		attributes.put("pixelAspectRatio", new FloatAttribute(value));
+	}
+	
 	public V2f getScreenWindowCenter() {
 		return (V2f) attributes.get("screenWindowCenter");
+	}
+	
+	public void setScreenWindowCenter(V2f value) {
+		attributes.put("screenWindowCenter", value);
 	}
 	
 	public float getScreenWindowWidth() {
 		return ((FloatAttribute) attributes.get("screenWindowWidth")).getValue();
 	}
 	
+	public void setScreenWindowWidth(float value) {
+		attributes.put("screenWindowWidth", new FloatAttribute(value));
+	}
+	
 	public TileDescription getTiles() {
 		return (TileDescription) attributes.get("tiles");
+	}
+	
+	public void setTiles(TileDescription value) {
+		attributes.put("tiles", value);
 	}
 	
 	public RGB getRGB(int x, int y) {
@@ -506,12 +601,7 @@ public final class OpenEXRImage {
 	}
 	
 	public long getUnsignedInt(int x, int y, String c) {
-		int index = getChannelList().getChannelIndex(c);
-		return getUnsignedInt(x, y, index);
-	}
-	
-	public long getUnsignedInt(int x, int y, int c) {
-		Channel ch = getChannelList().channels().get(c);
+		Channel ch = getChannelList().getChannel(c);
 		Box2i dw = getDataWindow();
 		int xmin = dw.getXMin();
 		int ymin = dw.getYMin();
@@ -524,15 +614,15 @@ public final class OpenEXRImage {
 		
 		switch (ch.getPixelType()) {
 		case UINT:
-			IntBuffer ibuf = (IntBuffer) data.get(c);
+			IntBuffer ibuf = (IntBuffer) getChannelBuffer(c);
 			return ((long) ibuf.get(index)) & 0xffffffffL;
 		
 		case HALF:
-			ShortBuffer sbuf = (ShortBuffer) data.get(c);
+			ShortBuffer sbuf = (ShortBuffer) getChannelBuffer(c);
 			return MathUtil.clamp(Half.fromShortBits(sbuf.get(index)).longValue(), 0, (0x1L << 32) - 1L);
 			
 		case FLOAT:
-			FloatBuffer fbuf = (FloatBuffer) data.get(c);
+			FloatBuffer fbuf = (FloatBuffer) getChannelBuffer(c);
 			return MathUtil.clamp((long) fbuf.get(index), 0, (0x1L << 32) - 1L);
 			
 		default:
@@ -542,12 +632,7 @@ public final class OpenEXRImage {
 	}
 	
 	public Half getHalf(int x, int y, String c) {
-		int index = getChannelList().getChannelIndex(c);
-		return getHalf(x, y, index);
-	}
-	
-	public Half getHalf(int x, int y, int c) {
-		Channel ch = getChannelList().channels().get(c);
+		Channel ch = getChannelList().getChannel(c);
 		Box2i dw = getDataWindow();
 		int sx = ch.getxSampling();
 		int sy = ch.getySampling();
@@ -560,15 +645,15 @@ public final class OpenEXRImage {
 
 		switch (ch.getPixelType()) {
 		case UINT:
-			IntBuffer ibuf = (IntBuffer) data.get(c);
+			IntBuffer ibuf = (IntBuffer) getChannelBuffer(c);
 			return Half.valueOf((double) (((long) ibuf.get(index)) & 0xffffffffL));
 		
 		case HALF:
-			ShortBuffer sbuf = (ShortBuffer) data.get(c);
+			ShortBuffer sbuf = (ShortBuffer) getChannelBuffer(c);
 			return Half.fromShortBits(sbuf.get(index));
 			
 		case FLOAT:
-			FloatBuffer fbuf = (FloatBuffer) data.get(c);
+			FloatBuffer fbuf = (FloatBuffer) getChannelBuffer(c);
 			return Half.valueOf(fbuf.get(index));
 			
 		default:
@@ -578,12 +663,7 @@ public final class OpenEXRImage {
 	}
 	
 	public float getFloat(int x, int y, String c) {
-		int index = getChannelList().getChannelIndex(c);
-		return getFloat(x, y, index);
-	}
-	
-	public float getFloat(int x, int y, int c) {
-		Channel ch = getChannelList().channels().get(c);
+		Channel ch = getChannelList().getChannel(c);
 		Box2i dw = getDataWindow();
 		int sx = ch.getxSampling();
 		int sy = ch.getySampling();
@@ -596,15 +676,15 @@ public final class OpenEXRImage {
 
 		switch (ch.getPixelType()) {
 		case UINT:
-			IntBuffer ibuf = (IntBuffer) data.get(c);
+			IntBuffer ibuf = (IntBuffer) getChannelBuffer(c);
 			return (float) (((long) ibuf.get(index)) & 0xffffffffL);
 		
 		case HALF:
-			ShortBuffer sbuf = (ShortBuffer) data.get(c);
+			ShortBuffer sbuf = (ShortBuffer) getChannelBuffer(c);
 			return Half.fromShortBits(sbuf.get(index)).floatValue();
 			
 		case FLOAT:
-			FloatBuffer fbuf = (FloatBuffer) data.get(c);
+			FloatBuffer fbuf = (FloatBuffer) getChannelBuffer(c);
 			return fbuf.get(index);
 			
 		default:
@@ -614,12 +694,7 @@ public final class OpenEXRImage {
 	}
 	
 	public void setUnsignedInt(int x, int y, String c, long value) {
-		int index = getChannelList().getChannelIndex(c);
-		setUnsignedInt(x, y, index, value);
-	}
-	
-	public void setUnsignedInt(int x, int y, int c, long value) {
-		Channel ch = getChannelList().channels().get(c);
+		Channel ch = getChannelList().getChannel(c);
 		Box2i dw = getDataWindow();
 		int sx = ch.getxSampling();
 		int sy = ch.getySampling();
@@ -632,17 +707,17 @@ public final class OpenEXRImage {
 		
 		switch (ch.getPixelType()) {
 		case UINT:
-			IntBuffer ibuf = (IntBuffer) data.get(c);
+			IntBuffer ibuf = (IntBuffer) getChannelBuffer(c);
 			ibuf.put(index, (int) value);
 			break;
 			
 		case HALF:
-			ShortBuffer sbuf = (ShortBuffer) data.get(c);
+			ShortBuffer sbuf = (ShortBuffer) getChannelBuffer(c);
 			sbuf.put(index, Half.valueOf((float) ((int) value)).toShortBits());
 			break;
 			
 		case FLOAT:
-			FloatBuffer fbuf = (FloatBuffer) data.get(c);
+			FloatBuffer fbuf = (FloatBuffer) getChannelBuffer(c);
 			fbuf.put(index, (float) ((int) value));
 			break;
 			
@@ -652,12 +727,7 @@ public final class OpenEXRImage {
 	}
 	
 	public void setHalf(int x, int y, String c, Half value) {
-		int index = getChannelList().getChannelIndex(c);
-		setHalf(x, y, index, value);
-	}
-
-	public void setHalf(int x, int y, int c, Half value) {
-		Channel ch = getChannelList().channels().get(c);
+		Channel ch = getChannelList().getChannel(c);
 		Box2i dw = getDataWindow();
 		int sx = ch.getxSampling();
 		int sy = ch.getySampling();
@@ -668,17 +738,17 @@ public final class OpenEXRImage {
 		
 		switch (ch.getPixelType()) {
 		case UINT:
-			IntBuffer ibuf = (IntBuffer) data.get(c);
+			IntBuffer ibuf = (IntBuffer) getChannelBuffer(c);
 			ibuf.put(index, (int) MathUtil.clamp(value.longValue(), 0, (0x1L << 32) - 1));
 			break;
 			
 		case HALF:
-			ShortBuffer sbuf = (ShortBuffer) data.get(c);
+			ShortBuffer sbuf = (ShortBuffer) getChannelBuffer(c);
 			sbuf.put(index, value.toShortBits());
 			break;
 			
 		case FLOAT:
-			FloatBuffer fbuf = (FloatBuffer) data.get(c);
+			FloatBuffer fbuf = (FloatBuffer) getChannelBuffer(c);
 			fbuf.put(index, value.floatValue());
 			break;
 			
@@ -688,12 +758,7 @@ public final class OpenEXRImage {
 	}
 	
 	public void setFloat(int x, int y, String c, float value) {
-		int index = getChannelList().getChannelIndex(c);
-		setFloat(x, y, index, value);
-	}
-
-	public void setFloat(int x, int y, int c, float value) {
-		Channel ch = getChannelList().channels().get(c);
+		Channel ch = getChannelList().getChannel(c);
 		Box2i dw = getDataWindow();
 		int sx = ch.getxSampling();
 		int sy = ch.getySampling();
@@ -704,17 +769,17 @@ public final class OpenEXRImage {
 		
 		switch (ch.getPixelType()) {
 		case UINT:
-			IntBuffer ibuf = (IntBuffer) data.get(c);
+			IntBuffer ibuf = (IntBuffer) getChannelBuffer(c);
 			ibuf.put(index, (int) MathUtil.clamp((long) value, 0, (0x1L << 32) - 1));
 			break;
 			
 		case HALF:
-			ShortBuffer sbuf = (ShortBuffer) data.get(c);
+			ShortBuffer sbuf = (ShortBuffer) getChannelBuffer(c);
 			sbuf.put(index, Half.valueOf(value).toShortBits());
 			break;
 			
 		case FLOAT:
-			FloatBuffer fbuf = (FloatBuffer) data.get(c);
+			FloatBuffer fbuf = (FloatBuffer) getChannelBuffer(c);
 			fbuf.put(index, value);
 			break;
 			
@@ -732,11 +797,11 @@ public final class OpenEXRImage {
 			for (int y = -20; y < 1020; y++) {
 				for (int x = -20; x < 1020; x++) {
 					out.printf("% 8.6e,% 8.6e,% 8.6e,% 8.6e,% 8.6e",
-							image.getFloat(x, y, 0),
-							image.getFloat(x, y, 1),
-							image.getFloat(x, y, 2),
-							image.getFloat(x, y, 3),
-							image.getFloat(x, y, 4));
+							image.getFloat(x, y, "A"),
+							image.getFloat(x, y, "B"),
+							image.getFloat(x, y, "G"),
+							image.getFloat(x, y, "R"),
+							image.getFloat(x, y, "Z"));
 					out.println();
 				}
 			}
