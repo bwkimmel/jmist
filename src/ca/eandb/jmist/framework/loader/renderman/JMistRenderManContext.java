@@ -188,7 +188,7 @@ public final class JMistRenderManContext implements RenderManContext {
 		end(Mode.WORLD);
 	}
 	
-	public boolean checkOption() {
+	private boolean checkOption() {
 		if (inMode(Mode.WORLD)) {
 			errorHandler.apply(NOTOPTIONS, ERROR, "Cannot set options inside WorldBegin-WorldEnd block");
 			return false;
@@ -196,11 +196,11 @@ public final class JMistRenderManContext implements RenderManContext {
 		return true;
 	}
 	
-	public boolean checkAttribute() {
+	private boolean checkAttribute() {
 		return true;
 	}
 	
-	public boolean checkPrimitive() {
+	private boolean checkPrimitive() {
 		if (geometry == null) {
 			errorHandler.apply(NOTPRIMS, ERROR, "Current mode does not permit geometry");
 			return false;
