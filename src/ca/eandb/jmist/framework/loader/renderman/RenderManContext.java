@@ -57,11 +57,11 @@ public interface RenderManContext {
 	public static final RtToken RI_PLASTIC = TokenFactory.BUILTIN.create("plastic");
 	public static final RtToken RI_PAINTEDPLASTIC = TokenFactory.BUILTIN.create("paintedplastic");
 	
-	public static final RtToken RI_KA = TokenFactory.BUILTIN.create("ka");
-	public static final RtToken RI_KD = TokenFactory.BUILTIN.create("kd");
-	public static final RtToken RI_KS = TokenFactory.BUILTIN.create("ks");
+	public static final RtToken RI_KA = TokenFactory.BUILTIN.create("Ka");
+	public static final RtToken RI_KD = TokenFactory.BUILTIN.create("Kd");
+	public static final RtToken RI_KS = TokenFactory.BUILTIN.create("Ks");
 	public static final RtToken RI_ROUGHNESS = TokenFactory.BUILTIN.create("roughness");
-	public static final RtToken RI_KR = TokenFactory.BUILTIN.create("kr");
+	public static final RtToken RI_KR = TokenFactory.BUILTIN.create("Kr");
 	public static final RtToken RI_TEXTURENAME = TokenFactory.BUILTIN.create("texturename");
 	public static final RtToken RI_SPECULARCOLOR = TokenFactory.BUILTIN.create("specularcolor");
 	
@@ -86,13 +86,13 @@ public interface RenderManContext {
 	public static final RtToken RI_LH = TokenFactory.BUILTIN.create("lh");
 	public static final RtToken RI_RH = TokenFactory.BUILTIN.create("rh");
 	
-	public static final RtToken RI_P = TokenFactory.BUILTIN.create("p");
-	public static final RtToken RI_PZ = TokenFactory.BUILTIN.create("pz");
-	public static final RtToken RI_PW = TokenFactory.BUILTIN.create("pw");
-	public static final RtToken RI_N = TokenFactory.BUILTIN.create("n");
-	public static final RtToken RI_NP = TokenFactory.BUILTIN.create("np");
-	public static final RtToken RI_CS = TokenFactory.BUILTIN.create("cs");
-	public static final RtToken RI_OS = TokenFactory.BUILTIN.create("os");
+	public static final RtToken RI_P = TokenFactory.BUILTIN.create("P");
+	public static final RtToken RI_PZ = TokenFactory.BUILTIN.create("Pz");
+	public static final RtToken RI_PW = TokenFactory.BUILTIN.create("Pw");
+	public static final RtToken RI_N = TokenFactory.BUILTIN.create("N");
+	public static final RtToken RI_NP = TokenFactory.BUILTIN.create("Np");
+	public static final RtToken RI_CS = TokenFactory.BUILTIN.create("Cs");
+	public static final RtToken RI_OS = TokenFactory.BUILTIN.create("Os");
 	public static final RtToken RI_S = TokenFactory.BUILTIN.create("s");
 	public static final RtToken RI_T = TokenFactory.BUILTIN.create("t");
 	public static final RtToken RI_ST = TokenFactory.BUILTIN.create("st");
