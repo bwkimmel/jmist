@@ -28,6 +28,14 @@ final class ArrayRtValue extends AbstractRtValue {
 		}
 		return array;
 	}
+	
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.loader.renderman.AbstractRtValue#realValue()
+	 */
+	@Override
+	public double realValue() {
+		return values.size() == 1 ? values.get(0).realValue() : super.realValue();
+	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.loader.renderman.AbstractRtValue#intArrayValue()
@@ -40,6 +48,14 @@ final class ArrayRtValue extends AbstractRtValue {
 		}
 		return array;
 	}
+	
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.loader.renderman.AbstractRtValue#intValue()
+	 */
+	@Override
+	public int intValue() {
+		return values.size() == 1 ? values.get(0).intValue() : super.intValue();
+	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.loader.renderman.AbstractRtValue#stringArrayValue()
@@ -51,6 +67,14 @@ final class ArrayRtValue extends AbstractRtValue {
 			array[i] = values.get(i).stringValue();
 		}
 		return array;
+	}
+	
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.loader.renderman.AbstractRtValue#stringValue()
+	 */
+	@Override
+	public String stringValue() {
+		return values.size() == 1 ? values.get(0).stringValue() : super.stringValue();
 	}
 
 }

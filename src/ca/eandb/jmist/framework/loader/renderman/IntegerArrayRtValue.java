@@ -22,6 +22,14 @@ final class IntegerArrayRtValue extends AbstractRtValue {
 	public int[] intArrayValue() {
 		return value;
 	}
+	
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.loader.renderman.AbstractRtValue#intValue()
+	 */
+	@Override
+	public int intValue() {
+		return value.length == 1 ? value[0] : super.intValue();
+	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.loader.renderman.AbstractRtValue#realArrayValue()
@@ -33,6 +41,14 @@ final class IntegerArrayRtValue extends AbstractRtValue {
 			reals[i] = value[i];
 		}
 		return reals;
+	}
+	
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.loader.renderman.AbstractRtValue#realValue()
+	 */
+	@Override
+	public double realValue() {
+		return value.length == 1 ? value[0] : super.realValue();
 	}
 
 }

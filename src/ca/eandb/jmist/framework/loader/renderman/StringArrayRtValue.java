@@ -23,4 +23,12 @@ final class StringArrayRtValue extends AbstractRtValue {
 		return value;
 	}
 	
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.loader.renderman.AbstractRtValue#stringValue()
+	 */
+	@Override
+	public String stringValue() {
+		return value.length == 1 ? value[0] : super.stringValue();
+	}
+	
 }

@@ -23,4 +23,12 @@ final class RealArrayRtValue extends AbstractRtValue {
 		return value;
 	}
 	
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.loader.renderman.AbstractRtValue#realValue()
+	 */
+	@Override
+	public double realValue() {
+		return value.length == 1 ? value[0] : super.realValue();
+	}
+	
 }
