@@ -47,4 +47,12 @@ final class IntegerRtValue extends AbstractRtValue {
 		return new int[]{ value };
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.loader.renderman.AbstractRtValue#toString()
+	 */
+	@Override
+	public String toString() {
+		return Integer.toString(value);
+	}
+
 }

@@ -16,11 +16,12 @@ public final class TestRibReader {
 	 */
 	public static void main(String[] args) {
 		try {
-			FileReader fr = new FileReader("C:\\Users\\Brad\\Downloads\\cornell.rib");
-			RenderManContext context = new JMistRenderManContext();
+			FileReader fr = new FileReader("/home/brad/Documents/Models/cornell.rib");
+			RenderManContext context = new AsciiBytestreamRenderManContext(System.out);
 			RibReader rib = new RibReader();
 			
 			rib.read(fr, context);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

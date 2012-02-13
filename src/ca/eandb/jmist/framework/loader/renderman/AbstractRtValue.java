@@ -8,6 +8,12 @@ package ca.eandb.jmist.framework.loader.renderman;
  *
  */
 abstract class AbstractRtValue implements RtValue {
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public abstract String toString();
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.loader.renderman.RtValue#realValue()

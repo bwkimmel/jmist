@@ -3,23 +3,222 @@
  */
 package ca.eandb.jmist.framework.loader.renderman;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.Map;
 
+import ca.eandb.jmist.math.Box3;
+import ca.eandb.jmist.math.Matrix4;
+import ca.eandb.jmist.math.Point3;
+
 /**
- * @author Brad
+ * @author brad
  *
  */
-public final class SingleFrameRenderManContext implements RenderManContext {
+public final class AsciiBytestreamRenderManContext implements RenderManContext {
 	
-	private final RenderManContext inner;
+	private static class Declaration implements RtToken {
+		public final String name;
+		public final String declaration;
+		
+		public Declaration(String name, String declaration) {
+			this.name = name;
+			this.declaration = declaration;
+		}
+
+		/* (non-Javadoc)
+		 * @see java.lang.Object#toString()
+		 */
+		@Override
+		public String toString() {
+			return name;
+		}
+	};
 	
-	private final int frame;
+	private int nextLightSourceSequenceNumber = 0;
 	
-	private int currentFrame = -1;
+	private synchronized int generateLightSourceSequenceNumber() {
+		return ++nextLightSourceSequenceNumber;
+	}
 	
-	public SingleFrameRenderManContext(int frame, RenderManContext inner) {
-		this.inner = inner;
-		this.frame = frame;
+	private class LightSource implements RtLightHandle {
+		public final int sequenceNumber;
+		public LightSource() {
+			this.sequenceNumber = generateLightSourceSequenceNumber();
+		}
+	}
+	
+	private int nextObjectSequenceNumber = 0;
+	
+	private synchronized int generateObjectSequenceNumber() {
+		return ++nextObjectSequenceNumber;
+	}
+	
+	private class ObjectHandle implements RtObjectHandle {
+		public final int sequenceNumber;
+		public ObjectHandle() {
+			this.sequenceNumber = generateObjectSequenceNumber();
+		}
+	}
+	
+	private final PrintStream out;
+	
+	private RtErrorHandler handler = RenderManContext.RiErrorAbort;
+	
+	public AsciiBytestreamRenderManContext(OutputStream out) {
+		if (out instanceof PrintStream) {
+			this.out = (PrintStream) out;
+		} else {
+			this.out = new PrintStream(out);
+		}
+	}
+	
+	public AsciiBytestreamRenderManContext(File file) throws FileNotFoundException {
+		this(new PrintStream(file));
+	}
+
+	/**
+	 * Print the parameter list.
+	 * @param params The parameter list.
+	 */
+	private void print(Map<RtToken, RtValue> params) {
+		for (Map.Entry<RtToken, RtValue> e : params.entrySet()) {
+			out.printf(" \"%s\" %s", e.getKey(), e.getValue());
+		}
+	}
+	
+	private void print(int[] a) {
+		out.print(" [");
+		for (int i = 0; i < a.length; i++) {
+			if (i > 0) {
+				out.print(" ");
+			}
+			out.print(a[i]);
+		}
+		out.print("]");
+	}
+	
+	private void print(double[] a) {
+		out.print(" [");
+		for (int i = 0; i < a.length; i++) {
+			if (i > 0) {
+				out.print(" ");
+			}
+			out.print(a[i]);
+		}
+		out.print("]");
+	}
+	
+	private void print(String[] a) {
+		out.print(" [");
+		for (int i = 0; i < a.length; i++) {
+			if (i > 0) {
+				out.print(" ");
+			}
+			out.printf("\"%s\"", a[i]);
+		}
+		out.print("]");
+	}
+
+	/**
+	 * @param m
+	 */
+	private void print(Matrix4 m) {
+		out.print(" [");
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				if (i > 0 || j > 0) {
+					out.print(" ");
+				}
+				out.print(m.at(i, j));
+			}
+		}
+		out.print("]");
+	}
+	
+	private void print(RtColor color) {
+		out.print(" [");
+		for (int i = 0, n = color.size(); i < n; i++) {
+			if (i > 0) {
+				out.print(" ");
+			}
+			out.print(color.get(i));
+		}
+		out.print("]");
+	}
+	
+	private String getName(RtBasis basis) {
+		if (basis == RenderManContext.RiBezierBasis) {
+			return "bezier";
+		} else if (basis == RenderManContext.RiBSplineBasis) {
+			return "b-spline";
+		} else if (basis == RenderManContext.RiCatmullRomBasis) {
+			return "catmull-rom";
+		} else if (basis == RenderManContext.RiHermiteBasis) {
+			return "hermite";
+		} else if (basis == RenderManContext.RiPowerBasis) {
+			return "power";
+		} else {
+			return null;
+		}
+	}
+	
+	private void print(RtBasis basis) {
+		String name = getName(basis);
+		if (name != null) {
+			out.printf(" \"%s\"", name);
+		} else {
+			print(basis.toMatrix());
+		}
+	}
+	
+	private String getName(RtFilterFunc f) {
+		if (f == RenderManContext.RiBoxFilter) {
+			return "box";
+		} else if (f == RenderManContext.RiCatmullRomFilter) {
+			return "catmull-rom";
+		} else if (f == RenderManContext.RiGaussianFilter) {
+			return "gaussian";
+		} else if (f == RenderManContext.RiSincFilter) {
+			return "sinc";
+		} else if (f == RenderManContext.RiTriangleFilter) {
+			return "triangle";
+		} else {
+			return null;
+		}
+	}
+	
+	private void print(RtFilterFunc f) {
+		String name = getName(f);
+		if (name != null) {
+			out.printf(" \"%s\"", name);
+		} else {
+			throw new IllegalArgumentException("Unknown filter function");
+		}
+	}
+
+	/**
+	 * @param tokens
+	 */
+	private void print(RtToken[] tokens) {
+		out.print(" [");
+		for (int i = 0; i < tokens.length; i++) {
+			if (i > 0) {
+				out.print(" ");
+			}
+			out.printf("\"%s\"", tokens[i]);
+		}
+		out.print("]");
+	}
+
+	/**
+	 * @param point
+	 */
+	private void print(RtPoint point) {
+		Point3 p = point.toPoint();
+		out.printf(" %f %f %f", p.x(), p.y(), p.z());
 	}
 
 	/* (non-Javadoc)
@@ -27,11 +226,9 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public RtToken declare(String name, String declaration) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			return inner.declare(name, declaration);
-		} else {
-			return null;
-		}
+		out.printf("Declare \"%s\" \"%s\"", name, declaration);
+		out.println();
+		return new Declaration(name, declaration);
 	}
 
 	/* (non-Javadoc)
@@ -39,13 +236,8 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void frameBegin(int frame) {
-		if (currentFrame >= 0) {
-			throw new IllegalStateException("frame blocks may not be nested");
-		}
-		currentFrame = frame;
-		if (frame == this.frame) {
-			inner.frameBegin(frame);
-		}
+		out.printf("FrameBegin %d", frame);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -53,10 +245,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void frameEnd() {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.frameEnd();
-		}
-		currentFrame = -1;
+		out.println("FrameEnd");
 	}
 
 	/* (non-Javadoc)
@@ -64,9 +253,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void worldBegin() {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.worldBegin();
-		}
+		out.println("WorldBegin");
 	}
 
 	/* (non-Javadoc)
@@ -74,9 +261,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void worldEnd() {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.worldEnd();
-		}
+		out.println("WorldEnd");
 	}
 
 	/* (non-Javadoc)
@@ -84,9 +269,8 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void format(int xresolution, int yresolution, double pixelaspectratio) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.format(xresolution, yresolution, pixelaspectratio);
-		}
+		out.printf("Format %d %d %f", xresolution, yresolution, pixelaspectratio);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -94,9 +278,8 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void frameAspectRatio(double frameaspectratio) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.frameAspectRatio(frameaspectratio);
-		}
+		out.printf("FrameAspectRatio %f", frameaspectratio);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -105,9 +288,8 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	@Override
 	public void screenWindow(double left, double right, double bottom,
 			double top) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.screenWindow(left, right, bottom, top);
-		}
+		out.printf("ScreenWindow %f %f %f %f", left, right, bottom, top);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -115,9 +297,8 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void cropWindow(double xmin, double xmax, double ymin, double ymax) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.cropWindow(xmin, xmax, ymin, ymax);
-		}
+		out.printf("CropWindow %f %f %f %f", xmin, xmax, ymin, ymax);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -125,9 +306,9 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void projection(RtToken name, Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.projection(name, params);
-		}
+		out.printf("Projection \"%s\"", name);
+		print(params);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -135,19 +316,18 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void clipping(double near, double far) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.clipping(near, far);
-		}
+		out.printf("Clipping %f %f", near, far);
+		out.println();
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#clippingPlane(double, double, double, double, double, double)
 	 */
 	@Override
-	public void clippingPlane(double x, double y, double z, double nx, double ny, double nz) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.clippingPlane(x, y, z, nx, ny, nz);
-		}
+	public void clippingPlane(double x, double y, double z, double nx,
+			double ny, double nz) {
+		out.printf("ClippingPlane %f %f %f %f %f %f", x, y, z, nx, ny, nz);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -156,9 +336,8 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	@Override
 	public void depthOfField(double fstop, double focallength,
 			double focaldistance) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.depthOfField(fstop, focallength, focaldistance);
-		}
+		out.printf("DepthOfField %f %f %f", fstop, focallength, focaldistance);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -166,9 +345,8 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void shutter(double min, double max) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.shutter(min, max);
-		}
+		out.printf("Shutter %f %f", min, max);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -176,9 +354,8 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void pixelVariance(double variation) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.pixelVariance(variation);
-		}
+		out.printf("PixelVariance %f", variation);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -186,9 +363,8 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void pixelSamples(double xsamples, double ysamples) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.pixelSamples(xsamples, ysamples);
-		}
+		out.printf("PixelSamples %f %f", xsamples, ysamples);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -197,9 +373,10 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	@Override
 	public void pixelFilter(RtFilterFunc filterfunc, double xwidth,
 			double ywidth) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.pixelFilter(filterfunc, xwidth, ywidth);
-		}
+		out.print("PixelFilter");
+		print(filterfunc);
+		out.printf(" %f %f", xwidth, ywidth);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -207,9 +384,8 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void exposure(double gain, double gamma) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.exposure(gain, gamma);
-		}
+		out.printf("Exposure %f %f", gain, gamma);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -217,9 +393,9 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void imager(RtToken name, Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.imager(name, params);
-		}
+		out.printf("Imager \"%s\"");
+		print(params);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -228,9 +404,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	@Override
 	public void quantize(RtToken type, int one, int min, int max,
 			double ditheramplitude) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.quantize(type, one, min, max, ditheramplitude);
-		}
+		out.printf("Quantize \"%s\" %d %d %d %f", type, one, min, max, ditheramplitude);
 	}
 
 	/* (non-Javadoc)
@@ -239,9 +413,9 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	@Override
 	public void display(String name, RtToken type, RtToken mode,
 			Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.display(name, type, mode, params);
-		}
+		out.printf("Display \"%s\" \"%s\" \"%s\"", name, type, mode);
+		print(params);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -249,9 +423,9 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void hider(RtToken type, Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.hider(type, params);
-		}
+		out.printf("Hider \"%s\"", type);
+		print(params);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -259,9 +433,10 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void colorSamples(int n, double[] nRGB, double[] RGBn) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.colorSamples(n, nRGB, RGBn);
-		}
+		out.printf("ColorSamples");
+		print(nRGB);
+		print(RGBn);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -269,9 +444,8 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void relativeDetail(double relativedetail) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.relativeDetail(relativedetail);
-		}
+		out.printf("RelativeDetail %f", relativedetail);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -279,9 +453,9 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void option(RtToken name, Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.option(name, params);
-		}
+		out.printf("Option \"%s\"", name);
+		print(params);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -289,9 +463,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void attributeBegin() {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.attributeBegin();
-		}
+		out.println("AttributeBegin");
 	}
 
 	/* (non-Javadoc)
@@ -299,9 +471,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void attributeEnd() {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.attributeEnd();
-		}
+		out.println("AttributeEnd");
 	}
 
 	/* (non-Javadoc)
@@ -309,9 +479,9 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void color(RtColor color) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.color(color);
-		}
+		out.print("Color");
+		print(color);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -319,9 +489,9 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void opacity(RtColor color) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.opacity(color);
-		}
+		out.print("Opacity");
+		print(color);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -330,9 +500,8 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	@Override
 	public void textureCoordinates(double s1, double t1, double s2, double t2,
 			double s3, double t3, double s4, double t4) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.textureCoordinates(s1, t1, s2, t2, s3, t3, s4, t4);
-		}
+		out.printf("TextureCoordinates %f %f %f %f %f %f %f %f", s1, t1, s2, t2, s3, t3, s4, t4);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -341,11 +510,11 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	@Override
 	public RtLightHandle lightSource(RtToken shadername,
 			Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			return inner.lightSource(shadername, params);
-		} else {
-			return null;
-		}
+		LightSource light = new LightSource();
+		out.printf("LightSource \"%s\" %d", shadername, light.sequenceNumber);
+		print(params);
+		out.println();
+		return light;
 	}
 
 	/* (non-Javadoc)
@@ -354,11 +523,11 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	@Override
 	public RtLightHandle areaLightSource(RtToken shadername,
 			Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			return inner.areaLightSource(shadername, params);
-		} else {
-			return null;
-		}
+		LightSource ls = new LightSource();
+		out.printf("AreaLightSource \"%s\" %d", shadername, ls.sequenceNumber);
+		print(params);
+		out.println();
+		return ls;		
 	}
 
 	/* (non-Javadoc)
@@ -366,9 +535,9 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void illuminate(RtLightHandle light, boolean onoff) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.illuminate(light, onoff);
-		}
+		LightSource ls = (LightSource) light;
+		out.printf("Illuminate %d %d", ls.sequenceNumber, onoff ? 1 : 0);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -376,9 +545,9 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void surface(RtToken shadername, Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.surface(shadername, params);
-		}
+		out.printf("Surface \"%s\"", shadername);
+		print(params);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -386,9 +555,9 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void displacement(RtToken shadername, Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.displacement(shadername, params);
-		}
+		out.printf("Displacement \"%s\"", shadername);
+		print(params);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -396,9 +565,9 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void atmosphere(RtToken shadername, Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.atmosphere(shadername, params);
-		}
+		out.printf("Atmosphere \"%s\"", shadername);
+		print(params);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -406,9 +575,9 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void interior(RtToken shadername, Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.interior(shadername, params);
-		}
+		out.printf("Interior \"%s\"", shadername);
+		print(params);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -416,9 +585,9 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void exterior(RtToken shadername, Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.exterior(shadername, params);
-		}
+		out.printf("Exterior \"%s\"", shadername);
+		print(params);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -426,9 +595,8 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void shadingRate(double size) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.shadingRate(size);
-		}
+		out.printf("ShadingRate %f", size);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -436,9 +604,8 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void shadingInterpolation(RtToken type) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.shadingInterpolation(type);
-		}
+		out.printf("ShadingInterpolation \"%s\"", type);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -446,9 +613,8 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void matte(boolean onoff) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.matte(onoff);
-		}
+		out.printf("Matte %d", onoff ? 1 : 0);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -456,9 +622,9 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void bound(RtBound bound) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.bound(bound);
-		}
+		Box3 box = bound.toBox();
+		out.printf("Bound %f %f %f %f %f %f", box.minimumX(), box.maximumX(), box.minimumY(), box.maximumY(), box.minimumZ(), box.maximumZ());
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -466,9 +632,9 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void detail(RtBound bound) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.detail(bound);
-		}
+		Box3 box = bound.toBox();
+		out.printf("Detail %f %f %f %f %f %f", box.minimumX(), box.maximumX(), box.minimumY(), box.maximumY(), box.minimumZ(), box.maximumZ());
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -477,9 +643,8 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	@Override
 	public void detailRange(double minvisible, double lowertransition,
 			double uppertransition, double maxvisible) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.detailRange(minvisible, lowertransition, uppertransition, maxvisible);
-		}
+		out.printf("DetailRange %f %f %f %f", minvisible, lowertransition, uppertransition, maxvisible);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -487,9 +652,8 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void geometricApproximation(RtToken type, double value) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.geometricApproximation(type, value);
-		}
+		out.printf("GeometricApproximation \"%s\" %f", type, value);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -497,9 +661,8 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void orientation(RtToken orientation) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.orientation(orientation);
-		}
+		out.printf("Orientation \"%s\"", orientation);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -507,9 +670,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void reverseOrientation() {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.reverseOrientation();
-		}
+		out.println("ReverseOrientation");
 	}
 
 	/* (non-Javadoc)
@@ -517,9 +678,8 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void sides(int sides) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.sides(sides);
-		}
+		out.printf("Sides %d", sides);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -527,9 +687,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void identity() {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.identity();
-		}
+		out.println("Identity");
 	}
 
 	/* (non-Javadoc)
@@ -537,9 +695,10 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void transform(RtMatrix transform) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.transform(transform);
-		}
+		Matrix4 m = transform.toMatrix();
+		out.print("Transform");
+		print(m);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -547,9 +706,10 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void concatTransform(RtMatrix transform) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.concatTransform(transform);
-		}
+		Matrix4 m = transform.toMatrix();
+		out.print("ConcatTransform");
+		print(m);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -557,9 +717,8 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void perspective(double fov) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.perspective(fov);
-		}
+		out.printf("Perspective %f", fov);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -567,19 +726,17 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void translate(double dx, double dy, double dz) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.translate(dx, dy, dz);
-		}
+		out.printf("Translate %f %f %f", dx, dy, dz);
+		out.println();
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#rotate(double, double, double, double)
 	 */
 	@Override
 	public void rotate(double angle, double dx, double dy, double dz) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.rotate(angle, dx, dy, dz);
-		}
+		out.printf("Rotate %f %f %f %f", angle, dx, dy, dz);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -587,9 +744,8 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void scale(double sx, double sy, double sz) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.scale(sx, sy, sz);
-		}
+		out.printf("Scale %f %f %f", sx, sy, sz);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -598,9 +754,8 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	@Override
 	public void skew(double angle, double dx1, double dy1, double dz1,
 			double dx2, double dy2, double dz2) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.skew(angle, dx1, dy1, dz1, dx2, dy2, dz2);
-		}
+		out.printf("Skew %f %f %f %f %f %f %f", angle, dx1, dy1, dz1, dx2, dy2, dz2);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -608,9 +763,8 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void coordinateSystem(RtToken name) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.coordinateSystem(name);
-		}
+		out.printf("CoordinateSystem \"%s\"", name);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -618,9 +772,8 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void coordSysTransform(RtToken name) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.coordSysTransform(name);
-		}
+		out.printf("CoordinateSysTransform \"%s\"", name);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -629,11 +782,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	@Override
 	public RtPoint[] transformPoints(RtToken fromspace, RtToken tospace,
 			RtPoint[] points) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			return inner.transformPoints(fromspace, tospace, points);
-		} else {
-			return null;
-		}
+		throw new UnsupportedOperationException();
 	}
 
 	/* (non-Javadoc)
@@ -641,9 +790,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void transformBegin() {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.transformBegin();
-		}
+		out.println("TransformBegin");
 	}
 
 	/* (non-Javadoc)
@@ -651,19 +798,14 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void transformEnd() {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.transformEnd();
-		}
+		out.println("TransformEnd");
 	}
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#attribute(ca.eandb.jmist.framework.loader.renderman.RtToken, java.util.Map)
-	 */
 	@Override
 	public void attribute(RtToken name, Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.attribute(name, params);
-		}
+		out.printf("Attribute \"%s\"", name);
+		print(params);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -671,19 +813,21 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void polygon(Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.polygon(params);
-		}
+		out.print("Polygon");
+		print(params);
+		out.println();
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#generalPolygon(int[], java.util.Map)
 	 */
 	@Override
-	public void generalPolygon(int[] nvertices, Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.generalPolygon(nvertices, params);
-		}
+	public void generalPolygon(int[] nvertices,
+			Map<RtToken, RtValue> params) {
+		out.print("GeneralPolygon");
+		print(nvertices);
+		print(params);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -692,20 +836,25 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	@Override
 	public void pointsPolygons(int[] nvertices, int[] vertices,
 			Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.pointsPolygons(nvertices, vertices, params);
-		}
+		out.print("PointsPolygon");
+		print(nvertices);
+		print(vertices);
+		print(params);
+		out.println();
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#pointsGeneralPolygons(int[], int[], int[], java.util.Map)
 	 */
 	@Override
-	public void pointsGeneralPolygons(int[] nloops, int[] nvertices,
-			int[] vertices, Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.pointsGeneralPolygons(nloops, nvertices, vertices, params);
-		}
+	public void pointsGeneralPolygons(int[] nloops,
+			int[] nvertices, int[] vertices, Map<RtToken, RtValue> params) {
+		out.print("PointsGeneralPolygon");
+		print(nloops);
+		print(nvertices);
+		print(vertices);
+		print(params);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -713,9 +862,14 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void basis(RtBasis ubasis, int ustep, RtBasis vbasis, int vstep) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.basis(ubasis, ustep, vbasis, vstep);
-		}
+		out.print("Basis");
+		print(ubasis);
+		out.print(" ");
+		out.print(ustep);
+		print(vbasis);
+		out.print(" ");
+		out.print(vstep);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -723,9 +877,9 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void patch(RtToken type, Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.patch(type, params);
-		}
+		out.printf("Patch \"%s\"", type);
+		print(params);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -734,9 +888,9 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	@Override
 	public void patchMesh(RtToken type, int nu, RtToken uwrap, int nv,
 			RtToken vwrap, Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.patchMesh(type, nu, uwrap, nv, vwrap, params);
-		}
+		out.printf("PatchMesh \"%s\" %d \"%s\" %d \"%s\"", type, nu, uwrap, nv, vwrap);
+		print(params);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -746,20 +900,33 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	public void nuPatch(int nu, int uorder, double[] uknot, double umin,
 			double umax, int nv, int vorder, double[] vknot, double vmin,
 			double vmax) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.nuPatch(nu, uorder, uknot, umin, umax, nv, vorder, vknot, vmin, vmax);
-		}
+		out.print("NuPatch");
+		out.printf(" %d %d", nu, uorder);
+		print(uknot);
+		out.printf(" %f %f", umin, umax);
+		out.printf(" %d %d", nv, vorder);
+		print(vknot);
+		out.printf(" %f %f", vmin, vmax);
+		out.println();
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#trimCurve(int[], int[], double[], double, double, int[], double[], double[], double[])
 	 */
 	@Override
-	public void trimCurve(int[] ncurves, int[] order, double[] knot,
-			double min, double max, int[] n, double[] u, double[] v, double[] w) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.trimCurve(ncurves, order, knot, min, max, n, u, v, w);
-		}
+	public void trimCurve(int[] ncurves, int[] order,
+			double[] knot, double min, double max, int[] n, double[] u,
+			double[] v, double[] w) {
+		out.print("TrimCurve");
+		print(ncurves);
+		print(order);
+		print(knot);
+		out.printf(" %f %f", min, max);
+		print(n);
+		print(u);
+		print(v);
+		print(w);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -767,11 +934,17 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void subdivisionMesh(RtToken scheme, int[] nvertices,
-			int[] vertices, RtToken[] tags, int[] nargs, int[] intargs,
-			double[] doubleargs, Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.subdivisionMesh(scheme, nvertices, vertices, tags, nargs, intargs, doubleargs, params);
-		}
+			int[] vertices, RtToken[] tags, int[] nargs,
+			int[] intargs, double[] doubleargs, Map<RtToken, RtValue> params) {
+		out.printf("SubdivisionMesh \"%s\"", scheme);
+		print(nvertices);
+		print(vertices);
+		print(tags);
+		print(nargs);
+		print(intargs);
+		print(doubleargs);
+		print(params);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -780,9 +953,9 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	@Override
 	public void sphere(double radius, double zmin, double zmax,
 			double thetamax, Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.sphere(radius, zmin, zmax, thetamax, params);
-		}
+		out.printf("Sphere %f %f %f %f", radius, zmin, zmax, thetamax);
+		print(params);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -791,9 +964,9 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	@Override
 	public void cone(double height, double radius, double thetamax,
 			Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.cone(height, radius, thetamax, params);
-		}
+		out.printf("Cone %f %f %f", height, radius, thetamax);
+		print(params);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -802,9 +975,9 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	@Override
 	public void cylinder(double radius, double zmin, double zmax,
 			double thetamax, Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.cylinder(radius, zmin, zmax, thetamax, params);
-		}
+		out.printf("Cylinder %f %f %f %f", radius, zmin, zmax, thetamax);
+		print(params);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -813,9 +986,13 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	@Override
 	public void hyperboloid(RtPoint point1, RtPoint point2, double thetamax,
 			Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.hyperboloid(point1, point2, thetamax, params);
-		}
+		out.print("Hyperboloid");
+		print(point1);
+		print(point2);
+		out.print(" ");
+		out.print(thetamax);
+		print(params);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -824,9 +1001,9 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	@Override
 	public void paraboloid(double rmax, double zmin, double zmax,
 			double thetamax, Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.paraboloid(rmax, zmin, zmax, thetamax, params);
-		}
+		out.printf("Paraboloid %f %f %f %f", rmax, zmin, zmax, thetamax);
+		print(params);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -835,9 +1012,9 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	@Override
 	public void disk(double height, double radius, double thetamax,
 			Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.disk(height, radius, thetamax, params);
-		}
+		out.printf("Disk %f %f %f", height, radius, thetamax);
+		print(params);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -846,9 +1023,9 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	@Override
 	public void torus(double majorradius, double minorradius, double phimin,
 			double phimax, double thetamax, Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.torus(majorradius, minorradius, phimin, phimax, thetamax, params);
-		}
+		out.printf("Torus %f %f %f %f %f", majorradius, minorradius, phimin, phimax, thetamax);
+		print(params);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -856,31 +1033,36 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void points(Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.points(params);
-		}
+		out.print("Points");
+		print(params);
+		out.println();
 	}
 
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#curves(ca.eandb.jmist.framework.loader.renderman.RtToken, int[], ca.eandb.jmist.framework.loader.renderman.RtToken, java.util.Map)
 	 */
 	@Override
-	public void curves(RtToken type, int[] nvertices, RtToken wrap,
-			Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.curves(type, nvertices, wrap, params);
-		}
+	public void curves(RtToken type, int[] nvertices,
+			RtToken wrap, Map<RtToken, RtValue> params) {
+		out.printf("Curves \"%s\"", type);
+		print(nvertices);
+		out.printf(" \"%s\"", wrap);
+		print(params);
+		out.println();
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#blobby(int, int[], double[], java.lang.String[], java.util.Map)
+	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#blobby(int, int, int[], int, double[], int, java.lang.String[], java.util.Map)
 	 */
 	@Override
 	public void blobby(int nleaf, int[] code, double[] doubles,
 			String[] strings, Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.blobby(nleaf, code, doubles, strings, params);
-		}
+		out.printf("Blobby %d", nleaf);
+		print(code);
+		print(doubles);
+		print(strings);
+		print(params);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -889,9 +1071,8 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	@Override
 	public void procedural(Object data, RtBound bound,
 			RtProcSubdivFunc subdividefunc) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.procedural(data, bound, subdividefunc);
-		}
+		// TODO implement this
+		handler.apply(RtErrorType.UNIMPLEMENT, RtErrorSeverity.WARNING, "Not yet implemented");
 	}
 
 	/* (non-Javadoc)
@@ -899,9 +1080,8 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void procRunProgram(Object data, double detail) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.procRunProgram(data, detail);
-		}
+		// TODO implement this
+		handler.apply(RtErrorType.UNIMPLEMENT, RtErrorSeverity.WARNING, "Not yet implemented");
 	}
 
 	/* (non-Javadoc)
@@ -909,9 +1089,8 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void procDynamicLoad(Object data, double detail) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.procDynamicLoad(data, detail);
-		}
+		// TODO implement this
+		handler.apply(RtErrorType.UNIMPLEMENT, RtErrorSeverity.WARNING, "Not yet implemented");
 	}
 
 	/* (non-Javadoc)
@@ -919,9 +1098,9 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void geometry(RtToken type, Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.geometry(type, params);
-		}
+		out.printf("Geometry \"%s\"", type);
+		print(params);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -929,9 +1108,8 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void solidBegin(RtToken operation) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.solidBegin(operation);
-		}
+		out.printf("SolidBegin \"%s\"", operation);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -939,9 +1117,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void solidEnd() {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.solidEnd();
-		}
+		out.println("SolidEnd");
 	}
 
 	/* (non-Javadoc)
@@ -949,11 +1125,10 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public RtObjectHandle objectBegin() {
-		if (currentFrame < 0 || currentFrame == frame) {
-			return inner.objectBegin();
-		} else {
-			return null;
-		}
+		ObjectHandle obj = new ObjectHandle();
+		out.printf("ObjectBegin %d", obj.sequenceNumber);
+		out.println();
+		return obj;
 	}
 
 	/* (non-Javadoc)
@@ -961,9 +1136,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void objectEnd() {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.objectEnd();
-		}
+		out.println("ObjectEnd");
 	}
 
 	/* (non-Javadoc)
@@ -971,9 +1144,9 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void objectInstance(RtObjectHandle handle) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.objectInstance(handle);
-		}
+		ObjectHandle obj = (ObjectHandle) handle;
+		out.printf("ObjectInstance %d", obj.sequenceNumber);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -981,9 +1154,9 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void motionBegin(double... t) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.motionBegin(t);
-		}
+		out.print("MotionBegin");
+		print(t);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -991,9 +1164,7 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void motionEnd() {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.motionEnd();
-		}
+		out.println("MotionEnd");
 	}
 
 	/* (non-Javadoc)
@@ -1003,9 +1174,12 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	public void makeTexture(String picturename, String texturename,
 			RtToken swrap, RtToken twrap, RtFilterFunc filterfunc,
 			double swidth, double twidth, Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.makeTexture(picturename, texturename, swrap, twrap, filterfunc, swidth, twidth, params);
-		}
+		out.printf("MakeTexture \"%s\" \"%s\" \"%s\" \"%s\"",
+				picturename, texturename, swrap, twrap);
+		print(filterfunc);
+		out.printf(" %f %f", swidth, twidth);
+		print(params);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -1015,9 +1189,12 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	public void makeLatLongEnvironment(String picturename, String texturename,
 			RtFilterFunc filterfunc, double swidth, double twidth,
 			Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.makeLatLongEnvironment(picturename, texturename, filterfunc, swidth, twidth, params);
-		}
+		out.printf("MakeLatLongEnvironment \"%s\" \"%s\"",
+				picturename, texturename);
+		print(filterfunc);
+		out.printf(" %f %f", swidth, twidth);
+		print(params);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -1028,9 +1205,12 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 			String ny, String pz, String nz, String texturename, double fov,
 			RtFilterFunc filterfunc, double swidth, double twidth,
 			Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.makeCubeFaceEnvironment(px, nx, py, ny, pz, nz, texturename, fov, filterfunc, swidth, twidth, params);
-		}
+		out.printf("MakeCubeFaceEnvironment \"%s\" \"%s\" \"%s\" \"%s\" \"%s\" \"%s\" \"%s\" %f",
+				px, nx, py, ny, pz, nz, texturename, fov);
+		print(filterfunc);
+		out.printf(" %f %f", swidth, twidth);
+		print(params);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -1039,9 +1219,9 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	@Override
 	public void makeShadow(String picturename, String texturename,
 			Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.makeShadow(picturename, texturename, params);
-		}
+		out.printf("MakeShadow \"%s\" \"%s\"", picturename, texturename);
+		print(params);
+		out.println();
 	}
 
 	/* (non-Javadoc)
@@ -1049,18 +1229,32 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void errorHandler(RtErrorHandler handler) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.errorHandler(handler);
+		this.handler = handler;
+		if (handler == RenderManContext.RiErrorAbort) {
+			out.println("ErrorHandler \"abort\"");
+		} else if (handler == RenderManContext.RiErrorIgnore) {
+			out.println("ErrorHandler \"ignore\"");
+		} else if (handler == RenderManContext.RiErrorPrint) {
+			out.println("ErrorHandler \"print\"");
 		}
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#archiveRecord(ca.eandb.jmist.framework.loader.renderman.RtToken, java.lang.String, java.lang.Object[])
+	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#archiveRecord(ca.eandb.jmist.framework.loader.renderman.RtToken, java.lang.String, java.lang.String[])
 	 */
 	@Override
-	public void archiveRecord(RtToken type, String format, Object... arg) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.archiveRecord(type, format, arg);
+	public void archiveRecord(RtToken type, String format, Object... args) {
+		String message = String.format(format, args);
+		if (type == RenderManContext.RI_COMMENT) {
+			out.print("#");
+			out.print(message);
+			out.println();
+		} else if (type == RenderManContext.RI_STRUCTURE) {
+			out.print("##");
+			out.print(message);
+			out.println();
+		} else if (type == RenderManContext.RI_VERBATIM) {
+			out.print(message);
 		}
 	}
 
@@ -1070,9 +1264,8 @@ public final class SingleFrameRenderManContext implements RenderManContext {
 	@Override
 	public void readArchive(RtToken name, RtArchiveCallback callback,
 			Map<RtToken, RtValue> params) {
-		if (currentFrame < 0 || currentFrame == frame) {
-			inner.readArchive(name, callback, params);
-		}
+		out.printf("ReadArchive \"%s\"", name);
+		out.println();
 	}
 
 }

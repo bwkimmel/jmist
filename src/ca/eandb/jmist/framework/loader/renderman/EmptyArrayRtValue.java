@@ -37,5 +37,13 @@ final class EmptyArrayRtValue extends AbstractRtValue {
 	public String[] stringArrayValue() {
 		return new String[0];
 	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.loader.renderman.AbstractRtValue#toString()
+	 */
+	@Override
+	public String toString() {
+		return "[]";
+	}
 	
 }

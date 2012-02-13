@@ -530,8 +530,9 @@ public final class JMistRenderManContext implements RenderManContext {
 	@Override
 	public RtLightHandle areaLightSource(RtToken shadername,
 			Map<RtToken, RtValue> params) {
-		errorHandler.apply(UNIMPLEMENT, WARNING, "Not yet implemented");
-		return null;
+		return new RtLightHandle() {};
+//		errorHandler.apply(UNIMPLEMENT, WARNING, "Not yet implemented");
+//		return null;
 	}
 
 	/* (non-Javadoc)
@@ -901,7 +902,7 @@ public final class JMistRenderManContext implements RenderManContext {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#polygon(int, java.util.Map)
+	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#polygon(java.util.Map)
 	 */
 	@Override
 	public void polygon(Map<RtToken, RtValue> params) {
@@ -916,10 +917,10 @@ public final class JMistRenderManContext implements RenderManContext {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#generalPolygon(int, int[], java.util.Map)
+	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#generalPolygon(int[], java.util.Map)
 	 */
 	@Override
-	public void generalPolygon(int nloops, int[] nvertices,
+	public void generalPolygon(int[] nvertices,
 			Map<RtToken, RtValue> params) {
 		if (checkPrimitive()) {
 			errorHandler.apply(UNIMPLEMENT, WARNING, "Not yet implemented");
@@ -927,10 +928,10 @@ public final class JMistRenderManContext implements RenderManContext {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#pointsPolygons(int, int[], int[], java.util.Map)
+	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#pointsPolygons(int[], int[], java.util.Map)
 	 */
 	@Override
-	public void pointsPolygons(int npolys, int[] nvertices, int[] vertices,
+	public void pointsPolygons(int[] nvertices, int[] vertices,
 			Map<RtToken, RtValue> params) {
 		if (checkPrimitive()) {
 			errorHandler.apply(UNIMPLEMENT, WARNING, "Not yet implemented");
@@ -938,10 +939,10 @@ public final class JMistRenderManContext implements RenderManContext {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#pointsGeneralPolygons(int, int[], int[], int[], java.util.Map)
+	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#pointsGeneralPolygons(int[], int[], int[], java.util.Map)
 	 */
 	@Override
-	public void pointsGeneralPolygons(int npolys, int[] nloops,
+	public void pointsGeneralPolygons(int[] nloops,
 			int[] nvertices, int[] vertices, Map<RtToken, RtValue> params) {
 		if (checkPrimitive()) {
 			errorHandler.apply(UNIMPLEMENT, WARNING, "Not yet implemented");
@@ -990,10 +991,10 @@ public final class JMistRenderManContext implements RenderManContext {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#trimCurve(int, int[], int[], double[], double, double, int[], double[], double[], double[])
+	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#trimCurve(int[], int[], double[], double, double, int[], double[], double[], double[])
 	 */
 	@Override
-	public void trimCurve(int nloops, int[] ncurves, int[] order,
+	public void trimCurve(int[] ncurves, int[] order,
 			double[] knot, double min, double max, int[] n, double[] u,
 			double[] v, double[] w) {
 		if (checkPrimitive()) {
@@ -1002,11 +1003,11 @@ public final class JMistRenderManContext implements RenderManContext {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#subdivisionMesh(ca.eandb.jmist.framework.loader.renderman.RtToken, int, int[], int[], int, ca.eandb.jmist.framework.loader.renderman.RtToken[], int[], int[], double[], java.util.Map)
+	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#subdivisionMesh(ca.eandb.jmist.framework.loader.renderman.RtToken, int[], int[], ca.eandb.jmist.framework.loader.renderman.RtToken[], int[], int[], double[], java.util.Map)
 	 */
 	@Override
-	public void subdivisionMesh(RtToken scheme, int nfaces, int[] nvertices,
-			int[] vertices, int ntags, RtToken[] tags, int[] nargs,
+	public void subdivisionMesh(RtToken scheme, int[] nvertices,
+			int[] vertices, RtToken[] tags, int[] nargs,
 			int[] intargs, double[] doubleargs, Map<RtToken, RtValue> params) {
 		if (checkPrimitive()) {
 			errorHandler.apply(UNIMPLEMENT, WARNING, "Not yet implemented");
@@ -1099,20 +1100,20 @@ public final class JMistRenderManContext implements RenderManContext {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#points(int, java.util.Map)
+	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#points(java.util.Map)
 	 */
 	@Override
-	public void points(int npoints, Map<RtToken, RtValue> params) {
+	public void points(Map<RtToken, RtValue> params) {
 		if (checkPrimitive()) {
 			errorHandler.apply(UNIMPLEMENT, WARNING, "Not yet implemented");
 		}
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#curves(ca.eandb.jmist.framework.loader.renderman.RtToken, int, int[], ca.eandb.jmist.framework.loader.renderman.RtToken, java.util.Map)
+	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#curves(ca.eandb.jmist.framework.loader.renderman.RtToken, int[], ca.eandb.jmist.framework.loader.renderman.RtToken, java.util.Map)
 	 */
 	@Override
-	public void curves(RtToken type, int ncurves, int[] nvertices,
+	public void curves(RtToken type, int[] nvertices,
 			RtToken wrap, Map<RtToken, RtValue> params) {
 		if (checkPrimitive()) {
 			errorHandler.apply(UNIMPLEMENT, WARNING, "Not yet implemented");
@@ -1120,12 +1121,11 @@ public final class JMistRenderManContext implements RenderManContext {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#blobby(int, int, int[], int, double[], int, java.lang.String[], java.util.Map)
+	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#blobby(int, int[], double[], java.lang.String[], java.util.Map)
 	 */
 	@Override
-	public void blobby(int nleaf, int ncode, int[] code, int ndoubles,
-			double[] doubles, int nstrings, String[] strings,
-			Map<RtToken, RtValue> params) {
+	public void blobby(int nleaf, int[] code, double[] doubles,
+			String[] strings, Map<RtToken, RtValue> params) {
 		if (checkPrimitive()) {
 			errorHandler.apply(UNIMPLEMENT, WARNING, "Not yet implemented");
 		}
@@ -1282,10 +1282,10 @@ public final class JMistRenderManContext implements RenderManContext {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#motionBegin(int, double[])
+	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#motionBegin(double[])
 	 */
 	@Override
-	public void motionBegin(int n, double... t) {
+	public void motionBegin(double... t) {
 		begin(Mode.MOTION);
 		errorHandler.apply(UNIMPLEMENT, WARNING, "Not yet implemented");
 	}
@@ -1348,10 +1348,10 @@ public final class JMistRenderManContext implements RenderManContext {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#archiveRecord(ca.eandb.jmist.framework.loader.renderman.RtToken, java.lang.String, java.lang.String[])
+	 * @see ca.eandb.jmist.framework.loader.renderman.RenderManContext#archiveRecord(ca.eandb.jmist.framework.loader.renderman.RtToken, java.lang.String, java.lang.Object[])
 	 */
 	@Override
-	public void archiveRecord(RtToken type, String format, String... arg) {
+	public void archiveRecord(RtToken type, String format, Object... arg) {
 		errorHandler.apply(UNIMPLEMENT, WARNING, "Not yet implemented");
 	}
 

@@ -14,7 +14,20 @@ public final class TokenFactory {
 
 	public static final TokenFactory BUILTIN = new TokenFactory();
 	
-	private static final class Token implements RtToken {};
+	private static final class Token implements RtToken {
+		private final String name;
+		public Token(String name) {
+			this.name = name;
+		}
+		
+		/* (non-Javadoc)
+		 * @see java.lang.Object#toString()
+		 */
+		@Override
+		public String toString() {
+			return name;
+		}
+	};
 	
 	private final Map<String, RtToken> tokens = new HashMap<String, RtToken>();
 	
@@ -28,7 +41,7 @@ public final class TokenFactory {
 	public RtToken create(String name) {
 		RtToken token = lookup(name);
 		if (token == null) {
-			token = new Token();
+			token = new Token(name);
 			tokens.put(name, token);
 		}
 		return token;

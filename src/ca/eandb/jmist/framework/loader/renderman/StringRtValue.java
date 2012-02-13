@@ -30,5 +30,13 @@ final class StringRtValue extends AbstractRtValue {
 	public String[] stringArrayValue() {
 		return new String[]{ value };
 	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.loader.renderman.AbstractRtValue#toString()
+	 */
+	@Override
+	public String toString() {
+		return String.format("\"%s\"", value);
+	}
 	
 }

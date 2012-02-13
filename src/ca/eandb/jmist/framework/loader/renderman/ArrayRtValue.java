@@ -77,4 +77,21 @@ final class ArrayRtValue extends AbstractRtValue {
 		return values.size() == 1 ? values.get(0).stringValue() : super.stringValue();
 	}
 
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.loader.renderman.AbstractRtValue#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder s = new StringBuilder();
+		s.append("[");
+		for (int i = 0, n = values.size(); i < n; i++) {
+			if (i > 0) {
+				s.append(" ");
+			}
+			s.append(values.get(i));
+		}
+		s.append("]");
+		return s.toString();
+	}
+
 }

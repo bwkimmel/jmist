@@ -317,19 +317,19 @@ public interface RenderManContext {
 	
 	/* 5.1 Polygons */
 	void polygon(Map<RtToken, RtValue> params);
-	void generalPolygon(int nloops, int[] nvertices, Map<RtToken, RtValue> params);
-	void pointsPolygons(int npolys, int[] nvertices, int[] vertices, Map<RtToken, RtValue> params);
-	void pointsGeneralPolygons(int npolys, int[] nloops, int[] nvertices, int[] vertices, Map<RtToken, RtValue> params);
+	void generalPolygon(int[] nvertices, Map<RtToken, RtValue> params);
+	void pointsPolygons(int[] nvertices, int[] vertices, Map<RtToken, RtValue> params);
+	void pointsGeneralPolygons(int[] nloops, int[] nvertices, int[] vertices, Map<RtToken, RtValue> params);
 	
 	/* 5.2 Patches */
 	void basis(RtBasis ubasis, int ustep, RtBasis vbasis, int vstep);
 	void patch(RtToken type, Map<RtToken, RtValue> params);
 	void patchMesh(RtToken type, int nu, RtToken uwrap, int nv, RtToken vwrap, Map<RtToken, RtValue> params);
 	void nuPatch(int nu, int uorder, double[] uknot, double umin, double umax, int nv, int vorder, double[] vknot, double vmin, double vmax);
-	void trimCurve(int nloops, int[] ncurves, int[] order, double[] knot, double min, double max, int[] n, double[] u, double[] v, double[] w);
+	void trimCurve(int[] ncurves, int[] order, double[] knot, double min, double max, int[] n, double[] u, double[] v, double[] w);
 	
 	/* 5.3 Subdivision Surfaces */
-	void subdivisionMesh(RtToken scheme, int nfaces, int[] nvertices, int[] vertices, int ntags, RtToken[] tags, int[] nargs, int[] intargs, double[] doubleargs, Map<RtToken, RtValue> params);
+	void subdivisionMesh(RtToken scheme, int[] nvertices, int[] vertices, RtToken[] tags, int[] nargs, int[] intargs, double[] doubleargs, Map<RtToken, RtValue> params);
 	
 	/* 5.4 Quadrics */
 	void sphere(double radius, double zmin, double zmax, double thetamax, Map<RtToken, RtValue> params);
@@ -341,11 +341,11 @@ public interface RenderManContext {
 	void torus(double majorradius, double minorradius, double phimin, double phimax, double thetamax, Map<RtToken, RtValue> params);
 	
 	/* 5.5 Point and Curve Primitives */
-	void points(int npoints, Map<RtToken, RtValue> params);
-	void curves(RtToken type, int ncurves, int[] nvertices, RtToken wrap, Map<RtToken, RtValue> params);
+	void points(Map<RtToken, RtValue> params);
+	void curves(RtToken type, int[] nvertices, RtToken wrap, Map<RtToken, RtValue> params);
 	
 	/* 5.6 Blobby Implicit Surfaces */
-	void blobby(int nleaf, int ncode, int[] code, int ndoubles, double[] doubles, int nstrings, String[] strings, Map<RtToken, RtValue> params);
+	void blobby(int nleaf, int[] code, double[] doubles, String[] strings, Map<RtToken, RtValue> params);
 	
 	/* 5.7 Procedural Primitives */
 	void procedural(Object data, RtBound bound, RtProcSubdivFunc subdividefunc);
@@ -366,7 +366,7 @@ public interface RenderManContext {
 	
 	
 	/* 6. Motion */
-	void motionBegin(int n, double... t);
+	void motionBegin(double... t);
 	void motionEnd();
 	
 	
@@ -382,7 +382,7 @@ public interface RenderManContext {
 	void errorHandler(RtErrorHandler handler);
 	
 	/* 7.3 Archive Files */
-	void archiveRecord(RtToken type, String format, String... arg);
+	void archiveRecord(RtToken type, String format, Object... arg);
 	void readArchive(RtToken name, RtArchiveCallback callback, Map<RtToken, RtValue> params);
 	
 	

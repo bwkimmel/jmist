@@ -30,7 +30,13 @@ final class RealRtValue extends AbstractRtValue {
 	public double[] realArrayValue() {
 		return new double[]{ value };
 	}
-	
-	
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.loader.renderman.AbstractRtValue#toString()
+	 */
+	@Override
+	public String toString() {
+		return Double.toString(value);
+	}
 	
 }
