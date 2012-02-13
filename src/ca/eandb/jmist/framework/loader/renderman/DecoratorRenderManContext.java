@@ -14,7 +14,8 @@ public abstract class DecoratorRenderManContext implements RenderManContext {
 	/** The <code>RenderManContext</code> to decorate. */
 	private final RenderManContext inner;
 	
-	protected RtErrorHandler handler = RenderManContext.RiErrorAbort;
+	/** The <code>RtErrorHandler</code> to use to handle errors. */
+	protected RtErrorHandler handler = RiErrorAbort;
 	
 	/**
 	 * Initializes this <code>DecoratorRenderManContext</code>.
