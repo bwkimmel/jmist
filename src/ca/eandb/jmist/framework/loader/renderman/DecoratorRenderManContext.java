@@ -14,6 +14,8 @@ public abstract class DecoratorRenderManContext implements RenderManContext {
 	/** The <code>RenderManContext</code> to decorate. */
 	private final RenderManContext inner;
 	
+	protected RtErrorHandler handler = RenderManContext.RiErrorAbort;
+	
 	/**
 	 * Initializes this <code>DecoratorRenderManContext</code>.
 	 * @param inner The <code>RenderManContext</code> to decorate.
@@ -847,6 +849,7 @@ public abstract class DecoratorRenderManContext implements RenderManContext {
 	 */
 	@Override
 	public void errorHandler(RtErrorHandler handler) {
+		this.handler = handler;
 		inner.errorHandler(handler);
 	}
 
