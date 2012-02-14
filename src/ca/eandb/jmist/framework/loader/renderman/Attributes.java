@@ -62,12 +62,14 @@ final class Attributes implements State {
 	public RtColor getColor() {
 		return color;
 	}
+	
 	/**
 	 * @param color the color to set
 	 */
 	public void setColor(RtColor color) {
 		this.color = color;
 	}
+	
 	/**
 	 * @return the opacity
 	 */
@@ -75,6 +77,7 @@ final class Attributes implements State {
 	public RtColor getOpacity() {
 		return opacity;
 	}
+	
 	/**
 	 * @param opacity the opacity to set
 	 */
@@ -88,84 +91,98 @@ final class Attributes implements State {
 		this.textureCoordinates[2] = st3;
 		this.textureCoordinates[3] = st4;
 	}
+	
 	/**
 	 * @return the effectiveShadingRate
 	 */
 	public double getEffectiveShadingRate() {
 		return effectiveShadingRate;
 	}
+	
 	/**
 	 * @param effectiveShadingRate the effectiveShadingRate to set
 	 */
 	public void setEffectiveShadingRate(double effectiveShadingRate) {
 		this.effectiveShadingRate = effectiveShadingRate;
 	}
+	
 	/**
 	 * @return the shadingInterpolation
 	 */
 	public RtToken getShadingInterpolation() {
 		return shadingInterpolation;
 	}
+	
 	/**
 	 * @param shadingInterpolation the shadingInterpolation to set
 	 */
 	public void setShadingInterpolation(RtToken shadingInterpolation) {
 		this.shadingInterpolation = shadingInterpolation;
 	}
+	
 	/**
 	 * @return the matteSurfaceFlag
 	 */
 	public boolean getMatteSurfaceFlag() {
 		return matteSurfaceFlag;
 	}
+	
 	/**
 	 * @param matteSurfaceFlag the matteSurfaceFlag to set
 	 */
 	public void setMatteSurfaceFlag(boolean matteSurfaceFlag) {
 		this.matteSurfaceFlag = matteSurfaceFlag;
 	}
+	
 	/**
 	 * @return the objectToWorld
 	 */
 	public RtMatrix getObjectToWorld() {
 		return objectToWorld;
 	}
+	
 	/**
 	 * @param objectToWorld the objectToWorld to set
 	 */
 	public void setObjectToWorld(RtMatrix objectToWorld) {
 		this.objectToWorld = objectToWorld;
 	}
+	
 	/**
 	 * @return the bound
 	 */
 	public RtBound getBound() {
 		return bound;
 	}
+	
 	/**
 	 * @param bound the bound to set
 	 */
 	public void setBound(RtBound bound) {
 		this.bound = bound;
 	}
+	
 	/**
 	 * @return the detail
 	 */
 	public RtBound getDetail() {
 		return detail;
 	}
+	
 	/**
 	 * @param detail the detail to set
 	 */
 	public void setDetail(RtBound detail) {
 		this.detail = detail;
 	}
+	
 	/**
 	 * @return the detailRange
 	 */
 	public double[] getDetailRange() {
 		return detailRange;
 	}
+	
 	/**
 	 * @param detailRange the detailRange to set
 	 */
@@ -175,6 +192,7 @@ final class Attributes implements State {
 		this.detailRange[2] = uppertransition;
 		this.detailRange[3] = maxvisible;
 	}
+	
 	/**
 	 * @return the geometricApproximation
 	 */
@@ -187,6 +205,7 @@ final class Attributes implements State {
 	public double getGeometricApproximationValue() {
 		return geometricApproximationValue;
 	}
+	
 	/**
 	 * @param type
 	 * @param value
@@ -195,48 +214,56 @@ final class Attributes implements State {
 		this.geometricApproximationType = type;
 		this.geometricApproximationValue = value;
 	}
+	
 	/**
 	 * @return the cubicBasisMatrices
 	 */
 	public RtMatrix[] getCubicBasisMatrices() {
 		return cubicBasisMatrices;
 	}
+	
 	/**
 	 * @param cubicBasisMatrices the cubicBasisMatrices to set
 	 */
 	public void setCubicBasisMatrices(RtMatrix[] cubicBasisMatrices) {
 		this.cubicBasisMatrices = cubicBasisMatrices;
 	}
+	
 	/**
 	 * @return the cubicBasisSteps
 	 */
 	public int[] getCubicBasisSteps() {
 		return cubicBasisSteps;
 	}
+	
 	/**
 	 * @param cubicBasisSteps the cubicBasisSteps to set
 	 */
 	public void setCubicBasisSteps(int[] cubicBasisSteps) {
 		this.cubicBasisSteps = cubicBasisSteps;
 	}
+	
 	/**
 	 * @return the orientation
 	 */
 	public RtToken getOrientation() {
 		return orientation;
 	}
+	
 	/**
 	 * @param orientation the orientation to set
 	 */
 	public void setOrientation(RtToken orientation) {
 		this.orientation = orientation;
 	}
+	
 	/**
 	 * @return the numberOfSides
 	 */
 	public int getNumberOfSides() {
 		return numberOfSides;
 	}
+	
 	/**
 	 * @param numberOfSides the numberOfSides to set
 	 */
