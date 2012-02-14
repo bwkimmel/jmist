@@ -271,11 +271,17 @@ final class Attributes implements State {
 		this.numberOfSides = numberOfSides;
 	}
 	
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.loader.renderman.State#get(ca.eandb.jmist.framework.loader.renderman.RtToken, ca.eandb.jmist.framework.loader.renderman.RtToken)
+	 */
 	@Override
 	public Object get(RtToken name, RtToken param) {
 		return scope.get(name, param);
 	}
 	
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.loader.renderman.State#set(ca.eandb.jmist.framework.loader.renderman.RtToken, ca.eandb.jmist.framework.loader.renderman.RtToken, java.lang.Object)
+	 */
 	@Override
 	public void set(RtToken name, RtToken param, Object value) {
 		scope.set(name, param, value);		
