@@ -199,6 +199,7 @@ final class Attributes implements State {
 	public RtToken getGeometricApproximationType() {
 		return geometricApproximationType;
 	}
+	
 	/**
 	 * @return the geometricApproximationValue
 	 */
