@@ -3,6 +3,7 @@
  */
 package ca.eandb.jmist.framework.loader.renderman;
 
+import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.math.LinearMatrix3;
 import ca.eandb.jmist.math.Matrix4;
 import ca.eandb.jmist.math.Vector3;
@@ -45,6 +46,14 @@ public final class RtMatrix {
 	}
 	
 	static RtMatrix perspective(double fov) {
+		throw new UnimplementedException();
+	}
+	
+	static RtMatrix perspective(double fov, Interval clip) {
+		throw new UnimplementedException();
+	}
+	
+	static RtMatrix orthographic(Interval clip) {
 		throw new UnimplementedException();
 	}
 	
