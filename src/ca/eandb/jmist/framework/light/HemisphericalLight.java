@@ -4,12 +4,12 @@
 package ca.eandb.jmist.framework.light;
 
 import ca.eandb.jmist.framework.DirectionalTexture3;
-import ca.eandb.jmist.framework.Emitter;
 import ca.eandb.jmist.framework.Illuminable;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.SurfacePoint;
-import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.framework.path.LightNode;
+import ca.eandb.jmist.framework.path.PathInfo;
 import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Vector3;
@@ -21,9 +21,7 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class HemisphericalLight extends AbstractLight {
 
-	/**
-	 * Serialization version ID.
-	 */
+	/** Serialization version ID. */
 	private static final long serialVersionUID = 7440635665736022550L;
 
 	/**
@@ -78,12 +76,19 @@ public final class HemisphericalLight extends AbstractLight {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Light#sample(ca.eandb.jmist.framework.Random)
+	 * @see ca.eandb.jmist.framework.Light#sample(ca.eandb.jmist.framework.path.PathInfo, double, double, double)
 	 */
-	public Emitter sample(Random rng) {
-		Vector3 source = RandomUtil.uniformOnUpperHemisphere(rng).toCartesian();
-		Spectrum radiance = environment.evaluate(source);
-		return new DirectionalEmitter(source.opposite(), radiance);
+	@Override
+	public LightNode sample(PathInfo pathInfo, double ru, double rv, double rj) {
+		throw new UnsupportedOperationException();
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Light#getSamplePDF(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.path.PathInfo)
+	 */
+	@Override
+	public double getSamplePDF(SurfacePoint x, PathInfo pathInfo) {
+		return 0;
 	}
 
 }

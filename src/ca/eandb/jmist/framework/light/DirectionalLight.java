@@ -3,12 +3,13 @@
  */
 package ca.eandb.jmist.framework.light;
 
-import ca.eandb.jmist.framework.Emitter;
 import ca.eandb.jmist.framework.Illuminable;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.framework.path.LightNode;
+import ca.eandb.jmist.framework.path.PathInfo;
 import ca.eandb.jmist.math.Vector3;
 
 /**
@@ -18,9 +19,7 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class DirectionalLight extends AbstractLight {
 
-	/**
-	 * Serialization version ID.
-	 */
+	/** Serialization version ID. */
 	private static final long serialVersionUID = -1437021256512696489L;
 
 	/**
@@ -34,7 +33,6 @@ public final class DirectionalLight extends AbstractLight {
 		this.from = from.unit();
 		this.irradiance = irradiance;
 		this.shadows = shadows;
-		this.emitter = new DirectionalEmitter(from, irradiance);
 	}
 
 	/* (non-Javadoc)
@@ -46,10 +44,19 @@ public final class DirectionalLight extends AbstractLight {
 	}
 
 	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Light#sample(ca.eandb.jmist.framework.Random)
+	 * @see ca.eandb.jmist.framework.Light#sample(ca.eandb.jmist.framework.path.PathInfo, double, double, double)
 	 */
-	public Emitter sample(Random rng) {
-		return emitter;
+	@Override
+	public LightNode sample(final PathInfo pathInfo, double ru, double rv, double rj) {
+		throw new UnsupportedOperationException();
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Light#getSamplePDF(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.path.PathInfo)
+	 */
+	@Override
+	public double getSamplePDF(SurfacePoint x, PathInfo pathInfo) {
+		return 0;
 	}
 
 	/**
@@ -60,9 +67,6 @@ public final class DirectionalLight extends AbstractLight {
 
 	/** The irradiance <code>Spectrum</code>. */
 	private final Spectrum irradiance;
-
-	/** The <code>Emitter</code> for this light source. */
-	private final Emitter emitter;
 
 	/** A value indicating whether shadows should be applied. */
 	private final boolean shadows;
