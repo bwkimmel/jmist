@@ -28,6 +28,7 @@ package ca.eandb.jmist.framework.light;
 import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ScatteredRay;
+import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.path.LightNode;
 import ca.eandb.jmist.framework.path.PathInfo;
@@ -48,6 +49,22 @@ public abstract class AbstractLight implements Light {
 		PathInfo path = new PathInfo(lambda);
 		LightNode node = sample(path, rnd.next(), rnd.next(), rnd.next());
 		return node.sample(rnd.next(), rnd.next(), rnd.next());
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Light#sample(ca.eandb.jmist.framework.path.PathInfo, double, double, double)
+	 */
+	@Override
+	public LightNode sample(PathInfo pathInfo, double ru, double rv, double rj) {
+		throw new UnsupportedOperationException();
+	}
+
+	/* (non-Javadoc)
+	 * @see ca.eandb.jmist.framework.Light#getSamplePDF(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.path.PathInfo)
+	 */
+	@Override
+	public double getSamplePDF(SurfacePoint x, PathInfo pathInfo) {
+		return 0;
 	}
 
 }

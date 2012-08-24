@@ -43,22 +43,6 @@ public final class DirectionalLight extends AbstractLight {
 		target.addLightSample(new DirectionalLightSample(x, from, irradiance.sample(lambda).times(dot), shadows));
 	}
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Light#sample(ca.eandb.jmist.framework.path.PathInfo, double, double, double)
-	 */
-	@Override
-	public LightNode sample(final PathInfo pathInfo, double ru, double rv, double rj) {
-		throw new UnsupportedOperationException();
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Light#getSamplePDF(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.path.PathInfo)
-	 */
-	@Override
-	public double getSamplePDF(SurfacePoint x, PathInfo pathInfo) {
-		return 0;
-	}
-
 	/**
 	 * The <code>Vector3</code> indicating the direction from which the light
 	 * originates.

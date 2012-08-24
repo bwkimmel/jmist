@@ -8,8 +8,6 @@ import ca.eandb.jmist.framework.Illuminable;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
-import ca.eandb.jmist.framework.path.LightNode;
-import ca.eandb.jmist.framework.path.PathInfo;
 import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Vector3;
@@ -73,22 +71,6 @@ public final class HemisphericalLight extends AbstractLight {
 
 		target.addLightSample(new DirectionalLightSample(x, source, environment.evaluate(source, lambda).times(dot), shadows));
 
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Light#sample(ca.eandb.jmist.framework.path.PathInfo, double, double, double)
-	 */
-	@Override
-	public LightNode sample(PathInfo pathInfo, double ru, double rv, double rj) {
-		throw new UnsupportedOperationException();
-	}
-
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Light#getSamplePDF(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.path.PathInfo)
-	 */
-	@Override
-	public double getSamplePDF(SurfacePoint x, PathInfo pathInfo) {
-		return 0;
 	}
 
 }
