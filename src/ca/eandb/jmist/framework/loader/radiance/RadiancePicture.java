@@ -118,7 +118,6 @@ public class RadiancePicture implements Serializable {
 		this.sizeY = sizeY;
 		this.format = format;
 		this.data = data;
-		this.buffer = ByteBuffer.wrap(data).asIntBuffer();
 	}
 	
 	/**
@@ -141,7 +140,6 @@ public class RadiancePicture implements Serializable {
 		this.sizeY = sizeY;
 		this.format = format;
 		this.data = new byte[sizeX * sizeY * 4];
-		this.buffer = ByteBuffer.wrap(data).asIntBuffer();
 	}
 	
 	/**
@@ -369,6 +367,21 @@ public class RadiancePicture implements Serializable {
 	}
 	
 	/**
+	 * Gets the buffer used to store the raw pixel data.
+	 * @return The buffer used to store the raw pixel data.
+	 */
+	private IntBuffer getBuffer() {
+		if (buffer == null) {
+			synchronized (this) {
+				if (buffer == null) {
+					buffer = ByteBuffer.wrap(data).asIntBuffer();
+				}
+			}
+		}
+		return buffer;
+	}
+	
+	/**
 	 * Gets the offset at which to read the specified pixel.
 	 * @param x The x-coordinate of the pixel.
 	 * @param y The y-coordinate of the pixel.
@@ -388,7 +401,7 @@ public class RadiancePicture implements Serializable {
 	 * @return The raw value of the pixel.
 	 */
 	private int getPixelRaw(int x, int y) {
-		return buffer.get(getOffset(x, y));
+		return getBuffer().get(getOffset(x, y));
 	}
 	
 	/**
@@ -398,7 +411,7 @@ public class RadiancePicture implements Serializable {
 	 * @param value The value to set the pixel to.
 	 */
 	private void setPixelRaw(int x, int y, int value) {
-		buffer.put(getOffset(x, y), value);
+		getBuffer().put(getOffset(x, y), value);
 	}
 	
 	/**
