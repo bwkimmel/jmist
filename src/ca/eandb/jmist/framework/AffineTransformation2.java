@@ -14,7 +14,7 @@ import ca.eandb.jmist.math.Vector2;
 
 /**
  * An abstract base class for classes implementing
- * <code>AffineTransformable3</code>.
+ * <code>AffineTransformable2</code>.
  * @author Brad Kimmel
  */
 public class AffineTransformation2 implements AffineTransformable2, Serializable {
