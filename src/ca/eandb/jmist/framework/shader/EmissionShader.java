@@ -1,5 +1,6 @@
-/*
- * Copyright (c) 2008 Bradley W. Kimmel
+/**
+ * Java Modular Image Synthesis Toolkit (JMIST)
+ * Copyright (C) 2008-2013 Bradley W. Kimmel
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -22,7 +23,6 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
-
 package ca.eandb.jmist.framework.shader;
 
 import ca.eandb.jmist.framework.Material;
