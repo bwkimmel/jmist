@@ -7,8 +7,8 @@ import ca.eandb.jmist.math.Box2;
 import ca.eandb.jmist.math.Circle;
 
 /**
+ * Represents something two-dimensional having bounded extent.
  * @author Brad Kimmel
- *
  */
 public interface Bounded2 {
 

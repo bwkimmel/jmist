@@ -12,8 +12,8 @@ import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Sphere;
 
 /**
- * @author Brad
- *
+ * An empty <code>Scene</code>.
+ * @author Brad Kimmel
  */
 public final class EmptyScene implements Scene {
 

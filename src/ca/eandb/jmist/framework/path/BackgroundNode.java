@@ -9,8 +9,7 @@ import ca.eandb.jmist.math.HPoint3;
 import ca.eandb.jmist.math.Vector3;
 
 /**
- * @author Brad
- *
+ * @author Brad Kimmel
  */
 public final class BackgroundNode extends AbstractScatteringNode {
 

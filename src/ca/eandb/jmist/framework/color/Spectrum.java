@@ -28,11 +28,19 @@ package ca.eandb.jmist.framework.color;
 import java.io.Serializable;
 
 /**
- * @author brad
- *
+ * Represents the "color" of something in an abstract sense.  A
+ * <code>Spectrum</code> may be sampled given a <code>WavelengthPacket</code>
+ * from a compatible <code>ColorModel</code>.
+ * @author Brad Kimmel
  */
 public interface Spectrum extends Serializable {
 
+	/**
+	 * Samples this spectrum.
+	 * @param lambda The <code>WavelengthPacket</code> to use to sample the
+	 * 		spectrum.
+	 * @return The <code>Color</code> sample.
+	 */
 	Color sample(WavelengthPacket lambda);
 
 }

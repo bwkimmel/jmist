@@ -24,8 +24,9 @@ import ca.eandb.util.UnexpectedException;
 import ca.eandb.util.io.FileUtil;
 
 /**
+ * A <code>Display</code> that writes to a typical, low-dynamic-range image
+ * file (e.g., PNG, JPEG, etc.).
  * @author Brad Kimmel
- *
  */
 public final class ImageFileDisplay implements Display, Serializable {
 

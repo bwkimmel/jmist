@@ -32,8 +32,8 @@ import ca.eandb.jmist.math.Vector3;
 import ca.eandb.jmist.util.ArrayUtil;
 
 /**
- * @author brad
- *
+ * Static utilty methods for colors.
+ * @author Brad Kimmel
  */
 public final class ColorUtil {
 

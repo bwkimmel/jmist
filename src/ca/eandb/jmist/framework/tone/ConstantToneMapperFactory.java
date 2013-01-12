@@ -6,8 +6,9 @@ package ca.eandb.jmist.framework.tone;
 import ca.eandb.jmist.framework.color.CIEXYZ;
 
 /**
- * @author Brad
- *
+ * A <code>ToneMapperFactory</code> that always returns the same
+ * <code>ToneMapper</code>.
+ * @author Brad Kimmel
  */
 public final class ConstantToneMapperFactory implements ToneMapperFactory {
 

@@ -31,36 +31,54 @@ import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
 
 /**
- * @author brad
- *
+ * A <code>Ray3</code> with an associated <code>Color</code>.
+ * @author Brad Kimmel
  */
 public final class Photon {
 
+	/** The <code>Ray3</code>. */
 	private final Ray3 ray;
 
+	/** The <code>Color</code>. */
 	private final Color power;
 
+	/**
+	 * Creates a <code>Photon</code>.
+	 * @param ray The <code>Ray3</code>.
+	 * @param power The <code>Color</code>.
+	 */
 	public Photon(Ray3 ray, Color power) {
 		this.ray = ray;
 		this.power = power;
 	}
 
+	/**
+	 * Creates a <code>Photon</code>.
+	 * @param position The <code>Point3</code> at the origin of the ray.
+	 * @param direction The <code>Vector3</code> indicating the direction of
+	 * 		the ray.
+	 * @param power The <code>Color</code>.
+	 */
 	public Photon(Point3 position, Vector3 direction, Color power) {
 		this(new Ray3(position, direction), power);
 	}
 
+	/** The <code>Ray3</code>. */
 	public Ray3 ray() {
 		return ray;
 	}
 
+	/** The <code>Color</code>. */
 	public Color power() {
 		return power;
 	}
 
+	/** The <code>Point3</code> at the origin of the ray. */
 	public Point3 position() {
 		return ray.origin();
 	}
 
+	/** The <code>Vector3</code>indicating the direction of the ray. */
 	public Vector3 direction() {
 		return ray.direction();
 	}

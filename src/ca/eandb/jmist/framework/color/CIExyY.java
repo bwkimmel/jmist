@@ -6,8 +6,9 @@ package ca.eandb.jmist.framework.color;
 import ca.eandb.jmist.math.Tuple3;
 
 /**
- * @author Brad
- *
+ * A color represented in CIE xyY color space.
+ * @see <a href="http://en.wikipedia.org/wiki/XyY#The_CIE_xy_chromaticity_diagram_and_the_CIE_xyY_color_space">CIE xyY color space</a>
+ * @author Brad Kimmel
  */
 public final class CIExyY extends Tuple3 {
 

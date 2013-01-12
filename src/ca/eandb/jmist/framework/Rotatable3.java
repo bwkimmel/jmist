@@ -6,8 +6,8 @@ package ca.eandb.jmist.framework;
 import ca.eandb.jmist.math.Vector3;
 
 /**
+ * Something that may be rotated in three-dimensional space.
  * @author Brad Kimmel
- *
  */
 public interface Rotatable3 {
 

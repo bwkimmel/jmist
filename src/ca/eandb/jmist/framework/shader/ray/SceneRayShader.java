@@ -58,8 +58,8 @@ import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
 
 /**
- * @author brad
- *
+ * A <code>RayShader</code> that shades a ray using a scene description.
+ * @author Brad Kimmel
  */
 public final class SceneRayShader implements RayShader {
 

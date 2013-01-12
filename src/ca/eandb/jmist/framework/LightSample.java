@@ -29,15 +29,29 @@ import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.math.Vector3;
 
 /**
- * @author brad
- *
+ * A recorded sample from a <code>Light</code>.
+ * @author Brad Kimmel
  */
 public interface LightSample {
 
+	/**
+	 * Gets the direction from which the light originates.
+	 * @return The <code>Vector3</code> pointing toward the light source.
+	 */
 	Vector3 getDirToLight();
 
+	/**
+	 * Gets the radiant intensity along the specified ray.
+	 * @return The radiant intensity.
+	 */
 	Color getRadiantIntensity();
 
+	/**
+	 * Determines if the light ray is obstructed.
+	 * @param vf The <code>VisibilityFunction3</code> to use to test visibility
+	 * 		between points.
+	 * @return A value indicating if the light ray is obstructed.
+	 */
 	boolean castShadowRay(VisibilityFunction3 vf);
 
 }

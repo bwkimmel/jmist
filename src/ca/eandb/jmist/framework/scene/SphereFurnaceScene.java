@@ -36,8 +36,12 @@ import ca.eandb.jmist.framework.material.LambertianMaterial;
 import ca.eandb.jmist.math.Sphere;
 
 /**
- * @author brad
- *
+ * A <code>Scene</code> representing the inside of a sphere in which the
+ * surface is Lambertian surface that emit and reflect uniformly.  A correct
+ * rendering of this scene should result in a uniform, flat color, image,
+ * regardless of the view point or view direction, or of the actual emission or
+ * reflectances of the surfaces.
+ * @author Brad Kimmel
  */
 public final class SphereFurnaceScene extends AbstractScene {
 

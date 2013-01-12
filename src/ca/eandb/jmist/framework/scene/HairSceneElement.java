@@ -29,8 +29,9 @@ import ca.eandb.jmist.math.Vector3;
 import ca.eandb.util.UnimplementedException;
 
 /**
- * @author Brad
- *
+ * A <code>SceneElement</code> decorator that adds hair to the underlying
+ * geometry.
+ * @author Brad Kimmel
  */
 public final class HairSceneElement implements SceneElement {
 	

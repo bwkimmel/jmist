@@ -26,8 +26,9 @@ import ca.eandb.jmist.math.Vector3;
 import ca.eandb.util.UnimplementedException;
 
 /**
- * @author Brad
- *
+ * A decorator <code>SceneElement</code> that transforms the underlying
+ * <code>SceneElement</code>.
+ * @author Brad Kimmel
  */
 public final class TransformableSceneElement extends SceneElementDecorator
 		implements AffineTransformable3 {

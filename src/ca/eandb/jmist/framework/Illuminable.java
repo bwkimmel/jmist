@@ -26,11 +26,16 @@
 package ca.eandb.jmist.framework;
 
 /**
+ * Something that can be illuminated.
  * @author brad
  *
  */
 public interface Illuminable {
 
+	/**
+	 * Record a light sample.
+	 * @param sample The <code>LightSample</code> to record.
+	 */
 	void addLightSample(LightSample sample);
 
 }

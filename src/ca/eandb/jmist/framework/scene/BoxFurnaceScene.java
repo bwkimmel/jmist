@@ -36,8 +36,12 @@ import ca.eandb.jmist.framework.material.LambertianMaterial;
 import ca.eandb.jmist.math.Box3;
 
 /**
- * @author brad
- *
+ * A <code>Scene</code> representing the inside of a box in which all surfaces
+ * are Lambertian surface that emit and reflect uniformly.  A correct rendering
+ * of this scene should result in a uniform, flat color, image. regardless of
+ * the view point or view direction, or of the actual emission or reflectances
+ * of the surfaces.
+ * @author Brad Kimmel
  */
 public final class BoxFurnaceScene extends AbstractScene {
 

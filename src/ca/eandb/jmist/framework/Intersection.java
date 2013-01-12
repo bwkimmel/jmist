@@ -4,8 +4,8 @@
 package ca.eandb.jmist.framework;
 
 /**
+ * A ray-geometry intersection.
  * @author Brad Kimmel
- *
  */
 public interface Intersection {
 

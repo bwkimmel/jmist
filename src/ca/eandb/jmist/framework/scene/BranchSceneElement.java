@@ -53,8 +53,9 @@ import ca.eandb.jmist.math.Sphere;
 import ca.eandb.util.UnimplementedException;
 
 /**
- * @author brad
- *
+ * A composite <code>SceneElement</code>.  Each child <code>SceneElement</code>
+ * is treated as a single primitive.
+ * @author Brad Kimmel
  */
 public final class BranchSceneElement implements SceneElement {
 

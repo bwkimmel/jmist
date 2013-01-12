@@ -31,7 +31,7 @@ import ca.eandb.jmist.math.Vector3;
 /**
  * Stores photons in a kd-tree data structure.  This implementation is based on
  * Appendix B of H.W. Jensen, "Realistic Image Synthesis using Photon Mapping".
- * @author brad
+ * @author Brad Kimmel
  */
 public final class PhotonMap {
 

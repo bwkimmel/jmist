@@ -36,8 +36,11 @@ import ca.eandb.jmist.math.Vector3;
 import ca.eandb.util.ByteArray;
 
 /**
- * @author Brad
- *
+ * A decorator <code>SceneElement</code> that applies <code>Material</code>s to
+ * the primitives of the underlying <code>SceneElement</code> according to a
+ * mapping from primitive index to <code>Material</code>.
+ * @see {@link Material}
+ * @author Brad Kimmel
  */
 public final class MaterialMapSceneElement extends SceneElementDecorator {
 
@@ -46,15 +49,22 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 	 */
 	private static final long serialVersionUID = 3360256839104414544L;
 
+	/**
+	 * Indicates what material to use for each primitive.  The index into this
+	 * array represents the primitive index.  The value represents an index
+	 * into {@link #materials}.
+	 */
 	private ByteArray map = new ByteArray();
 
+	/** The <code>List</code> of <code>Material</code>s to apply. */
 	private List<Material> materials = new ArrayList<Material>();
 
+	/** Lookup for materials by name. */
 	private HashMap<String, Integer> nameLookup = null;
 
 	/**
-	 * @param modifier
-	 * @param inner
+	 * Creates a <code>MaterialMapSceneElement</code>.
+	 * @param inner The underlying <code>SceneElement</code>.
 	 */
 	public MaterialMapSceneElement(SceneElement inner) {
 		super(inner);
@@ -86,6 +96,11 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 
 	}
 
+	/**
+	 * Adds a <code>Material</code>.
+	 * @param material The <code>Material</code> to add.
+	 * @return The ID to refer to this material by.
+	 */
 	public int addMaterial(Material material) {
 		if (materials.size() >= 256) {
 			throw new IllegalStateException("Material map is full");
@@ -95,6 +110,12 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 		return key;
 	}
 
+	/**
+	 * Adds a named <code>Material</code>.
+	 * @param key The name to assign to the material.
+	 * @param material The <code>Material</code> to add.
+	 * @return A reference to <code>this</code> for method chaining.
+	 */
 	public MaterialMapSceneElement addMaterial(String key, Material material) {
 		if (nameLookup == null) {
 			nameLookup = new HashMap<String, Integer>();
@@ -103,10 +124,23 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 		return this;
 	}
 
+	/**
+	 * Sets the material to apply to a given primitive.
+	 * @param primitive The ID of the primitive.
+	 * @param materialKey The ID of the material (as returned by
+	 * 		{@link #addMaterial(Material)}).
+	 */
 	public void setMaterial(int primitive, int materialKey) {
 		setMaterialRange(primitive, 1, materialKey);
 	}
 
+	/**
+	 * Sets the material to apply to a range of primitives.
+	 * @param start The ID of the first primitive.
+	 * @param length The number of primitives to apply the material to.
+	 * @param materialKey The ID of the material (as returned by
+	 * 		{@link #addMaterial(Material)}).
+	 */
 	public void setMaterialRange(int start, int length, int materialKey) {
 		if (materialKey < 0 || materialKey >= materials.size()) {
 			throw new IllegalArgumentException();
@@ -119,6 +153,13 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 		}
 	}
 
+	/**
+	 * Sets the material to apply to a range of primitives.
+	 * @param start The ID of the first primitive.
+	 * @param length The number of primitives to apply the material to.
+	 * @param name The name of the material (as provided to
+	 * 		{@link #addMaterial(String, Material)}).
+	 */
 	public MaterialMapSceneElement setMaterialRange(int start, int length,
 			String name) {
 		if (nameLookup == null || !nameLookup.containsKey(name)) {
@@ -129,6 +170,12 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 		return this;
 	}
 
+	/**
+	 * Sets the material to apply to a given primitive.
+	 * @param primitive The ID of the primitive.
+	 * @param name The name of the material (as provided to
+	 * 		{@link #addMaterial(String, Material)}).
+	 */
 	public MaterialMapSceneElement setMaterial(int primitive, String name) {
 		return setMaterialRange(primitive, 1, name);
 	}

@@ -7,8 +7,8 @@ import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Sphere;
 
 /**
+ * Represents something three-dimensional having bounded extent.
  * @author Brad Kimmel
- *
  */
 public interface Bounded3 {
 

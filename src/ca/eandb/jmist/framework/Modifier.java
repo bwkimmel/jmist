@@ -28,13 +28,19 @@ package ca.eandb.jmist.framework;
 import java.io.Serializable;
 
 /**
- * @author brad
- *
+ * Applies a transformation to a <code>ShadingContext</code>, for example by
+ * perturbing the normal (bump mapping), or applying a <code>Material</code>.
+ * @author Brad Kimmel
  */
 public interface Modifier extends Serializable {
 
+	/**
+	 * Transforms a <code>ShadingContext</code>.
+	 * @param context The <code>ShadingContext</code> to transform.
+	 */
 	void modify(ShadingContext context);
 
+	/** A dummy <code>Modifier</code> that applies no change. */
 	public static final Modifier IDENTITY = new Modifier() {
 		private static final long serialVersionUID = -280297069210221264L;
 		public void modify(ShadingContext context) {

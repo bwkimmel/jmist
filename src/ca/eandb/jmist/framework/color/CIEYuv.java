@@ -6,8 +6,9 @@ package ca.eandb.jmist.framework.color;
 import ca.eandb.jmist.math.Tuple3;
 
 /**
- * @author Brad
- *
+ * A color in CIE Yuv color space.
+ * @see <a href="http://en.wikipedia.org/wiki/CIE_1960_color_space">CIE 1960 color space</a>
+ * @author Brad Kimmel
  */
 public final class CIEYuv extends Tuple3 {
 

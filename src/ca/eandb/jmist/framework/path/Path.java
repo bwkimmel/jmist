@@ -31,8 +31,9 @@ import ca.eandb.jmist.math.Point2;
 import ca.eandb.util.UnexpectedException;
 
 /**
- * @author brad
- *
+ * A sequence of scattering events from the eye or from a light source used by
+ * path-integral based rendering algorithms.
+ * @author Brad Kimmel
  */
 public final class Path {
 

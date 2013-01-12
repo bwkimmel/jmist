@@ -37,7 +37,7 @@ import ca.eandb.jmist.math.Sphere;
 
 /**
  * A <code>SceneElement</code> composed of a single primitive.
- * @author brad
+ * @author Brad Kimmel
  */
 public abstract class PrimitiveGeometry extends AbstractGeometry {
 

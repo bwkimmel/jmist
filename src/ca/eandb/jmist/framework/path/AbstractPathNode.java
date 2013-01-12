@@ -18,8 +18,8 @@ import ca.eandb.jmist.math.Ray3;
 
 
 /**
- * @author Brad
- *
+ * Abstract base class for <code>PathNode</code>s.
+ * @author Brad Kimmel
  */
 public abstract class AbstractPathNode implements PathNode {
 

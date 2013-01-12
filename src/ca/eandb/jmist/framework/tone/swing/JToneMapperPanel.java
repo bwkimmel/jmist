@@ -14,8 +14,9 @@ import javax.swing.event.ChangeListener;
 import ca.eandb.jmist.framework.tone.ToneMapperFactory;
 
 /**
- * @author brad
- *
+ * An abstract <code>ToneMapperFactory</code> that provides a UI for
+ * controlling the parameters to the tone mapping function.
+ * @author Brad Kimmel
  */
 public abstract class JToneMapperPanel extends JPanel implements
 		ToneMapperFactory {

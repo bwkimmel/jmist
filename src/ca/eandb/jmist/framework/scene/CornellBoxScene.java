@@ -22,7 +22,8 @@ import ca.eandb.jmist.math.Vector3;
 import ca.eandb.jmist.util.ArrayUtil;
 
 /**
- * A <code>Model</code> of the Cornell Box.
+ * A <code>Model</code> of the
+ * <a href="http://www.graphics.cornell.edu/online/box/">Cornell Box</a>.
  * @author Brad Kimmel
  */
 public final class CornellBoxScene extends AbstractScene {

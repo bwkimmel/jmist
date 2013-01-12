@@ -29,8 +29,8 @@ import ca.eandb.jmist.framework.Raster;
 import ca.eandb.jmist.util.ArrayUtil;
 
 /**
- * @author brad
- *
+ * A <code>Raster</code> backed by an array of doubles.
+ * @author Brad Kimmel
  */
 public abstract class DoubleRaster implements Raster {
 

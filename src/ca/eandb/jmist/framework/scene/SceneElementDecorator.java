@@ -37,8 +37,12 @@ import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
 
 /**
- * @author brad
- *
+ * An abstract <code>SceneElement</code> that decorates another, underlying
+ * <code>SceneElement</code>.  This class provides default implementations
+ * that delegate to the underlying <code>SceneElement</code>.  It is the
+ * responsibility of the concrete derived <code>SceneElement</code> to
+ * override the appropriate methods.
+ * @author Brad Kimmel
  */
 public abstract class SceneElementDecorator implements SceneElement, Serializable {
 

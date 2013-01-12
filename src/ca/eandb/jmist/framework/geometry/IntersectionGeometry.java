@@ -12,7 +12,7 @@ import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Sphere;
 
 /**
- * A <code>SceneElement</code> that it the intersection of its component
+ * A <code>SceneElement</code> that is the intersection of its component
  * geometries.
  * @author Brad Kimmel
  */

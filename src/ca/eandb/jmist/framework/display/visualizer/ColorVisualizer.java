@@ -18,8 +18,17 @@ import ca.eandb.jmist.framework.color.RGB;
  */
 public interface ColorVisualizer extends Serializable {
 	
+	/**
+	 * Register a listener to be notified when the visualization parameters
+	 * change.
+	 * @param l The <code>ChangeListener</code> to register.
+	 */
 	void addChangeListener(ChangeListener l);
 	
+	/**
+	 * Unregister a listener.
+	 * @param l The <code>ChangeListener</code> to unregister.
+	 */
 	void removeChangeListener(ChangeListener l);
 	
 	/**

@@ -42,8 +42,9 @@ import ca.eandb.jmist.util.matlab.MatlabWriter;
 import ca.eandb.util.UnexpectedException;
 
 /**
- * @author brad
- *
+ * A <code>Display</code> that writes CIE XYZ tristimulus values to an array in
+ * a MATLAB file.
+ * @author Brad Kimmel
  */
 public final class MatlabXYZFileDisplay implements Display, Serializable {
 

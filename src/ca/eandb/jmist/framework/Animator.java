@@ -6,8 +6,8 @@ package ca.eandb.jmist.framework;
 import java.io.Serializable;
 
 /**
- * @author brad
- *
+ * Represents something that can be animated.
+ * @author Brad Kimmel
  */
 public interface Animator extends Serializable {
 

@@ -7,8 +7,8 @@ import ca.eandb.jmist.math.HPoint3;
 import ca.eandb.jmist.math.Point2;
 
 /**
- * @author Brad
- *
+ * The terminal node at the viewer end of a path.
+ * @author Brad Kimmel
  */
 public interface EyeNode extends PathNode {
 

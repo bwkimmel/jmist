@@ -4,8 +4,8 @@
 package ca.eandb.jmist.framework;
 
 /**
+ * Something that may be rotated in two-dimensional space.
  * @author Brad Kimmel
- *
  */
 public interface Rotatable2 {
 

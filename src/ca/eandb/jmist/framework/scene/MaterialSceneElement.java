@@ -50,8 +50,10 @@ import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Vector3;
 
 /**
- * @author brad
- *
+ * A decorator <code>SceneElement</code> that applies a <code>Material</code>
+ * to the underlying <code>SceneElement</code>.
+ * @see {@link Material}
+ * @author Brad Kimmel
  */
 public final class MaterialSceneElement extends ModifierSceneElement {
 

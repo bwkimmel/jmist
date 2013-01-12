@@ -13,7 +13,9 @@ import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
 
 /**
- * Static methods for creating the geometry of a brilliant cut diamond.
+ * Static methods for creating the geometry of a brilliant cut diamond, as
+ * defined by the Gemological Institute of America (GIA).
+ * @see <a href="http://www.gia.edu/diamondcut/05_diamond_anatomy.html">Diamond anatomy</a>
  * @author Brad Kimmel
  */
 public final class BrilliantCut {

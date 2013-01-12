@@ -6,8 +6,9 @@ package ca.eandb.jmist.framework.color;
 import ca.eandb.jmist.math.Tuple3;
 
 /**
- * @author Brad
- *
+ * A color in CIE Lab color space.
+ * @see <a href="http://en.wikipedia.org/wiki/CIE_Lab">CIE Lab color space</a>
+ * @author Brad Kimmel
  */
 public final class CIELab extends Tuple3 {
 

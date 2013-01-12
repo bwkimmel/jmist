@@ -9,8 +9,8 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.scene.EmptyScene;
 
 /**
- * @author Brad
- *
+ * Represents the context in which a path is created.
+ * @author Brad Kimmel
  */
 public final class PathInfo {
 

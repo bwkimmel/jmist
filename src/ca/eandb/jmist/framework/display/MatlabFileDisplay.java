@@ -41,8 +41,9 @@ import ca.eandb.jmist.util.matlab.MatlabWriter;
 import ca.eandb.util.UnexpectedException;
 
 /**
- * @author brad
- *
+ * A <code>Display</code> that writes the raw channel values of the provided
+ * <code>Color</code>s to an array in a MATLAB file.
+ * @author Brad Kimmel
  */
 public final class MatlabFileDisplay implements Display, Serializable {
 

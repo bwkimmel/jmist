@@ -9,8 +9,8 @@ import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.math.Box2;
 
 /**
+ * A <code>PixelShader</code> that shades the point at the center of the pixel.
  * @author Brad Kimmel
- *
  */
 public final class SimplePixelShader extends ImageRasterizingPixelShader {
 

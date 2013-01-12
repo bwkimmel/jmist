@@ -26,11 +26,13 @@
 package ca.eandb.jmist.framework.color;
 
 /**
- * @author brad
- *
+ * An opaque token (<em>opaque</em> in the programming sense, not the visual
+ * sense) to use to sample a <code>Spectrum</code>.
+ * @author Brad Kimmel
  */
 public interface WavelengthPacket {
 
+	/** The <code>ColorModel</code> that created this packet. */
 	ColorModel getColorModel();
 
 }

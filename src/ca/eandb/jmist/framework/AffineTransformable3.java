@@ -10,7 +10,6 @@ import ca.eandb.jmist.math.AffineMatrix3;
  * A three dimensional object that can be transformed according to an affine transformation
  * (linear transformations plus translations).
  * @author Brad Kimmel
- *
  */
 public interface AffineTransformable3 extends LinearTransformable3, ShapePreservingTransformable3, Stretchable3 {
 

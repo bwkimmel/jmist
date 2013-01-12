@@ -15,8 +15,8 @@ import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
 
 /**
- * @author Brad
- *
+ * Static utility methods for paths.
+ * @author Brad Kimmel
  */
 public final class PathUtil {
 

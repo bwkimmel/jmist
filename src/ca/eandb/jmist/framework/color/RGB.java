@@ -7,8 +7,8 @@ import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Tuple3;
 
 /**
- * @author Brad
- *
+ * An RGB color triple.
+ * @author Brad Kimmel
  */
 public final class RGB extends Tuple3 implements Spectrum {
 

@@ -30,13 +30,24 @@ import java.io.Serializable;
 import ca.eandb.jmist.framework.color.Color;
 
 /**
- * @author brad
- *
+ * A mutable, two-dimensional array of <code>Color</code>s.
+ * @author Brad Kimmel
  */
 public interface Raster extends RasterWriter, Serializable {
 
+	/**
+	 * Gets the <code>Color</code> stored at the specified pixel.
+	 * @param x The x-coordinate of the pixel.
+	 * @param y The y-coordinate of the pixel.
+	 * @return The <code>Color</code> stored at the pixel.
+	 */
 	Color getPixel(int x, int y);
 
+	/**
+	 * Adds the <code>Color</code> to the value stored at the specified pixel.
+	 * @param x The x-coordinate of the pixel.
+	 * @param y The y-coordinate of the pixel.
+	 */
 	void addPixel(int x, int y, Color pixel);
 
 }

@@ -8,8 +8,9 @@ import java.io.Serializable;
 import ca.eandb.jmist.math.Point2;
 
 /**
+ * A two-dimensional grayscale texture, typically layered in to control the
+ * weight of some other property.
  * @author Brad Kimmel
- *
  */
 public interface Mask2 extends Serializable {
 

@@ -47,8 +47,19 @@ import ca.eandb.jmist.util.ArrayUtil;
 import ca.eandb.util.UnexpectedException;
 
 /**
- * @author brad
- *
+ * A decorator <code>SceneElement</code> that applies a bounded interval
+ * hierarchy (BIH) to the primitives of the underlying <code>SceneElement</code>.
+ * 
+ * This is an implementation of the algorithm described in the following paper:
+ * 
+ * <blockquote>
+ * C. Wachter, A. Keller,
+ * <a href="http://ainc.de/Research/BIH.pdf">Instant ray tracing: The bounded interval hierarchy</a>,
+ * In <em>Proceedings of the Eurgraphics Symposium on Rendering</em>
+ * pp. 139-149, 2006.
+ * </blockquote>
+ * 
+ * @author Brad Kimmel
  */
 public final class BoundingIntervalHierarchy extends SceneElementDecorator {
 

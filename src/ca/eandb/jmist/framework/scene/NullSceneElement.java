@@ -13,8 +13,8 @@ import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
 
 /**
- * @author Brad
- *
+ * A dummy <code>SceneElement</code> that provides no geometry.
+ * @author Brad Kimmel
  */
 public final class NullSceneElement implements SceneElement {
 

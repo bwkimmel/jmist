@@ -7,8 +7,8 @@ import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.math.Vector3;
 
 /**
- * @author Brad
- *
+ * Abstract base class for terminal (eye, light) <code>PathNode</code>s.
+ * @author Brad Kimmel
  */
 public abstract class AbstractTerminalNode extends AbstractPathNode {
 

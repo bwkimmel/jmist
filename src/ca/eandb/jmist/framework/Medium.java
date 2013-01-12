@@ -11,8 +11,8 @@ import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
 
 /**
+ * Simulates how light travels through a medium.
  * @author Brad Kimmel
- *
  */
 public interface Medium extends Serializable {
 

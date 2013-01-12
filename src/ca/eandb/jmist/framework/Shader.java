@@ -30,13 +30,25 @@ import java.io.Serializable;
 import ca.eandb.jmist.framework.color.Color;
 
 /**
- * @author brad
- *
+ * Computes a <code>Color</code> from a <code>ShadingContext</code>, which
+ * represents the state of the current ray-intersection event.  How this
+ * done depends on the specific <code>Shader</code>, but this will typically
+ * involve scattering the incident ray using a <code>Material</code> and
+ * recursively ray-tracing the scattered ray, or illuminating the material
+ * directly from a light source, etc.
+ * @author Brad Kimmel
  */
 public interface Shader extends Serializable {
 
+	/** 
+	 * Computes a <code>Color</code> based on the provided context representing
+	 * the state of the current ray-intersection event.
+	 * @param sc The <code>ShadingContext</code>.
+	 * @return The resulting <code>Color</code>.
+	 */
 	Color shade(ShadingContext sc);
 
+	/** A dummy <code>Shader</code> that always returns black. */
 	public static final Shader BLACK = new Shader() {
 		private static final long serialVersionUID = 7697217516861477920L;
 		public Color shade(ShadingContext sc) {

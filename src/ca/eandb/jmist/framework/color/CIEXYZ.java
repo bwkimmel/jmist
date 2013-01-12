@@ -7,8 +7,9 @@ import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Tuple3;
 
 /**
- * @author Brad
- *
+ * CIE XYZ Tristimulus values.
+ * @see <a href="http://en.wikipedia.org/wiki/CIE_1931_color_space">CIE 1931 color space</a>
+ * @author Brad Kimmel
  */
 public class CIEXYZ extends Tuple3 {
 

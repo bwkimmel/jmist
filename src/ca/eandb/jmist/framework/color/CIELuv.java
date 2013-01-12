@@ -6,8 +6,9 @@ package ca.eandb.jmist.framework.color;
 import ca.eandb.jmist.math.Tuple3;
 
 /**
- * @author Brad
- *
+ * A color in CIE Luv color space.
+ * @see <a href="http://en.wikipedia.org/wiki/CIELUV">CIELUV</a>
+ * @author Brad Kimmel
  */
 public final class CIELuv extends Tuple3 {
 

@@ -30,8 +30,21 @@ public interface Lens extends Serializable {
 	 */
 	ScatteredRay rayAt(Point2 p, WavelengthPacket lambda, Random rnd);
 
+	/**
+	 * Creates the terminal <code>EyeNode</code> for use by path-integration
+	 * based rendering algorithms.
+	 * @param p The point on the image plane in normalized device coordinates
+	 * 		(must fall within {@code Box2.UNIT}).
+	 * @param pathInfo The <code>PathInfo</code> describing the context in
+	 * 		which the path is being generated.
+	 * @param ru The first random variable (must be in [0, 1]).
+	 * @param rv The second random variable (must be in [0, 1]).
+	 * @param rj The third random variable (must be in [0, 1]).
+	 * @return A new <code>EyeNode</code>.
+	 */
 	EyeNode sample(Point2 p, PathInfo pathInfo, double ru, double rv, double rj);
 
+	/** A dummy <code>Lens</code> that does not render anything. */
 	public static final Lens NULL = new Lens() {
 		private static final long serialVersionUID = 2076070894932926479L;
 		public ScatteredRay rayAt(Point2 p, WavelengthPacket lambda, Random rnd) {

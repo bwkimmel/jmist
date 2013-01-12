@@ -9,8 +9,9 @@ import ca.eandb.jmist.math.HPoint3;
 import ca.eandb.jmist.math.Vector3;
 
 /**
- * @author Brad
- *
+ * A node in a <code>Path</code> used for path-integral based rendering
+ * algorithms.
+ * @author Brad Kimmel
  */
 public interface PathNode {
 

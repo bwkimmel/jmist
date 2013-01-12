@@ -19,8 +19,8 @@ import ca.eandb.jmist.math.Vector3;
 
 
 /**
+ * Static utility methods for random algorithms.
  * @author Brad Kimmel
- *
  */
 public final class RandomUtil {
 
