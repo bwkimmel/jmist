@@ -33,7 +33,7 @@ import ca.eandb.jmist.framework.modifier.ShaderModifier;
  * A decorator <code>SceneElement</code> that applies a <code>Shader</code> to
  * another <code>SceneElement</code>.
  *  
- * @see {@link Shader}
+ * @see Shader
  * @author Brad Kimmel
  */
 public final class ShaderSceneElement extends ModifierSceneElement {

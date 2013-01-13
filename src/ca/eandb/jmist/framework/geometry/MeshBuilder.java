@@ -270,8 +270,8 @@ public final class MeshBuilder implements AffineTransformable3 {
 
 	/**
 	 * Writes the mesh out in Wavefront OBJ format.
-	 * @param out The <code>OutputStream</code> to write to.
-s	 */
+	 * @param os The <code>OutputStream</code> to write to.
+	 */
 	public void writeWavefrontObj(OutputStream os) {
 		applyTrans();
 		PrintStream out = new PrintStream(os);

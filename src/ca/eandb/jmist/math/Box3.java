@@ -327,7 +327,7 @@ public final class Box3 implements Serializable {
 	 * Guarantees that {@code this.contains(p)} after this method is called.
 	 * @param p The point to extend the box to.
 	 * @return The extended box.
-	 * @see contains
+	 * @see #contains(Point3)
 	 */
 	public Box3 extendTo(Point3 p) {
 		if (isEmpty()) {
@@ -378,7 +378,8 @@ public final class Box3 implements Serializable {
 	 * 		box.
 	 * @return A value indicating if the specified ray intersects
 	 * 		with this box.
-	 * @see {@link #intersect(Ray3)}, {@link Interval#isEmpty()}.
+	 * @see #intersect(Ray3)
+	 * @see Interval#isEmpty()
 	 */
 	public boolean intersects(Ray3 ray) {
 		return this.intersects(ray, Interval.POSITIVE);
@@ -393,7 +394,8 @@ public final class Box3 implements Serializable {
 	 * 		intersection.
 	 * @return A value indicating if the specified ray intersects
 	 * 		with this box.
-	 * @see {@link #intersect(Ray3)}, {@link Interval#intersects(Interval)}.
+	 * @see #intersect(Ray3)
+	 * @see Interval#intersects(Interval)
 	 */
 	public boolean intersects(Ray3 ray, Interval I) {
 
@@ -452,8 +454,9 @@ public final class Box3 implements Serializable {
 	 * @return The interval in which the ray passes through
 	 * 		the box (i.e., this.contains(ray.pointAt(x)) if and
 	 * 		only if this.intersect(ray).contains(x)).
-	 * @see {@link #contains(Point3)}, {@link Ray3#pointAt(double)},
-	 * 		{@link Interval#contains(double)}.
+	 * @see #contains(Point3)
+	 * @see Ray3#pointAt(double)
+	 * @see Interval#contains(double)
 	 */
 	public Interval intersect(Ray3 ray) {
 
@@ -596,7 +599,8 @@ public final class Box3 implements Serializable {
 	 * Equivalent to {@code this.getSpanX().interpolate(t)}.
 	 * @param t The point at which to interpolate.
 	 * @return The interpolated value.
-	 * @see {@link #spanX()}, {@link Interval#interpolate(double)}.
+	 * @see #spanX()
+	 * @see Interval#interpolate(double)
 	 */
 	public double interpolateX(double t) {
 		return this.minimumX + t * (this.maximumX - this.minimumX);
@@ -607,7 +611,8 @@ public final class Box3 implements Serializable {
 	 * Equivalent to {@code this.getSpanY().interpolate(t)}.
 	 * @param t The point at which to interpolate.
 	 * @return The interpolated value.
-	 * @see {@link #spanY()}, {@link Interval#interpolate(double)}.
+	 * @see #spanY()
+	 * @see Interval#interpolate(double)
 	 */
 	public double interpolateY(double t) {
 		return this.minimumY + t * (this.maximumY - this.minimumY);
@@ -618,7 +623,8 @@ public final class Box3 implements Serializable {
 	 * Equivalent to {@code this.getSpanZ().interpolate(t)}.
 	 * @param t The point at which to interpolate.
 	 * @return The interpolated value.
-	 * @see {@link #spanZ()}, {@link Interval#interpolate(double)}.
+	 * @see #spanZ()
+	 * @see Interval#interpolate(double)
 	 */
 	public double interpolateZ(double t) {
 		return this.minimumZ + t * (this.maximumZ - this.minimumZ);
@@ -633,7 +639,7 @@ public final class Box3 implements Serializable {
 	 * @param ty The point at which to interpolate along the y-axis.
 	 * @param tz The point at which to interpolate along the z-axis.
 	 * @return The interpolated point.
-	 * @see {@link #interpolate(Point3)}.
+	 * @see #interpolate(Point3)
 	 */
 	public Point3 interpolate(double tx, double ty, double tz) {
 		return new Point3(
@@ -650,7 +656,7 @@ public final class Box3 implements Serializable {
 	 * box.  Equivalent to {@code this.interpolate(p.x(), p.y(), p.z())}.
 	 * @param p The point at which to interpolate.
 	 * @return The interpolated point.
-	 * @see {@link #interpolate(double, double)}.
+	 * @see #interpolate(double, double, double)
 	 */
 	public Point3 interpolate(Point3 p) {
 		return this.interpolate(p.x(), p.y(), p.z());

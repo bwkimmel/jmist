@@ -39,10 +39,10 @@ import ca.eandb.jmist.framework.Raster;
  * A <code>ColorModel</code> is essentially a factory for other color-related
  * classes.
  * 
- * @see {@link Spectrum}
- * @see {@link Color}
- * @see {@link WavelengthPacket}
- * @see {@link Raster}
+ * @see Spectrum
+ * @see Color
+ * @see WavelengthPacket
+ * @see Raster
  * 
  * @author Brad Kimmel
  */
@@ -119,8 +119,8 @@ public abstract class ColorModel implements Serializable {
 	 * @param lambda The <code>WavelengthPacket</code> to associate wit the
 	 * 		<code>Color</code>.
 	 * @return The <code>Color</code>.
-	 * @see {@link Spectrum#sample(WavelengthPacket)}
-	 * @see {@link #getBlack()}
+	 * @see Spectrum#sample(WavelengthPacket)
+	 * @see #getBlack()
 	 */
 	public abstract Color fromArray(double[] values, WavelengthPacket lambda);
 
@@ -130,8 +130,8 @@ public abstract class ColorModel implements Serializable {
 	 * @param lambda The <code>WavelengthPacket</code> at which to sample the
 	 * 		spectrum.
 	 * @return The <code>Color</code>.
-	 * @see {@link Spectrum#sample(WavelengthPacket)}
-	 * @see {@link #getBlack()}
+	 * @see Spectrum#sample(WavelengthPacket)
+	 * @see #getBlack()
 	 */
 	public abstract Color getBlack(WavelengthPacket lambda);
 
@@ -141,8 +141,8 @@ public abstract class ColorModel implements Serializable {
 	 * @param lambda The <code>WavelengthPacket</code> at which to sample the
 	 * 		spectrum.
 	 * @return The <code>Color</code>.
-	 * @see {@link Spectrum#sample(WavelengthPacket)}
-	 * @see {@link #getWhite()}
+	 * @see Spectrum#sample(WavelengthPacket)
+	 * @see #getWhite()
 	 */
 	public abstract Color getWhite(WavelengthPacket lambda);
 
@@ -153,8 +153,8 @@ public abstract class ColorModel implements Serializable {
 	 * @param lambda The <code>WavelengthPacket</code> at which to sample the
 	 * 		spectrum.
 	 * @return The <code>Color</code>.
-	 * @see {@link Spectrum#sample(WavelengthPacket)}
-	 * @see {@link #getGray(double)}
+	 * @see Spectrum#sample(WavelengthPacket)
+	 * @see #getGray(double)
 	 */
 	public abstract Color getGray(double value, WavelengthPacket lambda);
 

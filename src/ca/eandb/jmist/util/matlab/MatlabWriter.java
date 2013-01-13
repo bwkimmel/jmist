@@ -371,9 +371,6 @@ public final class MatlabWriter {
 	 * @param dimensions The array dimensions (there must be at least two
 	 * 		dimensions and the product of the dimensions must be
 	 * 		<code>pr.length</code>).
-	 * @param strides The differences between indices into <code>pr</code> of
-	 * 		consecutive entries along each dimension (must be equal in length
-	 * 		to <code>dimensions</code>).
 	 * @param global A value indicating if the variable is to have global scope.
 	 * @throws IOException if writing to the underlying stream fails.
 	 * @throws IllegalArgumentException if <code>pi != null</code> and
@@ -397,7 +394,6 @@ public final class MatlabWriter {
 	 * @param strides The differences between indices into <code>pr</code> of
 	 * 		consecutive entries along each dimension (must be equal in length
 	 * 		to <code>dimensions</code>).
-	 * @param global A value indicating if the variable is to have global scope.
 	 * @throws IOException if writing to the underlying stream fails.
 	 * @throws IllegalArgumentException if <code>pi != null</code> and
 	 * 		<code>pi.length != pr.length</code>.

@@ -37,12 +37,12 @@ public interface ProbabilityDensityFunction extends Serializable {
 	/**
 	 * Generates a random value distributed according to this
 	 * <code>ProbabilityDensityFunction</code>.  Equivalent to
-	 * <code>this.warp(RandomUtil.canonical())</code>.
+	 * <code>this.warp(random.next())</code>.
 	 * @param random The <code>Random</code> number generator to use.
 	 * @return A random value distributed according to this
 	 * 		<code>ProbabilityDensityFunction</code>.
 	 * @see #warp(double)
-	 * @see ca.eandb.jmist.framework.random.RandomUtil#canonical()
+	 * @see Random#next()
 	 */
 	double sample(Random random);
 
@@ -72,7 +72,7 @@ public interface ProbabilityDensityFunction extends Serializable {
 	 * @param random The <code>Random</code> number generator to use.
 	 * @param results The array to populate (must not be null).
 	 * @return A reference to <code>results</code>.
-	 * @see #sample()
+	 * @see #sample(Random)
 	 */
 	double[] sample(Random random, double[] results);
 

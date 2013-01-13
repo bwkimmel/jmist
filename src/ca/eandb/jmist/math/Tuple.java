@@ -105,7 +105,7 @@ public final class Tuple implements Iterable<Double>, Serializable {
 	 * @param index The index of the element to obtain.  Must
 	 * 		be less than {@code this.size()}.
 	 * @return The element at the specified index.
-	 * @see {@link #size()}.
+	 * @see #size()
 	 */
 	public double at(int index) {
 		return this.values[index];
@@ -123,7 +123,7 @@ public final class Tuple implements Iterable<Double>, Serializable {
 	 * Gets a value indicating whether the Tuple is empty.
 	 * Equivalent to {@code this.size() == 0}.
 	 * @return A value indicating whether the Tuple is empty.
-	 * @see {@link #size()}
+	 * @see #size()
 	 */
 	public boolean isEmpty() {
 		return this.values.length == 0;
@@ -160,7 +160,8 @@ public final class Tuple implements Iterable<Double>, Serializable {
 	 * @param value The value to append.
 	 * @return A Tuple with the elements of this Tuple plus
 	 * 		the specified value.
-	 * @see {@link #Tuple(double)}, {@link #append(Tuple)}.
+	 * @see #Tuple(double)
+	 * @see #append(Tuple).
 	 */
 	public Tuple append(double value) {
 
@@ -184,7 +185,8 @@ public final class Tuple implements Iterable<Double>, Serializable {
 	 * @param values The array of values to append.
 	 * @return The concatenation of this Tuple with the given
 	 * 		array of values.
-	 * @see {@link #Tuple(double[])}, {@link #append(Tuple)}.
+	 * @see #Tuple(double[])
+	 * @see #append(Tuple).
 	 */
 	public Tuple append(double[] values) {
 
@@ -213,7 +215,8 @@ public final class Tuple implements Iterable<Double>, Serializable {
 	 * 		{@code this.size()}.
 	 * @return A Tuple containing the specified number of
 	 * 		the left most elements of this Tuple.
-	 * @see {@link #slice(int, int)}, {@link #size()}.
+	 * @see #slice(int, int)
+	 * @see #size()
 	 */
 	public Tuple left(int length) {
 
@@ -237,7 +240,8 @@ public final class Tuple implements Iterable<Double>, Serializable {
 	 * 		{@code this.size()}.
 	 * @return A Tuple containing the specified number of
 	 * 		the left most elements of this Tuple.
-	 * @see {@link #slice(int, int)}, {@link #size()}.
+	 * @see #slice(int, int)
+	 * @see #size()
 	 */
 	public Tuple right(int length) {
 
@@ -263,7 +267,7 @@ public final class Tuple implements Iterable<Double>, Serializable {
 	 * 		no greater than {@code this.size()}.
 	 * @return A Tuple containing the elements at the indices
 	 * 		in [start, end).
-	 * @see {@link #size()}.
+	 * @see #size()
 	 */
 	public Tuple slice(int start, int end) {
 
@@ -304,7 +308,7 @@ public final class Tuple implements Iterable<Double>, Serializable {
 	 * 		Each index must be less than {@code this.size()}.
 	 * @return A Tuple containing the elements of this Tuple
 	 * 		at the indices specified in "indices".
-	 * @see {@link #size()}.
+	 * @see #size()
 	 */
 	public Tuple permute(int[] indices) {
 
@@ -321,7 +325,7 @@ public final class Tuple implements Iterable<Double>, Serializable {
 	/**
 	 * Represents a function from the real numbers to the
 	 * real numbers.  Used by {@code Tuple.map}.
-	 * @see {@link Tuple#map(ca.eandb.jmist.math.Tuple.Function)}
+	 * @see #map(ca.eandb.jmist.math.Tuple.Function)
 	 */
 	public interface Function {
 		double apply(double value);
@@ -335,7 +339,8 @@ public final class Tuple implements Iterable<Double>, Serializable {
 	 * @return A Tuple containing the elements
 	 * 		{@code f.apply(x)}, for each element {@code x} in
 	 * 		this Tuple.
-	 * @see {@link Tuple.Function}, {@link #size()}.
+	 * @see Tuple.Function
+	 * @see #size()
 	 */
 	public Tuple map(Tuple.Function f) {
 		Tuple result = new Tuple(this.values.length);
@@ -350,9 +355,9 @@ public final class Tuple implements Iterable<Double>, Serializable {
 	/**
 	 * A binary operator on the real numbers.  Used by
 	 * {@code Tuple.combine} and {@code Tuple.reduce}.
-	 * @see {@link Tuple#combine(Tuple, ca.eandb.jmist.math.Tuple.Operator)},
-	 * 		{@link Tuple#reduce(ca.eandb.jmist.math.Tuple.Operator)},
-	 * 		{@link Tuple#reduce(ca.eandb.jmist.math.Tuple.Operator, double)}.
+	 * @see Tuple#combine(Tuple, ca.eandb.jmist.math.Tuple.Operator)
+	 * @see Tuple#reduce(ca.eandb.jmist.math.Tuple.Operator)
+	 * @see Tuple#reduce(ca.eandb.jmist.math.Tuple.Operator, double)
 	 */
 	public interface Operator {
 		double apply(double a, double b);
@@ -369,7 +374,8 @@ public final class Tuple implements Iterable<Double>, Serializable {
 	 * 		Tuple (and {@code other}), consisting of the result
 	 * 		of the binary operator applied to each pair of
 	 * 		elements in the operand Tuples.
-	 * @see {@link Tuple.Operator}, {@link #size()}.
+	 * @see Tuple.Operator
+	 * @see #size()
 	 */
 	public Tuple combine(Tuple other, Tuple.Operator operator) {
 
@@ -395,9 +401,12 @@ public final class Tuple implements Iterable<Double>, Serializable {
 	 * 		the Tuple has one element ({@code this.size() == 1}).
 	 * 		{@code operator.apply(this.left(this.size() - 1).reduce(operator), this.at(this.size() - 1))}
 	 * 		if the Tuple has more than one element ({@code this.size() > 1}).
-	 * @see {@link Tuple.Operator}, {@link Double#NaN},
-	 * 		{@link #isEmpty()}, {@link #size()}, {@link #at(int)},
-	 * 		{@link #left(int)}.
+	 * @see Tuple.Operator
+	 * @see Double#NaN
+	 * @see #isEmpty()
+	 * @see #size()
+	 * @see #at(int)
+	 * @see #left(int)
 	 */
 	public double reduce(Tuple.Operator operator) {
 		if (this.values.length != 0) {
@@ -425,10 +434,13 @@ public final class Tuple implements Iterable<Double>, Serializable {
 	 * 		({@code this.isEmpty()}).
 	 * 		{@code operator.apply(this.left(this.size() - 1).reduce(operator, initializer), this.at(this.size() - 1))}
 	 * 		if the Tuple is non-empty ({@code !this.isEmpty()}).
-	 * @see {@link Tuple.Operator}, {@link #isEmpty()},
-	 * 		{@link #at(int)}, {@link #left(int)},
-	 * 		{@link #reduce(ca.eandb.jmist.math.Tuple.Operator)},
-	 * 		{@link #Tuple(double)}, {@link #append(double)}.
+	 * @see Tuple.Operator
+	 * @see #isEmpty()
+	 * @see #at(int)
+	 * @see #left(int)
+	 * @see #reduce(ca.eandb.jmist.math.Tuple.Operator)
+	 * @see #Tuple(double)
+	 * @see #append(double)
 	 */
 	public double reduce(Tuple.Operator operator, double initializer) {
 		double result = initializer;
@@ -442,7 +454,7 @@ public final class Tuple implements Iterable<Double>, Serializable {
 
 	/**
 	 * Filters the real numbers.  Used by {@code Tuple.filter}.
-	 * @see {@link Tuple#filter(ca.eandb.jmist.math.Tuple.Filter)}.
+	 * @see Tuple#filter(ca.eandb.jmist.math.Tuple.Filter)
 	 */
 	public interface Filter {
 		boolean apply(double value);
@@ -454,7 +466,7 @@ public final class Tuple implements Iterable<Double>, Serializable {
 	 * @return A Tuple containing the elements from this
 	 * 		Tuple that passed the filter (i.e., the elements,
 	 * 		x, for which {@code filter.apply(x) == true}.
-	 * @see {@link Tuple.Filter}.
+	 * @see Tuple.Filter
 	 */
 	public Tuple filter(Tuple.Filter filter) {
 
@@ -608,18 +620,15 @@ public final class Tuple implements Iterable<Double>, Serializable {
 
 	/**
 	 * The empty Tuple (i.e., {@code Tuple.EMPTY.size() == 0}).
-	 * @see {@link #isEmpty()}, {@link #size()}.
+	 * @see #isEmpty()
+	 * @see #size()
 	 */
 	public static final Tuple EMPTY = new Tuple();
 
-	/**
-	 * The elements of the Tuple.
-	 */
+	/** The elements of the Tuple. */
 	private final double[] values;
 
-	/**
-	 * Serialization version ID.
-	 */
+	/** Serialization version ID. */
 	private static final long serialVersionUID = 5809622978157652345L;
 
 }

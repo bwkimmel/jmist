@@ -58,7 +58,7 @@ public final class StratifiedRandom implements Random {
 	 * {@code 0 <= i < n} for each block of {@code n} successive calls to
 	 * {@link #next()}.
 	 * @param n The number of intervals to divide the interval [0, 1) into.
-	 * @see {@link #next()}.
+	 * @see #next()
 	 */
 	public StratifiedRandom(int n, Random inner) {
 		this.inner = inner;
@@ -80,7 +80,7 @@ public final class StratifiedRandom implements Random {
 	 * {@code 0 <= i < n} for each block of {@code n} successive calls to
 	 * {@link #next()}.
 	 * @param n The number of intervals to divide the interval [0, 1) into.
-	 * @see {@link #next()}.
+	 * @see #next()
 	 */
 	public StratifiedRandom(int n) {
 		this(n, new SimpleRandom());

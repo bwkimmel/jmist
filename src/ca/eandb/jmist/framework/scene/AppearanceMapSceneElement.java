@@ -76,10 +76,6 @@ public final class AppearanceMapSceneElement extends SceneElementDecorator {
 
 	private HashMap<String, Integer> nameLookup = null;
 
-	/**
-	 * @param modifier
-	 * @param inner
-	 */
 	public AppearanceMapSceneElement(SceneElement inner) {
 		super(inner);
 	}

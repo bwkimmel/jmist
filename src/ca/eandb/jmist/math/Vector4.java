@@ -51,7 +51,8 @@ public final class Vector4 extends Tuple4 {
 	 * Gets the distance from the origin along the x-axis.
 	 * Equivalent to {@code this.dot(Vector3.I);}
 	 * @return The distance from the origin along the x-axis.
-	 * @see {@link #I}, {@link #dot(Vector4)}.
+	 * @see #I
+	 * @see #dot(Vector4)
 	 */
 	public double x() {
 		return x;
@@ -61,7 +62,8 @@ public final class Vector4 extends Tuple4 {
 	 * Gets the distance from the origin along the y-axis.
 	 * Equivalent to {@code this.dot(Vector3.J);}
 	 * @return The distance from the origin along the y-axis.
-	 * @see {@link #J}, {@link #dot(Vector4)}.
+	 * @see #J
+	 * @see #dot(Vector4)
 	 */
 	public double y() {
 		return y;
@@ -71,7 +73,8 @@ public final class Vector4 extends Tuple4 {
 	 * Gets the distance from the origin along the z-axis.
 	 * Equivalent to {@code this.dot(Vector3.K);}
 	 * @return The distance from the origin along the z-axis.
-	 * @see {@link #K}, {@link #dot(Vector4)}.
+	 * @see #K
+	 * @see #dot(Vector4)
 	 */
 	public double z() {
 		return z;
@@ -81,7 +84,8 @@ public final class Vector4 extends Tuple4 {
 	 * Gets the distance from the origin along the w-axis.
 	 * Equivalent to {@code this.dot(Vector3.L);}
 	 * @return The distance from the origin along the w-axis.
-	 * @see {@link #L}, {@link #dot(Vector4)}.
+	 * @see #L
+	 * @see #dot(Vector4)
 	 */
 	public double w() {
 		return w;
@@ -144,7 +148,7 @@ public final class Vector4 extends Tuple4 {
 	 * Equivalent to {@code this.times(1.0 / c).}
 	 * @param c The factor to divide this vector by.
 	 * @return The vector scaled by 1.0 / c.
-	 * @see {@link #times(double)}.
+	 * @see #times(double)
 	 */
 	public Vector4 divide(double c) {
 		return new Vector4(x / c, y / c, z / c, w / c);
@@ -192,7 +196,7 @@ public final class Vector4 extends Tuple4 {
 	 * @param w The magnitude of the vector along the w-axis.
 	 * @return A unit vector in the same direction as the
 	 * 		vector with the indicated components.
-	 * @see {@link #unit()}.
+	 * @see #unit()
 	 */
 	public static Vector4 unit(double x, double y, double z, double w) {
 		double r = Math.sqrt(x * x + y * y + z * z + w * w);

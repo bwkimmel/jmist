@@ -54,7 +54,7 @@ public final class RasterJob extends AbstractParallelizableJob {
 	 * 		image.
 	 * @param pixelShader The <code>PixelShader</code> to use to compute the
 	 * 		values of individual <code>Pixel</code>s.
-	 * @param formatName The name of the format to save the image as.
+	 * @param display The <code>Display</code> to record the image to.
 	 * @param width The width of the rendered image, in pixels.
 	 * @param height The height of the rendered image, in pixels.
 	 * @param cols The number of columns to divide the image into.

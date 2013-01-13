@@ -112,7 +112,7 @@ public final class Vector3 extends HPoint3 {
 	 * Equivalent to {@code this.times(1.0 / c).}
 	 * @param c The factor to divide this vector by.
 	 * @return The vector scaled by 1.0 / c.
-	 * @see {@link #times(double)}.
+	 * @see #times(double)
 	 */
 	public Vector3 divide(double c) {
 		return new Vector3(x / c, y / c, z / c);
@@ -157,7 +157,7 @@ public final class Vector3 extends HPoint3 {
 	 * @param z The magnitude of the vector along the z-axis.
 	 * @return A unit vector in the same direction as the
 	 * 		vector with the indicated components.
-	 * @see {@link #unit()}.
+	 * @see #unit()
 	 */
 	public static Vector3 unit(double x, double y, double z) {
 		double r = Math.sqrt(x * x + y * y + z * z);

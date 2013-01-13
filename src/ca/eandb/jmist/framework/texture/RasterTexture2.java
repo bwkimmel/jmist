@@ -59,7 +59,7 @@ public final class RasterTexture2 implements Texture2 {
 
 	/**
 	 * Creates a new <code>RasterTexture2</code>.
-	 * @param raster The <code>BufferedImage</code> to use as the basis for the
+	 * @param image The <code>BufferedImage</code> to use as the basis for the
 	 * 		new <code>Texture2</code>.
 	 * @param factory The <code>PixelSpectrumFactory</code> to use to create
 	 * 		spectra from <code>Pixel</code>s.
@@ -94,7 +94,7 @@ public final class RasterTexture2 implements Texture2 {
 
 	/**
 	 * Creates a new <code>RasterTexture2</code>.
-	 * @param raster The <code>BufferedImage</code> to use as the basis for the
+	 * @param image The <code>BufferedImage</code> to use as the basis for the
 	 * 		new <code>Texture2</code>.
 	 * @param factory The <code>PixelSpectrumFactory</code> to use to create
 	 * 		spectra from <code>Pixel</code>s.

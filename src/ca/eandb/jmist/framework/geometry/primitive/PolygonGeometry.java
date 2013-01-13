@@ -52,14 +52,9 @@ import ca.eandb.jmist.util.ArrayUtil;
  */
 public final class PolygonGeometry extends PrimitiveGeometry {
 
-	/**
-	 * Serialization version ID.
-	 */
+	/** Serialization version ID. */
 	private static final long serialVersionUID = -4557209073883064041L;
 
-	/**
-	 * @param material
-	 */
 	public PolygonGeometry(Point3[] vertices, int[][] components) {
 
 		if (vertices.length < 3) {
@@ -209,9 +204,6 @@ public final class PolygonGeometry extends PrimitiveGeometry {
 		return false;
 	}
 
-	/**
-	 * @param material
-	 */
 	public PolygonGeometry(Point3[] vertices) {
 		this(vertices, new int[][]{ ArrayUtil.range(0, vertices.length - 1) });
 	}

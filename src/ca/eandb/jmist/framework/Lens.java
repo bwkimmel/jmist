@@ -48,7 +48,7 @@ public interface Lens extends Serializable {
 	 * @param p The point on the image plane in normalized device coordinates
 	 * 		(must fall within {@code Box2.UNIT}).
 	 * @return The ray to cast for ray shading.
-	 * @see {@link Box2#UNIT}
+	 * @see Box2#UNIT
 	 */
 	ScatteredRay rayAt(Point2 p, WavelengthPacket lambda, Random rnd);
 

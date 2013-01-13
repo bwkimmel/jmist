@@ -566,7 +566,7 @@ public final class Optics {
 	 * @return An object containing the cosine of the angle between the
 	 * 		refracted direction and the anti-normal (cosT) and the effective
 	 * 		real refractive index (nEff).
-	 * @see {@link Optics.RefractResult}.
+	 * @see Optics.RefractResult
 	 */
 	private static RefractResult refractAngle(double ci, Complex n1, Complex n2) {
 

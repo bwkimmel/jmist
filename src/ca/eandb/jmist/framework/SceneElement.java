@@ -142,7 +142,13 @@ public interface SceneElement extends Bounded3, VisibilityFunction3, Serializabl
 	 * Generates a <code>SurfacePoint</code> randomly that is uniformly
 	 * distributed over the surface of the specified primitive (optional
 	 * operation).
-	 * @return The randomly generated <code>SurfacePoint</code>.
+	 * @param index The index of the primitive from which to generate the
+	 * 		random point.
+	 * @param context The <code>ShadingContext</code> to receive the
+	 * 		generated surface point.
+	 * @param ru The first random variable (must be in [0, 1]).
+	 * @param rv The second random variable (must be in [0, 1]).
+	 * @param rj The third random variable (must be in [0, 1]).
 	 * @throws UnsupportedOperationException If the operation is not supported
 	 * 		by this <code>SceneElement</code>.
 	 */
@@ -151,7 +157,11 @@ public interface SceneElement extends Bounded3, VisibilityFunction3, Serializabl
 	/**
 	 * Generates a <code>SurfacePoint</code> randomly that is uniformly
 	 * distributed over the surface of this geometry (optional operation).
-	 * @return The randomly generated <code>SurfacePoint</code>.
+	 * @param context The <code>ShadingContext</code> to receive the
+	 * 		generated surface point.
+	 * @param ru The first random variable (must be in [0, 1]).
+	 * @param rv The second random variable (must be in [0, 1]).
+	 * @param rj The third random variable (must be in [0, 1]).
 	 * @throws UnsupportedOperationException If the operation is not supported
 	 * 		by this <code>SceneElement</code>.
 	 */
@@ -161,7 +171,14 @@ public interface SceneElement extends Bounded3, VisibilityFunction3, Serializabl
 	 * Generates a <code>SurfacePoint</code> randomly that is uniformly
 	 * distributed over the surface of the specified primitive (optional
 	 * operation).
-	 * @return The randomly generated <code>SurfacePoint</code>.
+	 * @param index The index of the primitive from which to generate the
+	 * 		random point.
+	 * @param context The <code>ShadingContext</code> to receive the
+	 * 		generated surface point.
+	 * @param ru The first random variable (must be in [0, 1]).
+	 * @param rv The second random variable (must be in [0, 1]).
+	 * @param rj The third random variable (must be in [0, 1]).
+	 * @return The weight for the randomly generated <code>SurfacePoint</code>.
 	 * @throws UnsupportedOperationException If the operation is not supported
 	 * 		by this <code>SceneElement</code>.
 	 */
@@ -170,7 +187,12 @@ public interface SceneElement extends Bounded3, VisibilityFunction3, Serializabl
 	/**
 	 * Generates a <code>SurfacePoint</code> randomly that is uniformly
 	 * distributed over the surface of this geometry (optional operation).
-	 * @return The randomly generated <code>SurfacePoint</code>.
+	 * @param context The <code>ShadingContext</code> to receive the
+	 * 		generated surface point.
+	 * @param ru The first random variable (must be in [0, 1]).
+	 * @param rv The second random variable (must be in [0, 1]).
+	 * @param rj The third random variable (must be in [0, 1]).
+	 * @return The weight for the randomly generated <code>SurfacePoint</code>.
 	 * @throws UnsupportedOperationException If the operation is not supported
 	 * 		by this <code>SceneElement</code>.
 	 */

@@ -140,7 +140,8 @@ public final class Circle implements Serializable {
 	 * @param ray The ray to test for an intersection with.
 	 * @return A value indicating whether the ray intersects
 	 * 		this circle.
-	 * @see {@link #intersect(Ray2)}, {@link Interval#isEmpty()}.
+	 * @see #intersect(Ray2)
+	 * @see Interval#isEmpty()
 	 */
 	public boolean intersects(Ray2 ray) {
 
@@ -179,8 +180,9 @@ public final class Circle implements Serializable {
 	 * @return The interval in which the ray passes through
 	 * 		the circle (i.e., this.contains(ray.pointAt(x)) if and
 	 * 		only if this.intersect(ray).contains(x)).
-	 * @see {@link #contains(Point2)}, {@link Ray2#pointAt(double)},
-	 * 		{@link Interval#contains(double)}.
+	 * @see #contains(Point2)
+	 * @see Ray2#pointAt(double)
+	 * @see Interval#contains(double)
 	 */
 	public Interval intersect(Ray2 ray) {
 

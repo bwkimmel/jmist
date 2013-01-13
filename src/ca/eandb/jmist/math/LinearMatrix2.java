@@ -190,7 +190,6 @@ public final class LinearMatrix2 implements Serializable {
 	 * @param row The row containing the element to get (0 <= row < 2).
 	 * @param col The column containing the element to get (0 <= col < 2).
 	 * @return The value of the element at the specified position.
-	 * @see #getElement(int, int)
 	 */
 	public double at(int row, int col) {
 		switch (row) {

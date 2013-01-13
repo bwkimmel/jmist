@@ -513,7 +513,7 @@ public final class MathUtil {
      *
      * </ul>
      *
-     * @param f  starting floating-point value
+     * @param d  starting floating-point value
      * @return The adjacent floating-point value closer to positive
      * infinity.
      * @author Joseph D. Darcy
@@ -855,11 +855,11 @@ public final class MathUtil {
 
 	/**
 	 * Determines whether the values in the given array of <code>double</code>s
-	 * are all equal within a tolerance of {@value MathUtil#EPSILON}
+	 * are all equal within a tolerance of {@value #EPSILON}
 	 * @param array The array of <code>double</code>s to compare.
 	 * @return A value indicating whether all values in <code>array</code> are
-	 * 		within {@value MathUtil#EPSILON} of one another.
-	 * @see MathUtil#EPSILON
+	 * 		within {@value #EPSILON} of one another.
+	 * @see #EPSILON
 	 */
 	public static boolean areEqual(double[] array) {
 		return areEqual(array, MathUtil.EPSILON);
@@ -868,11 +868,11 @@ public final class MathUtil {
 	/**
 	 * Determines whether the values in the given collection of
 	 * <code>double</code>s are all equal within a tolerance of
-	 * {@value MathUtil#EPSILON}.
+	 * {@value #EPSILON}.
 	 * @param values The collection of <code>double</code>s to compare.
 	 * @return A value indicating whether all values in <code>values</code> are
-	 * 		within {@value MathUtil#EPSILON} of one another.
-	 * @see MathUtil#EPSILON
+	 * 		within {@value #EPSILON} of one another.
+	 * @see #EPSILON
 	 */
 	public static boolean areEqual(Iterable<Double> values) {
 		return areEqual(values, MathUtil.EPSILON);
@@ -1660,11 +1660,9 @@ public final class MathUtil {
 	 * considered "equal" to zero (i.e., the difference may be attributed to
 	 * rounding errors).
 	 * @param x The value to compare to zero.
-	 * @param epsilon The minimum absolute value of {@code x} for it to be
-	 * 		considered non-zero.
 	 * @return A value indicates whether the difference between {@code x} and
 	 * 		0.0 is less than {@link #EPSILON}.
-	 * @see {@link #EPSILON}.
+	 * @see #EPSILON
 	 */
 	public static boolean isZero(double x) {
 		return Math.abs(x) < MathUtil.EPSILON;
@@ -1796,7 +1794,7 @@ public final class MathUtil {
 	 * @param x1 The maximum value in the domain (must not be less than
 	 * 		<code>x0</code>).
 	 * @param y An array of the y-coordinates (must have at least two elements).
-	 * @param x0 The x-coordinate at which to interpolate.
+	 * @param x The x-coordinate at which to interpolate.
 	 * @return The y-coordinate corresponding to <code>x</code>.
 	 */
 	public static double interpolate(double x0, double x1, double[] y, double x) {
@@ -1854,7 +1852,7 @@ public final class MathUtil {
 	 * 		<code>x0</code>).
 	 * @param y A <code>Tuple</code> of y-coordinates (must have at least two
 	 * 		elements).
-	 * @param x0 The x-coordinate at which to interpolate.
+	 * @param x The x-coordinate at which to interpolate.
 	 * @return The y-coordinate corresponding to <code>x</code>.
 	 */
 	public static double interpolate(double x0, double x1, Tuple y, double x) {

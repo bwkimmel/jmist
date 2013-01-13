@@ -55,11 +55,9 @@ public final class RasterMask2 implements Mask2 {
 	private static final long serialVersionUID = -2712131011948642676L;
 
 	/**
-	 * Creates a new <code>RasterTexture2</code>.
-	 * @param raster The <code>BufferedImage</code> to use as the basis for the
-	 * 		new <code>Texture2</code>.
-	 * @param background The <code>Texture2</code> to render underneath if the
-	 * 		image has an alpha channel.
+	 * Creates a new <code>RasterMask2</code>.
+	 * @param image The <code>BufferedImage</code> to use as the basis for the
+	 * 		new <code>Mask2</code>.
 	 */
 	public RasterMask2(BufferedImage image) {
 		this.image = image;

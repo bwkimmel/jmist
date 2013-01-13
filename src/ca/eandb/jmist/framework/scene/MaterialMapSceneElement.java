@@ -61,7 +61,7 @@ import ca.eandb.util.ByteArray;
  * A decorator <code>SceneElement</code> that applies <code>Material</code>s to
  * the primitives of the underlying <code>SceneElement</code> according to a
  * mapping from primitive index to <code>Material</code>.
- * @see {@link Material}
+ * @see Material
  * @author Brad Kimmel
  */
 public final class MaterialMapSceneElement extends SceneElementDecorator {

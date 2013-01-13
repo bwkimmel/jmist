@@ -40,21 +40,11 @@ public final class ScaledLightSample implements LightSample {
 
 	private final LightSample sample;
 
-	/**
-	 * @param factor
-	 * @param sample
-	 */
 	private ScaledLightSample(double factor, LightSample sample) {
 		this.factor = factor;
 		this.sample = sample;
 	}
 
-	/**
-	 *
-	 * @param factor
-	 * @param sample
-	 * @return
-	 */
 	public static ScaledLightSample create(double factor, LightSample sample) {
 		if (sample instanceof ScaledLightSample) {
 			ScaledLightSample other = (ScaledLightSample) sample;

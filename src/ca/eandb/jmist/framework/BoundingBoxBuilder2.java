@@ -130,7 +130,8 @@ public class BoundingBoxBuilder2 implements Serializable {
 	 * Equivalent to this.getBoundingBox().isEmpty().
 	 * @return A value indicating whether the bounding box is
 	 * 		currently empty.
-	 * @see #getBoundingBox(), {@link Box2#isEmpty()}
+	 * @see #getBoundingBox()
+	 * @see Box2#isEmpty()
 	 */
 	public boolean isEmpty() {
 		return Double.isNaN(minimumX);

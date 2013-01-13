@@ -36,7 +36,7 @@ public interface AxisStretchable3 extends Scalable {
 	 * Stretches the object along the x-axis.
 	 * Equivalent to {@code this.stretch(cx, 1.0, 1.0);}
 	 * @param cx The factor by which to stretch the object along the x-axis.
-	 * @see stretch
+	 * @see #stretch(double, double, double)
 	 */
 	void stretchX(double cx);
 
@@ -44,7 +44,7 @@ public interface AxisStretchable3 extends Scalable {
 	 * Stretches the object along the y-axis.
 	 * Equivalent to {@code this.stretch(1.0, cy, 1.0);}
 	 * @param cy The factor by which to stretch the object along the y-axis.
-	 * @see stretch
+	 * @see #stretch(double, double, double)
 	 */
 	void stretchY(double cy);
 
@@ -52,7 +52,7 @@ public interface AxisStretchable3 extends Scalable {
 	 * Stretches the object along the z-axis.
 	 * Equivalent to {@code this.stretch(1.0, 1.0, cz);}
 	 * @param cz The factor by which to stretch the object along the z-axis.
-	 * @see stretch
+	 * @see #stretch(double, double, double)
 	 */
 	void stretchZ(double cz);
 

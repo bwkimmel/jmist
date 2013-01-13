@@ -53,9 +53,6 @@ public abstract class AbstractScatteringNode extends AbstractPathNode implements
 	
 	private double reversePDF;
 
-	/**
-	 * @param pathInfo
-	 */
 	public AbstractScatteringNode(PathNode parent, ScatteredRay sr, double ru, double rv, double rj) {
 		super(parent.getPathInfo(), ru, rv, rj);
 		this.parent = parent;

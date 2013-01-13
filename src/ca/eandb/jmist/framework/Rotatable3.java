@@ -37,7 +37,7 @@ public interface Rotatable3 {
 	 * Rotates the object about the x-axis.
 	 * Equivalent to {@code this.rotate(Vector3.I, angle);}
 	 * @param angle The angle (in radians) to rotate the object by.
-	 * @see rotate
+	 * @see #rotate(Vector3, double)
 	 */
 	void rotateX(double angle);
 
@@ -45,7 +45,7 @@ public interface Rotatable3 {
 	 * Rotates the object about the y-axis.
 	 * Equivalent to {@code this.rotate(Vector3.J, angle);}
 	 * @param angle The angle (in radians) to rotate the object by.
-	 * @see rotate
+	 * @see #rotate(Vector3, double)
 	 */
 	void rotateY(double angle);
 
@@ -53,7 +53,7 @@ public interface Rotatable3 {
 	 * Rotates the object about the z-axis.
 	 * Equivalent to {@code this.rotate(Vector3.K, angle);}
 	 * @param angle The angle (in radians) to rotate the object by.
-	 * @see rotate
+	 * @see #rotate(Vector3, double)
 	 */
 	void rotateZ(double angle);
 

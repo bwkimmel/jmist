@@ -37,14 +37,12 @@ import ca.eandb.jmist.framework.painter.UniformPainter;
 import ca.eandb.jmist.math.Vector3;
 
 /**
- * @author brad
+ * @author Brad Kimmel
  *
  */
 public final class PhongShader implements Shader {
 
-	/**
-	 * Serialization version ID.
-	 */
+	/** Serialization version ID. */
 	private static final long serialVersionUID = -7555950836943828911L;
 
 	private final Painter diffuse;
@@ -55,12 +53,6 @@ public final class PhongShader implements Shader {
 
 	private final Painter exponent;
 
-	/**
-	 * @param diffuse
-	 * @param specular
-	 * @param ambient
-	 * @param exponent
-	 */
 	public PhongShader(Painter kd, Painter ks, Painter ka, Painter n) {
 		this.diffuse = kd;
 		this.specular = ks;
@@ -68,12 +60,6 @@ public final class PhongShader implements Shader {
 		this.exponent = n;
 	}
 
-	/**
-	 * @param diffuse
-	 * @param specular
-	 * @param ambient
-	 * @param exponent
-	 */
 	public PhongShader(Spectrum kd, Spectrum ks, Spectrum ka, Spectrum n) {
 		this(new UniformPainter(kd), new UniformPainter(ks), new UniformPainter(ka), new UniformPainter(n));
 	}

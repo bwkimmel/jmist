@@ -52,8 +52,8 @@ public final class PointLight extends AbstractLight implements Serializable {
 	/**
 	 * Creates a new <code>PointLight</code>.
 	 * @param position The <code>Point3</code> where the light is to emit from.
-	 * @param emission The <code>Spectrum</code> representing the emitted power
-	 * 		of the light.
+	 * @param emittedPower The <code>Spectrum</code> representing the emitted
+	 * 		power of the light.
 	 * @param shadows A value indicating whether the light should be affected
 	 * 		by shadows.
 	 */

@@ -107,7 +107,7 @@ public final class Vector2 extends HPoint2 {
 	 * Equivalent to {@code this.times(1.0 / c).}
 	 * @param c The factor to divide this vector by.
 	 * @return The vector scaled by 1.0 / c.
-	 * @see {@link #times(double)}.
+	 * @see #times(double)
 	 */
 	public Vector2 divide(double c) {
 		return new Vector2(x / c, y / c);
@@ -138,7 +138,7 @@ public final class Vector2 extends HPoint2 {
 	 * @param y The magnitude of the vector along the y-axis.
 	 * @return A unit vector in the same direction as the
 	 * 		vector with the indicated components.
-	 * @see {@link #unit()}.
+	 * @see #unit()
 	 */
 	public static Vector2 unit(double x, double y) {
 		double r = Math.sqrt(x * x + y * y);

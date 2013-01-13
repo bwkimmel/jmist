@@ -69,7 +69,7 @@ public final class Interval implements Serializable {
 
 	/**
 	 * Creates an <code>Interval</code> representing (-infinity, b].
-	 * @param a The lower bound of the interval.
+	 * @param b The lower bound of the interval.
 	 * @return The new <code>Interval</code>.
 	 */
 	public static Interval lessThan(double b) {
@@ -153,7 +153,7 @@ public final class Interval implements Serializable {
 	 * Extends this interval to include the specified value.
 	 * Guarantees that {@code this.contains(t)} after this method is called.
 	 * @param t The value to include in this interval.
-	 * @see {@link #contains(double)}.
+	 * @see #contains(double)
 	 */
 	public Interval extendTo(double t) {
 		if (isEmpty()) {
@@ -197,7 +197,8 @@ public final class Interval implements Serializable {
 	 * Equivalent to {@code !this.intersect(I).isEmpty()}.
 	 * @param I The interval with which to check for an intersection
 	 * @return A value indicating whether the two intervals overlap.
-	 * @see {@link #intersect(Interval)}, {@link #isEmpty()}.
+	 * @see #intersect(Interval)
+	 * @see #isEmpty()
 	 */
 	public boolean intersects(Interval I) {
 		return Math.max(minimum, I.minimum) <= Math.min(maximum, I.maximum);

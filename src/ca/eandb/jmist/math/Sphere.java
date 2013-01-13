@@ -139,7 +139,8 @@ public final class Sphere implements Serializable {
 	 * @param ray The ray to test for an intersection with.
 	 * @return A value indicating whether the ray intersects
 	 * 		this sphere.
-	 * @see {@link #intersect(Ray3)}, {@link Interval#isEmpty()}.
+	 * @see #intersect(Ray3)
+	 * @see Interval#isEmpty()
 	 */
 	public boolean intersects(Ray3 ray) {
 
@@ -178,8 +179,9 @@ public final class Sphere implements Serializable {
 	 * @return The interval in which the ray passes through
 	 * 		the sphere (i.e., this.contains(ray.pointAt(x)) if and
 	 * 		only if this.intersect(ray).contains(x)).
-	 * @see {@link #contains(Point3)}, {@link Ray3#pointAt(double)},
-	 * 		{@link Interval#contains(double)}.
+	 * @see #contains(Point3)
+	 * @see Ray3#pointAt(double)
+	 * @see Interval#contains(double)
 	 */
 	public Interval intersect(Ray3 ray) {
 

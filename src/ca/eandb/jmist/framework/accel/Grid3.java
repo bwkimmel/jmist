@@ -132,7 +132,7 @@ public final class Grid3 implements Serializable {
 	/**
 	 * An interface to allow {@link Grid3#intersect(Ray3, Interval, ca.eandb.jmist.framework.accel.Grid3.Visitor)}
 	 * to notify the caller about each cell passed through by the ray.
-	 * @see {@link Grid3#intersect(Ray3, Interval, ca.eandb.jmist.framework.accel.Grid3.Visitor)}
+	 * @see Grid3#intersect(Ray3, Interval, ca.eandb.jmist.framework.accel.Grid3.Visitor)
 	 */
 	public static interface Visitor {
 
@@ -148,10 +148,12 @@ public final class Grid3 implements Serializable {
 		 * @param cell The cell being traversed.
 		 * @return A value indicating whether {@link Grid3#intersect(Ray3, Interval, ca.eandb.jmist.framework.accel.Grid3.Visitor)}
 		 * 		should continue its traversal.
-		 * @see {@link Grid3#intersect(Ray3, Interval, ca.eandb.jmist.framework.accel.Grid3.Visitor)},
-		 * 		{@link Grid3.Cell#getBoundingBox()} , {@link Box3#contains(Point3)},
-		 * 		{@link Ray3#pointAt(double)}, {@link Interval#contains(double)},
-		 * 		{@link Grid3#hasCellAt(int, int, int)}.
+		 * @see Grid3#intersect(Ray3, Interval, ca.eandb.jmist.framework.accel.Grid3.Visitor)
+		 * @see Grid3.Cell#getBoundingBox()
+		 * @see Box3#contains(Point3)
+		 * @see Ray3#pointAt(double)
+		 * @see Interval#contains(double)
+		 * @see Grid3#hasCellAt(int, int, int)
 		 */
 		boolean visit(Ray3 ray, Interval I, Cell cell);
 
@@ -176,7 +178,7 @@ public final class Grid3 implements Serializable {
 	 * @param cy The index of the cell along the y-axis.
 	 * @param cz The index of the cell along the z-axis.
 	 * @return The bounding box of the specified cell.
-	 * @see {@link #hasCellAt(int, int, int)}
+	 * @see #hasCellAt(int, int, int)
 	 */
 	public Box3 cellBounds(int cx, int cy, int cz) {
 		assert(this.hasCellAt(cx, cy, cz));
@@ -242,8 +244,9 @@ public final class Grid3 implements Serializable {
 	 * 		traversed.
 	 * @return A value indicating whether the ray intersects
 	 * 		the grid (i.e., this.getBoundingBox().intersect(ray).intersects(I)).
-	 * @see {@link #getBoundingBox()}, {@link Box3#intersect(Ray3)},
-	 * 		{@link Interval#intersects(Interval)}.
+	 * @see #getBoundingBox()
+	 * @see Box3#intersect(Ray3)
+	 * @see Interval#intersects(Interval)
 	 */
 	public boolean intersect(Ray3 ray, Interval I, Visitor visitor) {
 

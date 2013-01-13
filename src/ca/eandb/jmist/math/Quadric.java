@@ -682,7 +682,6 @@ public final class Quadric implements Serializable {
 	 * Creates a <code>Quadric</code> representing an elliptic cylinder.
 	 * @param a The length of the semi-principal axis in the x direction.
 	 * @param b The length of the semi-principal axis in the y direction.
-	 * @param c The length of the semi-principal axis in the z direction.
 	 * @param center The <code>Point3</code> indicating the center of the
 	 * 		elliptic cylinder.
 	 * @param basis The <code>Basis3</code> indicating the directions of the
@@ -697,7 +696,6 @@ public final class Quadric implements Serializable {
 	 * Creates a <code>Quadric</code> representing a hyperbolic cylinder.
 	 * @param a The length of the semi-principal axis in the x direction.
 	 * @param b The length of the semi-principal axis in the y direction.
-	 * @param c The length of the semi-principal axis in the z direction.
 	 * @param center The <code>Point3</code> indicating the center of the
 	 * 		hyperbolic cylinder.
 	 * @param basis The <code>Basis3</code> indicating the directions of the
@@ -711,8 +709,6 @@ public final class Quadric implements Serializable {
 	/**
 	 * Creates a <code>Quadric</code> representing a parabolic cylinder.
 	 * @param a The length of the semi-principal axis in the x direction.
-	 * @param b The length of the semi-principal axis in the y direction.
-	 * @param c The length of the semi-principal axis in the z direction.
 	 * @param center The <code>Point3</code> indicating the center of the
 	 * 		parabolic cylinder.
 	 * @param basis The <code>Basis3</code> indicating the directions of the

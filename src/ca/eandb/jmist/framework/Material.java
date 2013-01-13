@@ -119,23 +119,21 @@ public interface Material extends Medium, Serializable {
 	/**
 	 * Evaluates the bidirectional scattering distribution function (BSDF).
 	 * @param x The <code>SurfacePoint</code> for which to compute the BSDF.
-	 * @param out The <code>Vector3</code> indicating the outgoing direction
+	 * @param in The <code>Vector3</code> indicating the incident direction
 	 * 		for which to evaluate the BSDF.
 	 * @param out The <code>Vector3</code> indicating the outgoing direction
 	 * 		for which to evaluate the BSDF.
 	 * @param lambda The <code>WavelengthPacket</code> associated with the
 	 * 		light traveling along the path.
 	 * @return The value of the BSDF.
-	 * @see <a href="http://en.wikipedia.org/wiki/Bidirectional_scattering_distribution_function">Bidirectional scattering distribution function</a>.
-	 * @see <a href="http://en.wikipedia.org/wiki/Bidirectional_reflectance_distribution_function">Bidirectional reflectance distribution function</a>.
+	 * @see <a href="http://en.wikipedia.org/wiki/Bidirectional_scattering_distribution_function">Bidirectional scattering distribution function</a>
+	 * @see <a href="http://en.wikipedia.org/wiki/Bidirectional_reflectance_distribution_function">Bidirectional reflectance distribution function</a>
 	 */
 	Color bsdf(SurfacePoint x, Vector3 in, Vector3 out, WavelengthPacket lambda);
 
 	/**
 	 * Evaluates the emission distribution function (EDF).
 	 * @param x The <code>SurfacePoint</code> for which to compute the EDF.
-	 * @param out The <code>Vector3</code> indicating the outgoing direction
-	 * 		for which to evaluate the EDF.
 	 * @param out The <code>Vector3</code> indicating the outgoing direction
 	 * 		for which to evaluate the EDF.
 	 * @param lambda The <code>WavelengthPacket</code> associated with the

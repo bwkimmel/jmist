@@ -70,7 +70,11 @@ public abstract class PrimitiveGeometry extends AbstractGeometry {
 	/**
 	 * Generates a random surface point uniformly distributed on the surface of
 	 * this <code>PrimitiveGeometry</code> (optional operation).
-	 * @return A random <code>SurfacePoint</code>.
+	 * @param context The <code>ShadingContext</code> in which to set the
+	 * 		generated surface point.
+	 * @param ru The first random variable (must be in [0, 1]).
+	 * @param rv The second random variable (must be in [0, 1]).
+	 * @param rj The third random variable (must be in [0, 1]).
 	 */
 	public void generateRandomSurfacePoint(ShadingContext context, double ru, double rv, double rj) {
 		throw new UnsupportedOperationException();

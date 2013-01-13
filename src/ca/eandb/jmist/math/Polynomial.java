@@ -64,7 +64,6 @@ public final class Polynomial implements Serializable {
 	/**
 	 * Gets the degree of this polynomial (the highest exponent with a non-zero
 	 * coefficient).
-	 * @return
 	 */
 	public int degree() {
 		this.checkInvariant();
@@ -199,8 +198,7 @@ public final class Polynomial implements Serializable {
 	
 	/**
 	 * Computes the complex roots of this polynomial.
-	 * @return {@link AncestorEvent} array containing the complex roots of this
-	 * 		polynomial.
+	 * @return An array containing the complex roots of this polynomial.
 	 */
 	public Complex[] complexRoots() {
 		this.checkInvariant();

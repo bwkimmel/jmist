@@ -52,7 +52,6 @@ public final class SphereGeometry extends PrimitiveGeometry {
 	/**
 	 * Creates a new <code>SphereGeometry</code>.
 	 * @param sphere The <code>Sphere</code> describing to be rendered.
-	 * @param material The <code>Material</code> to apply to the sphere.
 	 */
 	public SphereGeometry(Sphere sphere) {
 		this.sphere = sphere;

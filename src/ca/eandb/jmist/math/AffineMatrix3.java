@@ -119,7 +119,7 @@ public final class AffineMatrix3 implements Serializable {
 	 * Multiplies this matrix by the inverse of the specified matrix.
 	 * @param other The matrix by which to divide this matrix.
 	 * @return The product of this matrix and the inverse of other.
-	 * @see inverse
+	 * @see #inverse()
 	 */
 	public AffineMatrix3 divide(AffineMatrix3 other) {
 		return this.times(other.inverse());
@@ -129,7 +129,7 @@ public final class AffineMatrix3 implements Serializable {
 	 * Multiplies this matrix by the inverse of the specified matrix.
 	 * @param other The matrix by which to divide this matrix.
 	 * @return The product of this matrix and the inverse of other.
-	 * @see inverse
+	 * @see #inverse()
 	 */
 	public AffineMatrix3 divide(LinearMatrix3 other) {
 		return this.times(other.inverse());
@@ -182,7 +182,6 @@ public final class AffineMatrix3 implements Serializable {
 	 * @param row The row containing the element to get (0 <= row < 3).
 	 * @param col The column containing the element to get (0 <= col < 4).
 	 * @return The value of the element at the specified position.
-	 * @see getElement
 	 */
 	public double at(int row, int col) {
 		switch (row) {

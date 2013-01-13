@@ -51,25 +51,14 @@ public abstract class SceneElementDecorator implements SceneElement, Serializabl
 	
 	private final SceneElement inner;
 
-	/**
-	 * @param inner
-	 */
 	public SceneElementDecorator(SceneElement inner) {
 		this.inner = inner;
 	}
 
-	/**
-	 * @return
-	 * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
-	 */
 	public Box3 boundingBox() {
 		return inner.boundingBox();
 	}
 
-	/**
-	 * @return
-	 * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
-	 */
 	public Sphere boundingSphere() {
 		return inner.boundingSphere();
 	}
@@ -121,101 +110,46 @@ public abstract class SceneElementDecorator implements SceneElement, Serializabl
 		return inner.generateImportanceSampledSurfacePoint(x, context, ru, rv, rj);
 	}
 
-	/**
-	 * @param index
-	 * @return
-	 * @see ca.eandb.jmist.framework.SceneElement#getBoundingBox(int)
-	 */
 	public Box3 getBoundingBox(int index) {
 		return inner.getBoundingBox(index);
 	}
 
-	/**
-	 * @param index
-	 * @return
-	 * @see ca.eandb.jmist.framework.SceneElement#getBoundingSphere(int)
-	 */
 	public Sphere getBoundingSphere(int index) {
 		return inner.getBoundingSphere(index);
 	}
 
-	/**
-	 * @return
-	 * @see ca.eandb.jmist.framework.SceneElement#getNumPrimitives()
-	 */
 	public int getNumPrimitives() {
 		return inner.getNumPrimitives();
 	}
 
-	/**
-	 * @return
-	 * @see ca.eandb.jmist.framework.SceneElement#getSurfaceArea()
-	 */
 	public double getSurfaceArea() {
 		return inner.getSurfaceArea();
 	}
 
-	/**
-	 * @param index
-	 * @return
-	 * @see ca.eandb.jmist.framework.SceneElement#getSurfaceArea(int)
-	 */
 	public double getSurfaceArea(int index) {
 		return inner.getSurfaceArea(index);
 	}
 
-	/**
-	 * @param index
-	 * @param ray
-	 * @param recorder
-	 * @see ca.eandb.jmist.framework.SceneElement#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-	 */
 	public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
 		inner.intersect(index, ray, recorder);
 	}
 
-	/**
-	 * @param ray
-	 * @param recorder
-	 * @see ca.eandb.jmist.framework.SceneElement#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-	 */
 	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 		inner.intersect(ray, recorder);
 	}
 
-	/**
-	 * @param index
-	 * @param box
-	 * @return
-	 * @see ca.eandb.jmist.framework.SceneElement#intersects(int, ca.eandb.jmist.math.Box3)
-	 */
 	public boolean intersects(int index, Box3 box) {
 		return inner.intersects(index, box);
 	}
 
-	/**
-	 * @param index
-	 * @param ray
-	 * @return
-	 * @see ca.eandb.jmist.framework.SceneElement#visibility(int, ca.eandb.jmist.math.Ray3)
-	 */
 	public boolean visibility(int index, Ray3 ray) {
 		return inner.visibility(index, ray);
 	}
 
-	/**
-	 * @param ray
-	 * @return
-	 * @see ca.eandb.jmist.framework.SceneElement#visibility(ca.eandb.jmist.math.Ray3)
-	 */
 	public boolean visibility(Ray3 ray) {
 		return inner.visibility(ray);
 	}
 
-	/**
-	 * @return
-	 * @see ca.eandb.jmist.framework.SceneElement#createLight()
-	 */
 	public Light createLight() {
 		return inner.createLight();
 	}

@@ -76,12 +76,6 @@ public final class SceneRayShader implements RayShader {
 
 	private final Random rng;
 
-	/**
-	 * @param caster
-	 * @param light
-	 * @param background
-	 * @param rng
-	 */
 	public SceneRayShader(SceneElement root, Light light, RayShader background, Random rng) {
 		this.root = root;
 		this.light = light;
@@ -89,29 +83,14 @@ public final class SceneRayShader implements RayShader {
 		this.rng = rng;
 	}
 
-	/**
-	 * @param caster
-	 * @param light
-	 * @param background
-	 */
 	public SceneRayShader(SceneElement root, Light light, RayShader background) {
 		this(root, light, background, new ThreadLocalRandom(new SimpleRandom()));
 	}
 
-	/**
-	 * @param caster
-	 * @param light
-	 * @param background
-	 */
 	public SceneRayShader(Scene scene, RayShader background) {
 		this(scene.getRoot(), scene.getLight(), background, new ThreadLocalRandom(new SimpleRandom()));
 	}
 
-	/**
-	 * @param caster
-	 * @param light
-	 * @param background
-	 */
 	public SceneRayShader(Scene scene) {
 		this(scene.getRoot(), scene.getLight(), RayShader.BLACK, new ThreadLocalRandom(new SimpleRandom()));
 	}

@@ -32,8 +32,8 @@ import ca.eandb.jmist.math.HPoint3;
 import ca.eandb.jmist.math.Vector3;
 
 /**
- * @author Brad
- *
+ * A <code>PathNode</code> that has had an affine transformation applied to it.
+ * @author Brad Kimmel
  */
 public abstract class TransformedPathNode extends AbstractPathNode {
 
@@ -43,9 +43,6 @@ public abstract class TransformedPathNode extends AbstractPathNode {
 
 	protected final AffineMatrix3 worldToLocal;
 
-	/**
-	 * @param pathInfo
-	 */
 	public TransformedPathNode(PathNode inner, AffineMatrix3 localToWorld, AffineMatrix3 worldToLocal) {
 		super(inner.getPathInfo(), inner.getRU(), inner.getRV(), inner.getRJ());
 		this.inner = inner;
