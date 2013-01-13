@@ -3,6 +3,13 @@ Java Modular Image Synthesis Toolkit (JMIST)
 
 JMIST is a research-oriented library for image synthesis.
 
+
+Documentation
+-------------
+
+See [Javadoc](http://bwkimmel.github.com/jmist/doc) documentation.
+
+
 License
 -------
 
