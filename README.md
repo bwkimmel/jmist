@@ -9,6 +9,16 @@ Documentation
 
 See [Javadoc](http://bwkimmel.github.com/jmist/doc) documentation.
 
+### Units
+
+Unless otherwise specified, physical values are represented using products of
+powers of [SI base units](http://physics.nist.gov/cuu/Units/current.html).
+Angles are represented in radians, and solid angles in steradians.  For
+instance, radiance is expressed in *W sr<sup>-1</sup> m<sup>-2</sup>*.
+
+**NOTE:** This means that wavelengths in jmist are represented in meters, *not*
+nanometers.
+
 
 License
 -------
