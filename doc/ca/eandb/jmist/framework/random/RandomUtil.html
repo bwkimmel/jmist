@@ -1,0 +1,930 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- NewPage -->
+<html lang="en">
+<head>
+<title>RandomUtil</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<script type="text/javascript"><!--
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="RandomUtil";
+    }
+//-->
+</script>
+<noscript>
+<div>JavaScript is disabled on your browser.</div>
+</noscript>
+<!-- ========= START OF TOP NAVBAR ======= -->
+<div class="topNav"><a name="navbar_top">
+<!--   -->
+</a><a href="#skip-navbar_top" title="Skip navigation links"></a><a name="navbar_top_firstrow">
+<!--   -->
+</a>
+<ul class="navList" title="Navigation">
+<li><a href="../../../../../overview-summary.html">Overview</a></li>
+<li><a href="package-summary.html">Package</a></li>
+<li class="navBarCell1Rev">Class</li>
+<li><a href="class-use/RandomUtil.html">Use</a></li>
+<li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../../../index-files/index-1.html">Index</a></li>
+<li><a href="../../../../../help-doc.html">Help</a></li>
+</ul>
+</div>
+<div class="subNav">
+<ul class="navList">
+<li><a href="../../../../../ca/eandb/jmist/framework/random/RandomAdapter.html" title="class in ca.eandb.jmist.framework.random"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../../ca/eandb/jmist/framework/random/RepeatableRandom.html" title="class in ca.eandb.jmist.framework.random"><span class="strong">Next Class</span></a></li>
+</ul>
+<ul class="navList">
+<li><a href="../../../../../index.html?ca/eandb/jmist/framework/random/RandomUtil.html" target="_top">Frames</a></li>
+<li><a href="RandomUtil.html" target="_top">No Frames</a></li>
+</ul>
+<ul class="navList" id="allclasses_navbar_top">
+<li><a href="../../../../../allclasses-noframe.html">All Classes</a></li>
+</ul>
+<div>
+<script type="text/javascript"><!--
+  allClassesLink = document.getElementById("allclasses_navbar_top");
+  if(window==top) {
+    allClassesLink.style.display = "block";
+  }
+  else {
+    allClassesLink.style.display = "none";
+  }
+  //-->
+</script>
+</div>
+<div>
+<ul class="subNavList">
+<li>Summary:&nbsp;</li>
+<li>Nested&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_summary">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_summary">Method</a></li>
+</ul>
+<ul class="subNavList">
+<li>Detail:&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_detail">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_detail">Method</a></li>
+</ul>
+</div>
+<a name="skip-navbar_top">
+<!--   -->
+</a></div>
+<!-- ========= END OF TOP NAVBAR ========= -->
+<!-- ======== START OF CLASS DATA ======== -->
+<div class="header">
+<div class="subTitle">ca.eandb.jmist.framework.random</div>
+<h2 title="Class RandomUtil" class="title">Class RandomUtil</h2>
+</div>
+<div class="contentContainer">
+<ul class="inheritance">
+<li>java.lang.Object</li>
+<li>
+<ul class="inheritance">
+<li>ca.eandb.jmist.framework.random.RandomUtil</li>
+</ul>
+</li>
+</ul>
+<div class="description">
+<ul class="blockList">
+<li class="blockList">
+<hr>
+<br>
+<pre>public final class <a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L47" target="_blank">RandomUtil</a>
+extends java.lang.Object</pre>
+<div class="block">Static utility methods for random algorithms.</div>
+<dl><dt><span class="strong">Author:</span></dt>
+  <dd>Brad Kimmel</dd></dl>
+</li>
+</ul>
+</div>
+<div class="summary">
+<ul class="blockList">
+<li class="blockList">
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+<ul class="blockList">
+<li class="blockList"><a name="constructor_summary">
+<!--   -->
+</a>
+<h3>Constructor Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Constructor Summary table, listing constructors, and an explanation">
+<caption><span>Constructors</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colOne" scope="col">Constructor and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colOne"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#RandomUtil()">RandomUtil</a></strong>()</code>&nbsp;</td>
+</tr>
+</table>
+</li>
+</ul>
+<!-- ========== METHOD SUMMARY =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method_summary">
+<!--   -->
+</a>
+<h3>Method Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
+<caption><span>Methods</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Method and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#bernoulli(double, double)">bernoulli</a></strong>(double&nbsp;probability,
+                  double&nbsp;seed)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#bernoulli(double, ca.eandb.jmist.framework.Random)">bernoulli</a></strong>(double&nbsp;probability,
+                  <a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#bernoulli(double, ca.eandb.jmist.framework.random.SeedReference)">bernoulli</a></strong>(double&nbsp;probability,
+                  <a href="../../../../../ca/eandb/jmist/framework/random/SeedReference.html" title="class in ca.eandb.jmist.framework.random">SeedReference</a>&nbsp;ref)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static double</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#canonical(ca.eandb.jmist.framework.Random)">canonical</a></strong>(<a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../../ca/eandb/jmist/math/Point2.html" title="class in ca.eandb.jmist.math">Point2</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#canonical2(ca.eandb.jmist.framework.Random)">canonical2</a></strong>(<a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#canonical3(ca.eandb.jmist.framework.Random)">canonical3</a></strong>(<a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#categorical(double[], double)">categorical</a></strong>(double[]&nbsp;weights,
+                      double&nbsp;seed)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#categorical(double[], ca.eandb.jmist.framework.Random)">categorical</a></strong>(double[]&nbsp;weights,
+                      <a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#categorical(double[], ca.eandb.jmist.framework.random.SeedReference)">categorical</a></strong>(double[]&nbsp;weights,
+                      <a href="../../../../../ca/eandb/jmist/framework/random/SeedReference.html" title="class in ca.eandb.jmist.framework.random">SeedReference</a>&nbsp;ref)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#coin(double)">coin</a></strong>(double&nbsp;seed)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#coin(ca.eandb.jmist.framework.Random)">coin</a></strong>(<a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#coin(ca.eandb.jmist.framework.random.SeedReference)">coin</a></strong>(<a href="../../../../../ca/eandb/jmist/framework/random/SeedReference.html" title="class in ca.eandb.jmist.framework.random">SeedReference</a>&nbsp;ref)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../../ca/eandb/jmist/math/SphericalCoordinates.html" title="class in ca.eandb.jmist.math">SphericalCoordinates</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#diffuse(double, double)">diffuse</a></strong>(double&nbsp;ru,
+              double&nbsp;rv)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../../ca/eandb/jmist/math/SphericalCoordinates.html" title="class in ca.eandb.jmist.math">SphericalCoordinates</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#diffuse(ca.eandb.jmist.framework.Random)">diffuse</a></strong>(<a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#discrete(int, int, double)">discrete</a></strong>(int&nbsp;minimum,
+                int&nbsp;maximum,
+                double&nbsp;seed)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#discrete(int, int, ca.eandb.jmist.framework.Random)">discrete</a></strong>(int&nbsp;minimum,
+                int&nbsp;maximum,
+                <a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#discrete(int, int, ca.eandb.jmist.framework.random.SeedReference)">discrete</a></strong>(int&nbsp;minimum,
+                int&nbsp;maximum,
+                <a href="../../../../../ca/eandb/jmist/framework/random/SeedReference.html" title="class in ca.eandb.jmist.framework.random">SeedReference</a>&nbsp;ref)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../../ca/eandb/jmist/math/Point2.html" title="class in ca.eandb.jmist.math">Point2</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#uniform(ca.eandb.jmist.math.Box2, double, double)">uniform</a></strong>(<a href="../../../../../ca/eandb/jmist/math/Box2.html" title="class in ca.eandb.jmist.math">Box2</a>&nbsp;box,
+              double&nbsp;ru,
+              double&nbsp;rv)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../../ca/eandb/jmist/math/Point2.html" title="class in ca.eandb.jmist.math">Point2</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#uniform(ca.eandb.jmist.math.Box2, ca.eandb.jmist.framework.Random)">uniform</a></strong>(<a href="../../../../../ca/eandb/jmist/math/Box2.html" title="class in ca.eandb.jmist.math">Box2</a>&nbsp;box,
+              <a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#uniform(ca.eandb.jmist.math.Box3, double, double, double)">uniform</a></strong>(<a href="../../../../../ca/eandb/jmist/math/Box3.html" title="class in ca.eandb.jmist.math">Box3</a>&nbsp;box,
+              double&nbsp;ru,
+              double&nbsp;rv,
+              double&nbsp;rw)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#uniform(ca.eandb.jmist.math.Box3, ca.eandb.jmist.framework.Random)">uniform</a></strong>(<a href="../../../../../ca/eandb/jmist/math/Box3.html" title="class in ca.eandb.jmist.math">Box3</a>&nbsp;box,
+              <a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static double</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#uniform(double, double, double)">uniform</a></strong>(double&nbsp;minimum,
+              double&nbsp;maximum,
+              double&nbsp;seed)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static double</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#uniform(double, double, ca.eandb.jmist.framework.Random)">uniform</a></strong>(double&nbsp;minimum,
+              double&nbsp;maximum,
+              <a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static double</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#uniform(ca.eandb.jmist.math.Interval, double)">uniform</a></strong>(<a href="../../../../../ca/eandb/jmist/math/Interval.html" title="class in ca.eandb.jmist.math">Interval</a>&nbsp;I,
+              double&nbsp;seed)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static double</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#uniform(ca.eandb.jmist.math.Interval, ca.eandb.jmist.framework.Random)">uniform</a></strong>(<a href="../../../../../ca/eandb/jmist/math/Interval.html" title="class in ca.eandb.jmist.math">Interval</a>&nbsp;I,
+              <a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../../ca/eandb/jmist/math/SphericalCoordinates.html" title="class in ca.eandb.jmist.math">SphericalCoordinates</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#uniformInsideSphere(double, double, double)">uniformInsideSphere</a></strong>(double&nbsp;ru,
+                                      double&nbsp;rv,
+                                      double&nbsp;rw)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../../ca/eandb/jmist/math/SphericalCoordinates.html" title="class in ca.eandb.jmist.math">SphericalCoordinates</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#uniformInsideSphere(double, double, double, double)">uniformInsideSphere</a></strong>(double&nbsp;radius,
+                                      double&nbsp;ru,
+                                      double&nbsp;rv,
+                                      double&nbsp;rw)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../../ca/eandb/jmist/math/SphericalCoordinates.html" title="class in ca.eandb.jmist.math">SphericalCoordinates</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#uniformInsideSphere(double, ca.eandb.jmist.framework.Random)">uniformInsideSphere</a></strong>(double&nbsp;radius,
+                                      <a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../../ca/eandb/jmist/math/SphericalCoordinates.html" title="class in ca.eandb.jmist.math">SphericalCoordinates</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#uniformInsideSphere(ca.eandb.jmist.framework.Random)">uniformInsideSphere</a></strong>(<a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../../ca/eandb/jmist/math/PolarCoordinates.html" title="class in ca.eandb.jmist.math">PolarCoordinates</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#uniformOnDisc(double, double)">uniformOnDisc</a></strong>(double&nbsp;ru,
+                          double&nbsp;rv)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../../ca/eandb/jmist/math/PolarCoordinates.html" title="class in ca.eandb.jmist.math">PolarCoordinates</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#uniformOnDisc(double, double, double)">uniformOnDisc</a></strong>(double&nbsp;radius,
+                          double&nbsp;ru,
+                          double&nbsp;rv)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../../ca/eandb/jmist/math/PolarCoordinates.html" title="class in ca.eandb.jmist.math">PolarCoordinates</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#uniformOnDisc(double, ca.eandb.jmist.framework.Random)">uniformOnDisc</a></strong>(double&nbsp;radius,
+                          <a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../../ca/eandb/jmist/math/PolarCoordinates.html" title="class in ca.eandb.jmist.math">PolarCoordinates</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#uniformOnDisc(ca.eandb.jmist.framework.Random)">uniformOnDisc</a></strong>(<a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../../ca/eandb/jmist/math/SphericalCoordinates.html" title="class in ca.eandb.jmist.math">SphericalCoordinates</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#uniformOnSphere(double, double)">uniformOnSphere</a></strong>(double&nbsp;ru,
+                              double&nbsp;rv)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../../ca/eandb/jmist/math/SphericalCoordinates.html" title="class in ca.eandb.jmist.math">SphericalCoordinates</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#uniformOnSphere(double, double, double)">uniformOnSphere</a></strong>(double&nbsp;radius,
+                              double&nbsp;ru,
+                              double&nbsp;rv)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../../ca/eandb/jmist/math/SphericalCoordinates.html" title="class in ca.eandb.jmist.math">SphericalCoordinates</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#uniformOnSphere(double, ca.eandb.jmist.framework.Random)">uniformOnSphere</a></strong>(double&nbsp;radius,
+                              <a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../../ca/eandb/jmist/math/SphericalCoordinates.html" title="class in ca.eandb.jmist.math">SphericalCoordinates</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#uniformOnSphere(ca.eandb.jmist.framework.Random)">uniformOnSphere</a></strong>(<a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../../ca/eandb/jmist/math/Point2.html" title="class in ca.eandb.jmist.math">Point2</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#uniformOnTriangle(ca.eandb.jmist.math.Point2, ca.eandb.jmist.math.Point2, ca.eandb.jmist.math.Point2, double, double)">uniformOnTriangle</a></strong>(<a href="../../../../../ca/eandb/jmist/math/Point2.html" title="class in ca.eandb.jmist.math">Point2</a>&nbsp;a,
+                                  <a href="../../../../../ca/eandb/jmist/math/Point2.html" title="class in ca.eandb.jmist.math">Point2</a>&nbsp;b,
+                                  <a href="../../../../../ca/eandb/jmist/math/Point2.html" title="class in ca.eandb.jmist.math">Point2</a>&nbsp;c,
+                                  double&nbsp;alpha,
+                                  double&nbsp;beta)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../../ca/eandb/jmist/math/Point2.html" title="class in ca.eandb.jmist.math">Point2</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#uniformOnTriangle(ca.eandb.jmist.math.Point2, ca.eandb.jmist.math.Point2, ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.Random)">uniformOnTriangle</a></strong>(<a href="../../../../../ca/eandb/jmist/math/Point2.html" title="class in ca.eandb.jmist.math">Point2</a>&nbsp;a,
+                                  <a href="../../../../../ca/eandb/jmist/math/Point2.html" title="class in ca.eandb.jmist.math">Point2</a>&nbsp;b,
+                                  <a href="../../../../../ca/eandb/jmist/math/Point2.html" title="class in ca.eandb.jmist.math">Point2</a>&nbsp;c,
+                                  <a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#uniformOnTriangle(ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Point3, double, double)">uniformOnTriangle</a></strong>(<a href="../../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;a,
+                                  <a href="../../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;b,
+                                  <a href="../../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;c,
+                                  double&nbsp;alpha,
+                                  double&nbsp;beta)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#uniformOnTriangle(ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Point3, ca.eandb.jmist.framework.Random)">uniformOnTriangle</a></strong>(<a href="../../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;a,
+                                  <a href="../../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;b,
+                                  <a href="../../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;c,
+                                  <a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../../ca/eandb/jmist/math/SphericalCoordinates.html" title="class in ca.eandb.jmist.math">SphericalCoordinates</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#uniformOnUpperHemisphere(double, double, double)">uniformOnUpperHemisphere</a></strong>(double&nbsp;radius,
+                                                double&nbsp;ru,
+                                                double&nbsp;rv)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../../ca/eandb/jmist/math/SphericalCoordinates.html" title="class in ca.eandb.jmist.math">SphericalCoordinates</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#uniformOnUpperHemisphere(double, ca.eandb.jmist.framework.Random)">uniformOnUpperHemisphere</a></strong>(double&nbsp;radius,
+                                                <a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../../ca/eandb/jmist/math/SphericalCoordinates.html" title="class in ca.eandb.jmist.math">SphericalCoordinates</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/random/RandomUtil.html#uniformOnUpperHemisphere(ca.eandb.jmist.framework.Random)">uniformOnUpperHemisphere</a></strong>(<a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</code>&nbsp;</td>
+</tr>
+</table>
+<ul class="blockList">
+<li class="blockList"><a name="methods_inherited_from_class_java.lang.Object">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>equals, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="details">
+<ul class="blockList">
+<li class="blockList">
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+<ul class="blockList">
+<li class="blockList"><a name="constructor_detail">
+<!--   -->
+</a>
+<h3>Constructor Detail</h3>
+<a name="RandomUtil()">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>RandomUtil</h4>
+<pre>public&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L47" target="_blank">RandomUtil</a>()</pre>
+</li>
+</ul>
+</li>
+</ul>
+<!-- ============ METHOD DETAIL ========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method_detail">
+<!--   -->
+</a>
+<h3>Method Detail</h3>
+<a name="diffuse(ca.eandb.jmist.framework.Random)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>diffuse</h4>
+<pre>public static&nbsp;<a href="../../../../../ca/eandb/jmist/math/SphericalCoordinates.html" title="class in ca.eandb.jmist.math">SphericalCoordinates</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L49" target="_blank">diffuse</a>(<a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</pre>
+</li>
+</ul>
+<a name="diffuse(double, double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>diffuse</h4>
+<pre>public static&nbsp;<a href="../../../../../ca/eandb/jmist/math/SphericalCoordinates.html" title="class in ca.eandb.jmist.math">SphericalCoordinates</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L53" target="_blank">diffuse</a>(double&nbsp;ru,
+                           double&nbsp;rv)</pre>
+</li>
+</ul>
+<a name="uniformOnUpperHemisphere(ca.eandb.jmist.framework.Random)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>uniformOnUpperHemisphere</h4>
+<pre>public static&nbsp;<a href="../../../../../ca/eandb/jmist/math/SphericalCoordinates.html" title="class in ca.eandb.jmist.math">SphericalCoordinates</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L65" target="_blank">uniformOnUpperHemisphere</a>(<a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</pre>
+</li>
+</ul>
+<a name="uniformOnUpperHemisphere(double, ca.eandb.jmist.framework.Random)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>uniformOnUpperHemisphere</h4>
+<pre>public static&nbsp;<a href="../../../../../ca/eandb/jmist/math/SphericalCoordinates.html" title="class in ca.eandb.jmist.math">SphericalCoordinates</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L69" target="_blank">uniformOnUpperHemisphere</a>(double&nbsp;radius,
+                                            <a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</pre>
+</li>
+</ul>
+<a name="uniformOnUpperHemisphere(double, double, double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>uniformOnUpperHemisphere</h4>
+<pre>public static&nbsp;<a href="../../../../../ca/eandb/jmist/math/SphericalCoordinates.html" title="class in ca.eandb.jmist.math">SphericalCoordinates</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L73" target="_blank">uniformOnUpperHemisphere</a>(double&nbsp;radius,
+                                            double&nbsp;ru,
+                                            double&nbsp;rv)</pre>
+</li>
+</ul>
+<a name="uniformOnSphere(ca.eandb.jmist.framework.Random)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>uniformOnSphere</h4>
+<pre>public static&nbsp;<a href="../../../../../ca/eandb/jmist/math/SphericalCoordinates.html" title="class in ca.eandb.jmist.math">SphericalCoordinates</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L85" target="_blank">uniformOnSphere</a>(<a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</pre>
+</li>
+</ul>
+<a name="uniformOnSphere(double, ca.eandb.jmist.framework.Random)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>uniformOnSphere</h4>
+<pre>public static&nbsp;<a href="../../../../../ca/eandb/jmist/math/SphericalCoordinates.html" title="class in ca.eandb.jmist.math">SphericalCoordinates</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L89" target="_blank">uniformOnSphere</a>(double&nbsp;radius,
+                                   <a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</pre>
+</li>
+</ul>
+<a name="uniformOnSphere(double, double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>uniformOnSphere</h4>
+<pre>public static&nbsp;<a href="../../../../../ca/eandb/jmist/math/SphericalCoordinates.html" title="class in ca.eandb.jmist.math">SphericalCoordinates</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L93" target="_blank">uniformOnSphere</a>(double&nbsp;ru,
+                                   double&nbsp;rv)</pre>
+</li>
+</ul>
+<a name="uniformOnSphere(double, double, double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>uniformOnSphere</h4>
+<pre>public static&nbsp;<a href="../../../../../ca/eandb/jmist/math/SphericalCoordinates.html" title="class in ca.eandb.jmist.math">SphericalCoordinates</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L97" target="_blank">uniformOnSphere</a>(double&nbsp;radius,
+                                   double&nbsp;ru,
+                                   double&nbsp;rv)</pre>
+</li>
+</ul>
+<a name="uniformInsideSphere(ca.eandb.jmist.framework.Random)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>uniformInsideSphere</h4>
+<pre>public static&nbsp;<a href="../../../../../ca/eandb/jmist/math/SphericalCoordinates.html" title="class in ca.eandb.jmist.math">SphericalCoordinates</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L110" target="_blank">uniformInsideSphere</a>(<a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</pre>
+</li>
+</ul>
+<a name="uniformInsideSphere(double, ca.eandb.jmist.framework.Random)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>uniformInsideSphere</h4>
+<pre>public static&nbsp;<a href="../../../../../ca/eandb/jmist/math/SphericalCoordinates.html" title="class in ca.eandb.jmist.math">SphericalCoordinates</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L114" target="_blank">uniformInsideSphere</a>(double&nbsp;radius,
+                                       <a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</pre>
+</li>
+</ul>
+<a name="uniformInsideSphere(double, double, double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>uniformInsideSphere</h4>
+<pre>public static&nbsp;<a href="../../../../../ca/eandb/jmist/math/SphericalCoordinates.html" title="class in ca.eandb.jmist.math">SphericalCoordinates</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L118" target="_blank">uniformInsideSphere</a>(double&nbsp;ru,
+                                       double&nbsp;rv,
+                                       double&nbsp;rw)</pre>
+</li>
+</ul>
+<a name="uniformInsideSphere(double, double, double, double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>uniformInsideSphere</h4>
+<pre>public static&nbsp;<a href="../../../../../ca/eandb/jmist/math/SphericalCoordinates.html" title="class in ca.eandb.jmist.math">SphericalCoordinates</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L122" target="_blank">uniformInsideSphere</a>(double&nbsp;radius,
+                                       double&nbsp;ru,
+                                       double&nbsp;rv,
+                                       double&nbsp;rw)</pre>
+</li>
+</ul>
+<a name="uniformOnDisc(ca.eandb.jmist.framework.Random)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>uniformOnDisc</h4>
+<pre>public static&nbsp;<a href="../../../../../ca/eandb/jmist/math/PolarCoordinates.html" title="class in ca.eandb.jmist.math">PolarCoordinates</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L136" target="_blank">uniformOnDisc</a>(<a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</pre>
+</li>
+</ul>
+<a name="uniformOnDisc(double, ca.eandb.jmist.framework.Random)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>uniformOnDisc</h4>
+<pre>public static&nbsp;<a href="../../../../../ca/eandb/jmist/math/PolarCoordinates.html" title="class in ca.eandb.jmist.math">PolarCoordinates</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L140" target="_blank">uniformOnDisc</a>(double&nbsp;radius,
+                             <a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</pre>
+</li>
+</ul>
+<a name="uniformOnDisc(double, double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>uniformOnDisc</h4>
+<pre>public static&nbsp;<a href="../../../../../ca/eandb/jmist/math/PolarCoordinates.html" title="class in ca.eandb.jmist.math">PolarCoordinates</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L144" target="_blank">uniformOnDisc</a>(double&nbsp;ru,
+                             double&nbsp;rv)</pre>
+</li>
+</ul>
+<a name="uniformOnDisc(double, double, double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>uniformOnDisc</h4>
+<pre>public static&nbsp;<a href="../../../../../ca/eandb/jmist/math/PolarCoordinates.html" title="class in ca.eandb.jmist.math">PolarCoordinates</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L148" target="_blank">uniformOnDisc</a>(double&nbsp;radius,
+                             double&nbsp;ru,
+                             double&nbsp;rv)</pre>
+</li>
+</ul>
+<a name="uniformOnTriangle(ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Point3, ca.eandb.jmist.framework.Random)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>uniformOnTriangle</h4>
+<pre>public static&nbsp;<a href="../../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L160" target="_blank">uniformOnTriangle</a>(<a href="../../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;a,
+                       <a href="../../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;b,
+                       <a href="../../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;c,
+                       <a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</pre>
+</li>
+</ul>
+<a name="uniformOnTriangle(ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Point3, double, double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>uniformOnTriangle</h4>
+<pre>public static&nbsp;<a href="../../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L164" target="_blank">uniformOnTriangle</a>(<a href="../../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;a,
+                       <a href="../../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;b,
+                       <a href="../../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;c,
+                       double&nbsp;alpha,
+                       double&nbsp;beta)</pre>
+</li>
+</ul>
+<a name="uniformOnTriangle(ca.eandb.jmist.math.Point2, ca.eandb.jmist.math.Point2, ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.Random)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>uniformOnTriangle</h4>
+<pre>public static&nbsp;<a href="../../../../../ca/eandb/jmist/math/Point2.html" title="class in ca.eandb.jmist.math">Point2</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L174" target="_blank">uniformOnTriangle</a>(<a href="../../../../../ca/eandb/jmist/math/Point2.html" title="class in ca.eandb.jmist.math">Point2</a>&nbsp;a,
+                       <a href="../../../../../ca/eandb/jmist/math/Point2.html" title="class in ca.eandb.jmist.math">Point2</a>&nbsp;b,
+                       <a href="../../../../../ca/eandb/jmist/math/Point2.html" title="class in ca.eandb.jmist.math">Point2</a>&nbsp;c,
+                       <a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</pre>
+</li>
+</ul>
+<a name="uniformOnTriangle(ca.eandb.jmist.math.Point2, ca.eandb.jmist.math.Point2, ca.eandb.jmist.math.Point2, double, double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>uniformOnTriangle</h4>
+<pre>public static&nbsp;<a href="../../../../../ca/eandb/jmist/math/Point2.html" title="class in ca.eandb.jmist.math">Point2</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L178" target="_blank">uniformOnTriangle</a>(<a href="../../../../../ca/eandb/jmist/math/Point2.html" title="class in ca.eandb.jmist.math">Point2</a>&nbsp;a,
+                       <a href="../../../../../ca/eandb/jmist/math/Point2.html" title="class in ca.eandb.jmist.math">Point2</a>&nbsp;b,
+                       <a href="../../../../../ca/eandb/jmist/math/Point2.html" title="class in ca.eandb.jmist.math">Point2</a>&nbsp;c,
+                       double&nbsp;alpha,
+                       double&nbsp;beta)</pre>
+</li>
+</ul>
+<a name="bernoulli(double, ca.eandb.jmist.framework.Random)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>bernoulli</h4>
+<pre>public static&nbsp;boolean&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L188" target="_blank">bernoulli</a>(double&nbsp;probability,
+                <a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</pre>
+</li>
+</ul>
+<a name="bernoulli(double, double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>bernoulli</h4>
+<pre>public static&nbsp;boolean&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L192" target="_blank">bernoulli</a>(double&nbsp;probability,
+                double&nbsp;seed)</pre>
+</li>
+</ul>
+<a name="bernoulli(double, ca.eandb.jmist.framework.random.SeedReference)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>bernoulli</h4>
+<pre>public static&nbsp;boolean&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L198" target="_blank">bernoulli</a>(double&nbsp;probability,
+                <a href="../../../../../ca/eandb/jmist/framework/random/SeedReference.html" title="class in ca.eandb.jmist.framework.random">SeedReference</a>&nbsp;ref)</pre>
+</li>
+</ul>
+<a name="coin(ca.eandb.jmist.framework.Random)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>coin</h4>
+<pre>public static&nbsp;boolean&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L210" target="_blank">coin</a>(<a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</pre>
+</li>
+</ul>
+<a name="coin(double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>coin</h4>
+<pre>public static&nbsp;boolean&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L214" target="_blank">coin</a>(double&nbsp;seed)</pre>
+</li>
+</ul>
+<a name="coin(ca.eandb.jmist.framework.random.SeedReference)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>coin</h4>
+<pre>public static&nbsp;boolean&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L218" target="_blank">coin</a>(<a href="../../../../../ca/eandb/jmist/framework/random/SeedReference.html" title="class in ca.eandb.jmist.framework.random">SeedReference</a>&nbsp;ref)</pre>
+</li>
+</ul>
+<a name="categorical(double[], ca.eandb.jmist.framework.Random)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>categorical</h4>
+<pre>public static&nbsp;int&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L230" target="_blank">categorical</a>(double[]&nbsp;weights,
+              <a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</pre>
+</li>
+</ul>
+<a name="categorical(double[], double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>categorical</h4>
+<pre>public static&nbsp;int&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L234" target="_blank">categorical</a>(double[]&nbsp;weights,
+              double&nbsp;seed)</pre>
+</li>
+</ul>
+<a name="categorical(double[], ca.eandb.jmist.framework.random.SeedReference)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>categorical</h4>
+<pre>public static&nbsp;int&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L249" target="_blank">categorical</a>(double[]&nbsp;weights,
+              <a href="../../../../../ca/eandb/jmist/framework/random/SeedReference.html" title="class in ca.eandb.jmist.framework.random">SeedReference</a>&nbsp;ref)</pre>
+</li>
+</ul>
+<a name="discrete(int, int, ca.eandb.jmist.framework.Random)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>discrete</h4>
+<pre>public static&nbsp;int&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L269" target="_blank">discrete</a>(int&nbsp;minimum,
+           int&nbsp;maximum,
+           <a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</pre>
+</li>
+</ul>
+<a name="discrete(int, int, double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>discrete</h4>
+<pre>public static&nbsp;int&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L273" target="_blank">discrete</a>(int&nbsp;minimum,
+           int&nbsp;maximum,
+           double&nbsp;seed)</pre>
+</li>
+</ul>
+<a name="discrete(int, int, ca.eandb.jmist.framework.random.SeedReference)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>discrete</h4>
+<pre>public static&nbsp;int&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L277" target="_blank">discrete</a>(int&nbsp;minimum,
+           int&nbsp;maximum,
+           <a href="../../../../../ca/eandb/jmist/framework/random/SeedReference.html" title="class in ca.eandb.jmist.framework.random">SeedReference</a>&nbsp;ref)</pre>
+</li>
+</ul>
+<a name="canonical(ca.eandb.jmist.framework.Random)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>canonical</h4>
+<pre>public static&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L288" target="_blank">canonical</a>(<a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</pre>
+</li>
+</ul>
+<a name="canonical2(ca.eandb.jmist.framework.Random)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>canonical2</h4>
+<pre>public static&nbsp;<a href="../../../../../ca/eandb/jmist/math/Point2.html" title="class in ca.eandb.jmist.math">Point2</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L292" target="_blank">canonical2</a>(<a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</pre>
+</li>
+</ul>
+<a name="canonical3(ca.eandb.jmist.framework.Random)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>canonical3</h4>
+<pre>public static&nbsp;<a href="../../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L296" target="_blank">canonical3</a>(<a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</pre>
+</li>
+</ul>
+<a name="uniform(double, double, double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>uniform</h4>
+<pre>public static&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L300" target="_blank">uniform</a>(double&nbsp;minimum,
+             double&nbsp;maximum,
+             double&nbsp;seed)</pre>
+</li>
+</ul>
+<a name="uniform(double, double, ca.eandb.jmist.framework.Random)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>uniform</h4>
+<pre>public static&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L304" target="_blank">uniform</a>(double&nbsp;minimum,
+             double&nbsp;maximum,
+             <a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</pre>
+</li>
+</ul>
+<a name="uniform(ca.eandb.jmist.math.Interval, ca.eandb.jmist.framework.Random)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>uniform</h4>
+<pre>public static&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L308" target="_blank">uniform</a>(<a href="../../../../../ca/eandb/jmist/math/Interval.html" title="class in ca.eandb.jmist.math">Interval</a>&nbsp;I,
+             <a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</pre>
+</li>
+</ul>
+<a name="uniform(ca.eandb.jmist.math.Interval, double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>uniform</h4>
+<pre>public static&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L312" target="_blank">uniform</a>(<a href="../../../../../ca/eandb/jmist/math/Interval.html" title="class in ca.eandb.jmist.math">Interval</a>&nbsp;I,
+             double&nbsp;seed)</pre>
+</li>
+</ul>
+<a name="uniform(ca.eandb.jmist.math.Box2, ca.eandb.jmist.framework.Random)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>uniform</h4>
+<pre>public static&nbsp;<a href="../../../../../ca/eandb/jmist/math/Point2.html" title="class in ca.eandb.jmist.math">Point2</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L316" target="_blank">uniform</a>(<a href="../../../../../ca/eandb/jmist/math/Box2.html" title="class in ca.eandb.jmist.math">Box2</a>&nbsp;box,
+             <a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</pre>
+</li>
+</ul>
+<a name="uniform(ca.eandb.jmist.math.Box2, double, double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>uniform</h4>
+<pre>public static&nbsp;<a href="../../../../../ca/eandb/jmist/math/Point2.html" title="class in ca.eandb.jmist.math">Point2</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L320" target="_blank">uniform</a>(<a href="../../../../../ca/eandb/jmist/math/Box2.html" title="class in ca.eandb.jmist.math">Box2</a>&nbsp;box,
+             double&nbsp;ru,
+             double&nbsp;rv)</pre>
+</li>
+</ul>
+<a name="uniform(ca.eandb.jmist.math.Box3, ca.eandb.jmist.framework.Random)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>uniform</h4>
+<pre>public static&nbsp;<a href="../../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L326" target="_blank">uniform</a>(<a href="../../../../../ca/eandb/jmist/math/Box3.html" title="class in ca.eandb.jmist.math">Box3</a>&nbsp;box,
+             <a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random)</pre>
+</li>
+</ul>
+<a name="uniform(ca.eandb.jmist.math.Box3, double, double, double)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>uniform</h4>
+<pre>public static&nbsp;<a href="../../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/random/RandomUtil.java#L330" target="_blank">uniform</a>(<a href="../../../../../ca/eandb/jmist/math/Box3.html" title="class in ca.eandb.jmist.math">Box3</a>&nbsp;box,
+             double&nbsp;ru,
+             double&nbsp;rv,
+             double&nbsp;rw)</pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<!-- ========= END OF CLASS DATA ========= -->
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<div class="bottomNav"><a name="navbar_bottom">
+<!--   -->
+</a><a href="#skip-navbar_bottom" title="Skip navigation links"></a><a name="navbar_bottom_firstrow">
+<!--   -->
+</a>
+<ul class="navList" title="Navigation">
+<li><a href="../../../../../overview-summary.html">Overview</a></li>
+<li><a href="package-summary.html">Package</a></li>
+<li class="navBarCell1Rev">Class</li>
+<li><a href="class-use/RandomUtil.html">Use</a></li>
+<li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../../../index-files/index-1.html">Index</a></li>
+<li><a href="../../../../../help-doc.html">Help</a></li>
+</ul>
+</div>
+<div class="subNav">
+<ul class="navList">
+<li><a href="../../../../../ca/eandb/jmist/framework/random/RandomAdapter.html" title="class in ca.eandb.jmist.framework.random"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../../ca/eandb/jmist/framework/random/RepeatableRandom.html" title="class in ca.eandb.jmist.framework.random"><span class="strong">Next Class</span></a></li>
+</ul>
+<ul class="navList">
+<li><a href="../../../../../index.html?ca/eandb/jmist/framework/random/RandomUtil.html" target="_top">Frames</a></li>
+<li><a href="RandomUtil.html" target="_top">No Frames</a></li>
+</ul>
+<ul class="navList" id="allclasses_navbar_bottom">
+<li><a href="../../../../../allclasses-noframe.html">All Classes</a></li>
+</ul>
+<div>
+<script type="text/javascript"><!--
+  allClassesLink = document.getElementById("allclasses_navbar_bottom");
+  if(window==top) {
+    allClassesLink.style.display = "block";
+  }
+  else {
+    allClassesLink.style.display = "none";
+  }
+  //-->
+</script>
+</div>
+<div>
+<ul class="subNavList">
+<li>Summary:&nbsp;</li>
+<li>Nested&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_summary">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_summary">Method</a></li>
+</ul>
+<ul class="subNavList">
+<li>Detail:&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_detail">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_detail">Method</a></li>
+</ul>
+</div>
+<a name="skip-navbar_bottom">
+<!--   -->
+</a></div>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+</body>
+</html>

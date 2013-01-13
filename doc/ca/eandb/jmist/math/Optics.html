@@ -1,0 +1,804 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- NewPage -->
+<html lang="en">
+<head>
+<title>Optics</title>
+<link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<script type="text/javascript"><!--
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="Optics";
+    }
+//-->
+</script>
+<noscript>
+<div>JavaScript is disabled on your browser.</div>
+</noscript>
+<!-- ========= START OF TOP NAVBAR ======= -->
+<div class="topNav"><a name="navbar_top">
+<!--   -->
+</a><a href="#skip-navbar_top" title="Skip navigation links"></a><a name="navbar_top_firstrow">
+<!--   -->
+</a>
+<ul class="navList" title="Navigation">
+<li><a href="../../../../overview-summary.html">Overview</a></li>
+<li><a href="package-summary.html">Package</a></li>
+<li class="navBarCell1Rev">Class</li>
+<li><a href="class-use/Optics.html">Use</a></li>
+<li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../../index-files/index-1.html">Index</a></li>
+<li><a href="../../../../help-doc.html">Help</a></li>
+</ul>
+</div>
+<div class="subNav">
+<ul class="navList">
+<li><a href="../../../../ca/eandb/jmist/math/Matrix4.html" title="class in ca.eandb.jmist.math"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../ca/eandb/jmist/math/Physics.html" title="class in ca.eandb.jmist.math"><span class="strong">Next Class</span></a></li>
+</ul>
+<ul class="navList">
+<li><a href="../../../../index.html?ca/eandb/jmist/math/Optics.html" target="_top">Frames</a></li>
+<li><a href="Optics.html" target="_top">No Frames</a></li>
+</ul>
+<ul class="navList" id="allclasses_navbar_top">
+<li><a href="../../../../allclasses-noframe.html">All Classes</a></li>
+</ul>
+<div>
+<script type="text/javascript"><!--
+  allClassesLink = document.getElementById("allclasses_navbar_top");
+  if(window==top) {
+    allClassesLink.style.display = "block";
+  }
+  else {
+    allClassesLink.style.display = "none";
+  }
+  //-->
+</script>
+</div>
+<div>
+<ul class="subNavList">
+<li>Summary:&nbsp;</li>
+<li>Nested&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
+<li><a href="#method_summary">Method</a></li>
+</ul>
+<ul class="subNavList">
+<li>Detail:&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
+<li><a href="#method_detail">Method</a></li>
+</ul>
+</div>
+<a name="skip-navbar_top">
+<!--   -->
+</a></div>
+<!-- ========= END OF TOP NAVBAR ========= -->
+<!-- ======== START OF CLASS DATA ======== -->
+<div class="header">
+<div class="subTitle">ca.eandb.jmist.math</div>
+<h2 title="Class Optics" class="title">Class Optics</h2>
+</div>
+<div class="contentContainer">
+<ul class="inheritance">
+<li>java.lang.Object</li>
+<li>
+<ul class="inheritance">
+<li>ca.eandb.jmist.math.Optics</li>
+</ul>
+</li>
+</ul>
+<div class="description">
+<ul class="blockList">
+<li class="blockList">
+<hr>
+<br>
+<pre>public final class <a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Optics.java#L34" target="_blank">Optics</a>
+extends java.lang.Object</pre>
+<div class="block">Provides utility methods for geometric optics.</div>
+<dl><dt><span class="strong">Author:</span></dt>
+  <dd>Brad Kimmel</dd></dl>
+</li>
+</ul>
+</div>
+<div class="summary">
+<ul class="blockList">
+<li class="blockList">
+<!-- ========== METHOD SUMMARY =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method_summary">
+<!--   -->
+</a>
+<h3>Method Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
+<caption><span>Methods</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Method and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Vector2.html" title="class in ca.eandb.jmist.math">Vector2</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Optics.html#polarizedReflectance(double, ca.eandb.jmist.math.Complex, ca.eandb.jmist.math.Complex)">polarizedReflectance</a></strong>(double&nbsp;theta,
+                                        <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n1,
+                                        <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n2)</code>
+<div class="block">Computes the reflectance components for polarized light incident
+ on an interface between two media.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Vector2.html" title="class in ca.eandb.jmist.math">Vector2</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Optics.html#polarizedReflectance(double, ca.eandb.jmist.math.Complex, double)">polarizedReflectance</a></strong>(double&nbsp;theta,
+                                        <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n1,
+                                        double&nbsp;n2)</code>
+<div class="block">Computes the reflectance components for polarized light incident
+ on an interface between two media.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Vector2.html" title="class in ca.eandb.jmist.math">Vector2</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Optics.html#polarizedReflectance(double, double, ca.eandb.jmist.math.Complex)">polarizedReflectance</a></strong>(double&nbsp;theta,
+                                        double&nbsp;n1,
+                                        <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n2)</code>
+<div class="block">Computes the reflectance components for polarized light incident
+ on an interface between two media.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Vector2.html" title="class in ca.eandb.jmist.math">Vector2</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Optics.html#polarizedReflectance(double, double, double)">polarizedReflectance</a></strong>(double&nbsp;theta,
+                                        double&nbsp;n1,
+                                        double&nbsp;n2)</code>
+<div class="block">Computes the reflectance components for polarized light incident
+ on an interface between two media.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Vector2.html" title="class in ca.eandb.jmist.math">Vector2</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Optics.html#polarizedReflectance(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Complex, ca.eandb.jmist.math.Complex, ca.eandb.jmist.math.Vector3)">polarizedReflectance</a></strong>(<a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;in,
+                                        <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n1,
+                                        <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n2,
+                                        <a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;normal)</code>
+<div class="block">Computes the reflectance components for polarized light incident
+ on an interface between two media.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Vector2.html" title="class in ca.eandb.jmist.math">Vector2</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Optics.html#polarizedReflectance(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Complex, double, ca.eandb.jmist.math.Vector3)">polarizedReflectance</a></strong>(<a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;in,
+                                        <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n1,
+                                        double&nbsp;n2,
+                                        <a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;normal)</code>
+<div class="block">Computes the reflectance components for polarized light incident
+ on an interface between two media.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Vector2.html" title="class in ca.eandb.jmist.math">Vector2</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Optics.html#polarizedReflectance(ca.eandb.jmist.math.Vector3, double, ca.eandb.jmist.math.Complex, ca.eandb.jmist.math.Vector3)">polarizedReflectance</a></strong>(<a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;in,
+                                        double&nbsp;n1,
+                                        <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n2,
+                                        <a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;normal)</code>
+<div class="block">Computes the reflectance components for polarized light incident
+ on an interface between two media.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Vector2.html" title="class in ca.eandb.jmist.math">Vector2</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Optics.html#polarizedReflectance(ca.eandb.jmist.math.Vector3, double, double, ca.eandb.jmist.math.Vector3)">polarizedReflectance</a></strong>(<a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;in,
+                                        double&nbsp;n1,
+                                        double&nbsp;n2,
+                                        <a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;normal)</code>
+<div class="block">Computes the reflectance components for polarized light incident
+ on an interface between two media.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Optics.html#reflect(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Vector3)">reflect</a></strong>(<a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;in,
+              <a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;normal)</code>
+<div class="block">Computes a reflected vector.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static double</code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Optics.html#reflectance(double, ca.eandb.jmist.math.Complex, ca.eandb.jmist.math.Complex)">reflectance</a></strong>(double&nbsp;theta,
+                      <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n1,
+                      <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n2)</code>
+<div class="block">Computes the reflectance components for unpolarized light incident
+ on an interface between two media.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static double</code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Optics.html#reflectance(double, ca.eandb.jmist.math.Complex, double)">reflectance</a></strong>(double&nbsp;theta,
+                      <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n1,
+                      double&nbsp;n2)</code>
+<div class="block">Computes the reflectance components for unpolarized light incident
+ on an interface between two media.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static double</code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Optics.html#reflectance(double, double, ca.eandb.jmist.math.Complex)">reflectance</a></strong>(double&nbsp;theta,
+                      double&nbsp;n1,
+                      <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n2)</code>
+<div class="block">Computes the reflectance components for unpolarized light incident
+ on an interface between two media.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static double</code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Optics.html#reflectance(double, double, double)">reflectance</a></strong>(double&nbsp;theta,
+                      double&nbsp;n1,
+                      double&nbsp;n2)</code>
+<div class="block">Computes the reflectance components for unpolarized light incident
+ on an interface between two media.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static double</code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Optics.html#reflectance(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Complex, ca.eandb.jmist.math.Complex, ca.eandb.jmist.math.Vector3)">reflectance</a></strong>(<a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;in,
+                      <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n1,
+                      <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n2,
+                      <a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;normal)</code>
+<div class="block">Computes the reflectance components for unpolarized light incident
+ on an interface between two media.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static double</code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Optics.html#reflectance(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Complex, double, ca.eandb.jmist.math.Vector3)">reflectance</a></strong>(<a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;in,
+                      <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n1,
+                      double&nbsp;n2,
+                      <a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;normal)</code>
+<div class="block">Computes the reflectance components for unpolarized light incident
+ on an interface between two media.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static double</code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Optics.html#reflectance(ca.eandb.jmist.math.Vector3, double, ca.eandb.jmist.math.Complex, ca.eandb.jmist.math.Vector3)">reflectance</a></strong>(<a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;in,
+                      double&nbsp;n1,
+                      <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n2,
+                      <a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;normal)</code>
+<div class="block">Computes the reflectance components for unpolarized light incident
+ on an interface between two media.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static double</code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Optics.html#reflectance(ca.eandb.jmist.math.Vector3, double, double, ca.eandb.jmist.math.Vector3)">reflectance</a></strong>(<a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;in,
+                      double&nbsp;n1,
+                      double&nbsp;n2,
+                      <a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;normal)</code>
+<div class="block">Computes the reflectance components for unpolarized light incident
+ on an interface between two media.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static double</code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Optics.html#refract(double, ca.eandb.jmist.math.Complex, ca.eandb.jmist.math.Complex)">refract</a></strong>(double&nbsp;theta,
+              <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n1,
+              <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n2)</code>
+<div class="block">Computes the angle to the normal of a ray that has been
+ refracted at the interface between two media.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static double</code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Optics.html#refract(double, double, double)">refract</a></strong>(double&nbsp;theta,
+              double&nbsp;n1,
+              double&nbsp;n2)</code>
+<div class="block">Computes the angle to the normal of a ray that has been
+ refracted at the interface between two media.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Optics.html#refract(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Complex, ca.eandb.jmist.math.Complex, ca.eandb.jmist.math.Vector3)">refract</a></strong>(<a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;in,
+              <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n1,
+              <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n2,
+              <a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;normal)</code>
+<div class="block">Computes the direction of a ray after being refracted
+ at the interface between two media.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Optics.html#refract(ca.eandb.jmist.math.Vector3, double, double, ca.eandb.jmist.math.Vector3)">refract</a></strong>(<a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;in,
+              double&nbsp;n1,
+              double&nbsp;n2,
+              <a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;normal)</code>
+<div class="block">Computes the direction of a ray after being refracted
+ at the interface between two media.</div>
+</td>
+</tr>
+</table>
+<ul class="blockList">
+<li class="blockList"><a name="methods_inherited_from_class_java.lang.Object">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>equals, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="details">
+<ul class="blockList">
+<li class="blockList">
+<!-- ============ METHOD DETAIL ========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method_detail">
+<!--   -->
+</a>
+<h3>Method Detail</h3>
+<a name="reflect(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Vector3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>reflect</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Optics.java#L42" target="_blank">reflect</a>(<a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;in,
+              <a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;normal)</pre>
+<div class="block">Computes a reflected vector.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>in</code> - The vector to be reflected.</dd><dd><code>normal</code> - The normal of the surface.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The reflected vector.</dd></dl>
+</li>
+</ul>
+<a name="refract(ca.eandb.jmist.math.Vector3, double, double, ca.eandb.jmist.math.Vector3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>refract</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Optics.java#L58" target="_blank">refract</a>(<a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;in,
+              double&nbsp;n1,
+              double&nbsp;n2,
+              <a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;normal)</pre>
+<div class="block">Computes the direction of a ray after being refracted
+ at the interface between two media.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>in</code> - The direction of the incoming ray.</dd><dd><code>n1</code> - The refractive index of the medium on the side toward
+                which the normal points.</dd><dd><code>n2</code> - The refractive index of the medium on the opposite
+                side of the interface from which to the normal points.</dd><dd><code>normal</code> - The direction normal to the interface between
+                the two media.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The direction of the refracted ray.</dd></dl>
+</li>
+</ul>
+<a name="refract(double, double, double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>refract</h4>
+<pre>public static&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Optics.java#L106" target="_blank">refract</a>(double&nbsp;theta,
+             double&nbsp;n1,
+             double&nbsp;n2)</pre>
+<div class="block">Computes the angle to the normal of a ray that has been
+ refracted at the interface between two media.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>theta</code> - The angle between the normal and the incident ray.</dd><dd><code>n1</code> - The refractive index of the medium on the side of the
+                interface to which to the normal points.</dd><dd><code>n2</code> - The refractive index of the medium</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The angle between the direction of the refracted ray and
+                the anti-normal.</dd></dl>
+</li>
+</ul>
+<a name="refract(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Complex, ca.eandb.jmist.math.Complex, ca.eandb.jmist.math.Vector3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>refract</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Optics.java#L141" target="_blank">refract</a>(<a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;in,
+              <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n1,
+              <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n2,
+              <a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;normal)</pre>
+<div class="block">Computes the direction of a ray after being refracted
+ at the interface between two media.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>in</code> - The direction of the incoming ray.</dd><dd><code>n1</code> - The refractive index of the medium on the side toward
+                which the normal points.</dd><dd><code>n2</code> - The refractive index of the medium on the opposite
+                side of the interface from which to the normal points.</dd><dd><code>normal</code> - The direction normal to the interface between
+                the two media.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The direction of the refracted ray.</dd></dl>
+</li>
+</ul>
+<a name="refract(double, ca.eandb.jmist.math.Complex, ca.eandb.jmist.math.Complex)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>refract</h4>
+<pre>public static&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Optics.java#L165" target="_blank">refract</a>(double&nbsp;theta,
+             <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n1,
+             <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n2)</pre>
+<div class="block">Computes the angle to the normal of a ray that has been
+ refracted at the interface between two media.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>theta</code> - The angle between the normal and the incident ray.</dd><dd><code>n1</code> - The refractive index of the medium on the side of the
+                interface to which to the normal points.</dd><dd><code>n2</code> - The refractive index of the medium</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The angle between the direction of the refracted ray and
+                the anti-normal.</dd></dl>
+</li>
+</ul>
+<a name="polarizedReflectance(ca.eandb.jmist.math.Vector3, double, double, ca.eandb.jmist.math.Vector3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>polarizedReflectance</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Vector2.html" title="class in ca.eandb.jmist.math">Vector2</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Optics.java#L188" target="_blank">polarizedReflectance</a>(<a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;in,
+                           double&nbsp;n1,
+                           double&nbsp;n2,
+                           <a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;normal)</pre>
+<div class="block">Computes the reflectance components for polarized light incident
+ on an interface between two media.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>in</code> - The incident direction.</dd><dd><code>n1</code> - The refractive index of the medium on the side of the
+                interface to which the normal points.</dd><dd><code>n2</code> - The refractive index of the medium on the opposite side
+                of the interface from which the normal points.</dd><dd><code>normal</code> - The direction perpendicular to the interface between
+                the two media.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The vector (R_{TE}, R_{TM}), denoting the reflectance for
+                transverse electric (TE) and transverse magnetic (TM) modes
+                of light incident on the interface from the specified direction.</dd></dl>
+</li>
+</ul>
+<a name="polarizedReflectance(ca.eandb.jmist.math.Vector3, double, ca.eandb.jmist.math.Complex, ca.eandb.jmist.math.Vector3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>polarizedReflectance</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Vector2.html" title="class in ca.eandb.jmist.math">Vector2</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Optics.java#L230" target="_blank">polarizedReflectance</a>(<a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;in,
+                           double&nbsp;n1,
+                           <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n2,
+                           <a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;normal)</pre>
+<div class="block">Computes the reflectance components for polarized light incident
+ on an interface between two media.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>in</code> - The incident direction.</dd><dd><code>n1</code> - The refractive index of the medium on the side of the
+                interface to which the normal points.</dd><dd><code>n2</code> - The refractive index of the medium on the opposite side
+                of the interface from which the normal points.</dd><dd><code>normal</code> - The direction perpendicular to the interface between
+                the two media.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The vector (R_{TE}, R_{TM}), denoting the reflectance for
+                transverse electric (TE) and transverse magnetic (TM) modes
+                of light incident on the interface from the specified direction.</dd></dl>
+</li>
+</ul>
+<a name="polarizedReflectance(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Complex, double, ca.eandb.jmist.math.Vector3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>polarizedReflectance</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Vector2.html" title="class in ca.eandb.jmist.math">Vector2</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Optics.java#L248" target="_blank">polarizedReflectance</a>(<a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;in,
+                           <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n1,
+                           double&nbsp;n2,
+                           <a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;normal)</pre>
+<div class="block">Computes the reflectance components for polarized light incident
+ on an interface between two media.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>in</code> - The incident direction.</dd><dd><code>n1</code> - The refractive index of the medium on the side of the
+                interface to which the normal points.</dd><dd><code>n2</code> - The refractive index of the medium on the opposite side
+                of the interface from which the normal points.</dd><dd><code>normal</code> - The direction perpendicular to the interface between
+                the two media.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The vector (R_{TE}, R_{TM}), denoting the reflectance for
+                transverse electric (TE) and transverse magnetic (TM) modes
+                of light incident on the interface from the specified direction.</dd></dl>
+</li>
+</ul>
+<a name="polarizedReflectance(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Complex, ca.eandb.jmist.math.Complex, ca.eandb.jmist.math.Vector3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>polarizedReflectance</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Vector2.html" title="class in ca.eandb.jmist.math">Vector2</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Optics.java#L266" target="_blank">polarizedReflectance</a>(<a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;in,
+                           <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n1,
+                           <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n2,
+                           <a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;normal)</pre>
+<div class="block">Computes the reflectance components for polarized light incident
+ on an interface between two media.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>in</code> - The incident direction.</dd><dd><code>n1</code> - The refractive index of the medium on the side of the
+                interface to which the normal points.</dd><dd><code>n2</code> - The refractive index of the medium on the opposite side
+                of the interface from which the normal points.</dd><dd><code>normal</code> - The direction perpendicular to the interface between
+                the two media.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The vector (R_{TE}, R_{TM}), denoting the reflectance for
+                transverse electric (TE) and transverse magnetic (TM) modes
+                of light incident on the interface from the specified direction.</dd></dl>
+</li>
+</ul>
+<a name="polarizedReflectance(double, double, double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>polarizedReflectance</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Vector2.html" title="class in ca.eandb.jmist.math">Vector2</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Optics.java#L306" target="_blank">polarizedReflectance</a>(double&nbsp;theta,
+                           double&nbsp;n1,
+                           double&nbsp;n2)</pre>
+<div class="block">Computes the reflectance components for polarized light incident
+ on an interface between two media.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>theta</code> - The angle between the incident direction and the normal.</dd><dd><code>n1</code> - The refractive index of the medium on the side of the
+                interface to which the normal points.</dd><dd><code>n2</code> - The refractive index of the medium on the opposite side
+                of the interface from which the normal points.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The vector (R_{TE}, R_{TM}), denoting the reflectance for
+                transverse electric (TE) and transverse magnetic (TM) modes
+                of light incident on the interface from the specified direction.</dd></dl>
+</li>
+</ul>
+<a name="polarizedReflectance(double, double, ca.eandb.jmist.math.Complex)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>polarizedReflectance</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Vector2.html" title="class in ca.eandb.jmist.math">Vector2</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Optics.java#L346" target="_blank">polarizedReflectance</a>(double&nbsp;theta,
+                           double&nbsp;n1,
+                           <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n2)</pre>
+<div class="block">Computes the reflectance components for polarized light incident
+ on an interface between two media.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>theta</code> - The angle between the incident direction and the normal.</dd><dd><code>n1</code> - The refractive index of the medium on the side of the
+                interface to which the normal points.</dd><dd><code>n2</code> - The refractive index of the medium on the opposite side
+                of the interface from which the normal points.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The vector (R_{TE}, R_{TM}), denoting the reflectance for
+                transverse electric (TE) and transverse magnetic (TM) modes
+                of light incident on the interface from the specified direction.</dd></dl>
+</li>
+</ul>
+<a name="polarizedReflectance(double, ca.eandb.jmist.math.Complex, double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>polarizedReflectance</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Vector2.html" title="class in ca.eandb.jmist.math">Vector2</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Optics.java#L362" target="_blank">polarizedReflectance</a>(double&nbsp;theta,
+                           <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n1,
+                           double&nbsp;n2)</pre>
+<div class="block">Computes the reflectance components for polarized light incident
+ on an interface between two media.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>theta</code> - The angle between the incident direction and the normal.</dd><dd><code>n1</code> - The refractive index of the medium on the side of the
+                interface to which the normal points.</dd><dd><code>n2</code> - The refractive index of the medium on the opposite side
+                of the interface from which the normal points.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The vector (R_{TE}, R_{TM}), denoting the reflectance for
+                transverse electric (TE) and transverse magnetic (TM) modes
+                of light incident on the interface from the specified direction.</dd></dl>
+</li>
+</ul>
+<a name="polarizedReflectance(double, ca.eandb.jmist.math.Complex, ca.eandb.jmist.math.Complex)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>polarizedReflectance</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Vector2.html" title="class in ca.eandb.jmist.math">Vector2</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Optics.java#L378" target="_blank">polarizedReflectance</a>(double&nbsp;theta,
+                           <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n1,
+                           <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n2)</pre>
+<div class="block">Computes the reflectance components for polarized light incident
+ on an interface between two media.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>theta</code> - The angle between the incident direction and the normal.</dd><dd><code>n1</code> - The refractive index of the medium on the side of the
+                interface to which the normal points.</dd><dd><code>n2</code> - The refractive index of the medium on the opposite side
+                of the interface from which the normal points.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The vector (R_{TE}, R_{TM}), denoting the reflectance for
+                transverse electric (TE) and transverse magnetic (TM) modes
+                of light incident on the interface from the specified direction.</dd></dl>
+</li>
+</ul>
+<a name="reflectance(ca.eandb.jmist.math.Vector3, double, double, ca.eandb.jmist.math.Vector3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>reflectance</h4>
+<pre>public static&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Optics.java#L419" target="_blank">reflectance</a>(<a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;in,
+                 double&nbsp;n1,
+                 double&nbsp;n2,
+                 <a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;normal)</pre>
+<div class="block">Computes the reflectance components for unpolarized light incident
+ on an interface between two media.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>in</code> - The incident direction.</dd><dd><code>n1</code> - The refractive index of the medium on the side of the
+                interface to which the normal points.</dd><dd><code>n2</code> - The refractive index of the medium on the opposite side
+                of the interface from which the normal points.</dd><dd><code>normal</code> - The direction perpendicular to the interface between
+                the two media.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The reflectance of unpolarized light incident on the
+                interface from the specified direction.</dd></dl>
+</li>
+</ul>
+<a name="reflectance(ca.eandb.jmist.math.Vector3, double, ca.eandb.jmist.math.Complex, ca.eandb.jmist.math.Vector3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>reflectance</h4>
+<pre>public static&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Optics.java#L437" target="_blank">reflectance</a>(<a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;in,
+                 double&nbsp;n1,
+                 <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n2,
+                 <a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;normal)</pre>
+<div class="block">Computes the reflectance components for unpolarized light incident
+ on an interface between two media.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>in</code> - The incident direction.</dd><dd><code>n1</code> - The refractive index of the medium on the side of the
+                interface to which the normal points.</dd><dd><code>n2</code> - The refractive index of the medium on the opposite side
+                of the interface from which the normal points.</dd><dd><code>normal</code> - The direction perpendicular to the interface between
+                the two media.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The reflectance of unpolarized light incident on the
+                interface from the specified direction.</dd></dl>
+</li>
+</ul>
+<a name="reflectance(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Complex, double, ca.eandb.jmist.math.Vector3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>reflectance</h4>
+<pre>public static&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Optics.java#L455" target="_blank">reflectance</a>(<a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;in,
+                 <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n1,
+                 double&nbsp;n2,
+                 <a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;normal)</pre>
+<div class="block">Computes the reflectance components for unpolarized light incident
+ on an interface between two media.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>in</code> - The incident direction.</dd><dd><code>n1</code> - The refractive index of the medium on the side of the
+                interface to which the normal points.</dd><dd><code>n2</code> - The refractive index of the medium on the opposite side
+                of the interface from which the normal points.</dd><dd><code>normal</code> - The direction perpendicular to the interface between
+                the two media.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The reflectance of unpolarized light incident on the
+                interface from the specified direction.</dd></dl>
+</li>
+</ul>
+<a name="reflectance(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Complex, ca.eandb.jmist.math.Complex, ca.eandb.jmist.math.Vector3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>reflectance</h4>
+<pre>public static&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Optics.java#L473" target="_blank">reflectance</a>(<a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;in,
+                 <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n1,
+                 <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n2,
+                 <a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;normal)</pre>
+<div class="block">Computes the reflectance components for unpolarized light incident
+ on an interface between two media.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>in</code> - The incident direction.</dd><dd><code>n1</code> - The refractive index of the medium on the side of the
+                interface to which the normal points.</dd><dd><code>n2</code> - The refractive index of the medium on the opposite side
+                of the interface from which the normal points.</dd><dd><code>normal</code> - The direction perpendicular to the interface between
+                the two media.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The reflectance of unpolarized light incident on the
+                interface from the specified direction.</dd></dl>
+</li>
+</ul>
+<a name="reflectance(double, double, double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>reflectance</h4>
+<pre>public static&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Optics.java#L489" target="_blank">reflectance</a>(double&nbsp;theta,
+                 double&nbsp;n1,
+                 double&nbsp;n2)</pre>
+<div class="block">Computes the reflectance components for unpolarized light incident
+ on an interface between two media.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>theta</code> - The angle between the incident direction and the normal.</dd><dd><code>n1</code> - The refractive index of the medium on the side of the
+                interface to which the normal points.</dd><dd><code>n2</code> - The refractive index of the medium on the opposite side
+                of the interface from which the normal points.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The reflectance of unpolarized light incident on the
+                interface from the specified direction.</dd></dl>
+</li>
+</ul>
+<a name="reflectance(double, double, ca.eandb.jmist.math.Complex)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>reflectance</h4>
+<pre>public static&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Optics.java#L505" target="_blank">reflectance</a>(double&nbsp;theta,
+                 double&nbsp;n1,
+                 <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n2)</pre>
+<div class="block">Computes the reflectance components for unpolarized light incident
+ on an interface between two media.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>theta</code> - The angle between the incident direction and the normal.</dd><dd><code>n1</code> - The refractive index of the medium on the side of the
+                interface to which the normal points.</dd><dd><code>n2</code> - The refractive index of the medium on the opposite side
+                of the interface from which the normal points.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The reflectance of unpolarized light incident on the
+                interface from the specified direction.</dd></dl>
+</li>
+</ul>
+<a name="reflectance(double, ca.eandb.jmist.math.Complex, double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>reflectance</h4>
+<pre>public static&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Optics.java#L521" target="_blank">reflectance</a>(double&nbsp;theta,
+                 <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n1,
+                 double&nbsp;n2)</pre>
+<div class="block">Computes the reflectance components for unpolarized light incident
+ on an interface between two media.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>theta</code> - The angle between the incident direction and the normal.</dd><dd><code>n1</code> - The refractive index of the medium on the side of the
+                interface to which the normal points.</dd><dd><code>n2</code> - The refractive index of the medium on the opposite side
+                of the interface from which the normal points.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The reflectance of unpolarized light incident on the
+                interface from the specified direction.</dd></dl>
+</li>
+</ul>
+<a name="reflectance(double, ca.eandb.jmist.math.Complex, ca.eandb.jmist.math.Complex)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>reflectance</h4>
+<pre>public static&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Optics.java#L537" target="_blank">reflectance</a>(double&nbsp;theta,
+                 <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n1,
+                 <a href="../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;n2)</pre>
+<div class="block">Computes the reflectance components for unpolarized light incident
+ on an interface between two media.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>theta</code> - The angle between the incident direction and the normal.</dd><dd><code>n1</code> - The refractive index of the medium on the side of the
+                interface to which the normal points.</dd><dd><code>n2</code> - The refractive index of the medium on the opposite side
+                of the interface from which the normal points.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The reflectance of unpolarized light incident on the
+                interface from the specified direction.</dd></dl>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<!-- ========= END OF CLASS DATA ========= -->
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<div class="bottomNav"><a name="navbar_bottom">
+<!--   -->
+</a><a href="#skip-navbar_bottom" title="Skip navigation links"></a><a name="navbar_bottom_firstrow">
+<!--   -->
+</a>
+<ul class="navList" title="Navigation">
+<li><a href="../../../../overview-summary.html">Overview</a></li>
+<li><a href="package-summary.html">Package</a></li>
+<li class="navBarCell1Rev">Class</li>
+<li><a href="class-use/Optics.html">Use</a></li>
+<li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../../index-files/index-1.html">Index</a></li>
+<li><a href="../../../../help-doc.html">Help</a></li>
+</ul>
+</div>
+<div class="subNav">
+<ul class="navList">
+<li><a href="../../../../ca/eandb/jmist/math/Matrix4.html" title="class in ca.eandb.jmist.math"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../ca/eandb/jmist/math/Physics.html" title="class in ca.eandb.jmist.math"><span class="strong">Next Class</span></a></li>
+</ul>
+<ul class="navList">
+<li><a href="../../../../index.html?ca/eandb/jmist/math/Optics.html" target="_top">Frames</a></li>
+<li><a href="Optics.html" target="_top">No Frames</a></li>
+</ul>
+<ul class="navList" id="allclasses_navbar_bottom">
+<li><a href="../../../../allclasses-noframe.html">All Classes</a></li>
+</ul>
+<div>
+<script type="text/javascript"><!--
+  allClassesLink = document.getElementById("allclasses_navbar_bottom");
+  if(window==top) {
+    allClassesLink.style.display = "block";
+  }
+  else {
+    allClassesLink.style.display = "none";
+  }
+  //-->
+</script>
+</div>
+<div>
+<ul class="subNavList">
+<li>Summary:&nbsp;</li>
+<li>Nested&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
+<li><a href="#method_summary">Method</a></li>
+</ul>
+<ul class="subNavList">
+<li>Detail:&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
+<li><a href="#method_detail">Method</a></li>
+</ul>
+</div>
+<a name="skip-navbar_bottom">
+<!--   -->
+</a></div>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+</body>
+</html>

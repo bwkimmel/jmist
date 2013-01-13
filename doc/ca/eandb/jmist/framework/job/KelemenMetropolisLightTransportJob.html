@@ -1,0 +1,410 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- NewPage -->
+<html lang="en">
+<head>
+<title>KelemenMetropolisLightTransportJob</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<script type="text/javascript"><!--
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="KelemenMetropolisLightTransportJob";
+    }
+//-->
+</script>
+<noscript>
+<div>JavaScript is disabled on your browser.</div>
+</noscript>
+<!-- ========= START OF TOP NAVBAR ======= -->
+<div class="topNav"><a name="navbar_top">
+<!--   -->
+</a><a href="#skip-navbar_top" title="Skip navigation links"></a><a name="navbar_top_firstrow">
+<!--   -->
+</a>
+<ul class="navList" title="Navigation">
+<li><a href="../../../../../overview-summary.html">Overview</a></li>
+<li><a href="package-summary.html">Package</a></li>
+<li class="navBarCell1Rev">Class</li>
+<li><a href="class-use/KelemenMetropolisLightTransportJob.html">Use</a></li>
+<li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../../../index-files/index-1.html">Index</a></li>
+<li><a href="../../../../../help-doc.html">Help</a></li>
+</ul>
+</div>
+<div class="subNav">
+<ul class="navList">
+<li><a href="../../../../../ca/eandb/jmist/framework/job/BidiPathTracerJob.html" title="class in ca.eandb.jmist.framework.job"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../../ca/eandb/jmist/framework/job/MaterialPhotometerJob.html" title="class in ca.eandb.jmist.framework.job"><span class="strong">Next Class</span></a></li>
+</ul>
+<ul class="navList">
+<li><a href="../../../../../index.html?ca/eandb/jmist/framework/job/KelemenMetropolisLightTransportJob.html" target="_top">Frames</a></li>
+<li><a href="KelemenMetropolisLightTransportJob.html" target="_top">No Frames</a></li>
+</ul>
+<ul class="navList" id="allclasses_navbar_top">
+<li><a href="../../../../../allclasses-noframe.html">All Classes</a></li>
+</ul>
+<div>
+<script type="text/javascript"><!--
+  allClassesLink = document.getElementById("allclasses_navbar_top");
+  if(window==top) {
+    allClassesLink.style.display = "block";
+  }
+  else {
+    allClassesLink.style.display = "none";
+  }
+  //-->
+</script>
+</div>
+<div>
+<ul class="subNavList">
+<li>Summary:&nbsp;</li>
+<li>Nested&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_summary">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_summary">Method</a></li>
+</ul>
+<ul class="subNavList">
+<li>Detail:&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_detail">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_detail">Method</a></li>
+</ul>
+</div>
+<a name="skip-navbar_top">
+<!--   -->
+</a></div>
+<!-- ========= END OF TOP NAVBAR ========= -->
+<!-- ======== START OF CLASS DATA ======== -->
+<div class="header">
+<div class="subTitle">ca.eandb.jmist.framework.job</div>
+<h2 title="Class KelemenMetropolisLightTransportJob" class="title">Class KelemenMetropolisLightTransportJob</h2>
+</div>
+<div class="contentContainer">
+<ul class="inheritance">
+<li>java.lang.Object</li>
+<li>
+<ul class="inheritance">
+<li>ca.eandb.jdcp.job.AbstractParallelizableJob</li>
+<li>
+<ul class="inheritance">
+<li>ca.eandb.jmist.framework.job.KelemenMetropolisLightTransportJob</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="description">
+<ul class="blockList">
+<li class="blockList">
+<dl>
+<dt>All Implemented Interfaces:</dt>
+<dd>ca.eandb.jdcp.job.ParallelizableJob, java.io.Serializable</dd>
+</dl>
+<hr>
+<br>
+<pre>public final class <a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/job/KelemenMetropolisLightTransportJob.java#L81" target="_blank">KelemenMetropolisLightTransportJob</a>
+extends ca.eandb.jdcp.job.AbstractParallelizableJob</pre>
+<div class="block"><p>A <code>Job</code> that renders an image using Metropolis Light Transport.
+ Mutations are performed by perturbing the random number samples used to
+ generate the paths, as suggested by Kelemen et al. [1], rather than by
+ perturbing the paths themselves as originally proposed by Veach and
+ Guibas [2].</p>
+ 
+ <ol>
+   <li>C. Kelemen, L. Szirmay-Kalos, G. Antal, F. Csonka,
+   "<a href="http://dx.doi.org/10.1111/1467-8659.t01-1-00703">A simple and
+   robust mutation strategy for the metropolis light transport algorithm</a>",
+   <em>Computer Graphics Forum</em> 21(3):531-540, September 2002.
+   <em>Proceedings of EUROGRAPHICS 2002.</em></li>
+   
+   <li>E. Veach, L.J. Guibas,
+   "<a href="http://graphics.stanford.edu/papers/metro/">Metropolis light
+   transport</a>", In <em>Proceedings of SIGGRAPH'97</em>, Addison-Wesley,
+   pp. 65-76, August 1997.</li>
+ </ol></div>
+<dl><dt><span class="strong">Author:</span></dt>
+  <dd>Brad Kimmel</dd>
+<dt><span class="strong">See Also:</span></dt><dd><a href="../../../../../serialized-form.html#ca.eandb.jmist.framework.job.KelemenMetropolisLightTransportJob">Serialized Form</a></dd></dl>
+</li>
+</ul>
+</div>
+<div class="summary">
+<ul class="blockList">
+<li class="blockList">
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+<ul class="blockList">
+<li class="blockList"><a name="constructor_summary">
+<!--   -->
+</a>
+<h3>Constructor Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Constructor Summary table, listing constructors, and an explanation">
+<caption><span>Constructors</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colOne" scope="col">Constructor and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colOne"><code><strong><a href="../../../../../ca/eandb/jmist/framework/job/KelemenMetropolisLightTransportJob.html#KelemenMetropolisLightTransportJob(ca.eandb.jmist.framework.Scene, ca.eandb.jmist.framework.Display, int, int, ca.eandb.jmist.framework.color.ColorModel, ca.eandb.jmist.framework.Random, ca.eandb.jmist.framework.job.bidi.BidiPathStrategy, ca.eandb.jmist.framework.job.bidi.PathMeasure, int, int, int, boolean)">KelemenMetropolisLightTransportJob</a></strong>(<a href="../../../../../ca/eandb/jmist/framework/Scene.html" title="interface in ca.eandb.jmist.framework">Scene</a>&nbsp;scene,
+                                                                    <a href="../../../../../ca/eandb/jmist/framework/Display.html" title="interface in ca.eandb.jmist.framework">Display</a>&nbsp;display,
+                                                                    int&nbsp;width,
+                                                                    int&nbsp;height,
+                                                                    <a href="../../../../../ca/eandb/jmist/framework/color/ColorModel.html" title="class in ca.eandb.jmist.framework.color">ColorModel</a>&nbsp;colorModel,
+                                                                    <a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random,
+                                                                    <a href="../../../../../ca/eandb/jmist/framework/job/bidi/BidiPathStrategy.html" title="interface in ca.eandb.jmist.framework.job.bidi">BidiPathStrategy</a>&nbsp;strategy,
+                                                                    <a href="../../../../../ca/eandb/jmist/framework/job/bidi/PathMeasure.html" title="interface in ca.eandb.jmist.framework.job.bidi">PathMeasure</a>&nbsp;measure,
+                                                                    int&nbsp;mutations,
+                                                                    int&nbsp;initialMutations,
+                                                                    int&nbsp;tasks,
+                                                                    boolean&nbsp;displayPartialResults)</code>&nbsp;</td>
+</tr>
+</table>
+</li>
+</ul>
+<!-- ========== METHOD SUMMARY =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method_summary">
+<!--   -->
+</a>
+<h3>Method Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
+<caption><span>Methods</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Method and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/job/KelemenMetropolisLightTransportJob.html#finish()">finish</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>java.lang.Object</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/job/KelemenMetropolisLightTransportJob.html#getNextTask()">getNextTask</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/job/KelemenMetropolisLightTransportJob.html#initialize()">initialize</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/job/KelemenMetropolisLightTransportJob.html#isComplete()">isComplete</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/job/KelemenMetropolisLightTransportJob.html#submitTaskResults(java.lang.Object, java.lang.Object, ca.eandb.util.progress.ProgressMonitor)">submitTaskResults</a></strong>(java.lang.Object&nbsp;task,
+                                  java.lang.Object&nbsp;results,
+                                  ca.eandb.util.progress.ProgressMonitor&nbsp;monitor)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>ca.eandb.jdcp.job.TaskWorker</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/job/KelemenMetropolisLightTransportJob.html#worker()">worker</a></strong>()</code>&nbsp;</td>
+</tr>
+</table>
+<ul class="blockList">
+<li class="blockList"><a name="methods_inherited_from_class_ca.eandb.jdcp.job.AbstractParallelizableJob">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;ca.eandb.jdcp.job.AbstractParallelizableJob</h3>
+<code>restoreState, saveState, setHostService</code></li>
+</ul>
+<ul class="blockList">
+<li class="blockList"><a name="methods_inherited_from_class_java.lang.Object">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>equals, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="details">
+<ul class="blockList">
+<li class="blockList">
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+<ul class="blockList">
+<li class="blockList"><a name="constructor_detail">
+<!--   -->
+</a>
+<h3>Constructor Detail</h3>
+<a name="KelemenMetropolisLightTransportJob(ca.eandb.jmist.framework.Scene, ca.eandb.jmist.framework.Display, int, int, ca.eandb.jmist.framework.color.ColorModel, ca.eandb.jmist.framework.Random, ca.eandb.jmist.framework.job.bidi.BidiPathStrategy, ca.eandb.jmist.framework.job.bidi.PathMeasure, int, int, int, boolean)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>KelemenMetropolisLightTransportJob</h4>
+<pre>public&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/job/KelemenMetropolisLightTransportJob.java#L129" target="_blank">KelemenMetropolisLightTransportJob</a>(<a href="../../../../../ca/eandb/jmist/framework/Scene.html" title="interface in ca.eandb.jmist.framework">Scene</a>&nbsp;scene,
+                                  <a href="../../../../../ca/eandb/jmist/framework/Display.html" title="interface in ca.eandb.jmist.framework">Display</a>&nbsp;display,
+                                  int&nbsp;width,
+                                  int&nbsp;height,
+                                  <a href="../../../../../ca/eandb/jmist/framework/color/ColorModel.html" title="class in ca.eandb.jmist.framework.color">ColorModel</a>&nbsp;colorModel,
+                                  <a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;random,
+                                  <a href="../../../../../ca/eandb/jmist/framework/job/bidi/BidiPathStrategy.html" title="interface in ca.eandb.jmist.framework.job.bidi">BidiPathStrategy</a>&nbsp;strategy,
+                                  <a href="../../../../../ca/eandb/jmist/framework/job/bidi/PathMeasure.html" title="interface in ca.eandb.jmist.framework.job.bidi">PathMeasure</a>&nbsp;measure,
+                                  int&nbsp;mutations,
+                                  int&nbsp;initialMutations,
+                                  int&nbsp;tasks,
+                                  boolean&nbsp;displayPartialResults)</pre>
+</li>
+</ul>
+</li>
+</ul>
+<!-- ============ METHOD DETAIL ========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method_detail">
+<!--   -->
+</a>
+<h3>Method Detail</h3>
+<a name="getNextTask()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getNextTask</h4>
+<pre>public&nbsp;java.lang.Object&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/job/KelemenMetropolisLightTransportJob.java#L153" target="_blank">getNextTask</a>()
+                             throws java.lang.Exception</pre>
+<dl><dt><span class="strong">Throws:</span></dt>
+<dd><code>java.lang.Exception</code></dd></dl>
+</li>
+</ul>
+<a name="isComplete()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isComplete</h4>
+<pre>public&nbsp;boolean&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/job/KelemenMetropolisLightTransportJob.java#L165" target="_blank">isComplete</a>()
+                   throws java.lang.Exception</pre>
+<dl><dt><span class="strong">Throws:</span></dt>
+<dd><code>java.lang.Exception</code></dd></dl>
+</li>
+</ul>
+<a name="submitTaskResults(java.lang.Object, java.lang.Object, ca.eandb.util.progress.ProgressMonitor)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>submitTaskResults</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/job/KelemenMetropolisLightTransportJob.java#L172" target="_blank">submitTaskResults</a>(java.lang.Object&nbsp;task,
+                     java.lang.Object&nbsp;results,
+                     ca.eandb.util.progress.ProgressMonitor&nbsp;monitor)
+                       throws java.lang.Exception</pre>
+<dl><dt><span class="strong">Throws:</span></dt>
+<dd><code>java.lang.Exception</code></dd></dl>
+</li>
+</ul>
+<a name="initialize()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>initialize</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/job/KelemenMetropolisLightTransportJob.java#L212" target="_blank">initialize</a>()
+                throws java.lang.Exception</pre>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code>initialize</code>&nbsp;in interface&nbsp;<code>ca.eandb.jdcp.job.ParallelizableJob</code></dd>
+<dt><strong>Overrides:</strong></dt>
+<dd><code>initialize</code>&nbsp;in class&nbsp;<code>ca.eandb.jdcp.job.AbstractParallelizableJob</code></dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.lang.Exception</code></dd></dl>
+</li>
+</ul>
+<a name="finish()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>finish</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/job/KelemenMetropolisLightTransportJob.java#L223" target="_blank">finish</a>()
+            throws java.lang.Exception</pre>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code>finish</code>&nbsp;in interface&nbsp;<code>ca.eandb.jdcp.job.ParallelizableJob</code></dd>
+<dt><strong>Overrides:</strong></dt>
+<dd><code>finish</code>&nbsp;in class&nbsp;<code>ca.eandb.jdcp.job.AbstractParallelizableJob</code></dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.lang.Exception</code></dd></dl>
+</li>
+</ul>
+<a name="worker()">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>worker</h4>
+<pre>public&nbsp;ca.eandb.jdcp.job.TaskWorker&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/job/KelemenMetropolisLightTransportJob.java#L241" target="_blank">worker</a>()
+                                    throws java.lang.Exception</pre>
+<dl><dt><span class="strong">Throws:</span></dt>
+<dd><code>java.lang.Exception</code></dd></dl>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<!-- ========= END OF CLASS DATA ========= -->
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<div class="bottomNav"><a name="navbar_bottom">
+<!--   -->
+</a><a href="#skip-navbar_bottom" title="Skip navigation links"></a><a name="navbar_bottom_firstrow">
+<!--   -->
+</a>
+<ul class="navList" title="Navigation">
+<li><a href="../../../../../overview-summary.html">Overview</a></li>
+<li><a href="package-summary.html">Package</a></li>
+<li class="navBarCell1Rev">Class</li>
+<li><a href="class-use/KelemenMetropolisLightTransportJob.html">Use</a></li>
+<li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../../../index-files/index-1.html">Index</a></li>
+<li><a href="../../../../../help-doc.html">Help</a></li>
+</ul>
+</div>
+<div class="subNav">
+<ul class="navList">
+<li><a href="../../../../../ca/eandb/jmist/framework/job/BidiPathTracerJob.html" title="class in ca.eandb.jmist.framework.job"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../../ca/eandb/jmist/framework/job/MaterialPhotometerJob.html" title="class in ca.eandb.jmist.framework.job"><span class="strong">Next Class</span></a></li>
+</ul>
+<ul class="navList">
+<li><a href="../../../../../index.html?ca/eandb/jmist/framework/job/KelemenMetropolisLightTransportJob.html" target="_top">Frames</a></li>
+<li><a href="KelemenMetropolisLightTransportJob.html" target="_top">No Frames</a></li>
+</ul>
+<ul class="navList" id="allclasses_navbar_bottom">
+<li><a href="../../../../../allclasses-noframe.html">All Classes</a></li>
+</ul>
+<div>
+<script type="text/javascript"><!--
+  allClassesLink = document.getElementById("allclasses_navbar_bottom");
+  if(window==top) {
+    allClassesLink.style.display = "block";
+  }
+  else {
+    allClassesLink.style.display = "none";
+  }
+  //-->
+</script>
+</div>
+<div>
+<ul class="subNavList">
+<li>Summary:&nbsp;</li>
+<li>Nested&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_summary">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_summary">Method</a></li>
+</ul>
+<ul class="subNavList">
+<li>Detail:&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_detail">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_detail">Method</a></li>
+</ul>
+</div>
+<a name="skip-navbar_bottom">
+<!--   -->
+</a></div>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+</body>
+</html>

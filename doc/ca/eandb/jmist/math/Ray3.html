@@ -1,0 +1,498 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- NewPage -->
+<html lang="en">
+<head>
+<title>Ray3</title>
+<link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<script type="text/javascript"><!--
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="Ray3";
+    }
+//-->
+</script>
+<noscript>
+<div>JavaScript is disabled on your browser.</div>
+</noscript>
+<!-- ========= START OF TOP NAVBAR ======= -->
+<div class="topNav"><a name="navbar_top">
+<!--   -->
+</a><a href="#skip-navbar_top" title="Skip navigation links"></a><a name="navbar_top_firstrow">
+<!--   -->
+</a>
+<ul class="navList" title="Navigation">
+<li><a href="../../../../overview-summary.html">Overview</a></li>
+<li><a href="package-summary.html">Package</a></li>
+<li class="navBarCell1Rev">Class</li>
+<li><a href="class-use/Ray3.html">Use</a></li>
+<li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../../index-files/index-1.html">Index</a></li>
+<li><a href="../../../../help-doc.html">Help</a></li>
+</ul>
+</div>
+<div class="subNav">
+<ul class="navList">
+<li><a href="../../../../ca/eandb/jmist/math/Ray2.html" title="class in ca.eandb.jmist.math"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../ca/eandb/jmist/math/Solver.html" title="class in ca.eandb.jmist.math"><span class="strong">Next Class</span></a></li>
+</ul>
+<ul class="navList">
+<li><a href="../../../../index.html?ca/eandb/jmist/math/Ray3.html" target="_top">Frames</a></li>
+<li><a href="Ray3.html" target="_top">No Frames</a></li>
+</ul>
+<ul class="navList" id="allclasses_navbar_top">
+<li><a href="../../../../allclasses-noframe.html">All Classes</a></li>
+</ul>
+<div>
+<script type="text/javascript"><!--
+  allClassesLink = document.getElementById("allclasses_navbar_top");
+  if(window==top) {
+    allClassesLink.style.display = "block";
+  }
+  else {
+    allClassesLink.style.display = "none";
+  }
+  //-->
+</script>
+</div>
+<div>
+<ul class="subNavList">
+<li>Summary:&nbsp;</li>
+<li>Nested&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_summary">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_summary">Method</a></li>
+</ul>
+<ul class="subNavList">
+<li>Detail:&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_detail">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_detail">Method</a></li>
+</ul>
+</div>
+<a name="skip-navbar_top">
+<!--   -->
+</a></div>
+<!-- ========= END OF TOP NAVBAR ========= -->
+<!-- ======== START OF CLASS DATA ======== -->
+<div class="header">
+<div class="subTitle">ca.eandb.jmist.math</div>
+<h2 title="Class Ray3" class="title">Class Ray3</h2>
+</div>
+<div class="contentContainer">
+<ul class="inheritance">
+<li>java.lang.Object</li>
+<li>
+<ul class="inheritance">
+<li>ca.eandb.jmist.math.Ray3</li>
+</ul>
+</li>
+</ul>
+<div class="description">
+<ul class="blockList">
+<li class="blockList">
+<dl>
+<dt>All Implemented Interfaces:</dt>
+<dd>java.io.Serializable</dd>
+</dl>
+<hr>
+<br>
+<pre>public final class <a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Ray3.java#L35" target="_blank">Ray3</a>
+extends java.lang.Object
+implements java.io.Serializable</pre>
+<div class="block">A ray (half-line) in three dimensional space.
+ This class is immutable.</div>
+<dl><dt><span class="strong">Author:</span></dt>
+  <dd>Brad Kimmel</dd>
+<dt><span class="strong">See Also:</span></dt><dd><a href="../../../../serialized-form.html#ca.eandb.jmist.math.Ray3">Serialized Form</a></dd></dl>
+</li>
+</ul>
+</div>
+<div class="summary">
+<ul class="blockList">
+<li class="blockList">
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+<ul class="blockList">
+<li class="blockList"><a name="constructor_summary">
+<!--   -->
+</a>
+<h3>Constructor Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Constructor Summary table, listing constructors, and an explanation">
+<caption><span>Constructors</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colOne" scope="col">Constructor and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colOne"><code><strong><a href="../../../../ca/eandb/jmist/math/Ray3.html#Ray3(ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.HPoint3)">Ray3</a></strong>(<a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;p,
+        <a href="../../../../ca/eandb/jmist/math/HPoint3.html" title="class in ca.eandb.jmist.math">HPoint3</a>&nbsp;q)</code>
+<div class="block">Creates a <code>Ray3</code> from one point along a direction or to
+ another point.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colOne"><code><strong><a href="../../../../ca/eandb/jmist/math/Ray3.html#Ray3(ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Point3)">Ray3</a></strong>(<a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;p,
+        <a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;q)</code>
+<div class="block">Creates a <code>Ray3</code> spanning from one point to another.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colOne"><code><strong><a href="../../../../ca/eandb/jmist/math/Ray3.html#Ray3(ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Vector3)">Ray3</a></strong>(<a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;origin,
+        <a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;direction)</code>
+<div class="block">Creates a <code>Ray3</code> with no limit.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colOne"><code><strong><a href="../../../../ca/eandb/jmist/math/Ray3.html#Ray3(ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Vector3, double)">Ray3</a></strong>(<a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;origin,
+        <a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;direction,
+        double&nbsp;limit)</code>
+<div class="block">Creates a <code>Ray3</code>.</div>
+</td>
+</tr>
+</table>
+</li>
+</ul>
+<!-- ========== METHOD SUMMARY =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method_summary">
+<!--   -->
+</a>
+<h3>Method Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
+<caption><span>Methods</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Method and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../ca/eandb/jmist/math/Ray3.html" title="class in ca.eandb.jmist.math">Ray3</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Ray3.html#advance(double)">advance</a></strong>(double&nbsp;t)</code>
+<div class="block">Gets a parallel <code>Ray3</code> with the origin <code>t</code> units
+ along this <code>Ray3</code>.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Ray3.html" title="class in ca.eandb.jmist.math">Ray3</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Ray3.html#create(ca.eandb.jmist.math.HPoint3, ca.eandb.jmist.math.HPoint3)">create</a></strong>(<a href="../../../../ca/eandb/jmist/math/HPoint3.html" title="class in ca.eandb.jmist.math">HPoint3</a>&nbsp;p,
+            <a href="../../../../ca/eandb/jmist/math/HPoint3.html" title="class in ca.eandb.jmist.math">HPoint3</a>&nbsp;q)</code>
+<div class="block">Creates a <code>Ray3</code> spanning two <code>HPoint3</code>s.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Ray3.html#direction()">direction</a></strong>()</code>
+<div class="block">Gets the direction of this ray.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Ray3.html#isInfinite()">isInfinite</a></strong>()</code>
+<div class="block">Gets a value indicating if this ray is infinite.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>double</code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Ray3.html#limit()">limit</a></strong>()</code>
+<div class="block">Gets the maximum units along the ray.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Ray3.html#origin()">origin</a></strong>()</code>
+<div class="block">Gets the origin of this ray.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Ray3.html#pointAt(double)">pointAt</a></strong>(double&nbsp;t)</code>
+<div class="block">Gets the point that is t units along the ray.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Ray3.html#pointAtLimit()">pointAtLimit</a></strong>()</code>
+<div class="block">Gets the end point of this ray.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../ca/eandb/jmist/math/Ray3.html" title="class in ca.eandb.jmist.math">Ray3</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Ray3.html#transform(ca.eandb.jmist.math.AffineMatrix3)">transform</a></strong>(<a href="../../../../ca/eandb/jmist/math/AffineMatrix3.html" title="class in ca.eandb.jmist.math">AffineMatrix3</a>&nbsp;T)</code>
+<div class="block">Transforms this <code>Ray3</code> according to the specified
+ transformation matrix.</div>
+</td>
+</tr>
+</table>
+<ul class="blockList">
+<li class="blockList"><a name="methods_inherited_from_class_java.lang.Object">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>equals, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="details">
+<ul class="blockList">
+<li class="blockList">
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+<ul class="blockList">
+<li class="blockList"><a name="constructor_detail">
+<!--   -->
+</a>
+<h3>Constructor Detail</h3>
+<a name="Ray3(ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Vector3, double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>Ray3</h4>
+<pre>public&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Ray3.java#L46" target="_blank">Ray3</a>(<a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;origin,
+    <a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;direction,
+    double&nbsp;limit)</pre>
+<div class="block">Creates a <code>Ray3</code>.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>origin</code> - The origin of the ray.</dd><dd><code>direction</code> - The direction of the ray.</dd><dd><code>limit</code> - The maximum units along the ray.</dd></dl>
+</li>
+</ul>
+<a name="Ray3(ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Vector3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>Ray3</h4>
+<pre>public&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Ray3.java#L57" target="_blank">Ray3</a>(<a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;origin,
+    <a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;direction)</pre>
+<div class="block">Creates a <code>Ray3</code> with no limit.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>origin</code> - The origin of the ray.</dd><dd><code>direction</code> - The direction of the ray.</dd></dl>
+</li>
+</ul>
+<a name="Ray3(ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Point3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>Ray3</h4>
+<pre>public&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Ray3.java#L66" target="_blank">Ray3</a>(<a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;p,
+    <a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;q)</pre>
+<div class="block">Creates a <code>Ray3</code> spanning from one point to another.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>p</code> - The <code>Point3</code> at the origin of the ray.</dd><dd><code>q</code> - The <code>Point3</code> at the end of the ray.</dd></dl>
+</li>
+</ul>
+<a name="Ray3(ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.HPoint3)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>Ray3</h4>
+<pre>public&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Ray3.java#L83" target="_blank">Ray3</a>(<a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;p,
+    <a href="../../../../ca/eandb/jmist/math/HPoint3.html" title="class in ca.eandb.jmist.math">HPoint3</a>&nbsp;q)</pre>
+<div class="block">Creates a <code>Ray3</code> from one point along a direction or to
+ another point.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>p</code> - The <code>Point3</code> at the origin of the ray.</dd><dd><code>q</code> - The <code>HPoint3</code> indicating the direction and limit of
+                the ray.  If <code>q</code> is a <code>Point3</code>, this creates
+                a finite ray from <code>p</code> to <code>q</code>.  If
+                <code>q</code> is a <code>Vector3</code>, this creates an infinite
+                ray from <code>p</code> in the direction indicated by
+                <code>q</code>.</dd></dl>
+</li>
+</ul>
+</li>
+</ul>
+<!-- ============ METHOD DETAIL ========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method_detail">
+<!--   -->
+</a>
+<h3>Method Detail</h3>
+<a name="create(ca.eandb.jmist.math.HPoint3, ca.eandb.jmist.math.HPoint3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>create</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Ray3.html" title="class in ca.eandb.jmist.math">Ray3</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Ray3.java#L112" target="_blank">create</a>(<a href="../../../../ca/eandb/jmist/math/HPoint3.html" title="class in ca.eandb.jmist.math">HPoint3</a>&nbsp;p,
+          <a href="../../../../ca/eandb/jmist/math/HPoint3.html" title="class in ca.eandb.jmist.math">HPoint3</a>&nbsp;q)</pre>
+<div class="block">Creates a <code>Ray3</code> spanning two <code>HPoint3</code>s.  If both
+ are <code>Point3</code>s, this is equivalent to
+ <code>new Ray3((Point3) p, (Point3) q)</code>.  If one is a
+ <code>Point3</code> and one is a <code>Vector3</code>, this is
+ equivalent to
+ <code>new Ray3((Point3) thePoint, (Vector3) theVector)</code>.  If both
+ are <code>Vector3</code>s, the return value is <code>null</code>.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>p</code> - The first <code>HPoint3</code>.</dd><dd><code>q</code> - The second <code>HPoint3</code>.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>A <code>Ray3</code> spanning <code>p</code> and <code>q</code>,
+                or <code>null</code> if <code>p</code> and <code>q</code> are both
+                <code>Vector3</code>s.</dd><dt><span class="strong">See Also:</span></dt><dd><a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math"><code>Point3</code></a>, 
+<a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math"><code>Vector3</code></a>, 
+<a href="../../../../ca/eandb/jmist/math/Ray3.html#Ray3(ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Point3)"><code>Ray3(Point3, Point3)</code></a>, 
+<a href="../../../../ca/eandb/jmist/math/Ray3.html#Ray3(ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Vector3)"><code>Ray3(Point3, Vector3)</code></a></dd></dl>
+</li>
+</ul>
+<a name="origin()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>origin</h4>
+<pre>public&nbsp;<a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Ray3.java#L126" target="_blank">origin</a>()</pre>
+<div class="block">Gets the origin of this ray.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>The origin of this ray.</dd></dl>
+</li>
+</ul>
+<a name="direction()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>direction</h4>
+<pre>public&nbsp;<a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Ray3.java#L134" target="_blank">direction</a>()</pre>
+<div class="block">Gets the direction of this ray.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>The direction of this ray.</dd></dl>
+</li>
+</ul>
+<a name="limit()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>limit</h4>
+<pre>public&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Ray3.java#L142" target="_blank">limit</a>()</pre>
+<div class="block">Gets the maximum units along the ray.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>The maximum units along the ray.</dd></dl>
+</li>
+</ul>
+<a name="isInfinite()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isInfinite</h4>
+<pre>public&nbsp;boolean&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Ray3.java#L152" target="_blank">isInfinite</a>()</pre>
+<div class="block">Gets a value indicating if this ray is infinite.  Equivalent to
+ <code>Double.isInfinite(this.limit())</code>.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>A value indicating if this ray is infinite.</dd><dt><span class="strong">See Also:</span></dt><dd><a href="../../../../ca/eandb/jmist/math/Ray3.html#limit()"><code>limit()</code></a></dd></dl>
+</li>
+</ul>
+<a name="advance(double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>advance</h4>
+<pre>public&nbsp;<a href="../../../../ca/eandb/jmist/math/Ray3.html" title="class in ca.eandb.jmist.math">Ray3</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Ray3.java#L162" target="_blank">advance</a>(double&nbsp;t)</pre>
+<div class="block">Gets a parallel <code>Ray3</code> with the origin <code>t</code> units
+ along this <code>Ray3</code>.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>t</code> - The number of units along the ray to advance.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The new <code>Ray3</code>.</dd></dl>
+</li>
+</ul>
+<a name="pointAt(double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>pointAt</h4>
+<pre>public&nbsp;<a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Ray3.java#L171" target="_blank">pointAt</a>(double&nbsp;t)</pre>
+<div class="block">Gets the point that is t units along the ray.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>t</code> - The number of units along the ray to find the point of.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The point that is t units along the ray.</dd></dl>
+</li>
+</ul>
+<a name="pointAtLimit()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>pointAtLimit</h4>
+<pre>public&nbsp;<a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Ray3.java#L186" target="_blank">pointAtLimit</a>()</pre>
+<div class="block">Gets the end point of this ray.
+ Equivalent to <code>this.pointAt(this.limit())</code>.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>The end point of this ray.</dd><dt><span class="strong">See Also:</span></dt><dd><a href="../../../../ca/eandb/jmist/math/Ray3.html#pointAt(double)"><code>pointAt(double)</code></a>, 
+<a href="../../../../ca/eandb/jmist/math/Ray3.html#limit()"><code>limit()</code></a></dd></dl>
+</li>
+</ul>
+<a name="transform(ca.eandb.jmist.math.AffineMatrix3)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>transform</h4>
+<pre>public&nbsp;<a href="../../../../ca/eandb/jmist/math/Ray3.html" title="class in ca.eandb.jmist.math">Ray3</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Ray3.java#L201" target="_blank">transform</a>(<a href="../../../../ca/eandb/jmist/math/AffineMatrix3.html" title="class in ca.eandb.jmist.math">AffineMatrix3</a>&nbsp;T)</pre>
+<div class="block">Transforms this <code>Ray3</code> according to the specified
+ transformation matrix.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>T</code> - The <code>AffineMatrix3</code> representing the transformation
+                to apply.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The transformed <code>Ray3</code>.</dd></dl>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<!-- ========= END OF CLASS DATA ========= -->
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<div class="bottomNav"><a name="navbar_bottom">
+<!--   -->
+</a><a href="#skip-navbar_bottom" title="Skip navigation links"></a><a name="navbar_bottom_firstrow">
+<!--   -->
+</a>
+<ul class="navList" title="Navigation">
+<li><a href="../../../../overview-summary.html">Overview</a></li>
+<li><a href="package-summary.html">Package</a></li>
+<li class="navBarCell1Rev">Class</li>
+<li><a href="class-use/Ray3.html">Use</a></li>
+<li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../../index-files/index-1.html">Index</a></li>
+<li><a href="../../../../help-doc.html">Help</a></li>
+</ul>
+</div>
+<div class="subNav">
+<ul class="navList">
+<li><a href="../../../../ca/eandb/jmist/math/Ray2.html" title="class in ca.eandb.jmist.math"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../ca/eandb/jmist/math/Solver.html" title="class in ca.eandb.jmist.math"><span class="strong">Next Class</span></a></li>
+</ul>
+<ul class="navList">
+<li><a href="../../../../index.html?ca/eandb/jmist/math/Ray3.html" target="_top">Frames</a></li>
+<li><a href="Ray3.html" target="_top">No Frames</a></li>
+</ul>
+<ul class="navList" id="allclasses_navbar_bottom">
+<li><a href="../../../../allclasses-noframe.html">All Classes</a></li>
+</ul>
+<div>
+<script type="text/javascript"><!--
+  allClassesLink = document.getElementById("allclasses_navbar_bottom");
+  if(window==top) {
+    allClassesLink.style.display = "block";
+  }
+  else {
+    allClassesLink.style.display = "none";
+  }
+  //-->
+</script>
+</div>
+<div>
+<ul class="subNavList">
+<li>Summary:&nbsp;</li>
+<li>Nested&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_summary">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_summary">Method</a></li>
+</ul>
+<ul class="subNavList">
+<li>Detail:&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_detail">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_detail">Method</a></li>
+</ul>
+</div>
+<a name="skip-navbar_bottom">
+<!--   -->
+</a></div>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+</body>
+</html>

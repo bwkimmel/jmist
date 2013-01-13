@@ -1,0 +1,1773 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- NewPage -->
+<html lang="en">
+<head>
+<title>MatlabOutputStream</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<script type="text/javascript"><!--
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="MatlabOutputStream";
+    }
+//-->
+</script>
+<noscript>
+<div>JavaScript is disabled on your browser.</div>
+</noscript>
+<!-- ========= START OF TOP NAVBAR ======= -->
+<div class="topNav"><a name="navbar_top">
+<!--   -->
+</a><a href="#skip-navbar_top" title="Skip navigation links"></a><a name="navbar_top_firstrow">
+<!--   -->
+</a>
+<ul class="navList" title="Navigation">
+<li><a href="../../../../../overview-summary.html">Overview</a></li>
+<li><a href="package-summary.html">Package</a></li>
+<li class="navBarCell1Rev">Class</li>
+<li><a href="class-use/MatlabOutputStream.html">Use</a></li>
+<li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../../../index-files/index-1.html">Index</a></li>
+<li><a href="../../../../../help-doc.html">Help</a></li>
+</ul>
+</div>
+<div class="subNav">
+<ul class="navList">
+<li><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabImageWriterSpi.html" title="class in ca.eandb.jmist.util.matlab"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.FixedLengthCompoundElementOutputStream.html" title="class in ca.eandb.jmist.util.matlab"><span class="strong">Next Class</span></a></li>
+</ul>
+<ul class="navList">
+<li><a href="../../../../../index.html?ca/eandb/jmist/util/matlab/MatlabOutputStream.html" target="_top">Frames</a></li>
+<li><a href="MatlabOutputStream.html" target="_top">No Frames</a></li>
+</ul>
+<ul class="navList" id="allclasses_navbar_top">
+<li><a href="../../../../../allclasses-noframe.html">All Classes</a></li>
+</ul>
+<div>
+<script type="text/javascript"><!--
+  allClassesLink = document.getElementById("allclasses_navbar_top");
+  if(window==top) {
+    allClassesLink.style.display = "block";
+  }
+  else {
+    allClassesLink.style.display = "none";
+  }
+  //-->
+</script>
+</div>
+<div>
+<ul class="subNavList">
+<li>Summary:&nbsp;</li>
+<li><a href="#nested_class_summary">Nested</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_summary">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_summary">Method</a></li>
+</ul>
+<ul class="subNavList">
+<li>Detail:&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_detail">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_detail">Method</a></li>
+</ul>
+</div>
+<a name="skip-navbar_top">
+<!--   -->
+</a></div>
+<!-- ========= END OF TOP NAVBAR ========= -->
+<!-- ======== START OF CLASS DATA ======== -->
+<div class="header">
+<div class="subTitle">ca.eandb.jmist.util.matlab</div>
+<h2 title="Class MatlabOutputStream" class="title">Class MatlabOutputStream</h2>
+</div>
+<div class="contentContainer">
+<ul class="inheritance">
+<li>java.lang.Object</li>
+<li>
+<ul class="inheritance">
+<li>java.io.OutputStream</li>
+<li>
+<ul class="inheritance">
+<li>ca.eandb.jmist.util.matlab.MatlabOutputStream</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="description">
+<ul class="blockList">
+<li class="blockList">
+<dl>
+<dt>All Implemented Interfaces:</dt>
+<dd>java.io.Closeable, java.io.DataOutput, java.io.Flushable, java.lang.AutoCloseable</dd>
+</dl>
+<hr>
+<br>
+<pre>public final class <a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L46" target="_blank">MatlabOutputStream</a>
+extends java.io.OutputStream
+implements java.io.DataOutput</pre>
+<div class="block">An <code>OutputStream</code> for writing MATLAB MAT-files.</div>
+<dl><dt><span class="strong">Author:</span></dt>
+  <dd>Brad Kimmel</dd></dl>
+</li>
+</ul>
+</div>
+<div class="summary">
+<ul class="blockList">
+<li class="blockList">
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+<ul class="blockList">
+<li class="blockList"><a name="nested_class_summary">
+<!--   -->
+</a>
+<h3>Nested Class Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Nested Class Summary table, listing nested classes, and an explanation">
+<caption><span>Nested Classes</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Class and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static class&nbsp;</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.FixedLengthCompoundElementOutputStream.html" title="class in ca.eandb.jmist.util.matlab">MatlabOutputStream.FixedLengthCompoundElementOutputStream</a></strong></code>
+<div class="block">A <code>CompoundElementOutputStream</code> that writes data written to
+ it directly to another stream.</div>
+</td>
+</tr>
+</table>
+</li>
+</ul>
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+<ul class="blockList">
+<li class="blockList"><a name="constructor_summary">
+<!--   -->
+</a>
+<h3>Constructor Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Constructor Summary table, listing constructors, and an explanation">
+<caption><span>Constructors</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colOne" scope="col">Constructor and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colOne"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#MatlabOutputStream(javax.imageio.stream.ImageOutputStream)">MatlabOutputStream</a></strong>(javax.imageio.stream.ImageOutputStream&nbsp;out)</code>
+<div class="block">Creates a new <code>MatlabOutputStream</code> that writes to an
+ <code>ImageOutputStream</code>.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colOne"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#MatlabOutputStream(java.io.OutputStream)">MatlabOutputStream</a></strong>(java.io.OutputStream&nbsp;out)</code>
+<div class="block">Creates a new <code>MatlabOutputStream</code> that writes to an
+ <code>OuptutStream</code>.</div>
+</td>
+</tr>
+</table>
+</li>
+</ul>
+<!-- ========== METHOD SUMMARY =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method_summary">
+<!--   -->
+</a>
+<h3>Method Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
+<caption><span>Methods</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Method and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#beginArrayElement(java.lang.String, ca.eandb.jmist.util.matlab.MatlabArrayType, ca.eandb.jmist.util.matlab.MatlabDataType, boolean, boolean, boolean, int[], int)">beginArrayElement</a></strong>(java.lang.String&nbsp;name,
+                                  <a href="../../../../../ca/eandb/jmist/util/matlab/MatlabArrayType.html" title="enum in ca.eandb.jmist.util.matlab">MatlabArrayType</a>&nbsp;arrayType,
+                                  <a href="../../../../../ca/eandb/jmist/util/matlab/MatlabDataType.html" title="enum in ca.eandb.jmist.util.matlab">MatlabDataType</a>&nbsp;dataType,
+                                  boolean&nbsp;complex,
+                                  boolean&nbsp;global,
+                                  boolean&nbsp;logical,
+                                  int[]&nbsp;dimensions,
+                                  int&nbsp;elements)</code>
+<div class="block">Begins a numeric or character array element.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#beginElement(ca.eandb.jmist.util.matlab.MatlabDataType)">beginElement</a></strong>(<a href="../../../../../ca/eandb/jmist/util/matlab/MatlabDataType.html" title="enum in ca.eandb.jmist.util.matlab">MatlabDataType</a>&nbsp;type)</code>
+<div class="block">Begins a new data element.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#beginElement(ca.eandb.jmist.util.matlab.MatlabDataType, int)">beginElement</a></strong>(<a href="../../../../../ca/eandb/jmist/util/matlab/MatlabDataType.html" title="enum in ca.eandb.jmist.util.matlab">MatlabDataType</a>&nbsp;type,
+                        int&nbsp;bytes)</code>
+<div class="block">Begins a new data element of known length.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#endElement()">endElement</a></strong>()</code>
+<div class="block">Ends a data element.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>int</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#size()">size</a></strong>()</code>
+<div class="block">Gets the total number of bytes written to this
+ <code>MatlabOutputStream</code>.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#write(byte[])">write</a></strong>(byte[]&nbsp;b)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#write(byte[], int, int)">write</a></strong>(byte[]&nbsp;b,
+          int&nbsp;off,
+          int&nbsp;len)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#write(int)">write</a></strong>(int&nbsp;b)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeArrayDimensionsElement(int[])">writeArrayDimensionsElement</a></strong>(int[]&nbsp;dimensions)</code>
+<div class="block">Writes an array dimensions element to the underlying stream.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeArrayFlagsElement(ca.eandb.jmist.util.matlab.MatlabArrayType, boolean, boolean, boolean)">writeArrayFlagsElement</a></strong>(<a href="../../../../../ca/eandb/jmist/util/matlab/MatlabArrayType.html" title="enum in ca.eandb.jmist.util.matlab">MatlabArrayType</a>&nbsp;type,
+                                            boolean&nbsp;complex,
+                                            boolean&nbsp;global,
+                                            boolean&nbsp;logical)</code>
+<div class="block">Writes an array flags element to the underlying stream.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeArrayNameElement(java.lang.String)">writeArrayNameElement</a></strong>(java.lang.String&nbsp;name)</code>
+<div class="block">Writes an array name element to the underlying stream.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeBoolean(boolean)">writeBoolean</a></strong>(boolean&nbsp;arg0)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeBooleans(boolean[])">writeBooleans</a></strong>(boolean[]&nbsp;array)</code>
+<div class="block">Writes an array of <code>boolean</code> values to the underlying stream.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeBooleans(boolean[], int[], int[])">writeBooleans</a></strong>(boolean[]&nbsp;array,
+                          int[]&nbsp;dims,
+                          int[]&nbsp;strides)</code>
+<div class="block">Writes an array of <code>boolean</code> values to the underlying stream.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeBooleans(boolean[], int, int)">writeBooleans</a></strong>(boolean[]&nbsp;array,
+                          int&nbsp;ofs,
+                          int&nbsp;len)</code>
+<div class="block">Writes an array of <code>boolean</code> values to the underlying stream.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeByte(int)">writeByte</a></strong>(int&nbsp;arg0)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeBytes(byte[], int[], int[])">writeBytes</a></strong>(byte[]&nbsp;array,
+                    int[]&nbsp;dims,
+                    int[]&nbsp;strides)</code>
+<div class="block">Writes an array of <code>byte</code> values to the underlying stream.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeBytes(java.lang.String)">writeBytes</a></strong>(java.lang.String&nbsp;arg0)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeChar(int)">writeChar</a></strong>(int&nbsp;arg0)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeChars(java.lang.String)">writeChars</a></strong>(java.lang.String&nbsp;arg0)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeDouble(double)">writeDouble</a></strong>(double&nbsp;arg0)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeDoubles(double[])">writeDoubles</a></strong>(double[]&nbsp;array)</code>
+<div class="block">Writes an array of <code>double</code> values to the underlying stream.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeDoubles(double[], int[], int[])">writeDoubles</a></strong>(double[]&nbsp;array,
+                        int[]&nbsp;dims,
+                        int[]&nbsp;strides)</code>
+<div class="block">Writes an array of <code>double</code> values to the underlying stream.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeDoubles(double[], int, int)">writeDoubles</a></strong>(double[]&nbsp;array,
+                        int&nbsp;ofs,
+                        int&nbsp;len)</code>
+<div class="block">Writes an array of <code>double</code> values to the underlying stream.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeElement(boolean[])">writeElement</a></strong>(boolean[]&nbsp;array)</code>
+<div class="block">Writes a <code>boolean</code> MATLAB element to the underlying stream.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeElement(boolean[], int[], int[])">writeElement</a></strong>(boolean[]&nbsp;array,
+                        int[]&nbsp;dims,
+                        int[]&nbsp;strides)</code>
+<div class="block">Writes a <code>boolean</code> MATLAB element to the underlying stream.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeElement(byte[])">writeElement</a></strong>(byte[]&nbsp;array)</code>
+<div class="block">Writes a <code>byte</code> MATLAB element to the underlying stream.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeElement(byte[], int[], int[])">writeElement</a></strong>(byte[]&nbsp;array,
+                        int[]&nbsp;dims,
+                        int[]&nbsp;strides)</code>
+<div class="block">Writes a <code>byte</code> MATLAB element to the underlying stream.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeElement(ca.eandb.jmist.math.Complex[])">writeElement</a></strong>(<a href="../../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>[]&nbsp;array)</code>
+<div class="block">Writes a two <code>double</code> MATLAB elements to the underlying
+ stream: one for the real part and one for the imaginary part.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeElement(double[])">writeElement</a></strong>(double[]&nbsp;array)</code>
+<div class="block">Writes a <code>double</code> MATLAB element to the underlying stream.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeElement(double[], int[], int[])">writeElement</a></strong>(double[]&nbsp;array,
+                        int[]&nbsp;dims,
+                        int[]&nbsp;strides)</code>
+<div class="block">Writes a <code>double</code> MATLAB element to the underlying stream.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeElement(float[])">writeElement</a></strong>(float[]&nbsp;array)</code>
+<div class="block">Writes a <code>float</code> MATLAB element to the underlying stream.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeElement(float[], int[], int[])">writeElement</a></strong>(float[]&nbsp;array,
+                        int[]&nbsp;dims,
+                        int[]&nbsp;strides)</code>
+<div class="block">Writes a <code>float</code> MATLAB element to the underlying stream.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeElement(int[])">writeElement</a></strong>(int[]&nbsp;array)</code>
+<div class="block">Writes a <code>int</code> MATLAB element to the underlying stream.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeElement(int[], int[], int[])">writeElement</a></strong>(int[]&nbsp;array,
+                        int[]&nbsp;dims,
+                        int[]&nbsp;strides)</code>
+<div class="block">Writes a <code>int</code> MATLAB element to the underlying stream.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeElement(long[])">writeElement</a></strong>(long[]&nbsp;array)</code>
+<div class="block">Writes a <code>long</code> MATLAB element to the underlying stream.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeElement(long[], int[], int[])">writeElement</a></strong>(long[]&nbsp;array,
+                        int[]&nbsp;dims,
+                        int[]&nbsp;strides)</code>
+<div class="block">Writes a <code>long</code> MATLAB element to the underlying stream.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeElement(short[])">writeElement</a></strong>(short[]&nbsp;array)</code>
+<div class="block">Writes a <code>short</code> MATLAB element to the underlying stream.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeElement(short[], int[], int[])">writeElement</a></strong>(short[]&nbsp;array,
+                        int[]&nbsp;dims,
+                        int[]&nbsp;strides)</code>
+<div class="block">Writes a <code>short</code> MATLAB element to the underlying stream.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeElement(java.lang.String)">writeElement</a></strong>(java.lang.String&nbsp;s)</code>
+<div class="block">Writes a character array MATLAB element to the underlying stream.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeFloat(float)">writeFloat</a></strong>(float&nbsp;arg0)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeFloats(float[])">writeFloats</a></strong>(float[]&nbsp;array)</code>
+<div class="block">Writes an array of <code>float</code> values to the underlying stream.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeFloats(float[], int[], int[])">writeFloats</a></strong>(float[]&nbsp;array,
+                      int[]&nbsp;dims,
+                      int[]&nbsp;strides)</code>
+<div class="block">Writes an array of <code>float</code> values to the underlying stream.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeFloats(float[], int, int)">writeFloats</a></strong>(float[]&nbsp;array,
+                      int&nbsp;ofs,
+                      int&nbsp;len)</code>
+<div class="block">Writes an array of <code>float</code> values to the underlying stream.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeInt(int)">writeInt</a></strong>(int&nbsp;arg0)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeInts(int[])">writeInts</a></strong>(int[]&nbsp;array)</code>
+<div class="block">Writes an array of <code>int</code> values to the underlying stream.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeInts(int[], int[], int[])">writeInts</a></strong>(int[]&nbsp;array,
+                  int[]&nbsp;dims,
+                  int[]&nbsp;strides)</code>
+<div class="block">Writes an array of <code>int</code> values to the underlying stream.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeInts(int[], int, int)">writeInts</a></strong>(int[]&nbsp;array,
+                  int&nbsp;ofs,
+                  int&nbsp;len)</code>
+<div class="block">Writes an array of <code>int</code> values to the underlying stream.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeLong(long)">writeLong</a></strong>(long&nbsp;arg0)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeLongs(long[])">writeLongs</a></strong>(long[]&nbsp;array)</code>
+<div class="block">Writes an array of <code>long</code> values to the underlying stream.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeLongs(long[], int[], int[])">writeLongs</a></strong>(long[]&nbsp;array,
+                    int[]&nbsp;dims,
+                    int[]&nbsp;strides)</code>
+<div class="block">Writes an array of <code>long</code> values to the underlying stream.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeLongs(long[], int, int)">writeLongs</a></strong>(long[]&nbsp;array,
+                    int&nbsp;ofs,
+                    int&nbsp;len)</code>
+<div class="block">Writes an array of <code>long</code> values to the underlying stream.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeShort(int)">writeShort</a></strong>(int&nbsp;arg0)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeShorts(short[])">writeShorts</a></strong>(short[]&nbsp;array)</code>
+<div class="block">Writes an array of <code>short</code> values to the underlying stream.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeShorts(short[], int[], int[])">writeShorts</a></strong>(short[]&nbsp;array,
+                      int[]&nbsp;dims,
+                      int[]&nbsp;strides)</code>
+<div class="block">Writes an array of <code>short</code> values to the underlying stream.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeShorts(short[], int, int)">writeShorts</a></strong>(short[]&nbsp;array,
+                      int&nbsp;ofs,
+                      int&nbsp;len)</code>
+<div class="block">Writes an array of <code>short</code> values to the underlying stream.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeUnsignedElement(byte[])">writeUnsignedElement</a></strong>(byte[]&nbsp;array)</code>
+<div class="block">Writes an unsigned <code>byte</code> MATLAB element to the underlying
+ stream.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeUnsignedElement(byte[], int[], int[])">writeUnsignedElement</a></strong>(byte[]&nbsp;array,
+                                        int[]&nbsp;dims,
+                                        int[]&nbsp;strides)</code>
+<div class="block">Writes an unsigned <code>byte</code> MATLAB element to the underlying
+ stream.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeUnsignedElement(int[])">writeUnsignedElement</a></strong>(int[]&nbsp;array)</code>
+<div class="block">Writes an unsigned <code>int</code> MATLAB element to the underlying
+ stream.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeUnsignedElement(int[], int[], int[])">writeUnsignedElement</a></strong>(int[]&nbsp;array,
+                                        int[]&nbsp;dims,
+                                        int[]&nbsp;strides)</code>
+<div class="block">Writes an unsigned <code>int</code> MATLAB element to the underlying
+ stream.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeUnsignedElement(long[])">writeUnsignedElement</a></strong>(long[]&nbsp;array)</code>
+<div class="block">Writes an unsigned <code>long</code> MATLAB element to the underlying
+ stream.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeUnsignedElement(long[], int[], int[])">writeUnsignedElement</a></strong>(long[]&nbsp;array,
+                                        int[]&nbsp;dims,
+                                        int[]&nbsp;strides)</code>
+<div class="block">Writes an unsigned <code>long</code> MATLAB element to the underlying
+ stream.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeUnsignedElement(short[])">writeUnsignedElement</a></strong>(short[]&nbsp;array)</code>
+<div class="block">Writes an unsigned <code>short</code> MATLAB element to the underlying
+ stream.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeUnsignedElement(short[], int[], int[])">writeUnsignedElement</a></strong>(short[]&nbsp;array,
+                                        int[]&nbsp;dims,
+                                        int[]&nbsp;strides)</code>
+<div class="block">Writes an unsigned <code>short</code> MATLAB element to the underlying
+ stream.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#writeUTF(java.lang.String)">writeUTF</a></strong>(java.lang.String&nbsp;arg0)</code>&nbsp;</td>
+</tr>
+</table>
+<ul class="blockList">
+<li class="blockList"><a name="methods_inherited_from_class_java.io.OutputStream">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;java.io.OutputStream</h3>
+<code>close, flush</code></li>
+</ul>
+<ul class="blockList">
+<li class="blockList"><a name="methods_inherited_from_class_java.lang.Object">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>equals, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="details">
+<ul class="blockList">
+<li class="blockList">
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+<ul class="blockList">
+<li class="blockList"><a name="constructor_detail">
+<!--   -->
+</a>
+<h3>Constructor Detail</h3>
+<a name="MatlabOutputStream(java.io.OutputStream)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>MatlabOutputStream</h4>
+<pre>public&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L55" target="_blank">MatlabOutputStream</a>(java.io.OutputStream&nbsp;out)
+                   throws java.io.IOException</pre>
+<div class="block">Creates a new <code>MatlabOutputStream</code> that writes to an
+ <code>OuptutStream</code>.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>out</code> - The <code>OutputStream</code> to write to.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing the MAT-file header to the underlying
+                <code>OutputStream</code> fails.</dd></dl>
+</li>
+</ul>
+<a name="MatlabOutputStream(javax.imageio.stream.ImageOutputStream)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>MatlabOutputStream</h4>
+<pre>public&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L68" target="_blank">MatlabOutputStream</a>(javax.imageio.stream.ImageOutputStream&nbsp;out)
+                   throws java.io.IOException</pre>
+<div class="block">Creates a new <code>MatlabOutputStream</code> that writes to an
+ <code>ImageOutputStream</code>.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>out</code> - The <code>ImageOutputStream</code> to write to.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing the MAT-file header to the underlying
+                <code>ImageOutputStream</code> fails.</dd></dl>
+</li>
+</ul>
+</li>
+</ul>
+<!-- ============ METHOD DETAIL ========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method_detail">
+<!--   -->
+</a>
+<h3>Method Detail</h3>
+<a name="write(byte[], int, int)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L76" target="_blank">write</a>(byte[]&nbsp;b,
+         int&nbsp;off,
+         int&nbsp;len)
+           throws java.io.IOException</pre>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code>write</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
+<dt><strong>Overrides:</strong></dt>
+<dd><code>write</code>&nbsp;in class&nbsp;<code>java.io.OutputStream</code></dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code></dd></dl>
+</li>
+</ul>
+<a name="write(int)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L85" target="_blank">write</a>(int&nbsp;b)
+           throws java.io.IOException</pre>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code>write</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
+<dt><strong>Specified by:</strong></dt>
+<dd><code>write</code>&nbsp;in class&nbsp;<code>java.io.OutputStream</code></dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code></dd></dl>
+</li>
+</ul>
+<a name="write(byte[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L93" target="_blank">write</a>(byte[]&nbsp;b)
+           throws java.io.IOException</pre>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code>write</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
+<dt><strong>Overrides:</strong></dt>
+<dd><code>write</code>&nbsp;in class&nbsp;<code>java.io.OutputStream</code></dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code></dd></dl>
+</li>
+</ul>
+<a name="beginElement(ca.eandb.jmist.util.matlab.MatlabDataType)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>beginElement</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L102" target="_blank">beginElement</a>(<a href="../../../../../ca/eandb/jmist/util/matlab/MatlabDataType.html" title="enum in ca.eandb.jmist.util.matlab">MatlabDataType</a>&nbsp;type)
+                  throws java.io.IOException</pre>
+<div class="block">Begins a new data element.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>type</code> - The <code>MatlabDataType</code> of the element to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="beginElement(ca.eandb.jmist.util.matlab.MatlabDataType, int)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>beginElement</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L125" target="_blank">beginElement</a>(<a href="../../../../../ca/eandb/jmist/util/matlab/MatlabDataType.html" title="enum in ca.eandb.jmist.util.matlab">MatlabDataType</a>&nbsp;type,
+                int&nbsp;bytes)
+                  throws java.io.IOException</pre>
+<div class="block">Begins a new data element of known length.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>type</code> - The <code>MatlabDataType</code> of the element to write.</dd><dd><code>bytes</code> - The length (in bytes) of the element (not including the
+                tag).</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd><dt><span class="strong">See Also:</span></dt><dd><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html#streams"><code>streams</code></a></dd></dl>
+</li>
+</ul>
+<a name="endElement()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>endElement</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L146" target="_blank">endElement</a>()
+                throws java.io.IOException</pre>
+<div class="block">Ends a data element.</div>
+<dl><dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="beginArrayElement(java.lang.String, ca.eandb.jmist.util.matlab.MatlabArrayType, ca.eandb.jmist.util.matlab.MatlabDataType, boolean, boolean, boolean, int[], int)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>beginArrayElement</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L190" target="_blank">beginArrayElement</a>(java.lang.String&nbsp;name,
+                     <a href="../../../../../ca/eandb/jmist/util/matlab/MatlabArrayType.html" title="enum in ca.eandb.jmist.util.matlab">MatlabArrayType</a>&nbsp;arrayType,
+                     <a href="../../../../../ca/eandb/jmist/util/matlab/MatlabDataType.html" title="enum in ca.eandb.jmist.util.matlab">MatlabDataType</a>&nbsp;dataType,
+                     boolean&nbsp;complex,
+                     boolean&nbsp;global,
+                     boolean&nbsp;logical,
+                     int[]&nbsp;dimensions,
+                     int&nbsp;elements)
+                       throws java.io.IOException</pre>
+<div class="block">Begins a numeric or character array element.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the MATLAB array.</dd><dd><code>arrayType</code> - The <code>MatlabArrayType</code> of the array.</dd><dd><code>dataType</code> - The <code>MatlabDataType</code> to use to store the
+                elements of the MATLAB array.</dd><dd><code>complex</code> - A value indicating whether the imaginary part is to be
+                included.</dd><dd><code>global</code> - A value indicating whether the array is to have global
+                scope.</dd><dd><code>logical</code> - A value indicating whether the array is to be used for
+                logical indexing.</dd><dd><code>dimensions</code> - An array describing the dimensions of the array (there
+                must be at least two dimensions).  This may be null, in which case
+                the array will have the dimensions <code>{ elements, 1 }</code>.</dd><dd><code>elements</code> - The total number of elements in the array (must be equal
+                to the product of the dimensions).</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>elements</code> is not equal
+                to the product of the dimensions.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if
+                <code>dimensions.length &lt; 2</code>.</dd></dl>
+</li>
+</ul>
+<a name="writeElement(boolean[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeElement</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L265" target="_blank">writeElement</a>(boolean[]&nbsp;array)
+                  throws java.io.IOException</pre>
+<div class="block">Writes a <code>boolean</code> MATLAB element to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>boolean</code> values to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeElement(double[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeElement</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L275" target="_blank">writeElement</a>(double[]&nbsp;array)
+                  throws java.io.IOException</pre>
+<div class="block">Writes a <code>double</code> MATLAB element to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>double</code> values to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeElement(float[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeElement</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L285" target="_blank">writeElement</a>(float[]&nbsp;array)
+                  throws java.io.IOException</pre>
+<div class="block">Writes a <code>float</code> MATLAB element to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>float</code> values to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeElement(byte[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeElement</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L295" target="_blank">writeElement</a>(byte[]&nbsp;array)
+                  throws java.io.IOException</pre>
+<div class="block">Writes a <code>byte</code> MATLAB element to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>byte</code> values to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeElement(short[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeElement</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L305" target="_blank">writeElement</a>(short[]&nbsp;array)
+                  throws java.io.IOException</pre>
+<div class="block">Writes a <code>short</code> MATLAB element to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>short</code> values to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeElement(int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeElement</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L315" target="_blank">writeElement</a>(int[]&nbsp;array)
+                  throws java.io.IOException</pre>
+<div class="block">Writes a <code>int</code> MATLAB element to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>int</code> values to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeElement(long[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeElement</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L325" target="_blank">writeElement</a>(long[]&nbsp;array)
+                  throws java.io.IOException</pre>
+<div class="block">Writes a <code>long</code> MATLAB element to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>long</code> values to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsignedElement(byte[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsignedElement</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L336" target="_blank">writeUnsignedElement</a>(byte[]&nbsp;array)
+                          throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>byte</code> MATLAB element to the underlying
+ stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>byte</code> values to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsignedElement(short[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsignedElement</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L347" target="_blank">writeUnsignedElement</a>(short[]&nbsp;array)
+                          throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>short</code> MATLAB element to the underlying
+ stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>short</code> values to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsignedElement(int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsignedElement</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L358" target="_blank">writeUnsignedElement</a>(int[]&nbsp;array)
+                          throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>int</code> MATLAB element to the underlying
+ stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>int</code> values to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsignedElement(long[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsignedElement</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L369" target="_blank">writeUnsignedElement</a>(long[]&nbsp;array)
+                          throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>long</code> MATLAB element to the underlying
+ stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>long</code> values to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeElement(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeElement</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L379" target="_blank">writeElement</a>(java.lang.String&nbsp;s)
+                  throws java.io.IOException</pre>
+<div class="block">Writes a character array MATLAB element to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>s</code> - The <code>String</code> to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeElement(ca.eandb.jmist.math.Complex[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeElement</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L390" target="_blank">writeElement</a>(<a href="../../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>[]&nbsp;array)
+                  throws java.io.IOException</pre>
+<div class="block">Writes a two <code>double</code> MATLAB elements to the underlying
+ stream: one for the real part and one for the imaginary part.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>Complex</code> values to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeElement(boolean[], int[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeElement</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L409" target="_blank">writeElement</a>(boolean[]&nbsp;array,
+                int[]&nbsp;dims,
+                int[]&nbsp;strides)
+                  throws java.io.IOException</pre>
+<div class="block">Writes a <code>boolean</code> MATLAB element to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>boolean</code> values to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeElement(double[], int[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeElement</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L419" target="_blank">writeElement</a>(double[]&nbsp;array,
+                int[]&nbsp;dims,
+                int[]&nbsp;strides)
+                  throws java.io.IOException</pre>
+<div class="block">Writes a <code>double</code> MATLAB element to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>double</code> values to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeElement(float[], int[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeElement</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L429" target="_blank">writeElement</a>(float[]&nbsp;array,
+                int[]&nbsp;dims,
+                int[]&nbsp;strides)
+                  throws java.io.IOException</pre>
+<div class="block">Writes a <code>float</code> MATLAB element to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>float</code> values to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeElement(byte[], int[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeElement</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L439" target="_blank">writeElement</a>(byte[]&nbsp;array,
+                int[]&nbsp;dims,
+                int[]&nbsp;strides)
+                  throws java.io.IOException</pre>
+<div class="block">Writes a <code>byte</code> MATLAB element to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>byte</code> values to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeElement(short[], int[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeElement</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L449" target="_blank">writeElement</a>(short[]&nbsp;array,
+                int[]&nbsp;dims,
+                int[]&nbsp;strides)
+                  throws java.io.IOException</pre>
+<div class="block">Writes a <code>short</code> MATLAB element to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>short</code> values to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeElement(int[], int[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeElement</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L459" target="_blank">writeElement</a>(int[]&nbsp;array,
+                int[]&nbsp;dims,
+                int[]&nbsp;strides)
+                  throws java.io.IOException</pre>
+<div class="block">Writes a <code>int</code> MATLAB element to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>int</code> values to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeElement(long[], int[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeElement</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L469" target="_blank">writeElement</a>(long[]&nbsp;array,
+                int[]&nbsp;dims,
+                int[]&nbsp;strides)
+                  throws java.io.IOException</pre>
+<div class="block">Writes a <code>long</code> MATLAB element to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>long</code> values to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsignedElement(byte[], int[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsignedElement</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L480" target="_blank">writeUnsignedElement</a>(byte[]&nbsp;array,
+                        int[]&nbsp;dims,
+                        int[]&nbsp;strides)
+                          throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>byte</code> MATLAB element to the underlying
+ stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>byte</code> values to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsignedElement(short[], int[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsignedElement</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L491" target="_blank">writeUnsignedElement</a>(short[]&nbsp;array,
+                        int[]&nbsp;dims,
+                        int[]&nbsp;strides)
+                          throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>short</code> MATLAB element to the underlying
+ stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>short</code> values to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsignedElement(int[], int[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsignedElement</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L502" target="_blank">writeUnsignedElement</a>(int[]&nbsp;array,
+                        int[]&nbsp;dims,
+                        int[]&nbsp;strides)
+                          throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>int</code> MATLAB element to the underlying
+ stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>int</code> values to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsignedElement(long[], int[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsignedElement</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L513" target="_blank">writeUnsignedElement</a>(long[]&nbsp;array,
+                        int[]&nbsp;dims,
+                        int[]&nbsp;strides)
+                          throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>long</code> MATLAB element to the underlying
+ stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>long</code> values to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeArrayFlagsElement(ca.eandb.jmist.util.matlab.MatlabArrayType, boolean, boolean, boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeArrayFlagsElement</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L528" target="_blank">writeArrayFlagsElement</a>(<a href="../../../../../ca/eandb/jmist/util/matlab/MatlabArrayType.html" title="enum in ca.eandb.jmist.util.matlab">MatlabArrayType</a>&nbsp;type,
+                          boolean&nbsp;complex,
+                          boolean&nbsp;global,
+                          boolean&nbsp;logical)
+                            throws java.io.IOException</pre>
+<div class="block">Writes an array flags element to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>type</code> - The <code>MatlabArrayType</code> of the array for which to
+                write the flags element.</dd><dd><code>complex</code> - A value indicating if the array has an imaginary part.</dd><dd><code>global</code> - A value indicating if the array is to be of global scope.</dd><dd><code>logical</code> - A value indicating if the array is to be used for logical
+                indexing.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeArrayDimensionsElement(int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeArrayDimensionsElement</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L556" target="_blank">writeArrayDimensionsElement</a>(int[]&nbsp;dimensions)
+                                 throws java.io.IOException</pre>
+<div class="block">Writes an array dimensions element to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>dimensions</code> - The dimensions of the array.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeArrayNameElement(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeArrayNameElement</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L565" target="_blank">writeArrayNameElement</a>(java.lang.String&nbsp;name)
+                           throws java.io.IOException</pre>
+<div class="block">Writes an array name element to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the array being written.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeBoolean(boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeBoolean</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L709" target="_blank">writeBoolean</a>(boolean&nbsp;arg0)
+                  throws java.io.IOException</pre>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code>writeBoolean</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code></dd></dl>
+</li>
+</ul>
+<a name="writeBooleans(boolean[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeBooleans</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L718" target="_blank">writeBooleans</a>(boolean[]&nbsp;array)
+                   throws java.io.IOException</pre>
+<div class="block">Writes an array of <code>boolean</code> values to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>boolean</code> values to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeBooleans(boolean[], int, int)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeBooleans</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L730" target="_blank">writeBooleans</a>(boolean[]&nbsp;array,
+                 int&nbsp;ofs,
+                 int&nbsp;len)
+                   throws java.io.IOException</pre>
+<div class="block">Writes an array of <code>boolean</code> values to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>boolean</code> values to write.</dd><dd><code>ofs</code> - The index of the first element in <code>array</code> to
+                write.</dd><dd><code>len</code> - The number of elements of <code>array</code> to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeBooleans(boolean[], int[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeBooleans</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L744" target="_blank">writeBooleans</a>(boolean[]&nbsp;array,
+                 int[]&nbsp;dims,
+                 int[]&nbsp;strides)
+                   throws java.io.IOException</pre>
+<div class="block">Writes an array of <code>boolean</code> values to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>boolean</code> values to write.</dd><dd><code>dims</code> - The dimensions of the array.</dd><dd><code>strides</code> - The distance between consecutive array entries along each
+                dimension.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeByte(int)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeByte</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L787" target="_blank">writeByte</a>(int&nbsp;arg0)
+               throws java.io.IOException</pre>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code>writeByte</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code></dd></dl>
+</li>
+</ul>
+<a name="writeBytes(byte[], int[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeBytes</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L799" target="_blank">writeBytes</a>(byte[]&nbsp;array,
+              int[]&nbsp;dims,
+              int[]&nbsp;strides)
+                throws java.io.IOException</pre>
+<div class="block">Writes an array of <code>byte</code> values to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>byte</code> values to write.</dd><dd><code>dims</code> - The dimensions of the array.</dd><dd><code>strides</code> - The distance between consecutive array entries along each
+                dimension.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeBytes(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeBytes</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L842" target="_blank">writeBytes</a>(java.lang.String&nbsp;arg0)
+                throws java.io.IOException</pre>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code>writeBytes</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code></dd></dl>
+</li>
+</ul>
+<a name="writeChar(int)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeChar</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L849" target="_blank">writeChar</a>(int&nbsp;arg0)
+               throws java.io.IOException</pre>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code>writeChar</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code></dd></dl>
+</li>
+</ul>
+<a name="writeChars(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeChars</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L856" target="_blank">writeChars</a>(java.lang.String&nbsp;arg0)
+                throws java.io.IOException</pre>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code>writeChars</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code></dd></dl>
+</li>
+</ul>
+<a name="writeDouble(double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeDouble</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L863" target="_blank">writeDouble</a>(double&nbsp;arg0)
+                 throws java.io.IOException</pre>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code>writeDouble</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code></dd></dl>
+</li>
+</ul>
+<a name="writeDoubles(double[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeDoubles</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L872" target="_blank">writeDoubles</a>(double[]&nbsp;array)
+                  throws java.io.IOException</pre>
+<div class="block">Writes an array of <code>double</code> values to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>double</code> values to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeDoubles(double[], int, int)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeDoubles</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L884" target="_blank">writeDoubles</a>(double[]&nbsp;array,
+                int&nbsp;ofs,
+                int&nbsp;len)
+                  throws java.io.IOException</pre>
+<div class="block">Writes an array of <code>double</code> values to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>double</code> values to write.</dd><dd><code>ofs</code> - The index of the first element in <code>array</code> to
+                write.</dd><dd><code>len</code> - The number of elements of <code>array</code> to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeDoubles(double[], int[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeDoubles</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L898" target="_blank">writeDoubles</a>(double[]&nbsp;array,
+                int[]&nbsp;dims,
+                int[]&nbsp;strides)
+                  throws java.io.IOException</pre>
+<div class="block">Writes an array of <code>double</code> values to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>double</code> values to write.</dd><dd><code>dims</code> - The dimensions of the array.</dd><dd><code>strides</code> - The distance between consecutive array entries along each
+                dimension.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeFloat(float)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeFloat</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L941" target="_blank">writeFloat</a>(float&nbsp;arg0)
+                throws java.io.IOException</pre>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code>writeFloat</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code></dd></dl>
+</li>
+</ul>
+<a name="writeFloats(float[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeFloats</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L950" target="_blank">writeFloats</a>(float[]&nbsp;array)
+                 throws java.io.IOException</pre>
+<div class="block">Writes an array of <code>float</code> values to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>float</code> values to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeFloats(float[], int, int)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeFloats</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L962" target="_blank">writeFloats</a>(float[]&nbsp;array,
+               int&nbsp;ofs,
+               int&nbsp;len)
+                 throws java.io.IOException</pre>
+<div class="block">Writes an array of <code>float</code> values to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>float</code> values to write.</dd><dd><code>ofs</code> - The index of the first element in <code>array</code> to
+                write.</dd><dd><code>len</code> - The number of elements of <code>array</code> to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeFloats(float[], int[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeFloats</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L976" target="_blank">writeFloats</a>(float[]&nbsp;array,
+               int[]&nbsp;dims,
+               int[]&nbsp;strides)
+                 throws java.io.IOException</pre>
+<div class="block">Writes an array of <code>float</code> values to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>float</code> values to write.</dd><dd><code>dims</code> - The dimensions of the array.</dd><dd><code>strides</code> - The distance between consecutive array entries along each
+                dimension.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeInt(int)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeInt</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L1019" target="_blank">writeInt</a>(int&nbsp;arg0)
+              throws java.io.IOException</pre>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code>writeInt</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code></dd></dl>
+</li>
+</ul>
+<a name="writeInts(int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeInts</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L1028" target="_blank">writeInts</a>(int[]&nbsp;array)
+               throws java.io.IOException</pre>
+<div class="block">Writes an array of <code>int</code> values to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>int</code> values to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeInts(int[], int, int)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeInts</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L1040" target="_blank">writeInts</a>(int[]&nbsp;array,
+             int&nbsp;ofs,
+             int&nbsp;len)
+               throws java.io.IOException</pre>
+<div class="block">Writes an array of <code>int</code> values to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>int</code> values to write.</dd><dd><code>ofs</code> - The index of the first element in <code>array</code> to
+                write.</dd><dd><code>len</code> - The number of elements of <code>array</code> to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeInts(int[], int[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeInts</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L1054" target="_blank">writeInts</a>(int[]&nbsp;array,
+             int[]&nbsp;dims,
+             int[]&nbsp;strides)
+               throws java.io.IOException</pre>
+<div class="block">Writes an array of <code>int</code> values to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>int</code> values to write.</dd><dd><code>dims</code> - The dimensions of the array.</dd><dd><code>strides</code> - The distance between consecutive array entries along each
+                dimension.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeLong(long)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeLong</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L1097" target="_blank">writeLong</a>(long&nbsp;arg0)
+               throws java.io.IOException</pre>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code>writeLong</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code></dd></dl>
+</li>
+</ul>
+<a name="writeLongs(long[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeLongs</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L1106" target="_blank">writeLongs</a>(long[]&nbsp;array)
+                throws java.io.IOException</pre>
+<div class="block">Writes an array of <code>long</code> values to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>long</code> values to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeLongs(long[], int, int)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeLongs</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L1118" target="_blank">writeLongs</a>(long[]&nbsp;array,
+              int&nbsp;ofs,
+              int&nbsp;len)
+                throws java.io.IOException</pre>
+<div class="block">Writes an array of <code>long</code> values to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>long</code> values to write.</dd><dd><code>ofs</code> - The index of the first element in <code>array</code> to
+                write.</dd><dd><code>len</code> - The number of elements of <code>array</code> to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeLongs(long[], int[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeLongs</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L1132" target="_blank">writeLongs</a>(long[]&nbsp;array,
+              int[]&nbsp;dims,
+              int[]&nbsp;strides)
+                throws java.io.IOException</pre>
+<div class="block">Writes an array of <code>long</code> values to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>long</code> values to write.</dd><dd><code>dims</code> - The dimensions of the array.</dd><dd><code>strides</code> - The distance between consecutive array entries along each
+                dimension.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeShort(int)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeShort</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L1175" target="_blank">writeShort</a>(int&nbsp;arg0)
+                throws java.io.IOException</pre>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code>writeShort</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code></dd></dl>
+</li>
+</ul>
+<a name="writeShorts(short[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeShorts</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L1184" target="_blank">writeShorts</a>(short[]&nbsp;array)
+                 throws java.io.IOException</pre>
+<div class="block">Writes an array of <code>short</code> values to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>short</code> values to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeShorts(short[], int, int)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeShorts</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L1196" target="_blank">writeShorts</a>(short[]&nbsp;array,
+               int&nbsp;ofs,
+               int&nbsp;len)
+                 throws java.io.IOException</pre>
+<div class="block">Writes an array of <code>short</code> values to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>short</code> values to write.</dd><dd><code>ofs</code> - The index of the first element in <code>array</code> to
+                write.</dd><dd><code>len</code> - The number of elements of <code>array</code> to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeShorts(short[], int[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeShorts</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L1210" target="_blank">writeShorts</a>(short[]&nbsp;array,
+               int[]&nbsp;dims,
+               int[]&nbsp;strides)
+                 throws java.io.IOException</pre>
+<div class="block">Writes an array of <code>short</code> values to the underlying stream.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>array</code> - The array of <code>short</code> values to write.</dd><dd><code>dims</code> - The dimensions of the array.</dd><dd><code>strides</code> - The distance between consecutive array entries along each
+                dimension.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeUTF(java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUTF</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L1253" target="_blank">writeUTF</a>(java.lang.String&nbsp;arg0)
+              throws java.io.IOException</pre>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code>writeUTF</code>&nbsp;in interface&nbsp;<code>java.io.DataOutput</code></dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code></dd></dl>
+</li>
+</ul>
+<a name="size()">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>size</h4>
+<pre>public&nbsp;int&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabOutputStream.java#L1263" target="_blank">size</a>()</pre>
+<div class="block">Gets the total number of bytes written to this
+ <code>MatlabOutputStream</code>.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>The total number of bytes written to this
+                <code>MatlabOutputStream</code>.</dd></dl>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<!-- ========= END OF CLASS DATA ========= -->
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<div class="bottomNav"><a name="navbar_bottom">
+<!--   -->
+</a><a href="#skip-navbar_bottom" title="Skip navigation links"></a><a name="navbar_bottom_firstrow">
+<!--   -->
+</a>
+<ul class="navList" title="Navigation">
+<li><a href="../../../../../overview-summary.html">Overview</a></li>
+<li><a href="package-summary.html">Package</a></li>
+<li class="navBarCell1Rev">Class</li>
+<li><a href="class-use/MatlabOutputStream.html">Use</a></li>
+<li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../../../index-files/index-1.html">Index</a></li>
+<li><a href="../../../../../help-doc.html">Help</a></li>
+</ul>
+</div>
+<div class="subNav">
+<ul class="navList">
+<li><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabImageWriterSpi.html" title="class in ca.eandb.jmist.util.matlab"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.FixedLengthCompoundElementOutputStream.html" title="class in ca.eandb.jmist.util.matlab"><span class="strong">Next Class</span></a></li>
+</ul>
+<ul class="navList">
+<li><a href="../../../../../index.html?ca/eandb/jmist/util/matlab/MatlabOutputStream.html" target="_top">Frames</a></li>
+<li><a href="MatlabOutputStream.html" target="_top">No Frames</a></li>
+</ul>
+<ul class="navList" id="allclasses_navbar_bottom">
+<li><a href="../../../../../allclasses-noframe.html">All Classes</a></li>
+</ul>
+<div>
+<script type="text/javascript"><!--
+  allClassesLink = document.getElementById("allclasses_navbar_bottom");
+  if(window==top) {
+    allClassesLink.style.display = "block";
+  }
+  else {
+    allClassesLink.style.display = "none";
+  }
+  //-->
+</script>
+</div>
+<div>
+<ul class="subNavList">
+<li>Summary:&nbsp;</li>
+<li><a href="#nested_class_summary">Nested</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_summary">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_summary">Method</a></li>
+</ul>
+<ul class="subNavList">
+<li>Detail:&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_detail">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_detail">Method</a></li>
+</ul>
+</div>
+<a name="skip-navbar_bottom">
+<!--   -->
+</a></div>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+</body>
+</html>

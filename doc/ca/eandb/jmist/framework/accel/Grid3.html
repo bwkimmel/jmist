@@ -1,0 +1,424 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- NewPage -->
+<html lang="en">
+<head>
+<title>Grid3</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<script type="text/javascript"><!--
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="Grid3";
+    }
+//-->
+</script>
+<noscript>
+<div>JavaScript is disabled on your browser.</div>
+</noscript>
+<!-- ========= START OF TOP NAVBAR ======= -->
+<div class="topNav"><a name="navbar_top">
+<!--   -->
+</a><a href="#skip-navbar_top" title="Skip navigation links"></a><a name="navbar_top_firstrow">
+<!--   -->
+</a>
+<ul class="navList" title="Navigation">
+<li><a href="../../../../../overview-summary.html">Overview</a></li>
+<li><a href="package-summary.html">Package</a></li>
+<li class="navBarCell1Rev">Class</li>
+<li><a href="class-use/Grid3.html">Use</a></li>
+<li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../../../index-files/index-1.html">Index</a></li>
+<li><a href="../../../../../help-doc.html">Help</a></li>
+</ul>
+</div>
+<div class="subNav">
+<ul class="navList">
+<li><a href="../../../../../ca/eandb/jmist/framework/accel/BoundingIntervalHierarchy.html" title="class in ca.eandb.jmist.framework.accel"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../../ca/eandb/jmist/framework/accel/Grid3.Cell.html" title="class in ca.eandb.jmist.framework.accel"><span class="strong">Next Class</span></a></li>
+</ul>
+<ul class="navList">
+<li><a href="../../../../../index.html?ca/eandb/jmist/framework/accel/Grid3.html" target="_top">Frames</a></li>
+<li><a href="Grid3.html" target="_top">No Frames</a></li>
+</ul>
+<ul class="navList" id="allclasses_navbar_top">
+<li><a href="../../../../../allclasses-noframe.html">All Classes</a></li>
+</ul>
+<div>
+<script type="text/javascript"><!--
+  allClassesLink = document.getElementById("allclasses_navbar_top");
+  if(window==top) {
+    allClassesLink.style.display = "block";
+  }
+  else {
+    allClassesLink.style.display = "none";
+  }
+  //-->
+</script>
+</div>
+<div>
+<ul class="subNavList">
+<li>Summary:&nbsp;</li>
+<li><a href="#nested_class_summary">Nested</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_summary">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_summary">Method</a></li>
+</ul>
+<ul class="subNavList">
+<li>Detail:&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_detail">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_detail">Method</a></li>
+</ul>
+</div>
+<a name="skip-navbar_top">
+<!--   -->
+</a></div>
+<!-- ========= END OF TOP NAVBAR ========= -->
+<!-- ======== START OF CLASS DATA ======== -->
+<div class="header">
+<div class="subTitle">ca.eandb.jmist.framework.accel</div>
+<h2 title="Class Grid3" class="title">Class Grid3</h2>
+</div>
+<div class="contentContainer">
+<ul class="inheritance">
+<li>java.lang.Object</li>
+<li>
+<ul class="inheritance">
+<li>ca.eandb.jmist.framework.accel.Grid3</li>
+</ul>
+</li>
+</ul>
+<div class="description">
+<ul class="blockList">
+<li class="blockList">
+<dl>
+<dt>All Implemented Interfaces:</dt>
+<dd>java.io.Serializable</dd>
+</dl>
+<hr>
+<br>
+<pre>public final class <a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/accel/Grid3.java#L42" target="_blank">Grid3</a>
+extends java.lang.Object
+implements java.io.Serializable</pre>
+<div class="block">An axis-aligned box divided into a grid of cells along each of
+ the three axes.  Used for ray tracing with spatial subdivision.</div>
+<dl><dt><span class="strong">Author:</span></dt>
+  <dd>Brad Kimmel</dd>
+<dt><span class="strong">See Also:</span></dt><dd><a href="../../../../../serialized-form.html#ca.eandb.jmist.framework.accel.Grid3">Serialized Form</a></dd></dl>
+</li>
+</ul>
+</div>
+<div class="summary">
+<ul class="blockList">
+<li class="blockList">
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+<ul class="blockList">
+<li class="blockList"><a name="nested_class_summary">
+<!--   -->
+</a>
+<h3>Nested Class Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Nested Class Summary table, listing nested classes, and an explanation">
+<caption><span>Nested Classes</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Class and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>class&nbsp;</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/accel/Grid3.Cell.html" title="class in ca.eandb.jmist.framework.accel">Grid3.Cell</a></strong></code>
+<div class="block">Represents a cell in the grid.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static interface&nbsp;</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/accel/Grid3.Visitor.html" title="interface in ca.eandb.jmist.framework.accel">Grid3.Visitor</a></strong></code>
+<div class="block">An interface to allow <a href="../../../../../ca/eandb/jmist/framework/accel/Grid3.html#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.math.Interval, ca.eandb.jmist.framework.accel.Grid3.Visitor)"><code>intersect(Ray3, Interval, ca.eandb.jmist.framework.accel.Grid3.Visitor)</code></a>
+ to notify the caller about each cell passed through by the ray.</div>
+</td>
+</tr>
+</table>
+</li>
+</ul>
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+<ul class="blockList">
+<li class="blockList"><a name="constructor_summary">
+<!--   -->
+</a>
+<h3>Constructor Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Constructor Summary table, listing constructors, and an explanation">
+<caption><span>Constructors</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colOne" scope="col">Constructor and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colOne"><code><strong><a href="../../../../../ca/eandb/jmist/framework/accel/Grid3.html#Grid3(ca.eandb.jmist.math.Box3, int, int, int)">Grid3</a></strong>(<a href="../../../../../ca/eandb/jmist/math/Box3.html" title="class in ca.eandb.jmist.math">Box3</a>&nbsp;bound,
+          int&nbsp;nx,
+          int&nbsp;ny,
+          int&nbsp;nz)</code>
+<div class="block">Initializes the bounds of the grid and the number of cells
+ in each direction.</div>
+</td>
+</tr>
+</table>
+</li>
+</ul>
+<!-- ========== METHOD SUMMARY =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method_summary">
+<!--   -->
+</a>
+<h3>Method Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
+<caption><span>Methods</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Method and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../../ca/eandb/jmist/framework/accel/Grid3.Cell.html" title="class in ca.eandb.jmist.framework.accel">Grid3.Cell</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/accel/Grid3.html#cellAt(ca.eandb.jmist.math.Point3)">cellAt</a></strong>(<a href="../../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;p)</code>
+<div class="block">Returns the cell that contains the specified point.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="../../../../../ca/eandb/jmist/math/Box3.html" title="class in ca.eandb.jmist.math">Box3</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/accel/Grid3.html#cellBounds(int, int, int)">cellBounds</a></strong>(int&nbsp;cx,
+                    int&nbsp;cy,
+                    int&nbsp;cz)</code>
+<div class="block">Computes the bounding box of a cell.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../../ca/eandb/jmist/math/Box3.html" title="class in ca.eandb.jmist.math">Box3</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/accel/Grid3.html#getBoundingBox()">getBoundingBox</a></strong>()</code>
+<div class="block">Gets the bounding box for this grid.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/accel/Grid3.html#hasCellAt(int, int, int)">hasCellAt</a></strong>(int&nbsp;cx,
+                  int&nbsp;cy,
+                  int&nbsp;cz)</code>
+<div class="block">Indicates whether this grid has a cell at the specified indices.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/accel/Grid3.html#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.math.Interval, ca.eandb.jmist.framework.accel.Grid3.Visitor)">intersect</a></strong>(<a href="../../../../../ca/eandb/jmist/math/Ray3.html" title="class in ca.eandb.jmist.math">Ray3</a>&nbsp;ray,
+                  <a href="../../../../../ca/eandb/jmist/math/Interval.html" title="class in ca.eandb.jmist.math">Interval</a>&nbsp;I,
+                  <a href="../../../../../ca/eandb/jmist/framework/accel/Grid3.Visitor.html" title="interface in ca.eandb.jmist.framework.accel">Grid3.Visitor</a>&nbsp;visitor)</code>
+<div class="block">Intersects the ray with this grid and notifies a visitor
+ for each cell traversed.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="../../../../../ca/eandb/jmist/framework/accel/Grid3.Cell.html" title="class in ca.eandb.jmist.framework.accel">Grid3.Cell</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/accel/Grid3.html#nearestCell(ca.eandb.jmist.math.Point3)">nearestCell</a></strong>(<a href="../../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;p)</code>
+<div class="block">Returns the cell that is nearest to the specified point.</div>
+</td>
+</tr>
+</table>
+<ul class="blockList">
+<li class="blockList"><a name="methods_inherited_from_class_java.lang.Object">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>equals, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="details">
+<ul class="blockList">
+<li class="blockList">
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+<ul class="blockList">
+<li class="blockList"><a name="constructor_detail">
+<!--   -->
+</a>
+<h3>Constructor Detail</h3>
+<a name="Grid3(ca.eandb.jmist.math.Box3, int, int, int)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>Grid3</h4>
+<pre>public&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/accel/Grid3.java#L56" target="_blank">Grid3</a>(<a href="../../../../../ca/eandb/jmist/math/Box3.html" title="class in ca.eandb.jmist.math">Box3</a>&nbsp;bound,
+     int&nbsp;nx,
+     int&nbsp;ny,
+     int&nbsp;nz)</pre>
+<div class="block">Initializes the bounds of the grid and the number of cells
+ in each direction.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>bound</code> - The bounding box of the grid.  Must have volume greater
+                than zero.</dd><dd><code>nx</code> - The number of cells to divide the grid into along the x-axis.
+                Must be greater than zero.</dd><dd><code>ny</code> - The number of cells to divide the grid into along the y-axis.
+                Must be greater than zero.</dd><dd><code>nz</code> - The number of cells to divide the grid into along the z-axis.
+                Must be greater than zero.</dd></dl>
+</li>
+</ul>
+</li>
+</ul>
+<!-- ============ METHOD DETAIL ========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method_detail">
+<!--   -->
+</a>
+<h3>Method Detail</h3>
+<a name="hasCellAt(int, int, int)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>hasCellAt</h4>
+<pre>public&nbsp;boolean&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/accel/Grid3.java#L170" target="_blank">hasCellAt</a>(int&nbsp;cx,
+                int&nbsp;cy,
+                int&nbsp;cz)</pre>
+<div class="block">Indicates whether this grid has a cell at the specified indices.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>cx</code> - The index along the x-axis.</dd><dd><code>cy</code> - The index along the y-axis.</dd><dd><code>cz</code> - The index along the</dd>
+<dt><span class="strong">Returns:</span></dt><dd>A value indicating whether this grid has a cell at the specified
+                indices.</dd></dl>
+</li>
+</ul>
+<a name="cellBounds(int, int, int)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>cellBounds</h4>
+<pre>public&nbsp;<a href="../../../../../ca/eandb/jmist/math/Box3.html" title="class in ca.eandb.jmist.math">Box3</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/accel/Grid3.java#L183" target="_blank">cellBounds</a>(int&nbsp;cx,
+              int&nbsp;cy,
+              int&nbsp;cz)</pre>
+<div class="block">Computes the bounding box of a cell.  Requires that
+ this.hasCellAt(cx, cy, cz).</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>cx</code> - The index of the cell along the x-axis.</dd><dd><code>cy</code> - The index of the cell along the y-axis.</dd><dd><code>cz</code> - The index of the cell along the z-axis.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The bounding box of the specified cell.</dd><dt><span class="strong">See Also:</span></dt><dd><a href="../../../../../ca/eandb/jmist/framework/accel/Grid3.html#hasCellAt(int, int, int)"><code>hasCellAt(int, int, int)</code></a></dd></dl>
+</li>
+</ul>
+<a name="getBoundingBox()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getBoundingBox</h4>
+<pre>public&nbsp;<a href="../../../../../ca/eandb/jmist/math/Box3.html" title="class in ca.eandb.jmist.math">Box3</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/accel/Grid3.java#L200" target="_blank">getBoundingBox</a>()</pre>
+<div class="block">Gets the bounding box for this grid.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>The bounding box of this grid.</dd></dl>
+</li>
+</ul>
+<a name="cellAt(ca.eandb.jmist.math.Point3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>cellAt</h4>
+<pre>public&nbsp;<a href="../../../../../ca/eandb/jmist/framework/accel/Grid3.Cell.html" title="class in ca.eandb.jmist.framework.accel">Grid3.Cell</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/accel/Grid3.java#L210" target="_blank">cellAt</a>(<a href="../../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;p)</pre>
+<div class="block">Returns the cell that contains the specified point.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>p</code> - The point to check for.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The cell that contains the specified point, or
+                null if the point is not contained in the grid.</dd></dl>
+</li>
+</ul>
+<a name="nearestCell(ca.eandb.jmist.math.Point3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>nearestCell</h4>
+<pre>public&nbsp;<a href="../../../../../ca/eandb/jmist/framework/accel/Grid3.Cell.html" title="class in ca.eandb.jmist.framework.accel">Grid3.Cell</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/accel/Grid3.java#L230" target="_blank">nearestCell</a>(<a href="../../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;p)</pre>
+<div class="block">Returns the cell that is nearest to the specified point.  This
+ method is guaranteed not to return null.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>p</code> - The point to consider.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The cell that is nearest to the specified point.</dd></dl>
+</li>
+</ul>
+<a name="intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.math.Interval, ca.eandb.jmist.framework.accel.Grid3.Visitor)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>intersect</h4>
+<pre>public&nbsp;boolean&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/accel/Grid3.java#L251" target="_blank">intersect</a>(<a href="../../../../../ca/eandb/jmist/math/Ray3.html" title="class in ca.eandb.jmist.math">Ray3</a>&nbsp;ray,
+                <a href="../../../../../ca/eandb/jmist/math/Interval.html" title="class in ca.eandb.jmist.math">Interval</a>&nbsp;I,
+                <a href="../../../../../ca/eandb/jmist/framework/accel/Grid3.Visitor.html" title="interface in ca.eandb.jmist.framework.accel">Grid3.Visitor</a>&nbsp;visitor)</pre>
+<div class="block">Intersects the ray with this grid and notifies a visitor
+ for each cell traversed.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>ray</code> - The ray with which to traverse the grid.</dd><dd><code>I</code> - The interval along the ray to consider.</dd><dd><code>visitor</code> - The visitor to be notified for each cell
+                traversed.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>A value indicating whether the ray intersects
+                the grid (i.e., this.getBoundingBox().intersect(ray).intersects(I)).</dd><dt><span class="strong">See Also:</span></dt><dd><a href="../../../../../ca/eandb/jmist/framework/accel/Grid3.html#getBoundingBox()"><code>getBoundingBox()</code></a>, 
+<a href="../../../../../ca/eandb/jmist/math/Box3.html#intersect(ca.eandb.jmist.math.Ray3)"><code>Box3.intersect(Ray3)</code></a>, 
+<a href="../../../../../ca/eandb/jmist/math/Interval.html#intersects(ca.eandb.jmist.math.Interval)"><code>Interval.intersects(Interval)</code></a></dd></dl>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<!-- ========= END OF CLASS DATA ========= -->
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<div class="bottomNav"><a name="navbar_bottom">
+<!--   -->
+</a><a href="#skip-navbar_bottom" title="Skip navigation links"></a><a name="navbar_bottom_firstrow">
+<!--   -->
+</a>
+<ul class="navList" title="Navigation">
+<li><a href="../../../../../overview-summary.html">Overview</a></li>
+<li><a href="package-summary.html">Package</a></li>
+<li class="navBarCell1Rev">Class</li>
+<li><a href="class-use/Grid3.html">Use</a></li>
+<li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../../../index-files/index-1.html">Index</a></li>
+<li><a href="../../../../../help-doc.html">Help</a></li>
+</ul>
+</div>
+<div class="subNav">
+<ul class="navList">
+<li><a href="../../../../../ca/eandb/jmist/framework/accel/BoundingIntervalHierarchy.html" title="class in ca.eandb.jmist.framework.accel"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../../ca/eandb/jmist/framework/accel/Grid3.Cell.html" title="class in ca.eandb.jmist.framework.accel"><span class="strong">Next Class</span></a></li>
+</ul>
+<ul class="navList">
+<li><a href="../../../../../index.html?ca/eandb/jmist/framework/accel/Grid3.html" target="_top">Frames</a></li>
+<li><a href="Grid3.html" target="_top">No Frames</a></li>
+</ul>
+<ul class="navList" id="allclasses_navbar_bottom">
+<li><a href="../../../../../allclasses-noframe.html">All Classes</a></li>
+</ul>
+<div>
+<script type="text/javascript"><!--
+  allClassesLink = document.getElementById("allclasses_navbar_bottom");
+  if(window==top) {
+    allClassesLink.style.display = "block";
+  }
+  else {
+    allClassesLink.style.display = "none";
+  }
+  //-->
+</script>
+</div>
+<div>
+<ul class="subNavList">
+<li>Summary:&nbsp;</li>
+<li><a href="#nested_class_summary">Nested</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_summary">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_summary">Method</a></li>
+</ul>
+<ul class="subNavList">
+<li>Detail:&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_detail">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_detail">Method</a></li>
+</ul>
+</div>
+<a name="skip-navbar_bottom">
+<!--   -->
+</a></div>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+</body>
+</html>

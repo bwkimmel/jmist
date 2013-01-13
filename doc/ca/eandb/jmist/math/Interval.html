@@ -1,0 +1,663 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- NewPage -->
+<html lang="en">
+<head>
+<title>Interval</title>
+<link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<script type="text/javascript"><!--
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="Interval";
+    }
+//-->
+</script>
+<noscript>
+<div>JavaScript is disabled on your browser.</div>
+</noscript>
+<!-- ========= START OF TOP NAVBAR ======= -->
+<div class="topNav"><a name="navbar_top">
+<!--   -->
+</a><a href="#skip-navbar_top" title="Skip navigation links"></a><a name="navbar_top_firstrow">
+<!--   -->
+</a>
+<ul class="navList" title="Navigation">
+<li><a href="../../../../overview-summary.html">Overview</a></li>
+<li><a href="package-summary.html">Package</a></li>
+<li class="navBarCell1Rev">Class</li>
+<li><a href="class-use/Interval.html">Use</a></li>
+<li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../../index-files/index-1.html">Index</a></li>
+<li><a href="../../../../help-doc.html">Help</a></li>
+</ul>
+</div>
+<div class="subNav">
+<ul class="navList">
+<li><a href="../../../../ca/eandb/jmist/math/HPoint3.html" title="class in ca.eandb.jmist.math"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../ca/eandb/jmist/math/LinearMatrix2.html" title="class in ca.eandb.jmist.math"><span class="strong">Next Class</span></a></li>
+</ul>
+<ul class="navList">
+<li><a href="../../../../index.html?ca/eandb/jmist/math/Interval.html" target="_top">Frames</a></li>
+<li><a href="Interval.html" target="_top">No Frames</a></li>
+</ul>
+<ul class="navList" id="allclasses_navbar_top">
+<li><a href="../../../../allclasses-noframe.html">All Classes</a></li>
+</ul>
+<div>
+<script type="text/javascript"><!--
+  allClassesLink = document.getElementById("allclasses_navbar_top");
+  if(window==top) {
+    allClassesLink.style.display = "block";
+  }
+  else {
+    allClassesLink.style.display = "none";
+  }
+  //-->
+</script>
+</div>
+<div>
+<ul class="subNavList">
+<li>Summary:&nbsp;</li>
+<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#field_summary">Field</a>&nbsp;|&nbsp;</li>
+<li><a href="#constructor_summary">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_summary">Method</a></li>
+</ul>
+<ul class="subNavList">
+<li>Detail:&nbsp;</li>
+<li><a href="#field_detail">Field</a>&nbsp;|&nbsp;</li>
+<li><a href="#constructor_detail">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_detail">Method</a></li>
+</ul>
+</div>
+<a name="skip-navbar_top">
+<!--   -->
+</a></div>
+<!-- ========= END OF TOP NAVBAR ========= -->
+<!-- ======== START OF CLASS DATA ======== -->
+<div class="header">
+<div class="subTitle">ca.eandb.jmist.math</div>
+<h2 title="Class Interval" class="title">Class Interval</h2>
+</div>
+<div class="contentContainer">
+<ul class="inheritance">
+<li>java.lang.Object</li>
+<li>
+<ul class="inheritance">
+<li>ca.eandb.jmist.math.Interval</li>
+</ul>
+</li>
+</ul>
+<div class="description">
+<ul class="blockList">
+<li class="blockList">
+<dl>
+<dt>All Implemented Interfaces:</dt>
+<dd>java.io.Serializable</dd>
+</dl>
+<hr>
+<br>
+<pre>public final class <a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Interval.java#L35" target="_blank">Interval</a>
+extends java.lang.Object
+implements java.io.Serializable</pre>
+<div class="block">An closed interval [a, b] on the real number line.
+ This class is immutable.</div>
+<dl><dt><span class="strong">Author:</span></dt>
+  <dd>Brad Kimmel</dd>
+<dt><span class="strong">See Also:</span></dt><dd><a href="../../../../serialized-form.html#ca.eandb.jmist.math.Interval">Serialized Form</a></dd></dl>
+</li>
+</ul>
+</div>
+<div class="summary">
+<ul class="blockList">
+<li class="blockList">
+<!-- =========== FIELD SUMMARY =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="field_summary">
+<!--   -->
+</a>
+<h3>Field Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Field Summary table, listing fields, and an explanation">
+<caption><span>Fields</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Field and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Interval.html" title="class in ca.eandb.jmist.math">Interval</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Interval.html#EMPTY">EMPTY</a></strong></code>
+<div class="block">The empty set.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Interval.html" title="class in ca.eandb.jmist.math">Interval</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Interval.html#NEGATIVE">NEGATIVE</a></strong></code>
+<div class="block">The interval containing the non-positive real numbers: (-infinity, 0].</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Interval.html" title="class in ca.eandb.jmist.math">Interval</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Interval.html#POSITIVE">POSITIVE</a></strong></code>
+<div class="block">The interval containing the non-negative real numbers: [0, infinity).</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Interval.html" title="class in ca.eandb.jmist.math">Interval</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Interval.html#UNIT">UNIT</a></strong></code>
+<div class="block">The unit interval: [0, 1].</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Interval.html" title="class in ca.eandb.jmist.math">Interval</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Interval.html#UNIVERSE">UNIVERSE</a></strong></code>
+<div class="block">The entire real line (-infinity, infinity).</div>
+</td>
+</tr>
+</table>
+</li>
+</ul>
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+<ul class="blockList">
+<li class="blockList"><a name="constructor_summary">
+<!--   -->
+</a>
+<h3>Constructor Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Constructor Summary table, listing constructors, and an explanation">
+<caption><span>Constructors</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colOne" scope="col">Constructor and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colOne"><code><strong><a href="../../../../ca/eandb/jmist/math/Interval.html#Interval(double, double)">Interval</a></strong>(double&nbsp;minimum,
+                double&nbsp;maximum)</code>
+<div class="block">Initializes the endpoints of the interval.</div>
+</td>
+</tr>
+</table>
+</li>
+</ul>
+<!-- ========== METHOD SUMMARY =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method_summary">
+<!--   -->
+</a>
+<h3>Method Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
+<caption><span>Methods</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Method and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Interval.html" title="class in ca.eandb.jmist.math">Interval</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Interval.html#between(double, double)">between</a></strong>(double&nbsp;a,
+              double&nbsp;b)</code>
+<div class="block">Gets the interval between the specified values.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Interval.html#contains(double)">contains</a></strong>(double&nbsp;t)</code>
+<div class="block">Determines if the interval contains a particular value.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Interval.html#contains(double, double)">contains</a></strong>(double&nbsp;t,
+                double&nbsp;epsilon)</code>
+<div class="block">Determines if this interval contains the interval
+ <code>(t - epsilon, t + epsilon)</code>.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Interval.html#contains(ca.eandb.jmist.math.Interval)">contains</a></strong>(<a href="../../../../ca/eandb/jmist/math/Interval.html" title="class in ca.eandb.jmist.math">Interval</a>&nbsp;I)</code>
+<div class="block">Determines if this interval contains a given interval.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../ca/eandb/jmist/math/Interval.html" title="class in ca.eandb.jmist.math">Interval</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Interval.html#expand(double)">expand</a></strong>(double&nbsp;amount)</code>
+<div class="block">Expands this interval by the specified amount.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="../../../../ca/eandb/jmist/math/Interval.html" title="class in ca.eandb.jmist.math">Interval</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Interval.html#extendTo(double)">extendTo</a></strong>(double&nbsp;t)</code>
+<div class="block">Extends this interval to include the specified value.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Interval.html" title="class in ca.eandb.jmist.math">Interval</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Interval.html#greaterThan(double)">greaterThan</a></strong>(double&nbsp;a)</code>
+<div class="block">Creates an <code>Interval</code> representing [a, infinity).</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>double</code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Interval.html#interpolate(double)">interpolate</a></strong>(double&nbsp;t)</code>
+<div class="block">Interpolates between the endpoints of this interval.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../ca/eandb/jmist/math/Interval.html" title="class in ca.eandb.jmist.math">Interval</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Interval.html#intersect(ca.eandb.jmist.math.Interval)">intersect</a></strong>(<a href="../../../../ca/eandb/jmist/math/Interval.html" title="class in ca.eandb.jmist.math">Interval</a>&nbsp;I)</code>
+<div class="block">Computes the intersection of this interval with another.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Interval.html#intersects(ca.eandb.jmist.math.Interval)">intersects</a></strong>(<a href="../../../../ca/eandb/jmist/math/Interval.html" title="class in ca.eandb.jmist.math">Interval</a>&nbsp;I)</code>
+<div class="block">Determines whether this interval intersects with another.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Interval.html#isEmpty()">isEmpty</a></strong>()</code>
+<div class="block">Determines if this interval is the empty interval.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Interval.html#isInfinite()">isInfinite</a></strong>()</code>
+<div class="block">Determines if this interval is infinite.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>double</code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Interval.html#length()">length</a></strong>()</code>
+<div class="block">Gets the length of this interval (i.e., the distance
+ between the endpoints).</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Interval.html" title="class in ca.eandb.jmist.math">Interval</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Interval.html#lessThan(double)">lessThan</a></strong>(double&nbsp;b)</code>
+<div class="block">Creates an <code>Interval</code> representing (-infinity, b].</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>double</code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Interval.html#maximum()">maximum</a></strong>()</code>
+<div class="block">Gets the upper bound of this interval.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>double</code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Interval.html#minimum()">minimum</a></strong>()</code>
+<div class="block">Gets the lower bound of this interval.</div>
+</td>
+</tr>
+</table>
+<ul class="blockList">
+<li class="blockList"><a name="methods_inherited_from_class_java.lang.Object">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>equals, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="details">
+<ul class="blockList">
+<li class="blockList">
+<!-- ============ FIELD DETAIL =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="field_detail">
+<!--   -->
+</a>
+<h3>Field Detail</h3>
+<a name="UNIVERSE">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>UNIVERSE</h4>
+<pre>public static final&nbsp;<a href="../../../../ca/eandb/jmist/math/Interval.html" title="class in ca.eandb.jmist.math">Interval</a> <a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Interval.java#L230" target="_blank">UNIVERSE</a></pre>
+<div class="block">The entire real line (-infinity, infinity).
+ <code>Interval.UNIVERSE.contains(t)</code> will return true for all t.</div>
+</li>
+</ul>
+<a name="UNIT">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>UNIT</h4>
+<pre>public static final&nbsp;<a href="../../../../ca/eandb/jmist/math/Interval.html" title="class in ca.eandb.jmist.math">Interval</a> <a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Interval.java#L235" target="_blank">UNIT</a></pre>
+<div class="block">The unit interval: [0, 1].</div>
+</li>
+</ul>
+<a name="EMPTY">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>EMPTY</h4>
+<pre>public static final&nbsp;<a href="../../../../ca/eandb/jmist/math/Interval.html" title="class in ca.eandb.jmist.math">Interval</a> <a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Interval.java#L241" target="_blank">EMPTY</a></pre>
+<div class="block">The empty set.
+ <code>Interval.EMPTY.contains(t)</code> will return false for all t.</div>
+</li>
+</ul>
+<a name="POSITIVE">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>POSITIVE</h4>
+<pre>public static final&nbsp;<a href="../../../../ca/eandb/jmist/math/Interval.html" title="class in ca.eandb.jmist.math">Interval</a> <a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Interval.java#L246" target="_blank">POSITIVE</a></pre>
+<div class="block">The interval containing the non-negative real numbers: [0, infinity).</div>
+</li>
+</ul>
+<a name="NEGATIVE">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>NEGATIVE</h4>
+<pre>public static final&nbsp;<a href="../../../../ca/eandb/jmist/math/Interval.html" title="class in ca.eandb.jmist.math">Interval</a> <a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Interval.java#L251" target="_blank">NEGATIVE</a></pre>
+<div class="block">The interval containing the non-positive real numbers: (-infinity, 0].</div>
+</li>
+</ul>
+</li>
+</ul>
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+<ul class="blockList">
+<li class="blockList"><a name="constructor_detail">
+<!--   -->
+</a>
+<h3>Constructor Detail</h3>
+<a name="Interval(double, double)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>Interval</h4>
+<pre>public&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Interval.java#L43" target="_blank">Interval</a>(double&nbsp;minimum,
+        double&nbsp;maximum)</pre>
+<div class="block">Initializes the endpoints of the interval.
+ Requires <code>minimum &lt;= maximum</code></div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>minimum</code> - The lower bound of the interval.</dd><dd><code>maximum</code> - The upper bound of the interval.</dd></dl>
+</li>
+</ul>
+</li>
+</ul>
+<!-- ============ METHOD DETAIL ========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method_detail">
+<!--   -->
+</a>
+<h3>Method Detail</h3>
+<a name="between(double, double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>between</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Interval.html" title="class in ca.eandb.jmist.math">Interval</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Interval.java#L57" target="_blank">between</a>(double&nbsp;a,
+               double&nbsp;b)</pre>
+<div class="block">Gets the interval between the specified values.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>a</code> - The first value.</dd><dd><code>b</code> - The second value.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The interval [a, b], if a <= b. The interval [b, a], if
+                b < a.</dd></dl>
+</li>
+</ul>
+<a name="greaterThan(double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>greaterThan</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Interval.html" title="class in ca.eandb.jmist.math">Interval</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Interval.java#L66" target="_blank">greaterThan</a>(double&nbsp;a)</pre>
+<div class="block">Creates an <code>Interval</code> representing [a, infinity).</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>a</code> - The lower bound of the interval.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The new <code>Interval</code>.</dd></dl>
+</li>
+</ul>
+<a name="lessThan(double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>lessThan</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Interval.html" title="class in ca.eandb.jmist.math">Interval</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Interval.java#L75" target="_blank">lessThan</a>(double&nbsp;b)</pre>
+<div class="block">Creates an <code>Interval</code> representing (-infinity, b].</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>b</code> - The lower bound of the interval.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The new <code>Interval</code>.</dd></dl>
+</li>
+</ul>
+<a name="minimum()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>minimum</h4>
+<pre>public&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Interval.java#L83" target="_blank">minimum</a>()</pre>
+<div class="block">Gets the lower bound of this interval.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>The lower bound of this interval.</dd></dl>
+</li>
+</ul>
+<a name="maximum()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>maximum</h4>
+<pre>public&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Interval.java#L91" target="_blank">maximum</a>()</pre>
+<div class="block">Gets the upper bound of this interval.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>The upper bound of this interval.</dd></dl>
+</li>
+</ul>
+<a name="length()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>length</h4>
+<pre>public&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Interval.java#L100" target="_blank">length</a>()</pre>
+<div class="block">Gets the length of this interval (i.e., the distance
+ between the endpoints).</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>The length of the interval.</dd></dl>
+</li>
+</ul>
+<a name="contains(double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>contains</h4>
+<pre>public&nbsp;boolean&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Interval.java#L109" target="_blank">contains</a>(double&nbsp;t)</pre>
+<div class="block">Determines if the interval contains a particular value.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>t</code> - The value to check for containment.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>True if <code>this.minimum() &lt;= t &lt;= this.maximum()</code>, false otherwise.</dd></dl>
+</li>
+</ul>
+<a name="contains(ca.eandb.jmist.math.Interval)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>contains</h4>
+<pre>public&nbsp;boolean&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Interval.java#L120" target="_blank">contains</a>(<a href="../../../../ca/eandb/jmist/math/Interval.html" title="class in ca.eandb.jmist.math">Interval</a>&nbsp;I)</pre>
+<div class="block">Determines if this interval contains a given interval.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>I</code> - The <code>Interval</code> to check for containment.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>True if <code>I</code> is empty or if
+                <code>this.minimum() &lt;= I.minimum() &lt; I.maximum() &lt;= this.maximum()</code>,
+                false otherwise.</dd></dl>
+</li>
+</ul>
+<a name="contains(double, double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>contains</h4>
+<pre>public&nbsp;boolean&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Interval.java#L132" target="_blank">contains</a>(double&nbsp;t,
+               double&nbsp;epsilon)</pre>
+<div class="block">Determines if this interval contains the interval
+ <code>(t - epsilon, t + epsilon)</code>.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>t</code> - The center of the interval to check for containment.</dd><dd><code>epsilon</code> - Half the width of the interval to check for containment.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>True if <code>minimum() &lt;= t - epsilon &lt; t + epsilon &lt;= maximum()</code>,
+                false otherwise.</dd></dl>
+</li>
+</ul>
+<a name="isEmpty()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isEmpty</h4>
+<pre>public&nbsp;boolean&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Interval.java#L140" target="_blank">isEmpty</a>()</pre>
+<div class="block">Determines if this interval is the empty interval.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>A value indicating if this interval is empty.</dd></dl>
+</li>
+</ul>
+<a name="isInfinite()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isInfinite</h4>
+<pre>public&nbsp;boolean&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Interval.java#L148" target="_blank">isInfinite</a>()</pre>
+<div class="block">Determines if this interval is infinite.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>A value indicating if this interval is infinite.</dd></dl>
+</li>
+</ul>
+<a name="extendTo(double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>extendTo</h4>
+<pre>public&nbsp;<a href="../../../../ca/eandb/jmist/math/Interval.html" title="class in ca.eandb.jmist.math">Interval</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Interval.java#L158" target="_blank">extendTo</a>(double&nbsp;t)</pre>
+<div class="block">Extends this interval to include the specified value.
+ Guarantees that <code>this.contains(t)</code> after this method is called.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>t</code> - The value to include in this interval.</dd><dt><span class="strong">See Also:</span></dt><dd><a href="../../../../ca/eandb/jmist/math/Interval.html#contains(double)"><code>contains(double)</code></a></dd></dl>
+</li>
+</ul>
+<a name="expand(double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>expand</h4>
+<pre>public&nbsp;<a href="../../../../ca/eandb/jmist/math/Interval.html" title="class in ca.eandb.jmist.math">Interval</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Interval.java#L175" target="_blank">expand</a>(double&nbsp;amount)</pre>
+<div class="block">Expands this interval by the specified amount.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>amount</code> - The amount to expand this interval by.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The expanded interval.</dd></dl>
+</li>
+</ul>
+<a name="intersect(ca.eandb.jmist.math.Interval)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>intersect</h4>
+<pre>public&nbsp;<a href="../../../../ca/eandb/jmist/math/Interval.html" title="class in ca.eandb.jmist.math">Interval</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Interval.java#L191" target="_blank">intersect</a>(<a href="../../../../ca/eandb/jmist/math/Interval.html" title="class in ca.eandb.jmist.math">Interval</a>&nbsp;I)</pre>
+<div class="block">Computes the intersection of this interval with another.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>I</code> - The interval to intersect with this one.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The intersection of this interval with I.</dd></dl>
+</li>
+</ul>
+<a name="intersects(ca.eandb.jmist.math.Interval)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>intersects</h4>
+<pre>public&nbsp;boolean&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Interval.java#L203" target="_blank">intersects</a>(<a href="../../../../ca/eandb/jmist/math/Interval.html" title="class in ca.eandb.jmist.math">Interval</a>&nbsp;I)</pre>
+<div class="block">Determines whether this interval intersects with another.
+ Equivalent to <code>!this.intersect(I).isEmpty()</code>.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>I</code> - The interval with which to check for an intersection</dd>
+<dt><span class="strong">Returns:</span></dt><dd>A value indicating whether the two intervals overlap.</dd><dt><span class="strong">See Also:</span></dt><dd><a href="../../../../ca/eandb/jmist/math/Interval.html#intersect(ca.eandb.jmist.math.Interval)"><code>intersect(Interval)</code></a>, 
+<a href="../../../../ca/eandb/jmist/math/Interval.html#isEmpty()"><code>isEmpty()</code></a></dd></dl>
+</li>
+</ul>
+<a name="interpolate(double)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>interpolate</h4>
+<pre>public&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Interval.java#L215" target="_blank">interpolate</a>(double&nbsp;t)</pre>
+<div class="block">Interpolates between the endpoints of this interval.  If
+ <code>t</code> is in [0, 1], then the result will fall within
+ the interval, otherwise, the result will fall outside the
+ interval.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>t</code> - The value at which to interpolate.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The interpolated point.</dd></dl>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<!-- ========= END OF CLASS DATA ========= -->
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<div class="bottomNav"><a name="navbar_bottom">
+<!--   -->
+</a><a href="#skip-navbar_bottom" title="Skip navigation links"></a><a name="navbar_bottom_firstrow">
+<!--   -->
+</a>
+<ul class="navList" title="Navigation">
+<li><a href="../../../../overview-summary.html">Overview</a></li>
+<li><a href="package-summary.html">Package</a></li>
+<li class="navBarCell1Rev">Class</li>
+<li><a href="class-use/Interval.html">Use</a></li>
+<li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../../index-files/index-1.html">Index</a></li>
+<li><a href="../../../../help-doc.html">Help</a></li>
+</ul>
+</div>
+<div class="subNav">
+<ul class="navList">
+<li><a href="../../../../ca/eandb/jmist/math/HPoint3.html" title="class in ca.eandb.jmist.math"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../ca/eandb/jmist/math/LinearMatrix2.html" title="class in ca.eandb.jmist.math"><span class="strong">Next Class</span></a></li>
+</ul>
+<ul class="navList">
+<li><a href="../../../../index.html?ca/eandb/jmist/math/Interval.html" target="_top">Frames</a></li>
+<li><a href="Interval.html" target="_top">No Frames</a></li>
+</ul>
+<ul class="navList" id="allclasses_navbar_bottom">
+<li><a href="../../../../allclasses-noframe.html">All Classes</a></li>
+</ul>
+<div>
+<script type="text/javascript"><!--
+  allClassesLink = document.getElementById("allclasses_navbar_bottom");
+  if(window==top) {
+    allClassesLink.style.display = "block";
+  }
+  else {
+    allClassesLink.style.display = "none";
+  }
+  //-->
+</script>
+</div>
+<div>
+<ul class="subNavList">
+<li>Summary:&nbsp;</li>
+<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#field_summary">Field</a>&nbsp;|&nbsp;</li>
+<li><a href="#constructor_summary">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_summary">Method</a></li>
+</ul>
+<ul class="subNavList">
+<li>Detail:&nbsp;</li>
+<li><a href="#field_detail">Field</a>&nbsp;|&nbsp;</li>
+<li><a href="#constructor_detail">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_detail">Method</a></li>
+</ul>
+</div>
+<a name="skip-navbar_bottom">
+<!--   -->
+</a></div>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+</body>
+</html>

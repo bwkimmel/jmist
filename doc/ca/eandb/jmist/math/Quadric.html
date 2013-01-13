@@ -1,0 +1,1022 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- NewPage -->
+<html lang="en">
+<head>
+<title>Quadric</title>
+<link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<script type="text/javascript"><!--
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="Quadric";
+    }
+//-->
+</script>
+<noscript>
+<div>JavaScript is disabled on your browser.</div>
+</noscript>
+<!-- ========= START OF TOP NAVBAR ======= -->
+<div class="topNav"><a name="navbar_top">
+<!--   -->
+</a><a href="#skip-navbar_top" title="Skip navigation links"></a><a name="navbar_top_firstrow">
+<!--   -->
+</a>
+<ul class="navList" title="Navigation">
+<li><a href="../../../../overview-summary.html">Overview</a></li>
+<li><a href="package-summary.html">Package</a></li>
+<li class="navBarCell1Rev">Class</li>
+<li><a href="class-use/Quadric.html">Use</a></li>
+<li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../../index-files/index-1.html">Index</a></li>
+<li><a href="../../../../help-doc.html">Help</a></li>
+</ul>
+</div>
+<div class="subNav">
+<ul class="navList">
+<li><a href="../../../../ca/eandb/jmist/math/Polynomial.html" title="class in ca.eandb.jmist.math"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../ca/eandb/jmist/math/Ray2.html" title="class in ca.eandb.jmist.math"><span class="strong">Next Class</span></a></li>
+</ul>
+<ul class="navList">
+<li><a href="../../../../index.html?ca/eandb/jmist/math/Quadric.html" target="_top">Frames</a></li>
+<li><a href="Quadric.html" target="_top">No Frames</a></li>
+</ul>
+<ul class="navList" id="allclasses_navbar_top">
+<li><a href="../../../../allclasses-noframe.html">All Classes</a></li>
+</ul>
+<div>
+<script type="text/javascript"><!--
+  allClassesLink = document.getElementById("allclasses_navbar_top");
+  if(window==top) {
+    allClassesLink.style.display = "block";
+  }
+  else {
+    allClassesLink.style.display = "none";
+  }
+  //-->
+</script>
+</div>
+<div>
+<ul class="subNavList">
+<li>Summary:&nbsp;</li>
+<li>Nested&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
+<li><a href="#method_summary">Method</a></li>
+</ul>
+<ul class="subNavList">
+<li>Detail:&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
+<li><a href="#method_detail">Method</a></li>
+</ul>
+</div>
+<a name="skip-navbar_top">
+<!--   -->
+</a></div>
+<!-- ========= END OF TOP NAVBAR ========= -->
+<!-- ======== START OF CLASS DATA ======== -->
+<div class="header">
+<div class="subTitle">ca.eandb.jmist.math</div>
+<h2 title="Class Quadric" class="title">Class Quadric</h2>
+</div>
+<div class="contentContainer">
+<ul class="inheritance">
+<li>java.lang.Object</li>
+<li>
+<ul class="inheritance">
+<li>ca.eandb.jmist.math.Quadric</li>
+</ul>
+</li>
+</ul>
+<div class="description">
+<ul class="blockList">
+<li class="blockList">
+<dl>
+<dt>All Implemented Interfaces:</dt>
+<dd>java.io.Serializable</dd>
+</dl>
+<hr>
+<br>
+<pre>public final class <a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Quadric.java#L40" target="_blank">Quadric</a>
+extends java.lang.Object
+implements java.io.Serializable</pre>
+<div class="block">Represents a quadric surface, i.e., the solution to
+ <code><b>x<sup>t</sup>Qx</b> = 0</code>, where
+ <code><b>x</b> = (x y z 1)<b><sup>t</sup></b></code> and
+ <code><b>Q</b></code> is the 4x4 symmetric matrix characterizing the
+ surface.</div>
+<dl><dt><span class="strong">Author:</span></dt>
+  <dd>Brad Kimmel</dd>
+<dt><span class="strong">See Also:</span></dt><dd><a href="http://en.wikipedia.org/wiki/Quadric">Quadric (wikipedia)</a>, 
+<a href="http://mathworld.wolfram.com/QuadraticSurface.html">Quadratic Surface (MathWorld)</a>, 
+<a href="../../../../serialized-form.html#ca.eandb.jmist.math.Quadric">Serialized Form</a></dd></dl>
+</li>
+</ul>
+</div>
+<div class="summary">
+<ul class="blockList">
+<li class="blockList">
+<!-- ========== METHOD SUMMARY =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method_summary">
+<!--   -->
+</a>
+<h3>Method Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
+<caption><span>Methods</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Method and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>double</code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Quadric.html#characterize(ca.eandb.jmist.math.Point3)">characterize</a></strong>(<a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;p)</code>
+<div class="block">Evaluates the characteristic function
+ <code>f(p) = p<sup>t</sup><b>Q</b>p</code>, where
+ <code>p = (x y z 1)<sup>t</sup></code>.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>double</code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Quadric.html#characterize(ca.eandb.jmist.math.Vector4)">characterize</a></strong>(<a href="../../../../ca/eandb/jmist/math/Vector4.html" title="class in ca.eandb.jmist.math">Vector4</a>&nbsp;v)</code>
+<div class="block">Evaluates the characteristic function
+ <code>f(v) = v<sup>t</sup><b>Q</b>v</code>, which has the following
+ properties:
+
+ 
+   <code>f(v) = 0</code> if <code>v</code> is on the surface,
+   <code>f(v) &lt; 0</code> if <code>v</code> is inside the surface,
+                and
+   <code>f(v) &gt; 0</code> if <code>v</code> is outside the surface.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Quadric.html#contains(ca.eandb.jmist.math.Point3)">contains</a></strong>(<a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;p)</code>
+<div class="block">Determines if the specified <code>Point3</code> lies "inside" this
+ <code>Quadric</code>.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Quadric.html#createEllipsoid(double, double, double)">createEllipsoid</a></strong>(double&nbsp;a,
+                              double&nbsp;b,
+                              double&nbsp;c)</code>
+<div class="block">Creates a <code>Quadric</code> representing an ellipsoid centered at the
+ origin and with its principal axes parallel to the coordinate axes.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Quadric.html#createEllipsoid(double, double, double, ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Basis3)">createEllipsoid</a></strong>(double&nbsp;a,
+                              double&nbsp;b,
+                              double&nbsp;c,
+                              <a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;center,
+                              <a href="../../../../ca/eandb/jmist/math/Basis3.html" title="class in ca.eandb.jmist.math">Basis3</a>&nbsp;basis)</code>
+<div class="block">Creates a <code>Quadric</code> representing an ellipsoid.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Quadric.html#createEllipticCone(double, double, double)">createEllipticCone</a></strong>(double&nbsp;a,
+                                    double&nbsp;b,
+                                    double&nbsp;c)</code>
+<div class="block">Creates a <code>Quadric</code> representing an elliptic cone centered at
+ the origin and with its principal axes parallel to the coordinate axes.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Quadric.html#createEllipticCone(double, double, double, ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Basis3)">createEllipticCone</a></strong>(double&nbsp;a,
+                                    double&nbsp;b,
+                                    double&nbsp;c,
+                                    <a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;center,
+                                    <a href="../../../../ca/eandb/jmist/math/Basis3.html" title="class in ca.eandb.jmist.math">Basis3</a>&nbsp;basis)</code>
+<div class="block">Creates a <code>Quadric</code> representing an elliptic cone.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Quadric.html#createEllipticCylinder(double, double)">createEllipticCylinder</a></strong>(double&nbsp;a,
+                                            double&nbsp;b)</code>
+<div class="block">Creates a <code>Quadric</code> representing a elliptic cylinder centered
+ at the origin and with its principal axes parallel to the coordinate
+ axes.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Quadric.html#createEllipticCylinder(double, double, ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Basis3)">createEllipticCylinder</a></strong>(double&nbsp;a,
+                                            double&nbsp;b,
+                                            <a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;center,
+                                            <a href="../../../../ca/eandb/jmist/math/Basis3.html" title="class in ca.eandb.jmist.math">Basis3</a>&nbsp;basis)</code>
+<div class="block">Creates a <code>Quadric</code> representing an elliptic cylinder.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Quadric.html#createEllipticParaboloid(double, double)">createEllipticParaboloid</a></strong>(double&nbsp;a,
+                                                double&nbsp;b)</code>
+<div class="block">Creates a <code>Quadric</code> representing an elliptic paraboloid
+ centered at the origin and with its principal axes parallel to the
+ coordinate axes.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Quadric.html#createEllipticParaboloid(double, double, ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Basis3)">createEllipticParaboloid</a></strong>(double&nbsp;a,
+                                                double&nbsp;b,
+                                                <a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;center,
+                                                <a href="../../../../ca/eandb/jmist/math/Basis3.html" title="class in ca.eandb.jmist.math">Basis3</a>&nbsp;basis)</code>
+<div class="block">Creates a <code>Quadric</code> representing an elliptic paraboloid.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Quadric.html#createGeneralQuadric(ca.eandb.jmist.math.Matrix4)">createGeneralQuadric</a></strong>(<a href="../../../../ca/eandb/jmist/math/Matrix4.html" title="class in ca.eandb.jmist.math">Matrix4</a>&nbsp;Q)</code>
+<div class="block">Creates a general <code>Quadric</code> surface given by
+ <code><b>x<sup>t</sup>Qx</b> = 0</code>, where
+ <code><b>x</b> = (x y z 1)<sup>t</sup></code>.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Quadric.html#createHyperbolicCylinder(double, double)">createHyperbolicCylinder</a></strong>(double&nbsp;a,
+                                                double&nbsp;b)</code>
+<div class="block">Creates a <code>Quadric</code> representing a hyperboloic cylinder
+ centered at the origin and with its principal axes parallel to the
+ coordinate axes.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Quadric.html#createHyperbolicCylinder(double, double, ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Basis3)">createHyperbolicCylinder</a></strong>(double&nbsp;a,
+                                                double&nbsp;b,
+                                                <a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;center,
+                                                <a href="../../../../ca/eandb/jmist/math/Basis3.html" title="class in ca.eandb.jmist.math">Basis3</a>&nbsp;basis)</code>
+<div class="block">Creates a <code>Quadric</code> representing a hyperbolic cylinder.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Quadric.html#createHyperbolicParaboloid(double, double)">createHyperbolicParaboloid</a></strong>(double&nbsp;a,
+                                                    double&nbsp;b)</code>
+<div class="block">Creates a <code>Quadric</code> representing a hyperbolic paraboloid
+ centered at the origin and with its principal axes parallel to the
+ coordinate axes.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Quadric.html#createHyperbolicParaboloid(double, double, ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Basis3)">createHyperbolicParaboloid</a></strong>(double&nbsp;a,
+                                                    double&nbsp;b,
+                                                    <a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;center,
+                                                    <a href="../../../../ca/eandb/jmist/math/Basis3.html" title="class in ca.eandb.jmist.math">Basis3</a>&nbsp;basis)</code>
+<div class="block">Creates a <code>Quadric</code> representing a hyperbolic paraboloid.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Quadric.html#createHyperboloidOfOneSheet(double, double, double)">createHyperboloidOfOneSheet</a></strong>(double&nbsp;a,
+                                                      double&nbsp;b,
+                                                      double&nbsp;c)</code>
+<div class="block">Creates a <code>Quadric</code> representing a hyperboloic of one sheet
+ centered at the origin and with its principal axes parallel to the
+ coordinate axes.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Quadric.html#createHyperboloidOfOneSheet(double, double, double, ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Basis3)">createHyperboloidOfOneSheet</a></strong>(double&nbsp;a,
+                                                      double&nbsp;b,
+                                                      double&nbsp;c,
+                                                      <a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;center,
+                                                      <a href="../../../../ca/eandb/jmist/math/Basis3.html" title="class in ca.eandb.jmist.math">Basis3</a>&nbsp;basis)</code>
+<div class="block">Creates a <code>Quadric</code> representing a hyperboloid of one sheet.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Quadric.html#createHyperboloidOfTwoSheets(double, double, double)">createHyperboloidOfTwoSheets</a></strong>(double&nbsp;a,
+                                                        double&nbsp;b,
+                                                        double&nbsp;c)</code>
+<div class="block">Creates a <code>Quadric</code> representing a hyperboloic of two sheets
+ centered at the origin and with its principal axes parallel to the
+ coordinate axes.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Quadric.html#createHyperboloidOfTwoSheets(double, double, double, ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Basis3)">createHyperboloidOfTwoSheets</a></strong>(double&nbsp;a,
+                                                        double&nbsp;b,
+                                                        double&nbsp;c,
+                                                        <a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;center,
+                                                        <a href="../../../../ca/eandb/jmist/math/Basis3.html" title="class in ca.eandb.jmist.math">Basis3</a>&nbsp;basis)</code>
+<div class="block">Creates a <code>Quadric</code> representing a hyperboloid of two sheets.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Quadric.html#createParabolicCylinder(double)">createParabolicCylinder</a></strong>(double&nbsp;a)</code>
+<div class="block">Creates a <code>Quadric</code> representing a parabolic cylinder
+ centered at the origin and with its principal axes parallel to the
+ coordinate axes.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Quadric.html#createParabolicCylinder(double, ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Basis3)">createParabolicCylinder</a></strong>(double&nbsp;a,
+                                              <a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;center,
+                                              <a href="../../../../ca/eandb/jmist/math/Basis3.html" title="class in ca.eandb.jmist.math">Basis3</a>&nbsp;basis)</code>
+<div class="block">Creates a <code>Quadric</code> representing a parabolic cylinder.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Quadric.html#createParallelPlanes(double)">createParallelPlanes</a></strong>(double&nbsp;a)</code>
+<div class="block">Creates a <code>Quadric</code> representing a pair of parallel planes,
+ <code>x = &#177;a</code>.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Quadric.html#createParallelPlanes(double, ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Basis3)">createParallelPlanes</a></strong>(double&nbsp;a,
+                                        <a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;center,
+                                        <a href="../../../../ca/eandb/jmist/math/Basis3.html" title="class in ca.eandb.jmist.math">Basis3</a>&nbsp;basis)</code>
+<div class="block">Creates a <code>Quadric</code> representing a pair of parallel planes.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Quadric.html#createSphere(double)">createSphere</a></strong>(double&nbsp;radius)</code>
+<div class="block">Creates a <code>Quadric</code> representing a sphere centered at the
+ origin.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Quadric.html#createSphere(double, ca.eandb.jmist.math.Point3)">createSphere</a></strong>(double&nbsp;radius,
+                        <a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;center)</code>
+<div class="block">Creates a <code>Quadric</code> representing a sphere.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../ca/eandb/jmist/math/Matrix4.html" title="class in ca.eandb.jmist.math">Matrix4</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Quadric.html#getMatrixRepresentation()">getMatrixRepresentation</a></strong>()</code>
+<div class="block">Gets the symmetric <code>Matrix4</code>, <code><b>Q</b></code>, having
+ the property that <code><b>x</b> = (x y z 1)<b><sup>t</sup></b></code>
+ lies on the surface of this <code>Quadric</code> if and only if
+ <code><b>x<sup>t</sup>Qx</b> = 0</code>.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Quadric.html#gradient(ca.eandb.jmist.math.Point3)">gradient</a></strong>(<a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;p)</code>
+<div class="block">Evaluates the gradient of the characteristic function.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../ca/eandb/jmist/math/Vector4.html" title="class in ca.eandb.jmist.math">Vector4</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Quadric.html#gradient(ca.eandb.jmist.math.Vector4)">gradient</a></strong>(<a href="../../../../ca/eandb/jmist/math/Vector4.html" title="class in ca.eandb.jmist.math">Vector4</a>&nbsp;v)</code>
+<div class="block">Evaluates the gradient of the characteristic function.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>double[]</code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Quadric.html#intersect(ca.eandb.jmist.math.Ray3)">intersect</a></strong>(<a href="../../../../ca/eandb/jmist/math/Ray3.html" title="class in ca.eandb.jmist.math">Ray3</a>&nbsp;ray)</code>
+<div class="block">Determines the points along the specified ray that intersect with this
+ <code>Quadric</code>.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Quadric.html#intersects(ca.eandb.jmist.math.Ray3)">intersects</a></strong>(<a href="../../../../ca/eandb/jmist/math/Ray3.html" title="class in ca.eandb.jmist.math">Ray3</a>&nbsp;ray)</code>
+<div class="block">Determines if the specified <code>Ray3</code> intersects this
+ <code>Quadric</code>.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/math/Quadric.html#normalAt(ca.eandb.jmist.math.Point3)">normalAt</a></strong>(<a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;p)</code>
+<div class="block">Determines the normal to this <code>Quadric</code> surface at the
+ specified point.<br>
+ <br>
+ Equivalent to <code>this.gradient(p).unit()</code>.</div>
+</td>
+</tr>
+</table>
+<ul class="blockList">
+<li class="blockList"><a name="methods_inherited_from_class_java.lang.Object">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>equals, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="details">
+<ul class="blockList">
+<li class="blockList">
+<!-- ============ METHOD DETAIL ========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method_detail">
+<!--   -->
+</a>
+<h3>Method Detail</h3>
+<a name="getMatrixRepresentation()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getMatrixRepresentation</h4>
+<pre>public&nbsp;<a href="../../../../ca/eandb/jmist/math/Matrix4.html" title="class in ca.eandb.jmist.math">Matrix4</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Quadric.java#L67" target="_blank">getMatrixRepresentation</a>()</pre>
+<div class="block">Gets the symmetric <code>Matrix4</code>, <code><b>Q</b></code>, having
+ the property that <code><b>x</b> = (x y z 1)<b><sup>t</sup></b></code>
+ lies on the surface of this <code>Quadric</code> if and only if
+ <code><b>x<sup>t</sup>Qx</b> = 0</code>.</div>
+<dl><dt><span class="strong">Returns:</span></dt><dd>The <code>Matrix4</code> that defines this <code>Quadric</code>.</dd></dl>
+</li>
+</ul>
+<a name="contains(ca.eandb.jmist.math.Point3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>contains</h4>
+<pre>public&nbsp;boolean&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Quadric.java#L81" target="_blank">contains</a>(<a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;p)</pre>
+<div class="block">Determines if the specified <code>Point3</code> lies "inside" this
+ <code>Quadric</code>.  That is, if
+ <code><b>p<sup>t</sup>Qp</b> &lt; 0</code>, where <code><b>Q</b></code>
+ is the characteristic <code>Matrix4</code>.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>p</code> - The <code>Point3</code> to test for containment.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>A value indicating if <code>p</code> is inside this
+                <code>Quadric</code>.</dd><dt><span class="strong">See Also:</span></dt><dd><a href="../../../../ca/eandb/jmist/math/Quadric.html#getMatrixRepresentation()"><code>getMatrixRepresentation()</code></a></dd></dl>
+</li>
+</ul>
+<a name="intersects(ca.eandb.jmist.math.Ray3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>intersects</h4>
+<pre>public&nbsp;boolean&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Quadric.java#L92" target="_blank">intersects</a>(<a href="../../../../ca/eandb/jmist/math/Ray3.html" title="class in ca.eandb.jmist.math">Ray3</a>&nbsp;ray)</pre>
+<div class="block">Determines if the specified <code>Ray3</code> intersects this
+ <code>Quadric</code>.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>ray</code> - The <code>Ray3</code> to test for intersection.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>A value indicating whether <code>ray</code> intersects this
+                <code>Quadric</code>.</dd></dl>
+</li>
+</ul>
+<a name="intersect(ca.eandb.jmist.math.Ray3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>intersect</h4>
+<pre>public&nbsp;double[]&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Quadric.java#L112" target="_blank">intersect</a>(<a href="../../../../ca/eandb/jmist/math/Ray3.html" title="class in ca.eandb.jmist.math">Ray3</a>&nbsp;ray)</pre>
+<div class="block">Determines the points along the specified ray that intersect with this
+ <code>Quadric</code>.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>ray</code> - The <code>Ray3</code> to compute the intersection with.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>An array containing up to two values, <code>t</code>, satisfying
+                <code>this.characterize(ray.pointAt(t)) == 0</code>.  These values
+                may include negative values.</dd><dt><span class="strong">See Also:</span></dt><dd><a href="../../../../ca/eandb/jmist/math/Ray3.html#pointAt(double)"><code>Ray3.pointAt(double)</code></a>, 
+<a href="../../../../ca/eandb/jmist/math/Quadric.html#characterize(ca.eandb.jmist.math.Point3)"><code>characterize(Point3)</code></a></dd></dl>
+</li>
+</ul>
+<a name="characterize(ca.eandb.jmist.math.Vector4)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>characterize</h4>
+<pre>public&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Quadric.java#L140" target="_blank">characterize</a>(<a href="../../../../ca/eandb/jmist/math/Vector4.html" title="class in ca.eandb.jmist.math">Vector4</a>&nbsp;v)</pre>
+<div class="block">Evaluates the characteristic function
+ <code>f(v) = v<sup>t</sup><b>Q</b>v</code>, which has the following
+ properties:
+
+ <ul>
+   <li><code>f(v) = 0</code> if <code>v</code> is on the surface,
+   <li><code>f(v) &lt; 0</code> if <code>v</code> is inside the surface,
+                and
+   <li><code>f(v) &gt; 0</code> if <code>v</code> is outside the surface.
+ </ul></div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>v</code> - The <code>Vector4</code> at which to evaluate the
+                characteristic function.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>A value characterizing the <code>v</code> with respect to this
+                <code>Quadric</code>.</dd></dl>
+</li>
+</ul>
+<a name="characterize(ca.eandb.jmist.math.Point3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>characterize</h4>
+<pre>public&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Quadric.java#L165" target="_blank">characterize</a>(<a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;p)</pre>
+<div class="block">Evaluates the characteristic function
+ <code>f(p) = p<sup>t</sup><b>Q</b>p</code>, where
+ <code>p = (x y z 1)<sup>t</sup></code>.  The characteristic function has
+ the following properties:
+
+ <ul>
+   <li><code>f(p) = 0</code> if <code>p</code> is on the surface,
+   <li><code>f(p) &lt; 0</code> if <code>p</code> is inside the surface,
+                and
+   <li><code>f(p) &gt; 0</code> if <code>p</code> is outside the surface.
+ </ul>
+
+ Equivalent to <code>this.characteristic(p.toVector4())</code>.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>p</code> - The <code>Point3</code> at which to evaluate the
+                characteristic function.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>A value characterizing the <code>p</code> with respect to this
+                <code>Quadric</code>.</dd><dt><span class="strong">See Also:</span></dt><dd><a href="../../../../ca/eandb/jmist/math/Quadric.html#characterize(ca.eandb.jmist.math.Vector4)"><code>characterize(Vector4)</code></a>, 
+<a href="../../../../ca/eandb/jmist/math/HPoint3.html#toVector4()"><code>HPoint3.toVector4()</code></a></dd></dl>
+</li>
+</ul>
+<a name="gradient(ca.eandb.jmist.math.Vector4)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>gradient</h4>
+<pre>public&nbsp;<a href="../../../../ca/eandb/jmist/math/Vector4.html" title="class in ca.eandb.jmist.math">Vector4</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Quadric.java#L179" target="_blank">gradient</a>(<a href="../../../../ca/eandb/jmist/math/Vector4.html" title="class in ca.eandb.jmist.math">Vector4</a>&nbsp;v)</pre>
+<div class="block">Evaluates the gradient of the characteristic function.  If
+ <code>v</code> lies on the surface of this <code>Quadric</code>, then
+ the gradient is normal to the surface.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>v</code> - The <code>Vector4</code> at which the gradient is to be
+                evaluated.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The <code>Vector4</code> of the derivatives with respect to each
+                component.</dd><dt><span class="strong">See Also:</span></dt><dd><a href="../../../../ca/eandb/jmist/math/Quadric.html#characterize(ca.eandb.jmist.math.Vector4)"><code>characterize(Vector4)</code></a></dd></dl>
+</li>
+</ul>
+<a name="gradient(ca.eandb.jmist.math.Point3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>gradient</h4>
+<pre>public&nbsp;<a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Quadric.java#L193" target="_blank">gradient</a>(<a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;p)</pre>
+<div class="block">Evaluates the gradient of the characteristic function.  If
+ <code>p</code> lies on the surface of this <code>Quadric</code>, then
+ the gradient is normal to the surface.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>p</code> - The <code>Point3</code>, <code>p = (x y z 1)<sup>t</sup></code>,
+                at which the gradient is to be evaluated.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The <code>Vector3</code> of the derivatives with respect to each
+                component.  The fourth component is ignored.</dd><dt><span class="strong">See Also:</span></dt><dd><a href="../../../../ca/eandb/jmist/math/Quadric.html#characterize(ca.eandb.jmist.math.Vector4)"><code>characterize(Vector4)</code></a></dd></dl>
+</li>
+</ul>
+<a name="normalAt(ca.eandb.jmist.math.Point3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>normalAt</h4>
+<pre>public&nbsp;<a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Quadric.java#L209" target="_blank">normalAt</a>(<a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;p)</pre>
+<div class="block">Determines the normal to this <code>Quadric</code> surface at the
+ specified point.<br>
+ <br>
+ Equivalent to <code>this.gradient(p).unit()</code>.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>p</code> - The <code>Point3</code> on the surface at which to evaluate the
+                normal.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>A <code>Vector3</code> of unit length that is normal to the
+                surface at <code>p</code>.  The result is undefined if
+                <code>p</code> does not lie on the surface.</dd></dl>
+</li>
+</ul>
+<a name="createGeneralQuadric(ca.eandb.jmist.math.Matrix4)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>createGeneralQuadric</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Quadric.java#L449" target="_blank">createGeneralQuadric</a>(<a href="../../../../ca/eandb/jmist/math/Matrix4.html" title="class in ca.eandb.jmist.math">Matrix4</a>&nbsp;Q)</pre>
+<div class="block">Creates a general <code>Quadric</code> surface given by
+ <code><b>x<sup>t</sup>Qx</b> = 0</code>, where
+ <code><b>x</b> = (x y z 1)<sup>t</sup></code>.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>Q</code> - The <code>Matrix4</code> characterizing the quadric surface to
+                create.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The <code>Quadric</code> surface characterized by
+                <code>Q</code>.</dd></dl>
+</li>
+</ul>
+<a name="createSphere(double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>createSphere</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Quadric.java#L459" target="_blank">createSphere</a>(double&nbsp;radius)</pre>
+<div class="block">Creates a <code>Quadric</code> representing a sphere centered at the
+ origin.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>radius</code> - The radius of the sphere.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The new <code>Quadric</code>.</dd></dl>
+</li>
+</ul>
+<a name="createEllipsoid(double, double, double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>createEllipsoid</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Quadric.java#L471" target="_blank">createEllipsoid</a>(double&nbsp;a,
+                      double&nbsp;b,
+                      double&nbsp;c)</pre>
+<div class="block">Creates a <code>Quadric</code> representing an ellipsoid centered at the
+ origin and with its principal axes parallel to the coordinate axes.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>a</code> - The length of the semi-principal axis in the x direction.</dd><dd><code>b</code> - The length of the semi-principal axis in the y direction.</dd><dd><code>c</code> - The length of the semi-principal axis in the z direction.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The new <code>Quadric</code>.</dd></dl>
+</li>
+</ul>
+<a name="createEllipticParaboloid(double, double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>createEllipticParaboloid</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Quadric.java#L483" target="_blank">createEllipticParaboloid</a>(double&nbsp;a,
+                               double&nbsp;b)</pre>
+<div class="block">Creates a <code>Quadric</code> representing an elliptic paraboloid
+ centered at the origin and with its principal axes parallel to the
+ coordinate axes.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>a</code> - The length of the semi-principal axis in the x direction.</dd><dd><code>b</code> - The length of the semi-principal axis in the y direction.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The new <code>Quadric</code>.</dd></dl>
+</li>
+</ul>
+<a name="createHyperbolicParaboloid(double, double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>createHyperbolicParaboloid</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Quadric.java#L495" target="_blank">createHyperbolicParaboloid</a>(double&nbsp;a,
+                                 double&nbsp;b)</pre>
+<div class="block">Creates a <code>Quadric</code> representing a hyperbolic paraboloid
+ centered at the origin and with its principal axes parallel to the
+ coordinate axes.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>a</code> - The length of the semi-principal axis in the x direction.</dd><dd><code>b</code> - The length of the semi-principal axis in the y direction.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The new <code>Quadric</code>.</dd></dl>
+</li>
+</ul>
+<a name="createHyperboloidOfOneSheet(double, double, double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>createHyperboloidOfOneSheet</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Quadric.java#L508" target="_blank">createHyperboloidOfOneSheet</a>(double&nbsp;a,
+                                  double&nbsp;b,
+                                  double&nbsp;c)</pre>
+<div class="block">Creates a <code>Quadric</code> representing a hyperboloic of one sheet
+ centered at the origin and with its principal axes parallel to the
+ coordinate axes.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>a</code> - The length of the semi-principal axis in the x direction.</dd><dd><code>b</code> - The length of the semi-principal axis in the y direction.</dd><dd><code>c</code> - The length of the semi-principal axis in the z direction.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The new <code>Quadric</code>.</dd></dl>
+</li>
+</ul>
+<a name="createHyperboloidOfTwoSheets(double, double, double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>createHyperboloidOfTwoSheets</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Quadric.java#L521" target="_blank">createHyperboloidOfTwoSheets</a>(double&nbsp;a,
+                                   double&nbsp;b,
+                                   double&nbsp;c)</pre>
+<div class="block">Creates a <code>Quadric</code> representing a hyperboloic of two sheets
+ centered at the origin and with its principal axes parallel to the
+ coordinate axes.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>a</code> - The length of the semi-principal axis in the x direction.</dd><dd><code>b</code> - The length of the semi-principal axis in the y direction.</dd><dd><code>c</code> - The length of the semi-principal axis in the z direction.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The new <code>Quadric</code>.</dd></dl>
+</li>
+</ul>
+<a name="createEllipticCone(double, double, double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>createEllipticCone</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Quadric.java#L533" target="_blank">createEllipticCone</a>(double&nbsp;a,
+                         double&nbsp;b,
+                         double&nbsp;c)</pre>
+<div class="block">Creates a <code>Quadric</code> representing an elliptic cone centered at
+ the origin and with its principal axes parallel to the coordinate axes.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>a</code> - The length of the semi-principal axis in the x direction.</dd><dd><code>b</code> - The length of the semi-principal axis in the y direction.</dd><dd><code>c</code> - The length of the semi-principal axis in the z direction.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The new <code>Quadric</code>.</dd></dl>
+</li>
+</ul>
+<a name="createEllipticCylinder(double, double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>createEllipticCylinder</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Quadric.java#L545" target="_blank">createEllipticCylinder</a>(double&nbsp;a,
+                             double&nbsp;b)</pre>
+<div class="block">Creates a <code>Quadric</code> representing a elliptic cylinder centered
+ at the origin and with its principal axes parallel to the coordinate
+ axes.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>a</code> - The length of the semi-principal axis in the x direction.</dd><dd><code>b</code> - The length of the semi-principal axis in the y direction.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The new <code>Quadric</code>.</dd></dl>
+</li>
+</ul>
+<a name="createHyperbolicCylinder(double, double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>createHyperbolicCylinder</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Quadric.java#L557" target="_blank">createHyperbolicCylinder</a>(double&nbsp;a,
+                               double&nbsp;b)</pre>
+<div class="block">Creates a <code>Quadric</code> representing a hyperboloic cylinder
+ centered at the origin and with its principal axes parallel to the
+ coordinate axes.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>a</code> - The length of the semi-principal axis in the x direction.</dd><dd><code>b</code> - The length of the semi-principal axis in the y direction.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The new <code>Quadric</code>.</dd></dl>
+</li>
+</ul>
+<a name="createParabolicCylinder(double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>createParabolicCylinder</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Quadric.java#L568" target="_blank">createParabolicCylinder</a>(double&nbsp;a)</pre>
+<div class="block">Creates a <code>Quadric</code> representing a parabolic cylinder
+ centered at the origin and with its principal axes parallel to the
+ coordinate axes.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>a</code> - The length of the semi-principal axis in the x direction.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The new <code>Quadric</code>.</dd></dl>
+</li>
+</ul>
+<a name="createParallelPlanes(double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>createParallelPlanes</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Quadric.java#L578" target="_blank">createParallelPlanes</a>(double&nbsp;a)</pre>
+<div class="block">Creates a <code>Quadric</code> representing a pair of parallel planes,
+ <code>x = &#177;a</code>.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>a</code> - The distance between each plane and the origin.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The new <code>Quadric</code>.</dd></dl>
+</li>
+</ul>
+<a name="createSphere(double, ca.eandb.jmist.math.Point3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>createSphere</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Quadric.java#L589" target="_blank">createSphere</a>(double&nbsp;radius,
+                   <a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;center)</pre>
+<div class="block">Creates a <code>Quadric</code> representing a sphere.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>radius</code> - The radius of the sphere.</dd><dd><code>center</code> - The <code>Point3</code> indicating the center of the
+                sphere.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The new <code>Quadric</code>.</dd></dl>
+</li>
+</ul>
+<a name="createEllipsoid(double, double, double, ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Basis3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>createEllipsoid</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Quadric.java#L604" target="_blank">createEllipsoid</a>(double&nbsp;a,
+                      double&nbsp;b,
+                      double&nbsp;c,
+                      <a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;center,
+                      <a href="../../../../ca/eandb/jmist/math/Basis3.html" title="class in ca.eandb.jmist.math">Basis3</a>&nbsp;basis)</pre>
+<div class="block">Creates a <code>Quadric</code> representing an ellipsoid.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>a</code> - The length of the semi-principal axis in the x direction.</dd><dd><code>b</code> - The length of the semi-principal axis in the y direction.</dd><dd><code>c</code> - The length of the semi-principal axis in the z direction.</dd><dd><code>center</code> - The <code>Point3</code> indicating the center of the
+                ellipsoid.</dd><dd><code>basis</code> - The <code>Basis3</code> indicating the directions of the
+                principal axes.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The new <code>Quadric</code>.</dd></dl>
+</li>
+</ul>
+<a name="createEllipticParaboloid(double, double, ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Basis3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>createEllipticParaboloid</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Quadric.java#L618" target="_blank">createEllipticParaboloid</a>(double&nbsp;a,
+                               double&nbsp;b,
+                               <a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;center,
+                               <a href="../../../../ca/eandb/jmist/math/Basis3.html" title="class in ca.eandb.jmist.math">Basis3</a>&nbsp;basis)</pre>
+<div class="block">Creates a <code>Quadric</code> representing an elliptic paraboloid.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>a</code> - The length of the semi-principal axis in the x direction.</dd><dd><code>b</code> - The length of the semi-principal axis in the y direction.</dd><dd><code>center</code> - The <code>Point3</code> indicating the center of the
+                elliptic paraboloid</dd><dd><code>basis</code> - The <code>Basis3</code> indicating the directions of the
+                principal axes.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The new <code>Quadric</code>.</dd></dl>
+</li>
+</ul>
+<a name="createHyperbolicParaboloid(double, double, ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Basis3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>createHyperbolicParaboloid</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Quadric.java#L632" target="_blank">createHyperbolicParaboloid</a>(double&nbsp;a,
+                                 double&nbsp;b,
+                                 <a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;center,
+                                 <a href="../../../../ca/eandb/jmist/math/Basis3.html" title="class in ca.eandb.jmist.math">Basis3</a>&nbsp;basis)</pre>
+<div class="block">Creates a <code>Quadric</code> representing a hyperbolic paraboloid.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>a</code> - The length of the semi-principal axis in the x direction.</dd><dd><code>b</code> - The length of the semi-principal axis in the y direction.</dd><dd><code>center</code> - The <code>Point3</code> indicating the center of the
+                hyperbolic paraboloid.</dd><dd><code>basis</code> - The <code>Basis3</code> indicating the directions of the
+                principal axes.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The new <code>Quadric</code>.</dd></dl>
+</li>
+</ul>
+<a name="createHyperboloidOfOneSheet(double, double, double, ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Basis3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>createHyperboloidOfOneSheet</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Quadric.java#L647" target="_blank">createHyperboloidOfOneSheet</a>(double&nbsp;a,
+                                  double&nbsp;b,
+                                  double&nbsp;c,
+                                  <a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;center,
+                                  <a href="../../../../ca/eandb/jmist/math/Basis3.html" title="class in ca.eandb.jmist.math">Basis3</a>&nbsp;basis)</pre>
+<div class="block">Creates a <code>Quadric</code> representing a hyperboloid of one sheet.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>a</code> - The length of the semi-principal axis in the x direction.</dd><dd><code>b</code> - The length of the semi-principal axis in the y direction.</dd><dd><code>c</code> - The length of the semi-principal axis in the z direction.</dd><dd><code>center</code> - The <code>Point3</code> indicating the center of the
+                hyperboloid of one sheet.</dd><dd><code>basis</code> - The <code>Basis3</code> indicating the directions of the
+                principal axes.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The new <code>Quadric</code>.</dd></dl>
+</li>
+</ul>
+<a name="createHyperboloidOfTwoSheets(double, double, double, ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Basis3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>createHyperboloidOfTwoSheets</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Quadric.java#L662" target="_blank">createHyperboloidOfTwoSheets</a>(double&nbsp;a,
+                                   double&nbsp;b,
+                                   double&nbsp;c,
+                                   <a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;center,
+                                   <a href="../../../../ca/eandb/jmist/math/Basis3.html" title="class in ca.eandb.jmist.math">Basis3</a>&nbsp;basis)</pre>
+<div class="block">Creates a <code>Quadric</code> representing a hyperboloid of two sheets.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>a</code> - The length of the semi-principal axis in the x direction.</dd><dd><code>b</code> - The length of the semi-principal axis in the y direction.</dd><dd><code>c</code> - The length of the semi-principal axis in the z direction.</dd><dd><code>center</code> - The <code>Point3</code> indicating the center of the
+                hyperboloid of two sheets.</dd><dd><code>basis</code> - The <code>Basis3</code> indicating the directions of the
+                principal axes.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The new <code>Quadric</code>.</dd></dl>
+</li>
+</ul>
+<a name="createEllipticCone(double, double, double, ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Basis3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>createEllipticCone</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Quadric.java#L677" target="_blank">createEllipticCone</a>(double&nbsp;a,
+                         double&nbsp;b,
+                         double&nbsp;c,
+                         <a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;center,
+                         <a href="../../../../ca/eandb/jmist/math/Basis3.html" title="class in ca.eandb.jmist.math">Basis3</a>&nbsp;basis)</pre>
+<div class="block">Creates a <code>Quadric</code> representing an elliptic cone.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>a</code> - The length of the semi-principal axis in the x direction.</dd><dd><code>b</code> - The length of the semi-principal axis in the y direction.</dd><dd><code>c</code> - The length of the semi-principal axis in the z direction.</dd><dd><code>center</code> - The <code>Point3</code> indicating the center of the
+                elliptic cone</dd><dd><code>basis</code> - The <code>Basis3</code> indicating the directions of the
+                principal axes.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The new <code>Quadric</code>.</dd></dl>
+</li>
+</ul>
+<a name="createEllipticCylinder(double, double, ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Basis3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>createEllipticCylinder</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Quadric.java#L691" target="_blank">createEllipticCylinder</a>(double&nbsp;a,
+                             double&nbsp;b,
+                             <a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;center,
+                             <a href="../../../../ca/eandb/jmist/math/Basis3.html" title="class in ca.eandb.jmist.math">Basis3</a>&nbsp;basis)</pre>
+<div class="block">Creates a <code>Quadric</code> representing an elliptic cylinder.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>a</code> - The length of the semi-principal axis in the x direction.</dd><dd><code>b</code> - The length of the semi-principal axis in the y direction.</dd><dd><code>center</code> - The <code>Point3</code> indicating the center of the
+                elliptic cylinder.</dd><dd><code>basis</code> - The <code>Basis3</code> indicating the directions of the
+                principal axes.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The new <code>Quadric</code>.</dd></dl>
+</li>
+</ul>
+<a name="createHyperbolicCylinder(double, double, ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Basis3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>createHyperbolicCylinder</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Quadric.java#L705" target="_blank">createHyperbolicCylinder</a>(double&nbsp;a,
+                               double&nbsp;b,
+                               <a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;center,
+                               <a href="../../../../ca/eandb/jmist/math/Basis3.html" title="class in ca.eandb.jmist.math">Basis3</a>&nbsp;basis)</pre>
+<div class="block">Creates a <code>Quadric</code> representing a hyperbolic cylinder.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>a</code> - The length of the semi-principal axis in the x direction.</dd><dd><code>b</code> - The length of the semi-principal axis in the y direction.</dd><dd><code>center</code> - The <code>Point3</code> indicating the center of the
+                hyperbolic cylinder.</dd><dd><code>basis</code> - The <code>Basis3</code> indicating the directions of the
+                principal axes.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The new <code>Quadric</code>.</dd></dl>
+</li>
+</ul>
+<a name="createParabolicCylinder(double, ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Basis3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>createParabolicCylinder</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Quadric.java#L718" target="_blank">createParabolicCylinder</a>(double&nbsp;a,
+                              <a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;center,
+                              <a href="../../../../ca/eandb/jmist/math/Basis3.html" title="class in ca.eandb.jmist.math">Basis3</a>&nbsp;basis)</pre>
+<div class="block">Creates a <code>Quadric</code> representing a parabolic cylinder.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>a</code> - The length of the semi-principal axis in the x direction.</dd><dd><code>center</code> - The <code>Point3</code> indicating the center of the
+                parabolic cylinder.</dd><dd><code>basis</code> - The <code>Basis3</code> indicating the directions of the
+                principal axes.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The new <code>Quadric</code>.</dd></dl>
+</li>
+</ul>
+<a name="createParallelPlanes(double, ca.eandb.jmist.math.Point3, ca.eandb.jmist.math.Basis3)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>createParallelPlanes</h4>
+<pre>public static&nbsp;<a href="../../../../ca/eandb/jmist/math/Quadric.html" title="class in ca.eandb.jmist.math">Quadric</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/math/Quadric.java#L732" target="_blank">createParallelPlanes</a>(double&nbsp;a,
+                           <a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;center,
+                           <a href="../../../../ca/eandb/jmist/math/Basis3.html" title="class in ca.eandb.jmist.math">Basis3</a>&nbsp;basis)</pre>
+<div class="block">Creates a <code>Quadric</code> representing a pair of parallel planes.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>a</code> - The distance between each plane and <code>center</code>.</dd><dd><code>center</code> - A <code>Point3</code> half-way between the planes</dd><dd><code>basis</code> - The <code>Basis3</code> indicating the directions of the
+                principal axes.  The normal to the planes is given by
+                <code>basis.u()</code>.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The new <code>Quadric</code>.</dd><dt><span class="strong">See Also:</span></dt><dd><a href="../../../../ca/eandb/jmist/math/Basis3.html#u()"><code>Basis3.u()</code></a></dd></dl>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<!-- ========= END OF CLASS DATA ========= -->
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<div class="bottomNav"><a name="navbar_bottom">
+<!--   -->
+</a><a href="#skip-navbar_bottom" title="Skip navigation links"></a><a name="navbar_bottom_firstrow">
+<!--   -->
+</a>
+<ul class="navList" title="Navigation">
+<li><a href="../../../../overview-summary.html">Overview</a></li>
+<li><a href="package-summary.html">Package</a></li>
+<li class="navBarCell1Rev">Class</li>
+<li><a href="class-use/Quadric.html">Use</a></li>
+<li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../../index-files/index-1.html">Index</a></li>
+<li><a href="../../../../help-doc.html">Help</a></li>
+</ul>
+</div>
+<div class="subNav">
+<ul class="navList">
+<li><a href="../../../../ca/eandb/jmist/math/Polynomial.html" title="class in ca.eandb.jmist.math"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../ca/eandb/jmist/math/Ray2.html" title="class in ca.eandb.jmist.math"><span class="strong">Next Class</span></a></li>
+</ul>
+<ul class="navList">
+<li><a href="../../../../index.html?ca/eandb/jmist/math/Quadric.html" target="_top">Frames</a></li>
+<li><a href="Quadric.html" target="_top">No Frames</a></li>
+</ul>
+<ul class="navList" id="allclasses_navbar_bottom">
+<li><a href="../../../../allclasses-noframe.html">All Classes</a></li>
+</ul>
+<div>
+<script type="text/javascript"><!--
+  allClassesLink = document.getElementById("allclasses_navbar_bottom");
+  if(window==top) {
+    allClassesLink.style.display = "block";
+  }
+  else {
+    allClassesLink.style.display = "none";
+  }
+  //-->
+</script>
+</div>
+<div>
+<ul class="subNavList">
+<li>Summary:&nbsp;</li>
+<li>Nested&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
+<li><a href="#method_summary">Method</a></li>
+</ul>
+<ul class="subNavList">
+<li>Detail:&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
+<li><a href="#method_detail">Method</a></li>
+</ul>
+</div>
+<a name="skip-navbar_bottom">
+<!--   -->
+</a></div>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+</body>
+</html>

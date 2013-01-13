@@ -1,0 +1,784 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- NewPage -->
+<html lang="en">
+<head>
+<title>BioSpecSurfaceScatterer</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<script type="text/javascript"><!--
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="BioSpecSurfaceScatterer";
+    }
+//-->
+</script>
+<noscript>
+<div>JavaScript is disabled on your browser.</div>
+</noscript>
+<!-- ========= START OF TOP NAVBAR ======= -->
+<div class="topNav"><a name="navbar_top">
+<!--   -->
+</a><a href="#skip-navbar_top" title="Skip navigation links"></a><a name="navbar_top_firstrow">
+<!--   -->
+</a>
+<ul class="navList" title="Navigation">
+<li><a href="../../../../../overview-summary.html">Overview</a></li>
+<li><a href="package-summary.html">Package</a></li>
+<li class="navBarCell1Rev">Class</li>
+<li><a href="class-use/BioSpecSurfaceScatterer.html">Use</a></li>
+<li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../../../index-files/index-1.html">Index</a></li>
+<li><a href="../../../../../help-doc.html">Help</a></li>
+</ul>
+</div>
+<div class="subNav">
+<ul class="navList">
+<li><a href="../../../../../ca/eandb/jmist/framework/scatter/AbsorbingSurfaceScatterer.html" title="class in ca.eandb.jmist.framework.scatter"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../../ca/eandb/jmist/framework/scatter/DiffusingSurfaceScatterer.html" title="class in ca.eandb.jmist.framework.scatter"><span class="strong">Next Class</span></a></li>
+</ul>
+<ul class="navList">
+<li><a href="../../../../../index.html?ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html" target="_top">Frames</a></li>
+<li><a href="BioSpecSurfaceScatterer.html" target="_top">No Frames</a></li>
+</ul>
+<ul class="navList" id="allclasses_navbar_top">
+<li><a href="../../../../../allclasses-noframe.html">All Classes</a></li>
+</ul>
+<div>
+<script type="text/javascript"><!--
+  allClassesLink = document.getElementById("allclasses_navbar_top");
+  if(window==top) {
+    allClassesLink.style.display = "block";
+  }
+  else {
+    allClassesLink.style.display = "none";
+  }
+  //-->
+</script>
+</div>
+<div>
+<ul class="subNavList">
+<li>Summary:&nbsp;</li>
+<li>Nested&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_summary">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_summary">Method</a></li>
+</ul>
+<ul class="subNavList">
+<li>Detail:&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_detail">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_detail">Method</a></li>
+</ul>
+</div>
+<a name="skip-navbar_top">
+<!--   -->
+</a></div>
+<!-- ========= END OF TOP NAVBAR ========= -->
+<!-- ======== START OF CLASS DATA ======== -->
+<div class="header">
+<div class="subTitle">ca.eandb.jmist.framework.scatter</div>
+<h2 title="Class BioSpecSurfaceScatterer" class="title">Class BioSpecSurfaceScatterer</h2>
+</div>
+<div class="contentContainer">
+<ul class="inheritance">
+<li>java.lang.Object</li>
+<li>
+<ul class="inheritance">
+<li>ca.eandb.jmist.framework.scatter.BioSpecSurfaceScatterer</li>
+</ul>
+</li>
+</ul>
+<div class="description">
+<ul class="blockList">
+<li class="blockList">
+<dl>
+<dt>All Implemented Interfaces:</dt>
+<dd><a href="../../../../../ca/eandb/jmist/framework/scatter/SurfaceScatterer.html" title="interface in ca.eandb.jmist.framework.scatter">SurfaceScatterer</a>, java.io.Serializable</dd>
+</dl>
+<hr>
+<br>
+<pre>public final class <a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L52" target="_blank">BioSpecSurfaceScatterer</a>
+extends java.lang.Object
+implements <a href="../../../../../ca/eandb/jmist/framework/scatter/SurfaceScatterer.html" title="interface in ca.eandb.jmist.framework.scatter">SurfaceScatterer</a></pre>
+<div class="block">A <code>SurfaceScatterer</code> implementing the BioSpec algorithm.
+ <p>
+ The algorithm implemented here is described in:
+ <blockquote>
+   A. Krishnaswamy, G.V.G. Baranoski,
+   <a href="http://www.npsg.uwaterloo.ca/resources/docs/eg04.pdf">
+     A biophysically-based spectral model of light interaction with human
+     skin</a>,
+   In Computer Graphics Forum 23(3):331-340, 2004.
+ </blockquote></div>
+<dl><dt><span class="strong">Author:</span></dt>
+  <dd>Brad Kimmel</dd>
+<dt><span class="strong">See Also:</span></dt><dd><a href="http://www.npsg.uwaterloo.ca/models/biospec.php">Run BioSpec Online</a>, 
+<a href="../../../../../serialized-form.html#ca.eandb.jmist.framework.scatter.BioSpecSurfaceScatterer">Serialized Form</a></dd></dl>
+</li>
+</ul>
+</div>
+<div class="summary">
+<ul class="blockList">
+<li class="blockList">
+<!-- =========== FIELD SUMMARY =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="field_summary">
+<!--   -->
+</a>
+<h3>Field Summary</h3>
+<ul class="blockList">
+<li class="blockList"><a name="fields_inherited_from_class_ca.eandb.jmist.framework.scatter.SurfaceScatterer">
+<!--   -->
+</a>
+<h3>Fields inherited from interface&nbsp;ca.eandb.jmist.framework.scatter.<a href="../../../../../ca/eandb/jmist/framework/scatter/SurfaceScatterer.html" title="interface in ca.eandb.jmist.framework.scatter">SurfaceScatterer</a></h3>
+<code><a href="../../../../../ca/eandb/jmist/framework/scatter/SurfaceScatterer.html#ABSORB">ABSORB</a>, <a href="../../../../../ca/eandb/jmist/framework/scatter/SurfaceScatterer.html#REFLECT">REFLECT</a>, <a href="../../../../../ca/eandb/jmist/framework/scatter/SurfaceScatterer.html#TRANSMIT">TRANSMIT</a></code></li>
+</ul>
+</li>
+</ul>
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+<ul class="blockList">
+<li class="blockList"><a name="constructor_summary">
+<!--   -->
+</a>
+<h3>Constructor Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Constructor Summary table, listing constructors, and an explanation">
+<caption><span>Constructors</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colOne" scope="col">Constructor and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colOne"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#BioSpecSurfaceScatterer()">BioSpecSurfaceScatterer</a></strong>()</code>&nbsp;</td>
+</tr>
+</table>
+</li>
+</ul>
+<!-- ========== METHOD SUMMARY =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method_summary">
+<!--   -->
+</a>
+<h3>Method Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
+<caption><span>Methods</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Method and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>double</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#getCollagenFiberRadius()">getCollagenFiberRadius</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>double</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#getConcentrationBetaCaroteneInBlood()">getConcentrationBetaCaroteneInBlood</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>double</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#getConcentrationBetaCaroteneInEpidermis()">getConcentrationBetaCaroteneInEpidermis</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>double</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#getConcentrationBetaCaroteneInStratumCorneum()">getConcentrationBetaCaroteneInStratumCorneum</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>double</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#getConcentrationBilirubinInBlood()">getConcentrationBilirubinInBlood</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>double</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#getConcentrationEumelanin()">getConcentrationEumelanin</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>double</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#getConcentrationHemoglobinInBlood()">getConcentrationHemoglobinInBlood</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>double</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#getConcentrationPheomelanin()">getConcentrationPheomelanin</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>double</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#getFoldsAspectRatio()">getFoldsAspectRatio</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>double</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#getPctMelanosomesInEpidermis()">getPctMelanosomesInEpidermis</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>double</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#getPctWholeBloodInPapillaryDermis()">getPctWholeBloodInPapillaryDermis</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>double</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#getPctWholeBloodInReticularDermis()">getPctWholeBloodInReticularDermis</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>double</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#getRatioOxyDeoxyHemoglobin()">getRatioOxyDeoxyHemoglobin</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>double</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#getThicknessEpidermis()">getThicknessEpidermis</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>double</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#getThicknessPapillaryDermis()">getThicknessPapillaryDermis</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>double</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#getThicknessReticularDermis()">getThicknessReticularDermis</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>double</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#getThicknessStratumCorneum()">getThicknessStratumCorneum</a></strong>()</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="../../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#scatter(ca.eandb.jmist.framework.SurfacePointGeometry, ca.eandb.jmist.math.Vector3, boolean, double, ca.eandb.jmist.framework.Random)">scatter</a></strong>(<a href="../../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html" title="interface in ca.eandb.jmist.framework">SurfacePointGeometry</a>&nbsp;x,
+              <a href="../../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;v,
+              boolean&nbsp;adjoint,
+              double&nbsp;lambda,
+              <a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;rnd)</code>
+<div class="block">Simulates surface scattering.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#setCollagenFiberRadius(double)">setCollagenFiberRadius</a></strong>(double&nbsp;collagenFiberRadius)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#setConcentrationBetaCaroteneInBlood(double)">setConcentrationBetaCaroteneInBlood</a></strong>(double&nbsp;concentrationBetaCaroteneInBlood)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#setConcentrationBetaCaroteneInEpidermis(double)">setConcentrationBetaCaroteneInEpidermis</a></strong>(double&nbsp;concentrationBetaCaroteneInEpidermis)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#setConcentrationBetaCaroteneInStratumCorneum(double)">setConcentrationBetaCaroteneInStratumCorneum</a></strong>(double&nbsp;concentrationBetaCaroteneInStratumCorneum)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#setConcentrationBilirubinInBlood(double)">setConcentrationBilirubinInBlood</a></strong>(double&nbsp;concentrationBilirubinInBlood)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#setConcentrationEumelanin(double)">setConcentrationEumelanin</a></strong>(double&nbsp;concentrationEumelanin)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#setConcentrationHemoglobinInBlood(double)">setConcentrationHemoglobinInBlood</a></strong>(double&nbsp;concentrationHemoglobinInBlood)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#setConcentrationPheomelanin(double)">setConcentrationPheomelanin</a></strong>(double&nbsp;concentrationPheomelanin)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#setFoldsAspectRatio(double)">setFoldsAspectRatio</a></strong>(double&nbsp;foldsAspectRatio)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#setPctMelanosomesInEpidermis(double)">setPctMelanosomesInEpidermis</a></strong>(double&nbsp;pctMelanosomesInEpidermis)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#setPctWholeBloodInPapillaryDermis(double)">setPctWholeBloodInPapillaryDermis</a></strong>(double&nbsp;pctWholeBloodInPapillaryDermis)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#setPctWholeBloodInReticularDermis(double)">setPctWholeBloodInReticularDermis</a></strong>(double&nbsp;pctWholeBloodInReticularDermis)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#setRatioOxyDeoxyHemoglobin(double)">setRatioOxyDeoxyHemoglobin</a></strong>(double&nbsp;ratioOxyDeoxyHemoglobin)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#setThicknessEpidermis(double)">setThicknessEpidermis</a></strong>(double&nbsp;thicknessEpidermis)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#setThicknessPapillaryDermis(double)">setThicknessPapillaryDermis</a></strong>(double&nbsp;thicknessPapillaryDermis)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#setThicknessReticularDermis(double)">setThicknessReticularDermis</a></strong>(double&nbsp;thicknessReticularDermis)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html#setThicknessStratumCorneum(double)">setThicknessStratumCorneum</a></strong>(double&nbsp;thicknessStratumCorneum)</code>&nbsp;</td>
+</tr>
+</table>
+<ul class="blockList">
+<li class="blockList"><a name="methods_inherited_from_class_java.lang.Object">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>equals, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="details">
+<ul class="blockList">
+<li class="blockList">
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+<ul class="blockList">
+<li class="blockList"><a name="constructor_detail">
+<!--   -->
+</a>
+<h3>Constructor Detail</h3>
+<a name="BioSpecSurfaceScatterer()">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>BioSpecSurfaceScatterer</h4>
+<pre>public&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L52" target="_blank">BioSpecSurfaceScatterer</a>()</pre>
+</li>
+</ul>
+</li>
+</ul>
+<!-- ============ METHOD DETAIL ========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method_detail">
+<!--   -->
+</a>
+<h3>Method Detail</h3>
+<a name="getCollagenFiberRadius()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getCollagenFiberRadius</h4>
+<pre>public&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L753" target="_blank">getCollagenFiberRadius</a>()</pre>
+<dl><dt><span class="strong">Returns:</span></dt><dd>the collagenFiberRadius</dd></dl>
+</li>
+</ul>
+<a name="setCollagenFiberRadius(double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setCollagenFiberRadius</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L761" target="_blank">setCollagenFiberRadius</a>(double&nbsp;collagenFiberRadius)</pre>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>collagenFiberRadius</code> - the collagenFiberRadius to set</dd></dl>
+</li>
+</ul>
+<a name="getThicknessStratumCorneum()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getThicknessStratumCorneum</h4>
+<pre>public&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L770" target="_blank">getThicknessStratumCorneum</a>()</pre>
+<dl><dt><span class="strong">Returns:</span></dt><dd>the thicknessStratumCorneum</dd></dl>
+</li>
+</ul>
+<a name="setThicknessStratumCorneum(double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setThicknessStratumCorneum</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L778" target="_blank">setThicknessStratumCorneum</a>(double&nbsp;thicknessStratumCorneum)</pre>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>thicknessStratumCorneum</code> - the thicknessStratumCorneum to set</dd></dl>
+</li>
+</ul>
+<a name="getThicknessEpidermis()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getThicknessEpidermis</h4>
+<pre>public&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L787" target="_blank">getThicknessEpidermis</a>()</pre>
+<dl><dt><span class="strong">Returns:</span></dt><dd>the thicknessEpidermis</dd></dl>
+</li>
+</ul>
+<a name="setThicknessEpidermis(double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setThicknessEpidermis</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L795" target="_blank">setThicknessEpidermis</a>(double&nbsp;thicknessEpidermis)</pre>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>thicknessEpidermis</code> - the thicknessEpidermis to set</dd></dl>
+</li>
+</ul>
+<a name="getThicknessPapillaryDermis()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getThicknessPapillaryDermis</h4>
+<pre>public&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L804" target="_blank">getThicknessPapillaryDermis</a>()</pre>
+<dl><dt><span class="strong">Returns:</span></dt><dd>the thicknessPapillaryDermis</dd></dl>
+</li>
+</ul>
+<a name="setThicknessPapillaryDermis(double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setThicknessPapillaryDermis</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L812" target="_blank">setThicknessPapillaryDermis</a>(double&nbsp;thicknessPapillaryDermis)</pre>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>thicknessPapillaryDermis</code> - the thicknessPapillaryDermis to set</dd></dl>
+</li>
+</ul>
+<a name="getThicknessReticularDermis()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getThicknessReticularDermis</h4>
+<pre>public&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L821" target="_blank">getThicknessReticularDermis</a>()</pre>
+<dl><dt><span class="strong">Returns:</span></dt><dd>the thicknessReticularDermis</dd></dl>
+</li>
+</ul>
+<a name="setThicknessReticularDermis(double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setThicknessReticularDermis</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L829" target="_blank">setThicknessReticularDermis</a>(double&nbsp;thicknessReticularDermis)</pre>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>thicknessReticularDermis</code> - the thicknessReticularDermis to set</dd></dl>
+</li>
+</ul>
+<a name="getConcentrationEumelanin()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getConcentrationEumelanin</h4>
+<pre>public&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L838" target="_blank">getConcentrationEumelanin</a>()</pre>
+<dl><dt><span class="strong">Returns:</span></dt><dd>the concentrationEumelanin</dd></dl>
+</li>
+</ul>
+<a name="setConcentrationEumelanin(double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setConcentrationEumelanin</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L846" target="_blank">setConcentrationEumelanin</a>(double&nbsp;concentrationEumelanin)</pre>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>concentrationEumelanin</code> - the concentrationEumelanin to set</dd></dl>
+</li>
+</ul>
+<a name="getConcentrationPheomelanin()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getConcentrationPheomelanin</h4>
+<pre>public&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L855" target="_blank">getConcentrationPheomelanin</a>()</pre>
+<dl><dt><span class="strong">Returns:</span></dt><dd>the concentrationPheomelanin</dd></dl>
+</li>
+</ul>
+<a name="setConcentrationPheomelanin(double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setConcentrationPheomelanin</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L863" target="_blank">setConcentrationPheomelanin</a>(double&nbsp;concentrationPheomelanin)</pre>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>concentrationPheomelanin</code> - the concentrationPheomelanin to set</dd></dl>
+</li>
+</ul>
+<a name="getConcentrationBetaCaroteneInStratumCorneum()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getConcentrationBetaCaroteneInStratumCorneum</h4>
+<pre>public&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L872" target="_blank">getConcentrationBetaCaroteneInStratumCorneum</a>()</pre>
+<dl><dt><span class="strong">Returns:</span></dt><dd>the concentrationBetaCaroteneInStratumCorneum</dd></dl>
+</li>
+</ul>
+<a name="setConcentrationBetaCaroteneInStratumCorneum(double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setConcentrationBetaCaroteneInStratumCorneum</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L880" target="_blank">setConcentrationBetaCaroteneInStratumCorneum</a>(double&nbsp;concentrationBetaCaroteneInStratumCorneum)</pre>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>concentrationBetaCaroteneInStratumCorneum</code> - the concentrationBetaCaroteneInStratumCorneum to set</dd></dl>
+</li>
+</ul>
+<a name="getConcentrationBetaCaroteneInEpidermis()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getConcentrationBetaCaroteneInEpidermis</h4>
+<pre>public&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L890" target="_blank">getConcentrationBetaCaroteneInEpidermis</a>()</pre>
+<dl><dt><span class="strong">Returns:</span></dt><dd>the concentrationBetaCaroteneInEpidermis</dd></dl>
+</li>
+</ul>
+<a name="setConcentrationBetaCaroteneInEpidermis(double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setConcentrationBetaCaroteneInEpidermis</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L898" target="_blank">setConcentrationBetaCaroteneInEpidermis</a>(double&nbsp;concentrationBetaCaroteneInEpidermis)</pre>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>concentrationBetaCaroteneInEpidermis</code> - the concentrationBetaCaroteneInEpidermis to set</dd></dl>
+</li>
+</ul>
+<a name="getConcentrationBetaCaroteneInBlood()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getConcentrationBetaCaroteneInBlood</h4>
+<pre>public&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L908" target="_blank">getConcentrationBetaCaroteneInBlood</a>()</pre>
+<dl><dt><span class="strong">Returns:</span></dt><dd>the concentrationBetaCaroteneInBlood</dd></dl>
+</li>
+</ul>
+<a name="setConcentrationBetaCaroteneInBlood(double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setConcentrationBetaCaroteneInBlood</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L916" target="_blank">setConcentrationBetaCaroteneInBlood</a>(double&nbsp;concentrationBetaCaroteneInBlood)</pre>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>concentrationBetaCaroteneInBlood</code> - the concentrationBetaCaroteneInBlood to set</dd></dl>
+</li>
+</ul>
+<a name="getConcentrationHemoglobinInBlood()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getConcentrationHemoglobinInBlood</h4>
+<pre>public&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L926" target="_blank">getConcentrationHemoglobinInBlood</a>()</pre>
+<dl><dt><span class="strong">Returns:</span></dt><dd>the concentrationHemoglobinInBlood</dd></dl>
+</li>
+</ul>
+<a name="setConcentrationHemoglobinInBlood(double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setConcentrationHemoglobinInBlood</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L934" target="_blank">setConcentrationHemoglobinInBlood</a>(double&nbsp;concentrationHemoglobinInBlood)</pre>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>concentrationHemoglobinInBlood</code> - the concentrationHemoglobinInBlood to set</dd></dl>
+</li>
+</ul>
+<a name="getConcentrationBilirubinInBlood()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getConcentrationBilirubinInBlood</h4>
+<pre>public&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L944" target="_blank">getConcentrationBilirubinInBlood</a>()</pre>
+<dl><dt><span class="strong">Returns:</span></dt><dd>the concentrationBilirubinInBlood</dd></dl>
+</li>
+</ul>
+<a name="setConcentrationBilirubinInBlood(double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setConcentrationBilirubinInBlood</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L952" target="_blank">setConcentrationBilirubinInBlood</a>(double&nbsp;concentrationBilirubinInBlood)</pre>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>concentrationBilirubinInBlood</code> - the concentrationBilirubinInBlood to set</dd></dl>
+</li>
+</ul>
+<a name="getPctMelanosomesInEpidermis()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getPctMelanosomesInEpidermis</h4>
+<pre>public&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L962" target="_blank">getPctMelanosomesInEpidermis</a>()</pre>
+<dl><dt><span class="strong">Returns:</span></dt><dd>the pctMelanosomesInEpidermis</dd></dl>
+</li>
+</ul>
+<a name="setPctMelanosomesInEpidermis(double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setPctMelanosomesInEpidermis</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L970" target="_blank">setPctMelanosomesInEpidermis</a>(double&nbsp;pctMelanosomesInEpidermis)</pre>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>pctMelanosomesInEpidermis</code> - the pctMelanosomesInEpidermis to set</dd></dl>
+</li>
+</ul>
+<a name="getPctWholeBloodInPapillaryDermis()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getPctWholeBloodInPapillaryDermis</h4>
+<pre>public&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L979" target="_blank">getPctWholeBloodInPapillaryDermis</a>()</pre>
+<dl><dt><span class="strong">Returns:</span></dt><dd>the pctWholeBloodInPapillaryDermis</dd></dl>
+</li>
+</ul>
+<a name="setPctWholeBloodInPapillaryDermis(double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setPctWholeBloodInPapillaryDermis</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L987" target="_blank">setPctWholeBloodInPapillaryDermis</a>(double&nbsp;pctWholeBloodInPapillaryDermis)</pre>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>pctWholeBloodInPapillaryDermis</code> - the pctWholeBloodInPapillaryDermis to set</dd></dl>
+</li>
+</ul>
+<a name="getPctWholeBloodInReticularDermis()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getPctWholeBloodInReticularDermis</h4>
+<pre>public&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L997" target="_blank">getPctWholeBloodInReticularDermis</a>()</pre>
+<dl><dt><span class="strong">Returns:</span></dt><dd>the pctWholeBloodInReticularDermis</dd></dl>
+</li>
+</ul>
+<a name="setPctWholeBloodInReticularDermis(double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setPctWholeBloodInReticularDermis</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L1005" target="_blank">setPctWholeBloodInReticularDermis</a>(double&nbsp;pctWholeBloodInReticularDermis)</pre>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>pctWholeBloodInReticularDermis</code> - the pctWholeBloodInReticularDermis to set</dd></dl>
+</li>
+</ul>
+<a name="getRatioOxyDeoxyHemoglobin()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getRatioOxyDeoxyHemoglobin</h4>
+<pre>public&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L1015" target="_blank">getRatioOxyDeoxyHemoglobin</a>()</pre>
+<dl><dt><span class="strong">Returns:</span></dt><dd>the ratioOxyDeoxyHemoglobin</dd></dl>
+</li>
+</ul>
+<a name="setRatioOxyDeoxyHemoglobin(double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setRatioOxyDeoxyHemoglobin</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L1023" target="_blank">setRatioOxyDeoxyHemoglobin</a>(double&nbsp;ratioOxyDeoxyHemoglobin)</pre>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>ratioOxyDeoxyHemoglobin</code> - the ratioOxyDeoxyHemoglobin to set</dd></dl>
+</li>
+</ul>
+<a name="getFoldsAspectRatio()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getFoldsAspectRatio</h4>
+<pre>public&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L1032" target="_blank">getFoldsAspectRatio</a>()</pre>
+<dl><dt><span class="strong">Returns:</span></dt><dd>the foldsAspectRatio</dd></dl>
+</li>
+</ul>
+<a name="setFoldsAspectRatio(double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setFoldsAspectRatio</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L1040" target="_blank">setFoldsAspectRatio</a>(double&nbsp;foldsAspectRatio)</pre>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>foldsAspectRatio</code> - the foldsAspectRatio to set</dd></dl>
+</li>
+</ul>
+<a name="scatter(ca.eandb.jmist.framework.SurfacePointGeometry, ca.eandb.jmist.math.Vector3, boolean, double, ca.eandb.jmist.framework.Random)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>scatter</h4>
+<pre>public&nbsp;<a href="../../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.java#L1049" target="_blank">scatter</a>(<a href="../../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html" title="interface in ca.eandb.jmist.framework">SurfacePointGeometry</a>&nbsp;x,
+              <a href="../../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;v,
+              boolean&nbsp;adjoint,
+              double&nbsp;lambda,
+              <a href="../../../../../ca/eandb/jmist/framework/Random.html" title="interface in ca.eandb.jmist.framework">Random</a>&nbsp;rnd)</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/scatter/SurfaceScatterer.html#scatter(ca.eandb.jmist.framework.SurfacePointGeometry, ca.eandb.jmist.math.Vector3, boolean, double, ca.eandb.jmist.framework.Random)">SurfaceScatterer</a></code></strong></div>
+<div class="block">Simulates surface scattering.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/scatter/SurfaceScatterer.html#scatter(ca.eandb.jmist.framework.SurfacePointGeometry, ca.eandb.jmist.math.Vector3, boolean, double, ca.eandb.jmist.framework.Random)">scatter</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/scatter/SurfaceScatterer.html" title="interface in ca.eandb.jmist.framework.scatter">SurfaceScatterer</a></code></dd>
+<dt><span class="strong">Parameters:</span></dt><dd><code>x</code> - The <code>SurfacePointGeometry</code> describing the geometry
+                at the point on the surface to which the light is incident.</dd><dd><code>v</code> - The <code>Vector3</code> indicating the incident direction.</dd><dd><code>adjoint</code> - A value indicating whether ray tracing is proceeding
+                backwards (i.e., from the eye).</dd><dd><code>lambda</code> - The wavelength of the incident light (in meters).</dd><dd><code>rnd</code> - The <code>Random</code> number generator to use.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>A <code>Vector3</code> indicating the direction of scattering,
+                or <code>null</code> if the ray is absorbed.</dd></dl>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<!-- ========= END OF CLASS DATA ========= -->
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<div class="bottomNav"><a name="navbar_bottom">
+<!--   -->
+</a><a href="#skip-navbar_bottom" title="Skip navigation links"></a><a name="navbar_bottom_firstrow">
+<!--   -->
+</a>
+<ul class="navList" title="Navigation">
+<li><a href="../../../../../overview-summary.html">Overview</a></li>
+<li><a href="package-summary.html">Package</a></li>
+<li class="navBarCell1Rev">Class</li>
+<li><a href="class-use/BioSpecSurfaceScatterer.html">Use</a></li>
+<li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../../../index-files/index-1.html">Index</a></li>
+<li><a href="../../../../../help-doc.html">Help</a></li>
+</ul>
+</div>
+<div class="subNav">
+<ul class="navList">
+<li><a href="../../../../../ca/eandb/jmist/framework/scatter/AbsorbingSurfaceScatterer.html" title="class in ca.eandb.jmist.framework.scatter"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../../ca/eandb/jmist/framework/scatter/DiffusingSurfaceScatterer.html" title="class in ca.eandb.jmist.framework.scatter"><span class="strong">Next Class</span></a></li>
+</ul>
+<ul class="navList">
+<li><a href="../../../../../index.html?ca/eandb/jmist/framework/scatter/BioSpecSurfaceScatterer.html" target="_top">Frames</a></li>
+<li><a href="BioSpecSurfaceScatterer.html" target="_top">No Frames</a></li>
+</ul>
+<ul class="navList" id="allclasses_navbar_bottom">
+<li><a href="../../../../../allclasses-noframe.html">All Classes</a></li>
+</ul>
+<div>
+<script type="text/javascript"><!--
+  allClassesLink = document.getElementById("allclasses_navbar_bottom");
+  if(window==top) {
+    allClassesLink.style.display = "block";
+  }
+  else {
+    allClassesLink.style.display = "none";
+  }
+  //-->
+</script>
+</div>
+<div>
+<ul class="subNavList">
+<li>Summary:&nbsp;</li>
+<li>Nested&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_summary">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_summary">Method</a></li>
+</ul>
+<ul class="subNavList">
+<li>Detail:&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_detail">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_detail">Method</a></li>
+</ul>
+</div>
+<a name="skip-navbar_bottom">
+<!--   -->
+</a></div>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+</body>
+</html>

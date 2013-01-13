@@ -1,0 +1,372 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- NewPage -->
+<html lang="en">
+<head>
+<title>SurfacePointGeometry</title>
+<link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<script type="text/javascript"><!--
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="SurfacePointGeometry";
+    }
+//-->
+</script>
+<noscript>
+<div>JavaScript is disabled on your browser.</div>
+</noscript>
+<!-- ========= START OF TOP NAVBAR ======= -->
+<div class="topNav"><a name="navbar_top">
+<!--   -->
+</a><a href="#skip-navbar_top" title="Skip navigation links"></a><a name="navbar_top_firstrow">
+<!--   -->
+</a>
+<ul class="navList" title="Navigation">
+<li><a href="../../../../overview-summary.html">Overview</a></li>
+<li><a href="package-summary.html">Package</a></li>
+<li class="navBarCell1Rev">Class</li>
+<li><a href="class-use/SurfacePointGeometry.html">Use</a></li>
+<li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../../index-files/index-1.html">Index</a></li>
+<li><a href="../../../../help-doc.html">Help</a></li>
+</ul>
+</div>
+<div class="subNav">
+<ul class="navList">
+<li><a href="../../../../ca/eandb/jmist/framework/SurfacePoint.html" title="interface in ca.eandb.jmist.framework"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../ca/eandb/jmist/framework/Texture2.html" title="interface in ca.eandb.jmist.framework"><span class="strong">Next Class</span></a></li>
+</ul>
+<ul class="navList">
+<li><a href="../../../../index.html?ca/eandb/jmist/framework/SurfacePointGeometry.html" target="_top">Frames</a></li>
+<li><a href="SurfacePointGeometry.html" target="_top">No Frames</a></li>
+</ul>
+<ul class="navList" id="allclasses_navbar_top">
+<li><a href="../../../../allclasses-noframe.html">All Classes</a></li>
+</ul>
+<div>
+<script type="text/javascript"><!--
+  allClassesLink = document.getElementById("allclasses_navbar_top");
+  if(window==top) {
+    allClassesLink.style.display = "block";
+  }
+  else {
+    allClassesLink.style.display = "none";
+  }
+  //-->
+</script>
+</div>
+<div>
+<ul class="subNavList">
+<li>Summary:&nbsp;</li>
+<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#field_summary">Field</a>&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
+<li><a href="#method_summary">Method</a></li>
+</ul>
+<ul class="subNavList">
+<li>Detail:&nbsp;</li>
+<li><a href="#field_detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
+<li><a href="#method_detail">Method</a></li>
+</ul>
+</div>
+<a name="skip-navbar_top">
+<!--   -->
+</a></div>
+<!-- ========= END OF TOP NAVBAR ========= -->
+<!-- ======== START OF CLASS DATA ======== -->
+<div class="header">
+<div class="subTitle">ca.eandb.jmist.framework</div>
+<h2 title="Interface SurfacePointGeometry" class="title">Interface SurfacePointGeometry</h2>
+</div>
+<div class="contentContainer">
+<div class="description">
+<ul class="blockList">
+<li class="blockList">
+<dl>
+<dt>All Known Subinterfaces:</dt>
+<dd><a href="../../../../ca/eandb/jmist/framework/ShadingContext.html" title="interface in ca.eandb.jmist.framework">ShadingContext</a>, <a href="../../../../ca/eandb/jmist/framework/SurfacePoint.html" title="interface in ca.eandb.jmist.framework">SurfacePoint</a></dd>
+</dl>
+<dl>
+<dt>All Known Implementing Classes:</dt>
+<dd><a href="../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html" title="class in ca.eandb.jmist.framework.shader">AbstractShadingContext</a>, <a href="../../../../ca/eandb/jmist/framework/shader/MinimalShadingContext.html" title="class in ca.eandb.jmist.framework.shader">MinimalShadingContext</a></dd>
+</dl>
+<hr>
+<br>
+<pre>public interface <a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/SurfacePointGeometry.java#L38" target="_blank">SurfacePointGeometry</a></pre>
+<div class="block">Represents the geometric properties of a point on the surface of some
+ element in a scene.</div>
+<dl><dt><span class="strong">Author:</span></dt>
+  <dd>Brad Kimmel</dd></dl>
+</li>
+</ul>
+</div>
+<div class="summary">
+<ul class="blockList">
+<li class="blockList">
+<!-- =========== FIELD SUMMARY =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="field_summary">
+<!--   -->
+</a>
+<h3>Field Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Field Summary table, listing fields, and an explanation">
+<caption><span>Fields</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Field and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html" title="interface in ca.eandb.jmist.framework">SurfacePointGeometry</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html#STANDARD">STANDARD</a></strong></code>
+<div class="block">A surface point at the origin oriented according to the standard basis
+ (the normal in the positive z-direction).</div>
+</td>
+</tr>
+</table>
+</li>
+</ul>
+<!-- ========== METHOD SUMMARY =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method_summary">
+<!--   -->
+</a>
+<h3>Method Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
+<caption><span>Methods</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Method and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../ca/eandb/jmist/math/Basis3.html" title="class in ca.eandb.jmist.math">Basis3</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html#getBasis()">getBasis</a></strong>()</code>
+<div class="block">The orientation of the surface.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html#getNormal()">getNormal</a></strong>()</code>
+<div class="block">The direction perpendicular to the surface.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html#getPosition()">getPosition</a></strong>()</code>
+<div class="block">The position of the surface point.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>int</code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html#getPrimitiveIndex()">getPrimitiveIndex</a></strong>()</code>
+<div class="block">The ID of the primitive from the <code>SceneElement</code>.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../ca/eandb/jmist/math/Basis3.html" title="class in ca.eandb.jmist.math">Basis3</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html#getShadingBasis()">getShadingBasis</a></strong>()</code>
+<div class="block">The micro-surface orientation.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html#getShadingNormal()">getShadingNormal</a></strong>()</code>
+<div class="block">The micro-surface normal.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html#getTangent()">getTangent</a></strong>()</code>
+<div class="block">The first tangent vector.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="../../../../ca/eandb/jmist/math/Point2.html" title="class in ca.eandb.jmist.math">Point2</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html#getUV()">getUV</a></strong>()</code>
+<div class="block">The texture coordinates.</div>
+</td>
+</tr>
+</table>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="details">
+<ul class="blockList">
+<li class="blockList">
+<!-- ============ FIELD DETAIL =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="field_detail">
+<!--   -->
+</a>
+<h3>Field Detail</h3>
+<a name="STANDARD">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>STANDARD</h4>
+<pre>static final&nbsp;<a href="../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html" title="interface in ca.eandb.jmist.framework">SurfacePointGeometry</a> <a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/SurfacePointGeometry.java#L68" target="_blank">STANDARD</a></pre>
+<div class="block">A surface point at the origin oriented according to the standard basis
+ (the normal in the positive z-direction).</div>
+</li>
+</ul>
+</li>
+</ul>
+<!-- ============ METHOD DETAIL ========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method_detail">
+<!--   -->
+</a>
+<h3>Method Detail</h3>
+<a name="getPosition()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getPosition</h4>
+<pre><a href="../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/SurfacePointGeometry.java#L41" target="_blank">getPosition</a>()</pre>
+<div class="block">The position of the surface point.</div>
+</li>
+</ul>
+<a name="getNormal()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getNormal</h4>
+<pre><a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/SurfacePointGeometry.java#L44" target="_blank">getNormal</a>()</pre>
+<div class="block">The direction perpendicular to the surface.</div>
+</li>
+</ul>
+<a name="getBasis()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getBasis</h4>
+<pre><a href="../../../../ca/eandb/jmist/math/Basis3.html" title="class in ca.eandb.jmist.math">Basis3</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/SurfacePointGeometry.java#L47" target="_blank">getBasis</a>()</pre>
+<div class="block">The orientation of the surface.</div>
+</li>
+</ul>
+<a name="getShadingNormal()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getShadingNormal</h4>
+<pre><a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/SurfacePointGeometry.java#L50" target="_blank">getShadingNormal</a>()</pre>
+<div class="block">The micro-surface normal.</div>
+</li>
+</ul>
+<a name="getShadingBasis()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getShadingBasis</h4>
+<pre><a href="../../../../ca/eandb/jmist/math/Basis3.html" title="class in ca.eandb.jmist.math">Basis3</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/SurfacePointGeometry.java#L53" target="_blank">getShadingBasis</a>()</pre>
+<div class="block">The micro-surface orientation.</div>
+</li>
+</ul>
+<a name="getTangent()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getTangent</h4>
+<pre><a href="../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/SurfacePointGeometry.java#L56" target="_blank">getTangent</a>()</pre>
+<div class="block">The first tangent vector.</div>
+</li>
+</ul>
+<a name="getUV()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getUV</h4>
+<pre><a href="../../../../ca/eandb/jmist/math/Point2.html" title="class in ca.eandb.jmist.math">Point2</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/SurfacePointGeometry.java#L59" target="_blank">getUV</a>()</pre>
+<div class="block">The texture coordinates.</div>
+</li>
+</ul>
+<a name="getPrimitiveIndex()">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>getPrimitiveIndex</h4>
+<pre>int&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/SurfacePointGeometry.java#L62" target="_blank">getPrimitiveIndex</a>()</pre>
+<div class="block">The ID of the primitive from the <code>SceneElement</code>.</div>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<!-- ========= END OF CLASS DATA ========= -->
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<div class="bottomNav"><a name="navbar_bottom">
+<!--   -->
+</a><a href="#skip-navbar_bottom" title="Skip navigation links"></a><a name="navbar_bottom_firstrow">
+<!--   -->
+</a>
+<ul class="navList" title="Navigation">
+<li><a href="../../../../overview-summary.html">Overview</a></li>
+<li><a href="package-summary.html">Package</a></li>
+<li class="navBarCell1Rev">Class</li>
+<li><a href="class-use/SurfacePointGeometry.html">Use</a></li>
+<li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../../index-files/index-1.html">Index</a></li>
+<li><a href="../../../../help-doc.html">Help</a></li>
+</ul>
+</div>
+<div class="subNav">
+<ul class="navList">
+<li><a href="../../../../ca/eandb/jmist/framework/SurfacePoint.html" title="interface in ca.eandb.jmist.framework"><span class="strong">Prev Class</span></a></li>
+<li><a href="../../../../ca/eandb/jmist/framework/Texture2.html" title="interface in ca.eandb.jmist.framework"><span class="strong">Next Class</span></a></li>
+</ul>
+<ul class="navList">
+<li><a href="../../../../index.html?ca/eandb/jmist/framework/SurfacePointGeometry.html" target="_top">Frames</a></li>
+<li><a href="SurfacePointGeometry.html" target="_top">No Frames</a></li>
+</ul>
+<ul class="navList" id="allclasses_navbar_bottom">
+<li><a href="../../../../allclasses-noframe.html">All Classes</a></li>
+</ul>
+<div>
+<script type="text/javascript"><!--
+  allClassesLink = document.getElementById("allclasses_navbar_bottom");
+  if(window==top) {
+    allClassesLink.style.display = "block";
+  }
+  else {
+    allClassesLink.style.display = "none";
+  }
+  //-->
+</script>
+</div>
+<div>
+<ul class="subNavList">
+<li>Summary:&nbsp;</li>
+<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#field_summary">Field</a>&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
+<li><a href="#method_summary">Method</a></li>
+</ul>
+<ul class="subNavList">
+<li>Detail:&nbsp;</li>
+<li><a href="#field_detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
+<li><a href="#method_detail">Method</a></li>
+</ul>
+</div>
+<a name="skip-navbar_bottom">
+<!--   -->
+</a></div>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+</body>
+</html>

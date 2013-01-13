@@ -1,0 +1,3211 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- NewPage -->
+<html lang="en">
+<head>
+<title>MatlabWriter</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<script type="text/javascript"><!--
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="MatlabWriter";
+    }
+//-->
+</script>
+<noscript>
+<div>JavaScript is disabled on your browser.</div>
+</noscript>
+<!-- ========= START OF TOP NAVBAR ======= -->
+<div class="topNav"><a name="navbar_top">
+<!--   -->
+</a><a href="#skip-navbar_top" title="Skip navigation links"></a><a name="navbar_top_firstrow">
+<!--   -->
+</a>
+<ul class="navList" title="Navigation">
+<li><a href="../../../../../overview-summary.html">Overview</a></li>
+<li><a href="package-summary.html">Package</a></li>
+<li class="navBarCell1Rev">Class</li>
+<li><a href="class-use/MatlabWriter.html">Use</a></li>
+<li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../../../index-files/index-1.html">Index</a></li>
+<li><a href="../../../../../help-doc.html">Help</a></li>
+</ul>
+</div>
+<div class="subNav">
+<ul class="navList">
+<li><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.FixedLengthCompoundElementOutputStream.html" title="class in ca.eandb.jmist.util.matlab"><span class="strong">Prev Class</span></a></li>
+<li>Next Class</li>
+</ul>
+<ul class="navList">
+<li><a href="../../../../../index.html?ca/eandb/jmist/util/matlab/MatlabWriter.html" target="_top">Frames</a></li>
+<li><a href="MatlabWriter.html" target="_top">No Frames</a></li>
+</ul>
+<ul class="navList" id="allclasses_navbar_top">
+<li><a href="../../../../../allclasses-noframe.html">All Classes</a></li>
+</ul>
+<div>
+<script type="text/javascript"><!--
+  allClassesLink = document.getElementById("allclasses_navbar_top");
+  if(window==top) {
+    allClassesLink.style.display = "block";
+  }
+  else {
+    allClassesLink.style.display = "none";
+  }
+  //-->
+</script>
+</div>
+<div>
+<ul class="subNavList">
+<li>Summary:&nbsp;</li>
+<li>Nested&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_summary">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_summary">Method</a></li>
+</ul>
+<ul class="subNavList">
+<li>Detail:&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_detail">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_detail">Method</a></li>
+</ul>
+</div>
+<a name="skip-navbar_top">
+<!--   -->
+</a></div>
+<!-- ========= END OF TOP NAVBAR ========= -->
+<!-- ======== START OF CLASS DATA ======== -->
+<div class="header">
+<div class="subTitle">ca.eandb.jmist.util.matlab</div>
+<h2 title="Class MatlabWriter" class="title">Class MatlabWriter</h2>
+</div>
+<div class="contentContainer">
+<ul class="inheritance">
+<li>java.lang.Object</li>
+<li>
+<ul class="inheritance">
+<li>ca.eandb.jmist.util.matlab.MatlabWriter</li>
+</ul>
+</li>
+</ul>
+<div class="description">
+<ul class="blockList">
+<li class="blockList">
+<hr>
+<br>
+<pre>public final class <a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L38" target="_blank">MatlabWriter</a>
+extends java.lang.Object</pre>
+<div class="block">Convenience class for writing array variables to a
+ <code>MatlabOutputStream</code>.</div>
+<dl><dt><span class="strong">Author:</span></dt>
+  <dd>Brad Kimmel</dd></dl>
+</li>
+</ul>
+</div>
+<div class="summary">
+<ul class="blockList">
+<li class="blockList">
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+<ul class="blockList">
+<li class="blockList"><a name="constructor_summary">
+<!--   -->
+</a>
+<h3>Constructor Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Constructor Summary table, listing constructors, and an explanation">
+<caption><span>Constructors</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colOne" scope="col">Constructor and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colOne"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#MatlabWriter(ca.eandb.jmist.util.matlab.MatlabOutputStream)">MatlabWriter</a></strong>(<a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html" title="class in ca.eandb.jmist.util.matlab">MatlabOutputStream</a>&nbsp;out)</code>
+<div class="block">Creates a new <code>MatlabWriter</code>.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colOne"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#MatlabWriter(java.io.OutputStream)">MatlabWriter</a></strong>(java.io.OutputStream&nbsp;out)</code>
+<div class="block">Creates a new <code>MatlabWriter</code>.</div>
+</td>
+</tr>
+</table>
+</li>
+</ul>
+<!-- ========== METHOD SUMMARY =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method_summary">
+<!--   -->
+</a>
+<h3>Method Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
+<caption><span>Methods</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Method and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#close()">close</a></strong>()</code>
+<div class="block">Closes the underlying stream.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#flush()">flush</a></strong>()</code>
+<div class="block">Flushes the underlying stream.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, boolean)">write</a></strong>(java.lang.String&nbsp;name,
+          boolean&nbsp;value)</code>
+<div class="block">Writes a <code>boolean</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, boolean[])">write</a></strong>(java.lang.String&nbsp;name,
+          boolean[]&nbsp;pr)</code>
+<div class="block">Writes a one-dimensional array of <code>boolean</code>s to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, boolean[], int[])">write</a></strong>(java.lang.String&nbsp;name,
+          boolean[]&nbsp;array,
+          int[]&nbsp;dimensions)</code>
+<div class="block">Writes a <code>boolean</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, boolean[], int[], boolean)">write</a></strong>(java.lang.String&nbsp;name,
+          boolean[]&nbsp;array,
+          int[]&nbsp;dimensions,
+          boolean&nbsp;global)</code>
+<div class="block">Writes a <code>boolean</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, boolean[], int[], int[])">write</a></strong>(java.lang.String&nbsp;name,
+          boolean[]&nbsp;array,
+          int[]&nbsp;dimensions,
+          int[]&nbsp;strides)</code>
+<div class="block">Writes a <code>boolean</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, boolean[], int[], int[], boolean)">write</a></strong>(java.lang.String&nbsp;name,
+          boolean[]&nbsp;array,
+          int[]&nbsp;dimensions,
+          int[]&nbsp;strides,
+          boolean&nbsp;global)</code>
+<div class="block">Writes a <code>boolean</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, boolean, boolean)">write</a></strong>(java.lang.String&nbsp;name,
+          boolean&nbsp;value,
+          boolean&nbsp;global)</code>
+<div class="block">Writes a <code>boolean</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, byte)">write</a></strong>(java.lang.String&nbsp;name,
+          byte&nbsp;value)</code>
+<div class="block">Writes a <code>byte</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, byte[])">write</a></strong>(java.lang.String&nbsp;name,
+          byte[]&nbsp;pr)</code>
+<div class="block">Writes a one-dimensional array of <code>byte</code>s to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, byte[], byte[], int[])">write</a></strong>(java.lang.String&nbsp;name,
+          byte[]&nbsp;pr,
+          byte[]&nbsp;pi,
+          int[]&nbsp;dimensions)</code>
+<div class="block">Writes a <code>byte</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, byte[], byte[], int[], boolean)">write</a></strong>(java.lang.String&nbsp;name,
+          byte[]&nbsp;pr,
+          byte[]&nbsp;pi,
+          int[]&nbsp;dimensions,
+          boolean&nbsp;global)</code>
+<div class="block">Writes a <code>byte</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, byte[], byte[], int[], int[])">write</a></strong>(java.lang.String&nbsp;name,
+          byte[]&nbsp;pr,
+          byte[]&nbsp;pi,
+          int[]&nbsp;dimensions,
+          int[]&nbsp;strides)</code>
+<div class="block">Writes a <code>byte</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, byte[], byte[], int[], int[], boolean)">write</a></strong>(java.lang.String&nbsp;name,
+          byte[]&nbsp;pr,
+          byte[]&nbsp;pi,
+          int[]&nbsp;dimensions,
+          int[]&nbsp;strides,
+          boolean&nbsp;global)</code>
+<div class="block">Writes a <code>byte</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, byte[], int[])">write</a></strong>(java.lang.String&nbsp;name,
+          byte[]&nbsp;array,
+          int[]&nbsp;dimensions)</code>
+<div class="block">Writes a <code>byte</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, byte[], int[], boolean)">write</a></strong>(java.lang.String&nbsp;name,
+          byte[]&nbsp;array,
+          int[]&nbsp;dimensions,
+          boolean&nbsp;global)</code>
+<div class="block">Writes a <code>byte</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, byte, boolean)">write</a></strong>(java.lang.String&nbsp;name,
+          byte&nbsp;value,
+          boolean&nbsp;global)</code>
+<div class="block">Writes a <code>byte</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, byte, byte)">write</a></strong>(java.lang.String&nbsp;name,
+          byte&nbsp;pr,
+          byte&nbsp;pi)</code>
+<div class="block">Writes a <code>byte</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, byte, byte, boolean)">write</a></strong>(java.lang.String&nbsp;name,
+          byte&nbsp;pr,
+          byte&nbsp;pi,
+          boolean&nbsp;global)</code>
+<div class="block">Writes a <code>byte</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, ca.eandb.jmist.math.Complex)">write</a></strong>(java.lang.String&nbsp;name,
+          <a href="../../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;value)</code>
+<div class="block">Writes a <code>Complex</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, ca.eandb.jmist.math.Complex[], int[])">write</a></strong>(java.lang.String&nbsp;name,
+          <a href="../../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>[]&nbsp;array,
+          int[]&nbsp;dimensions)</code>
+<div class="block">Writes a <code>Complex</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, ca.eandb.jmist.math.Complex[], int[], boolean)">write</a></strong>(java.lang.String&nbsp;name,
+          <a href="../../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>[]&nbsp;array,
+          int[]&nbsp;dimensions,
+          boolean&nbsp;global)</code>
+<div class="block">Writes a <code>Complex</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, ca.eandb.jmist.math.Complex, boolean)">write</a></strong>(java.lang.String&nbsp;name,
+          <a href="../../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;value,
+          boolean&nbsp;global)</code>
+<div class="block">Writes a <code>Complex</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, double)">write</a></strong>(java.lang.String&nbsp;name,
+          double&nbsp;value)</code>
+<div class="block">Writes a <code>double</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, double[])">write</a></strong>(java.lang.String&nbsp;name,
+          double[]&nbsp;pr)</code>
+<div class="block">Writes a one-dimensional array of <code>double</code>s to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, double[], double[], int[])">write</a></strong>(java.lang.String&nbsp;name,
+          double[]&nbsp;pr,
+          double[]&nbsp;pi,
+          int[]&nbsp;dimensions)</code>
+<div class="block">Writes a <code>double</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, double[], double[], int[], boolean)">write</a></strong>(java.lang.String&nbsp;name,
+          double[]&nbsp;pr,
+          double[]&nbsp;pi,
+          int[]&nbsp;dimensions,
+          boolean&nbsp;global)</code>
+<div class="block">Writes a <code>double</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, double[], double[], int[], int[])">write</a></strong>(java.lang.String&nbsp;name,
+          double[]&nbsp;pr,
+          double[]&nbsp;pi,
+          int[]&nbsp;dimensions,
+          int[]&nbsp;strides)</code>
+<div class="block">Writes a <code>double</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, double[], double[], int[], int[], boolean)">write</a></strong>(java.lang.String&nbsp;name,
+          double[]&nbsp;pr,
+          double[]&nbsp;pi,
+          int[]&nbsp;dimensions,
+          int[]&nbsp;strides,
+          boolean&nbsp;global)</code>
+<div class="block">Writes a <code>double</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, double[], int[])">write</a></strong>(java.lang.String&nbsp;name,
+          double[]&nbsp;array,
+          int[]&nbsp;dimensions)</code>
+<div class="block">Writes a <code>double</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, double[], int[], boolean)">write</a></strong>(java.lang.String&nbsp;name,
+          double[]&nbsp;array,
+          int[]&nbsp;dimensions,
+          boolean&nbsp;global)</code>
+<div class="block">Writes a <code>double</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, double, boolean)">write</a></strong>(java.lang.String&nbsp;name,
+          double&nbsp;value,
+          boolean&nbsp;global)</code>
+<div class="block">Writes a <code>double</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, double, double)">write</a></strong>(java.lang.String&nbsp;name,
+          double&nbsp;pr,
+          double&nbsp;pi)</code>
+<div class="block">Writes a <code>double</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, double, double, boolean)">write</a></strong>(java.lang.String&nbsp;name,
+          double&nbsp;pr,
+          double&nbsp;pi,
+          boolean&nbsp;global)</code>
+<div class="block">Writes a <code>double</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, float)">write</a></strong>(java.lang.String&nbsp;name,
+          float&nbsp;value)</code>
+<div class="block">Writes a <code>float</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, float[])">write</a></strong>(java.lang.String&nbsp;name,
+          float[]&nbsp;pr)</code>
+<div class="block">Writes a one-dimensional array of <code>float</code>s to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, float[], float[], int[])">write</a></strong>(java.lang.String&nbsp;name,
+          float[]&nbsp;pr,
+          float[]&nbsp;pi,
+          int[]&nbsp;dimensions)</code>
+<div class="block">Writes a <code>float</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, float[], float[], int[], boolean)">write</a></strong>(java.lang.String&nbsp;name,
+          float[]&nbsp;pr,
+          float[]&nbsp;pi,
+          int[]&nbsp;dimensions,
+          boolean&nbsp;global)</code>
+<div class="block">Writes a <code>float</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, float[], float[], int[], int[])">write</a></strong>(java.lang.String&nbsp;name,
+          float[]&nbsp;pr,
+          float[]&nbsp;pi,
+          int[]&nbsp;dimensions,
+          int[]&nbsp;strides)</code>
+<div class="block">Writes a <code>float</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, float[], float[], int[], int[], boolean)">write</a></strong>(java.lang.String&nbsp;name,
+          float[]&nbsp;pr,
+          float[]&nbsp;pi,
+          int[]&nbsp;dimensions,
+          int[]&nbsp;strides,
+          boolean&nbsp;global)</code>
+<div class="block">Writes a <code>float</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, float[], int[])">write</a></strong>(java.lang.String&nbsp;name,
+          float[]&nbsp;array,
+          int[]&nbsp;dimensions)</code>
+<div class="block">Writes a <code>float</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, float[], int[], boolean)">write</a></strong>(java.lang.String&nbsp;name,
+          float[]&nbsp;array,
+          int[]&nbsp;dimensions,
+          boolean&nbsp;global)</code>
+<div class="block">Writes a <code>float</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, float, boolean)">write</a></strong>(java.lang.String&nbsp;name,
+          float&nbsp;value,
+          boolean&nbsp;global)</code>
+<div class="block">Writes a <code>float</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, float, float)">write</a></strong>(java.lang.String&nbsp;name,
+          float&nbsp;pr,
+          float&nbsp;pi)</code>
+<div class="block">Writes a <code>float</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, float, float, boolean)">write</a></strong>(java.lang.String&nbsp;name,
+          float&nbsp;pr,
+          float&nbsp;pi,
+          boolean&nbsp;global)</code>
+<div class="block">Writes a <code>float</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, int)">write</a></strong>(java.lang.String&nbsp;name,
+          int&nbsp;value)</code>
+<div class="block">Writes an <code>int</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, int[])">write</a></strong>(java.lang.String&nbsp;name,
+          int[]&nbsp;pr)</code>
+<div class="block">Writes a one-dimensional array of <code>int</code>s to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, int[], int[])">write</a></strong>(java.lang.String&nbsp;name,
+          int[]&nbsp;array,
+          int[]&nbsp;dimensions)</code>
+<div class="block">Writes an <code>int</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, int[], int[], boolean)">write</a></strong>(java.lang.String&nbsp;name,
+          int[]&nbsp;array,
+          int[]&nbsp;dimensions,
+          boolean&nbsp;global)</code>
+<div class="block">Writes an <code>int</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, int[], int[], int[])">write</a></strong>(java.lang.String&nbsp;name,
+          int[]&nbsp;pr,
+          int[]&nbsp;pi,
+          int[]&nbsp;dimensions)</code>
+<div class="block">Writes an <code>int</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, int[], int[], int[], boolean)">write</a></strong>(java.lang.String&nbsp;name,
+          int[]&nbsp;pr,
+          int[]&nbsp;pi,
+          int[]&nbsp;dimensions,
+          boolean&nbsp;global)</code>
+<div class="block">Writes an <code>int</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, int[], int[], int[], int[])">write</a></strong>(java.lang.String&nbsp;name,
+          int[]&nbsp;pr,
+          int[]&nbsp;pi,
+          int[]&nbsp;dimensions,
+          int[]&nbsp;strides)</code>
+<div class="block">Writes an <code>int</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, int[], int[], int[], int[], boolean)">write</a></strong>(java.lang.String&nbsp;name,
+          int[]&nbsp;pr,
+          int[]&nbsp;pi,
+          int[]&nbsp;dimensions,
+          int[]&nbsp;strides,
+          boolean&nbsp;global)</code>
+<div class="block">Writes an <code>int</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, int, boolean)">write</a></strong>(java.lang.String&nbsp;name,
+          int&nbsp;value,
+          boolean&nbsp;global)</code>
+<div class="block">Writes an <code>int</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, int, int)">write</a></strong>(java.lang.String&nbsp;name,
+          int&nbsp;pr,
+          int&nbsp;pi)</code>
+<div class="block">Writes an <code>int</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, int, int, boolean)">write</a></strong>(java.lang.String&nbsp;name,
+          int&nbsp;pr,
+          int&nbsp;pi,
+          boolean&nbsp;global)</code>
+<div class="block">Writes an <code>int</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, short)">write</a></strong>(java.lang.String&nbsp;name,
+          short&nbsp;value)</code>
+<div class="block">Writes a <code>short</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, short[])">write</a></strong>(java.lang.String&nbsp;name,
+          short[]&nbsp;pr)</code>
+<div class="block">Writes a one-dimensional array of <code>short</code>s to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, short[], int[])">write</a></strong>(java.lang.String&nbsp;name,
+          short[]&nbsp;array,
+          int[]&nbsp;dimensions)</code>
+<div class="block">Writes a <code>short</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, short[], int[], boolean)">write</a></strong>(java.lang.String&nbsp;name,
+          short[]&nbsp;array,
+          int[]&nbsp;dimensions,
+          boolean&nbsp;global)</code>
+<div class="block">Writes a <code>short</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, short[], short[], int[])">write</a></strong>(java.lang.String&nbsp;name,
+          short[]&nbsp;pr,
+          short[]&nbsp;pi,
+          int[]&nbsp;dimensions)</code>
+<div class="block">Writes a <code>short</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, short[], short[], int[], boolean)">write</a></strong>(java.lang.String&nbsp;name,
+          short[]&nbsp;pr,
+          short[]&nbsp;pi,
+          int[]&nbsp;dimensions,
+          boolean&nbsp;global)</code>
+<div class="block">Writes a <code>short</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, short[], short[], int[], int[])">write</a></strong>(java.lang.String&nbsp;name,
+          short[]&nbsp;pr,
+          short[]&nbsp;pi,
+          int[]&nbsp;dimensions,
+          int[]&nbsp;strides)</code>
+<div class="block">Writes a <code>short</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, short[], short[], int[], int[], boolean)">write</a></strong>(java.lang.String&nbsp;name,
+          short[]&nbsp;pr,
+          short[]&nbsp;pi,
+          int[]&nbsp;dimensions,
+          int[]&nbsp;strides,
+          boolean&nbsp;global)</code>
+<div class="block">Writes a <code>short</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, short, boolean)">write</a></strong>(java.lang.String&nbsp;name,
+          short&nbsp;value,
+          boolean&nbsp;global)</code>
+<div class="block">Writes a <code>short</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, short, short)">write</a></strong>(java.lang.String&nbsp;name,
+          short&nbsp;pr,
+          short&nbsp;pi)</code>
+<div class="block">Writes a <code>short</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, short, short, boolean)">write</a></strong>(java.lang.String&nbsp;name,
+          short&nbsp;pr,
+          short&nbsp;pi,
+          boolean&nbsp;global)</code>
+<div class="block">Writes a <code>short</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, java.lang.String)">write</a></strong>(java.lang.String&nbsp;name,
+          java.lang.String&nbsp;value)</code>
+<div class="block">Writes a character array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#write(java.lang.String, java.lang.String, boolean)">write</a></strong>(java.lang.String&nbsp;name,
+          java.lang.String&nbsp;value,
+          boolean&nbsp;global)</code>
+<div class="block">Writes a character array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#writeUnsigned(java.lang.String, byte)">writeUnsigned</a></strong>(java.lang.String&nbsp;name,
+                          byte&nbsp;value)</code>
+<div class="block">Writes an unsigned <code>byte</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#writeUnsigned(java.lang.String, byte[])">writeUnsigned</a></strong>(java.lang.String&nbsp;name,
+                          byte[]&nbsp;pr)</code>
+<div class="block">Writes a one-dimensional array of <code>byte</code>s to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#writeUnsigned(java.lang.String, byte[], byte[], int[])">writeUnsigned</a></strong>(java.lang.String&nbsp;name,
+                          byte[]&nbsp;pr,
+                          byte[]&nbsp;pi,
+                          int[]&nbsp;dimensions)</code>
+<div class="block">Writes an unsigned <code>byte</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#writeUnsigned(java.lang.String, byte[], byte[], int[], boolean)">writeUnsigned</a></strong>(java.lang.String&nbsp;name,
+                          byte[]&nbsp;pr,
+                          byte[]&nbsp;pi,
+                          int[]&nbsp;dimensions,
+                          boolean&nbsp;global)</code>
+<div class="block">Writes an unsigned <code>byte</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#writeUnsigned(java.lang.String, byte[], byte[], int[], int[])">writeUnsigned</a></strong>(java.lang.String&nbsp;name,
+                          byte[]&nbsp;pr,
+                          byte[]&nbsp;pi,
+                          int[]&nbsp;dimensions,
+                          int[]&nbsp;strides)</code>
+<div class="block">Writes an unsigned <code>byte</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#writeUnsigned(java.lang.String, byte[], byte[], int[], int[], boolean)">writeUnsigned</a></strong>(java.lang.String&nbsp;name,
+                          byte[]&nbsp;pr,
+                          byte[]&nbsp;pi,
+                          int[]&nbsp;dimensions,
+                          int[]&nbsp;strides,
+                          boolean&nbsp;global)</code>
+<div class="block">Writes an unsigned <code>byte</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#writeUnsigned(java.lang.String, byte[], int[])">writeUnsigned</a></strong>(java.lang.String&nbsp;name,
+                          byte[]&nbsp;array,
+                          int[]&nbsp;dimensions)</code>
+<div class="block">Writes an unsigned <code>byte</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#writeUnsigned(java.lang.String, byte[], int[], boolean)">writeUnsigned</a></strong>(java.lang.String&nbsp;name,
+                          byte[]&nbsp;array,
+                          int[]&nbsp;dimensions,
+                          boolean&nbsp;global)</code>
+<div class="block">Writes an unsigned <code>byte</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#writeUnsigned(java.lang.String, byte, boolean)">writeUnsigned</a></strong>(java.lang.String&nbsp;name,
+                          byte&nbsp;value,
+                          boolean&nbsp;global)</code>
+<div class="block">Writes an unsigned <code>byte</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#writeUnsigned(java.lang.String, byte, byte)">writeUnsigned</a></strong>(java.lang.String&nbsp;name,
+                          byte&nbsp;pr,
+                          byte&nbsp;pi)</code>
+<div class="block">Writes an unsigned <code>byte</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#writeUnsigned(java.lang.String, byte, byte, boolean)">writeUnsigned</a></strong>(java.lang.String&nbsp;name,
+                          byte&nbsp;pr,
+                          byte&nbsp;pi,
+                          boolean&nbsp;global)</code>
+<div class="block">Writes an unsigned <code>byte</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#writeUnsigned(java.lang.String, int)">writeUnsigned</a></strong>(java.lang.String&nbsp;name,
+                          int&nbsp;value)</code>
+<div class="block">Writes an unsigned <code>int</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#writeUnsigned(java.lang.String, int[])">writeUnsigned</a></strong>(java.lang.String&nbsp;name,
+                          int[]&nbsp;pr)</code>
+<div class="block">Writes a one-dimensional array of <code>int</code>s to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#writeUnsigned(java.lang.String, int[], int[])">writeUnsigned</a></strong>(java.lang.String&nbsp;name,
+                          int[]&nbsp;array,
+                          int[]&nbsp;dimensions)</code>
+<div class="block">Writes an unsigned <code>int</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#writeUnsigned(java.lang.String, int[], int[], boolean)">writeUnsigned</a></strong>(java.lang.String&nbsp;name,
+                          int[]&nbsp;array,
+                          int[]&nbsp;dimensions,
+                          boolean&nbsp;global)</code>
+<div class="block">Writes an unsigned <code>int</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#writeUnsigned(java.lang.String, int[], int[], int[])">writeUnsigned</a></strong>(java.lang.String&nbsp;name,
+                          int[]&nbsp;pr,
+                          int[]&nbsp;pi,
+                          int[]&nbsp;dimensions)</code>
+<div class="block">Writes an unsigned <code>int</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#writeUnsigned(java.lang.String, int[], int[], int[], boolean)">writeUnsigned</a></strong>(java.lang.String&nbsp;name,
+                          int[]&nbsp;pr,
+                          int[]&nbsp;pi,
+                          int[]&nbsp;dimensions,
+                          boolean&nbsp;global)</code>
+<div class="block">Writes an unsigned <code>int</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#writeUnsigned(java.lang.String, int[], int[], int[], int[])">writeUnsigned</a></strong>(java.lang.String&nbsp;name,
+                          int[]&nbsp;pr,
+                          int[]&nbsp;pi,
+                          int[]&nbsp;dimensions,
+                          int[]&nbsp;strides)</code>
+<div class="block">Writes an unsigned <code>int</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#writeUnsigned(java.lang.String, int[], int[], int[], int[], boolean)">writeUnsigned</a></strong>(java.lang.String&nbsp;name,
+                          int[]&nbsp;pr,
+                          int[]&nbsp;pi,
+                          int[]&nbsp;dimensions,
+                          int[]&nbsp;strides,
+                          boolean&nbsp;global)</code>
+<div class="block">Writes an unsigned <code>int</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#writeUnsigned(java.lang.String, int, boolean)">writeUnsigned</a></strong>(java.lang.String&nbsp;name,
+                          int&nbsp;value,
+                          boolean&nbsp;global)</code>
+<div class="block">Writes an unsigned <code>int</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#writeUnsigned(java.lang.String, int, int)">writeUnsigned</a></strong>(java.lang.String&nbsp;name,
+                          int&nbsp;pr,
+                          int&nbsp;pi)</code>
+<div class="block">Writes an unsigned <code>int</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#writeUnsigned(java.lang.String, int, int, boolean)">writeUnsigned</a></strong>(java.lang.String&nbsp;name,
+                          int&nbsp;pr,
+                          int&nbsp;pi,
+                          boolean&nbsp;global)</code>
+<div class="block">Writes an unsigned <code>int</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#writeUnsigned(java.lang.String, short)">writeUnsigned</a></strong>(java.lang.String&nbsp;name,
+                          short&nbsp;value)</code>
+<div class="block">Writes an unsigned <code>short</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#writeUnsigned(java.lang.String, short[])">writeUnsigned</a></strong>(java.lang.String&nbsp;name,
+                          short[]&nbsp;pr)</code>
+<div class="block">Writes a one-dimensional array of <code>short</code>s to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#writeUnsigned(java.lang.String, short[], int[])">writeUnsigned</a></strong>(java.lang.String&nbsp;name,
+                          short[]&nbsp;array,
+                          int[]&nbsp;dimensions)</code>
+<div class="block">Writes an unsigned <code>short</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#writeUnsigned(java.lang.String, short[], int[], boolean)">writeUnsigned</a></strong>(java.lang.String&nbsp;name,
+                          short[]&nbsp;array,
+                          int[]&nbsp;dimensions,
+                          boolean&nbsp;global)</code>
+<div class="block">Writes an unsigned <code>short</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#writeUnsigned(java.lang.String, short[], short[], int[])">writeUnsigned</a></strong>(java.lang.String&nbsp;name,
+                          short[]&nbsp;pr,
+                          short[]&nbsp;pi,
+                          int[]&nbsp;dimensions)</code>
+<div class="block">Writes an unsigned <code>short</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#writeUnsigned(java.lang.String, short[], short[], int[], boolean)">writeUnsigned</a></strong>(java.lang.String&nbsp;name,
+                          short[]&nbsp;pr,
+                          short[]&nbsp;pi,
+                          int[]&nbsp;dimensions,
+                          boolean&nbsp;global)</code>
+<div class="block">Writes an unsigned <code>short</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#writeUnsigned(java.lang.String, short[], short[], int[], int[])">writeUnsigned</a></strong>(java.lang.String&nbsp;name,
+                          short[]&nbsp;pr,
+                          short[]&nbsp;pi,
+                          int[]&nbsp;dimensions,
+                          int[]&nbsp;strides)</code>
+<div class="block">Writes an unsigned <code>short</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#writeUnsigned(java.lang.String, short[], short[], int[], int[], boolean)">writeUnsigned</a></strong>(java.lang.String&nbsp;name,
+                          short[]&nbsp;pr,
+                          short[]&nbsp;pi,
+                          int[]&nbsp;dimensions,
+                          int[]&nbsp;strides,
+                          boolean&nbsp;global)</code>
+<div class="block">Writes an unsigned <code>short</code> array variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#writeUnsigned(java.lang.String, short, boolean)">writeUnsigned</a></strong>(java.lang.String&nbsp;name,
+                          short&nbsp;value,
+                          boolean&nbsp;global)</code>
+<div class="block">Writes an unsigned <code>short</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#writeUnsigned(java.lang.String, short, short)">writeUnsigned</a></strong>(java.lang.String&nbsp;name,
+                          short&nbsp;pr,
+                          short&nbsp;pi)</code>
+<div class="block">Writes an unsigned <code>short</code> variable to the MAT-file.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabWriter.html#writeUnsigned(java.lang.String, short, short, boolean)">writeUnsigned</a></strong>(java.lang.String&nbsp;name,
+                          short&nbsp;pr,
+                          short&nbsp;pi,
+                          boolean&nbsp;global)</code>
+<div class="block">Writes an unsigned <code>short</code> variable to the MAT-file.</div>
+</td>
+</tr>
+</table>
+<ul class="blockList">
+<li class="blockList"><a name="methods_inherited_from_class_java.lang.Object">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>equals, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="details">
+<ul class="blockList">
+<li class="blockList">
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+<ul class="blockList">
+<li class="blockList"><a name="constructor_detail">
+<!--   -->
+</a>
+<h3>Constructor Detail</h3>
+<a name="MatlabWriter(java.io.OutputStream)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>MatlabWriter</h4>
+<pre>public&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L45" target="_blank">MatlabWriter</a>(java.io.OutputStream&nbsp;out)
+             throws java.io.IOException</pre>
+<div class="block">Creates a new <code>MatlabWriter</code>.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>out</code> - The <code>OutputStream</code> to write to.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to <code>out</code> fails.</dd></dl>
+</li>
+</ul>
+<a name="MatlabWriter(ca.eandb.jmist.util.matlab.MatlabOutputStream)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>MatlabWriter</h4>
+<pre>public&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L54" target="_blank">MatlabWriter</a>(<a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.html" title="class in ca.eandb.jmist.util.matlab">MatlabOutputStream</a>&nbsp;out)
+             throws java.io.IOException</pre>
+<div class="block">Creates a new <code>MatlabWriter</code>.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>out</code> - The <code>MatlabOutputStream</code> to write to.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to <code>out</code> fails.</dd></dl>
+</li>
+</ul>
+</li>
+</ul>
+<!-- ============ METHOD DETAIL ========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method_detail">
+<!--   -->
+</a>
+<h3>Method Detail</h3>
+<a name="flush()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>flush</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L62" target="_blank">flush</a>()
+           throws java.io.IOException</pre>
+<div class="block">Flushes the underlying stream.</div>
+<dl><dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="close()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>close</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L70" target="_blank">close</a>()
+           throws java.io.IOException</pre>
+<div class="block">Closes the underlying stream.</div>
+<dl><dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if closing the stream fails.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, double[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L80" target="_blank">write</a>(java.lang.String&nbsp;name,
+         double[]&nbsp;pr)
+           throws java.io.IOException</pre>
+<div class="block">Writes a one-dimensional array of <code>double</code>s to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The array of elements to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - If writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, float[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L90" target="_blank">write</a>(java.lang.String&nbsp;name,
+         float[]&nbsp;pr)
+           throws java.io.IOException</pre>
+<div class="block">Writes a one-dimensional array of <code>float</code>s to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The array of elements to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - If writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, boolean[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L100" target="_blank">write</a>(java.lang.String&nbsp;name,
+         boolean[]&nbsp;pr)
+           throws java.io.IOException</pre>
+<div class="block">Writes a one-dimensional array of <code>boolean</code>s to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The array of elements to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - If writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L110" target="_blank">write</a>(java.lang.String&nbsp;name,
+         int[]&nbsp;pr)
+           throws java.io.IOException</pre>
+<div class="block">Writes a one-dimensional array of <code>int</code>s to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The array of elements to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - If writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, short[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L120" target="_blank">write</a>(java.lang.String&nbsp;name,
+         short[]&nbsp;pr)
+           throws java.io.IOException</pre>
+<div class="block">Writes a one-dimensional array of <code>short</code>s to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The array of elements to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - If writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, byte[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L130" target="_blank">write</a>(java.lang.String&nbsp;name,
+         byte[]&nbsp;pr)
+           throws java.io.IOException</pre>
+<div class="block">Writes a one-dimensional array of <code>byte</code>s to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The array of elements to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - If writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsigned(java.lang.String, int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsigned</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L140" target="_blank">writeUnsigned</a>(java.lang.String&nbsp;name,
+                 int[]&nbsp;pr)
+                   throws java.io.IOException</pre>
+<div class="block">Writes a one-dimensional array of <code>int</code>s to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The array of elements to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - If writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsigned(java.lang.String, short[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsigned</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L150" target="_blank">writeUnsigned</a>(java.lang.String&nbsp;name,
+                 short[]&nbsp;pr)
+                   throws java.io.IOException</pre>
+<div class="block">Writes a one-dimensional array of <code>short</code>s to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The array of elements to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - If writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsigned(java.lang.String, byte[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsigned</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L160" target="_blank">writeUnsigned</a>(java.lang.String&nbsp;name,
+                 byte[]&nbsp;pr)
+                   throws java.io.IOException</pre>
+<div class="block">Writes a one-dimensional array of <code>byte</code>s to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The array of elements to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - If writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, double[], double[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L179" target="_blank">write</a>(java.lang.String&nbsp;name,
+         double[]&nbsp;pr,
+         double[]&nbsp;pi,
+         int[]&nbsp;dimensions)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>double</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real parts of the array elements.</dd><dd><code>pi</code> - The imaginary parts of the array elements (optional, must
+                be the same length as <code>pr</code> if provided).</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>pr.length</code>).</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>pi != null</code> and
+                <code>pi.length != pr.length</code>.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>pr.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, double, double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L190" target="_blank">write</a>(java.lang.String&nbsp;name,
+         double&nbsp;pr,
+         double&nbsp;pi)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>double</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real part of the value.</dd><dd><code>pi</code> - The imaginary part of the value.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, double[], double[], int[], boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L210" target="_blank">write</a>(java.lang.String&nbsp;name,
+         double[]&nbsp;pr,
+         double[]&nbsp;pi,
+         int[]&nbsp;dimensions,
+         boolean&nbsp;global)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>double</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real parts of the array elements.</dd><dd><code>pi</code> - The imaginary parts of the array elements (optional, must
+                be the same length as <code>pr</code> if provided).</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>pr.length</code>).</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>pi != null</code> and
+                <code>pi.length != pr.length</code>.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>pr.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, double[], double[], int[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L232" target="_blank">write</a>(java.lang.String&nbsp;name,
+         double[]&nbsp;pr,
+         double[]&nbsp;pi,
+         int[]&nbsp;dimensions,
+         int[]&nbsp;strides)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>double</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real parts of the array elements.</dd><dd><code>pi</code> - The imaginary parts of the array elements (optional, must
+                be the same length as <code>pr</code> if provided).</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>pr.length</code>).</dd><dd><code>strides</code> - The differences between indices into <code>pr</code> of
+                consecutive entries along each dimension (must be equal in length
+                to <code>dimensions</code>).</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>pi != null</code> and
+                <code>pi.length != pr.length</code>.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>pr.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, double[], double[], int[], int[], boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L255" target="_blank">write</a>(java.lang.String&nbsp;name,
+         double[]&nbsp;pr,
+         double[]&nbsp;pi,
+         int[]&nbsp;dimensions,
+         int[]&nbsp;strides,
+         boolean&nbsp;global)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>double</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real parts of the array elements.</dd><dd><code>pi</code> - The imaginary parts of the array elements (optional, must
+                be the same length as <code>pr</code> if provided).</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>pr.length</code>).</dd><dd><code>strides</code> - The differences between indices into <code>pr</code> of
+                consecutive entries along each dimension (must be equal in length
+                to <code>dimensions</code>).</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>pi != null</code> and
+                <code>pi.length != pr.length</code>.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>pr.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, double, double, boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L279" target="_blank">write</a>(java.lang.String&nbsp;name,
+         double&nbsp;pr,
+         double&nbsp;pi,
+         boolean&nbsp;global)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>double</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real part of the value.</dd><dd><code>pi</code> - The imaginary parts of the value.</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, double[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L294" target="_blank">write</a>(java.lang.String&nbsp;name,
+         double[]&nbsp;array,
+         int[]&nbsp;dimensions)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>double</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>array</code> - The real parts of the array elements.</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>array.length</code>).</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>array.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L304" target="_blank">write</a>(java.lang.String&nbsp;name,
+         double&nbsp;value)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>double</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>value</code> - The real part of the value.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, double[], int[], boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L320" target="_blank">write</a>(java.lang.String&nbsp;name,
+         double[]&nbsp;array,
+         int[]&nbsp;dimensions,
+         boolean&nbsp;global)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>double</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>array</code> - The real parts of the array elements.</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>array.length</code>).</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>array.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, double, boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L331" target="_blank">write</a>(java.lang.String&nbsp;name,
+         double&nbsp;value,
+         boolean&nbsp;global)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>double</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>value</code> - The real part of the value.</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, float[], float[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L350" target="_blank">write</a>(java.lang.String&nbsp;name,
+         float[]&nbsp;pr,
+         float[]&nbsp;pi,
+         int[]&nbsp;dimensions)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>float</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real parts of the array elements.</dd><dd><code>pi</code> - The imaginary parts of the array elements (optional, must
+                be the same length as <code>pr</code> if provided).</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>pr.length</code>).</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>pi != null</code> and
+                <code>pi.length != pr.length</code>.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>pr.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, float, float)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L361" target="_blank">write</a>(java.lang.String&nbsp;name,
+         float&nbsp;pr,
+         float&nbsp;pi)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>float</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real part of the value.</dd><dd><code>pi</code> - The imaginary part of the value.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, float[], float[], int[], boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L381" target="_blank">write</a>(java.lang.String&nbsp;name,
+         float[]&nbsp;pr,
+         float[]&nbsp;pi,
+         int[]&nbsp;dimensions,
+         boolean&nbsp;global)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>float</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real parts of the array elements.</dd><dd><code>pi</code> - The imaginary parts of the array elements (optional, must
+                be the same length as <code>pr</code> if provided).</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>pr.length</code>).</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>pi != null</code> and
+                <code>pi.length != pr.length</code>.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>pr.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, float[], float[], int[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L403" target="_blank">write</a>(java.lang.String&nbsp;name,
+         float[]&nbsp;pr,
+         float[]&nbsp;pi,
+         int[]&nbsp;dimensions,
+         int[]&nbsp;strides)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>float</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real parts of the array elements.</dd><dd><code>pi</code> - The imaginary parts of the array elements (optional, must
+                be the same length as <code>pr</code> if provided).</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>pr.length</code>).</dd><dd><code>strides</code> - The differences between indices into <code>pr</code> of
+                consecutive entries along each dimension (must be equal in length
+                to <code>dimensions</code>).</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>pi != null</code> and
+                <code>pi.length != pr.length</code>.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>pr.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, float[], float[], int[], int[], boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L426" target="_blank">write</a>(java.lang.String&nbsp;name,
+         float[]&nbsp;pr,
+         float[]&nbsp;pi,
+         int[]&nbsp;dimensions,
+         int[]&nbsp;strides,
+         boolean&nbsp;global)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>float</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real parts of the array elements.</dd><dd><code>pi</code> - The imaginary parts of the array elements (optional, must
+                be the same length as <code>pr</code> if provided).</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>pr.length</code>).</dd><dd><code>strides</code> - The differences between indices into <code>pr</code> of
+                consecutive entries along each dimension (must be equal in length
+                to <code>dimensions</code>).</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>pi != null</code> and
+                <code>pi.length != pr.length</code>.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>pr.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, float, float, boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L450" target="_blank">write</a>(java.lang.String&nbsp;name,
+         float&nbsp;pr,
+         float&nbsp;pi,
+         boolean&nbsp;global)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>float</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real part of the value.</dd><dd><code>pi</code> - The imaginary part of the value.</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, float[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L465" target="_blank">write</a>(java.lang.String&nbsp;name,
+         float[]&nbsp;array,
+         int[]&nbsp;dimensions)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>float</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>array</code> - The real parts of the array elements.</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>array.length</code>).</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>array.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, float)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L475" target="_blank">write</a>(java.lang.String&nbsp;name,
+         float&nbsp;value)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>float</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>value</code> - The real part of the value.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, float[], int[], boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L491" target="_blank">write</a>(java.lang.String&nbsp;name,
+         float[]&nbsp;array,
+         int[]&nbsp;dimensions,
+         boolean&nbsp;global)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>float</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>array</code> - The real parts of the array elements.</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>array.length</code>).</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>array.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, float, boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L502" target="_blank">write</a>(java.lang.String&nbsp;name,
+         float&nbsp;value,
+         boolean&nbsp;global)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>float</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>value</code> - The real part of the value.</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, int[], int[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L521" target="_blank">write</a>(java.lang.String&nbsp;name,
+         int[]&nbsp;pr,
+         int[]&nbsp;pi,
+         int[]&nbsp;dimensions)
+           throws java.io.IOException</pre>
+<div class="block">Writes an <code>int</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real parts of the array elements.</dd><dd><code>pi</code> - The imaginary parts of the array elements (optional, must
+                be the same length as <code>pr</code> if provided).</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>pr.length</code>).</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>pi != null</code> and
+                <code>pi.length != pr.length</code>.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>pr.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, int, int)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L532" target="_blank">write</a>(java.lang.String&nbsp;name,
+         int&nbsp;pr,
+         int&nbsp;pi)
+           throws java.io.IOException</pre>
+<div class="block">Writes an <code>int</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real part of the value.</dd><dd><code>pi</code> - The imaginary part of the value.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, int[], int[], int[], boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L552" target="_blank">write</a>(java.lang.String&nbsp;name,
+         int[]&nbsp;pr,
+         int[]&nbsp;pi,
+         int[]&nbsp;dimensions,
+         boolean&nbsp;global)
+           throws java.io.IOException</pre>
+<div class="block">Writes an <code>int</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real parts of the array elements.</dd><dd><code>pi</code> - The imaginary parts of the array elements (optional, must
+                be the same length as <code>pr</code> if provided).</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>pr.length</code>).</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>pi != null</code> and
+                <code>pi.length != pr.length</code>.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>pr.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, int[], int[], int[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L574" target="_blank">write</a>(java.lang.String&nbsp;name,
+         int[]&nbsp;pr,
+         int[]&nbsp;pi,
+         int[]&nbsp;dimensions,
+         int[]&nbsp;strides)
+           throws java.io.IOException</pre>
+<div class="block">Writes an <code>int</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real parts of the array elements.</dd><dd><code>pi</code> - The imaginary parts of the array elements (optional, must
+                be the same length as <code>pr</code> if provided).</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>pr.length</code>).</dd><dd><code>strides</code> - The differences between indices into <code>pr</code> of
+                consecutive entries along each dimension (must be equal in length
+                to <code>dimensions</code>).</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>pi != null</code> and
+                <code>pi.length != pr.length</code>.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>pr.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, int[], int[], int[], int[], boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L597" target="_blank">write</a>(java.lang.String&nbsp;name,
+         int[]&nbsp;pr,
+         int[]&nbsp;pi,
+         int[]&nbsp;dimensions,
+         int[]&nbsp;strides,
+         boolean&nbsp;global)
+           throws java.io.IOException</pre>
+<div class="block">Writes an <code>int</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real parts of the array elements.</dd><dd><code>pi</code> - The imaginary parts of the array elements (optional, must
+                be the same length as <code>pr</code> if provided).</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>pr.length</code>).</dd><dd><code>strides</code> - The differences between indices into <code>pr</code> of
+                consecutive entries along each dimension (must be equal in length
+                to <code>dimensions</code>).</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>pi != null</code> and
+                <code>pi.length != pr.length</code>.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>pr.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, int, int, boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L621" target="_blank">write</a>(java.lang.String&nbsp;name,
+         int&nbsp;pr,
+         int&nbsp;pi,
+         boolean&nbsp;global)
+           throws java.io.IOException</pre>
+<div class="block">Writes an <code>int</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real part of the value.</dd><dd><code>pi</code> - The imaginary part of the value.</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, int[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L636" target="_blank">write</a>(java.lang.String&nbsp;name,
+         int[]&nbsp;array,
+         int[]&nbsp;dimensions)
+           throws java.io.IOException</pre>
+<div class="block">Writes an <code>int</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>array</code> - The real parts of the array elements.</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>array.length</code>).</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>array.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, int)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L646" target="_blank">write</a>(java.lang.String&nbsp;name,
+         int&nbsp;value)
+           throws java.io.IOException</pre>
+<div class="block">Writes an <code>int</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>value</code> - The real part of the value.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, int[], int[], boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L662" target="_blank">write</a>(java.lang.String&nbsp;name,
+         int[]&nbsp;array,
+         int[]&nbsp;dimensions,
+         boolean&nbsp;global)
+           throws java.io.IOException</pre>
+<div class="block">Writes an <code>int</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>array</code> - The real parts of the array elements.</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>array.length</code>).</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>array.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, int, boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L673" target="_blank">write</a>(java.lang.String&nbsp;name,
+         int&nbsp;value,
+         boolean&nbsp;global)
+           throws java.io.IOException</pre>
+<div class="block">Writes an <code>int</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>value</code> - The real part of the value.</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, short[], short[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L692" target="_blank">write</a>(java.lang.String&nbsp;name,
+         short[]&nbsp;pr,
+         short[]&nbsp;pi,
+         int[]&nbsp;dimensions)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>short</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real parts of the array elements.</dd><dd><code>pi</code> - The imaginary parts of the array elements (optional, must
+                be the same length as <code>pr</code> if provided).</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>pr.length</code>).</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>pi != null</code> and
+                <code>pi.length != pr.length</code>.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>pr.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, short, short)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L703" target="_blank">write</a>(java.lang.String&nbsp;name,
+         short&nbsp;pr,
+         short&nbsp;pi)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>short</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real part of the value.</dd><dd><code>pi</code> - The imaginary part of the value.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, short[], short[], int[], boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L723" target="_blank">write</a>(java.lang.String&nbsp;name,
+         short[]&nbsp;pr,
+         short[]&nbsp;pi,
+         int[]&nbsp;dimensions,
+         boolean&nbsp;global)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>short</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real parts of the array elements.</dd><dd><code>pi</code> - The imaginary parts of the array elements (optional, must
+                be the same length as <code>pr</code> if provided).</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>pr.length</code>).</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>pi != null</code> and
+                <code>pi.length != pr.length</code>.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>pr.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, short[], short[], int[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L745" target="_blank">write</a>(java.lang.String&nbsp;name,
+         short[]&nbsp;pr,
+         short[]&nbsp;pi,
+         int[]&nbsp;dimensions,
+         int[]&nbsp;strides)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>short</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real parts of the array elements.</dd><dd><code>pi</code> - The imaginary parts of the array elements (optional, must
+                be the same length as <code>pr</code> if provided).</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>pr.length</code>).</dd><dd><code>strides</code> - The differences between indices into <code>pr</code> of
+                consecutive entries along each dimension (must be equal in length
+                to <code>dimensions</code>).</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>pi != null</code> and
+                <code>pi.length != pr.length</code>.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>pr.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, short[], short[], int[], int[], boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L768" target="_blank">write</a>(java.lang.String&nbsp;name,
+         short[]&nbsp;pr,
+         short[]&nbsp;pi,
+         int[]&nbsp;dimensions,
+         int[]&nbsp;strides,
+         boolean&nbsp;global)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>short</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real parts of the array elements.</dd><dd><code>pi</code> - The imaginary parts of the array elements (optional, must
+                be the same length as <code>pr</code> if provided).</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>pr.length</code>).</dd><dd><code>strides</code> - The differences between indices into <code>pr</code> of
+                consecutive entries along each dimension (must be equal in length
+                to <code>dimensions</code>).</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>pi != null</code> and
+                <code>pi.length != pr.length</code>.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>pr.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, short, short, boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L792" target="_blank">write</a>(java.lang.String&nbsp;name,
+         short&nbsp;pr,
+         short&nbsp;pi,
+         boolean&nbsp;global)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>short</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real part of the value.</dd><dd><code>pi</code> - The imaginary part of the value.</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, short[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L807" target="_blank">write</a>(java.lang.String&nbsp;name,
+         short[]&nbsp;array,
+         int[]&nbsp;dimensions)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>short</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>array</code> - The real parts of the array elements.</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>array.length</code>).</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>array.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, short)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L817" target="_blank">write</a>(java.lang.String&nbsp;name,
+         short&nbsp;value)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>short</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>value</code> - The real part of the value.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, short[], int[], boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L833" target="_blank">write</a>(java.lang.String&nbsp;name,
+         short[]&nbsp;array,
+         int[]&nbsp;dimensions,
+         boolean&nbsp;global)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>short</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>array</code> - The real parts of the array elements.</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>array.length</code>).</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>array.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, short, boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L844" target="_blank">write</a>(java.lang.String&nbsp;name,
+         short&nbsp;value,
+         boolean&nbsp;global)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>short</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>value</code> - The real part of the value.</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, byte[], byte[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L863" target="_blank">write</a>(java.lang.String&nbsp;name,
+         byte[]&nbsp;pr,
+         byte[]&nbsp;pi,
+         int[]&nbsp;dimensions)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>byte</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real parts of the array elements.</dd><dd><code>pi</code> - The imaginary parts of the array elements (optional, must
+                be the same length as <code>pr</code> if provided).</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>pr.length</code>).</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>pi != null</code> and
+                <code>pi.length != pr.length</code>.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>pr.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, byte, byte)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L874" target="_blank">write</a>(java.lang.String&nbsp;name,
+         byte&nbsp;pr,
+         byte&nbsp;pi)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>byte</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real part of the value.</dd><dd><code>pi</code> - The imaginary part of the value.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, byte[], byte[], int[], boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L894" target="_blank">write</a>(java.lang.String&nbsp;name,
+         byte[]&nbsp;pr,
+         byte[]&nbsp;pi,
+         int[]&nbsp;dimensions,
+         boolean&nbsp;global)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>byte</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real parts of the array elements.</dd><dd><code>pi</code> - The imaginary parts of the array elements (optional, must
+                be the same length as <code>pr</code> if provided).</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>pr.length</code>).</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>pi != null</code> and
+                <code>pi.length != pr.length</code>.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>pr.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, byte[], byte[], int[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L916" target="_blank">write</a>(java.lang.String&nbsp;name,
+         byte[]&nbsp;pr,
+         byte[]&nbsp;pi,
+         int[]&nbsp;dimensions,
+         int[]&nbsp;strides)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>byte</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real parts of the array elements.</dd><dd><code>pi</code> - The imaginary parts of the array elements (optional, must
+                be the same length as <code>pr</code> if provided).</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>pr.length</code>).</dd><dd><code>strides</code> - The differences between indices into <code>pr</code> of
+                consecutive entries along each dimension (must be equal in length
+                to <code>dimensions</code>).</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>pi != null</code> and
+                <code>pi.length != pr.length</code>.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>pr.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, byte[], byte[], int[], int[], boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L939" target="_blank">write</a>(java.lang.String&nbsp;name,
+         byte[]&nbsp;pr,
+         byte[]&nbsp;pi,
+         int[]&nbsp;dimensions,
+         int[]&nbsp;strides,
+         boolean&nbsp;global)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>byte</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real parts of the array elements.</dd><dd><code>pi</code> - The imaginary parts of the array elements (optional, must
+                be the same length as <code>pr</code> if provided).</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>pr.length</code>).</dd><dd><code>strides</code> - The differences between indices into <code>pr</code> of
+                consecutive entries along each dimension (must be equal in length
+                to <code>dimensions</code>).</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>pi != null</code> and
+                <code>pi.length != pr.length</code>.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>pr.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, byte, byte, boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L963" target="_blank">write</a>(java.lang.String&nbsp;name,
+         byte&nbsp;pr,
+         byte&nbsp;pi,
+         boolean&nbsp;global)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>byte</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real part of the value.</dd><dd><code>pi</code> - The imaginary part of the value.</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, byte[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L978" target="_blank">write</a>(java.lang.String&nbsp;name,
+         byte[]&nbsp;array,
+         int[]&nbsp;dimensions)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>byte</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>array</code> - The real parts of the array elements.</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>array.length</code>).</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>array.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, byte)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L988" target="_blank">write</a>(java.lang.String&nbsp;name,
+         byte&nbsp;value)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>byte</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>value</code> - The real part of the value.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, byte[], int[], boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1004" target="_blank">write</a>(java.lang.String&nbsp;name,
+         byte[]&nbsp;array,
+         int[]&nbsp;dimensions,
+         boolean&nbsp;global)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>byte</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>array</code> - The real parts of the array elements.</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>array.length</code>).</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>array.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, byte, boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1015" target="_blank">write</a>(java.lang.String&nbsp;name,
+         byte&nbsp;value,
+         boolean&nbsp;global)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>byte</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>value</code> - The real part of the value.</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsigned(java.lang.String, int[], int[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsigned</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1034" target="_blank">writeUnsigned</a>(java.lang.String&nbsp;name,
+                 int[]&nbsp;pr,
+                 int[]&nbsp;pi,
+                 int[]&nbsp;dimensions)
+                   throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>int</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real parts of the array elements.</dd><dd><code>pi</code> - The imaginary parts of the array elements (optional, must
+                be the same length as <code>pr</code> if provided).</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>pr.length</code>).</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>pi != null</code> and
+                <code>pi.length != pr.length</code>.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>pr.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsigned(java.lang.String, int, int)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsigned</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1045" target="_blank">writeUnsigned</a>(java.lang.String&nbsp;name,
+                 int&nbsp;pr,
+                 int&nbsp;pi)
+                   throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>int</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real part of the value.</dd><dd><code>pi</code> - The imaginary part of the value.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsigned(java.lang.String, int[], int[], int[], boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsigned</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1065" target="_blank">writeUnsigned</a>(java.lang.String&nbsp;name,
+                 int[]&nbsp;pr,
+                 int[]&nbsp;pi,
+                 int[]&nbsp;dimensions,
+                 boolean&nbsp;global)
+                   throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>int</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real parts of the array elements.</dd><dd><code>pi</code> - The imaginary parts of the array elements (optional, must
+                be the same length as <code>pr</code> if provided).</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>pr.length</code>).</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>pi != null</code> and
+                <code>pi.length != pr.length</code>.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>pr.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsigned(java.lang.String, int[], int[], int[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsigned</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1087" target="_blank">writeUnsigned</a>(java.lang.String&nbsp;name,
+                 int[]&nbsp;pr,
+                 int[]&nbsp;pi,
+                 int[]&nbsp;dimensions,
+                 int[]&nbsp;strides)
+                   throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>int</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real parts of the array elements.</dd><dd><code>pi</code> - The imaginary parts of the array elements (optional, must
+                be the same length as <code>pr</code> if provided).</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>pr.length</code>).</dd><dd><code>strides</code> - The differences between indices into <code>pr</code> of
+                consecutive entries along each dimension (must be equal in length
+                to <code>dimensions</code>).</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>pi != null</code> and
+                <code>pi.length != pr.length</code>.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>pr.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsigned(java.lang.String, int[], int[], int[], int[], boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsigned</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1110" target="_blank">writeUnsigned</a>(java.lang.String&nbsp;name,
+                 int[]&nbsp;pr,
+                 int[]&nbsp;pi,
+                 int[]&nbsp;dimensions,
+                 int[]&nbsp;strides,
+                 boolean&nbsp;global)
+                   throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>int</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real parts of the array elements.</dd><dd><code>pi</code> - The imaginary parts of the array elements (optional, must
+                be the same length as <code>pr</code> if provided).</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>pr.length</code>).</dd><dd><code>strides</code> - The differences between indices into <code>pr</code> of
+                consecutive entries along each dimension (must be equal in length
+                to <code>dimensions</code>).</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>pi != null</code> and
+                <code>pi.length != pr.length</code>.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>pr.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsigned(java.lang.String, int, int, boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsigned</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1134" target="_blank">writeUnsigned</a>(java.lang.String&nbsp;name,
+                 int&nbsp;pr,
+                 int&nbsp;pi,
+                 boolean&nbsp;global)
+                   throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>int</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real part of the value.</dd><dd><code>pi</code> - The imaginary part of the value.</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsigned(java.lang.String, int[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsigned</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1149" target="_blank">writeUnsigned</a>(java.lang.String&nbsp;name,
+                 int[]&nbsp;array,
+                 int[]&nbsp;dimensions)
+                   throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>int</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>array</code> - The real parts of the array elements.</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>array.length</code>).</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>array.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsigned(java.lang.String, int)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsigned</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1159" target="_blank">writeUnsigned</a>(java.lang.String&nbsp;name,
+                 int&nbsp;value)
+                   throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>int</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>value</code> - The real part of the value.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsigned(java.lang.String, int[], int[], boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsigned</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1175" target="_blank">writeUnsigned</a>(java.lang.String&nbsp;name,
+                 int[]&nbsp;array,
+                 int[]&nbsp;dimensions,
+                 boolean&nbsp;global)
+                   throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>int</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>array</code> - The real parts of the array elements.</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>array.length</code>).</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>array.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsigned(java.lang.String, int, boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsigned</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1186" target="_blank">writeUnsigned</a>(java.lang.String&nbsp;name,
+                 int&nbsp;value,
+                 boolean&nbsp;global)
+                   throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>int</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>value</code> - The real part of the value.</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsigned(java.lang.String, short[], short[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsigned</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1205" target="_blank">writeUnsigned</a>(java.lang.String&nbsp;name,
+                 short[]&nbsp;pr,
+                 short[]&nbsp;pi,
+                 int[]&nbsp;dimensions)
+                   throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>short</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real parts of the array elements.</dd><dd><code>pi</code> - The imaginary parts of the array elements (optional, must
+                be the same length as <code>pr</code> if provided).</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>pr.length</code>).</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>pi != null</code> and
+                <code>pi.length != pr.length</code>.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>pr.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsigned(java.lang.String, short, short)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsigned</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1216" target="_blank">writeUnsigned</a>(java.lang.String&nbsp;name,
+                 short&nbsp;pr,
+                 short&nbsp;pi)
+                   throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>short</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real part of the value.</dd><dd><code>pi</code> - The imaginary part of the value.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsigned(java.lang.String, short[], short[], int[], boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsigned</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1236" target="_blank">writeUnsigned</a>(java.lang.String&nbsp;name,
+                 short[]&nbsp;pr,
+                 short[]&nbsp;pi,
+                 int[]&nbsp;dimensions,
+                 boolean&nbsp;global)
+                   throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>short</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real parts of the array elements.</dd><dd><code>pi</code> - The imaginary parts of the array elements (optional, must
+                be the same length as <code>pr</code> if provided).</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>pr.length</code>).</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>pi != null</code> and
+                <code>pi.length != pr.length</code>.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>pr.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsigned(java.lang.String, short[], short[], int[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsigned</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1258" target="_blank">writeUnsigned</a>(java.lang.String&nbsp;name,
+                 short[]&nbsp;pr,
+                 short[]&nbsp;pi,
+                 int[]&nbsp;dimensions,
+                 int[]&nbsp;strides)
+                   throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>short</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real parts of the array elements.</dd><dd><code>pi</code> - The imaginary parts of the array elements (optional, must
+                be the same length as <code>pr</code> if provided).</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>pr.length</code>).</dd><dd><code>strides</code> - The differences between indices into <code>pr</code> of
+                consecutive entries along each dimension (must be equal in length
+                to <code>dimensions</code>).</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>pi != null</code> and
+                <code>pi.length != pr.length</code>.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>pr.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsigned(java.lang.String, short[], short[], int[], int[], boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsigned</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1281" target="_blank">writeUnsigned</a>(java.lang.String&nbsp;name,
+                 short[]&nbsp;pr,
+                 short[]&nbsp;pi,
+                 int[]&nbsp;dimensions,
+                 int[]&nbsp;strides,
+                 boolean&nbsp;global)
+                   throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>short</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real parts of the array elements.</dd><dd><code>pi</code> - The imaginary parts of the array elements (optional, must
+                be the same length as <code>pr</code> if provided).</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>pr.length</code>).</dd><dd><code>strides</code> - The differences between indices into <code>pr</code> of
+                consecutive entries along each dimension (must be equal in length
+                to <code>dimensions</code>).</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>pi != null</code> and
+                <code>pi.length != pr.length</code>.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>pr.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsigned(java.lang.String, short, short, boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsigned</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1305" target="_blank">writeUnsigned</a>(java.lang.String&nbsp;name,
+                 short&nbsp;pr,
+                 short&nbsp;pi,
+                 boolean&nbsp;global)
+                   throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>short</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real part of the value.</dd><dd><code>pi</code> - The imaginary part of the value.</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsigned(java.lang.String, short[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsigned</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1320" target="_blank">writeUnsigned</a>(java.lang.String&nbsp;name,
+                 short[]&nbsp;array,
+                 int[]&nbsp;dimensions)
+                   throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>short</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>array</code> - The real parts of the array elements.</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>array.length</code>).</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>array.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsigned(java.lang.String, short)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsigned</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1330" target="_blank">writeUnsigned</a>(java.lang.String&nbsp;name,
+                 short&nbsp;value)
+                   throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>short</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>value</code> - The real part of the value.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsigned(java.lang.String, short[], int[], boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsigned</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1346" target="_blank">writeUnsigned</a>(java.lang.String&nbsp;name,
+                 short[]&nbsp;array,
+                 int[]&nbsp;dimensions,
+                 boolean&nbsp;global)
+                   throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>short</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>array</code> - The real parts of the array elements.</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>array.length</code>).</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>array.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsigned(java.lang.String, short, boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsigned</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1357" target="_blank">writeUnsigned</a>(java.lang.String&nbsp;name,
+                 short&nbsp;value,
+                 boolean&nbsp;global)
+                   throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>short</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>value</code> - The real part of the value.</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsigned(java.lang.String, byte[], byte[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsigned</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1376" target="_blank">writeUnsigned</a>(java.lang.String&nbsp;name,
+                 byte[]&nbsp;pr,
+                 byte[]&nbsp;pi,
+                 int[]&nbsp;dimensions)
+                   throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>byte</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real parts of the array elements.</dd><dd><code>pi</code> - The imaginary parts of the array elements (optional, must
+                be the same length as <code>pr</code> if provided).</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>pr.length</code>).</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>pi != null</code> and
+                <code>pi.length != pr.length</code>.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>pr.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsigned(java.lang.String, byte, byte)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsigned</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1387" target="_blank">writeUnsigned</a>(java.lang.String&nbsp;name,
+                 byte&nbsp;pr,
+                 byte&nbsp;pi)
+                   throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>byte</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real part of the value.</dd><dd><code>pi</code> - The imaginary part of the value.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsigned(java.lang.String, byte[], byte[], int[], boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsigned</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1407" target="_blank">writeUnsigned</a>(java.lang.String&nbsp;name,
+                 byte[]&nbsp;pr,
+                 byte[]&nbsp;pi,
+                 int[]&nbsp;dimensions,
+                 boolean&nbsp;global)
+                   throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>byte</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real parts of the array elements.</dd><dd><code>pi</code> - The imaginary parts of the array elements (optional, must
+                be the same length as <code>pr</code> if provided).</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>pr.length</code>).</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>pi != null</code> and
+                <code>pi.length != pr.length</code>.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>pr.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsigned(java.lang.String, byte[], byte[], int[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsigned</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1429" target="_blank">writeUnsigned</a>(java.lang.String&nbsp;name,
+                 byte[]&nbsp;pr,
+                 byte[]&nbsp;pi,
+                 int[]&nbsp;dimensions,
+                 int[]&nbsp;strides)
+                   throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>byte</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real parts of the array elements.</dd><dd><code>pi</code> - The imaginary parts of the array elements (optional, must
+                be the same length as <code>pr</code> if provided).</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>pr.length</code>).</dd><dd><code>strides</code> - The differences between indices into <code>pr</code> of
+                consecutive entries along each dimension (must be equal in length
+                to <code>dimensions</code>).</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>pi != null</code> and
+                <code>pi.length != pr.length</code>.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>pr.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsigned(java.lang.String, byte[], byte[], int[], int[], boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsigned</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1452" target="_blank">writeUnsigned</a>(java.lang.String&nbsp;name,
+                 byte[]&nbsp;pr,
+                 byte[]&nbsp;pi,
+                 int[]&nbsp;dimensions,
+                 int[]&nbsp;strides,
+                 boolean&nbsp;global)
+                   throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>byte</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real parts of the array elements.</dd><dd><code>pi</code> - The imaginary parts of the array elements (optional, must
+                be the same length as <code>pr</code> if provided).</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>pr.length</code>).</dd><dd><code>strides</code> - The differences between indices into <code>pr</code> of
+                consecutive entries along each dimension (must be equal in length
+                to <code>dimensions</code>).</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if <code>pi != null</code> and
+                <code>pi.length != pr.length</code>.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>pr.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsigned(java.lang.String, byte, byte, boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsigned</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1476" target="_blank">writeUnsigned</a>(java.lang.String&nbsp;name,
+                 byte&nbsp;pr,
+                 byte&nbsp;pi,
+                 boolean&nbsp;global)
+                   throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>byte</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>pr</code> - The real part of the value.</dd><dd><code>pi</code> - The imaginary part of the value.</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsigned(java.lang.String, byte[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsigned</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1491" target="_blank">writeUnsigned</a>(java.lang.String&nbsp;name,
+                 byte[]&nbsp;array,
+                 int[]&nbsp;dimensions)
+                   throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>byte</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>array</code> - The real parts of the array elements.</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>array.length</code>).</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>array.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsigned(java.lang.String, byte)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsigned</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1501" target="_blank">writeUnsigned</a>(java.lang.String&nbsp;name,
+                 byte&nbsp;value)
+                   throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>byte</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>value</code> - The real part of the value.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsigned(java.lang.String, byte[], int[], boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsigned</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1517" target="_blank">writeUnsigned</a>(java.lang.String&nbsp;name,
+                 byte[]&nbsp;array,
+                 int[]&nbsp;dimensions,
+                 boolean&nbsp;global)
+                   throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>byte</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>array</code> - The real parts of the array elements.</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>array.length</code>).</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>array.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="writeUnsigned(java.lang.String, byte, boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>writeUnsigned</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1528" target="_blank">writeUnsigned</a>(java.lang.String&nbsp;name,
+                 byte&nbsp;value,
+                 boolean&nbsp;global)
+                   throws java.io.IOException</pre>
+<div class="block">Writes an unsigned <code>byte</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>value</code> - The real part of the value.</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, ca.eandb.jmist.math.Complex[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1543" target="_blank">write</a>(java.lang.String&nbsp;name,
+         <a href="../../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>[]&nbsp;array,
+         int[]&nbsp;dimensions)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>Complex</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>array</code> - The array elements.</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>array.length</code>).</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>array.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, ca.eandb.jmist.math.Complex)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1553" target="_blank">write</a>(java.lang.String&nbsp;name,
+         <a href="../../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;value)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>Complex</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>value</code> - The value to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, ca.eandb.jmist.math.Complex[], int[], boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1569" target="_blank">write</a>(java.lang.String&nbsp;name,
+         <a href="../../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>[]&nbsp;array,
+         int[]&nbsp;dimensions,
+         boolean&nbsp;global)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>Complex</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>array</code> - The array elements.</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>array.length</code>).</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>array.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, ca.eandb.jmist.math.Complex, boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1589" target="_blank">write</a>(java.lang.String&nbsp;name,
+         <a href="../../../../../ca/eandb/jmist/math/Complex.html" title="class in ca.eandb.jmist.math">Complex</a>&nbsp;value,
+         boolean&nbsp;global)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>Complex</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>value</code> - The value to write.</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, boolean[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1604" target="_blank">write</a>(java.lang.String&nbsp;name,
+         boolean[]&nbsp;array,
+         int[]&nbsp;dimensions)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>boolean</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>array</code> - The array elements.</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>array.length</code>).</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>array.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1614" target="_blank">write</a>(java.lang.String&nbsp;name,
+         boolean&nbsp;value)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>boolean</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>value</code> - The value to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, boolean[], int[], boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1630" target="_blank">write</a>(java.lang.String&nbsp;name,
+         boolean[]&nbsp;array,
+         int[]&nbsp;dimensions,
+         boolean&nbsp;global)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>boolean</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>array</code> - The array elements.</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>array.length</code>).</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>array.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, boolean[], int[], int[])">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1648" target="_blank">write</a>(java.lang.String&nbsp;name,
+         boolean[]&nbsp;array,
+         int[]&nbsp;dimensions,
+         int[]&nbsp;strides)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>boolean</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>array</code> - The array elements.</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>array.length</code>).</dd><dd><code>strides</code> - The differences between indices into <code>pr</code> of
+                consecutive entries along each dimension (must be equal in length
+                to <code>dimensions</code>).</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>array.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, boolean[], int[], int[], boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1667" target="_blank">write</a>(java.lang.String&nbsp;name,
+         boolean[]&nbsp;array,
+         int[]&nbsp;dimensions,
+         int[]&nbsp;strides,
+         boolean&nbsp;global)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>boolean</code> array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>array</code> - The array elements.</dd><dd><code>dimensions</code> - The array dimensions (there must be at least two
+                dimensions and the product of the dimensions must be
+                <code>array.length</code>).</dd><dd><code>strides</code> - The differences between indices into <code>pr</code> of
+                consecutive entries along each dimension (must be equal in length
+                to <code>dimensions</code>).</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd>
+<dd><code>java.lang.IllegalArgumentException</code> - if the product of
+                <code>dimensions</code> is not equal to <code>array.length</code>.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, boolean, boolean)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1687" target="_blank">write</a>(java.lang.String&nbsp;name,
+         boolean&nbsp;value,
+         boolean&nbsp;global)
+           throws java.io.IOException</pre>
+<div class="block">Writes a <code>boolean</code> variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>value</code> - The value to write.</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1697" target="_blank">write</a>(java.lang.String&nbsp;name,
+         java.lang.String&nbsp;value)
+           throws java.io.IOException</pre>
+<div class="block">Writes a character array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>value</code> - The <code>String</code> to write.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+<a name="write(java.lang.String, java.lang.String, boolean)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>write</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/util/matlab/MatlabWriter.java#L1708" target="_blank">write</a>(java.lang.String&nbsp;name,
+         java.lang.String&nbsp;value,
+         boolean&nbsp;global)
+           throws java.io.IOException</pre>
+<div class="block">Writes a character array variable to the MAT-file.</div>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>name</code> - The name of the variable.</dd><dd><code>value</code> - The <code>String</code> to write.</dd><dd><code>global</code> - A value indicating if the variable is to have global scope.</dd>
+<dt><span class="strong">Throws:</span></dt>
+<dd><code>java.io.IOException</code> - if writing to the underlying stream fails.</dd></dl>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<!-- ========= END OF CLASS DATA ========= -->
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<div class="bottomNav"><a name="navbar_bottom">
+<!--   -->
+</a><a href="#skip-navbar_bottom" title="Skip navigation links"></a><a name="navbar_bottom_firstrow">
+<!--   -->
+</a>
+<ul class="navList" title="Navigation">
+<li><a href="../../../../../overview-summary.html">Overview</a></li>
+<li><a href="package-summary.html">Package</a></li>
+<li class="navBarCell1Rev">Class</li>
+<li><a href="class-use/MatlabWriter.html">Use</a></li>
+<li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../../../index-files/index-1.html">Index</a></li>
+<li><a href="../../../../../help-doc.html">Help</a></li>
+</ul>
+</div>
+<div class="subNav">
+<ul class="navList">
+<li><a href="../../../../../ca/eandb/jmist/util/matlab/MatlabOutputStream.FixedLengthCompoundElementOutputStream.html" title="class in ca.eandb.jmist.util.matlab"><span class="strong">Prev Class</span></a></li>
+<li>Next Class</li>
+</ul>
+<ul class="navList">
+<li><a href="../../../../../index.html?ca/eandb/jmist/util/matlab/MatlabWriter.html" target="_top">Frames</a></li>
+<li><a href="MatlabWriter.html" target="_top">No Frames</a></li>
+</ul>
+<ul class="navList" id="allclasses_navbar_bottom">
+<li><a href="../../../../../allclasses-noframe.html">All Classes</a></li>
+</ul>
+<div>
+<script type="text/javascript"><!--
+  allClassesLink = document.getElementById("allclasses_navbar_bottom");
+  if(window==top) {
+    allClassesLink.style.display = "block";
+  }
+  else {
+    allClassesLink.style.display = "none";
+  }
+  //-->
+</script>
+</div>
+<div>
+<ul class="subNavList">
+<li>Summary:&nbsp;</li>
+<li>Nested&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_summary">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_summary">Method</a></li>
+</ul>
+<ul class="subNavList">
+<li>Detail:&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_detail">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_detail">Method</a></li>
+</ul>
+</div>
+<a name="skip-navbar_bottom">
+<!--   -->
+</a></div>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+</body>
+</html>

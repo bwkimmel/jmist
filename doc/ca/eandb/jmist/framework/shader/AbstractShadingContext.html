@@ -1,0 +1,1082 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- NewPage -->
+<html lang="en">
+<head>
+<title>AbstractShadingContext</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<script type="text/javascript"><!--
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="AbstractShadingContext";
+    }
+//-->
+</script>
+<noscript>
+<div>JavaScript is disabled on your browser.</div>
+</noscript>
+<!-- ========= START OF TOP NAVBAR ======= -->
+<div class="topNav"><a name="navbar_top">
+<!--   -->
+</a><a href="#skip-navbar_top" title="Skip navigation links"></a><a name="navbar_top_firstrow">
+<!--   -->
+</a>
+<ul class="navList" title="Navigation">
+<li><a href="../../../../../overview-summary.html">Overview</a></li>
+<li><a href="package-summary.html">Package</a></li>
+<li class="navBarCell1Rev">Class</li>
+<li><a href="class-use/AbstractShadingContext.html">Use</a></li>
+<li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../../../index-files/index-1.html">Index</a></li>
+<li><a href="../../../../../help-doc.html">Help</a></li>
+</ul>
+</div>
+<div class="subNav">
+<ul class="navList">
+<li>Prev Class</li>
+<li><a href="../../../../../ca/eandb/jmist/framework/shader/CompositeShader.html" title="class in ca.eandb.jmist.framework.shader"><span class="strong">Next Class</span></a></li>
+</ul>
+<ul class="navList">
+<li><a href="../../../../../index.html?ca/eandb/jmist/framework/shader/AbstractShadingContext.html" target="_top">Frames</a></li>
+<li><a href="AbstractShadingContext.html" target="_top">No Frames</a></li>
+</ul>
+<ul class="navList" id="allclasses_navbar_top">
+<li><a href="../../../../../allclasses-noframe.html">All Classes</a></li>
+</ul>
+<div>
+<script type="text/javascript"><!--
+  allClassesLink = document.getElementById("allclasses_navbar_top");
+  if(window==top) {
+    allClassesLink.style.display = "block";
+  }
+  else {
+    allClassesLink.style.display = "none";
+  }
+  //-->
+</script>
+</div>
+<div>
+<ul class="subNavList">
+<li>Summary:&nbsp;</li>
+<li>Nested&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_summary">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_summary">Method</a></li>
+</ul>
+<ul class="subNavList">
+<li>Detail:&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_detail">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_detail">Method</a></li>
+</ul>
+</div>
+<a name="skip-navbar_top">
+<!--   -->
+</a></div>
+<!-- ========= END OF TOP NAVBAR ========= -->
+<!-- ======== START OF CLASS DATA ======== -->
+<div class="header">
+<div class="subTitle">ca.eandb.jmist.framework.shader</div>
+<h2 title="Class AbstractShadingContext" class="title">Class AbstractShadingContext</h2>
+</div>
+<div class="contentContainer">
+<ul class="inheritance">
+<li>java.lang.Object</li>
+<li>
+<ul class="inheritance">
+<li>ca.eandb.jmist.framework.shader.AbstractShadingContext</li>
+</ul>
+</li>
+</ul>
+<div class="description">
+<ul class="blockList">
+<li class="blockList">
+<dl>
+<dt>All Implemented Interfaces:</dt>
+<dd><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html" title="interface in ca.eandb.jmist.framework">ShadingContext</a>, <a href="../../../../../ca/eandb/jmist/framework/SurfacePoint.html" title="interface in ca.eandb.jmist.framework">SurfacePoint</a>, <a href="../../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html" title="interface in ca.eandb.jmist.framework">SurfacePointGeometry</a>, <a href="../../../../../ca/eandb/jmist/framework/VisibilityFunction3.html" title="interface in ca.eandb.jmist.framework">VisibilityFunction3</a></dd>
+</dl>
+<dl>
+<dt>Direct Known Subclasses:</dt>
+<dd><a href="../../../../../ca/eandb/jmist/framework/shader/MinimalShadingContext.html" title="class in ca.eandb.jmist.framework.shader">MinimalShadingContext</a></dd>
+</dl>
+<hr>
+<br>
+<pre>public abstract class <a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L49" target="_blank">AbstractShadingContext</a>
+extends java.lang.Object
+implements <a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html" title="interface in ca.eandb.jmist.framework">ShadingContext</a></pre>
+<dl><dt><span class="strong">Author:</span></dt>
+  <dd>brad</dd></dl>
+</li>
+</ul>
+</div>
+<div class="summary">
+<ul class="blockList">
+<li class="blockList">
+<!-- =========== FIELD SUMMARY =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="field_summary">
+<!--   -->
+</a>
+<h3>Field Summary</h3>
+<ul class="blockList">
+<li class="blockList"><a name="fields_inherited_from_class_ca.eandb.jmist.framework.SurfacePointGeometry">
+<!--   -->
+</a>
+<h3>Fields inherited from interface&nbsp;ca.eandb.jmist.framework.<a href="../../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html" title="interface in ca.eandb.jmist.framework">SurfacePointGeometry</a></h3>
+<code><a href="../../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html#STANDARD">STANDARD</a></code></li>
+</ul>
+</li>
+</ul>
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+<ul class="blockList">
+<li class="blockList"><a name="constructor_summary">
+<!--   -->
+</a>
+<h3>Constructor Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Constructor Summary table, listing constructors, and an explanation">
+<caption><span>Constructors</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colOne" scope="col">Constructor and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colOne"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#AbstractShadingContext()">AbstractShadingContext</a></strong>()</code>&nbsp;</td>
+</tr>
+</table>
+</li>
+</ul>
+<!-- ========== METHOD SUMMARY =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method_summary">
+<!--   -->
+</a>
+<h3>Method Summary</h3>
+<table class="overviewSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
+<caption><span>Methods</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Method and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../../ca/eandb/jmist/framework/color/Color.html" title="interface in ca.eandb.jmist.framework.color">Color</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#castRay(ca.eandb.jmist.framework.ScatteredRay)">castRay</a></strong>(<a href="../../../../../ca/eandb/jmist/framework/ScatteredRay.html" title="class in ca.eandb.jmist.framework">ScatteredRay</a>&nbsp;ray)</code>
+<div class="block">Casts a secondary ray and shades it.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="../../../../../ca/eandb/jmist/framework/color/Color.html" title="interface in ca.eandb.jmist.framework.color">Color</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#getAmbientLight()">getAmbientLight</a></strong>()</code>
+<div class="block">The ambient light term.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../../ca/eandb/jmist/framework/Medium.html" title="interface in ca.eandb.jmist.framework">Medium</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#getAmbientMedium()">getAmbientMedium</a></strong>()</code>
+<div class="block">The <code>Medium</code> on the upper side of the surface (i.e., in the
+ direction which the normal points).</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="../../../../../ca/eandb/jmist/math/Basis3.html" title="class in ca.eandb.jmist.math">Basis3</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#getBasis()">getBasis</a></strong>()</code>
+<div class="block">The orientation of the surface.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../../ca/eandb/jmist/framework/color/ColorModel.html" title="class in ca.eandb.jmist.framework.color">ColorModel</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#getColorModel()">getColorModel</a></strong>()</code>
+<div class="block">The <code>ColorModel</code> for the current rendering.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>double</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#getDistance()">getDistance</a></strong>()</code>
+<div class="block">The distance along the ray at which the intersection lies.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../../ca/eandb/jmist/framework/color/Color.html" title="interface in ca.eandb.jmist.framework.color">Color</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#getImportance()">getImportance</a></strong>()</code>
+<div class="block">The cumulative product of the colors from each ray-scattering event.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="../../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#getIncident()">getIncident</a></strong>()</code>
+<div class="block">The incident direction (points <em>toward</em> the intersection).</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>java.lang.Iterable&lt;<a href="../../../../../ca/eandb/jmist/framework/LightSample.html" title="interface in ca.eandb.jmist.framework">LightSample</a>&gt;</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#getLightSamples()">getLightSamples</a></strong>()</code>
+<div class="block">The recorded <code>LightSample</code>s illuminating the surface point.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="../../../../../ca/eandb/jmist/framework/Material.html" title="interface in ca.eandb.jmist.framework">Material</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#getMaterial()">getMaterial</a></strong>()</code>
+<div class="block">The <code>Material</code> properties at this surface point.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../../ca/eandb/jmist/framework/Modifier.html" title="interface in ca.eandb.jmist.framework">Modifier</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#getModifier()">getModifier</a></strong>()</code>
+<div class="block">The <code>Modifier</code> to use.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="../../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#getNormal()">getNormal</a></strong>()</code>
+<div class="block">The direction perpendicular to the surface.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>int</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#getPathDepth()">getPathDepth</a></strong>()</code>
+<div class="block">The number of ray-scattering events along this path so far.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>int</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#getPathDepthByType(ca.eandb.jmist.framework.ScatteredRay.Type)">getPathDepthByType</a></strong>(<a href="../../../../../ca/eandb/jmist/framework/ScatteredRay.Type.html" title="enum in ca.eandb.jmist.framework">ScatteredRay.Type</a>&nbsp;type)</code>
+<div class="block">Gets the number of ray-scattering events of the specified type
+ encountered along the path so far.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#getPosition()">getPosition</a></strong>()</code>
+<div class="block">The position of the surface point.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>int</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#getPrimitiveIndex()">getPrimitiveIndex</a></strong>()</code>
+<div class="block">The ID of the primitive from the <code>SceneElement</code>.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../../ca/eandb/jmist/math/Ray3.html" title="class in ca.eandb.jmist.math">Ray3</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#getRay()">getRay</a></strong>()</code>
+<div class="block">The ray from which the intersection was computed.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="../../../../../ca/eandb/jmist/framework/ScatteredRay.html" title="class in ca.eandb.jmist.framework">ScatteredRay</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#getScatteredRay()">getScatteredRay</a></strong>()</code>
+<div class="block">The current ray-scatter event.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../../ca/eandb/jmist/framework/Shader.html" title="interface in ca.eandb.jmist.framework">Shader</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#getShader()">getShader</a></strong>()</code>
+<div class="block">The <code>Shader</code> to use.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="../../../../../ca/eandb/jmist/math/Basis3.html" title="class in ca.eandb.jmist.math">Basis3</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#getShadingBasis()">getShadingBasis</a></strong>()</code>
+<div class="block">The micro-surface orientation.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#getShadingNormal()">getShadingNormal</a></strong>()</code>
+<div class="block">The micro-surface normal.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="../../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#getTangent()">getTangent</a></strong>()</code>
+<div class="block">The first tangent vector.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../../ca/eandb/jmist/math/Point2.html" title="class in ca.eandb.jmist.math">Point2</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#getUV()">getUV</a></strong>()</code>
+<div class="block">The texture coordinates.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="../../../../../ca/eandb/jmist/framework/color/WavelengthPacket.html" title="interface in ca.eandb.jmist.framework.color">WavelengthPacket</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#getWavelengthPacket()">getWavelengthPacket</a></strong>()</code>
+<div class="block">The <code>WavelengthPacket</code> of the light transmitted along the
+ path.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#isFront()">isFront</a></strong>()</code>
+<div class="block">A value indicating whether the ray hit from the front side of the
+ surface.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#setAmbientMedium(ca.eandb.jmist.framework.Medium)">setAmbientMedium</a></strong>(<a href="../../../../../ca/eandb/jmist/framework/Medium.html" title="interface in ca.eandb.jmist.framework">Medium</a>&nbsp;medium)</code>
+<div class="block">Sets the <code>Medium</code> on the upper side of the surface (i.e., the
+ side toward which the normal points).</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#setBasis(ca.eandb.jmist.math.Basis3)">setBasis</a></strong>(<a href="../../../../../ca/eandb/jmist/math/Basis3.html" title="class in ca.eandb.jmist.math">Basis3</a>&nbsp;basis)</code>
+<div class="block">Sets the surface orientation.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#setMaterial(ca.eandb.jmist.framework.Material)">setMaterial</a></strong>(<a href="../../../../../ca/eandb/jmist/framework/Material.html" title="interface in ca.eandb.jmist.framework">Material</a>&nbsp;material)</code>
+<div class="block">Sets the <code>Material</code> to apply to the surface.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#setModifier(ca.eandb.jmist.framework.Modifier)">setModifier</a></strong>(<a href="../../../../../ca/eandb/jmist/framework/Modifier.html" title="interface in ca.eandb.jmist.framework">Modifier</a>&nbsp;modifier)</code>
+<div class="block">Sets the <code>Modifier</code> to use.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#setNormal(ca.eandb.jmist.math.Vector3)">setNormal</a></strong>(<a href="../../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;normal)</code>
+<div class="block">Sets the surface normal.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#setPosition(ca.eandb.jmist.math.Point3)">setPosition</a></strong>(<a href="../../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;position)</code>
+<div class="block">Sets the position of the ray-intersection.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#setPrimitiveIndex(int)">setPrimitiveIndex</a></strong>(int&nbsp;index)</code>
+<div class="block">Sets the ID of the primitive that was intersected.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#setShader(ca.eandb.jmist.framework.Shader)">setShader</a></strong>(<a href="../../../../../ca/eandb/jmist/framework/Shader.html" title="interface in ca.eandb.jmist.framework">Shader</a>&nbsp;shader)</code>
+<div class="block">Sets the <code>Shader</code> to use.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#setShadingBasis(ca.eandb.jmist.math.Basis3)">setShadingBasis</a></strong>(<a href="../../../../../ca/eandb/jmist/math/Basis3.html" title="class in ca.eandb.jmist.math">Basis3</a>&nbsp;basis)</code>
+<div class="block">Sets the micro-surface orientation.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#setShadingNormal(ca.eandb.jmist.math.Vector3)">setShadingNormal</a></strong>(<a href="../../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;normal)</code>
+<div class="block">Sets the micro-surface normal.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#setUV(ca.eandb.jmist.math.Point2)">setUV</a></strong>(<a href="../../../../../ca/eandb/jmist/math/Point2.html" title="class in ca.eandb.jmist.math">Point2</a>&nbsp;uv)</code>
+<div class="block">Sets the texture coordinates.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../../ca/eandb/jmist/framework/color/Color.html" title="interface in ca.eandb.jmist.framework.color">Color</a></code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#shade()">shade</a></strong>()</code>
+<div class="block">Shades the incident ray using the <code>Shader</code> associated with
+ this <code>ShadingContext</code>.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><strong><a href="../../../../../ca/eandb/jmist/framework/shader/AbstractShadingContext.html#visibility(ca.eandb.jmist.math.Ray3)">visibility</a></strong>(<a href="../../../../../ca/eandb/jmist/math/Ray3.html" title="class in ca.eandb.jmist.math">Ray3</a>&nbsp;ray)</code>
+<div class="block">Determines whether the given ray intersects
+ an object within the interval [0, infinity).</div>
+</td>
+</tr>
+</table>
+<ul class="blockList">
+<li class="blockList"><a name="methods_inherited_from_class_java.lang.Object">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>equals, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="details">
+<ul class="blockList">
+<li class="blockList">
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+<ul class="blockList">
+<li class="blockList"><a name="constructor_detail">
+<!--   -->
+</a>
+<h3>Constructor Detail</h3>
+<a name="AbstractShadingContext()">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>AbstractShadingContext</h4>
+<pre>public&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L49" target="_blank">AbstractShadingContext</a>()</pre>
+</li>
+</ul>
+</li>
+</ul>
+<!-- ============ METHOD DETAIL ========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method_detail">
+<!--   -->
+</a>
+<h3>Method Detail</h3>
+<a name="castRay(ca.eandb.jmist.framework.ScatteredRay)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>castRay</h4>
+<pre>public&nbsp;<a href="../../../../../ca/eandb/jmist/framework/color/Color.html" title="interface in ca.eandb.jmist.framework.color">Color</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L64" target="_blank">castRay</a>(<a href="../../../../../ca/eandb/jmist/framework/ScatteredRay.html" title="class in ca.eandb.jmist.framework">ScatteredRay</a>&nbsp;ray)</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#castRay(ca.eandb.jmist.framework.ScatteredRay)">ShadingContext</a></code></strong></div>
+<div class="block">Casts a secondary ray and shades it.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#castRay(ca.eandb.jmist.framework.ScatteredRay)">castRay</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html" title="interface in ca.eandb.jmist.framework">ShadingContext</a></code></dd>
+<dt><span class="strong">Parameters:</span></dt><dd><code>ray</code> - The ray-scatter event.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>The <code>Color</code> of the shaded ray.</dd></dl>
+</li>
+</ul>
+<a name="getAmbientLight()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getAmbientLight</h4>
+<pre>public&nbsp;<a href="../../../../../ca/eandb/jmist/framework/color/Color.html" title="interface in ca.eandb.jmist.framework.color">Color</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L71" target="_blank">getAmbientLight</a>()</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#getAmbientLight()">ShadingContext</a></code></strong></div>
+<div class="block">The ambient light term.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#getAmbientLight()">getAmbientLight</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html" title="interface in ca.eandb.jmist.framework">ShadingContext</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getColorModel()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getColorModel</h4>
+<pre>public&nbsp;<a href="../../../../../ca/eandb/jmist/framework/color/ColorModel.html" title="class in ca.eandb.jmist.framework.color">ColorModel</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L80" target="_blank">getColorModel</a>()</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#getColorModel()">ShadingContext</a></code></strong></div>
+<div class="block">The <code>ColorModel</code> for the current rendering.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#getColorModel()">getColorModel</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html" title="interface in ca.eandb.jmist.framework">ShadingContext</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getDistance()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getDistance</h4>
+<pre>public&nbsp;double&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L87" target="_blank">getDistance</a>()</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#getDistance()">ShadingContext</a></code></strong></div>
+<div class="block">The distance along the ray at which the intersection lies.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#getDistance()">getDistance</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html" title="interface in ca.eandb.jmist.framework">ShadingContext</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getImportance()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getImportance</h4>
+<pre>public&nbsp;<a href="../../../../../ca/eandb/jmist/framework/color/Color.html" title="interface in ca.eandb.jmist.framework.color">Color</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L94" target="_blank">getImportance</a>()</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#getImportance()">ShadingContext</a></code></strong></div>
+<div class="block">The cumulative product of the colors from each ray-scattering event.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#getImportance()">getImportance</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html" title="interface in ca.eandb.jmist.framework">ShadingContext</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getIncident()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getIncident</h4>
+<pre>public&nbsp;<a href="../../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L101" target="_blank">getIncident</a>()</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#getIncident()">ShadingContext</a></code></strong></div>
+<div class="block">The incident direction (points <em>toward</em> the intersection).</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#getIncident()">getIncident</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html" title="interface in ca.eandb.jmist.framework">ShadingContext</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getLightSamples()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getLightSamples</h4>
+<pre>public&nbsp;java.lang.Iterable&lt;<a href="../../../../../ca/eandb/jmist/framework/LightSample.html" title="interface in ca.eandb.jmist.framework">LightSample</a>&gt;&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L108" target="_blank">getLightSamples</a>()</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#getLightSamples()">ShadingContext</a></code></strong></div>
+<div class="block">The recorded <code>LightSample</code>s illuminating the surface point.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#getLightSamples()">getLightSamples</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html" title="interface in ca.eandb.jmist.framework">ShadingContext</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getModifier()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getModifier</h4>
+<pre>public&nbsp;<a href="../../../../../ca/eandb/jmist/framework/Modifier.html" title="interface in ca.eandb.jmist.framework">Modifier</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L115" target="_blank">getModifier</a>()</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#getModifier()">ShadingContext</a></code></strong></div>
+<div class="block">The <code>Modifier</code> to use.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#getModifier()">getModifier</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html" title="interface in ca.eandb.jmist.framework">ShadingContext</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getPathDepth()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getPathDepth</h4>
+<pre>public&nbsp;int&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L122" target="_blank">getPathDepth</a>()</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#getPathDepth()">ShadingContext</a></code></strong></div>
+<div class="block">The number of ray-scattering events along this path so far.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#getPathDepth()">getPathDepth</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html" title="interface in ca.eandb.jmist.framework">ShadingContext</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getPathDepthByType(ca.eandb.jmist.framework.ScatteredRay.Type)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getPathDepthByType</h4>
+<pre>public&nbsp;int&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L129" target="_blank">getPathDepthByType</a>(<a href="../../../../../ca/eandb/jmist/framework/ScatteredRay.Type.html" title="enum in ca.eandb.jmist.framework">ScatteredRay.Type</a>&nbsp;type)</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#getPathDepthByType(ca.eandb.jmist.framework.ScatteredRay.Type)">ShadingContext</a></code></strong></div>
+<div class="block">Gets the number of ray-scattering events of the specified type
+ encountered along the path so far.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#getPathDepthByType(ca.eandb.jmist.framework.ScatteredRay.Type)">getPathDepthByType</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html" title="interface in ca.eandb.jmist.framework">ShadingContext</a></code></dd>
+<dt><span class="strong">Parameters:</span></dt><dd><code>type</code> - The type of ray-scattering event to count (diffuse, glossy,
+                specular).</dd></dl>
+</li>
+</ul>
+<a name="getRay()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getRay</h4>
+<pre>public&nbsp;<a href="../../../../../ca/eandb/jmist/math/Ray3.html" title="class in ca.eandb.jmist.math">Ray3</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L136" target="_blank">getRay</a>()</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#getRay()">ShadingContext</a></code></strong></div>
+<div class="block">The ray from which the intersection was computed.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#getRay()">getRay</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html" title="interface in ca.eandb.jmist.framework">ShadingContext</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getScatteredRay()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getScatteredRay</h4>
+<pre>public&nbsp;<a href="../../../../../ca/eandb/jmist/framework/ScatteredRay.html" title="class in ca.eandb.jmist.framework">ScatteredRay</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L143" target="_blank">getScatteredRay</a>()</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#getScatteredRay()">ShadingContext</a></code></strong></div>
+<div class="block">The current ray-scatter event.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#getScatteredRay()">getScatteredRay</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html" title="interface in ca.eandb.jmist.framework">ShadingContext</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getShader()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getShader</h4>
+<pre>public&nbsp;<a href="../../../../../ca/eandb/jmist/framework/Shader.html" title="interface in ca.eandb.jmist.framework">Shader</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L150" target="_blank">getShader</a>()</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#getShader()">ShadingContext</a></code></strong></div>
+<div class="block">The <code>Shader</code> to use.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#getShader()">getShader</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html" title="interface in ca.eandb.jmist.framework">ShadingContext</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="isFront()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isFront</h4>
+<pre>public&nbsp;boolean&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L157" target="_blank">isFront</a>()</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#isFront()">ShadingContext</a></code></strong></div>
+<div class="block">A value indicating whether the ray hit from the front side of the
+ surface.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#isFront()">isFront</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html" title="interface in ca.eandb.jmist.framework">ShadingContext</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="setAmbientMedium(ca.eandb.jmist.framework.Medium)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setAmbientMedium</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L164" target="_blank">setAmbientMedium</a>(<a href="../../../../../ca/eandb/jmist/framework/Medium.html" title="interface in ca.eandb.jmist.framework">Medium</a>&nbsp;medium)</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#setAmbientMedium(ca.eandb.jmist.framework.Medium)">ShadingContext</a></code></strong></div>
+<div class="block">Sets the <code>Medium</code> on the upper side of the surface (i.e., the
+ side toward which the normal points).</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#setAmbientMedium(ca.eandb.jmist.framework.Medium)">setAmbientMedium</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html" title="interface in ca.eandb.jmist.framework">ShadingContext</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="setBasis(ca.eandb.jmist.math.Basis3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setBasis</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L171" target="_blank">setBasis</a>(<a href="../../../../../ca/eandb/jmist/math/Basis3.html" title="class in ca.eandb.jmist.math">Basis3</a>&nbsp;basis)</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#setBasis(ca.eandb.jmist.math.Basis3)">ShadingContext</a></code></strong></div>
+<div class="block">Sets the surface orientation.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#setBasis(ca.eandb.jmist.math.Basis3)">setBasis</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html" title="interface in ca.eandb.jmist.framework">ShadingContext</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="setMaterial(ca.eandb.jmist.framework.Material)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setMaterial</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L178" target="_blank">setMaterial</a>(<a href="../../../../../ca/eandb/jmist/framework/Material.html" title="interface in ca.eandb.jmist.framework">Material</a>&nbsp;material)</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#setMaterial(ca.eandb.jmist.framework.Material)">ShadingContext</a></code></strong></div>
+<div class="block">Sets the <code>Material</code> to apply to the surface.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#setMaterial(ca.eandb.jmist.framework.Material)">setMaterial</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html" title="interface in ca.eandb.jmist.framework">ShadingContext</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="setModifier(ca.eandb.jmist.framework.Modifier)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setModifier</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L185" target="_blank">setModifier</a>(<a href="../../../../../ca/eandb/jmist/framework/Modifier.html" title="interface in ca.eandb.jmist.framework">Modifier</a>&nbsp;modifier)</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#setModifier(ca.eandb.jmist.framework.Modifier)">ShadingContext</a></code></strong></div>
+<div class="block">Sets the <code>Modifier</code> to use.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#setModifier(ca.eandb.jmist.framework.Modifier)">setModifier</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html" title="interface in ca.eandb.jmist.framework">ShadingContext</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="setNormal(ca.eandb.jmist.math.Vector3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setNormal</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L192" target="_blank">setNormal</a>(<a href="../../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;normal)</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#setNormal(ca.eandb.jmist.math.Vector3)">ShadingContext</a></code></strong></div>
+<div class="block">Sets the surface normal.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#setNormal(ca.eandb.jmist.math.Vector3)">setNormal</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html" title="interface in ca.eandb.jmist.framework">ShadingContext</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="setPosition(ca.eandb.jmist.math.Point3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setPosition</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L199" target="_blank">setPosition</a>(<a href="../../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;position)</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#setPosition(ca.eandb.jmist.math.Point3)">ShadingContext</a></code></strong></div>
+<div class="block">Sets the position of the ray-intersection.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#setPosition(ca.eandb.jmist.math.Point3)">setPosition</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html" title="interface in ca.eandb.jmist.framework">ShadingContext</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="setPrimitiveIndex(int)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setPrimitiveIndex</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L206" target="_blank">setPrimitiveIndex</a>(int&nbsp;index)</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#setPrimitiveIndex(int)">ShadingContext</a></code></strong></div>
+<div class="block">Sets the ID of the primitive that was intersected.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#setPrimitiveIndex(int)">setPrimitiveIndex</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html" title="interface in ca.eandb.jmist.framework">ShadingContext</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="setShader(ca.eandb.jmist.framework.Shader)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setShader</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L213" target="_blank">setShader</a>(<a href="../../../../../ca/eandb/jmist/framework/Shader.html" title="interface in ca.eandb.jmist.framework">Shader</a>&nbsp;shader)</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#setShader(ca.eandb.jmist.framework.Shader)">ShadingContext</a></code></strong></div>
+<div class="block">Sets the <code>Shader</code> to use.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#setShader(ca.eandb.jmist.framework.Shader)">setShader</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html" title="interface in ca.eandb.jmist.framework">ShadingContext</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="setShadingBasis(ca.eandb.jmist.math.Basis3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setShadingBasis</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L220" target="_blank">setShadingBasis</a>(<a href="../../../../../ca/eandb/jmist/math/Basis3.html" title="class in ca.eandb.jmist.math">Basis3</a>&nbsp;basis)</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#setShadingBasis(ca.eandb.jmist.math.Basis3)">ShadingContext</a></code></strong></div>
+<div class="block">Sets the micro-surface orientation.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#setShadingBasis(ca.eandb.jmist.math.Basis3)">setShadingBasis</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html" title="interface in ca.eandb.jmist.framework">ShadingContext</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="setShadingNormal(ca.eandb.jmist.math.Vector3)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setShadingNormal</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L227" target="_blank">setShadingNormal</a>(<a href="../../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;normal)</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#setShadingNormal(ca.eandb.jmist.math.Vector3)">ShadingContext</a></code></strong></div>
+<div class="block">Sets the micro-surface normal.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#setShadingNormal(ca.eandb.jmist.math.Vector3)">setShadingNormal</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html" title="interface in ca.eandb.jmist.framework">ShadingContext</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="setUV(ca.eandb.jmist.math.Point2)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setUV</h4>
+<pre>public&nbsp;void&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L235" target="_blank">setUV</a>(<a href="../../../../../ca/eandb/jmist/math/Point2.html" title="class in ca.eandb.jmist.math">Point2</a>&nbsp;uv)</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#setUV(ca.eandb.jmist.math.Point2)">ShadingContext</a></code></strong></div>
+<div class="block">Sets the texture coordinates.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#setUV(ca.eandb.jmist.math.Point2)">setUV</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html" title="interface in ca.eandb.jmist.framework">ShadingContext</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getWavelengthPacket()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getWavelengthPacket</h4>
+<pre>public&nbsp;<a href="../../../../../ca/eandb/jmist/framework/color/WavelengthPacket.html" title="interface in ca.eandb.jmist.framework.color">WavelengthPacket</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L242" target="_blank">getWavelengthPacket</a>()</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#getWavelengthPacket()">ShadingContext</a></code></strong></div>
+<div class="block">The <code>WavelengthPacket</code> of the light transmitted along the
+ path.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#getWavelengthPacket()">getWavelengthPacket</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html" title="interface in ca.eandb.jmist.framework">ShadingContext</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="shade()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>shade</h4>
+<pre>public&nbsp;<a href="../../../../../ca/eandb/jmist/framework/color/Color.html" title="interface in ca.eandb.jmist.framework.color">Color</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L249" target="_blank">shade</a>()</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#shade()">ShadingContext</a></code></strong></div>
+<div class="block">Shades the incident ray using the <code>Shader</code> associated with
+ this <code>ShadingContext</code>.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html#shade()">shade</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/ShadingContext.html" title="interface in ca.eandb.jmist.framework">ShadingContext</a></code></dd>
+<dt><span class="strong">Returns:</span></dt><dd>The <code>Color</code> of the shaded ray.</dd></dl>
+</li>
+</ul>
+<a name="getAmbientMedium()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getAmbientMedium</h4>
+<pre>public&nbsp;<a href="../../../../../ca/eandb/jmist/framework/Medium.html" title="interface in ca.eandb.jmist.framework">Medium</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L256" target="_blank">getAmbientMedium</a>()</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/SurfacePoint.html#getAmbientMedium()">SurfacePoint</a></code></strong></div>
+<div class="block">The <code>Medium</code> on the upper side of the surface (i.e., in the
+ direction which the normal points).</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/SurfacePoint.html#getAmbientMedium()">getAmbientMedium</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/SurfacePoint.html" title="interface in ca.eandb.jmist.framework">SurfacePoint</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getBasis()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getBasis</h4>
+<pre>public&nbsp;<a href="../../../../../ca/eandb/jmist/math/Basis3.html" title="class in ca.eandb.jmist.math">Basis3</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L263" target="_blank">getBasis</a>()</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html#getBasis()">SurfacePointGeometry</a></code></strong></div>
+<div class="block">The orientation of the surface.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html#getBasis()">getBasis</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html" title="interface in ca.eandb.jmist.framework">SurfacePointGeometry</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getMaterial()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getMaterial</h4>
+<pre>public&nbsp;<a href="../../../../../ca/eandb/jmist/framework/Material.html" title="interface in ca.eandb.jmist.framework">Material</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L270" target="_blank">getMaterial</a>()</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/SurfacePoint.html#getMaterial()">SurfacePoint</a></code></strong></div>
+<div class="block">The <code>Material</code> properties at this surface point.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/SurfacePoint.html#getMaterial()">getMaterial</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/SurfacePoint.html" title="interface in ca.eandb.jmist.framework">SurfacePoint</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getNormal()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getNormal</h4>
+<pre>public&nbsp;<a href="../../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L277" target="_blank">getNormal</a>()</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html#getNormal()">SurfacePointGeometry</a></code></strong></div>
+<div class="block">The direction perpendicular to the surface.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html#getNormal()">getNormal</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html" title="interface in ca.eandb.jmist.framework">SurfacePointGeometry</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getPosition()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getPosition</h4>
+<pre>public&nbsp;<a href="../../../../../ca/eandb/jmist/math/Point3.html" title="class in ca.eandb.jmist.math">Point3</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L284" target="_blank">getPosition</a>()</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html#getPosition()">SurfacePointGeometry</a></code></strong></div>
+<div class="block">The position of the surface point.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html#getPosition()">getPosition</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html" title="interface in ca.eandb.jmist.framework">SurfacePointGeometry</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getPrimitiveIndex()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getPrimitiveIndex</h4>
+<pre>public&nbsp;int&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L291" target="_blank">getPrimitiveIndex</a>()</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html#getPrimitiveIndex()">SurfacePointGeometry</a></code></strong></div>
+<div class="block">The ID of the primitive from the <code>SceneElement</code>.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html#getPrimitiveIndex()">getPrimitiveIndex</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html" title="interface in ca.eandb.jmist.framework">SurfacePointGeometry</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getShadingBasis()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getShadingBasis</h4>
+<pre>public&nbsp;<a href="../../../../../ca/eandb/jmist/math/Basis3.html" title="class in ca.eandb.jmist.math">Basis3</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L298" target="_blank">getShadingBasis</a>()</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html#getShadingBasis()">SurfacePointGeometry</a></code></strong></div>
+<div class="block">The micro-surface orientation.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html#getShadingBasis()">getShadingBasis</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html" title="interface in ca.eandb.jmist.framework">SurfacePointGeometry</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getShadingNormal()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getShadingNormal</h4>
+<pre>public&nbsp;<a href="../../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L306" target="_blank">getShadingNormal</a>()</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html#getShadingNormal()">SurfacePointGeometry</a></code></strong></div>
+<div class="block">The micro-surface normal.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html#getShadingNormal()">getShadingNormal</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html" title="interface in ca.eandb.jmist.framework">SurfacePointGeometry</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getTangent()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getTangent</h4>
+<pre>public&nbsp;<a href="../../../../../ca/eandb/jmist/math/Vector3.html" title="class in ca.eandb.jmist.math">Vector3</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L314" target="_blank">getTangent</a>()</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html#getTangent()">SurfacePointGeometry</a></code></strong></div>
+<div class="block">The first tangent vector.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html#getTangent()">getTangent</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html" title="interface in ca.eandb.jmist.framework">SurfacePointGeometry</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="getUV()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getUV</h4>
+<pre>public&nbsp;<a href="../../../../../ca/eandb/jmist/math/Point2.html" title="class in ca.eandb.jmist.math">Point2</a>&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L321" target="_blank">getUV</a>()</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html#getUV()">SurfacePointGeometry</a></code></strong></div>
+<div class="block">The texture coordinates.</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html#getUV()">getUV</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/SurfacePointGeometry.html" title="interface in ca.eandb.jmist.framework">SurfacePointGeometry</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="visibility(ca.eandb.jmist.math.Ray3)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>visibility</h4>
+<pre>public&nbsp;boolean&nbsp;<a href="https://github.com/bwkimmel/jmist/tree/7ecd02e3eeb2b3a7d88b67b00f8e5d2ae2c81452/src/ca/eandb/jmist/framework/shader/AbstractShadingContext.java#L328" target="_blank">visibility</a>(<a href="../../../../../ca/eandb/jmist/math/Ray3.html" title="class in ca.eandb.jmist.math">Ray3</a>&nbsp;ray)</pre>
+<div class="block"><strong>Description copied from interface:&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/VisibilityFunction3.html#visibility(ca.eandb.jmist.math.Ray3)">VisibilityFunction3</a></code></strong></div>
+<div class="block">Determines whether the given ray intersects
+ an object within the interval [0, infinity).</div>
+<dl>
+<dt><strong>Specified by:</strong></dt>
+<dd><code><a href="../../../../../ca/eandb/jmist/framework/VisibilityFunction3.html#visibility(ca.eandb.jmist.math.Ray3)">visibility</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../ca/eandb/jmist/framework/VisibilityFunction3.html" title="interface in ca.eandb.jmist.framework">VisibilityFunction3</a></code></dd>
+<dt><span class="strong">Parameters:</span></dt><dd><code>ray</code> - The ray with which to check for an intersection.</dd>
+<dt><span class="strong">Returns:</span></dt><dd>True if no intersection was found, false otherwise.</dd></dl>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<!-- ========= END OF CLASS DATA ========= -->
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<div class="bottomNav"><a name="navbar_bottom">
+<!--   -->
+</a><a href="#skip-navbar_bottom" title="Skip navigation links"></a><a name="navbar_bottom_firstrow">
+<!--   -->
+</a>
+<ul class="navList" title="Navigation">
+<li><a href="../../../../../overview-summary.html">Overview</a></li>
+<li><a href="package-summary.html">Package</a></li>
+<li class="navBarCell1Rev">Class</li>
+<li><a href="class-use/AbstractShadingContext.html">Use</a></li>
+<li><a href="package-tree.html">Tree</a></li>
+<li><a href="../../../../../deprecated-list.html">Deprecated</a></li>
+<li><a href="../../../../../index-files/index-1.html">Index</a></li>
+<li><a href="../../../../../help-doc.html">Help</a></li>
+</ul>
+</div>
+<div class="subNav">
+<ul class="navList">
+<li>Prev Class</li>
+<li><a href="../../../../../ca/eandb/jmist/framework/shader/CompositeShader.html" title="class in ca.eandb.jmist.framework.shader"><span class="strong">Next Class</span></a></li>
+</ul>
+<ul class="navList">
+<li><a href="../../../../../index.html?ca/eandb/jmist/framework/shader/AbstractShadingContext.html" target="_top">Frames</a></li>
+<li><a href="AbstractShadingContext.html" target="_top">No Frames</a></li>
+</ul>
+<ul class="navList" id="allclasses_navbar_bottom">
+<li><a href="../../../../../allclasses-noframe.html">All Classes</a></li>
+</ul>
+<div>
+<script type="text/javascript"><!--
+  allClassesLink = document.getElementById("allclasses_navbar_bottom");
+  if(window==top) {
+    allClassesLink.style.display = "block";
+  }
+  else {
+    allClassesLink.style.display = "none";
+  }
+  //-->
+</script>
+</div>
+<div>
+<ul class="subNavList">
+<li>Summary:&nbsp;</li>
+<li>Nested&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_summary">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_summary">Method</a></li>
+</ul>
+<ul class="subNavList">
+<li>Detail:&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#constructor_detail">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method_detail">Method</a></li>
+</ul>
+</div>
+<a name="skip-navbar_bottom">
+<!--   -->
+</a></div>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+</body>
+</html>
