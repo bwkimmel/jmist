@@ -44,8 +44,6 @@ public final class LensSubpathMutator implements PathMutator {
 	public LensSubpathMutator(int nx, int ny) {
 		this.nx = nx;
 		this.ny = ny;
-		
-		this.eyeRandom = new ThreadLocalRandom();
 	}
 
 	/* (non-Javadoc)

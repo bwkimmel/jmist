@@ -324,11 +324,11 @@ public final class BidirectionalPathMutator implements PathMutator {
 		if (newLightTail == null && l1 > 0) {
 			PathInfo pi = x.getPathInfo();
 			Light light = pi.getScene().getLight();
-			newLightTail = light.sample(pi, rnd);
+			newLightTail = light.sample(pi, rnd.next(), rnd.next(), rnd.next());
 			l1--;
 		}
 		while (l1-- > 0) {
-			newLightTail = newLightTail.expand(rnd);
+			newLightTail = newLightTail.expand(rnd.next(), rnd.next(), rnd.next());
 			if (newLightTail == null || newLightTail.isAtInfinity()) {
 				return null;
 			}
@@ -338,11 +338,11 @@ public final class BidirectionalPathMutator implements PathMutator {
 			PathInfo pi = x.getPathInfo();
 			Lens lens = pi.getScene().getLens();
 			Point2 p = RandomUtil.canonical2(rnd);
-			newEyeTail = lens.sample(p, pi, rnd);
+			newEyeTail = lens.sample(p, pi, rnd.next(), rnd.next(), rnd.next());
 			m1--;
 		}
 		while (m1-- > 0) {
-			newEyeTail = newEyeTail.expand(rnd);
+			newEyeTail = newEyeTail.expand(rnd.next(), rnd.next(), rnd.next());
 			if (newEyeTail == null || newEyeTail.isAtInfinity()) {
 				return null;
 			}

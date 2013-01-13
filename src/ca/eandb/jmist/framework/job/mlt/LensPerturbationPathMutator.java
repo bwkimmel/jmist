@@ -59,7 +59,7 @@ public final class LensPerturbationPathMutator implements PathMutator {
 		PathNode newEyeTail = path.getEyeTail();
 		PathNode newLightTail = path.getLightTail();
 
-		newEyeTail = newEyeTail.expand(rnd); // FIXME
+		newEyeTail = newEyeTail.expand(rnd.next(), rnd.next(), rnd.next()); // FIXME
 
 		return new Path(newLightTail, newEyeTail);
 
