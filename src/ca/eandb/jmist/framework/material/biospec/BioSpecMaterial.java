@@ -26,6 +26,7 @@
 package ca.eandb.jmist.framework.material.biospec;
 
 import ca.eandb.jmist.framework.Function1;
+import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.ColorModel;
@@ -674,9 +675,9 @@ public final class BioSpecMaterial extends OpaqueMaterial {
 	private double ratioOxyDeoxyHemoglobin = 0.75;
 	private double foldsAspectRatio = 0.75;
 
-	private final LayeredMaterial subsurface = new LayeredMaterial();
-	
 	private final ColorModel colorModel;
+
+	private Material subsurface = null;
 	
 	public BioSpecMaterial(ColorModel colorModel) {
 		this.colorModel = colorModel;
@@ -684,9 +685,8 @@ public final class BioSpecMaterial extends OpaqueMaterial {
 
 	private void build() {
 		ColorModel cm = colorModel;
-		
-		subsurface.clear();
-		subsurface
+
+		subsurface = new LayeredMaterial()
 			.addLayerToBottom( // air / stratum corneum interface
 				new TrowbridgeReitzMaterial(foldsAspectRatio, IOR_STRATUM_CORNEUM, 1.0))
 			.addLayerToBottom( // stratum corneum
@@ -772,7 +772,7 @@ public final class BioSpecMaterial extends OpaqueMaterial {
 	 */
 	public void setCollagenFiberRadius(double collagenFiberRadius) {
 		this.collagenFiberRadius = collagenFiberRadius;
-		subsurface.clear();
+		subsurface = null;
 	}
 
 
@@ -789,7 +789,7 @@ public final class BioSpecMaterial extends OpaqueMaterial {
 	 */
 	public void setThicknessStratumCorneum(double thicknessStratumCorneum) {
 		this.thicknessStratumCorneum = thicknessStratumCorneum;
-		subsurface.clear();
+		subsurface = null;
 	}
 
 
@@ -806,7 +806,7 @@ public final class BioSpecMaterial extends OpaqueMaterial {
 	 */
 	public void setThicknessEpidermis(double thicknessEpidermis) {
 		this.thicknessEpidermis = thicknessEpidermis;
-		subsurface.clear();
+		subsurface = null;
 	}
 
 
@@ -823,7 +823,7 @@ public final class BioSpecMaterial extends OpaqueMaterial {
 	 */
 	public void setThicknessPapillaryDermis(double thicknessPapillaryDermis) {
 		this.thicknessPapillaryDermis = thicknessPapillaryDermis;
-		subsurface.clear();
+		subsurface = null;
 	}
 
 
@@ -840,7 +840,7 @@ public final class BioSpecMaterial extends OpaqueMaterial {
 	 */
 	public void setThicknessReticularDermis(double thicknessReticularDermis) {
 		this.thicknessReticularDermis = thicknessReticularDermis;
-		subsurface.clear();
+		subsurface = null;
 	}
 
 
@@ -857,7 +857,7 @@ public final class BioSpecMaterial extends OpaqueMaterial {
 	 */
 	public void setConcentrationEumelanin(double concentrationEumelanin) {
 		this.concentrationEumelanin = concentrationEumelanin;
-		subsurface.clear();
+		subsurface = null;
 	}
 
 
@@ -874,7 +874,7 @@ public final class BioSpecMaterial extends OpaqueMaterial {
 	 */
 	public void setConcentrationPheomelanin(double concentrationPheomelanin) {
 		this.concentrationPheomelanin = concentrationPheomelanin;
-		subsurface.clear();
+		subsurface = null;
 	}
 
 
@@ -892,7 +892,7 @@ public final class BioSpecMaterial extends OpaqueMaterial {
 	public void setConcentrationBetaCaroteneInStratumCorneum(
 			double concentrationBetaCaroteneInStratumCorneum) {
 		this.concentrationBetaCaroteneInStratumCorneum = concentrationBetaCaroteneInStratumCorneum;
-		subsurface.clear();
+		subsurface = null;
 	}
 
 
@@ -910,7 +910,7 @@ public final class BioSpecMaterial extends OpaqueMaterial {
 	public void setConcentrationBetaCaroteneInEpidermis(
 			double concentrationBetaCaroteneInEpidermis) {
 		this.concentrationBetaCaroteneInEpidermis = concentrationBetaCaroteneInEpidermis;
-		subsurface.clear();
+		subsurface = null;
 	}
 
 
@@ -928,7 +928,7 @@ public final class BioSpecMaterial extends OpaqueMaterial {
 	public void setConcentrationBetaCaroteneInBlood(
 			double concentrationBetaCaroteneInBlood) {
 		this.concentrationBetaCaroteneInBlood = concentrationBetaCaroteneInBlood;
-		subsurface.clear();
+		subsurface = null;
 	}
 
 
@@ -946,7 +946,7 @@ public final class BioSpecMaterial extends OpaqueMaterial {
 	public void setConcentrationHemoglobinInBlood(
 			double concentrationHemoglobinInBlood) {
 		this.concentrationHemoglobinInBlood = concentrationHemoglobinInBlood;
-		subsurface.clear();
+		subsurface = null;
 	}
 
 
@@ -964,7 +964,7 @@ public final class BioSpecMaterial extends OpaqueMaterial {
 	public void setConcentrationBilirubinInBlood(
 			double concentrationBilirubinInBlood) {
 		this.concentrationBilirubinInBlood = concentrationBilirubinInBlood;
-		subsurface.clear();
+		subsurface = null;
 	}
 
 
@@ -981,7 +981,7 @@ public final class BioSpecMaterial extends OpaqueMaterial {
 	 */
 	public void setPctMelanosomesInEpidermis(double pctMelanosomesInEpidermis) {
 		this.pctMelanosomesInEpidermis = pctMelanosomesInEpidermis;
-		subsurface.clear();
+		subsurface = null;
 	}
 
 
@@ -999,7 +999,7 @@ public final class BioSpecMaterial extends OpaqueMaterial {
 	public void setPctWholeBloodInPapillaryDermis(
 			double pctWholeBloodInPapillaryDermis) {
 		this.pctWholeBloodInPapillaryDermis = pctWholeBloodInPapillaryDermis;
-		subsurface.clear();
+		subsurface = null;
 	}
 
 
@@ -1017,7 +1017,7 @@ public final class BioSpecMaterial extends OpaqueMaterial {
 	public void setPctWholeBloodInReticularDermis(
 			double pctWholeBloodInReticularDermis) {
 		this.pctWholeBloodInReticularDermis = pctWholeBloodInReticularDermis;
-		subsurface.clear();
+		subsurface = null;
 	}
 
 
@@ -1034,7 +1034,7 @@ public final class BioSpecMaterial extends OpaqueMaterial {
 	 */
 	public void setRatioOxyDeoxyHemoglobin(double ratioOxyDeoxyHemoglobin) {
 		this.ratioOxyDeoxyHemoglobin = ratioOxyDeoxyHemoglobin;
-		subsurface.clear();
+		subsurface = null;
 	}
 
 
@@ -1051,7 +1051,7 @@ public final class BioSpecMaterial extends OpaqueMaterial {
 	 */
 	public void setFoldsAspectRatio(double foldsAspectRatio) {
 		this.foldsAspectRatio = foldsAspectRatio;
-		subsurface.clear();
+		subsurface = null;
 	}
 
 	/* (non-Javadoc)
@@ -1060,9 +1060,9 @@ public final class BioSpecMaterial extends OpaqueMaterial {
 	@Override
 	public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint,
 			WavelengthPacket lambda, double ru, double rv, double rj) {
-		if (subsurface.getNumLayers() == 0) {
+		if (subsurface == null) {
 			synchronized (this) {
-				if (subsurface.getNumLayers() == 0) {
+				if (subsurface == null) {
 					build();
 				}
 			}
