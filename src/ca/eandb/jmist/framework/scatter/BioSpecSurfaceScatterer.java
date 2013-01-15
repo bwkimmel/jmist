@@ -35,8 +35,19 @@ import ca.eandb.jmist.math.Vector3;
 import ca.eandb.jmist.util.ArrayUtil;
 
 /**
- * @author brad
- *
+ * A <code>SurfaceScatterer</code> implementing the BioSpec algorithm.
+ * <p>
+ * The algorithm implemented here is described in:
+ * <blockquote>
+ *   A. Krishnaswamy, G.V.G. Baranoski,
+ *   <a href="http://www.npsg.uwaterloo.ca/resources/docs/eg04.pdf">
+ *     A biophysically-based spectral model of light interaction with human
+ *     skin</a>,
+ *   In Computer Graphics Forum 23(3):331-340, 2004.
+ * </blockquote>
+ * 
+ * @author Brad Kimmel
+ * @see <a href="http://www.npsg.uwaterloo.ca/models/biospec.php">Run BioSpec Online</a>
  */
 public final class BioSpecSurfaceScatterer implements SurfaceScatterer {
 
