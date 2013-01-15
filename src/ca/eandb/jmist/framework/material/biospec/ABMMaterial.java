@@ -45,7 +45,30 @@ import ca.eandb.jmist.util.ArrayUtil;
 /**
  * A <code>Material</code> implementing the ABM-U/ABM-B light transport
  * models.
+ * <p>
+ * The algorithm implemented here is described in:
+ * <ul>
+ *   <li>
+ *     G.V.G. Baranoski,
+ *     <a href="http://www.npsg.uwaterloo.ca/resources/docs/rse2006.pdf">
+ *       Modeling the interaction of infrared raditaion (750 to 2500 nm) with
+ *       bifacial and unifacial plant leaves</a>,
+ *     Remote Sensing of Environment 100:335-347, 2006.
+ *   </li>
+ *   <li>
+ *     G.V.G. Baranoski, D. Eng,
+ *     <a href="http://www.npsg.uwaterloo.ca/resources/docs/ieee07-8.pdf">
+ *       An investigation on sieve and detour effects affecting the interaction
+ *       of collimated and diffuse infrared radiation (750 to 2500 nm) with
+ *       plant leaves</a>,
+ *     IEEE Transactions on Geoscience and Remote Sensing 45(8):2593-2599,
+ *     August 2007.
+ *   </li>
+ * </ul>
+ * 
  * @author Brad Kimmel
+ * @see <a href="http://www.npsg.uwaterloo.ca/models/ABMU.php">Run ABM-U Online</a>
+ * @see <a href="http://www.npsg.uwaterloo.ca/models/ABMB.php">Run ABM-B Online</a>
  */
 public final class ABMMaterial extends OpaqueMaterial {
 

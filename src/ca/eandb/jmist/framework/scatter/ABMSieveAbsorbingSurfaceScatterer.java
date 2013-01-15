@@ -31,8 +31,10 @@ import ca.eandb.jmist.framework.SurfacePointGeometry;
 import ca.eandb.jmist.math.Vector3;
 
 /**
- * @author brad
- *
+ * A <code>SurfaceScatterer</code> representing a absorptive layer with sieve
+ * effects in the ABM-B/ABM-U light transport models.
+ * @author Brad Kimmel
+ * @see ABMSurfaceScatterer
  */
 public final class ABMSieveAbsorbingSurfaceScatterer implements SurfaceScatterer {
 

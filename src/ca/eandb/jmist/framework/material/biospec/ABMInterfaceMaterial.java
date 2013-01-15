@@ -43,6 +43,7 @@ import ca.eandb.jmist.math.Vector3;
  * A <code>Material</code> that represents an interface between two
  * layers in the ABM-U or ABM-B implementation.
  * @author Brad Kimmel
+ * @see ABMMaterial
  */
 public final class ABMInterfaceMaterial extends OpaqueMaterial {
 

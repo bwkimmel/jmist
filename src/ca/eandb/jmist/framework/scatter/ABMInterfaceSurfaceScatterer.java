@@ -38,8 +38,8 @@ import ca.eandb.jmist.math.Vector3;
 /**
  * A <code>SurfaceScatterer</code> that represents an interface between two
  * layers in the ABM-U or ABM-B implementation.
- * @see ABMSurfaceScatterer
  * @author Brad Kimmel
+ * @see ABMSurfaceScatterer
  */
 public final class ABMInterfaceSurfaceScatterer implements SurfaceScatterer {
 

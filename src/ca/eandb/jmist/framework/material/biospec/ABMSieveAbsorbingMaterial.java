@@ -35,8 +35,10 @@ import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
 
 /**
- * @author brad
- *
+ * A <code>Material</code> representing a absorptive layer with sieve effects
+ * in the ABM-B/ABM-U light transport models.
+ * @author Brad Kimmel
+ * @see ABMMaterial
  */
 public final class ABMSieveAbsorbingMaterial extends OpaqueMaterial {
 
