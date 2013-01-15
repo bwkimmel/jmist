@@ -1,0 +1,6 @@
+[submodule "ext/java-util"]
+	path = ext/java-util
+	url = git@github.com:bwkimmel/java-util.git
+[submodule "ext/jdcp"]
+	path = ext/jdcp
+	url = git@github.com:bwkimmel/jdcp.git
