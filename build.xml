@@ -21,7 +21,15 @@
 	<property name="jar.dir" value="${build.dir}/jar"/>
 	<property name="dist.dir" value="${build.dir}/dist"/>
 
+	<property name="javadoc-standalone.name" value="javadoc-standalone"/>
+	<property name="javadoc.name" value="javadoc"/>
+
+	<property name="javadoc.timestamp" value="${dist.dir}/${javadoc-standalone.name}/index.html"/>
+
     <property name="label" value="${ant.project.name}-${version}"/>
+
+	<property name="javadoc-standalone.label" value="${label}-${javadoc-standalone.name}"/>
+	<property name="javadoc.label" value="${label}-${javadoc.name}"/>
 
 	<property name="eandb.util.dir" value="${ext.dir}/java-util"/>
 	<property name="eandb.util.build.dir" value="${eandb.util.dir}/build"/>
@@ -32,6 +40,8 @@
 	<property name="jdcp.build.dir" value="${jdcp.dir}/build"/>
 	<property name="jdcp.jar.dir" value="${jdcp.build.dir}/jar"/>
 	<property name="jdcp.jar.file" value="${jdcp.jar.dir}/jdcp-common.jar"/>
+
+	<property file="build.properties"/>
 
 	<!-- =================================
           target: default
@@ -73,6 +83,80 @@
 		<jar destfile="${jar.dir}/${ant.project.name}.jar">
 			<fileset dir="${classes.dir}"/>
 		</jar>
+	</target>
+
+	<target name="javadoc-standalone-uptodate">
+		<uptodate
+			property="javadoc-standalone.is.uptodate"
+			targetfile="${dist.dir}/${javadoc-standalone.name}/index.html">
+
+			<srcfiles dir="${src.dir}">
+				<include name="**/*.java"/>
+				<include name="**/*.html"/>
+			</srcfiles>
+		</uptodate>
+	</target>
+
+	<target
+		name="javadoc-standalone"
+		depends="javadoc-standalone-uptodate"
+		unless="javadoc-standalone.is.uptodate">
+
+		<javadoc
+			access="public"
+			additionalparam="-notimestamp"
+			destdir="${dist.dir}/${javadoc-standalone.name}"
+			sourcepath="${src.dir}"
+			author="true"
+			version="false"
+			linksource="true"/>
+	</target>
+
+	<target name="javadoc-uptodate">
+		<uptodate
+			property="javadoc.is.uptodate"
+			srcfile="${dist.dir}/${javadoc-standalone.name}/index.html"
+			targetfile="${dist.dir}/${javadoc.name}/index.html"/>
+	</target>
+
+	<target name="javadoc" depends="javadoc-uptodate,javadoc-standalone" unless="javadoc.is.uptodate">
+		<copy todir="${dist.dir}/${javadoc.name}">
+			<fileset dir="${dist.dir}/${javadoc-standalone.name}"/>
+		</copy>
+		<delete dir="${dist.dir}/${javadoc.name}/src-html"/>
+		<replaceregexp
+			match="(\.\./)+src-html([^&quot;]*)\.html#line\.(\d+)&quot;&gt;"
+			replace="${doc.publish.src.url}/${src.dir}/\2.java#L\3&quot; target=&quot;_blank&quot;&gt;"
+			flags="g">
+
+			<fileset dir="${dist.dir}/${javadoc.name}" includes="**/*.html"/>
+		</replaceregexp>
+	</target>
+
+	<target name="tar-javadoc-standalone" depends="javadoc-standalone">
+        <tar destfile="${dist.dir}/${javadoc-standalone.label}.tar.bz2" compression="bzip2">
+            <tarfileset dir="${dist.dir}" includes="${javadoc-standalone.name}/**" />
+		</tar>
+	</target>
+
+	<target name="tar-javadoc" depends="javadoc">
+        <tar destfile="${dist.dir}/${javadoc.label}.tar.bz2" compression="bzip2">
+            <tarfileset dir="${dist.dir}" includes="${javadoc.name}/**" />
+		</tar>
+	</target>
+
+	<target name="zip-javadoc-standalone" depends="javadoc-standalone">
+		<zip
+			destfile="${dist.dir}/${javadoc-standalone.label}.zip"
+			basedir="${dist.dir}"
+			includes="${javadoc-standalone.name}/**"/>
+	</target>
+
+	<target name="zip-javadoc" depends="javadoc">
+		<zip
+			destfile="${dist.dir}/${javadoc.label}.zip"
+			basedir="${dist.dir}"
+			includes="${javadoc.name}/**"/>
 	</target>
 
 </project>
