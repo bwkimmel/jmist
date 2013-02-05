@@ -603,12 +603,16 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 			assert(A > 0.0 && B > 0.0 && A + B < 1.0);
 
 			double C = 1.0 - A - B;
-			
-			Vector3 na = normals.get(normalIndices[decomp[3 * tri]]);
-			Vector3 nb = normals.get(normalIndices[decomp[3 * tri + 1]]);
-			Vector3 nc = normals.get(normalIndices[decomp[3 * tri + 2]]);
-			
-			Vector3 n = na.times(A).plus(nb.times(B)).plus(nc.times(C));
+
+			Vector3 n;
+			if (normalIndices != null) {
+				Vector3 na = normals.get(normalIndices[decomp[3 * tri]]);
+				Vector3 nb = normals.get(normalIndices[decomp[3 * tri + 1]]);
+				Vector3 nc = normals.get(normalIndices[decomp[3 * tri + 2]]);
+				n = na.times(A).plus(nb.times(B)).plus(nc.times(C));
+			} else {
+				n = plane.normal();
+			}
 			
 			Point3 pa = vertices.get(indices[decomp[3 * tri]]);
 			Point3 pb = vertices.get(indices[decomp[3 * tri + 1]]);
