@@ -91,4 +91,16 @@ public abstract class JToneMapperPanel extends JPanel implements
 		}
 	}
 
+	/**
+	 * Creates a <code>JToneMapperPanel</code> that allows for switching
+	 * between all tone mapper types.
+	 */
+	public static JToneMapperPanel allToneMappers() {
+		return new JCompositeToneMapperPanel()
+				.addChild("(None)", new JIdentityToneMapperPanel())
+				.addChild("Linear", new JLinearToneMapperPanel())
+				.addChild("Reinhard", new JReinhardToneMapperPanel())
+				;
+	}
+
 }

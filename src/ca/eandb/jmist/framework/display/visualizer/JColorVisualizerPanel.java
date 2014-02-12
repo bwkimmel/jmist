@@ -34,6 +34,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.ColorModel;
+import ca.eandb.jmist.framework.tone.swing.JToneMapperPanel;
 
 /**
  * @author brad
@@ -112,6 +114,26 @@ public abstract class JColorVisualizerPanel extends JPanel implements
 	@Override
 	public boolean analyze(Iterable<Color> samples) {
 		return false;
+	}
+
+	/**
+	 * Creates a <code>JColorVisualizerPanel</code> that allows for switching
+	 * between all visualizer types.
+	 * @param cm The <code>ColorModel</code> to use.
+	 */
+	public static JColorVisualizerPanel allColorVisualizers(ColorModel cm) {
+		return new JCompositeVisualizerPanel()
+				.addChild("Default",
+						new JHighlightAnomaliesVisualizerPanel(
+								new JDefaultVisualizerPanel()))
+				.addChild("Tone Mapped",
+						new JHighlightAnomaliesVisualizerPanel(
+								new JToneMappingVisualizerPanel(
+										JToneMapperPanel.allToneMappers())))
+				.addChild("Channels",
+						new JHighlightAnomaliesVisualizerPanel(
+								new JChannelVisualizerPanel(cm)))
+				;
 	}
 
 }
