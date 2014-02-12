@@ -38,7 +38,6 @@ import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.function.ConstantFunction1;
 import ca.eandb.jmist.framework.pdf.PiecewiseLinearProbabilityDensityFunction;
-import ca.eandb.jmist.math.MathUtil;
 
 /**
  * A <code>ColorModel</code> that maintains a single (wavelength, value) pair
