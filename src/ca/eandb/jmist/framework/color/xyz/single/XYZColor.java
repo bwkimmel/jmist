@@ -32,8 +32,10 @@ import ca.eandb.jmist.framework.color.ColorUtil;
 import ca.eandb.jmist.framework.color.RGB;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.math.LinearMatrix3;
 import ca.eandb.jmist.math.MathUtil;
-import ca.eandb.util.UnimplementedException;
+import ca.eandb.jmist.math.Tuple;
+import ca.eandb.jmist.math.Vector3;
 
 /**
  * @author brad
@@ -44,16 +46,44 @@ public final class XYZColor implements SingleXYZColor, Spectrum {
 	/** Serialization version ID */
 	private static final long serialVersionUID = 4075320463440427747L;
 
+	private static final LinearMatrix3 xyz2band = generateXYZ2Band();
+
 	private final double x;
 	
 	private final double y;
 	
 	private final double z;
-	
+
 	public XYZColor(double x, double y, double z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
+	}
+
+	private static LinearMatrix3 generateXYZ2Band() {
+		double a[][] = new double[3][3];
+
+		for (int i = 0; i < 3; i++) {
+			final int _i = i;
+			Tuple basis = ColorUtil.XYZ_WAVELENGTHS.map(new Tuple.Function() {
+				public double apply(double value) {
+					return MathUtil.inRangeCO(value, (400 + (100 * _i)) * 1e-9, (500 + (100 * _i)) * 1e-9) ? 1.0 : 0.0;
+				}
+			});
+
+			a[0][i] = MathUtil.trapz(ColorUtil.XYZ_WAVELENGTHS, ColorUtil.X_BAR.combine(basis, Tuple.PRODUCT_OPERATOR));
+			a[1][i] = MathUtil.trapz(ColorUtil.XYZ_WAVELENGTHS, ColorUtil.Y_BAR.combine(basis, Tuple.PRODUCT_OPERATOR));
+			a[2][i] = MathUtil.trapz(ColorUtil.XYZ_WAVELENGTHS, ColorUtil.Z_BAR.combine(basis, Tuple.PRODUCT_OPERATOR));
+		}
+
+		LinearMatrix3 band2xyz = new LinearMatrix3(
+				a[0][0], a[0][1], a[0][2],
+				a[1][0], a[1][1], a[1][2],
+				a[2][0], a[2][1], a[2][2]);
+
+		double factor = 1.0 / band2xyz.times(new Vector3(1, 1, 1)).y();
+
+		return band2xyz.times(LinearMatrix3.scaleMatrix(factor)).inverse();
 	}
 
 	/* (non-Javadoc)
@@ -61,7 +91,32 @@ public final class XYZColor implements SingleXYZColor, Spectrum {
 	 */
 	@Override
 	public Color sample(WavelengthPacket lambda) {
-		throw new UnimplementedException();
+		return sample((SingleXYZWavelengthPacket) lambda);
+	}
+
+	public Color sample(SingleXYZWavelengthPacket lambda) {
+		if (lambda == null) {
+			return this;
+		}
+
+		Vector3 xyz = new Vector3(x, y, z);
+		Vector3 band = xyz2band.times(xyz);
+
+		double wavelength = lambda.getWavelength();
+		double value;
+		if (wavelength < 400e-9) {
+			value = 0.0;
+		} else if (wavelength < 500e-9) {
+			value = Math.max(0.0, band.x());
+		} else if (wavelength < 600e-9) {
+			value = Math.max(0.0, band.y());
+		} else if (wavelength < 700e-9) {
+			value = Math.max(0.0, band.z());
+		} else { // wavelength >= 700e-9
+			value = 0.0;
+		}
+
+		return new XYZSample(value, lambda);
 	}
 
 	/* (non-Javadoc)
