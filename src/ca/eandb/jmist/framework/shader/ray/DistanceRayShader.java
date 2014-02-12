@@ -26,8 +26,9 @@
 package ca.eandb.jmist.framework.shader.ray;
 
 import ca.eandb.jmist.framework.Intersection;
-import ca.eandb.jmist.framework.RayCaster;
+import ca.eandb.jmist.framework.NearestIntersectionRecorder;
 import ca.eandb.jmist.framework.RayShader;
+import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.Spectrum;
@@ -48,20 +49,20 @@ public final class DistanceRayShader implements RayShader {
 
 	/**
 	 * Creates a <code>DistanceRayShader</code>.
-	 * @param caster The <code>RayCaster</code> to use.
+	 * @param root The <code>SceneElement</code> to use.
 	 */
-	public DistanceRayShader(RayCaster caster) {
-		this(caster, null);
+	public DistanceRayShader(SceneElement root) {
+		this(root, null);
 	}
 
 	/**
 	 * Creates a <code>DistanceRayShader</code>.
-	 * @param caster The <code>RayCaster</code> to use.
+	 * @param root The <code>SceneElement</code> to use.
 	 * @param missValue The <code>Spectrum</code> to assign to rays that do not
 	 * 		intersect with any object.
 	 */
-	public DistanceRayShader(RayCaster caster, Spectrum missValue) {
-		this.caster = caster;
+	public DistanceRayShader(SceneElement root, Spectrum missValue) {
+		this.root = root;
 		this.missValue = missValue;
 	}
 
@@ -69,14 +70,14 @@ public final class DistanceRayShader implements RayShader {
 	 * @see ca.eandb.jmist.framework.RayShader#shadeRay(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.color.WavelengthPacket)
 	 */
 	public Color shadeRay(Ray3 ray, WavelengthPacket lambda) {
-		Intersection x = this.caster.castRay(ray);
+		Intersection x = NearestIntersectionRecorder.computeNearestIntersection(ray, root);
 		ColorModel cm = lambda.getColorModel();
 
 		return (x != null) ? cm.getGray(x.getDistance(), lambda) : (missValue != null) ? missValue.sample(lambda) : cm.getBlack(lambda);
 	}
 
 	/** The ray caster to use. */
-	private final RayCaster caster;
+	private final SceneElement root;
 
 	private final Spectrum missValue;
 
