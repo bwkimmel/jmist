@@ -79,9 +79,9 @@ public final class CookTorranceMaterial extends AbstractMaterial {
 	 */
 	@Override
 	public Color bsdf(SurfacePoint x, Vector3 in, Vector3 out, WavelengthPacket lambda) {
-		Vector3		E = in.opposite();
-		Vector3		L = in;
-		Vector3		H = E.plus(E).times(0.5).unit();
+		Vector3		E = out;
+		Vector3		L = in.opposite();
+		Vector3		H = L.plus(E).unit();
 		Vector3		N = x.getShadingNormal();
 		double		HdotN = H.dot(N);
 		double		EdotH = E.dot(H);
@@ -96,10 +96,10 @@ public final class CookTorranceMaterial extends AbstractMaterial {
 		Color		n2 = n.sample(lambda);
 		Color		k2 = k.sample(lambda);
 		Color		F = MaterialUtil.reflectance(E, n1, k1, n2, k2, N);
-		double		D = Math.exp(-(tanAlpha * tanAlpha / mSquared)) / (4.0 * mSquared * cos4Alpha);
+		double		D = Math.exp(-(tanAlpha * tanAlpha / mSquared)) / (Math.PI * mSquared * cos4Alpha);
 		double		G = Math.min(1.0, Math.min(2.0 * HdotN * EdotN / EdotH, 2.0 * HdotN * LdotN / EdotH));
 
-		return F.times(D * G / EdotN);
+		return F.times(D * G / (4.0 * EdotN * LdotN));
 	}
 
 	/* (non-Javadoc)
