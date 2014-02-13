@@ -260,12 +260,9 @@ public final class Matrix implements Serializable {
 	 * @throws IllegalArgumentException if <code>n</code> is negative.
 	 */
 	public static Matrix identity(int n) {
-		int size = n * n;
-		double[] elements = new double[size];
-		for (int i = 0; i < size; i += (n + 1)) {
-			elements[i] = 1.0;
-		}
-		return Matrix.columnMajor(n, n, elements);
+		double[] elements = new double[n * 2 - 1];
+		elements[n - 1] = 1.0;
+		return new Matrix(new MatrixBuffer(elements, n, n, n - 1, -1, 1));
 	}
 
 	/**
