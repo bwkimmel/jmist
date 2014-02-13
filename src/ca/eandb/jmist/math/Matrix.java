@@ -33,49 +33,24 @@ import java.io.Serializable;
  */
 public final class Matrix implements Serializable {
 
+	/** Serialization version ID. */
+	private static final long serialVersionUID = 4279455941534491589L;
+
+	/** The array to use for the elements of zero matrices. */
+	private static final double[] ZERO = new double[]{ 0.0 };
+
+	/** The array to use for elements of matrices consisting of all ones. */
+	private static final double[] ONE = new double[]{ 1.0 };
+
+	/** The <code>MatrixBuffer</code> storing the entries for this matrix. */
+	private final MatrixBuffer buffer;
+
 	/**
 	 * Creates a new <code>Matrix</code>.
-	 * @param elements The array of <code>double</code>s containing the
-	 * 		elements of the matrix (must be large enough so that the index of
-	 * 		the last element [<code>offset + (rows-1) * rowStride + (cols-1) *
-	 * 		colStride</code>] is in the array).
-	 * @param rows The number of rows in the matrix (must be non-negative).
-	 * @param cols The number of columns in the matrix (must be non-negative).
-	 * @param offset The offset into <code>elements</code> of the first element
-	 * 		of the matrix (must be non-negative).
-	 * @param rowStride The difference between the indices into
-	 * 		<code>elements</code> of the first element of the first row and the
-	 * 		first element of the second row.
-	 * @param colStride The difference between the indices into
-	 * 		<code>elements</code> of the first element of the first column and
-	 * 		the first element of the second column.
-	 * @throws IllegalArgumentException if <code>offset</code> is negative.
-	 * @throws IllegalArgumentException if <code>rows</code> or
-	 * 		<code>cols</code> is negative.
-	 * @throws IllegalArgumentException if <code>elements</code> is not large
-	 * 		enough to hold all elements of the array).
+	 * @param buffer The <code>MatrixBuffer</code> to store the matrix entries.
 	 */
-	private Matrix(double[] elements, int rows, int cols, int offset, int rowStride, int colStride) {
-
-		if (offset < 0) {
-			throw new IllegalArgumentException("offset must be non-negative");
-		}
-
-		if (rows < 0 || cols < 0) {
-			throw new IllegalArgumentException("rows and cols must be non-negative");
-		}
-
-		if ((offset + (cols - 1) * colStride + (rows - 1) * rowStride) >= elements.length) {
-			throw new IllegalArgumentException("not enough elements");
-		}
-
-		this.elements = elements;
-		this.rows = rows;
-		this.cols = cols;
-		this.offset = offset;
-		this.rowStride = rowStride;
-		this.colStride = colStride;
-
+	public Matrix(MatrixBuffer buffer) {
+		this.buffer = buffer;
 	}
 
 	/**
@@ -83,7 +58,7 @@ public final class Matrix implements Serializable {
 	 * @return The number of rows in this <code>Matrix</code>.
 	 */
 	public int rows() {
-		return this.rows;
+		return buffer.rows();
 	}
 
 	/**
@@ -91,7 +66,7 @@ public final class Matrix implements Serializable {
 	 * @return The number of columns in this <code>Matrix</code>.
 	 */
 	public int columns() {
-		return this.cols;
+		return buffer.columns();
 	}
 
 	/**
@@ -99,7 +74,7 @@ public final class Matrix implements Serializable {
 	 * @return The number of elements in this <code>Matrix</code>.
 	 */
 	public int size() {
-		return this.rows * this.cols;
+		return buffer.size();
 	}
 
 	/**
@@ -107,19 +82,7 @@ public final class Matrix implements Serializable {
 	 * @return The smallest value in this <code>Matrix</code>.
 	 */
 	public double minimum() {
-
-		double min = Double.POSITIVE_INFINITY;
-
-		for (int r = 0, rpos = offset; r < rows; r++, rpos += rowStride) {
-			for (int c = 0, pos = rpos; c < cols; c++, pos += colStride) {
-				if (elements[pos] < min) {
-					min = elements[pos];
-				}
-			}
-		}
-
-		return min;
-
+		return buffer.minimum();
 	}
 
 	/**
@@ -127,19 +90,7 @@ public final class Matrix implements Serializable {
 	 * @return The largest value in this <code>Matrix</code>.
 	 */
 	public double maximum() {
-
-		double max = Double.NEGATIVE_INFINITY;
-
-		for (int r = 0, rpos = offset; r < rows; r++, rpos += rowStride) {
-			for (int c = 0, pos = rpos; c < cols; c++, pos += colStride) {
-				if (elements[pos] > max) {
-					max = elements[pos];
-				}
-			}
-		}
-
-		return max;
-
+		return buffer.maximum();
 	}
 
 	/**
@@ -147,23 +98,15 @@ public final class Matrix implements Serializable {
 	 * @return The ranges of values in this <code>Matrix</code>.
 	 */
 	public Interval range() {
+		return buffer.range();
+	}
 
-		double min = Double.POSITIVE_INFINITY;
-		double max = Double.NEGATIVE_INFINITY;
-
-		for (int r = 0, rpos = offset; r < rows; r++, rpos += rowStride) {
-			for (int c = 0, pos = rpos; c < cols; c++, pos += colStride) {
-				if (elements[pos] > max) {
-					max = elements[pos];
-				}
-				if (elements[pos] < min) {
-					min = elements[pos];
-				}
-			}
-		}
-
-		return new Interval(min, max);
-
+	/**
+	 * Gets the sum of all values in this <code>Matrix</code>.
+	 * @return The largest value in this <code>Matrix</code>.
+	 */
+	public double sum() {
+		return buffer.sum();
 	}
 
 	/**
@@ -180,28 +123,7 @@ public final class Matrix implements Serializable {
 	 * @see #columns()
 	 */
 	public double at(int row, int col) {
-		return this.elements[indexOf(row, col)];
-	}
-
-	/**
-	 * Gets the index into {@link #elements} of the specified row and column.
-	 * @param row The row of the element to get the index of (must be
-	 * 		non-negative and less than <code>this.rows()</code>).
-	 * @param col The column of the element to get the index of (must be
-	 * 		non-negative and less than <code>this.columns()</code>).
-	 * @return The index of the element at the specified row and column in this
-	 * 		<code>Matrix</code>.
-	 * @throws IllegalArgumentException if <code>row</code> or <code>col</code>
-	 * 		is out of bounds.
-	 * @see #rows()
-	 * @see #columns()
-	 */
-	private int indexOf(int row, int col) {
-		if (0 <= row && row < rows && 0 <= col && col < cols) {
-			return offset + row * rowStride + col * colStride;
-		} else {
-			throw new IllegalArgumentException("Out of bounds.");
-		}
+		return buffer.at(row, col);
 	}
 
 	/**
@@ -216,7 +138,7 @@ public final class Matrix implements Serializable {
 	 * @see #columns()
 	 */
 	public Matrix transpose() {
-		return new Matrix(elements, cols, rows, offset, colStride, rowStride);
+		return new Matrix(buffer.transpose());
 	}
 
 	/**
@@ -245,7 +167,7 @@ public final class Matrix implements Serializable {
 	 * @see #columns()
 	 */
 	public Matrix slice(int row, int col, int rows, int cols) {
-		return new Matrix(elements, rows, cols, indexOf(row, col), rowStride, colStride);
+		return new Matrix(buffer.slice(row, col, rows, cols));
 	}
 
 	/**
@@ -258,7 +180,7 @@ public final class Matrix implements Serializable {
 	 * @see Math#min(int, int)
 	 */
 	public Matrix diagonal() {
-		return new Matrix(elements, Math.min(rows, cols), 1, offset, rowStride + colStride, 0);
+		return new Matrix(buffer.diagonal());
 	}
 
 	/**
@@ -271,7 +193,7 @@ public final class Matrix implements Serializable {
 	 * @see #rows()
 	 */
 	public Matrix row(int row) {
-		return slice(row, 0, 1, cols);
+		return new Matrix(buffer.row(row));
 	}
 
 	/**
@@ -284,7 +206,7 @@ public final class Matrix implements Serializable {
 	 * @see #columns()
 	 */
 	public Matrix column(int col) {
-		return slice(0, col, rows, 1);
+		return new Matrix(buffer.column(col));
 	}
 
 	/**
@@ -298,7 +220,7 @@ public final class Matrix implements Serializable {
 	 * 		<code>cols</code> is negative.
 	 */
 	public static Matrix zeros(int rows, int cols) {
-		return new Matrix(ZERO, rows, cols, 0, 0, 0);
+		return new Matrix(new MatrixBuffer(ZERO, rows, cols, 0, 0, 0));
 	}
 
 	/**
@@ -313,7 +235,7 @@ public final class Matrix implements Serializable {
 	 * 		<code>cols</code> is negative.
 	 */
 	public static Matrix ones(int rows, int cols) {
-		return new Matrix(ONE, rows, cols, 0, 0, 0);
+		return new Matrix(new MatrixBuffer(ONE, rows, cols, 0, 0, 0));
 	}
 
 	/**
@@ -327,7 +249,7 @@ public final class Matrix implements Serializable {
 	 * 		<code>cols</code> is negative.
 	 */
 	public static Matrix constant(int rows, int cols, double value) {
-		return new Matrix(new double[]{ value }, rows, cols, 0, 0, 0);
+		return new Matrix(new MatrixBuffer(new double[]{ value }, rows, cols, 0, 0, 0));
 	}
 
 	/**
@@ -364,7 +286,7 @@ public final class Matrix implements Serializable {
 	 * 		<code>cols</code> is negative.
 	 */
 	public static Matrix columnMajor(int rows, int cols, double[] elements) {
-		return new Matrix(elements, rows, cols, 0, 1, rows);
+		return new Matrix(new MatrixBuffer(elements, rows, cols, 0, 1, rows));
 	}
 
 	/**
@@ -385,7 +307,7 @@ public final class Matrix implements Serializable {
 	 * 		<code>cols</code> is negative.
 	 */
 	public static Matrix rowMajor(int rows, int cols, double[] elements) {
-		return new Matrix(elements, rows, cols, 0, cols, 1);
+		return new Matrix(new MatrixBuffer(elements, rows, cols, 0, cols, 1));
 	}
 
 	/**
@@ -401,14 +323,18 @@ public final class Matrix implements Serializable {
 	 */
 	public Matrix times(Matrix other) {
 
-		if (this.cols != other.rows) {
+		if (this.columns() != other.rows()) {
 			throw new IllegalArgumentException("Cannot multiply matrices: wrong dimensions.");
 		}
 
-		double[] elements = new double[this.rows * other.cols];
-		for (int r = 0, i = 0; r < this.rows; r++) {
-			for (int c = 0; c < other.cols; c++, i++) {
-				for (int j = 0; j < this.cols; j++) {
+		int rows = this.rows();
+		int cols = other.columns();
+		int k = this.columns();
+
+		double[] elements = new double[rows * cols];
+		for (int r = 0, i = 0; r < rows; r++) {
+			for (int c = 0; c < cols; c++, i++) {
+				for (int j = 0; j < k; j++) {
 					elements[i] += this.at(r, j) * other.at(j, c);
 				}
 			}
@@ -429,7 +355,10 @@ public final class Matrix implements Serializable {
 	 */
 	public Matrix plus(Matrix other) {
 
-		if (this.rows != other.rows || this.cols != other.cols) {
+		int rows = this.rows();
+		int cols = other.columns();
+
+		if (rows != other.rows() || cols != other.columns()) {
 			throw new IllegalArgumentException("Cannot add matrices of different dimensions.");
 		}
 
@@ -456,7 +385,10 @@ public final class Matrix implements Serializable {
 	 */
 	public Matrix minus(Matrix other) {
 
-		if (this.rows != other.rows || this.cols != other.cols) {
+		int rows = this.rows();
+		int cols = other.columns();
+
+		if (rows != other.rows() || cols != other.columns()) {
 			throw new IllegalArgumentException("Cannot subtract matrices of different dimensions.");
 		}
 
@@ -470,40 +402,5 @@ public final class Matrix implements Serializable {
 		return Matrix.rowMajor(rows, cols, elements);
 
 	}
-
-	/** The array to use for the elements of zero matrices. */
-	private static final double[] ZERO = new double[]{ 0.0 };
-
-	/** The array to use for elements of matrices consisting of all ones. */
-	private static final double[] ONE = new double[]{ 1.0 };
-
-	/** The array containing the elements of this <code>Matrix</code>. */
-	private final double[] elements;
-
-	/** The number of rows. */
-	private final int rows;
-
-	/** The number of columns. */
-	private final int cols;
-
-	/** The index into {@link #elements} of the first element. */
-	private final int offset;
-
-	/**
-	 * The difference between the indices into {@link #elements} of the first
-	 * element of the first row and the first element of the second row.
-	 */
-	private final int rowStride;
-
-	/**
-	 * The difference between the indices into {@link #elements} of the first
-	 * element of the first column and the first element of the second column.
-	 */
-	private final int colStride;
-
-	/**
-	 * Serialization version ID.
-	 */
-	private static final long serialVersionUID = -5903472706313095023L;
 
 }
