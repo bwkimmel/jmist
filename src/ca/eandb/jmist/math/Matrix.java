@@ -414,7 +414,7 @@ public final class Matrix implements Serializable {
 			}
 		}
 
-		return Matrix.columnMajor(this.rows, other.cols, elements);
+		return Matrix.rowMajor(rows, cols, elements);
 
 	}
 
@@ -440,7 +440,7 @@ public final class Matrix implements Serializable {
 			}
 		}
 
-		return Matrix.columnMajor(rows, cols, elements);
+		return Matrix.rowMajor(rows, cols, elements);
 
 	}
 
@@ -467,7 +467,7 @@ public final class Matrix implements Serializable {
 			}
 		}
 
-		return Matrix.columnMajor(rows, cols, elements);
+		return Matrix.rowMajor(rows, cols, elements);
 
 	}
 
