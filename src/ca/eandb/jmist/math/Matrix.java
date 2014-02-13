@@ -311,6 +311,198 @@ public final class Matrix implements Serializable {
 	}
 
 	/**
+	 * Computes the product of two matrices.  It is expected that neither
+	 * <code>A</code> nor <code>B</code> are not backed by the same array as
+	 * <code>R</code>, and that the elements of <code>R</code> are backed by
+	 * distinct array elements.  Results are undefined if these conditions are
+	 * not met.
+	 * @param A The left <code>Matrix</code> operand
+	 * @param B The right <code>Matrix</code> operand
+	 * @param R The <code>MatrixBuffer</code> to store the result.
+	 * @throws IllegalArgumentException if <code>A.columns() != B.rows()</code>.
+	 * @throws IllegalArgumentException if <code>A.rows() != R.rows()</code> or if
+	 * 		<code>R.columns() != B.columns()</code>.
+	 * @see #rows()
+	 * @see #columns()
+	 */
+	public static void multiply(Matrix A, Matrix B, MatrixBuffer R) {
+
+		if (A.columns() != B.rows()) {
+			throw new IllegalArgumentException("Cannot multiply matrices: wrong dimensions.");
+		}
+
+		int rows = A.rows();
+		int cols = B.columns();
+		int k = A.columns();
+
+		if (rows != R.rows() || cols != R.columns()) {
+			throw new IllegalArgumentException("Target MatrixBuffer has wrong dimensions.");
+		}
+
+		for (int r = 0; r < rows; r++) {
+			for (int c = 0; c < cols; c++) {
+				R.set(r, c, 0.0);
+				for (int j = 0; j < k; j++) {
+					R.add(r, c, A.at(r, j) * B.at(j, c));
+				}
+			}
+		}
+
+	}
+
+	/**
+	 * Computes the product of two matrices element-wise.  It is expected that
+	 * the elements of <code>R</code> are backed by distinct array elements
+	 * whenever the corresponding elements of <code>A</code> or <code>B</code>
+	 * are backed by distinct array elements.  Results are undefined if these
+	 * conditions are not met.  Note that <code>R</code> may share its backing
+	 * array with either <code>A</code>, <code>B</code>, or both, as long as
+	 * the indexing is the same (e.g., both are in row-major order, both are
+	 * in column-major order, etc.).
+	 * @param A The left <code>Matrix</code> operand
+	 * @param B The right <code>Matrix</code> operand
+	 * @param R The <code>MatrixBuffer</code> to store the result.
+	 * @throws IllegalArgumentException if <code>A</code>, <code>B</code>, and
+	 * 		<code>R</code> do not all have the same dimensions.
+	 * @see #rows()
+	 * @see #columns()
+	 */
+	public static void multiplyElements(Matrix A, Matrix B, MatrixBuffer R) {
+
+		int rows = A.rows();
+		int cols = A.columns();
+
+		if (rows != B.rows() || cols != B.columns()) {
+			throw new IllegalArgumentException("Cannot multiply element-wise matrices of different dimensions.");
+		}
+
+		if (rows != R.rows() || cols != R.columns()) {
+			throw new IllegalArgumentException("Target MatrixBuffer has wrong dimensions.");
+		}
+
+		for (int r = 0; r < rows; r++) {
+			for (int c = 0; c < cols; c++) {
+				R.set(r, c, A.at(r, c) * B.at(r, c));
+			}
+		}
+
+	}
+
+	/**
+	 * Computes the quotient of two matrices element-wise.  It is expected that
+	 * the elements of <code>R</code> are backed by distinct array elements
+	 * whenever the corresponding elements of <code>A</code> or <code>B</code>
+	 * are backed by distinct array elements.  Results are undefined if these
+	 * conditions are not met.  Note that <code>R</code> may share its backing
+	 * array with either <code>A</code>, <code>B</code>, or both, as long as
+	 * the indexing is the same (e.g., both are in row-major order, both are
+	 * in column-major order, etc.).
+	 * @param A The left <code>Matrix</code> operand
+	 * @param B The right <code>Matrix</code> operand
+	 * @param R The <code>MatrixBuffer</code> to store the result.
+	 * @throws IllegalArgumentException if <code>A</code>, <code>B</code>, and
+	 * 		<code>R</code> do not all have the same dimensions.
+	 * @see #rows()
+	 * @see #columns()
+	 */
+	public static void divideElements(Matrix A, Matrix B, MatrixBuffer R) {
+
+		int rows = A.rows();
+		int cols = A.columns();
+
+		if (rows != B.rows() || cols != B.columns()) {
+			throw new IllegalArgumentException("Cannot divide element-wise matrices of different dimensions.");
+		}
+
+		if (rows != R.rows() || cols != R.columns()) {
+			throw new IllegalArgumentException("Target MatrixBuffer has wrong dimensions.");
+		}
+
+		for (int r = 0; r < rows; r++) {
+			for (int c = 0; c < cols; c++) {
+				R.set(r, c, A.at(r, c) / B.at(r, c));
+			}
+		}
+
+	}
+
+	/**
+	 * Computes the sum of two matrices element-wise.  It is expected that
+	 * the elements of <code>R</code> are backed by distinct array elements
+	 * whenever the corresponding elements of <code>A</code> or <code>B</code>
+	 * are backed by distinct array elements.  Results are undefined if these
+	 * conditions are not met.  Note that <code>R</code> may share its backing
+	 * array with either <code>A</code>, <code>B</code>, or both, as long as
+	 * the indexing is the same (e.g., both are in row-major order, both are
+	 * in column-major order, etc.).
+	 * @param A The left <code>Matrix</code> operand
+	 * @param B The right <code>Matrix</code> operand
+	 * @param R The <code>MatrixBuffer</code> to store the result.
+	 * @throws IllegalArgumentException if <code>A</code>, <code>B</code>, and
+	 * 		<code>R</code> do not all have the same dimensions.
+	 * @see #rows()
+	 * @see #columns()
+	 */
+	public static void add(Matrix A, Matrix B, MatrixBuffer R) {
+
+		int rows = A.rows();
+		int cols = A.columns();
+
+		if (rows != B.rows() || cols != B.columns()) {
+			throw new IllegalArgumentException("Cannot add matrices of different dimensions.");
+		}
+
+		if (rows != R.rows() || cols != R.columns()) {
+			throw new IllegalArgumentException("Target MatrixBuffer has wrong dimensions.");
+		}
+
+		for (int r = 0; r < rows; r++) {
+			for (int c = 0; c < cols; c++) {
+				R.set(r, c, A.at(r, c) + B.at(r, c));
+			}
+		}
+
+	}
+
+	/**
+	 * Computes the difference of two matrices element-wise.  It is expected that
+	 * the elements of <code>R</code> are backed by distinct array elements
+	 * whenever the corresponding elements of <code>A</code> or <code>B</code>
+	 * are backed by distinct array elements.  Results are undefined if these
+	 * conditions are not met.  Note that <code>R</code> may share its backing
+	 * array with either <code>A</code>, <code>B</code>, or both, as long as
+	 * the indexing is the same (e.g., both are in row-major order, both are
+	 * in column-major order, etc.).
+	 * @param A The left <code>Matrix</code> operand
+	 * @param B The right <code>Matrix</code> operand
+	 * @param R The <code>MatrixBuffer</code> to store the result.
+	 * @throws IllegalArgumentException if <code>A</code>, <code>B</code>, and
+	 * 		<code>R</code> do not all have the same dimensions.
+	 * @see #rows()
+	 * @see #columns()
+	 */
+	public static void subtract(Matrix A, Matrix B, MatrixBuffer R) {
+
+		int rows = A.rows();
+		int cols = A.columns();
+
+		if (rows != B.rows() || cols != B.columns()) {
+			throw new IllegalArgumentException("Cannot subtract matrices of different dimensions.");
+		}
+
+		if (rows != R.rows() || cols != R.columns()) {
+			throw new IllegalArgumentException("Target MatrixBuffer has wrong dimensions.");
+		}
+
+		for (int r = 0; r < rows; r++) {
+			for (int c = 0; c < cols; c++) {
+				R.set(r, c, A.at(r, c) - B.at(r, c));
+			}
+		}
+
+	}
+
+	/**
 	 * Computes the product of two matrices.
 	 * @param other The <code>Matrix</code> by which to multiply this
 	 * 		<code>Matrix</code> (must have as many rows as this
