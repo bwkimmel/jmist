@@ -27,6 +27,7 @@ package ca.eandb.jmist.math;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -1790,6 +1791,40 @@ public final class MathUtil {
 
 	/**
 	 * Interpolates a piecewise linear curve.
+	 * @param x An array of x-coordinates (this must be sorted in ascending
+	 * 		order).
+	 * @param y An array of the y-coordinates (must be of the same length as
+	 * 		<code>x</code>).
+	 * @param x0 The x-coordinate at which to interpolate.
+	 * @return The y-coordinate corresponding to <code>x0</code>.
+	 */
+	public static double interpolate(List<Double> x, List<Double> y, double x0) {
+
+		if (x0 <= x.get(0)) {
+			return y.get(0);
+		}
+		
+		int n = x.size();
+		if (x0 >= x.get(n - 1)) {
+			return y.get(n - 1);
+		}
+
+		int index = Collections.binarySearch(x, x0);
+		if (index < 0) {
+			index = -(index + 1);
+		}
+		while (index < n - 1 && !(x0 < x.get(index + 1))) {
+			index++;
+		}
+
+		assert(index < n - 1);
+
+		return interpolate(x.get(index - 1), y.get(index - 1), x.get(index), y.get(index), x0);
+
+	}
+
+	/**
+	 * Interpolates a piecewise linear curve.
 	 * @param x0 The minimum value in the domain.
 	 * @param x1 The maximum value in the domain (must not be less than
 	 * 		<code>x0</code>).
@@ -1809,6 +1844,30 @@ public final class MathUtil {
 		double t = (y.length - 1) * ((x - x0) / (x1 - x0));
 		int i = (int) Math.floor(t);
 		return interpolate(y[i], y[i + 1], t - i);
+
+	}
+
+	/**
+	 * Interpolates a piecewise linear curve.
+	 * @param x0 The minimum value in the domain.
+	 * @param x1 The maximum value in the domain (must not be less than
+	 * 		<code>x0</code>).
+	 * @param y An array of the y-coordinates (must have at least two elements).
+	 * @param x The x-coordinate at which to interpolate.
+	 * @return The y-coordinate corresponding to <code>x</code>.
+	 */
+	public static double interpolate(double x0, double x1, List<Double> y, double x) {
+
+		if (x <= x0) {
+			return y.get(0);
+		}
+		if (x >= x1) {
+			return y.get(y.size() - 1);
+		}
+		
+		double t = (y.size() - 1) * ((x - x0) / (x1 - x0));
+		int i = (int) Math.floor(t);
+		return interpolate(y.get(i), y.get(i + 1), t - i);
 
 	}
 
