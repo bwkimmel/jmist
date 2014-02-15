@@ -26,6 +26,7 @@
 package ca.eandb.jmist.math;
 
 import java.io.Serializable;
+import java.util.AbstractList;
 import java.util.BitSet;
 import java.util.Iterator;
 
@@ -33,7 +34,7 @@ import java.util.Iterator;
  * An immutable array of double precision values.
  * @author Brad Kimmel
  */
-public final class Tuple implements Iterable<Double>, Serializable {
+public final class Tuple extends AbstractList<Double> implements Serializable {
 
 	/**
 	 * Creates an empty Tuple.
@@ -504,10 +505,19 @@ public final class Tuple implements Iterable<Double>, Serializable {
 	}
 
 	/* (non-Javadoc)
-	 * @see java.lang.Iterable#iterator()
+	 * @see java.util.AbstractList#iterator()
 	 */
+	@Override
 	public Iterator<Double> iterator() {
 		return new TupleIterator();
+	}
+
+	/* (non-Javadoc)
+	 * @see java.util.AbstractList#get(int)
+	 */
+	@Override
+	public Double get(int index) {
+		return at(index);
 	}
 
 	/**
@@ -545,7 +555,7 @@ public final class Tuple implements Iterable<Double>, Serializable {
 	 * Convers this Tuple to an array of doubles.
 	 * @return An array containing the elements of this Tuple.
 	 */
-	public double[] toArray() {
+	public double[] toDoubleArray() {
 		return (double[]) this.values.clone();
 	}
 

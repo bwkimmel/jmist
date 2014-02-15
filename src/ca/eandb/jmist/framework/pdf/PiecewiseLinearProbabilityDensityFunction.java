@@ -133,7 +133,7 @@ public final class PiecewiseLinearProbabilityDensityFunction extends
 	 * 		elements.
 	 */
 	public PiecewiseLinearProbabilityDensityFunction(double[] x, Tuple pdf) {
-		this(x.clone(), pdf.toArray(), false);
+		this(x.clone(), pdf.toDoubleArray(), false);
 	}
 
 	/**
@@ -153,7 +153,7 @@ public final class PiecewiseLinearProbabilityDensityFunction extends
 	 * 		elements.
 	 */
 	public PiecewiseLinearProbabilityDensityFunction(Tuple x, Tuple pdf) {
-		this(x.toArray(), pdf.toArray(), false);
+		this(x.toDoubleArray(), pdf.toDoubleArray(), false);
 	}
 
 	/* (non-Javadoc)
