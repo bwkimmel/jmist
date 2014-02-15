@@ -1872,100 +1872,6 @@ public final class MathUtil {
 	}
 
 	/**
-	 * Interpolates a piecewise linear curve.
-	 * @param x A <code>Tuple</code> of x-coordinates (this must be sorted in
-	 * 		ascending order).
-	 * @param y A <code>Tuple</code> of y-coordinates (must be of the same
-	 * 		length as <code>x</code>).
-	 * @param x0 The x-coordinate at which to interpolate.
-	 * @return The y-coordinate corresponding to <code>x0</code>.
-	 */
-	public static double interpolate(Tuple x, Tuple y, double x0) {
-
-		if (x0 <= x.at(0)) {
-			return y.at(0);
-		}
-		int n = x.size();
-		if (x0 >= x.at(n - 1)) {
-			return y.at(n - 1);
-		}
-
-		int index = binarySearch(x, x0);
-		if (index < 0) {
-			index = -(index + 1);
-		}
-		while (index < n - 1 && !(x0 < x.at(index + 1))) {
-			index++;
-		}
-
-		assert(index < n - 1);
-
-		return interpolate(x.at(index - 1), y.at(index - 1), x.at(index), y.at(index), x0);
-
-	}
-
-	/**
-	 * Interpolates a piecewise linear curve.
-	 * @param x0 The minimum value in the domain.
-	 * @param x1 The maximum value in the domain (must not be less than
-	 * 		<code>x0</code>).
-	 * @param y A <code>Tuple</code> of y-coordinates (must have at least two
-	 * 		elements).
-	 * @param x The x-coordinate at which to interpolate.
-	 * @return The y-coordinate corresponding to <code>x</code>.
-	 */
-	public static double interpolate(double x0, double x1, Tuple y, double x) {
-
-		if (x <= x0) {
-			return y.at(0);
-		}
-		if (x >= x1) {
-			return y.at(y.size() - 1);
-		}
-		
-		double t = (y.size() - 1) * ((x - x0) / (x1 - x0));
-		int i = (int) Math.floor(t);
-		return interpolate(y.at(i), y.at(i + 1), t - i);
-
-	}
-
-	/**
-	 * Searches the specified <code>Tuple</code> for the specified value using
-	 * the binary search algorithm. The <code>Tuple</code> must be sorted prior
-	 * to making this call. If it is not sorted, the results are undefined. If
-	 * the <code>Tuple</code> contains multiple elements with the specified
-	 * value, there is no guarantee which one will be found. This method
-	 * considers all NaN values to be equivalent and equal.
-	 * @param a The <code>Tuple</code> to be searched.
-	 * @param key The value to be searched for.
-	 * @return index of the search key, if it is contained in the
-	 * 		<code>Tuple</code>;	otherwise, (-(insertion point) - 1). The
-	 * 		insertion point is defined as the point at which the key would be
-	 * 		inserted into the <code>Tuple</code>: the index of the first
-	 * 		element greater than the key, or a.size() if all elements in the
-	 * 		<code>Tuple</code> are less than the specified key. Note that this
-	 * 		guarantees that the return value will be >= 0 if and only if the
-	 * 		key is found.
-	 */
-	public static final int binarySearch(Tuple a, double key) {
-		int low = 0;
-	    int hi = a.size() - 1;
-	    int mid = 0;
-	    while (low <= hi) {
-	    	mid = (low + hi) >> 1;
-	    	final int r = Double.compare(a.at(mid), key);
-	        if (r == 0) {
-	        	return mid;
-	        } else if (r > 0) {
-	        	hi = mid - 1;
-	        } else {
-	        	low = ++mid;
-	        }
-	    }
-	    return -mid - 1;
-	}
-
-	/**
 	 * Performs a bilinear interpolation between four values.
 	 * @param _00 The value at <code>(t, u) = (0, 0)</code>.
 	 * @param _10 The value at <code>(t, u) = (1, 0)</code>.
@@ -1984,6 +1890,152 @@ public final class MathUtil {
 				u
 		);
 
+	}
+
+	/**
+	 * Performs bilinear interpolation over a non-uniform grid.
+	 * @param xs The array of grid points along the x-axis (must have the same
+	 * 		length as the number of rows in <code>z</code>).
+	 * @param ys The array of grid points along the y-axis (must have the same
+	 * 		length as the number of columns in <code>z</code>).
+	 * @param z The <code>Matrix</code> of values to interpolate (must have
+	 * 		<code>xs.length</code> rows and <code>ys.length</code> columns).
+	 * @param x The x-coordinate at which to interpolate.
+	 * @param y The y-coordinate at which to interpolate.
+	 * @return The interpolated value at <code>(x, y)</code>.
+	 * @throws IllegalArgumentException if <code>z</code> does not have
+	 * 		dimensions of <code>xs.length</code> by <code>ys.length</code>.
+	 */
+	public static double bilinearInterpolate(double xs[], double ys[],
+			Matrix z, double x, double y) {
+		return bilinearInterpolate(
+				Matrix.rowMajor(1, xs.length, xs).elementsByRow(),
+				Matrix.rowMajor(1, ys.length, ys).elementsByRow(),
+				z, x, y);
+	}
+	
+	/**
+	 * Performs bilinear interpolation over a non-uniform grid.
+	 * @param xs The list of grid points along the x-axis (must have the same
+	 * 		length as the number of rows in <code>z</code>).
+	 * @param ys The list of grid points along the y-axis (must have the same
+	 * 		length as the number of columns in <code>z</code>).
+	 * @param z The <code>Matrix</code> of values to interpolate (must have
+	 * 		<code>xs.size()</code> rows and <code>ys.size()</code> columns).
+	 * @param x The x-coordinate at which to interpolate.
+	 * @param y The y-coordinate at which to interpolate.
+	 * @return The interpolated value at <code>(x, y)</code>.
+	 * @throws IllegalArgumentException if <code>z</code> does not have
+	 * 		dimensions of <code>xs.size()</code> by <code>ys.size()</code>.
+	 */
+	public static double bilinearInterpolate(List<Double> xs, List<Double> ys,
+			Matrix z, double x, double y) {
+		
+		int nx = xs.size();
+		int ny = ys.size();
+		if (nx != z.rows() || ny != z.columns()) {
+			throw new IllegalArgumentException("Matrix z must be xs.size() by ys.size()");
+		}
+		
+		if (x <= xs.get(0)) {
+			return interpolate(ys, z.row(0).elements(), y);
+		}
+		if (x >= xs.get(nx - 1)) {
+			return interpolate(ys, z.row(nx - 1).elements(), y);
+		}
+		if (y <= ys.get(0)) {
+			return interpolate(xs, z.column(0).elements(), x);
+		}
+		if (y >= ys.get(ny - 1)) {
+			return interpolate(xs, z.column(ny - 1).elements(), x);
+		}
+		
+		int ix = Collections.binarySearch(xs, x);
+		if (ix < 0) {
+			ix = -(ix + 1);
+		}
+		while (ix < nx - 1 && !(x < xs.get(ix + 1))) {
+			ix++;
+		}
+		
+		int iy = Collections.binarySearch(ys, y);
+		if (iy < 0) {
+			iy = -(iy + 1);
+		}
+		while (iy < ny - 1 && !(y < ys.get(iy + 1))) {
+			iy++;
+		}
+
+		assert(ix < nx - 1 && iy < ny - 1);
+		
+		double x0 = xs.get(ix);
+		double x1 = xs.get(ix + 1);
+		double y0 = ys.get(iy);
+		double y1 = ys.get(iy + 1);
+		
+		double tx = (x - x0) / (x1 - x0);
+		double ty = (y - y0) / (y1 - y0);
+		
+		double _00 = z.at(ix, iy);
+		double _01 = z.at(ix, iy + 1);
+		double _10 = z.at(ix + 1, iy);
+		double _11 = z.at(ix + 1, iy + 1);
+		
+		return bilinearInterpolate(_00, _10, _01, _11, tx, ty);
+		
+	}
+	
+	/**
+	 * Performs bilinear interpolation over a uniform grid.
+	 * @param x0 The minimum value along the x-axis.
+	 * @param x1 The maximum value along the x-axis.
+	 * @param y0 The minimum value along the y-axis.
+	 * @param y1 The maximum value along the y-axis.
+	 * @param z The <code>Matrix</code> of values to interpolate (must have at
+	 * 		least two rows and at least two columns).
+	 * @param x The x-coordinate at which to interpolate.
+	 * @param y The y-coordinate at which to interpolate.
+	 * @return The interpolated value at <code>(x, y)</code>.
+	 * @throws IllegalArgumentException if <code>z</code> has fewer than two
+	 * 		rows or fewer than two columns.
+	 */
+	public static double bilinearInterpolate(
+			double x0, double x1, double y0, double y1,
+			Matrix z, double x, double y) {
+		
+		if (z.rows() < 2 || z.columns() < 2) {
+			throw new IllegalArgumentException("Matrix z must be at least 2x2");
+		}
+		
+		if (x <= x0) {
+			return interpolate(y0, y1, z.row(0).elements(), y);
+		}
+		if (x >= x1) {
+			int j = z.rows() - 1;
+			return interpolate(y0, y1, z.row(j).elements(), y);
+		}
+		if (y <= y0) {
+			return interpolate(x0, x1, z.column(0).elements(), x);
+		}
+		if (y >= y1) {
+			int j = z.columns() - 1;
+			return interpolate(x0, x1, z.column(j).elements(), x);
+		}
+
+		int nx = z.rows();
+		int ny = z.columns();
+		double tx = (nx - 1) * ((x - x0) / (x1 - x0));
+		double ty = (ny - 1) * ((y - y0) / (y1 - y0));
+		int ix = (int) Math.floor(tx);
+		int iy = (int) Math.floor(ty);
+		
+		double _00 = z.at(ix, iy);
+		double _01 = z.at(ix, iy + 1);
+		double _10 = z.at(ix + 1, iy);
+		double _11 = z.at(ix + 1, iy + 1);
+		
+		return bilinearInterpolate(_00, _10, _01, _11, tx, ty);
+		
 	}
 
 	/**
