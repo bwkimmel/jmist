@@ -26,6 +26,7 @@
 package ca.eandb.jmist.math;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * A two dimensional matrix.
@@ -75,6 +76,34 @@ public final class Matrix implements Serializable {
 	 */
 	public int size() {
 		return buffer.size();
+	}
+
+	/**
+	 * Gets a read-only list of the elements of this <code>Matrix</code>.
+	 * @return A read-only list of the elements of this <code>Matrix</code>.
+	 */
+	public List<Double> elements() {
+		return buffer.elements();
+	}
+
+	/**
+	 * Gets a read-only list of the elements of this <code>Matrix</code> in
+	 * row-major order.
+	 * @return A read-only list of the elements of this <code>Matrix</code> in
+	 * 		row-major order.
+	 */
+	public List<Double> elementsByRow() {
+		return buffer.elementsByRow();
+	}
+
+	/**
+	 * Gets a read-only list of the elements of this <code>Matrix</code> in
+	 * column-major order.
+	 * @return A read-only list of the elements of this <code>Matrix</code> in
+	 * 		column-major order.
+	 */
+	public List<Double> elementsByColumn() {
+		return buffer.elementsByColumn();
 	}
 
 	/**

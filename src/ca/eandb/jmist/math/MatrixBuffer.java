@@ -4,6 +4,9 @@
 package ca.eandb.jmist.math;
 
 import java.io.Serializable;
+import java.util.AbstractList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Mutable element-storage for a two-dimensional matrix.
@@ -104,6 +107,92 @@ public final class MatrixBuffer implements Serializable {
 	 */
 	public int size() {
 		return this.rows * this.cols;
+	}
+
+	private Iterator<Double> iterator() {
+		return new Iterator<Double>() {
+			int r = 0;
+			int c = 0;
+			int rpos = offset;
+			int pos = rpos;
+
+			@Override
+			public boolean hasNext() {
+				return r < rows;
+			}
+
+			@Override
+			public Double next() {
+				int j = pos;
+
+				if (++c < cols) {
+					pos += colStride;
+				} else {
+					c = 0;
+					r++;
+					rpos += rowStride;
+					pos = rpos;
+				}
+
+				return elements[j];
+			}
+
+			@Override
+			public void remove() {
+				throw new UnsupportedOperationException();
+			}
+		};
+	}
+
+	/**
+	 * Gets a read-only list of the elements of this <code>MatrixBuffer</code>.
+	 * @return A read-only list of the elements of this
+	 * 		<code>MatrixBuffer</code>.
+	 */
+	public List<Double> elements() {
+		return elementsByRow();
+	}
+
+	/**
+	 * Gets a read-only list of the elements of this <code>MatrixBuffer</code>
+	 * in row-major order.
+	 * @return A read-only list of the elements of this
+	 * 		<code>MatrixBuffer</code> in row-major order.
+	 */
+	public List<Double> elementsByRow() {
+		return new AbstractList<Double>() {
+
+			/* (non-Javadoc)
+			 * @see java.util.AbstractList#iterator()
+			 */
+			@Override
+			public Iterator<Double> iterator() {
+				return MatrixBuffer.this.iterator();
+			}
+
+			@Override
+			public Double get(int j) {
+				int r = j / cols;
+				int c = j % cols;
+				return at(r, c);
+			}
+
+			@Override
+			public int size() {
+				return MatrixBuffer.this.size();
+			}
+
+		};
+	}
+
+	/**
+	 * Gets a read-only list of the elements of this <code>MatrixBuffer</code>
+	 * in column-major order.
+	 * @return A read-only list of the elements of this
+	 * 		<code>MatrixBuffer</code> in column-major order.
+	 */
+	public List<Double> elementsByColumn() {
+		return transpose().elementsByRow();
 	}
 
 	/**
