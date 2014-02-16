@@ -42,6 +42,7 @@ import ca.eandb.jmist.framework.function.PiecewiseLinearFunction1;
 import ca.eandb.jmist.framework.function.ScaledFunction1;
 import ca.eandb.jmist.framework.function.SumFunction1;
 import ca.eandb.jmist.framework.job.TransferMatrixJob;
+import ca.eandb.jmist.framework.job.TransferMatrixJob.ExitantVectorStrategies;
 import ca.eandb.jmist.framework.measurement.CollectorSphere;
 import ca.eandb.jmist.framework.measurement.UncappedLatLongCollectorSphere;
 import ca.eandb.jmist.math.Vector3;
@@ -823,7 +824,7 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 		int N = 100000000;
 		int m = N / 8;
 		
-		ParallelizableJob job = new TransferMatrixJob(specimens, wavelengths, N, m, false, collector);
+		ParallelizableJob job = new TransferMatrixJob(specimens, wavelengths, N, m, false, ExitantVectorStrategies.DIRECT, collector);
 
 		int threads = Runtime.getRuntime().availableProcessors();
 

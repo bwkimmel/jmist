@@ -53,6 +53,63 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 	/** Serialization version ID. */
 	private static final long serialVersionUID = 843938200854073006L;
 
+	/** Parameterization strategy for exitant vector. */
+	public static interface ExitantVectorStrategy extends Serializable {
+
+		/**
+		 * Compute the vector to record to represent the outgoing direction.
+		 * @param in The incident direction.
+		 * @param out The exitant direction.
+		 * @return The reparameterized exitant direction.
+		 */
+		Vector3 getExitantVector(Vector3 in, Vector3 out);
+
+	}
+
+	/** Parameterization strategies for the exitant vector. */
+	public static enum ExitantVectorStrategies implements ExitantVectorStrategy {
+
+		/** Record the exitant vector directly. */
+		DIRECT {
+			public Vector3 getExitantVector(Vector3 in, Vector3 out) {
+				return out;
+			}
+		},
+
+		/**
+		 * Record the difference between the incident and exitant azimuthal
+		 * angles.
+		 */
+		RELATIVE {
+			public Vector3 getExitantVector(Vector3 in, Vector3 out) {
+				SphericalCoordinates si = SphericalCoordinates.fromCartesian(in.opposite());
+				SphericalCoordinates so = SphericalCoordinates.fromCartesian(out);
+				SphericalCoordinates r = SphericalCoordinates.canonical(so.polar(), so.azimuthal() - si.azimuthal());
+				return r.toCartesian();
+			}
+		},
+
+		/** Record the half-angle vector. */
+		HALF_ANGLE {
+			public Vector3 getExitantVector(Vector3 in, Vector3 out) {
+				return out.minus(in).unit();
+			}
+		},
+
+		/**
+		 * Record the half-angle vector, with the azimuthal angle expressed as
+		 * the difference between that of the half-angle vector and the
+		 * incident vector.
+		 */
+		HALF_ANGLE_RELATIVE {
+			public Vector3 getExitantVector(Vector3 in, Vector3 out) {
+				return RELATIVE.getExitantVector(in,
+						HALF_ANGLE.getExitantVector(in, out));
+			}
+		}
+
+	}
+
 	/** The <code>TaskWorker</code> that performs the work for this job. */
 	private final PhotometerTaskWorker worker;
 
@@ -70,9 +127,12 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 
 	public TransferMatrixJob(SurfaceScatterer[] specimens, double[] wavelengths,
 			long samplesPerMeasurement, long samplesPerTask, boolean adjoint,
+			ExitantVectorStrategy exitantVectorStrategy,
 			CollectorSphere incidentCollector, CollectorSphere exitantCollector) {
 
-		this.worker						= new PhotometerTaskWorker(incidentCollector, exitantCollector, adjoint);
+		this.worker						= new PhotometerTaskWorker(
+												incidentCollector, exitantCollector, 
+												exitantVectorStrategy, adjoint);
 		this.specimens					= specimens.clone();
 		this.wavelengths				= wavelengths.clone();
 		this.samplesPerMeasurement		= samplesPerMeasurement;
@@ -87,9 +147,10 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 
 	public TransferMatrixJob(SurfaceScatterer[] specimens, double[] wavelengths,
 			long samplesPerMeasurement, long samplesPerTask, boolean adjoint,
+			ExitantVectorStrategy exitantVectorStrategy,
 			CollectorSphere collector) {
 		this(specimens, wavelengths, samplesPerMeasurement, samplesPerTask,
-				adjoint, collector, collector);
+				adjoint, exitantVectorStrategy, collector, collector);
 	}
 
 	/* (non-Javadoc)
@@ -305,6 +366,9 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 		 */
 		private final CollectorSphere exitantCollector;
 		
+		/** The transformation to apply to the exitant vector before recording. */
+		private final ExitantVectorStrategy exitantVectorStrategy;
+
 		/** Indicates whether to trace the ray backwards (i.e., from the eye). */
 		private final boolean adjoint;
 
@@ -319,9 +383,11 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 		 * 		direction).
 		 */
 		public PhotometerTaskWorker(CollectorSphere incidentCollector,
-				CollectorSphere exitantCollector, boolean adjoint) {
+				CollectorSphere exitantCollector,
+				ExitantVectorStrategy exitantVectorStrategy, boolean adjoint) {
 			this.incidentCollector = incidentCollector;
 			this.exitantCollector = exitantCollector;
+			this.exitantVectorStrategy = exitantVectorStrategy;
 			this.adjoint = adjoint;
 		}
 
@@ -364,6 +430,7 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 				Vector3 v = info.specimen.scatter(SurfacePointGeometry.STANDARD, in, adjoint, info.wavelength, rng);
 				
 				if (v != null) {
+					v = exitantVectorStrategy.getExitantVector(in, v);
 					exitantCollector.record(v, new Callback() {
 						public void record(int sensor) {
 							result.sca[sensor0[0] * numOutSensors + sensor]++;
