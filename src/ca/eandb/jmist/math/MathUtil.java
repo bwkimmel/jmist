@@ -2034,7 +2034,7 @@ public final class MathUtil {
 		double _10 = z.at(ix + 1, iy);
 		double _11 = z.at(ix + 1, iy + 1);
 		
-		return bilinearInterpolate(_00, _10, _01, _11, tx, ty);
+		return bilinearInterpolate(_00, _10, _01, _11, tx - ix, ty - iy);
 		
 	}
 
