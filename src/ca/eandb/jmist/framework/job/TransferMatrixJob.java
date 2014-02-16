@@ -69,9 +69,10 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 	private transient int tasksReturned = 0;
 
 	public TransferMatrixJob(SurfaceScatterer[] specimens, double[] wavelengths,
-			long samplesPerMeasurement, long samplesPerTask, CollectorSphere collector) {
+			long samplesPerMeasurement, long samplesPerTask,
+			CollectorSphere incidentCollector, CollectorSphere exitantCollector) {
 
-		this.worker						= new PhotometerTaskWorker(collector);
+		this.worker						= new PhotometerTaskWorker(incidentCollector, exitantCollector);
 		this.specimens					= specimens.clone();
 		this.wavelengths				= wavelengths.clone();
 		this.samplesPerMeasurement		= samplesPerMeasurement;
@@ -84,15 +85,22 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 
 	}
 
+	public TransferMatrixJob(SurfaceScatterer[] specimens, double[] wavelengths,
+			long samplesPerMeasurement, long samplesPerTask,
+			CollectorSphere collector) {
+		this(specimens, wavelengths, samplesPerMeasurement, samplesPerTask, collector, collector);
+	}
+
 	/* (non-Javadoc)
 	 * @see ca.eandb.jdcp.job.AbstractParallelizableJob#initialize()
 	 */
 	@Override
 	public void initialize() {
-		int numSensors = worker.collector.sensors();
-		this.sca = new int[wavelengths.length * specimens.length * numSensors * numSensors];
-		this.abs = new int[wavelengths.length * specimens.length * numSensors];
-		this.cast = new int[wavelengths.length * specimens.length * numSensors];
+		int numInSensors = worker.incidentCollector.sensors();
+		int numOutSensors = worker.exitantCollector.sensors();
+		this.sca = new int[wavelengths.length * specimens.length * numInSensors * numOutSensors];
+		this.abs = new int[wavelengths.length * specimens.length * numInSensors];
+		this.cast = new int[wavelengths.length * specimens.length * numInSensors];
 	}
 
 	/*
@@ -148,10 +156,10 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 		public final int[] abs;
 		public final int[] cast;
 		
-		public TaskResult(int numSensors) {
-			sca = new int[numSensors * numSensors];
-			abs = new int[numSensors];
-			cast = new int[numSensors];
+		public TaskResult(int numInSensors, int numOutSensors) {
+			sca = new int[numInSensors * numOutSensors];
+			abs = new int[numInSensors];
+			cast = new int[numInSensors];
 		}
 		
 	}
@@ -162,13 +170,14 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 	public void submitTaskResults(Object task, Object results,
 			ProgressMonitor monitor) {
 
-		Task		info		= (Task) task;
-		TaskResult	tr			= (TaskResult) results;
-		int			numSensors	= worker.collector.sensors();
+		Task		info			= (Task) task;
+		TaskResult	tr				= (TaskResult) results;
+		int			numInSensors	= worker.incidentCollector.sensors();
+		int			numOutSensors	= worker.exitantCollector.sensors();
 
-		MathUtil.addRange(sca, info.measurementIndex * numSensors * numSensors, tr.sca);
-		MathUtil.addRange(abs, info.measurementIndex * numSensors, tr.abs);
-		MathUtil.addRange(cast, info.measurementIndex * numSensors, tr.cast);
+		MathUtil.addRange(sca, info.measurementIndex * numInSensors * numOutSensors, tr.sca);
+		MathUtil.addRange(abs, info.measurementIndex * numInSensors, tr.abs);
+		MathUtil.addRange(cast, info.measurementIndex * numInSensors, tr.cast);
 		
 		monitor.notifyProgress(++this.tasksReturned, this.totalTasks);
 
@@ -188,12 +197,32 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 
 		MatlabWriter matlab = new MatlabWriter(createFileOutputStream("tm.mat"));
 		
-		int numSensors = worker.collector.sensors();
-		matlab.write("sca", sca, new int[]{ numSensors, numSensors, wavelengths.length, specimens.length });
-		matlab.write("abs", abs, new int[]{ numSensors, wavelengths.length, specimens.length });
-		matlab.write("cast", cast, new int[]{ numSensors, wavelengths.length, specimens.length });
+		int numInSensors = worker.incidentCollector.sensors();
+		int numOutSensors = worker.exitantCollector.sensors();
+		matlab.write("sca", sca, new int[]{ numOutSensors, numInSensors, wavelengths.length, specimens.length });
+		matlab.write("abs", abs, new int[]{ numInSensors, wavelengths.length, specimens.length });
+		matlab.write("cast", cast, new int[]{ numInSensors, wavelengths.length, specimens.length });
 		matlab.write("wavelengths", wavelengths);
 		
+		writeCollectorSphere("incident", worker.incidentCollector, matlab);
+		writeCollectorSphere("exitant", worker.exitantCollector, matlab);
+
+		matlab.close();
+
+	}
+	
+	/**
+	 * Write the specifications for a <code>CollectorSphere</code> to the
+	 * provided MATLAB target.
+	 * @param name The name to use for the collector sphere.
+	 * @param collector The <code>CollectorSphere</code> to record.
+	 * @param matlab The <code>MatlabWriter</code> to write to.
+	 * @throws IOException If an error occurs while writing to the provided
+	 * 		<code>MatlabWriter</code>.
+	 */
+	private void writeCollectorSphere(String name, CollectorSphere collector, MatlabWriter matlab) throws IOException {
+		
+		int numSensors = collector.sensors();
 		double[] polar = new double[numSensors];
 		double[] azimuthal = new double[numSensors];
 		double[] solidAngle = new double[numSensors];
@@ -201,22 +230,20 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 		                       
 		for (int sensor = 0; sensor < numSensors; sensor++) {
 
-			SphericalCoordinates exitantAngle = worker.collector.getSensorCenter(sensor);
+			SphericalCoordinates exitantAngle = collector.getSensorCenter(sensor);
 			
 			polar[sensor] = exitantAngle.polar();
 			azimuthal[sensor] = exitantAngle.azimuthal();
-			solidAngle[sensor] = worker.collector.getSensorSolidAngle(sensor);
-			projectedSolidAngle[sensor] = worker.collector.getSensorProjectedSolidAngle(sensor);
+			solidAngle[sensor] = collector.getSensorSolidAngle(sensor);
+			projectedSolidAngle[sensor] = collector.getSensorProjectedSolidAngle(sensor);
 
 		}
 		
-		matlab.write("sensorPolarAngle", polar);
-		matlab.write("sensorAzimuthalAngle", azimuthal);
-		matlab.write("sensorSolidAngle", solidAngle);
-		matlab.write("sensorProjectedSolidAngle", projectedSolidAngle);
-
-		matlab.close();
-
+		matlab.write(name + "_sensorPolarAngle", polar);
+		matlab.write(name + "_sensorAzimuthalAngle", azimuthal);
+		matlab.write(name + "_sensorSolidAngle", solidAngle);
+		matlab.write(name + "_sensorProjectedSolidAngle", projectedSolidAngle);
+		
 	}
 
 	/* (non-Javadoc)
@@ -266,18 +293,29 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 		
 		/**
 		 * The prototype <code>CollectorSphere</code> from which clones are
-		 * constructed to record hits to.
+		 * constructed to record hits to (incident direction).
 		 */
-		private final CollectorSphere collector;
+		private final CollectorSphere incidentCollector;
+		
+		/**
+		 * The prototype <code>CollectorSphere</code> from which clones are
+		 * constructed to record hits to (exitant direction).
+		 */
+		private final CollectorSphere exitantCollector;
 
 		/**
 		 * Creates a new <code>PhotometerTaskWorker</code>.
 		 * @param specimen The <code>SurfaceScatterer</code> to be measured.
-		 * @param collector The prototype <code>CollectorSphere</code> from
-		 * 		which clones are constructed to record hits to.
+		 * @param incidentCollector The prototype <code>CollectorSphere</code>
+		 * 		from which clones are constructed to record hits to (incident
+		 * 		direction).
+		 * @param exitantCollector The prototype <code>CollectorSphere</code>
+		 * 		from which clones are constructed to record hits to (exitant
+		 * 		direction).
 		 */
-		public PhotometerTaskWorker(CollectorSphere collector) {
-			this.collector = collector;
+		public PhotometerTaskWorker(CollectorSphere incidentCollector, CollectorSphere exitantCollector) {
+			this.incidentCollector = incidentCollector;
+			this.exitantCollector = exitantCollector;
 		}
 
 		/* (non-Javadoc)
@@ -287,8 +325,9 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 
 			Task				info			= (Task) task;
 			Random				rng				= new SimpleRandom();
-			final int			numSensors		= collector.sensors();
-			final TaskResult	result			= new TaskResult(numSensors);
+			final int			numInSensors	= incidentCollector.sensors();
+			final int			numOutSensors	= exitantCollector.sensors();
+			final TaskResult	result			= new TaskResult(numInSensors, numOutSensors);
 			final long			progInterval	= MathUtil.clamp(info.samples / 1000, 1, 1000);
 			long				progCountdown	= 1;
 			final int[]			sensor0			= new int[]{ -1 };
@@ -307,7 +346,7 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 				sensor0[0] = -1;
 				do {
 					in = RandomUtil.uniformOnSphere(rng).toCartesian();
-					collector.record(in, new Callback() {
+					incidentCollector.record(in, new Callback() {
 						public void record(int sensor) {
 							result.cast[sensor]++;
 							sensor0[0] = sensor;
@@ -318,9 +357,9 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 				Vector3 v = info.specimen.scatter(SurfacePointGeometry.STANDARD, in, false, info.wavelength, rng);
 				
 				if (v != null) {
-					collector.record(v, new Callback() {
+					exitantCollector.record(v, new Callback() {
 						public void record(int sensor) {
-							result.sca[sensor0[0] * numSensors + sensor]++;
+							result.sca[sensor0[0] * numOutSensors + sensor]++;
 						}
 					});
 				} else {
