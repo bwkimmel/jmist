@@ -806,7 +806,7 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 		double[] slices = new double[]{ 0.0, 2.0 * Math.PI };
 		CollectorSphere collector = new UncappedLatLongCollectorSphere(stacks, slices);
 //		CollectorSphere collector = new EqualPolarAnglesCollectorSphere(90, 1, true, true);
-		double[] wavelengths = new double[]{ 550e-9 };
+		double wavelength = 550e-9;
 		
 		ABMSurfaceScatterer abm = new ABMSurfaceScatterer();
 		abm.build();
@@ -818,13 +818,15 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 ////				SurfaceScatterer.REFLECT
 ////				new FresnelSurfaceScatterer(1.0, 1.5)
 //		};
-		int numLayers = abm.subsurface.getNumLayers();
-		SurfaceScatterer[] specimens = abm.subsurface.getLayers().toArray(new SurfaceScatterer[numLayers]);
-		
 		int N = 100000000;
-		int m = N / 8;
-		
-		ParallelizableJob job = new TransferMatrixJob(specimens, wavelengths, N, m, false, ExitantVectorStrategies.DIRECT, collector);
+
+		ParallelizableJob job = new TransferMatrixJob.Builder()
+				.addSpecimens(abm.subsurface.getLayers())
+				.addWavelength(wavelength)
+				.setCollectorSphere(collector)
+				.setSamplesPerMeasurement(N)
+				.setTasksPerMeasurement(8)
+				.build();
 
 		int threads = Runtime.getRuntime().availableProcessors();
 

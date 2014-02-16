@@ -27,6 +27,8 @@ package ca.eandb.jmist.framework.job;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import ca.eandb.jdcp.job.AbstractParallelizableJob;
 import ca.eandb.jdcp.job.TaskWorker;
@@ -34,6 +36,7 @@ import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.SurfacePointGeometry;
 import ca.eandb.jmist.framework.measurement.CollectorSphere;
 import ca.eandb.jmist.framework.measurement.CollectorSphere.Callback;
+import ca.eandb.jmist.framework.measurement.SpectrophotometerCollectorSphere;
 import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.framework.random.SimpleRandom;
 import ca.eandb.jmist.framework.scatter.SurfaceScatterer;
@@ -41,6 +44,7 @@ import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.SphericalCoordinates;
 import ca.eandb.jmist.math.Vector3;
 import ca.eandb.jmist.util.matlab.MatlabWriter;
+import ca.eandb.util.DoubleArray;
 import ca.eandb.util.io.Archive;
 import ca.eandb.util.progress.ProgressMonitor;
 
@@ -125,7 +129,210 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 	private transient long outstandingSamplesPerMeasurement = 0;
 	private transient int tasksReturned = 0;
 
-	public TransferMatrixJob(SurfaceScatterer[] specimens, double[] wavelengths,
+	/** A builder for creating <code>TransferMatrixJob</code>s. */
+	public static final class Builder {
+
+		/** Default number of samples per measurement. */
+		public static final long DEFAULT_SAMPLES_PER_MEASUREMENT = 10000;
+
+		private final List<SurfaceScatterer> specimens = new ArrayList<SurfaceScatterer>();
+		private final DoubleArray wavelengths = new DoubleArray();
+		private boolean adjoint = false;
+		private long samplesPerMeasurement = 0;
+		private long samplesPerTask = 0;
+		private ExitantVectorStrategy exitantVectorStrategy = ExitantVectorStrategies.DIRECT;
+		private CollectorSphere incidentCollector = null;
+		private CollectorSphere exitantCollector = null;
+
+		/** Create the <code>TransferMatrixJob</code> instance. */
+		public TransferMatrixJob build() {
+			setDefaults();
+			return new TransferMatrixJob(
+					specimens.toArray((SurfaceScatterer[]) null),
+					wavelengths.toDoubleArray(),
+					samplesPerMeasurement,
+					samplesPerTask,
+					adjoint,
+					exitantVectorStrategy,
+					incidentCollector,
+					exitantCollector);
+		}
+
+		/** Sets any default parameters that were not specified by the client. */
+		private void setDefaults() {
+			if (samplesPerMeasurement <= 0) {
+				samplesPerMeasurement = DEFAULT_SAMPLES_PER_MEASUREMENT;
+			}
+			if (samplesPerTask <= 0) {
+				samplesPerTask = samplesPerMeasurement;
+			}
+			if (incidentCollector == null) {
+				incidentCollector = new SpectrophotometerCollectorSphere();
+			}
+			if (exitantCollector == null) {
+				exitantCollector = new SpectrophotometerCollectorSphere();
+			}
+		}
+
+		/**
+		 * Adds the provided <code>SurfaceScatterer</code> specimen to the job.
+		 * @param specimens The <code>SurfaceScatterer</code> specimen to add.
+		 * @return A reference to this <code>Builder</code>.
+		 */
+		public Builder addSpecimen(SurfaceScatterer specimen) {
+			specimens.add(specimen);
+			return this;
+		}
+
+		/**
+		 * Adds the provided <code>SurfaceScatterer</code> specimens to the job.
+		 * @param specimens The <code>SurfaceScatterer</code> specimens to add.
+		 * @return A reference to this <code>Builder</code>.
+		 */
+		public Builder addSpecimens(Iterable<SurfaceScatterer> specimens) {
+			for (SurfaceScatterer specimen : specimens) {
+				this.specimens.add(specimen);
+			}
+			return this;
+		}
+
+		/**
+		 * Adds the specified wavelength to the job.
+		 * @param wavelength The wavelength to add.
+		 * @return A reference to this <code>Builder</code>.
+		 */
+		public Builder addWavelength(double wavelength) {
+			wavelengths.add(wavelength);
+			return this;
+		}
+
+		/**
+		 * Adds the specified wavelengths to the job.
+		 * @param wavelength The array of wavelengths to add.
+		 * @return A reference to this <code>Builder</code>.
+		 */
+		public Builder addWavelengths(double[] wavelengths) {
+			this.wavelengths.addAll(wavelengths);
+			return this;
+		}
+
+		/**
+		 * Adds the specified wavelengths to the job.
+		 * @param wavelength The list of wavelengths to add.
+		 * @return A reference to this <code>Builder</code>.
+		 */
+		public Builder addWavelengths(Iterable<Double> wavelengths) {
+			for (double wavelength : wavelengths) {
+				this.wavelengths.add(wavelength);
+			}
+			return this;
+		}
+
+		/**
+		 * Sets a value indicating whether to trace rays in the reverse
+		 * direction (i.e., from the eye direction).
+		 * @param adjoint A value indicating whether to trace rays in the
+		 * 		reverse direction (i.e., from the eye direction).
+		 * @return A reference to this <code>Builder</code>.
+		 */
+		public Builder setAdjoint(boolean adjoint) {
+			this.adjoint = adjoint;
+			return this;
+		}
+
+		/**
+		 * Sets the number of samples to use for each measurement (i.e., for
+		 * each specimen/wavelength pair).
+		 * @param samplesPerMeasurement The number of samples to use for each
+		 * 		measurement.
+		 * @return A reference to this <code>Builder</code>.
+		 */
+		public Builder setSamplesPerMeasurement(long samplesPerMeasurement) {
+			this.samplesPerMeasurement = samplesPerMeasurement;
+			return this;
+		}
+
+		/**
+		 * Sets the number of samples to use for each task.
+		 * @param samplesPerTask The number of samples to use for each task.
+		 * @return A reference to this <code>Builder</code>.
+		 */
+		public Builder setSamplesPerTask(long samplesPerTask) {
+			this.samplesPerTask = samplesPerTask;
+			return this;
+		}
+
+		/**
+		 * Sets the number of samples to use for each task to target the
+		 * specified number of tasks per measurement.  The number of samples
+		 * per measurement must already have been set.
+		 * @param tasksPerMeasurement The target number of tasks per
+		 * 		measurement.
+		 * @return A reference to this <code>Builder</code>.
+		 * @throws IllegalStateException If the number of samples per
+		 * 		measurement has not been set.
+		 * @see #setSamplesPerMeasurement(long)
+		 * @see #setSamplesPerTask(long)
+		 */
+		public Builder setTasksPerMeasurement(long tasksPerMeasurement) {
+			if (samplesPerMeasurement <= 0) {
+				throw new IllegalStateException("Samples per measurement must be specified before tasks per measurement");
+			}
+			samplesPerTask = samplesPerMeasurement / tasksPerMeasurement;
+			if (samplesPerMeasurement % tasksPerMeasurement != 0) {
+				samplesPerTask++;
+			}
+			return this;
+		}
+
+		/**
+		 * Sets the exitant vector parameterization to use.
+		 * @param exitantVectorStrategy The <code>ExitantVectorStrategy</code>
+		 * 		to use.
+		 * @return A reference to this <code>Builder</code>.
+		 */
+		public Builder setExitantVectorStrategy(ExitantVectorStrategy exitantVectorStrategy) {
+			this.exitantVectorStrategy = exitantVectorStrategy;
+			return this;
+		}
+
+		/**
+		 * Sets the <code>CollectorSphere</code> to use for both the incident
+		 * and exitant vectors.
+		 * @param collector The <code>CollectorSphere</code> to use.
+		 * @return A reference to this <code>Builder</code>.
+		 */
+		public Builder setCollectorSphere(CollectorSphere collector) {
+			this.incidentCollector = collector;
+			this.exitantCollector = collector;
+			return this;
+		}
+
+		/**
+		 * Sets the <code>CollectorSphere</code> to use for the incident
+		 * directions.
+		 * @param incidentCollector The <code>CollectorSphere</code> to use.
+		 * @return A reference to this <code>Builder</code>.
+		 */
+		public Builder setIncidentCollectorSphere(CollectorSphere incidentCollector) {
+			this.incidentCollector = incidentCollector;
+			return this;
+		}
+
+		/**
+		 * Sets the <code>CollectorSphere</code> to use for the exitant
+		 * directions.
+		 * @param exitantCollector The <code>CollectorSphere</code> to use.
+		 * @return A reference to this <code>Builder</code>.
+		 */
+		public Builder setExitantCollectorSphere(CollectorSphere exitantCollector) {
+			this.exitantCollector = exitantCollector;
+			return this;
+		}
+
+	}
+
+	private TransferMatrixJob(SurfaceScatterer[] specimens, double[] wavelengths,
 			long samplesPerMeasurement, long samplesPerTask, boolean adjoint,
 			ExitantVectorStrategy exitantVectorStrategy,
 			CollectorSphere incidentCollector, CollectorSphere exitantCollector) {
@@ -133,8 +340,8 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 		this.worker						= new PhotometerTaskWorker(
 												incidentCollector, exitantCollector, 
 												exitantVectorStrategy, adjoint);
-		this.specimens					= specimens.clone();
-		this.wavelengths				= wavelengths.clone();
+		this.specimens					= specimens;
+		this.wavelengths				= wavelengths;
 		this.samplesPerMeasurement		= samplesPerMeasurement;
 		this.samplesPerTask				= samplesPerTask;
 		this.totalTasks					= specimens.length
@@ -143,14 +350,6 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 														: 0));
 
 
-	}
-
-	public TransferMatrixJob(SurfaceScatterer[] specimens, double[] wavelengths,
-			long samplesPerMeasurement, long samplesPerTask, boolean adjoint,
-			ExitantVectorStrategy exitantVectorStrategy,
-			CollectorSphere collector) {
-		this(specimens, wavelengths, samplesPerMeasurement, samplesPerTask,
-				adjoint, exitantVectorStrategy, collector, collector);
 	}
 
 	/* (non-Javadoc)
