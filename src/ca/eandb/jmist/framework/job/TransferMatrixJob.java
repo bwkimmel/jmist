@@ -69,10 +69,10 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 	private transient int tasksReturned = 0;
 
 	public TransferMatrixJob(SurfaceScatterer[] specimens, double[] wavelengths,
-			long samplesPerMeasurement, long samplesPerTask,
+			long samplesPerMeasurement, long samplesPerTask, boolean adjoint,
 			CollectorSphere incidentCollector, CollectorSphere exitantCollector) {
 
-		this.worker						= new PhotometerTaskWorker(incidentCollector, exitantCollector);
+		this.worker						= new PhotometerTaskWorker(incidentCollector, exitantCollector, adjoint);
 		this.specimens					= specimens.clone();
 		this.wavelengths				= wavelengths.clone();
 		this.samplesPerMeasurement		= samplesPerMeasurement;
@@ -86,9 +86,10 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 	}
 
 	public TransferMatrixJob(SurfaceScatterer[] specimens, double[] wavelengths,
-			long samplesPerMeasurement, long samplesPerTask,
+			long samplesPerMeasurement, long samplesPerTask, boolean adjoint,
 			CollectorSphere collector) {
-		this(specimens, wavelengths, samplesPerMeasurement, samplesPerTask, collector, collector);
+		this(specimens, wavelengths, samplesPerMeasurement, samplesPerTask,
+				adjoint, collector, collector);
 	}
 
 	/* (non-Javadoc)
@@ -203,6 +204,7 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 		matlab.write("abs", abs, new int[]{ numInSensors, wavelengths.length, specimens.length });
 		matlab.write("cast", cast, new int[]{ numInSensors, wavelengths.length, specimens.length });
 		matlab.write("wavelengths", wavelengths);
+		matlab.write("adjoint", worker.adjoint);
 		
 		writeCollectorSphere("incident", worker.incidentCollector, matlab);
 		writeCollectorSphere("exitant", worker.exitantCollector, matlab);
@@ -302,6 +304,9 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 		 * constructed to record hits to (exitant direction).
 		 */
 		private final CollectorSphere exitantCollector;
+		
+		/** Indicates whether to trace the ray backwards (i.e., from the eye). */
+		private final boolean adjoint;
 
 		/**
 		 * Creates a new <code>PhotometerTaskWorker</code>.
@@ -313,9 +318,11 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 		 * 		from which clones are constructed to record hits to (exitant
 		 * 		direction).
 		 */
-		public PhotometerTaskWorker(CollectorSphere incidentCollector, CollectorSphere exitantCollector) {
+		public PhotometerTaskWorker(CollectorSphere incidentCollector,
+				CollectorSphere exitantCollector, boolean adjoint) {
 			this.incidentCollector = incidentCollector;
 			this.exitantCollector = exitantCollector;
+			this.adjoint = adjoint;
 		}
 
 		/* (non-Javadoc)
@@ -354,7 +361,7 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 					});
 				} while (sensor0[0] < 0);
 				
-				Vector3 v = info.specimen.scatter(SurfacePointGeometry.STANDARD, in, false, info.wavelength, rng);
+				Vector3 v = info.specimen.scatter(SurfacePointGeometry.STANDARD, in, adjoint, info.wavelength, rng);
 				
 				if (v != null) {
 					exitantCollector.record(v, new Callback() {

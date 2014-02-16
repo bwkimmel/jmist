@@ -823,7 +823,7 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 		int N = 100000000;
 		int m = N / 8;
 		
-		ParallelizableJob job = new TransferMatrixJob(specimens, wavelengths, N, m, collector);
+		ParallelizableJob job = new TransferMatrixJob(specimens, wavelengths, N, m, false, collector);
 
 		int threads = Runtime.getRuntime().availableProcessors();
 
