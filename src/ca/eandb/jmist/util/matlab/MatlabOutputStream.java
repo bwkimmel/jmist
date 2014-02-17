@@ -199,26 +199,35 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 			dimensions = new int[]{ elements, 1 };
 		}
 
-		int bytes = 0;
+		if (dataType.size > 0) {
 
-		/* size of array flags */
-		bytes += MATLAB_TAG_SIZE + MATLAB_ARRAY_FLAGS_SIZE;
+			int bytes = 0;
 
-		/* size of dimensions */
-		bytes += MATLAB_TAG_SIZE + roundToBoundary(dimensions.length * MatlabDataType.INT32.size);
+			/* size of array flags */
+			bytes += MATLAB_TAG_SIZE + MATLAB_ARRAY_FLAGS_SIZE;
 
-		/* size of array name */
-		bytes += MATLAB_TAG_SIZE + roundToBoundary(name.length());
+			/* size of dimensions */
+			bytes += MATLAB_TAG_SIZE + roundToBoundary(dimensions.length * MatlabDataType.INT32.size);
 
-		/* size of real data */
-		bytes += MATLAB_TAG_SIZE + roundToBoundary(elements * dataType.size);
+			/* size of array name */
+			bytes += MATLAB_TAG_SIZE + roundToBoundary(name.length());
 
-		/* size of imaginary data (optional) */
-		if (complex) {
+			/* size of real data */
 			bytes += MATLAB_TAG_SIZE + roundToBoundary(elements * dataType.size);
+
+			/* size of imaginary data (optional) */
+			if (complex) {
+				bytes += MATLAB_TAG_SIZE + roundToBoundary(elements * dataType.size);
+			}
+
+			this.beginElement(MatlabDataType.MATRIX, bytes);
+
+		} else { // dataType.size == 0
+
+			this.beginElement(MatlabDataType.MATRIX);
+
 		}
 
-		this.beginElement(MatlabDataType.MATRIX, bytes);
 		this.writeArrayFlagsElement(arrayType, complex, global, logical);
 		this.writeArrayDimensionsElement(dimensions);
 		this.writeArrayNameElement(name);
@@ -378,7 +387,7 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 	 */
 	public void writeElement(String s) throws IOException {
 		this.writePrimitiveElementTag(MatlabDataType.UINT16, s.length());
-		this.stream().writeChars(s);
+		this.stream().write(s.getBytes("UTF-16BE"));
 	}
 
 	/**

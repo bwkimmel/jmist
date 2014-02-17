@@ -162,6 +162,16 @@ public final class MatlabWriter {
 	}
 
 	/**
+	 * Writes a one-dimensional array of <code>String</code>s to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param p The array of elements to write.
+	 * @throws IOException If writing to the underlying stream fails.
+	 */
+	public void write(String name, String[] p) throws IOException {
+		write(name, p, new int[]{ p.length, 1 });
+	}
+
+	/**
 	 * Writes a <code>double</code> array variable to the MAT-file.
 	 * @param name The name of the variable.
 	 * @param pr The real parts of the array elements.
@@ -501,6 +511,155 @@ public final class MatlabWriter {
 	 */
 	public void write(String name, float value, boolean global) throws IOException {
 		this.write(name, new float[]{ value }, SINGLETON, global);
+	}
+
+	/**
+	 * Writes a <code>String</code> value to the underlying stream.
+	 * @param value The <code>String</code> to write.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	private void writeString(String value) throws IOException {
+
+		int length = value.length();
+
+		this.out.beginArrayElement("", MatlabArrayType.CHAR,
+				MatlabDataType.UINT16, false, false, false, new int[]{ 1, length },
+				length);
+
+		this.out.writeElement(value);
+		this.out.endElement();
+
+	}
+
+	/**
+	 * Writes an array of <code>String</code> values to the underlying stream.
+	 * @param array The array of <code>float</code> values to write.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	private void writeStrings(String[] array) throws IOException {
+		this.writeStrings(array, 0, array.length);
+	}
+
+	/**
+	 * Writes an array of <code>String</code> values to the underlying stream.
+	 * @param array The array of <code>String</code> values to write.
+	 * @param ofs The index of the first element in <code>array</code> to
+	 * 		write.
+	 * @param len The number of elements of <code>array</code> to write.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	private void writeStrings(String[] array, int ofs, int len) throws IOException {
+		for (int i = 0; i < len; i++) {
+			this.writeString(array[ofs + i]);
+		}
+	}
+
+	/**
+	 * Writes an array of <code>String</code> values to the underlying stream.
+	 * @param array The array of <code>String</code> values to write.
+	 * @param dims The dimensions of the array.
+	 * @param strides The distance between consecutive array entries along each
+	 * 		dimension.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	private void writeStrings(String[] array, int[] dims, int[] strides) throws IOException {
+		if (strides != null) {
+			if (dims == null) {
+				throw new IllegalArgumentException("dims == null || strides == null");
+			} else if (dims.length != strides.length) {
+				throw new IllegalArgumentException("dims.length != strides.length");
+			} else if (dims.length == 0) {
+				throw new IllegalArgumentException("dims.length == 0");
+			}
+			writeStrings(array, 0, dims.length - 1, dims, strides);
+		} else {
+			writeStrings(array);
+		}
+	}
+
+	/**
+	 * Writes an array of <code>String</code> values to the underlying stream.
+	 * @param array The array of <code>String</code> values to write.
+	 * @param ofs The index of the first element in <code>array</code> to
+	 * 		write.
+	 * @param d The dimension being written.
+	 * @param dims The dimensions of the array.
+	 * @param strides The distance between consecutive array entries along each
+	 * 		dimension.
+	 * @throws IOException if writing to the underlying stream fails.
+	 */
+	private void writeStrings(String[] array, int ofs, int d, int[] dims, int[] strides) throws IOException {
+		int dim = dims[d];
+		int stride = strides[d];
+		if (d > 0) {
+			for (int i = 0; i < dim; i++, ofs += stride) {
+				writeStrings(array, ofs, d - 1, dims, strides);
+			}
+		} else {
+			for (int i = 0; i < dim; i++, ofs += stride) {
+				writeString(array[ofs]);
+			}
+		}
+	}
+
+	/**
+	 * Writes a <code>String</code> cell-array variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param array The real parts of the array elements.
+	 * @param dimensions The array dimensions (there must be at least two
+	 * 		dimensions and the product of the dimensions must be
+	 * 		<code>array.length</code>).
+	 * @throws IOException if writing to the underlying stream fails.
+	 * @throws IllegalArgumentException if the product of
+	 * 		<code>dimensions</code> is not equal to <code>array.length</code>.
+	 */
+	public void write(String name, String[] array, int[] dimensions) throws IOException {
+		this.write(name, array, dimensions, false);
+	}
+
+	/**
+	 * Writes a <code>String</code> cell-array variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param array The real parts of the array elements.
+	 * @param dimensions The array dimensions (there must be at least two
+	 * 		dimensions and the product of the dimensions must be
+	 * 		<code>array.length</code>).
+	 * @param global A value indicating if the variable is to have global scope.
+	 * @throws IOException if writing to the underlying stream fails.
+	 * @throws IllegalArgumentException if the product of
+	 * 		<code>dimensions</code> is not equal to <code>array.length</code>.
+	 */
+	public void write(String name, String[] array, int[] dimensions, boolean global) throws IOException {
+		this.write(name, array, dimensions, null, global);
+	}
+
+	/**
+	 * Writes a <code>String</code> cell-array variable to the MAT-file.
+	 * @param name The name of the variable.
+	 * @param array The real parts of the array elements.
+	 * @param dimensions The array dimensions (there must be at least two
+	 * 		dimensions and the product of the dimensions must be
+	 * 		<code>array.length</code>).
+	 * @param strides The differences between indices into <code>pr</code> of
+	 * 		consecutive entries along each dimension (must be equal in length
+	 * 		to <code>dimensions</code>).
+	 * @param global A value indicating if the variable is to have global scope.
+	 * @throws IOException if writing to the underlying stream fails.
+	 * @throws IllegalArgumentException if the product of
+	 * 		<code>dimensions</code> is not equal to <code>array.length</code>.
+	 */
+	public void write(String name, String[] p, int[] dimensions, int[] strides, boolean global) throws IOException {
+
+		this.out.beginElement(MatlabDataType.COMPRESSED);
+		this.out.beginArrayElement(name, MatlabArrayType.CELL,
+				MatlabDataType.MATRIX, false, global, false, dimensions,
+				p.length);
+
+		this.writeStrings(p, dimensions, strides);
+
+		this.out.endElement();
+		this.out.endElement();
+
 	}
 
 	/**
