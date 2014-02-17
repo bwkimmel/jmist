@@ -32,11 +32,13 @@ import java.util.List;
 
 import ca.eandb.jdcp.job.AbstractParallelizableJob;
 import ca.eandb.jdcp.job.TaskWorker;
+import ca.eandb.jmist.framework.ProbabilityDensityFunction;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.SurfacePointGeometry;
 import ca.eandb.jmist.framework.measurement.CollectorSphere;
 import ca.eandb.jmist.framework.measurement.CollectorSphere.Callback;
 import ca.eandb.jmist.framework.measurement.SpectrophotometerCollectorSphere;
+import ca.eandb.jmist.framework.pdf.DiracProbabilityDensityFunction;
 import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.framework.random.SimpleRandom;
 import ca.eandb.jmist.framework.scatter.SurfaceScatterer;
@@ -44,7 +46,6 @@ import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.SphericalCoordinates;
 import ca.eandb.jmist.math.Vector3;
 import ca.eandb.jmist.util.matlab.MatlabWriter;
-import ca.eandb.util.DoubleArray;
 import ca.eandb.util.io.Archive;
 import ca.eandb.util.progress.ProgressMonitor;
 
@@ -118,7 +119,8 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 	private final PhotometerTaskWorker worker;
 
 	private final SurfaceScatterer[] specimens;
-	private final double[] wavelengths;
+	private final ProbabilityDensityFunction[] channels;
+	private final String[] channelNames;
 	private final long samplesPerMeasurement;
 	private final long samplesPerTask;
 	private final int totalTasks;
@@ -136,7 +138,8 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 		public static final long DEFAULT_SAMPLES_PER_MEASUREMENT = 10000;
 
 		private final List<SurfaceScatterer> specimens = new ArrayList<SurfaceScatterer>();
-		private final DoubleArray wavelengths = new DoubleArray();
+		private final List<ProbabilityDensityFunction> channels = new ArrayList<ProbabilityDensityFunction>();
+		private final List<String> channelNames = new ArrayList<String>();
 		private boolean adjoint = false;
 		private long samplesPerMeasurement = 0;
 		private long samplesPerTask = 0;
@@ -149,7 +152,8 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 			setDefaults();
 			return new TransferMatrixJob(
 					specimens.toArray((SurfaceScatterer[]) null),
-					wavelengths.toDoubleArray(),
+					channels.toArray((ProbabilityDensityFunction[]) null),
+					channelNames.toArray((String[]) null),
 					samplesPerMeasurement,
 					samplesPerTask,
 					adjoint,
@@ -197,13 +201,39 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 		}
 
 		/**
+		 * Add the specified channel to the job.
+		 * @param name The name of the channel.
+		 * @param channel The <code>ProbabilityDensityFunction</code> for the
+		 * 		channel to add.
+		 * @return A reference to this <code>Builder</code>.
+		 */
+		public Builder addChannel(String name, ProbabilityDensityFunction channel) {
+			channelNames.add(name);
+			channels.add(channel);
+			return this;
+		}
+
+		/**
+		 * Add the specified channel to the job.
+		 * @param name The name of the channel.
+		 * @param channel The <code>ProbabilityDensityFunction</code> for the
+		 * 		channel to add.
+		 * @return A reference to this <code>Builder</code>.
+		 */
+		public Builder addChannel(ProbabilityDensityFunction channel) {
+			channelNames.add(String.format("Channel %d", channels.size()));
+			channels.add(channel);
+			return this;
+		}
+
+		/**
 		 * Adds the specified wavelength to the job.
 		 * @param wavelength The wavelength to add.
 		 * @return A reference to this <code>Builder</code>.
 		 */
 		public Builder addWavelength(double wavelength) {
-			wavelengths.add(wavelength);
-			return this;
+			String name = String.format("%d nm", (int) Math.round(wavelength / 1e-9));
+			return addChannel(name, new DiracProbabilityDensityFunction(wavelength));
 		}
 
 		/**
@@ -212,7 +242,9 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 		 * @return A reference to this <code>Builder</code>.
 		 */
 		public Builder addWavelengths(double[] wavelengths) {
-			this.wavelengths.addAll(wavelengths);
+			for (double wavelength : wavelengths) {
+				addWavelength(wavelength);
+			}
 			return this;
 		}
 
@@ -223,7 +255,7 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 		 */
 		public Builder addWavelengths(Iterable<Double> wavelengths) {
 			for (double wavelength : wavelengths) {
-				this.wavelengths.add(wavelength);
+				addWavelength(wavelength);
 			}
 			return this;
 		}
@@ -332,7 +364,8 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 
 	}
 
-	private TransferMatrixJob(SurfaceScatterer[] specimens, double[] wavelengths,
+	private TransferMatrixJob(SurfaceScatterer[] specimens,
+			ProbabilityDensityFunction[] channels, String[] channelNames,
 			long samplesPerMeasurement, long samplesPerTask, boolean adjoint,
 			ExitantVectorStrategy exitantVectorStrategy,
 			CollectorSphere incidentCollector, CollectorSphere exitantCollector) {
@@ -341,11 +374,12 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 												incidentCollector, exitantCollector, 
 												exitantVectorStrategy, adjoint);
 		this.specimens					= specimens;
-		this.wavelengths				= wavelengths;
+		this.channels					= channels;
+		this.channelNames				= channelNames;
 		this.samplesPerMeasurement		= samplesPerMeasurement;
 		this.samplesPerTask				= samplesPerTask;
 		this.totalTasks					= specimens.length
-												* wavelengths.length
+												* channels.length
 												* ((int) (samplesPerMeasurement / samplesPerTask) + ((samplesPerMeasurement % samplesPerTask) > 0 ? 1
 														: 0));
 
@@ -359,9 +393,9 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 	public void initialize() {
 		int numInSensors = worker.incidentCollector.sensors();
 		int numOutSensors = worker.exitantCollector.sensors();
-		this.sca = new int[wavelengths.length * specimens.length * numInSensors * numOutSensors];
-		this.abs = new int[wavelengths.length * specimens.length * numInSensors];
-		this.cast = new int[wavelengths.length * specimens.length * numInSensors];
+		this.sca = new int[channels.length * specimens.length * numInSensors * numOutSensors];
+		this.abs = new int[channels.length * specimens.length * numInSensors];
+		this.cast = new int[channels.length * specimens.length * numInSensors];
 	}
 
 	/*
@@ -375,7 +409,7 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 
 			Task task = this.getPhotometerTask(this.nextMeasurementIndex);
 
-			if (++this.nextMeasurementIndex >= wavelengths.length * specimens.length) {
+			if (++this.nextMeasurementIndex >= channels.length * specimens.length) {
 				this.outstandingSamplesPerMeasurement += this.samplesPerTask;
 				this.nextMeasurementIndex = 0;
 			}
@@ -393,19 +427,19 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 	private Task getPhotometerTask(int measurementIndex) {
 		return new Task(
 				this.getSpecimen(measurementIndex),
-				this.getWavelength(measurementIndex),
+				this.getChannel(measurementIndex),
 				Math.min(samplesPerTask, samplesPerMeasurement - outstandingSamplesPerMeasurement),
 				measurementIndex
 		);
 	}
 	
 	private SurfaceScatterer getSpecimen(int measurementIndex) {
-		return this.specimens[measurementIndex / wavelengths.length];
+		return this.specimens[measurementIndex / channels.length];
 	}
 
-	private double getWavelength(int measurementIndex) {
-		int specimenMeasurementIndex = measurementIndex % wavelengths.length;
-		return this.wavelengths[specimenMeasurementIndex];
+	private ProbabilityDensityFunction getChannel(int measurementIndex) {
+		int specimenMeasurementIndex = measurementIndex % channels.length;
+		return this.channels[specimenMeasurementIndex];
 	}
 	
 	private static final class TaskResult implements Serializable {
@@ -460,10 +494,10 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 		
 		int numInSensors = worker.incidentCollector.sensors();
 		int numOutSensors = worker.exitantCollector.sensors();
-		matlab.write("sca", sca, new int[]{ numOutSensors, numInSensors, wavelengths.length, specimens.length });
-		matlab.write("abs", abs, new int[]{ numInSensors, wavelengths.length, specimens.length });
-		matlab.write("cast", cast, new int[]{ numInSensors, wavelengths.length, specimens.length });
-		matlab.write("wavelengths", wavelengths);
+		matlab.write("sca", sca, new int[]{ numOutSensors, numInSensors, channels.length, specimens.length });
+		matlab.write("abs", abs, new int[]{ numInSensors, channels.length, specimens.length });
+		matlab.write("cast", cast, new int[]{ numInSensors, channels.length, specimens.length });
+		matlab.write("channels", channelNames);
 		matlab.write("adjoint", worker.adjoint);
 		
 		writeCollectorSphere("incident", worker.incidentCollector, matlab);
@@ -533,15 +567,16 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 		/** Serialization version ID. */
 		private static final long serialVersionUID = -5989258164757195409L;
 		
-		public final SurfaceScatterer		specimen;
-		public final double					wavelength;
-		public final long					samples;
-		public final int					measurementIndex;
+		public final SurfaceScatterer			specimen;
+		public final ProbabilityDensityFunction	channel;
+		public final long						samples;
+		public final int						measurementIndex;
 
-		public Task(SurfaceScatterer specimen, double wavelength,
+		public Task(SurfaceScatterer specimen,
+				ProbabilityDensityFunction channel,
 				long samples, int measurementIndex) {
 			this.specimen			= specimen;
-			this.wavelength			= wavelength;
+			this.channel			= channel;
 			this.samples			= samples;
 			this.measurementIndex	= measurementIndex;
 		}
@@ -626,7 +661,8 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 					});
 				} while (sensor0[0] < 0);
 				
-				Vector3 v = info.specimen.scatter(SurfacePointGeometry.STANDARD, in, adjoint, info.wavelength, rng);
+				double wavelength = info.channel.sample(rng);
+				Vector3 v = info.specimen.scatter(SurfacePointGeometry.STANDARD, in, adjoint, wavelength, rng);
 				
 				if (v != null) {
 					v = exitantVectorStrategy.getExitantVector(in, v);
