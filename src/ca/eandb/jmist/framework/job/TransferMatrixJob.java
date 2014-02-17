@@ -151,9 +151,9 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 		public TransferMatrixJob build() {
 			setDefaults();
 			return new TransferMatrixJob(
-					specimens.toArray((SurfaceScatterer[]) null),
-					channels.toArray((ProbabilityDensityFunction[]) null),
-					channelNames.toArray((String[]) null),
+					specimens.toArray(new SurfaceScatterer[0]),
+					channels.toArray(new ProbabilityDensityFunction[0]),
+					channelNames.toArray(new String[0]),
 					samplesPerMeasurement,
 					samplesPerTask,
 					adjoint,
@@ -382,7 +382,6 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 												* channels.length
 												* ((int) (samplesPerMeasurement / samplesPerTask) + ((samplesPerMeasurement % samplesPerTask) > 0 ? 1
 														: 0));
-
 
 	}
 
