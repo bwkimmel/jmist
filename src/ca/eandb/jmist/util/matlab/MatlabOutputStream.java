@@ -1570,7 +1570,7 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 			out.flush();
 
 			if (out.size() != endPosition) {
-				throw new IllegalStateException(String.format("incorrect array length, current position is %d (should be %d).", this.size(), this.endPosition));
+				throw new IllegalStateException(String.format("incorrect array length, current position is %d (should be %d).", out.size(), this.endPosition));
 			}
 
 		}
