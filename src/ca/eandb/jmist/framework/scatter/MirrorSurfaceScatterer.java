@@ -56,6 +56,13 @@ public final class MirrorSurfaceScatterer implements SurfaceScatterer {
 		this.reflectance = reflectance;
 	}
 
+	/**
+	 * Creates a new <code>MirrorSurfaceScatterer</code> with unit reflectance.
+	 */
+	public MirrorSurfaceScatterer() {
+		this(Function1.ONE);
+	}
+
 	/* (non-Javadoc)
 	 * @see ca.eandb.jmist.framework.scatter.SurfaceScatterer#scatter(ca.eandb.jmist.framework.SurfacePointGeometry, ca.eandb.jmist.math.Vector3, boolean, double, ca.eandb.jmist.framework.Random)
 	 */
