@@ -519,29 +519,35 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 	 * 		<code>MatlabWriter</code>.
 	 */
 	private void writeCollectorSphere(String name, CollectorSphere collector, MatlabWriter matlab) throws IOException {
-		
+
 		int numSensors = collector.sensors();
 		double[] polar = new double[numSensors];
 		double[] azimuthal = new double[numSensors];
 		double[] solidAngle = new double[numSensors];
 		double[] projectedSolidAngle = new double[numSensors];
-		                       
+		double[] center = new double[numSensors * 3];
+
 		for (int sensor = 0; sensor < numSensors; sensor++) {
 
 			SphericalCoordinates exitantAngle = collector.getSensorCenter(sensor);
-			
+			Vector3 v = exitantAngle.toCartesian();
+
 			polar[sensor] = exitantAngle.polar();
 			azimuthal[sensor] = exitantAngle.azimuthal();
 			solidAngle[sensor] = collector.getSensorSolidAngle(sensor);
 			projectedSolidAngle[sensor] = collector.getSensorProjectedSolidAngle(sensor);
+			center[sensor * 3 + 0] = v.x();
+			center[sensor * 3 + 1] = v.y();
+			center[sensor * 3 + 2] = v.z();
 
 		}
-		
+
 		matlab.write(name + "_sensorPolarAngle", polar);
 		matlab.write(name + "_sensorAzimuthalAngle", azimuthal);
 		matlab.write(name + "_sensorSolidAngle", solidAngle);
 		matlab.write(name + "_sensorProjectedSolidAngle", projectedSolidAngle);
-		
+		matlab.write(name + "_sensorCenter", center, new int[]{ 3, numSensors });
+
 	}
 
 	/* (non-Javadoc)
