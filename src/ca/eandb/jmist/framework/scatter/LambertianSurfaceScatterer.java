@@ -45,12 +45,34 @@ public final class LambertianSurfaceScatterer implements SurfaceScatterer {
 	/** The reflectance of the surface. */
 	private final Function1 reflectance;
 
+	/** The transmittance of the surface. */
+	private final Function1 transmittance;
+
+	/**
+	 * Creates a new <code>LambertianSurfaceScatterer</code>.
+	 * @param reflectance The reflectance of the surface.
+	 * @param transmittance The transmittance of the surface.
+	 */
+	public LambertianSurfaceScatterer(Function1 reflectance, Function1 transmittance) {
+		this.reflectance = reflectance;
+		this.transmittance = transmittance;
+	}
+
 	/**
 	 * Creates a new <code>LambertianSurfaceScatterer</code>.
 	 * @param reflectance The reflectance of the surface.
 	 */
 	public LambertianSurfaceScatterer(Function1 reflectance) {
-		this.reflectance = reflectance;
+		this(reflectance, Function1.ZERO);
+	}
+
+	/**
+	 * Creates a new <code>LambertianSurfaceScatterer</code>.
+	 * @param reflectance The reflectance of the surface.
+	 * @param transmittance The transmittance of the surface.
+	 */
+	public LambertianSurfaceScatterer(double reflectance, double transmittance) {
+		this(new ConstantFunction1(reflectance), new ConstantFunction1(transmittance));
 	}
 
 	/**
@@ -66,7 +88,7 @@ public final class LambertianSurfaceScatterer implements SurfaceScatterer {
 	 * reflectance.
 	 */
 	public LambertianSurfaceScatterer() {
-		this(Function1.ONE);
+		this(Function1.ONE, Function1.ZERO);
 	}
 
 	/* (non-Javadoc)
@@ -76,9 +98,16 @@ public final class LambertianSurfaceScatterer implements SurfaceScatterer {
 			boolean adjoint, double lambda, Random rnd) {
 
 		double r = reflectance.evaluate(lambda);
-		if (RandomUtil.bernoulli(r, rnd)) {
+		double u = rnd.next() - r;
+		if (u < 0.0) {
 			Vector3 out = RandomUtil.diffuse(rnd).toCartesian(x.getBasis());
 			return (v.dot(x.getNormal()) < 0.0) ? out : out.opposite();
+		}
+		double t = transmittance.evaluate(lambda);
+		u -= t;
+		if (u < 0.0) {
+			Vector3 out = RandomUtil.diffuse(rnd).toCartesian(x.getBasis());
+			return (v.dot(x.getNormal()) < 0.0) ? out.opposite() : out;
 		}
 
 		return null;
