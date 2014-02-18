@@ -97,6 +97,9 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 		/** Record the half-angle vector. */
 		HALF_ANGLE {
 			public Vector3 getExitantVector(Vector3 in, Vector3 out) {
+				if (in.z() * out.z() > 0.0) {
+					in = new Vector3(in.x(), in.y(), -in.z());
+				}
 				return out.minus(in).unit();
 			}
 		},
