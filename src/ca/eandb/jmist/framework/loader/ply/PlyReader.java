@@ -45,7 +45,7 @@ import ca.eandb.util.progress.ProgressMonitor;
 public final class PlyReader {
 
 	/** The latest version of the PLY format supported. */
-	private static final String Ply_VERSION = "1.0";
+	private static final String PLY_VERSION = "1.0";
 
 	/** The number of elements to read between progress updates. */
 	private static final int PROGRESS_INTERVAL = 100;
@@ -175,7 +175,7 @@ public final class PlyReader {
 				checkArgs(args, 2);
 				format = args[1];
 				String version = args[2];
-				if (version.compareTo(Ply_VERSION) > 0) {
+				if (version.compareTo(PLY_VERSION) > 0) {
 					throw new RuntimeException(String.format(
 							"Unsupported PLY version (%s)", version));
 				}
