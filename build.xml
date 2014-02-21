@@ -66,7 +66,7 @@
 	</target>
 
 	<target name="compile" depends="jar-deps">
-		<javac target="1.5" source="1.5" srcdir="${src.dir}" destdir="${classes.dir}" >
+		<javac target="1.7" source="1.7" srcdir="${src.dir}" destdir="${classes.dir}" >
 			<classpath>
 				<path location="${eandb.util.jar.file}"/>
 				<path location="${jdcp.jar.file}"/>
