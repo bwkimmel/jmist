@@ -122,6 +122,7 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 	private final PhotometerTaskWorker worker;
 
 	private final SurfaceScatterer[] specimens;
+	private final String[] specimenNames;
 	private final ProbabilityDensityFunction[] channels;
 	private final String[] channelNames;
 	private final long samplesPerMeasurement;
@@ -141,6 +142,7 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 		public static final long DEFAULT_SAMPLES_PER_MEASUREMENT = 10000;
 
 		private final List<SurfaceScatterer> specimens = new ArrayList<SurfaceScatterer>();
+		private final List<String> specimenNames = new ArrayList<String>();
 		private final List<ProbabilityDensityFunction> channels = new ArrayList<ProbabilityDensityFunction>();
 		private final List<String> channelNames = new ArrayList<String>();
 		private boolean adjoint = false;
@@ -155,6 +157,7 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 			setDefaults();
 			return new TransferMatrixJob(
 					specimens.toArray(new SurfaceScatterer[0]),
+					specimenNames.toArray(new String[0]),
 					channels.toArray(new ProbabilityDensityFunction[0]),
 					channelNames.toArray(new String[0]),
 					samplesPerMeasurement,
@@ -183,10 +186,23 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 
 		/**
 		 * Adds the provided <code>SurfaceScatterer</code> specimen to the job.
-		 * @param specimens The <code>SurfaceScatterer</code> specimen to add.
+		 * @param name The name of the specimen.
+		 * @param specimen The <code>SurfaceScatterer</code> specimen to add.
+		 * @return A reference to this <code>Builder</code>.
+		 */
+		public Builder addSpecimen(String name, SurfaceScatterer specimen) {
+			specimenNames.add(name);
+			specimens.add(specimen);
+			return this;
+		}
+
+		/**
+		 * Adds the provided <code>SurfaceScatterer</code> specimen to the job.
+		 * @param specimen The <code>SurfaceScatterer</code> specimen to add.
 		 * @return A reference to this <code>Builder</code>.
 		 */
 		public Builder addSpecimen(SurfaceScatterer specimen) {
+			specimenNames.add(String.format("Specimen %d", specimens.size()));
 			specimens.add(specimen);
 			return this;
 		}
@@ -367,16 +383,17 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 
 	}
 
-	private TransferMatrixJob(SurfaceScatterer[] specimens,
+	private TransferMatrixJob(SurfaceScatterer[] specimens, String[] specimenNames,
 			ProbabilityDensityFunction[] channels, String[] channelNames,
 			long samplesPerMeasurement, long samplesPerTask, boolean adjoint,
 			ExitantVectorStrategy exitantVectorStrategy,
 			CollectorSphere incidentCollector, CollectorSphere exitantCollector) {
 
 		this.worker						= new PhotometerTaskWorker(
-												incidentCollector, exitantCollector, 
+												incidentCollector, exitantCollector,
 												exitantVectorStrategy, adjoint);
 		this.specimens					= specimens;
+		this.specimenNames				= specimenNames;
 		this.channels					= channels;
 		this.channelNames				= channelNames;
 		this.samplesPerMeasurement		= samplesPerMeasurement;
@@ -434,7 +451,7 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 				measurementIndex
 		);
 	}
-	
+
 	private SurfaceScatterer getSpecimen(int measurementIndex) {
 		return this.specimens[measurementIndex / channels.length];
 	}
@@ -443,22 +460,22 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 		int specimenMeasurementIndex = measurementIndex % channels.length;
 		return this.channels[specimenMeasurementIndex];
 	}
-	
+
 	private static final class TaskResult implements Serializable {
-		
+
 		/** Serialization version ID. */
 		private static final long serialVersionUID = -1374555802323806923L;
-		
+
 		public final int[] sca;
 		public final int[] abs;
 		public final int[] cast;
-		
+
 		public TaskResult(int numInSensors, int numOutSensors) {
 			sca = new int[numInSensors * numOutSensors];
 			abs = new int[numInSensors];
 			cast = new int[numInSensors];
 		}
-		
+
 	}
 
 	/* (non-Javadoc)
@@ -475,7 +492,7 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 		MathUtil.addRange(sca, info.measurementIndex * numInSensors * numOutSensors, tr.sca);
 		MathUtil.addRange(abs, info.measurementIndex * numInSensors, tr.abs);
 		MathUtil.addRange(cast, info.measurementIndex * numInSensors, tr.cast);
-		
+
 		monitor.notifyProgress(++this.tasksReturned, this.totalTasks);
 
 	}
@@ -493,22 +510,23 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 	public void finish() throws IOException {
 
 		MatlabWriter matlab = new MatlabWriter(createFileOutputStream("tm.mat"));
-		
+
 		int numInSensors = worker.incidentCollector.sensors();
 		int numOutSensors = worker.exitantCollector.sensors();
 		matlab.write("sca", sca, new int[]{ numOutSensors, numInSensors, channels.length, specimens.length });
 		matlab.write("abs", abs, new int[]{ numInSensors, channels.length, specimens.length });
 		matlab.write("cast", cast, new int[]{ numInSensors, channels.length, specimens.length });
+		matlab.write("specimens", specimenNames);
 		matlab.write("channels", channelNames);
 		matlab.write("adjoint", worker.adjoint);
-		
+
 		writeCollectorSphere("incident", worker.incidentCollector, matlab);
 		writeCollectorSphere("exitant", worker.exitantCollector, matlab);
 
 		matlab.close();
 
 	}
-	
+
 	/**
 	 * Write the specifications for a <code>CollectorSphere</code> to the
 	 * provided MATLAB target.
@@ -574,7 +592,7 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 
 		/** Serialization version ID. */
 		private static final long serialVersionUID = -5989258164757195409L;
-		
+
 		public final SurfaceScatterer			specimen;
 		public final ProbabilityDensityFunction	channel;
 		public final long						samples;
@@ -595,19 +613,19 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 
 		/** Serialization version ID. */
 		private static final long serialVersionUID = -7665433785262998136L;
-		
+
 		/**
 		 * The prototype <code>CollectorSphere</code> from which clones are
 		 * constructed to record hits to (incident direction).
 		 */
 		private final CollectorSphere incidentCollector;
-		
+
 		/**
 		 * The prototype <code>CollectorSphere</code> from which clones are
 		 * constructed to record hits to (exitant direction).
 		 */
 		private final CollectorSphere exitantCollector;
-		
+
 		/** The transformation to apply to the exitant vector before recording. */
 		private final ExitantVectorStrategy exitantVectorStrategy;
 
@@ -646,9 +664,9 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 			final long			progInterval	= MathUtil.clamp(info.samples / 1000, 1, 1000);
 			long				progCountdown	= 1;
 			final int[]			sensor0			= new int[]{ -1 };
-			
+
 			for (long i = 0; i < info.samples; i++) {
-				
+
 				if (--progCountdown == 0) {
 					if (!monitor.notifyProgress((double) i / (double) info.samples)) {
 						monitor.notifyCancelled();
@@ -682,14 +700,14 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 				} else {
 					result.abs[sensor0[0]]++;
 				}
-				
+
 			}
-			
+
 			monitor.notifyProgress(1.0);
 			monitor.notifyComplete();
-			
+
 			return result;
-			
+
 		}
 
 	}
