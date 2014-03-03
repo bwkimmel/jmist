@@ -100,7 +100,7 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 				if (in.z() * out.z() > 0.0) {
 					in = new Vector3(in.x(), in.y(), -in.z());
 				}
-				return out.minus(in).unit();
+				return out.unit().minus(in.unit()).unit();
 			}
 		},
 
