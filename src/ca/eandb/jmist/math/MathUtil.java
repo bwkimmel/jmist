@@ -1111,7 +1111,7 @@ public final class MathUtil {
 		}
 		return accumulator;
 	}
-	
+
 	/**
 	 * Adds a value to all elements of an array in place.
 	 * @param x The array to add to.
@@ -1135,9 +1135,9 @@ public final class MathUtil {
 		for (int i = 0; i < x.length; i++) {
 			x[i] -= value;
 		}
-		return x;		
+		return x;
 	}
-	
+
 	/**
 	 * Adds a value to all elements of an array in place.
 	 * @param x The array to add to.
@@ -1161,9 +1161,9 @@ public final class MathUtil {
 		for (int i = 0; i < x.length; i++) {
 			x[i] -= value;
 		}
-		return x;		
+		return x;
 	}
-	
+
 	/**
 	 * Adds a value to all elements of an array in place.
 	 * @param x The array to add to.
@@ -1187,7 +1187,7 @@ public final class MathUtil {
 		for (int i = 0; i < x.length; i++) {
 			x[i] -= value;
 		}
-		return x;		
+		return x;
 	}
 
 	/**
@@ -1803,7 +1803,7 @@ public final class MathUtil {
 		if (x0 <= x.get(0)) {
 			return y.get(0);
 		}
-		
+
 		int n = x.size();
 		if (x0 >= x.get(n - 1)) {
 			return y.get(n - 1);
@@ -1840,7 +1840,7 @@ public final class MathUtil {
 		if (x >= x1) {
 			return y[y.length - 1];
 		}
-		
+
 		double t = (y.length - 1) * ((x - x0) / (x1 - x0));
 		int i = (int) Math.floor(t);
 		return interpolate(y[i], y[i + 1], t - i);
@@ -1864,7 +1864,7 @@ public final class MathUtil {
 		if (x >= x1) {
 			return y.get(y.size() - 1);
 		}
-		
+
 		double t = (y.size() - 1) * ((x - x0) / (x1 - x0));
 		int i = (int) Math.floor(t);
 		return interpolate(y.get(i), y.get(i + 1), t - i);
@@ -1913,7 +1913,7 @@ public final class MathUtil {
 				Matrix.rowMajor(1, ys.length, ys).elementsByRow(),
 				z, x, y);
 	}
-	
+
 	/**
 	 * Performs bilinear interpolation over a non-uniform grid.
 	 * @param xs The list of grid points along the x-axis (must have the same
@@ -1930,13 +1930,13 @@ public final class MathUtil {
 	 */
 	public static double bilinearInterpolate(List<Double> xs, List<Double> ys,
 			Matrix z, double x, double y) {
-		
+
 		int nx = xs.size();
 		int ny = ys.size();
 		if (nx != z.rows() || ny != z.columns()) {
 			throw new IllegalArgumentException("Matrix z must be xs.size() by ys.size()");
 		}
-		
+
 		if (x <= xs.get(0)) {
 			return interpolate(ys, z.row(0).elements(), y);
 		}
@@ -1949,7 +1949,7 @@ public final class MathUtil {
 		if (y >= ys.get(ny - 1)) {
 			return interpolate(xs, z.column(ny - 1).elements(), x);
 		}
-		
+
 		int ix = Collections.binarySearch(xs, x);
 		if (ix < 0) {
 			ix = -(ix + 1);
@@ -1957,7 +1957,7 @@ public final class MathUtil {
 		while (ix < nx - 1 && !(x < xs.get(ix + 1))) {
 			ix++;
 		}
-		
+
 		int iy = Collections.binarySearch(ys, y);
 		if (iy < 0) {
 			iy = -(iy + 1);
@@ -1967,24 +1967,24 @@ public final class MathUtil {
 		}
 
 		assert(ix < nx - 1 && iy < ny - 1);
-		
+
 		double x0 = xs.get(ix);
 		double x1 = xs.get(ix + 1);
 		double y0 = ys.get(iy);
 		double y1 = ys.get(iy + 1);
-		
+
 		double tx = (x - x0) / (x1 - x0);
 		double ty = (y - y0) / (y1 - y0);
-		
+
 		double _00 = z.at(ix, iy);
 		double _01 = z.at(ix, iy + 1);
 		double _10 = z.at(ix + 1, iy);
 		double _11 = z.at(ix + 1, iy + 1);
-		
+
 		return bilinearInterpolate(_00, _10, _01, _11, tx, ty);
-		
+
 	}
-	
+
 	/**
 	 * Performs bilinear interpolation over a uniform grid.
 	 * @param x0 The minimum value along the x-axis.
@@ -2190,13 +2190,13 @@ public final class MathUtil {
 		}
 		return value / 2.0;
 	}
-	
+
 	/**
 	 * Computes the cumulative sum of the specified array in place.
-	 * 
+	 *
 	 * Each element <code>x[i]</code> is replaced with
 	 * <code>x[0] + ... + x[i]</code>.
-	 * 
+	 *
 	 * @param x The array of doubles for which to compute the cumulative sum.
 	 * @return A reference to <code>x</code>.
 	 */
@@ -2206,13 +2206,13 @@ public final class MathUtil {
 		}
 		return x;
 	}
-	
+
 	/**
 	 * Computes the cumulative sum of the specified array in place.
-	 * 
+	 *
 	 * Each element <code>x[i]</code> is replaced with
 	 * <code>x[0] + ... + x[i]</code>.
-	 * 
+	 *
 	 * @param x The array of ints for which to compute the cumulative sum.
 	 * @return A reference to <code>x</code>.
 	 */
@@ -2220,31 +2220,31 @@ public final class MathUtil {
 		for (int i = 1; i < x.length; i++) {
 			x[i] += x[i - 1];
 		}
-		return x;		
+		return x;
 	}
-	
+
 	/**
 	 * Computes the cumulative sum of the specified array in place.
-	 * 
+	 *
 	 * Each element <code>x[i]</code> is replaced with
 	 * <code>x[0] + ... + x[i]</code>.
-	 * 
+	 *
 	 * @param x The array of doubles for which to compute the cumulative sum.
 	 * @return A reference to <code>x</code>.
-	 */	
+	 */
 	public static long[] cumsum(long[] x) {
 		for (int i = 1; i < x.length; i++) {
 			x[i] += x[i - 1];
 		}
-		return x;		
+		return x;
 	}
-	
+
 	/**
 	 * Computes the cumulative sum of the specified <code>List</code> in place.
-	 * 
+	 *
 	 * Each element <code>x.get(i)</code> is replaced with
 	 * <code>x.get(0) + ... + x.get(1)</code>.
-	 * 
+	 *
 	 * @param x The <code>List</code> of doubles for which to compute the
 	 * 		cumulative sum.
 	 * @return A reference to <code>x</code>.
@@ -2255,13 +2255,13 @@ public final class MathUtil {
 		}
 		return x;
 	}
-	
+
 	/**
 	 * Computes the cumulative product of the specified array in place.
-	 * 
+	 *
 	 * Each element <code>x[i]</code> is replaced with
 	 * <code>x[0] * ... * x[i]</code>.
-	 * 
+	 *
 	 * @param x The array of doubles for which to compute the cumulative
 	 * 		product.
 	 * @return A reference to <code>x</code>.
@@ -2272,13 +2272,13 @@ public final class MathUtil {
 		}
 		return x;
 	}
-	
+
 	/**
 	 * Computes the cumulative product of the specified array in place.
-	 * 
+	 *
 	 * Each element <code>x[i]</code> is replaced with
 	 * <code>x[0] * ... * x[i]</code>.
-	 * 
+	 *
 	 * @param x The array of ints for which to compute the cumulative product.
 	 * @return A reference to <code>x</code>.
 	 */
@@ -2288,13 +2288,13 @@ public final class MathUtil {
 		}
 		return x;
 	}
-	
+
 	/**
 	 * Computes the cumulative product of the specified array in place.
-	 * 
+	 *
 	 * Each element <code>x[i]</code> is replaced with
 	 * <code>x[0] * ... * x[i]</code>.
-	 * 
+	 *
 	 * @param x The array of longs for which to compute the cumulative product.
 	 * @return A reference to <code>x</code>.
 	 */
@@ -2304,14 +2304,14 @@ public final class MathUtil {
 		}
 		return x;
 	}
-	
+
 	/**
 	 * Computes the cumulative product of the specified <code>List</code> in
 	 * place.
-	 * 
+	 *
 	 * Each element <code>x.get(i)</code> is replaced with
 	 * <code>x.get(0) * ... * x.get(1)</code>.
-	 * 
+	 *
 	 * @param x The <code>List</code> of doubles for which to compute the
 	 * 		cumulative product.
 	 * @return A reference to <code>x</code>.
@@ -2322,7 +2322,7 @@ public final class MathUtil {
 		}
 		return x;
 	}
-	
+
 	/**
 	 * Computes the dot product of two vectors.
 	 * @param a The first array.
@@ -2340,7 +2340,7 @@ public final class MathUtil {
 		}
 		return sum;
 	}
-	
+
 	/**
 	 * Computes the dot product of two vectors.
 	 * @param a The first array.
@@ -2358,7 +2358,7 @@ public final class MathUtil {
 		}
 		return sum;
 	}
-	
+
 	/**
 	 * Computes the dot product of two vectors.
 	 * @param a The first array.
@@ -2380,7 +2380,7 @@ public final class MathUtil {
 	/**
 	 * Linearly remaps the values in an array to fit within the specified
 	 * interval.
-	 * @param x The array of doubles to remap. 
+	 * @param x The array of doubles to remap.
 	 * @param min The value to remap the minimum value of <code>x</code> to.
 	 * @param max The value to remap the maximum value of <code>x</code> to.
 	 * @return A reference to <code>x</code>.
@@ -2388,37 +2388,37 @@ public final class MathUtil {
 	public static double[] remap(double[] x, double min, double max) {
 		double xmin = Double.POSITIVE_INFINITY;
 		double xmax = Double.NEGATIVE_INFINITY;
-		
+
 		for (int i = 0; i < x.length; i++) {
 			if (x[i] < xmin) { xmin = x[i]; }
 			if (x[i] > xmax) { xmax = x[i]; }
 		}
-		
+
 		double xrange = xmax - xmin;
 		double range = max - min;
-		
+
 		for (int i = 0; i < x.length; i++) {
 			x[i] = min + range * ((x[i] - xmin) / xrange);
 		}
-		
+
 		return x;
 	}
-	
+
 	/**
 	 * Linearly remaps the values in an array to fit within the specified
 	 * interval.
-	 * @param x The array of doubles to remap. 
+	 * @param x The array of doubles to remap.
 	 * @param I The <code>Interval</code> to remap <code>x</code> to.
 	 * @return A reference to <code>x</code>.
 	 */
 	public static double[] remap(double[] x, Interval I) {
 		return remap(x, I.minimum(), I.maximum());
 	}
-	
+
 	/**
 	 * Linearly remaps the values in an array to fit within the interval
 	 * <code>[0,1]</code>.
-	 * @param x The array of doubles to remap. 
+	 * @param x The array of doubles to remap.
 	 * @return A reference to <code>x</code>.
 	 */
 	public static double[] remap(double[] x) {
