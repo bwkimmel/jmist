@@ -1759,68 +1759,194 @@ public final class MathUtil {
 
 	/**
 	 * Interpolates a piecewise linear curve.
-	 * @param x An array of x-coordinates (this must be sorted in ascending
+	 * @param xs An array of x-coordinates (this must be sorted in ascending
 	 * 		order).
-	 * @param y An array of the y-coordinates (must be of the same length as
-	 * 		<code>x</code>).
-	 * @param x0 The x-coordinate at which to interpolate.
+	 * @param ys An array of the y-coordinates (must be of the same length as
+	 * 		<code>xs</code>, or one less if <code>wrap == true</code>).
+	 * @param x The x-coordinate at which to interpolate.
+	 * @param wrap A value indicating whether the curve is periodic.
 	 * @return The y-coordinate corresponding to <code>x0</code>.
 	 */
-	public static double interpolate(double[] x, double[] y, double x0) {
-
-		if (x0 <= x[0]) {
-			return y[0];
+	public static double interpolate(double[] xs, double[] ys, double x, boolean wrap) {
+		if (wrap) {
+			return interpolateWrapped(xs, ys, x);
+		} else {
+			return interpolate(xs, ys, x);
 		}
-		if (x0 >= x[x.length - 1]) {
-			return y[x.length - 1];
-		}
-
-		int index = Arrays.binarySearch(x, x0);
-		if (index < 0) {
-			index = -(index + 1);
-		}
-		while (index < x.length - 1 && !(x0 < x[index + 1])) {
-			index++;
-		}
-
-		assert(index < x.length - 1);
-
-		return interpolate(x[index - 1], y[index - 1], x[index], y[index], x0);
-
 	}
 
 	/**
 	 * Interpolates a piecewise linear curve.
-	 * @param x An array of x-coordinates (this must be sorted in ascending
+	 * @param xs An array of x-coordinates (this must be sorted in ascending
 	 * 		order).
-	 * @param y An array of the y-coordinates (must be of the same length as
-	 * 		<code>x</code>).
-	 * @param x0 The x-coordinate at which to interpolate.
+	 * @param ys An array of the y-coordinates (must be of the same length as
+	 * 		<code>xs</code>).
+	 * @param x The x-coordinate at which to interpolate.
 	 * @return The y-coordinate corresponding to <code>x0</code>.
 	 */
-	public static double interpolate(List<Double> x, List<Double> y, double x0) {
+	public static double interpolate(double[] xs, double[] ys, double x) {
 
-		if (x0 <= x.get(0)) {
-			return y.get(0);
+		if (x <= xs[0]) {
+			return ys[0];
+		}
+		if (x >= xs[xs.length - 1]) {
+			return ys[xs.length - 1];
 		}
 
-		int n = x.size();
-		if (x0 >= x.get(n - 1)) {
-			return y.get(n - 1);
-		}
-
-		int index = Collections.binarySearch(x, x0);
+		int index = Arrays.binarySearch(xs, x);
 		if (index < 0) {
 			index = -(index + 1);
 		}
-		while (index < n - 1 && !(x0 < x.get(index + 1))) {
+		while (index < xs.length - 1 && !(x < xs[index + 1])) {
+			index++;
+		}
+
+		assert(index < xs.length - 1);
+
+		return interpolate(xs[index - 1], ys[index - 1], xs[index], ys[index], x);
+
+	}
+
+	/**
+	 * Interpolates a periodic piecewise linear curve.
+	 * @param xs An array of x-coordinates (this must be sorted in ascending
+	 * 		order).
+	 * @param ys An array of the y-coordinates (must have length
+	 * 		<code>xs.length - 1</code>).
+	 * @param x The x-coordinate at which to interpolate.
+	 * @return The y-coordinate corresponding to <code>x</code>.
+	 */
+	public static double interpolateWrapped(double[] xs, double[] ys, double x) {
+
+		int n = xs.length;
+		double x0 = xs[0];
+		double x1 = xs[n - 1];
+
+		x -= (x1 - x0) * Math.floor((x - x0) / (x1 - x0));
+		assert(inRangeCO(x, x0, x1));
+
+		int index = Arrays.binarySearch(xs, x);
+		if (index < 0) {
+			index = -(index + 1);
+		}
+		while (index < n - 1 && !(x < xs[index + 1])) {
 			index++;
 		}
 
 		assert(index < n - 1);
 
-		return interpolate(x.get(index - 1), y.get(index - 1), x.get(index), y.get(index), x0);
+		int i = index - 1;
+		int j = index;
+		if (j == n - 1) { j = 0; }
 
+		return interpolate(xs[i], ys[i], xs[index], ys[j], x);
+
+	}
+
+	/**
+	 * Interpolates a piecewise linear curve.
+	 * @param xs An array of x-coordinates (this must be sorted in ascending
+	 * 		order).
+	 * @param ys An array of the y-coordinates (must be of the same length as
+	 * 		<code>xs</code>, or one less if <code>wrap == true</code>).
+	 * @param x The x-coordinate at which to interpolate.
+	 * @param wrap A value indicating whether the curve is periodic.
+	 * @return The y-coordinate corresponding to <code>x0</code>.
+	 */
+	public static double interpolate(List<Double> xs, List<Double> ys, double x, boolean wrap) {
+		if (wrap) {
+			return interpolateWrapped(xs, ys, x);
+		} else {
+			return interpolate(xs, ys, x);
+		}
+	}
+
+	/**
+	 * Interpolates a piecewise linear curve.
+	 * @param xs An array of x-coordinates (this must be sorted in ascending
+	 * 		order).
+	 * @param ys An array of the y-coordinates (must of length of
+	 * 		<code>xs.size() - 1</code>).
+	 * @param x The x-coordinate at which to interpolate.
+	 * @return The y-coordinate corresponding to <code>x</code>.
+	 */
+	public static double interpolate(List<Double> xs, List<Double> ys, double x) {
+
+		if (x <= xs.get(0)) {
+			return ys.get(0);
+		}
+
+		int n = xs.size();
+		if (x >= xs.get(n - 1)) {
+			return ys.get(n - 1);
+		}
+
+		int index = Collections.binarySearch(xs, x);
+		if (index < 0) {
+			index = -(index + 1);
+		}
+		while (index < n - 1 && !(x < xs.get(index + 1))) {
+			index++;
+		}
+
+		assert(index < n - 1);
+
+		return interpolate(xs.get(index - 1), ys.get(index - 1), xs.get(index), ys.get(index), x);
+
+	}
+
+	/**
+	 * Interpolates a piecewise linear curve.
+	 * @param xs An array of x-coordinates (this must be sorted in ascending
+	 * 		order).
+	 * @param ys An array of the y-coordinates (must be of the same length as
+	 * 		<code>xs</code>, or one less if <code>wrap == true</code>).
+	 * @param x The x-coordinate at which to interpolate.
+	 * @return The y-coordinate corresponding to <code>x</code>.
+	 */
+	public static double interpolateWrapped(List<Double> xs, List<Double> ys, double x) {
+
+		int n = xs.size();
+		double x0 = xs.get(0);
+		double x1 = xs.get(n - 1);
+
+		x -= (x1 - x0) * Math.floor((x - x0) / (x1 - x0));
+		assert(inRangeCO(x, x0, x1));
+
+		int index = Collections.binarySearch(xs, x);
+		if (index < 0) {
+			index = -(index + 1);
+		}
+		while (index < n - 1 && !(x < xs.get(index + 1))) {
+			index++;
+		}
+
+		assert(index < n - 1);
+
+		int i = index - 1;
+		int j = index;
+		if (j == n - 1) { j = 0; }
+
+		return interpolate(xs.get(i), ys.get(i), xs.get(index), ys.get(j), x);
+
+	}
+
+	/**
+	 * Interpolates a piecewise linear curve.
+	 * @param x0 The minimum value in the domain.
+	 * @param x1 The maximum value in the domain (must not be less than
+	 * 		<code>x0</code>).
+	 * @param y An array of the y-coordinates (must have at least two elements).
+	 * @param x The x-coordinate at which to interpolate.
+	 * @param wrap A value indicating whether the curve is periodic.
+	 * @return The y-coordinate corresponding to <code>x</code>.
+	 */
+	public static double interpolate(double x0, double x1, double[] y, double x, boolean wrap) {
+		if (wrap) {
+			return interpolateWrapped(x0, x1, y, x);
+		} else {
+			return interpolate(x0, x1, y, x);
+		}
 	}
 
 	/**
@@ -1843,8 +1969,54 @@ public final class MathUtil {
 
 		double t = (y.length - 1) * ((x - x0) / (x1 - x0));
 		int i = (int) Math.floor(t);
+
 		return interpolate(y[i], y[i + 1], t - i);
 
+	}
+
+	/**
+	 * Interpolates a periodic piecewise linear curve.
+	 * @param x0 The minimum value in the domain.
+	 * @param x1 The maximum value in the domain (must not be less than
+	 * 		<code>x0</code>).
+	 * @param y An array of the y-coordinates.
+	 * @param x The x-coordinate at which to interpolate.
+	 * @param wrap A value indicating whether the curve is periodic.
+	 * @return The y-coordinate corresponding to <code>x</code>.
+	 */
+	public static double interpolateWrapped(double x0, double x1, double[] y, double x) {
+
+		double t = (x - x0) / (x1 - x0);
+		t -= Math.floor(t);
+		t *= y.length;
+
+		int i = (int) Math.floor(t);
+		int j = i + 1;
+		if (j == y.length) { j = 0; }
+
+		assert(0 <= i && i < y.length);
+
+		return interpolate(y[i], y[j], t - i);
+
+	}
+
+	/**
+	 * Interpolates a piecewise linear curve.
+	 * @param x0 The minimum value in the domain.
+	 * @param x1 The maximum value in the domain (must not be less than
+	 * 		<code>x0</code>).
+	 * @param y An array of the y-coordinates (must have at least two elements
+	 * 		if <code>wrap == false</code>).
+	 * @param x The x-coordinate at which to interpolate.
+	 * @param wrap A value indicating whether the curve is periodic.
+	 * @return The y-coordinate corresponding to <code>x</code>.
+	 */
+	public static double interpolate(double x0, double x1, List<Double> y, double x, boolean wrap) {
+		if (wrap) {
+			return interpolateWrapped(x0, x1, y, x);
+		} else {
+			return interpolate(x0, x1, y, x);
+		}
 	}
 
 	/**
@@ -1861,13 +2033,39 @@ public final class MathUtil {
 		if (x <= x0) {
 			return y.get(0);
 		}
-		if (x >= x1) {
+		if (x > x1) {
 			return y.get(y.size() - 1);
 		}
 
 		double t = (y.size() - 1) * ((x - x0) / (x1 - x0));
 		int i = (int) Math.floor(t);
+
 		return interpolate(y.get(i), y.get(i + 1), t - i);
+
+	}
+
+	/**
+	 * Interpolates a periodic piecewise linear curve.
+	 * @param x0 The minimum value in the domain.
+	 * @param x1 The maximum value in the domain (must not be less than
+	 * 		<code>x0</code>).
+	 * @param y An array of the y-coordinates.
+	 * @param x The x-coordinate at which to interpolate.
+	 * @return The y-coordinate corresponding to <code>x</code>.
+	 */
+	public static double interpolateWrapped(double x0, double x1, List<Double> y, double x) {
+
+		double t = (x - x0) / (x1 - x0);
+		t -= Math.floor(t);
+		t *= y.size();
+
+		int i = (int) Math.floor(t);
+		int j = i + 1;
+		if (j == y.size()) { j = 0; }
+
+		assert(0 <= i && i < y.size());
+
+		return interpolate(y.get(i), y.get(j), t - i);
 
 	}
 
@@ -1908,10 +2106,36 @@ public final class MathUtil {
 	 */
 	public static double bilinearInterpolate(double xs[], double ys[],
 			Matrix z, double x, double y) {
+		return bilinearInterpolate(xs, ys, z, x, y, false, false);
+	}
+
+	/**
+	 * Performs bilinear interpolation over a non-uniform grid.
+	 * @param xs The array of grid points along the x-axis (must have the same
+	 * 		length as the number of rows in <code>z</code>).
+	 * @param ys The array of grid points along the y-axis (must have the same
+	 * 		length as the number of columns in <code>z</code>).
+	 * @param z The <code>Matrix</code> of values to interpolate (must have
+	 * 		<code>xs.length - (wrapX ? 1 : 0)</code> rows and
+	 * 		<code>ys.length - (wrapY ? 1 : 0)</code> columns).
+	 * @param x The x-coordinate at which to interpolate.
+	 * @param y The y-coordinate at which to interpolate.
+	 * @param wrapX A value indicating whether to wrap in the x-direction.  If
+	 * 		<code>true</code>, then <code>xs</code> should have an extra entry
+	 * 		at the end which maps to row <code>0</code>.
+	 * @param wrapY A value indicating whether to wrap in the y-direction.  If
+	 * 		<code>true</code>, then <code>ys</code> should have an extra entry
+	 * 		at the end which maps to column <code>0</code>.
+	 * @return The interpolated value at <code>(x, y)</code>.
+	 * @throws IllegalArgumentException if <code>z</code> does not have
+	 * 		the correct dimensions.
+	 */
+	public static double bilinearInterpolate(double xs[], double ys[],
+			Matrix z, double x, double y, boolean wrapX, boolean wrapY) {
 		return bilinearInterpolate(
 				Matrix.rowMajor(1, xs.length, xs).elementsByRow(),
 				Matrix.rowMajor(1, ys.length, ys).elementsByRow(),
-				z, x, y);
+				z, x, y, wrapX, wrapY);
 	}
 
 	/**
@@ -1930,24 +2154,50 @@ public final class MathUtil {
 	 */
 	public static double bilinearInterpolate(List<Double> xs, List<Double> ys,
 			Matrix z, double x, double y) {
+		return bilinearInterpolate(xs, ys, z, x, y, false, false);
+	}
+
+	/**
+	 * Performs bilinear interpolation over a non-uniform grid.
+	 * @param xs The list of grid points along the x-axis (must have the same
+	 * 		length as the number of rows in <code>z</code>).
+	 * @param ys The list of grid points along the y-axis (must have the same
+	 * 		length as the number of columns in <code>z</code>).
+	 * @param z The <code>Matrix</code> of values to interpolate (must have
+	 * 		<code>xs.length - (wrapX ? 1 : 0)</code> rows and
+	 * 		<code>ys.length - (wrapY ? 1 : 0)</code> columns).
+	 * @param x The x-coordinate at which to interpolate.
+	 * @param y The y-coordinate at which to interpolate.
+	 * @param wrapX A value indicating whether to wrap in the x-direction.  If
+	 * 		<code>true</code>, then <code>xs</code> should have an extra entry
+	 * 		at the end which maps to row <code>0</code>.
+	 * @param wrapY A value indicating whether to wrap in the y-direction.  If
+	 * 		<code>true</code>, then <code>ys</code> should have an extra entry
+	 * 		at the end which maps to column <code>0</code>.
+	 * @return The interpolated value at <code>(x, y)</code>.
+	 * @throws IllegalArgumentException if <code>z</code> does not have
+	 * 		the correct dimensions.
+	 */
+	public static double bilinearInterpolate(List<Double> xs, List<Double> ys,
+			Matrix z, double x, double y, boolean wrapX, boolean wrapY) {
 
 		int nx = xs.size();
 		int ny = ys.size();
-		if (nx != z.rows() || ny != z.columns()) {
+		if (nx != z.rows() + (wrapX ? 1 : 0) || ny != z.columns() + (wrapY ? 1 : 0)) {
 			throw new IllegalArgumentException("Matrix z must be xs.size() by ys.size()");
 		}
 
 		if (x <= xs.get(0)) {
-			return interpolate(ys, z.row(0).elements(), y);
+			return interpolate(ys, z.row(0).elements(), y, wrapY);
 		}
 		if (x >= xs.get(nx - 1)) {
-			return interpolate(ys, z.row(nx - 1).elements(), y);
+			return interpolate(ys, z.row(nx - 1).elements(), y, wrapY);
 		}
 		if (y <= ys.get(0)) {
-			return interpolate(xs, z.column(0).elements(), x);
+			return interpolate(xs, z.column(0).elements(), x, wrapX);
 		}
 		if (y >= ys.get(ny - 1)) {
-			return interpolate(xs, z.column(ny - 1).elements(), x);
+			return interpolate(xs, z.column(ny - 1).elements(), x, wrapX);
 		}
 
 		int ix = Collections.binarySearch(xs, x);
@@ -1976,10 +2226,15 @@ public final class MathUtil {
 		double tx = (x - x0) / (x1 - x0);
 		double ty = (y - y0) / (y1 - y0);
 
+		int jx = ix + 1;
+		int jy = iy + 1;
+		if (jx == z.rows()) { jx = 0; }
+		if (jy == z.columns()) { jy = 0; }
+
 		double _00 = z.at(ix, iy);
-		double _01 = z.at(ix, iy + 1);
-		double _10 = z.at(ix + 1, iy);
-		double _11 = z.at(ix + 1, iy + 1);
+		double _01 = z.at(ix, jy);
+		double _10 = z.at(jx, iy);
+		double _11 = z.at(jx, jy);
 
 		return bilinearInterpolate(_00, _10, _01, _11, tx, ty);
 
@@ -2002,40 +2257,69 @@ public final class MathUtil {
 	public static double bilinearInterpolate(
 			double x0, double x1, double y0, double y1,
 			Matrix z, double x, double y) {
-		
-		if (z.rows() < 2 || z.columns() < 2) {
-			throw new IllegalArgumentException("Matrix z must be at least 2x2");
+		return bilinearInterpolate(x0, x1, y0, y1, z, x, y, false, false);
+	}
+
+	/**
+	 * Performs bilinear interpolation over a uniform grid.
+	 * @param x0 The minimum value along the x-axis.
+	 * @param x1 The maximum value along the x-axis.
+	 * @param y0 The minimum value along the y-axis.
+	 * @param y1 The maximum value along the y-axis.
+	 * @param z The <code>Matrix</code> of values to interpolate.  It must have
+	 * 		at least two rows (unless wrapping in X) and at least two columns
+	 * 		(unless wrapping in Y).
+	 * @param x The x-coordinate at which to interpolate.
+	 * @param y The y-coordinate at which to interpolate.
+	 * @param wrapX A value indicating whether to wrap in the x-direction.
+	 * @param wrapY A value indicating whether to wrap in the y-direction.
+	 * @return The interpolated value at <code>(x, y)</code>.
+	 * @throws IllegalArgumentException if <code>z</code> has fewer than two
+	 * 		rows (and does not wrap in X) or fewer than two columns (and does
+	 * 		not wrap in Y).
+	 */
+	public static double bilinearInterpolate(
+			double x0, double x1, double y0, double y1,
+			Matrix z, double x, double y, boolean wrapX, boolean wrapY) {
+
+		if ((!wrapX && z.rows() < 2) || (!wrapY && z.columns() < 2)) {
+			throw new IllegalArgumentException(
+					"Matrix z must have length 2 in each non-wrapping dimension");
 		}
-		
+
 		if (x <= x0) {
-			return interpolate(y0, y1, z.row(0).elements(), y);
+			return interpolate(y0, y1, z.row(0).elements(), y, wrapY);
 		}
 		if (x >= x1) {
 			int j = z.rows() - 1;
-			return interpolate(y0, y1, z.row(j).elements(), y);
+			return interpolate(y0, y1, z.row(j).elements(), y, wrapY);
 		}
 		if (y <= y0) {
-			return interpolate(x0, x1, z.column(0).elements(), x);
+			return interpolate(x0, x1, z.column(0).elements(), x, wrapX);
 		}
 		if (y >= y1) {
 			int j = z.columns() - 1;
-			return interpolate(x0, x1, z.column(j).elements(), x);
+			return interpolate(x0, x1, z.column(j).elements(), x, wrapX);
 		}
 
 		int nx = z.rows();
 		int ny = z.columns();
-		double tx = (nx - 1) * ((x - x0) / (x1 - x0));
-		double ty = (ny - 1) * ((y - y0) / (y1 - y0));
+		double tx = (nx - (wrapX ? 0 : 1)) * ((x - x0) / (x1 - x0));
+		double ty = (ny - (wrapY ? 0 : 1)) * ((y - y0) / (y1 - y0));
 		int ix = (int) Math.floor(tx);
 		int iy = (int) Math.floor(ty);
-		
+		int jx = ix + 1;
+		int jy = iy + 1;
+		jx = jx < nx ? jx : 0;
+		jy = jy < ny ? jy : 0;
+
 		double _00 = z.at(ix, iy);
-		double _01 = z.at(ix, iy + 1);
-		double _10 = z.at(ix + 1, iy);
-		double _11 = z.at(ix + 1, iy + 1);
-		
+		double _01 = z.at(ix, jy);
+		double _10 = z.at(jx, iy);
+		double _11 = z.at(jx, jy);
+
 		return bilinearInterpolate(_00, _10, _01, _11, tx - ix, ty - iy);
-		
+
 	}
 
 	/**
