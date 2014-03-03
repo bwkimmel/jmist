@@ -151,6 +151,7 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 		private ExitantVectorStrategy exitantVectorStrategy = ExitantVectorStrategies.DIRECT;
 		private CollectorSphere incidentCollector = null;
 		private CollectorSphere exitantCollector = null;
+		private boolean incidentPointsOutward = false;
 
 		/** Create the <code>TransferMatrixJob</code> instance. */
 		public TransferMatrixJob build() {
@@ -165,7 +166,8 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 					adjoint,
 					exitantVectorStrategy,
 					incidentCollector,
-					exitantCollector);
+					exitantCollector,
+					incidentPointsOutward);
 		}
 
 		/** Sets any default parameters that were not specified by the client. */
@@ -381,17 +383,30 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 			return this;
 		}
 
+		/**
+		 * Sets a value indicating whether the incident vector points outward
+		 * @param incidentPointsOutward A value indicating whether the incident
+		 * 		vector points outward.
+		 * @return A reference to this <code>Builder</code>.
+		 */
+		public Builder setIncidentPointsOutward(boolean incidentPointsOutward) {
+			this.incidentPointsOutward = incidentPointsOutward;
+			return this;
+		}
+
 	}
 
 	private TransferMatrixJob(SurfaceScatterer[] specimens, String[] specimenNames,
 			ProbabilityDensityFunction[] channels, String[] channelNames,
 			long samplesPerMeasurement, long samplesPerTask, boolean adjoint,
 			ExitantVectorStrategy exitantVectorStrategy,
-			CollectorSphere incidentCollector, CollectorSphere exitantCollector) {
+			CollectorSphere incidentCollector, CollectorSphere exitantCollector,
+			boolean incidentPointsOutward) {
 
 		this.worker						= new PhotometerTaskWorker(
 												incidentCollector, exitantCollector,
-												exitantVectorStrategy, adjoint);
+												exitantVectorStrategy, adjoint,
+												incidentPointsOutward);
 		this.specimens					= specimens;
 		this.specimenNames				= specimenNames;
 		this.channels					= channels;
@@ -632,6 +647,9 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 		/** Indicates whether to trace the ray backwards (i.e., from the eye). */
 		private final boolean adjoint;
 
+		/** Indicates whether the incident vector points outward. */
+		private final boolean incidentPointsOutward;
+
 		/**
 		 * Creates a new <code>PhotometerTaskWorker</code>.
 		 * @param specimen The <code>SurfaceScatterer</code> to be measured.
@@ -644,11 +662,13 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 		 */
 		public PhotometerTaskWorker(CollectorSphere incidentCollector,
 				CollectorSphere exitantCollector,
-				ExitantVectorStrategy exitantVectorStrategy, boolean adjoint) {
+				ExitantVectorStrategy exitantVectorStrategy, boolean adjoint,
+				boolean incidentPointsOutward) {
 			this.incidentCollector = incidentCollector;
 			this.exitantCollector = exitantCollector;
 			this.exitantVectorStrategy = exitantVectorStrategy;
 			this.adjoint = adjoint;
+			this.incidentPointsOutward = incidentPointsOutward;
 		}
 
 		/* (non-Javadoc)
@@ -674,7 +694,7 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 					}
 					progCountdown = progInterval;
 				}
-				
+
 				Vector3 in;
 				sensor0[0] = -1;
 				do {
@@ -686,10 +706,11 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 						}
 					});
 				} while (sensor0[0] < 0);
-				
+				in = incidentPointsOutward ? in.opposite() : in;
+
 				double wavelength = info.channel.sample(rng);
 				Vector3 v = info.specimen.scatter(SurfacePointGeometry.STANDARD, in, adjoint, wavelength, rng);
-				
+
 				if (v != null) {
 					v = exitantVectorStrategy.getExitantVector(in, v);
 					exitantCollector.record(v, new Callback() {
