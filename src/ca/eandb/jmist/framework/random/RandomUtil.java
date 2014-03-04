@@ -230,10 +230,10 @@ public final class RandomUtil {
 	public static int categorical(double[] weights, Random random) {
 		return categorical(weights, random.next());
 	}
-	
+
 	public static int categorical(double[] weights, double seed) {
 
-		double	x		= seed / MathUtil.sum(weights);
+		double	x		= seed * MathUtil.sum(weights);
 		double	mark	= 0.0;
 
 		for (int i = 0; i < weights.length; i++) {
@@ -245,11 +245,11 @@ public final class RandomUtil {
 		return weights.length - 1;
 
 	}
-	
+
 	public static int categorical(double[] weights, SeedReference ref) {
 
-		ref.seed /= MathUtil.sum(weights);
-		
+		ref.seed *= MathUtil.sum(weights);
+
 		int n = weights.length - 1;
 		for (int i = 0; i < n; i++) {
 			if (ref.seed < weights[i]) {
@@ -259,11 +259,11 @@ public final class RandomUtil {
 			}
 			ref.seed -= weights[i];
 		}
-		
+
 		ref.seed /= weights[n];
 		if (ref.seed < 0.0 || ref.seed > 1.0) bp();
 		return n;
-		
+
 	}
 
 	public static int discrete(int minimum, int maximum, Random random) {
