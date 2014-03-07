@@ -92,10 +92,10 @@ public final class RasterMask2 implements Mask2 {
 	}
 
 	/*
-	 * 
+	 *
 	 */
 	public double opacity(Point2 p) {
-		
+
 		Raster		raster	= image.getRaster();
 		double		u		= p.x() - Math.floor(p.x());
 		double		v		= p.y() - Math.floor(p.y());
@@ -106,10 +106,6 @@ public final class RasterMask2 implements Mask2 {
 		double[]	pixel	= raster.getPixel(x, y, placeholder.get());
 
 		placeholder.set(pixel);
-		
-//		if (pixel[0] < 0.5) {System.out.println("YES");}
-//		System.out.printf("%f, %f", p.x(), p.y());
-//		System.out.println();
 
 		switch (pixel.length) {
 		case 1:
