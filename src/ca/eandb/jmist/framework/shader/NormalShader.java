@@ -32,7 +32,7 @@ import ca.eandb.jmist.math.Vector3;
 
 /**
  * A <code>Shader</code> that assigns a colour based on the surface normal.
- * 
+ *
  * @author Brad Kimmel
  */
 public final class NormalShader implements Shader {
@@ -45,14 +45,14 @@ public final class NormalShader implements Shader {
 	 */
 	@Override
 	public Color shade(ShadingContext sc) {
-		Vector3 n = sc.getNormal();
-		
+		Vector3 n = sc.getShadingNormal();
+
 		double r = Math.abs(n.x());
 		double g = Math.abs(n.y());
 		double b = Math.abs(n.z());
-		
+
 		double c = Math.max(r, Math.max(g, b));
-		
+
 		return sc.getColorModel().fromRGB(r / c, g / c, b / c).sample(sc.getWavelengthPacket());
 	}
 
