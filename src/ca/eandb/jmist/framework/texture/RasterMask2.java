@@ -109,7 +109,7 @@ public final class RasterMask2 implements Mask2 {
 
 		switch (pixel.length) {
 		case 1:
-			return pixel[0];
+			return pixel[0]/255.0;
 		case 3:
 		case 4:
 			return pixel[1]/255.0;
