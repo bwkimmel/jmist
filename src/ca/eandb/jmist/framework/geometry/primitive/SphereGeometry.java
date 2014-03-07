@@ -86,7 +86,7 @@ public final class SphereGeometry extends PrimitiveGeometry {
 	 */
 	@Override
 	protected Basis3 getBasis(GeometryIntersection x) {
-		return Basis3.fromW(x.getNormal(), Basis3.Orientation.RIGHT_HANDED);
+		return Basis3.fromWV(x.getNormal(), Vector3.NEGATIVE_J, Basis3.Orientation.LEFT_HANDED);
 	}
 
 	/* (non-Javadoc)
