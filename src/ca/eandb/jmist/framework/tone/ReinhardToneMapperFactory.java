@@ -26,6 +26,7 @@
 package ca.eandb.jmist.framework.tone;
 
 import ca.eandb.jmist.framework.color.CIEXYZ;
+import ca.eandb.jmist.math.MathUtil;
 
 /**
  * @author Brad
@@ -36,16 +37,21 @@ public final class ReinhardToneMapperFactory implements ToneMapperFactory {
 	/** Serialization version ID. */
 	private static final long serialVersionUID = -8014074363504189066L;
 
-	private static final double DEFAULT_DELTA = 1.0;
+	private static final double DEFAULT_KEY = 0.18;
+
+	private static final double DEFAULT_DELTA = MathUtil.EPSILON;
+
+	private final double key;
 
 	private final double delta;
 
-	public ReinhardToneMapperFactory(double delta) {
+	public ReinhardToneMapperFactory(double key, double delta) {
+		this.key = key;
 		this.delta = delta;
 	}
 
 	public ReinhardToneMapperFactory() {
-		this(DEFAULT_DELTA);
+		this(DEFAULT_KEY, DEFAULT_DELTA);
 	}
 
 	/* (non-Javadoc)
@@ -68,8 +74,7 @@ public final class ReinhardToneMapperFactory implements ToneMapperFactory {
 		Yavg /= (double) n;
 		Yavg = Math.exp(Yavg) - delta;
 
-		double Ymid = 1.03 - 2.0 / (2.0 + Math.log10(Yavg + 1.0));
-		return new ReinhardToneMapper(Ymid / Yavg, Ymax);
+		return new ReinhardToneMapper(key / Yavg, Ymax);
 	}
 
 }
