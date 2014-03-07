@@ -54,6 +54,7 @@ import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
+import ca.eandb.jmist.math.Vector2;
 import ca.eandb.jmist.math.Vector3;
 import ca.eandb.util.IntegerArray;
 
@@ -355,8 +356,7 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	@Override
 	protected Basis3 getBasis(GeometryIntersection x) {
 		Face face = faces.get(x.getTag());
-		Vector3 n = face.plane.normal();
-		return Basis3.fromW(n, Basis3.Orientation.RIGHT_HANDED);
+		return face.getBasis(x.getPosition());
 	}
 
 	/* (non-Javadoc)
@@ -364,7 +364,8 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 	 */
 	@Override
 	protected Basis3 getShadingBasis(GeometryIntersection x) {
-		return Basis3.fromW(getShadingNormal(x));
+		Basis3 basis = x.getBasis();
+		return Basis3.fromWUV(getShadingNormal(x), basis.u(), basis.v());
 	}
 
 	/* (non-Javadoc)
@@ -641,7 +642,72 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 			Point3 c = vertices.get(indices[decomp[tri + 2]]);
 			return RandomUtil.uniformOnTriangle(a, b, c, ru, vref.seed);
 		}
-		
+
+		// See http://www.terathon.com/code/tangent.html
+		private Basis3 getBasis(int tri) {
+			Point2 ta = texCoords.get(texIndices[decomp[tri]]);
+			Point2 tb = texCoords.get(texIndices[decomp[tri + 1]]);
+			Point2 tc = texCoords.get(texIndices[decomp[tri + 2]]);
+
+			Point3 a = vertices.get(indices[decomp[tri]]);
+			Point3 b = vertices.get(indices[decomp[tri + 1]]);
+			Point3 c = vertices.get(indices[decomp[tri + 2]]);
+
+			Vector3 ab = a.vectorTo(b);
+			Vector3 ac = a.vectorTo(c);
+
+			Vector2 tab = ta.vectorTo(tb);
+			Vector2 tac = ta.vectorTo(tc);
+
+			double r = 1.0 / (tab.x() * tac.y() - tab.y() * tac.x());
+
+			Vector3 n = plane.normal();
+			Vector3 u = new Vector3(
+					r * (tac.y() * ab.x() - tab.y() * ac.x()),
+					r * (tac.y() * ab.y() - tab.y() * ac.y()),
+					r * (tac.y() * ab.z() - tab.y() * ac.z()));
+			Vector3 v = new Vector3(
+					r * (tab.x() * ac.x() - tac.x() * ab.x()),
+					r * (tab.x() * ac.y() - tac.x() * ab.y()),
+					r * (tab.x() * ac.z() - tac.x() * ab.z()));
+
+			return Basis3.fromWUV(n, u, v);
+		}
+
+		public Basis3 getBasis(Point3 p) {
+			if (texIndices == null) {
+				return Basis3.fromW(plane.normal());
+			}
+
+			decompose();
+
+			Vector3 n = plane.normal();
+			p = plane.project(p);
+
+			for (int i = 0; i < decomp.length; i += 3) {
+				Point3 a = vertices.get(indices[decomp[i]]);
+				Point3 b = vertices.get(indices[decomp[i + 1]]);
+				Point3 c = vertices.get(indices[decomp[i + 2]]);
+				Vector3 ab = a.vectorTo(b);
+				Vector3 ac = a.vectorTo(c);
+				Vector3 pa = p.vectorTo(a);
+				Vector3 pb = p.vectorTo(b);
+				Vector3 pc = p.vectorTo(c);
+
+				double area = n.dot(ab.cross(ac));
+				double A = n.dot(pb.cross(pc)) / area;
+				if (A < 0.0) continue;
+				double B = n.dot(pc.cross(pa)) / area;
+				if (B < 0.0) continue;
+				double C = 1.0 - A - B;
+				if (C < 0.0) continue;
+
+				return getBasis(i);
+			}
+
+			return Basis3.fromW(plane.normal());
+		}
+
 		public Vector3 getShadingNormal(Point3 p) {
 			Vector3 nf = plane.normal();
 			if (this.normalIndices == null) {
