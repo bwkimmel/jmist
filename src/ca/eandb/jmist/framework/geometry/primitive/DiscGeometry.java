@@ -126,8 +126,8 @@ public final class DiscGeometry extends PrimitiveGeometry {
 		Vector3 r = x.getPosition().vectorFrom(this.boundingSphere.center());
 
 		return new Point2(
-				r.dot(basis.u()) / this.boundingSphere.radius(),
-				r.dot(basis.v()) / this.boundingSphere.radius()
+				0.5 * (1.0 + r.dot(basis.u()) / this.boundingSphere.radius()),
+				0.5 * (1.0 + r.dot(basis.v()) / this.boundingSphere.radius())
 		);
 
 	}
