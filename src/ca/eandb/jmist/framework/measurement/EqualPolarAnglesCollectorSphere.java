@@ -65,7 +65,7 @@ public final class EqualPolarAnglesCollectorSphere implements CollectorSphere {
 		this.stacks = stacks;
 		this.slices = slices;
 		this.upper = upper;
-		this.lower = lower;		
+		this.lower = lower;
 
 	}
 
@@ -115,7 +115,7 @@ public final class EqualPolarAnglesCollectorSphere implements CollectorSphere {
 
 		double phi = 2.0 * Math.PI * ((double) slice / (double) slices);
 		double theta;
-		
+
 		if (stack > 0) {
 			double theta1 = 0.5 * Math.PI * ((double) stack / (double) stacks);
 			double theta2 = 0.5 * Math.PI * ((double) (stack + 1) / (double) stacks);
@@ -126,7 +126,7 @@ public final class EqualPolarAnglesCollectorSphere implements CollectorSphere {
 		} else {
 			theta = 0.0;
 		}
-		
+
 		if (sensorOnLower) {
 			theta = Math.PI - theta;
 		}
@@ -197,7 +197,7 @@ public final class EqualPolarAnglesCollectorSphere implements CollectorSphere {
 		assert(0 <= sensor && sensor < patchesPerHemisphere);
 
 		int stack = (sensor > 0) ? (sensor - 1) / slices + 1 : 0;
-			
+
 		double theta1 = 0.5 * Math.PI * ((double) stack / (double) stacks);
 		double theta2 = 0.5 * Math.PI * ((double) (stack + 1) / (double) stacks);
 
@@ -223,23 +223,23 @@ public final class EqualPolarAnglesCollectorSphere implements CollectorSphere {
 		int stack = MathUtil.clamp(
 				(int) Math.floor((double) stacks * theta / (0.5 * Math.PI)),
 				0, 2 * stacks - 1);
-		
+
 		if (stack == 0) {
 			return 0;
 		} else if (stack == 2 * stacks - 1) {
 			return sensors() - 1;
 		} else { /* 0 < stack < 2 * stacks - 1 */
 			phi += Math.PI / (double) slices;
-			
+
 			if (phi < 0.0) phi += 2.0 * Math.PI;
 			if (phi >= 2.0 * Math.PI) phi -= 2.0 * Math.PI;
-			
+
 			int slice = (int) ((double) slices * (phi / (2.0 * Math.PI)));
 			slice = MathUtil.clamp(slice, 0, slices - 1);
-			
+
 			return 1 + (stack - 1) * slices + slice;
 		}
-		
+
 	}
 
 	/* (non-Javadoc)
