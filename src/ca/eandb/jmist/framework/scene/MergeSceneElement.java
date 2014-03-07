@@ -51,18 +51,18 @@ import ca.eandb.util.UnimplementedException;
  * @author Brad Kimmel
  */
 public final class MergeSceneElement implements SceneElement {
-	
+
 	/** Serialization version ID. */
 	private static final long serialVersionUID = -5677918761822356900L;
 
 	private final List<SceneElement> children = new ArrayList<SceneElement>();
-	
+
 	private transient IntegerArray offsets = null;
-	
+
 	private double surfaceArea = Double.NaN;
-	
+
 	private Box3 bbox = null;
-	
+
 	public MergeSceneElement addChild(SceneElement child) {
 		children.add(child);
 		offsets = null;
@@ -70,25 +70,26 @@ public final class MergeSceneElement implements SceneElement {
 		bbox = null;
 		return this;
 	}
-	
+
 	private synchronized void computeOffsets() {
 		if (offsets != null) {
 			return;
 		}
-		offsets = new IntegerArray();
+		IntegerArray newOffsets = new IntegerArray();
 		int offset = 0;
 		for (int i = 0, n = children.size(); i < n; i++) {
-			offsets.add(offset);
+			newOffsets.add(offset);
 			offset += children.get(i).getNumPrimitives();
 		}
+		offsets = newOffsets;
 	}
-	
+
 	private void checkOffsets() {
 		if (offsets == null) {
 			computeOffsets();
 		}
 	}
-	
+
 	private int getChildIndex(int primIndex) {
 		int lo = 0;
 		int hi = children.size() - 1;
@@ -200,7 +201,7 @@ public final class MergeSceneElement implements SceneElement {
 		int childPrimIndex = index - offsets.get(childIndex);
 		return children.get(childIndex).getSurfaceArea(childPrimIndex);
 	}
-	
+
 	private synchronized void computeSurfaceArea() {
 		if (Double.isNaN(surfaceArea)) {
 			double area = 0.0;
@@ -288,7 +289,7 @@ public final class MergeSceneElement implements SceneElement {
 		int childPrimIndex = index - offsets.get(childIndex);
 		return children.get(childIndex).visibility(childPrimIndex, ray);
 	}
-	
+
 	private synchronized void computeBoundingBox() {
 		if (bbox == null) {
 			BoundingBoxBuilder3 builder = new BoundingBoxBuilder3();
