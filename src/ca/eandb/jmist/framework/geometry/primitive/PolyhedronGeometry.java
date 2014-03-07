@@ -28,6 +28,7 @@ package ca.eandb.jmist.framework.geometry.primitive;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.BitSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -108,6 +109,34 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 
 	public PolyhedronGeometry addTexCoord(Point2 vt) {
 		texCoords.add(vt);
+		return this;
+	}
+
+	public PolyhedronGeometry generateZeroNormals() {
+		int n = normals.size();
+		BitSet toGenerate = new BitSet(n);
+		for (int i = 0; i < n; i++) {
+			if (normals.get(i).squaredLength() < MathUtil.EPSILON) {
+				toGenerate.set(i);
+				normals.set(i, Vector3.ZERO);
+			}
+		}
+		for (int i = 0, nf = faces.size(); i < nf; i++) {
+			Face face = faces.get(i);
+			for (int j = 0; j < face.normalIndices.length; j++) {
+				int k = face.normalIndices[j];
+				if (toGenerate.get(k)) {
+					Vector3 normal = normals.get(k);
+					normal = normal.plus(face.plane.normal());
+					normals.set(k, normal);
+				}
+			}
+		}
+		for (int i = 0; i < n; i++) {
+			if (toGenerate.get(i)) {
+				normals.set(i, normals.get(i).unit());
+			}
+		}
 		return this;
 	}
 
