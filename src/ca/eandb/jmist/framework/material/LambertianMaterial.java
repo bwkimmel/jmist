@@ -134,10 +134,10 @@ public final class LambertianMaterial extends OpaqueMaterial {
 			if (!fromFront) {
 				out = out.opposite();
 			}
-			
+
 			Ray3 ray = new Ray3(x.getPosition(), out.toCartesian(x.getShadingBasis()));
 			boolean toFront = ray.direction().dot(x.getNormal()) > 0.0;
-			
+
 			if (fromFront == toFront) {
 				return ScatteredRay.diffuse(ray, reflectance.getColor(x, lambda), 1.0 / Math.PI);
 			}
@@ -158,7 +158,10 @@ public final class LambertianMaterial extends OpaqueMaterial {
 		boolean fromFront = (n.dot(in) < 0.0);
 		boolean toFront = (n.dot(out) > 0.0);
 
-		if (this.reflectance != null && (toFront == fromFront)) {
+		Vector3 n1 = x.getShadingNormal();
+		boolean fromFront1 = (n1.dot(in) < 0.0);
+
+		if (this.reflectance != null && (toFront == fromFront) && (toFront == fromFront1)) {
 			return reflectance.getColor(x, lambda).divide(Math.PI);
 		} else {
 			return lambda.getColorModel().getBlack(lambda);
