@@ -3,3 +3,5 @@ build/
 build.properties
 /target/
 .settings/
+.project
+.classpath
