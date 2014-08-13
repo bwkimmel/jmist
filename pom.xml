@@ -7,9 +7,34 @@
   <artifactId>jmist</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
+  <scm>
+    <url>https://github.com/bwkimmel/jmist</url>
+  </scm>
   <name>Java Modular Image Synthesis Toolkit</name>
   <description>A research-oriented framework for image synthesis.</description>
   <modules>
     <module>jmist-core</module>
   </modules>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.1</version>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <repositories>
+    <repository>
+      <id>github</id>
+      <name>bwkimmel.github.io</name>
+      <url>https://bwkimmel.github.io/mvn-repo</url>
+    </repository>
+  </repositories>
 </project>
