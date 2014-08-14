@@ -7,9 +7,6 @@
   <artifactId>jmist</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <scm>
-    <url>https://github.com/bwkimmel/jmist</url>
-  </scm>
   <name>Java Modular Image Synthesis Toolkit</name>
   <description>A research-oriented framework for image synthesis.</description>
   <licenses>
@@ -24,6 +21,11 @@
       <email>intrepidca@gmail.com</email>
     </developer>
   </developers>
+  <scm>
+    <connection>scm:git:git@github.com:bwkimmel/jmist.git</connection>
+    <developerConnection>scm:git:git@github.com:bwkimmel/jmist.git</developerConnection>
+    <url>https://github.com/bwkimmel/jmist</url>
+  </scm>
   <modules>
     <module>jmist-core</module>
   </modules>
