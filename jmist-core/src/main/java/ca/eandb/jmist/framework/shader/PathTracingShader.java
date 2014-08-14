@@ -50,16 +50,16 @@ public final class PathTracingShader implements Shader {
 
   /** The default maximum path depth. */
   private static final int DEFAULT_MAX_DEPTH = 10;
-  
+
   private static final int DEFAULT_FIRST_BOUNCE_RAYS = 1;
 
   /** The maximum path depth. */
   private final int maxDepth;
-  
+
   private final int firstBounceRays;
-  
+
   private transient ThreadLocal<Random> rnd;
-  
+
   private transient ThreadLocal<Random> firstBounceSampler;
 
   /**
@@ -68,7 +68,7 @@ public final class PathTracingShader implements Shader {
   public PathTracingShader() {
     this(DEFAULT_MAX_DEPTH, DEFAULT_FIRST_BOUNCE_RAYS);
   }
-  
+
   /**
    * Creates a new <code>PathTracingShader</code>.
    * @param maxDepth The maximum path depth.
@@ -104,7 +104,7 @@ public final class PathTracingShader implements Shader {
       };
     }
   }
-  
+
   private void readObject(ObjectInputStream ois)
       throws ClassNotFoundException, IOException {
     ois.defaultReadObject();
@@ -138,7 +138,7 @@ public final class PathTracingShader implements Shader {
             ray = null;
           }
         }
-  
+
         if (ray != null) {
           return sc.castRay(ray).times(ray.getColor());
         }

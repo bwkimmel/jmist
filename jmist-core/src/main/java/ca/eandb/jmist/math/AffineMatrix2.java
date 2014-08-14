@@ -151,7 +151,7 @@ public final class AffineMatrix2 implements Serializable {
   public double determinant() {
     return _00 * _11 - _01 * _10;
   }
-  
+
   /**
    * Gets the trace of this matrix (i.e., the sum of the diagonal elements).
    * @return The trace of this matrix.

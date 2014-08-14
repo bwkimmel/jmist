@@ -145,7 +145,7 @@ public final class LinearMatrix2 implements Serializable {
   public double trace() {
     return _00 + _11;
   }
-  
+
   /**
    * Gets the characteristic polynomial of this matrix (i.e., the univariate
    * polynomial in <code>&lambda;</code> given by
@@ -157,10 +157,10 @@ public final class LinearMatrix2 implements Serializable {
     double c0 = determinant();
     double c1 = -trace();
     double c2 = 1.0;
-  
-    return new Polynomial(c0, c1, c2);    
+
+    return new Polynomial(c0, c1, c2);
   }
-  
+
   /**
    * Returns an array of the real eigenvalues of this matrix (i.e., the
    * values <code>&lambda;</code> for which there exists a non-trivial
@@ -170,7 +170,7 @@ public final class LinearMatrix2 implements Serializable {
   public double[] eigenvalues() {
     return characteristic().roots();
   }
-  
+
   /**
    * Returns an array of the <code>Complex</code> eigenvalues of this matrix
    * (i.e., the values <code>&lambda;</code> for which there exists a
@@ -289,7 +289,7 @@ public final class LinearMatrix2 implements Serializable {
   public static LinearMatrix2 stretchYMatrix(double cy) {
     return new LinearMatrix2(
         1.0, 0.0,
-        0.0, cy 
+        0.0, cy
     );
   }
 

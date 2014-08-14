@@ -35,13 +35,13 @@ import ca.eandb.util.UnimplementedException;
  *
  */
 public final class UnimplementedCodec implements Codec {
-  
+
   private static final UnimplementedCodec INSTANCE = new UnimplementedCodec();
-  
+
   public static final UnimplementedCodec getInstance() {
     return INSTANCE;
   }
-  
+
   private UnimplementedCodec() {}
 
   /* (non-Javadoc)

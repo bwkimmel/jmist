@@ -33,17 +33,17 @@ import ca.eandb.jmist.math.Point2;
 
 /**
  * A <code>Texture2</code> that always samples the same <code>Spectrum</code>.
- * 
+ *
  * @author Brad Kimmel
  */
 public final class UniformTexture2 implements Texture2 {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = 5034772953605550946L;
-  
+
   /** The constant <code>Spectrum</code> sampled by this texture. */
   private final Spectrum spectrum;
-  
+
   /**
    * Creates a new <code>UniformTexture2</code>.
    * @param spectrum The constant <code>Spectrum</code> sampled by this

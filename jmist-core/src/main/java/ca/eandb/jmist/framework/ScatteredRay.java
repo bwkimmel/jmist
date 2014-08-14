@@ -38,33 +38,33 @@ public final class ScatteredRay {
 
   /** Describes the type of scattering. */
   public static enum Type {
-    
+
     /** Scattering in all directions uniformly (more-or-less). */
     DIFFUSE,
-    
-    /** 
+
+    /**
      * Scattering concentrated in a given direction enough to make out
-     * fuzzy reflections. 
+     * fuzzy reflections.
      */
     GLOSSY,
-    
+
     /** Scattering highly concentrated in a given direction (mirror-like). */
     SPECULAR
-    
+
   }
 
   /** The origin and direction of the scattered ray. */
   private final Ray3 scatteredRay;
-  
+
   /** The <code>Color</code> applied by this scattering event. */
   private final Color color;
-  
+
   /** The <code>Type</code> of scattering event (diffuse, glossy, specular) */
   private final Type type;
-  
+
   /** The marginal probability of generating this scattering event. */
   private final double pdf;
-  
+
   /**
    * A value indicating whether the scattered ray emits from the opposite
    * side of the surface from the incident ray.

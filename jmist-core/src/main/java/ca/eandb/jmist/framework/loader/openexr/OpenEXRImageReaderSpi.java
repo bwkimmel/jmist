@@ -38,7 +38,7 @@ import javax.imageio.spi.ImageReaderSpi;
 public final class OpenEXRImageReaderSpi extends ImageReaderSpi {
 
   /**
-   * 
+   *
    */
   public OpenEXRImageReaderSpi() {
     // TODO Auto-generated constructor stub

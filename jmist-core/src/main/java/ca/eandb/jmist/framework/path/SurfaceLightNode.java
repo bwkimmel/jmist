@@ -127,14 +127,14 @@ public final class SurfaceLightNode extends LightTerminalNode {
               "grandChild and newParent.getParent() are different.");
         }
       }
-      
+
       Vector3 v = PathUtil.getDirection(newParent, this);
       Point3 origin = newParent.isAtInfinity()
           ? surf.getPosition().minus(v)
           : newParent.getPosition().toPoint3();
-      Ray3 ray = new Ray3(origin, v);      
+      Ray3 ray = new Ray3(origin, v);
       ScatteredRay sr;
-      
+
       if (grandChild != null) {
         double rpdf = grandChild.getReversePDF();
         double pdf = grandChild.getPDF();

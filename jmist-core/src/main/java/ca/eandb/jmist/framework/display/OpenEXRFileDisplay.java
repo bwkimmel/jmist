@@ -50,22 +50,22 @@ import ca.eandb.util.UnexpectedException;
  * @author Brad Kimmel
  */
 public final class OpenEXRFileDisplay implements Display {
-    
+
   /** The name of the file to write. */
   private final String fileName;
-  
+
   /** The <code>PixelType</code> to use for the raw color channel data. */
   private final PixelType rawPixelType;
-  
+
   /** The <code>PixelType</code> to use for the RGB color data. */
   private final PixelType rgbPixelType;
-  
+
   /** The <code>OpenEXRImage</code> being created. */
   private transient OpenEXRImage image;
-  
+
   /** The current <code>ColorModel</code>. */
   private transient ColorModel colorModel;
-  
+
   /**
    * Creates a new <code>OpenEXRDisplay</code>.
    * @param fileName The name of the file to write.
@@ -89,7 +89,7 @@ public final class OpenEXRFileDisplay implements Display {
       throw new IllegalArgumentException("rgbPixelType == UINT");
     }
     if (rawPixelType == null && rgbPixelType == null) {
-      throw new IllegalArgumentException("At least one pixel type must be specified");      
+      throw new IllegalArgumentException("At least one pixel type must be specified");
     }
     this.fileName = fileName;
     this.rawPixelType = rawPixelType;
@@ -103,16 +103,16 @@ public final class OpenEXRFileDisplay implements Display {
   public void initialize(int w, int h, ColorModel colorModel) {
     this.colorModel = colorModel;
     image = new OpenEXRImage(w, h);
-    
+
     ChannelList chlist = image.getChannelList();
-    
+
     if (rawPixelType != null) {
       for (int i = 0, n = colorModel.getNumChannels(); i < n; i++) {
         String name = colorModel.getChannelName(i);
         chlist.addChannel(new Channel(name, rawPixelType));
       }
     }
-    
+
     if (rgbPixelType != null) {
       chlist.addChannel(new Channel("R", rgbPixelType));
       chlist.addChannel(new Channel("G", rgbPixelType));
@@ -129,7 +129,7 @@ public final class OpenEXRFileDisplay implements Display {
       for (int i = 0, n = colorModel.getNumChannels(); i < n; i++) {
         String name = colorModel.getChannelName(i);
         float value = (float) color.getValue(i);
-        
+
         for (int y = y0; y < y0 + h; y++) {
           for (int x = x0; x < x0 + w; x++) {
             image.setFloat(x, y, name, value);
@@ -173,7 +173,7 @@ public final class OpenEXRFileDisplay implements Display {
     int w = pixels.getWidth();
     int h = pixels.getHeight();
     if (rawPixelType != null) {
-      int n = colorModel.getNumChannels();  
+      int n = colorModel.getNumChannels();
       for (int y = 0; y < h; y++) {
         for (int x = 0; x < w; x++) {
           Color color = pixels.getPixel(x, y);

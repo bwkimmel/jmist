@@ -86,7 +86,7 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
   private final int width;
 
   private final int height;
-  
+
   private final Interval shutter;
 
   private final int eyePathsPerPixel;
@@ -104,7 +104,7 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
   private transient int tasksSubmitted = 0;
 
   private transient int passesSubmitted = 0;
-  
+
   private final FloatArray contribList = new FloatArray();
 
   public BidiPathTracerJob(Scene scene, Display display, int width,
@@ -127,7 +127,7 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
     this.extraPasses = eyePathsPerPixel - minPassesPerTask * tasks;
     this.displayPartialResults = displayPartialResults;
   }
-  
+
   public BidiPathTracerJob(Scene scene, Display display, int width,
       int height, ColorModel colorModel, Random random,
       BidiPathStrategy strategy, PathMeasure measure, int eyePathsPerPixel,
@@ -136,7 +136,7 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
         measure, eyePathsPerPixel, lightPathsPerEyePath, tasks,
         displayPartialResults);
   }
-  
+
   /* (non-Javadoc)
    * @see ca.eandb.jdcp.job.ParallelizableJob#getNextTask()
    */
@@ -185,7 +185,7 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
         }
       }
     }
-    
+
     writeContribList();
 
     monitor.notifyProgress(++tasksSubmitted, tasks);
@@ -196,7 +196,7 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
     }
 
   }
-  
+
   private synchronized void writeContribList() {
 //    try {
 ////      synchronized (contribList) {
@@ -253,7 +253,7 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
     private static final long serialVersionUID = -7848301189373426210L;
 
     private transient ThreadLocal<Raster> raster = null;
-    
+
     private synchronized void initialize() {
       if (raster == null) {
         raster = new ThreadLocal<Raster>() {
@@ -300,7 +300,7 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
           bounds    = new Box2(x0, y0, x1, y1);
 
           for (int i = 0; i < passes; i++) {
-            
+
             if (shutter != null) {
               double time    = RandomUtil.uniform(shutter, random);
               animator.setTime(time);
@@ -425,22 +425,22 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
       } else {
         c = joinInnerToInner((ScatteringNode) lightNode, eyeNode);
       }
-      
+
       if (c != null) {
 //        synchronized (contribList) {
 //          contribList.add((float) c.luminance());
 //        }
-        
+
         if (c.luminance() < 0.0) {
           bp();
         }
       }
-      
+
       return c;
     }
-    
+
     private void bp() {
-    
+
     }
 
     private Color joinInnerToInner(PathNode lightNode, PathNode eyeNode) {

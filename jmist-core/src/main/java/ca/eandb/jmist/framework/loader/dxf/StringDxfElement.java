@@ -31,7 +31,7 @@ package ca.eandb.jmist.framework.loader.dxf;
 public final class StringDxfElement extends AbstractDxfElement {
 
   private final String value;
-  
+
   /**
    * @param groupCode
    * @param value
@@ -40,7 +40,7 @@ public final class StringDxfElement extends AbstractDxfElement {
     super(groupCode);
     this.value = value;
   }
-  
+
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.loader.dxf.AbstractDxfElement#getStringValue()
    */

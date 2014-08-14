@@ -46,24 +46,24 @@ import ca.eandb.jmist.framework.color.RGB;
  */
 public final class JHighlightAnomaliesVisualizerPanel extends
     JColorVisualizerPanel {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = -4644160032022137365L;
 
   private static final double EPSILON = 1.0 / 256.0;
-  
+
   private final JColorVisualizerPanel inner;
-  
+
   private final JCheckBox highlightNegativeCheckBox;
-  
+
   private final JCheckBox highlightOverCheckBox;
-  
+
   private final JCheckBox highlightUnderCheckBox;
-  
+
   private RGB negative = RGB.RED;
-  
+
   private RGB overexposed = RGB.BLUE;
-  
+
   private RGB underexposed = RGB.GREEN;
 
   public JHighlightAnomaliesVisualizerPanel(JColorVisualizerPanel inner) {
@@ -74,17 +74,17 @@ public final class JHighlightAnomaliesVisualizerPanel extends
         inner_OnStateChanged(e);
       }
     });
-    
+
     JLabel label;
     GridBagConstraints c;
-    
+
     highlightNegativeCheckBox = new JCheckBox("Negative");
     highlightNegativeCheckBox.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         highlightCheckBox_OnActionPerformed(e);
       }
     });
-    
+
     highlightOverCheckBox = new JCheckBox("Overexposed");
     highlightOverCheckBox.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
@@ -106,7 +106,7 @@ public final class JHighlightAnomaliesVisualizerPanel extends
     label = new JLabel("Highlight");
     label.setPreferredSize(new Dimension(100, 25));
     add(label, c);
-    
+
     c = new GridBagConstraints();
     c.gridy = 0;
     c.gridx = 1;
@@ -138,7 +138,7 @@ public final class JHighlightAnomaliesVisualizerPanel extends
     c.fill = GridBagConstraints.BOTH;
     add(inner, c);
   }
-  
+
   protected void highlightCheckBox_OnActionPerformed(ActionEvent e) {
     fireStateChanged();
   }

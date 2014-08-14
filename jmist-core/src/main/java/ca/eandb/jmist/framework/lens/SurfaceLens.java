@@ -51,7 +51,7 @@ public final class SurfaceLens extends AbstractLens {
 
   /** Serialization version ID. */
   private static final long serialVersionUID = -7507678606010224670L;
-  
+
   /** The <code>SceneElement</code> from which rays are emitted. */
   private final SceneElement e;
 
@@ -77,7 +77,7 @@ public final class SurfaceLens extends AbstractLens {
 
     /** Projected point on the image plane. */
     private final Point2 pointOnImagePlane;
-    
+
     /** The <code>ShadingContext</code> for this node. */
     private final ShadingContext context = new MinimalShadingContext(Random.DEFAULT);
 

@@ -41,7 +41,7 @@ public final class Vector2 extends HPoint2 {
   public Vector2(double x, double y) {
     super(x, y);
   }
-  
+
   /* (non-Javadoc)
    * @see ca.eandb.jmist.math.HPoint2#w()
    */

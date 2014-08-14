@@ -45,20 +45,20 @@ import ca.eandb.util.UnimplementedException;
  * @author Brad Kimmel
  */
 public class RangeSceneElement implements SceneElement {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = 6345176989327302632L;
 
   private final SceneElement inner;
-  
+
   private final int offset;
-  
+
   private final int size;
-  
+
   private double surfaceArea = Double.NaN;
-  
+
   private Box3 bbox = null;
-  
+
   public RangeSceneElement(int offset, int size, SceneElement inner) {
     this.inner = inner;
     this.offset = offset;
@@ -164,7 +164,7 @@ public class RangeSceneElement implements SceneElement {
     }
     return inner.getSurfaceArea(offset + index);
   }
-  
+
   private synchronized void computeSurfaceArea() {
     if (Double.isNaN(surfaceArea)) {
       double area = 0.0;
@@ -224,10 +224,10 @@ public class RangeSceneElement implements SceneElement {
               ShadingContext context) {
             context.setPrimitiveIndex(context.getPrimitiveIndex() - offset);
           }
-          
+
         });
       }
-      
+
     };
     for (int i = 0, j = offset; i < size; i++, j++) {
       inner.intersect(j, ray, recorder);
@@ -255,7 +255,7 @@ public class RangeSceneElement implements SceneElement {
     }
     return inner.visibility(offset + index, ray);
   }
-  
+
   private synchronized void computeBoundingBox() {
     if (bbox == null) {
       BoundingBoxBuilder3 builder = new BoundingBoxBuilder3();

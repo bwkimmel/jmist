@@ -42,29 +42,29 @@ import ca.eandb.jmist.math.Vector3;
 /**
  * A <code>Material</code> that represents an interpolation of two other
  * <code>Material</code>s controlled by a <code>Mask2</code>.
- * 
+ *
  * @author Brad Kimmel
  */
 public final class BlendedMaterial implements Material {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = -3551402668466276594L;
 
   /** The <code>Material</code> to apply where the mask value is zero. */
   private final Material a;
-  
+
   /** The <code>Material</code> to apply where the mask value is one. */
   private final Material b;
-  
+
   /** The <code>Mask2</code> controlling the interpolation. */
   private final Mask2 mask;
-  
-  /** 
+
+  /**
    * The <code>Medium</code> within objects to which this material is
    * applied.
    */
   private final Medium medium;
-  
+
   /**
    * Creates a new <code>BlendedMaterial</code>.
    * @param a The <code>Material</code> to apply where the mask value is
@@ -80,7 +80,7 @@ public final class BlendedMaterial implements Material {
     this.mask = mask;
     this.medium = medium;
   }
-  
+
   /**
    * Creates a new <code>BlendedMaterial</code>.
    * @param a The <code>Material</code> to apply where the mask value is
@@ -150,7 +150,7 @@ public final class BlendedMaterial implements Material {
           result = new ScatteredRay(result.getRay(), result
               .getColor(), result.getType(), result.getPDF()
               * (1.0 - t), result.isTransmitted());
-        }        
+        }
       }
     } else if (aemit) {
       result = a.emit(x, lambda, ru, rv, rj);
@@ -183,7 +183,7 @@ public final class BlendedMaterial implements Material {
     if (aemit && bemit) {
       double t = mask.opacity(x.getUV());
       return MathUtil.interpolate(
-          a.getEmissionPDF(x, out, lambda), 
+          a.getEmissionPDF(x, out, lambda),
           b.getEmissionPDF(x, out, lambda),
           t);
     } else if (aemit) {

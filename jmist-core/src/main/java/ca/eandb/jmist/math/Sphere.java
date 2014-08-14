@@ -302,11 +302,11 @@ public final class Sphere implements Serializable {
         center.z() + radius
     );
   }
-  
+
   /**
    * Gets the <code>Matrix4</code> representation of this <code>Sphere</code>.
    * The <code>Matrix4</code> returned, <code><b>A</b></code>, will satisfy:
-   * 
+   *
    * <ul>
    *     <li>
    *       <code><b>x<sup>t</sup>Ax</b> &lt; 0</code> whenever
@@ -320,7 +320,7 @@ public final class Sphere implements Serializable {
    *       <code><b>x<sup>t</sup>Ax</b> = 0</code> whenever
    *      <code><b>x</b></code> lies on the surface of this
    *      <code>Sphere</code>.
-   * </ul>  
+   * </ul>
    * @return The <code>Matrix4</code> representation of this
    *     <code>Sphere</code>.
    */
@@ -334,14 +334,14 @@ public final class Sphere implements Serializable {
         0.0, 0.0, 1.0, Tz,
         0.0, 0.0, 0.0, 1.0);
     Matrix4 Tt = T.transposed();
-    
+
     double r2i = 1.0 / (radius * radius);
     Matrix4 S = new Matrix4(
         r2i, 0.0, 0.0, 0.0,
         0.0, r2i, 0.0, 0.0,
         0.0, 0.0, r2i, 0.0,
         0.0, 0.0, 0.0, -1.0);
-    
+
     return Tt.times(S).times(T);
   }
 

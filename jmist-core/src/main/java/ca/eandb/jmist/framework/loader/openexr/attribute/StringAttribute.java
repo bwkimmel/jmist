@@ -36,13 +36,13 @@ import java.io.IOException;
  */
 @OpenEXRAttributeType("string")
 public final class StringAttribute implements Attribute {
-  
+
   private final String value;
-  
+
   public StringAttribute(String value) {
     this.value = value;
   }
-  
+
   /**
    * @return the value
    */

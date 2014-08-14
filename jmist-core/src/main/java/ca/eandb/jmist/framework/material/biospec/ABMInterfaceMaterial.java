@@ -82,7 +82,7 @@ public final class ABMInterfaceMaterial extends OpaqueMaterial {
 
   /**
    * Creates a new <code>ABMInterfaceSurfaceScatterer</code>.
-   * 
+   *
    * @param riBelow
    *            The refractive index of the medium above the interface.
    * @param riAbove
@@ -151,7 +151,7 @@ public final class ABMInterfaceMaterial extends OpaqueMaterial {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * ca.eandb.jmist.framework.scatter.SurfaceScatterer#scatter(ca.eandb.jmist
    * .framework.SurfacePointGeometry, ca.eandb.jmist.math.Vector3, boolean,
@@ -197,7 +197,7 @@ public final class ABMInterfaceMaterial extends OpaqueMaterial {
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see
    * ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist
    * .framework.SurfacePoint, ca.eandb.jmist.math.Vector3, boolean,

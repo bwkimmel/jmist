@@ -32,20 +32,20 @@ import ca.eandb.jmist.math.MathUtil;
 /**
  * A piecewise linear <code>Function1</code> interpolating a sequence of points
  * spaced uniformly in the domain.
- * 
+ *
  * @author Brad Kimmel
  */
 public final class UniformPiecewiseLinearFunction1 implements Function1 {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = 816595096646372284L;
 
   /** The <code>Interval</code> within which values are specified. */
   private final Interval domain;
-  
+
   /** The array of values to interpolate. */
   private final double[] values;
-  
+
   /**
    * Creates a new <code>UniformPiecewiseLinearFunction1</code>.
    * @param domain The <code>Interval</code> within which values are
@@ -67,11 +67,11 @@ public final class UniformPiecewiseLinearFunction1 implements Function1 {
     this.domain = domain;
     this.values = values.clone();
   }
-  
+
   /**
    * Creates a new <code>UniformPiecewiseLinearFunction1</code> by sampling
    * the provided <code>Function1</code> uniformly within the specified
-   * domain. 
+   * domain.
    * @param f The <code>Function1</code> to sample.
    * @param domain The <code>Interval</code> within which to sample
    *     <code>f</code>.  This interval must be non-empty and finite.
@@ -95,11 +95,11 @@ public final class UniformPiecewiseLinearFunction1 implements Function1 {
       values[i] = f.evaluate(x);
     }
   }
-  
+
   /**
    * Creates a new <code>UniformPiecewiseLinearFunction1</code> by sampling
    * the provided <code>Function1</code> uniformly within the specified
-   * domain. 
+   * domain.
    * @param f The <code>Function1</code> to sample.
    * @param domain The <code>Interval</code> within which to sample
    *     <code>f</code>.  This interval must be non-empty and finite.

@@ -34,13 +34,13 @@ import ca.eandb.jmist.framework.random.ThreadLocalRandom;
  *
  */
 public final class LensSubpathMutator implements PathMutator {
-  
+
   private final int nx;
-  
+
   private final int ny;
-  
-  
-  
+
+
+
   public LensSubpathMutator(int nx, int ny) {
     this.nx = nx;
     this.ny = ny;

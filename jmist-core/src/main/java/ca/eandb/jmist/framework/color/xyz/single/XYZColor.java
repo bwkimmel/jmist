@@ -42,16 +42,16 @@ import ca.eandb.jmist.math.Vector3;
  *
  */
 public final class XYZColor implements SingleXYZColor, Spectrum {
-  
+
   /** Serialization version ID */
   private static final long serialVersionUID = 4075320463440427747L;
 
   private static final LinearMatrix3 xyz2band = generateXYZ2Band();
 
   private final double x;
-  
+
   private final double y;
-  
+
   private final double z;
 
   public XYZColor(double x, double y, double z) {
@@ -142,7 +142,7 @@ public final class XYZColor implements SingleXYZColor, Spectrum {
   public XYZColor times(Color other) {
     return times(((SingleXYZColor) other).toXYZColor());
   }
-  
+
   public XYZColor times(XYZColor other) {
     return new XYZColor(x * other.x, y * other.y, z * other.z);
   }
@@ -162,7 +162,7 @@ public final class XYZColor implements SingleXYZColor, Spectrum {
   public Color divide(Color other) {
     return divide(((SingleXYZColor) other).toXYZColor());
   }
-  
+
   public XYZColor divide(XYZColor other) {
     return new XYZColor(x / other.x, y / other.y, z / other.z);
   }
@@ -182,7 +182,7 @@ public final class XYZColor implements SingleXYZColor, Spectrum {
   public Color plus(Color other) {
     return plus(((SingleXYZColor) other).toXYZColor());
   }
-  
+
   public XYZColor plus(XYZColor other) {
     return new XYZColor(x + other.x, y + other.y, z + other.z);
   }
@@ -194,7 +194,7 @@ public final class XYZColor implements SingleXYZColor, Spectrum {
   public Color minus(Color other) {
     return minus(((SingleXYZColor) other).toXYZColor());
   }
-  
+
   public XYZColor minus(XYZColor other) {
     return new XYZColor(x - other.x, y - other.y, z - other.z);
   }
@@ -250,10 +250,10 @@ public final class XYZColor implements SingleXYZColor, Spectrum {
   public Color pow(Color other) {
     return pow(((SingleXYZColor) other).toXYZColor());
   }
-  
+
   public XYZColor pow(XYZColor other) {
     return new XYZColor(
-        Math.pow(x, other.x), 
+        Math.pow(x, other.x),
         Math.pow(y, other.y),
         Math.pow(z, other.z));
   }
@@ -353,7 +353,7 @@ public final class XYZColor implements SingleXYZColor, Spectrum {
   public XYZColor toXYZColor() {
     return this;
   }
-  
+
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.color.xyz.single.SingleXYZColor#asSample()
    */

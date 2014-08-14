@@ -110,7 +110,7 @@ public final class MultipleSpecimenPhotometerJob extends AbstractParallelizableJ
         measurementIndex
     );
   }
-  
+
   private SurfaceScatterer getSpecimen(int measurementIndex) {
     return this.specimens[measurementIndex / (wavelengths.length * incidentAngles.length)];
   }
@@ -155,26 +155,26 @@ public final class MultipleSpecimenPhotometerJob extends AbstractParallelizableJ
     PrintStream out = new PrintStream(createFileOutputStream("photometer.csv"));
 
     this.writeColumnHeadings(out);
-    
+
     for (int specimenIndex = 0, n = 0; specimenIndex < this.specimens.length; specimenIndex++) {
 
       for (int incidentAngleIndex = 0; incidentAngleIndex < this.incidentAngles.length; incidentAngleIndex++) {
-  
+
         SphericalCoordinates      incidentAngle      = this.incidentAngles[incidentAngleIndex];
-  
+
         for (int wavelengthIndex = 0; wavelengthIndex < this.wavelengths.length; wavelengthIndex++, n++) {
-  
+
           double            wavelength        = this.wavelengths[wavelengthIndex];
           IntegerSensorArray      sensorArray        = this.results[n];
-  
+
           for (int sensor = 0; sensor < worker.collector.sensors(); sensor++) {
-  
+
             SphericalCoordinates  exitantAngle      = worker.collector.getSensorCenter(sensor);
             double          solidAngle        = worker.collector.getSensorSolidAngle(sensor);
             double          projectedSolidAngle    = worker.collector.getSensorProjectedSolidAngle(sensor);
             long          hits          = sensorArray.hits(sensor);
             double          reflectance        = (double) hits / (double) this.samplesPerMeasurement;
-  
+
             out.printf(
                 "%d,%f,%f,%e,%d,%f,%f,%f,%f,%d,%d,%f,%e,%e",
                 specimenIndex,
@@ -193,11 +193,11 @@ public final class MultipleSpecimenPhotometerJob extends AbstractParallelizableJ
                 reflectance / solidAngle
             );
             out.println();
-  
+
           }
-  
+
         }
-        
+
       }
 
     }

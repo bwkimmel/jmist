@@ -65,7 +65,7 @@ import ca.eandb.jmist.util.ArrayUtil;
  *     August 2007.
  *   </li>
  * </ul>
- * 
+ *
  * @author Brad Kimmel
  * @see <a href="http://www.npsg.uwaterloo.ca/models/ABMU.php">Run ABM-U Online</a>
  * @see <a href="http://www.npsg.uwaterloo.ca/models/ABMB.php">Run ABM-B Online</a>
@@ -123,26 +123,26 @@ public final class ABMMaterial extends OpaqueMaterial {
     @Override
     public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint,
         WavelengthPacket lambda, double ru, double rv, double rj) {
-      
+
       Color col = absorptionCoefficient.sample(lambda);
 //      double abs = ColorUtil.getMeanChannelValue(col);
-//      
+//
 //      if (abs > MathUtil.EPSILON) {
 //        double p = -Math.log(1.0 - rnd.next()) * Math.cos(Math.abs(x.getNormal().dot(v))) / abs;
-//        
+//
 //        col = col.times(-thickness).exp();
 //        col = col.divide(ColorUtil.getMeanChannelValue(col));
-//        
+//
 //        if (p > thickness) {
 //          return ScatteredRay.transmitSpecular(new Ray3(x.getPosition(), v), col, 1.0);
 //        }
 //      }
-//      
+//
 //      return null;
-      
+
       col = col.times(-thickness.get() / Math.cos(Math.abs(x.getNormal().dot(v)))).exp();
-      return ScatteredRay.transmitSpecular(new Ray3(x.getPosition(), v), col, 1.0);    
-      
+      return ScatteredRay.transmitSpecular(new Ray3(x.getPosition(), v), col, 1.0);
+
     }
 
   }
@@ -351,11 +351,11 @@ public final class ABMMaterial extends OpaqueMaterial {
   private final LayeredMaterial subsurface = new LayeredMaterial();
 
   private final ColorModel colorModel;
-  
+
   public ABMMaterial(ColorModel colorModel) {
     this.colorModel = colorModel;
   }
-  
+
   /**
    * @return the cuticleUndulationsAspectRatio
    */
@@ -631,7 +631,7 @@ public final class ABMMaterial extends OpaqueMaterial {
     double iorAntidermalWall = (1.0 - scattererFractionInAntidermalWall)
         * MathUtil.mean(IOR_WATER_VALUES) + 1.535
         * scattererFractionInAntidermalWall;
-  
+
     double concDryMatter = dryBulkDensity / (1.0 - airVolumeFraction);
 
     double concProtein = concDryMatter * proteinFraction;
@@ -668,7 +668,7 @@ public final class ABMMaterial extends OpaqueMaterial {
 
     double mesophyllFraction = bifacial ? 0.5 : 0.8;
     mesophyllThickness = mesophyllFraction * wholeLeafThickness;
-    
+
     double lambda = 550e-9;
     System.out.printf("mesophyllAbsorptionCoefficient=%f", mesophyllAbsorptionCoefficient.evaluate(lambda));
     System.out.println();
@@ -688,7 +688,7 @@ public final class ABMMaterial extends OpaqueMaterial {
     System.out.println();
     System.out.printf("dryBulkDensity=%f", dryBulkDensity);
     System.out.println();
-    
+
     double iorCuticle = MathUtil.mean(IOR_CUTICLE_VALUES);
     double iorWater = MathUtil.mean(IOR_WATER_VALUES);
 
@@ -782,7 +782,7 @@ public final class ABMMaterial extends OpaqueMaterial {
     }
     //System.exit(1);
   }
-  
+
   /**
    * Checks if the layers have been created yet.  Creates them if they have
    * not been.
@@ -813,5 +813,5 @@ public final class ABMMaterial extends OpaqueMaterial {
 
     return subsurface.scatter(x, v, adjoint, lambda, ru, rv, rj);
   }
-  
+
 }

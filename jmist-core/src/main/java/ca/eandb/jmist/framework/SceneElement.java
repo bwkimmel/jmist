@@ -33,7 +33,7 @@ import ca.eandb.jmist.math.Sphere;
 
 /**
  * The basic component of a scene description.
- * 
+ *
  * A <code>SceneElement</code>:
  * <ul>
  *   <li>Can test visibility between two points, or along a ray.</li>
@@ -50,7 +50,7 @@ import ca.eandb.jmist.math.Sphere;
  *     applied to the individual primitives as well as the
  *     <code>SceneElement</code> as a whole.</li>
  * </ul>
- *  
+ *
  * @author Brad Kimmel
  */
 public interface SceneElement extends Bounded3, VisibilityFunction3, Serializable {

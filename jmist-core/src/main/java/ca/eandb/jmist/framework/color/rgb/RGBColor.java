@@ -86,7 +86,7 @@ import ca.eandb.jmist.math.MathUtil;
   public RGB toRGB() {
     return new RGB(r, g, b);
   }
-  
+
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.color.Color#abs()
    */

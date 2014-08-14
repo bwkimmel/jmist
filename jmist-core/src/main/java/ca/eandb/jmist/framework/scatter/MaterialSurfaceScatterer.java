@@ -44,16 +44,16 @@ import ca.eandb.jmist.math.Vector3;
  * @author Brad Kimmel
  */
 public final class MaterialSurfaceScatterer implements SurfaceScatterer {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = -6083464393181438496L;
-  
+
   /** The <code>Material</code> to use for scattering. */
   private final Material material;
-  
+
   /** The ambient <code>Medium</code> to use for scattering. */
   private final Medium ambientMedium;
-  
+
   /**
    * Creates a new <code>MaterialSurfaceScatterer</code>.
    * @param material The <code>Material</code> to use for scattering.
@@ -61,7 +61,7 @@ public final class MaterialSurfaceScatterer implements SurfaceScatterer {
   public MaterialSurfaceScatterer(Material material) {
     this(material, Medium.VACUUM);
   }
-  
+
   /**
    * Creates a new <code>MaterialSurfaceScatterer</code>.
    * @param material The <code>Material</code> to use for scattering.
@@ -115,7 +115,7 @@ public final class MaterialSurfaceScatterer implements SurfaceScatterer {
     };
     ScatteredRay sr = material.scatter(surf, v, adjoint, white.getWavelengthPacket(), rnd.next(), rnd.next(), rnd.next());
     return sr != null ? sr.getRay().direction() : null;
-    
+
   }
 
 }

@@ -44,7 +44,7 @@ import ca.eandb.jmist.framework.pdf.PiecewiseLinearProbabilityDensityFunction;
  * to represent all three XYZ channels while tracing a path.
  */
 public final class SingleXYZColorModel extends ColorModel {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = 4579926945614312541L;
 
@@ -54,14 +54,14 @@ public final class SingleXYZColorModel extends ColorModel {
   private static final ProbabilityDensityFunction Y_PDF = new PiecewiseLinearProbabilityDensityFunction(ColorUtil.XYZ_WAVELENGTHS, ColorUtil.Y_BAR);
 
   private final Spectrum black = new SingleXYZContinuousSpectrum(Function1.ZERO);
-  
+
   private final Spectrum white = new SingleXYZContinuousSpectrum(Function1.ONE);
-  
+
   /** Gets the single instance of this <code>ColorModel</code>. */
   public synchronized static SingleXYZColorModel getInstance() {
     return instance;
   }
-  
+
   /** Constructor is private because this class is a singleton. */
   private SingleXYZColorModel() { /* nothing to do. */ }
 

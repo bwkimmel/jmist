@@ -36,18 +36,18 @@ import ca.eandb.jmist.math.Interval;
  *
  */
 public final class RemapPainter implements Painter {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = -4526940092822564018L;
 
   private final Painter inner;
-  
+
   private final Interval range;
-  
+
   public RemapPainter(Interval range, Painter inner) {
     this.range = range;
     this.inner = inner;
-    
+
     if (range.isInfinite()) {
       throw new IllegalArgumentException("range may not be infinite");
     }

@@ -36,9 +36,9 @@ import java.io.IOException;
  */
 @OpenEXRAttributeType("float")
 public final class FloatAttribute implements Attribute {
-  
+
   private final float value;
-  
+
   public FloatAttribute(float value) {
     this.value = value;
   }
@@ -49,7 +49,7 @@ public final class FloatAttribute implements Attribute {
   public float getValue() {
     return value;
   }
-  
+
   public static FloatAttribute read(DataInput in, int size) throws IOException {
     return new FloatAttribute(in.readFloat());
   }

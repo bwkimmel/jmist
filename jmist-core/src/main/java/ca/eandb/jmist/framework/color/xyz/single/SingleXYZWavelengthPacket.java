@@ -32,14 +32,14 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
  * A <code>WavelengthPacket</code> representing a single wavelength sampled
  * by the <code>SingleXYZColorModel</code> and distributed according to the
  * luminous efficacy function.
- * 
+ *
  * @see http://en.wikipedia.org/wiki/Luminous_efficacy
  */
 public final class SingleXYZWavelengthPacket implements WavelengthPacket {
-  
+
   /** Wavelength sampled in meters. */
   private final double lambda;
-  
+
   /**
    * Creates a new <code>XYZWavelength</code>.
    * @param lambda The wavelength, in meters.
@@ -55,7 +55,7 @@ public final class SingleXYZWavelengthPacket implements WavelengthPacket {
   public ColorModel getColorModel() {
     return SingleXYZColorModel.getInstance();
   }
-  
+
   /** Gets the wavelength for this sample, in meters. */
   public double getWavelength() {
     return lambda;

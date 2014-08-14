@@ -73,7 +73,7 @@ import ca.eandb.util.progress.ProgressPanel;
  *     August 2007.
  *   </li>
  * </ul>
- * 
+ *
  * @author Brad Kimmel
  * @see <a href="http://www.npsg.uwaterloo.ca/models/ABMU.php">Run ABM-U Online</a>
  * @see <a href="http://www.npsg.uwaterloo.ca/models/ABMB.php">Run ABM-B Online</a>
@@ -653,7 +653,7 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 
     double mesophyllFraction = bifacial ? 0.5 : 0.8;
     mesophyllThickness = mesophyllFraction * wholeLeafThickness;
-    
+
     double lambda = 550e-9;
     System.out.printf("mesophyllAbsorptionCoefficient=%f", mesophyllAbsorptionCoefficient.evaluate(lambda));
     System.out.println();
@@ -764,7 +764,7 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
     }
     //System.exit(1);
   }
-  
+
   /**
    * Checks if the layers have been created yet.  Creates them if they have
    * not been.
@@ -794,10 +794,10 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 
     return subsurface.scatter(x, v, adjoint, lambda, rnd);
   }
-  
-  
+
+
   public static void main(String[] args) {
-    
+
 
 //    public TransferMatrixJob(SurfaceScatterer[] specimens, double[] wavelengths,
 //        long samplesPerMeasurement, long samplesPerTask, CollectorSphere collector) {
@@ -807,11 +807,11 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
     CollectorSphere collector = new UncappedLatLongCollectorSphere(stacks, slices);
 //    CollectorSphere collector = new EqualPolarAnglesCollectorSphere(90, 1, true, true);
     double wavelength = 550e-9;
-    
+
     ABMSurfaceScatterer abm = new ABMSurfaceScatterer();
     abm.build();
-    
-//    SurfaceScatterer[] specimens = new SurfaceScatterer[]{ 
+
+//    SurfaceScatterer[] specimens = new SurfaceScatterer[]{
 ////        new LambertianSurfaceScatterer()
 ////        SurfaceScatterer.TRANSMIT
 //        new AbsorbingSurfaceScatterer(new ConstantFunction1(0.1), 1.0)

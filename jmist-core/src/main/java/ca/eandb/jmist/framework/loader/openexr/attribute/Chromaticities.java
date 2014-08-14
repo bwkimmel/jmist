@@ -36,7 +36,7 @@ import java.io.IOException;
  */
 @OpenEXRAttributeType("chromaticities")
 public final class Chromaticities implements Attribute {
-  
+
   public static final Chromaticities DEFAULT = new Chromaticities(
       0.6400f, 0.3300f,
       0.3000f, 0.6000f,
@@ -56,7 +56,7 @@ public final class Chromaticities implements Attribute {
   private final float blueY;
   private final float whiteX;
   private final float whiteY;
-  
+
   public Chromaticities(float redX, float redY, float greenX, float greenY, float blueX, float blueY, float whiteX, float whiteY) {
     this.redX = redX;
     this.redY = redY;
@@ -67,15 +67,15 @@ public final class Chromaticities implements Attribute {
     this.whiteX = whiteX;
     this.whiteY = whiteY;
   }
-  
+
   public static Chromaticities read(DataInput in, int size) throws IOException {
     return new Chromaticities(
-        in.readFloat(), in.readFloat(), 
-        in.readFloat(), in.readFloat(), 
-        in.readFloat(), in.readFloat(), 
+        in.readFloat(), in.readFloat(),
+        in.readFloat(), in.readFloat(),
+        in.readFloat(), in.readFloat(),
         in.readFloat(), in.readFloat());
   }
-  
+
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.loader.openexr.Attribute#write(java.io.DataOutput)
    */

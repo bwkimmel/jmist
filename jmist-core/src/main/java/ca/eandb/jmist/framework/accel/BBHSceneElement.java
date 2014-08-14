@@ -37,14 +37,14 @@ import ca.eandb.jmist.math.Ray3;
  * A decorator <code>SceneElement</code> that applies a bounding box hierarchy
  * to the decorated <code>SceneElement</code> to accelerate ray-intersection
  * tests.
- * 
+ *
  * @author Brad Kimmel
  */
 public final class BBHSceneElement extends SceneElementDecorator {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = -3334720789877135936L;
-  
+
   /**
    * The <code>BoundingBoxHierarchy3</code> to use for accelerating
    * ray-intersection tests.
@@ -57,38 +57,38 @@ public final class BBHSceneElement extends SceneElementDecorator {
   public BBHSceneElement(SceneElement inner) {
     super(inner);
   }
-  
+
   /** Called to build the BBH on demand. */
   private void ensureReady() {
     if (bbh == null) {
       build();
     }
   }
-  
+
   /** Builds the BBH. */
   private synchronized void build() {
     if (bbh != null) { // double check inside synchronized method
       return;
     }
-    
+
     bbh = new BoundingBoxHierarchy3();
     for (int i = 0, n = getNumPrimitives(); i < n; i++) {
       bbh.addItem(i, getBoundingBox(i));
     }
   }
-  
+
   /**
    * The <code>Visitor</code> used by the BBH.
    * @author Brad Kimmel
    */
   private final class BBHVisitor implements Visitor {
-    
+
     /** The <code>Ray3</code> to perform intersection tests with. */
     private final Ray3 ray;
-    
+
     /** The <code>IntersectionRecorder</code> to record intersections to. */
     private final IntersectionRecorder recorder;
-    
+
     /**
      * Creates a new <code>BBHVisitor</code>.
      * @param ray The <code>Ray3</code> to perform intersection tests with.
@@ -109,7 +109,7 @@ public final class BBHSceneElement extends SceneElementDecorator {
       intersect(index, ray, recorder);
       return true;
     }
-    
+
   }
 
   /* (non-Javadoc)

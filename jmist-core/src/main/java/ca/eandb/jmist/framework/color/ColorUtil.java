@@ -37,7 +37,7 @@ import ca.eandb.jmist.util.ArrayUtil;
  */
 public final class ColorUtil {
 
-  public static final double LUMENS_PER_WATT = 683.0;  
+  public static final double LUMENS_PER_WATT = 683.0;
 
   public static final Tuple X_BAR = new Tuple(
     0.000129900000, 0.000145847000, 0.000163802100, 0.000184003700, 0.000206690200,
@@ -619,7 +619,7 @@ public final class ColorUtil {
     }
     return sum;
   }
-  
+
   public static double getMaxChannelValue(Color color) {
     int channels = color.getColorModel().getNumChannels();
     double max = Double.NEGATIVE_INFINITY;
@@ -646,7 +646,7 @@ public final class ColorUtil {
   public static Color add(Color a, Color b) {
     return a != null ? (b != null ? a.plus(b) : a) : b;
   }
-  
+
   /**
    * Subtracts two <code>Color</code>s, one or both of which may be
    * <code>null</code>.
@@ -658,7 +658,7 @@ public final class ColorUtil {
    *     null</code>, then <code>b.negative()</code> is returned.  If both
    *     are null, then <code>null</code> is returned.
    * @see Color#minus(Color)
-   * @see Color#negative() 
+   * @see Color#negative()
    */
   public static Color sub(Color a, Color b) {
     return b != null ? (a != null ? a.minus(b) : b.negative()) : a;
@@ -714,7 +714,7 @@ public final class ColorUtil {
   public static Color getGray(double value, WavelengthPacket lambda) {
     return lambda.getColorModel().getGray(value, lambda);
   }
-  
+
   public static int getDispersionChannel(Color color) {
     ColorModel cm = color.getColorModel();
     int channel = -1;

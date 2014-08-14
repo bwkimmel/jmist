@@ -39,11 +39,11 @@ import ca.eandb.jmist.math.SphericalCoordinates;
  * representing a spherical environment map.  The x-coordinate of the
  * <code>Texture2</code> is interpreted as an azimuthal angle, and the
  * y-coordinate is interpreted as a polar angle from 0 to pi.
- * 
+ *
  * @author Brad Kimmel
  */
 public final class SphericalEnvironmentRayShader implements RayShader {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = 6076285080204159796L;
 
@@ -55,16 +55,16 @@ public final class SphericalEnvironmentRayShader implements RayShader {
 
   /**
    * Creates a new <code>SphericalEnvironmentRayShader</code>.
-   * @param texture The <code>Texture2</code> to interpret as a spherical 
+   * @param texture The <code>Texture2</code> to interpret as a spherical
    *     map.
    */
   public SphericalEnvironmentRayShader(Texture2 texture) {
     this(texture, Basis3.STANDARD);
   }
-  
+
   /**
    * Creates a new <code>SphericalEnvironmentRayShader</code>.
-   * @param texture The <code>Texture2</code> to interpret as a spherical 
+   * @param texture The <code>Texture2</code> to interpret as a spherical
    *     map.
    * @param basis The <code>Basis3</code> representing the view orientation.
    */

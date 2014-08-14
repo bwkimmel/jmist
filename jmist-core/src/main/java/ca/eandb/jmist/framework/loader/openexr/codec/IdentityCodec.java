@@ -35,13 +35,13 @@ import ca.eandb.jmist.framework.loader.openexr.attribute.Box2i;
  *
  */
 public final class IdentityCodec implements Codec {
-  
+
   private static final IdentityCodec INSTANCE = new IdentityCodec();
-  
+
   public static IdentityCodec getInstance() {
     return INSTANCE;
   }
-  
+
   private IdentityCodec() {}
 
   /* (non-Javadoc)

@@ -66,7 +66,7 @@ public final class WavefrontObjectReader {
   public synchronized SceneElement read(File in, Map<String, Material> materials, double scale, ColorModel cm) throws IOException {
     return read(in, materials, scale, cm, null);
   }
-  
+
   public synchronized SceneElement read(File in, ColorModel cm, Map<String, SceneElement> groups) throws IOException {
     return read(in, 1.0, cm, groups);
   }
@@ -111,7 +111,7 @@ public final class WavefrontObjectReader {
 
     }
 
-    state.endGroup();    
+    state.endGroup();
     return state.result;
 
   }
@@ -119,14 +119,14 @@ public final class WavefrontObjectReader {
   public void addMaterial(String name, Material material) {
     this.addAppearance(name, material, null);
   }
-  
+
   public void addAppearance(String name, Material material, Shader shader) {
     Appearance a = new Appearance();
     a.material = material;
     a.shader = shader;
     appearance.put(name, a);
   }
-  
+
   private static final class Appearance {
     public Material material;
     public Shader shader;
@@ -173,7 +173,7 @@ public final class WavefrontObjectReader {
       // TODO Auto-generated method stub
 
     }
-    
+
     public void endGroup() {
       if (groups != null) {
         int fi = geometry.getNumPrimitives();
@@ -182,9 +182,9 @@ public final class WavefrontObjectReader {
         }
         groupOffset = -1;
         groupName = "";
-      }      
+      }
     }
-    
+
     public void beginGroup(String name) {
       if (groups != null) {
         int fi = geometry.getNumPrimitives();
@@ -225,7 +225,7 @@ public final class WavefrontObjectReader {
       appearance.addAppearance(name, material, shader);
       appearanceNames.add(name);
     }
-    
+
     public boolean hasAppearance(String name) {
       return appearanceNames.contains(name);
     }
@@ -261,9 +261,9 @@ public final class WavefrontObjectReader {
     private final List<Vector3> vns = new ArrayList<Vector3>();
     private final List<Double> weights = new ArrayList<Double>();
     private final Set<String> appearanceNames = new HashSet<String>();
-    
+
     private String activeMaterialName = null;
-    
+
     private int groupOffset = -1;
     private String groupName = "";
 
@@ -447,7 +447,7 @@ public final class WavefrontObjectReader {
       checkArgs(args, state, 1);
       state.beginGroup(args[1]);
     }
-    
+
   };
 
 

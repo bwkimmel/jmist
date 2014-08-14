@@ -80,7 +80,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
     assert(owner == compat.getColorModel());
     return new XYZColor(x, y, z, owner);
   }
-  
+
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.color.Color#abs()
    */

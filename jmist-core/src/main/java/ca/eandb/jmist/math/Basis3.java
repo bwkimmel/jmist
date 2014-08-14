@@ -100,7 +100,7 @@ public final class Basis3 implements Serializable {
     return u.cross(v).dot(w) > 0.0 ? Orientation.RIGHT_HANDED
         : Orientation.LEFT_HANDED;
   }
-  
+
   /**
    * Re-expresses the specified vector (expressed using the standard basis)
    * using this basis.
@@ -118,7 +118,7 @@ public final class Basis3 implements Serializable {
         tu * v.x() + tv * v.y() + tw * v.z(),
         tu * w.x() + tv * w.y() + tw * w.z());
   }
-  
+
   /**
    * Re-expresses the specified <code>Vector3</code> (expressed using the
    * standard basis) using this basis.
@@ -131,7 +131,7 @@ public final class Basis3 implements Serializable {
   public Vector3 fromStandard(Vector3 r) {
     return new Vector3(r.dot(u), r.dot(v), r.dot(w));
   }
-  
+
   /**
    * Re-expresses the specified vector using the standard basis.
    * Equivalent to <code>toStandard(new Vector3(tu, tv, tw))</code>.
@@ -148,7 +148,7 @@ public final class Basis3 implements Serializable {
         tu * u.y() + tv * v.y() + tw * w.y(),
         tu * u.z() + tv * v.z() + tw * w.z());
   }
-  
+
   /**
    * Re-expresses the specified <code>Vector3</code> using the standard
    * basis.

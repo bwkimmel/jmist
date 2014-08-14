@@ -56,7 +56,7 @@ public final class SpectrophotometerCollectorSphere implements CollectorSphere {
   public double getSensorSolidAngle(int sensor) {
     return 2.0 * Math.PI;
   }
-  
+
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.measurement.CollectorSphere#record(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.measurement.CollectorSphere.Callback)
    */

@@ -41,12 +41,12 @@ import ca.eandb.jmist.math.Vector3;
  *
  */
 public final class TrowbridgeReitzMaterial extends OpaqueMaterial {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = 1839137815524190898L;
 
   private final double oblateness;
-  
+
   private final double riBelow;
 
   private final double riAbove;
@@ -71,7 +71,7 @@ public final class TrowbridgeReitzMaterial extends OpaqueMaterial {
     double n2 = riBelow;
     Vector3 N = x.getNormal();
     double R = Optics.reflectance(v, n1, n2, N);
-    
+
     if (RandomUtil.bernoulli(R, rj)) {
       Basis3 basis = x.getBasis();
       double sigma2 = oblateness * oblateness;

@@ -50,7 +50,7 @@ public final class SphericalLens extends AbstractLens {
 
   /** Vertical field of view (in radians). */
   private final double vfov;
-  
+
   /** The solid angle subtended by the image plane (in steradians). */
   private final double solidAngle;
 
@@ -109,7 +109,7 @@ public final class SphericalLens extends AbstractLens {
     /* (non-Javadoc)
      * @see ca.eandb.jmist.framework.path.EyeNode#sample(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.Random)
      */
-    public ScatteredRay sample(double ru, double rv, double rj) {      
+    public ScatteredRay sample(double ru, double rv, double rj) {
       Point2 p = pointOnImagePlane;
 
         double    nx = (p.x() - 0.5) * hfov;

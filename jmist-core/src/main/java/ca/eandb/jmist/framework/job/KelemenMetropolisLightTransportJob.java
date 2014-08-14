@@ -62,20 +62,20 @@ import ca.eandb.util.progress.ProgressMonitor;
  * generate the paths, as suggested by Kelemen et al. [1], rather than by
  * perturbing the paths themselves as originally proposed by Veach and
  * Guibas [2].</p>
- * 
+ *
  * <ol>
  *   <li>C. Kelemen, L. Szirmay-Kalos, G. Antal, F. Csonka,
  *   "<a href="http://dx.doi.org/10.1111/1467-8659.t01-1-00703">A simple and
  *   robust mutation strategy for the metropolis light transport algorithm</a>",
  *   <em>Computer Graphics Forum</em> 21(3):531-540, September 2002.
  *   <em>Proceedings of EUROGRAPHICS 2002.</em></li>
- *   
+ *
  *   <li>E. Veach, L.J. Guibas,
  *   "<a href="http://graphics.stanford.edu/papers/metro/">Metropolis light
  *   transport</a>", In <em>Proceedings of SIGGRAPH'97</em>, Addison-Wesley,
  *   pp. 65-76, August 1997.</li>
  * </ol>
- * 
+ *
  * @author Brad Kimmel
  */
 public final class KelemenMetropolisLightTransportJob extends AbstractParallelizableJob {
@@ -96,7 +96,7 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
   private final BidiPathStrategy strategy;
 
   private final PathMeasure measure;
-  
+
   private final Function1 reweighting = new Function1() {
     private static final long serialVersionUID = 5042576352662136283L;
     public double evaluate(double x) {
@@ -111,13 +111,13 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
   private final int height;
 
   private final int mutations;
-  
+
   private final int minMutationsPerTask;
-  
+
   private final int extraMutations;
-  
+
   private final int initialMutations;
-  
+
   private final boolean displayPartialResults;
 
   private transient int tasksProvided = 0;
@@ -241,7 +241,7 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
   public TaskWorker worker() throws Exception {
     return new Worker();
   }
-  
+
   private static class Contribution {
     public final Point2 pos;
     public final Color score;
@@ -250,7 +250,7 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
       this.score = score;
     }
   }
-  
+
   private static final class LCG {
     private final java.util.Random rnd = new java.util.Random();
     private long seed;
@@ -259,7 +259,7 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
     private int pos;
     private final int length;
     private final long mask;
-    
+
     public LCG(int length) {
       this.length = length;
       this.pos = length;
@@ -287,15 +287,15 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
 
     /** Serialization version ID. */
     private static final long serialVersionUID = -7848301189373426210L;
-    
+
     private transient ThreadLocal<LCG> lcg;
 
     private transient ThreadLocal<Raster> raster;
-    
+
     private transient ThreadLocal<RepeatableRandom> seqX;
-    
+
     private transient ThreadLocal<RepeatableRandom> seqY;
-    
+
     private transient ThreadLocal<CategoricalRandom> mutationType;
 
     private synchronized void initialize() {
@@ -330,11 +330,11 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
         };
       }
     }
-    
+
     private Path generateNewPath() {
       RepeatableRandom seq = (RepeatableRandom) seqX.get().createCompatibleRandom();
       seqY.set(seq);
-      
+
 //      int index      = lcg.get().next();
 //      int x        = index % width;
 //      int y        = index / width;
@@ -350,16 +350,16 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
       //Point2 p      = RandomUtil.uniform(bounds, seq);
       Point2 p      = RandomUtil.canonical2(seq);
       seq.mark();
-      
+
       Color sample    = colorModel.sample(seq);
       seq.mark();
-      
+
       PathInfo pi      = new PathInfo(scene, sample.getWavelengthPacket());
       Lens lens      = scene.getLens();
       PathNode eyeTail  = strategy.traceEyePath(lens, p,
                     pi, seq);
       seq.mark();
-      
+
       Light light      = scene.getLight();
       PathNode lightTail  = strategy.traceLightPath(
                     light, pi, seq);
@@ -367,44 +367,44 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
 
       return new Path(lightTail, eyeTail);
     }
-    
+
     private Path mutateImagePoint(Path path, double width) {
       RepeatableRandom seq = seqX.get().cloneSequence();
       seqY.set(seq);
       seq.reset();
-      
+
       seq.mutate(width);
       Point2 p      = RandomUtil.canonical2(seq);
       seq.mark();
-      
+
       Color sample    = colorModel.sample(seq);
       seq.mark();
-      
+
       PathInfo pi      = new PathInfo(scene, sample.getWavelengthPacket());
       Lens lens      = scene.getLens();
       PathNode eyeTail  = strategy.traceEyePath(lens, p,
                     pi, seq);
       seq.mark();
-      
+
       PathNode lightTail  = path.getLightTail();
       seq.mark();
 
       return new Path(lightTail, eyeTail);
     }
-    
+
     private Path mutateAll(Path path, double width) {
       RepeatableRandom seq = seqX.get().cloneSequence();
       seqY.set(seq);
       seq.reset();
-      
+
       seq.mutate(width);
       Point2 p      = RandomUtil.canonical2(seq);
       seq.mark();
-      
+
       seq.mutate(width);
       Color sample    = colorModel.sample(seq);
       seq.mark();
-      
+
       seq.mutate(width);
       PathInfo pi      = new PathInfo(scene, sample.getWavelengthPacket());
       Lens lens      = scene.getLens();
@@ -420,7 +420,7 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
 
       return new Path(lightTail, eyeTail);
     }
-    
+
     private Path mutate(Path path) {
       switch (mutationType.get().next(random)) {
       case 0: return generateNewPath();
@@ -430,7 +430,7 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
         throw new UnexpectedException();
       }
     }
-    
+
     public double evaluate(List<Contribution> contrib) {
       double f = 0.0;
       for (Contribution c : contrib) {
@@ -438,7 +438,7 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
       }
       return reweighting.evaluate(f);
     }
-    
+
     public void record(List<Contribution> contrib, double weight) {
       for (Contribution c : contrib) {
         RasterUtil.addPixel(raster.get(), c.pos, c.score.times(weight));
@@ -449,7 +449,7 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
      * @see ca.eandb.jdcp.job.TaskWorker#performTask(java.lang.Object, ca.eandb.util.progress.ProgressMonitor)
      */
     public Object performTask(Object task, ProgressMonitor monitor) {
-      
+
       int    mutations      = (Integer) task;
       int    numPixels      = width * height;
       double  mutationsPerPixel  = (double) mutations / (double) numPixels;
@@ -460,15 +460,15 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
       List<Contribution> cx    = new ArrayList<Contribution>();
       List<Contribution> cy    = new ArrayList<Contribution>();
       boolean accept;
-      
+
       initialize();
       raster.get().clear();
-      
+
       mutations += initialMutations;
       for (int i = 0; i < mutations; i++) {
         if (!monitor.notifyProgress(i, mutations))
           return null;
-        
+
         cy.clear();
 
         Path y = (x != null) ? mutate(x) : generateNewPath();
@@ -481,20 +481,20 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
         }
 
         fy = evaluate(cy);
-        
+
         if (fy >= fx) {
           // always accept
           accept = true;
-          
+
           if (i > initialMutations && fy > 0.0) {
             // add contributions from y
             record(cy, 1.0 / fy);
           }
-          
+
         } else { // fy < fx
           double a = fy / fx;
           accept = RandomUtil.bernoulli(a, random);
-          
+
           if (i > initialMutations) {
             // add weighted contributions from x and y
             if (fy > 0.0) {
@@ -509,17 +509,17 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
 //            } else {
 //              record(cx, 1.0 / fx);
 //            }
-          }          
+          }
         }
-        
+
         if (accept) {
           seqX.set(seqY.get());
           x = y;
           fx = fy;
           List<Contribution> temp = cx;
           cx = cy;
-          cy = temp;    
-        }        
+          cy = temp;
+        }
       }
 
       monitor.notifyProgress(numPixels, numPixels);

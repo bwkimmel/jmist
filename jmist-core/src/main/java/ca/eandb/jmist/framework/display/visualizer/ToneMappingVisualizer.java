@@ -43,17 +43,17 @@ import ca.eandb.jmist.framework.tone.swing.JToneMapperPanel;
  *
  */
 public final class ToneMappingVisualizer extends VolatileColorVisualizer {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = 5354262221703551711L;
 
   private final ToneMapperFactory factory;
-  
+
   private ToneMapper toneMapper = ToneMapper.IDENTITY;
-  
+
   public ToneMappingVisualizer(ToneMapperFactory factory) {
     this.factory = factory;
-    
+
     if (factory instanceof JToneMapperPanel) {
       ((JToneMapperPanel) factory).addChangeListener(new ChangeListener() {
         public void stateChanged(ChangeEvent e) {
@@ -67,15 +67,15 @@ public final class ToneMappingVisualizer extends VolatileColorVisualizer {
     this.factory = new ConstantToneMapperFactory(toneMapper);
     this.toneMapper = toneMapper;
   }
-  
+
   private void factory_OnStateChanged(ChangeEvent e) {
     fireStateChanged();
   }
-  
+
   private static final class SampleIterator implements Iterator<CIEXYZ> {
-    
+
     private final Iterator<Color> inner;
-    
+
     public SampleIterator(Iterator<Color> inner) {
       this.inner = inner;
     }
@@ -103,13 +103,13 @@ public final class ToneMappingVisualizer extends VolatileColorVisualizer {
     public void remove() {
       inner.remove();
     }
-    
+
   }
-  
+
   private static final class SampleList implements Iterable<CIEXYZ> {
-    
+
     private final Iterable<Color> inner;
-    
+
     public SampleList(Iterable<Color> inner) {
       this.inner = inner;
     }
@@ -121,7 +121,7 @@ public final class ToneMappingVisualizer extends VolatileColorVisualizer {
     public Iterator<CIEXYZ> iterator() {
       return new SampleIterator(inner.iterator());
     }
-    
+
   }
 
   /* (non-Javadoc)

@@ -64,7 +64,7 @@ public final class XYZColorModel extends ColorModel {
       * MathUtil.trapz(ColorUtil.XYZ_WAVELENGTHS, ColorUtil.Z_BAR);
 
   private static final XYZColorModel instance = new XYZColorModel();
-  
+
   /** The channel names for this <code>ColorModel</code>. */
   private static final String[] CHANNEL_NAMES = { "X", "Y", "Z" };
 
@@ -203,7 +203,7 @@ public final class XYZColorModel extends ColorModel {
       }
     };
   }
-  
+
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.color.ColorModel#getChannelName(int)
    */

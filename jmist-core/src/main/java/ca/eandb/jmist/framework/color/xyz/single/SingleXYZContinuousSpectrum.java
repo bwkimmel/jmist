@@ -38,7 +38,7 @@ public final class SingleXYZContinuousSpectrum implements Spectrum {
 
   /** Serialization version ID. */
   private static final long serialVersionUID = -8764904429587291648L;
-  
+
   private final Function1 spectrum;
 
   /**

@@ -43,15 +43,15 @@ import ca.eandb.jmist.math.Vector3;
 /**
  * A <code>Material</code> based on the modified Phong BRDF.  Implementation as
  * described in:
- * 
+ *
  * E.P. Lafortune and Y.D. Willems, "Using the Modified Phong Reflectance Model
  * for Physically Based Rendering", Technical Report CW 197, Department of
  * Computing Science, K.U. Leuven.  November 1994.
- * 
+ *
  * @author Brad Kimmel
  */
 public final class ModifiedPhongMaterial extends OpaqueMaterial {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = 3049341531935254708L;
 
@@ -60,10 +60,10 @@ public final class ModifiedPhongMaterial extends OpaqueMaterial {
 
   /** The <code>Painter</code> to use to assign the specular reflectance. */
   private final Painter ksPainter;
-  
+
   /** The sharpness of the specular reflectance lobe. */
   private final double n;
-  
+
   /**
    * Creates a new <code>ModifiedPhongMaterial</code>.
    * @param kd The <code>Painter</code> to use to assign the diffuse
@@ -77,7 +77,7 @@ public final class ModifiedPhongMaterial extends OpaqueMaterial {
     this.ksPainter = ks;
     this.n = n;
   }
-  
+
   /**
    * Creates a new <code>ModifiedPhongMaterial</code>.
    * @param kd The diffuse reflectance <code>Spectrum</code>.
@@ -118,7 +118,7 @@ public final class ModifiedPhongMaterial extends OpaqueMaterial {
   @Override
   public double getScatteringPDF(SurfacePoint x, Vector3 in, Vector3 out,
       boolean adjoint, WavelengthPacket lambda) {
-    
+
     double vdotn = -in.dot(x.getNormal());
     double odotn = out.dot(x.getNormal());
     if ((vdotn > 0.0) != (odotn > 0.0)) {
@@ -129,10 +129,10 @@ public final class ModifiedPhongMaterial extends OpaqueMaterial {
     Color ks = ksPainter.getColor(x, lambda);
     double kdY = ColorUtil.getMeanChannelValue(kd);
     double rhod = kdY;
-    
+
     double ksY = ColorUtil.getMeanChannelValue(ks);
     double rhos = Math.min(1.0, ksY * Math.abs(vdotn) * (n + 2.0) / (n + 1.0));
-    
+
     Vector3 r = Optics.reflect(in, x.getNormal());
     double rdoto = r.dot(out);
 
@@ -140,7 +140,7 @@ public final class ModifiedPhongMaterial extends OpaqueMaterial {
     double pdfs = rdoto > 0.0 ? rhos * (Math.pow(rdoto, n) / Math.abs(odotn)) * (n + 1.0) / (2.0 * Math.PI) : 0.0;
 
     return pdfd + pdfs;
-    
+
   }
 
   /* (non-Javadoc)
@@ -149,20 +149,20 @@ public final class ModifiedPhongMaterial extends OpaqueMaterial {
   @Override
   public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint,
       WavelengthPacket lambda, double ru, double rv, double rj) {
-    
+
     double vdotn = -v.dot(x.getNormal());
 //    if (vdotn < 0.0) {
 //      return null;
 //    }
-    
+
     Color kd = kdPainter.getColor(x, lambda);
     Color ks = ksPainter.getColor(x, lambda);
     double kdY = ColorUtil.getMeanChannelValue(kd);
     double rhod = kdY;
-    
+
     double ksY = ColorUtil.getMeanChannelValue(ks);
     double rhos = Math.min(1.0, ksY * Math.abs(vdotn) * (n + 2.0) / (n + 1.0));
-    
+
     if (rj < rhod) {
       Vector3 out = RandomUtil.diffuse(ru, rv).toCartesian(x.getBasis());
       Ray3 ray = new Ray3(x.getPosition(), out);
@@ -179,5 +179,5 @@ public final class ModifiedPhongMaterial extends OpaqueMaterial {
     }
     return null;
   }
-  
+
 }

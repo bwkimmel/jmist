@@ -168,7 +168,7 @@ public final class AffineMatrix3 implements Serializable {
            _01 * (_12 * _20 - _10 * _22) +
            _02 * (_10 * _21 - _11 * _20);
   }
-  
+
   /**
    * Gets the trace of this matrix (i.e., the sum of the diagonal elements).
    * @return The trace of this matrix.

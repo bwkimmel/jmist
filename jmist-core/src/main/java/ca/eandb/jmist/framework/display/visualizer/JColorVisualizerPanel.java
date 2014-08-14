@@ -43,18 +43,18 @@ import ca.eandb.jmist.framework.tone.swing.JToneMapperPanel;
  */
 public abstract class JColorVisualizerPanel extends JPanel implements
     ColorVisualizer {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = 4463169883690282424L;
-  
+
   /**
    * The <code>List</code> of <code>ChangeListener</code>s to be notified
    * when the visualization function changes.
    */
-  private final List<ChangeListener> listeners = new ArrayList<ChangeListener>(); 
+  private final List<ChangeListener> listeners = new ArrayList<ChangeListener>();
 
   /**
-   * 
+   *
    */
   public JColorVisualizerPanel() {
     super();
@@ -97,7 +97,7 @@ public abstract class JColorVisualizerPanel extends JPanel implements
   public final void removeChangeListener(ChangeListener l) {
     listeners.remove(l);
   }
-  
+
   /**
    * Notifies all registered <code>ChangeListener</code>s that the
    * visualization function has changed.

@@ -230,7 +230,7 @@ public final class Complex implements Serializable {
   public Complex sqrt() {
     return polar(this.arg() / 2.0, Math.sqrt(this.abs()));
   }
-  
+
   /**
    * Computes the square root of a real number.
    * @param x The value of which to compute the square root.
@@ -319,7 +319,7 @@ public final class Complex implements Serializable {
    * The complex number 0 + 0i.
    */
   public static final Complex ZERO = new Complex(0.0);
-  
+
   /**
    * The real unit (1).
    */

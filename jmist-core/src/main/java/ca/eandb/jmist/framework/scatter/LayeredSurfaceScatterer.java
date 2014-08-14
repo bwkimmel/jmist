@@ -82,7 +82,7 @@ public final class LayeredSurfaceScatterer implements SurfaceScatterer {
   public int getNumLayers() {
     return layers.size();
   }
-  
+
   /**
    * Gets the <code>List</code> of layers that comprise this
    * <code>LayeredSurfaceScatterer</code>.  The returned list is

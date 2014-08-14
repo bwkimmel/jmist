@@ -35,24 +35,24 @@ import ca.eandb.jmist.framework.color.RGB;
 /**
  * An object that computes an <code>RGB</code> triplet to visualize some aspect
  * of a provided <code>Color</object>.
- * 
+ *
  * @author Brad Kimmel
  */
 public interface ColorVisualizer extends Serializable {
-  
+
   /**
    * Register a listener to be notified when the visualization parameters
    * change.
    * @param l The <code>ChangeListener</code> to register.
    */
   void addChangeListener(ChangeListener l);
-  
+
   /**
    * Unregister a listener.
    * @param l The <code>ChangeListener</code> to unregister.
    */
   void removeChangeListener(ChangeListener l);
-  
+
   /**
    * Analyzes the provided <code>Color</code> samples for automatically
    * adjusting the visualization function.
@@ -71,11 +71,11 @@ public interface ColorVisualizer extends Serializable {
    * @return The corresponding <code>RGB</code> triplet.
    */
   RGB visualize(Color color);
-  
+
   /**
    * A default <code>ColorVisualizer</code> that invokes
    * <code>color.toRGB()</code> on the provided <code>Color</code> object.
-   * 
+   *
    * @see ca.eandb.jmist.framework.color.Color#toRGB()
    */
   public static ColorVisualizer DEFAULT = new ColorVisualizer() {
@@ -89,7 +89,7 @@ public interface ColorVisualizer extends Serializable {
     @Override
     public void addChangeListener(ChangeListener l) {
       /* nothing to do. */
-      
+
     }
 
     @Override
@@ -112,7 +112,7 @@ public interface ColorVisualizer extends Serializable {
     public RGB visualize(Color color) {
       return color.toRGB();
     }
-    
+
   };
-  
+
 }

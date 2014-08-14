@@ -124,7 +124,7 @@ public final class ConductiveMaterial extends AbstractMaterial {
         return ScatteredRay.specular(new Ray3(p, out), R.divide(r), r);
       }
     } else {
-  
+
       if (alpha != null) {
 //        if (disperse) {
 //          for (int i = 0, channels = cm.getNumChannels(); i < channels; i++) {
@@ -132,7 +132,7 @@ public final class ConductiveMaterial extends AbstractMaterial {
 //            Complex    eta2  = new Complex(n2.getValue(i), k2.getValue(i));
 //            Vector3    out    = Optics.refract(v, eta1, eta2, normal);
 //            boolean    toSide  = x.getNormal().dot(out) >= 0.0;
-//  
+//
 //            if (fromSide != toSide) {
 //              recorder.add(ScatteredRay.transmitSpecular(new Ray3(p, out), T.disperse(i), 1.0));
 //            }
@@ -146,15 +146,15 @@ public final class ConductiveMaterial extends AbstractMaterial {
           Complex    eta2  = new Complex(n2avg, k2avg);
           Vector3    out    = Optics.refract(v, eta1, eta2, normal);
           boolean    toSide  = x.getNormal().dot(out) >= 0.0;
-  
+
           if (fromSide != toSide) {
             return ScatteredRay.transmitSpecular(new Ray3(p, out), T.divide(1 - r), 1 - r);
           }
 //        }
       }
-      
+
     }
-    
+
     return null;
 
   }

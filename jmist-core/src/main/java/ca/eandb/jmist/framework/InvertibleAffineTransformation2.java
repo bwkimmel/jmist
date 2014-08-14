@@ -45,7 +45,7 @@ public class InvertibleAffineTransformation2 extends AffineTransformation2
 
   /** Serialization version ID. */
   private static final long serialVersionUID = 338292224394167644L;
-  
+
   /** The inverse transformation matrix. */
   private AffineMatrix2 inverse = null;
 

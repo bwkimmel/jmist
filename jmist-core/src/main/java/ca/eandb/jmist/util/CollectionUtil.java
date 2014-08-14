@@ -30,11 +30,11 @@ import java.util.List;
 
 /**
  * General purpose collections utility methods.
- * 
+ *
  * @author Brad Kimmel
  */
 public final class CollectionUtil {
-  
+
   /**
    * Merges two consecutive sorted lists in place.
    * The two sub-lists
@@ -53,19 +53,19 @@ public final class CollectionUtil {
 
   /**
    * Merges two consecutive sorted lists in place.
-   * 
+   *
    * <p>This implementation is based on:</p>
-   * 
+   *
    * <p>J. Chen, "<a href="http://dx.doi.org/10.1016/j.ipl.2005.11.018">A
    * simple algorithm for in-place merging</a>", Information Processing
    * Letters 98:34-40, 2006.</p>.
-   * 
+   *
    * This algorithm is a direct transcription of Fig. 3 on page 37 of this
    * paper, plus the two modifications indicated in the last paragraph of
    * Sec. 2 (page 38) to increase the efficiency using recursion and to
    * allow the algorithm to "work correctly when y<sub>0</sub> - x<sub>0</sub>
    * &lt; 2k".
-   * 
+   *
    * @param A The <code>List</code> to be merged.
    * @param x0 The index of the start of the first sub-list.
    * @param y0 The index of the start of the second sub-list.
@@ -105,17 +105,17 @@ public final class CollectionUtil {
       Collections.sort(A.subList(z, y)); merge(A, z, y, yn, (int) Math.sqrt(k), 1);
     }
   }
-  
+
   /**
    * Auxilliary method required for merging two consecutive sorted lists in
    * place.
-   * 
+   *
    * <p>This implementation is based on:</p>
-   * 
+   *
    * <p>J. Chen, "<a href="http://dx.doi.org/10.1016/j.ipl.2005.11.018">A
    * simple algorithm for in-place merging</a>", Information Processing
    * Letters 98:34-40, 2006.</p>.
-   * 
+   *
    * This method is a direct transcription of Fig. 4.
    */
   private static <T extends Comparable<? super T>> int findNextXBlock(List<T> A,
@@ -135,17 +135,17 @@ public final class CollectionUtil {
     }
     return x;
   }
-  
+
   /**
    * Auxilliary method required for merging two consecutive sorted lists in
    * place.
-   * 
+   *
    * <p>This implementation is based on:</p>
-   * 
+   *
    * <p>J. Chen, "<a href="http://dx.doi.org/10.1016/j.ipl.2005.11.018">A
    * simple algorithm for in-place merging</a>", Information Processing
    * Letters 98:34-40, 2006.</p>.
-   * 
+   *
    * This method is a direct transcription of Fig. 5.
    */
   private static <T extends Comparable<? super T>> void mergeBandY(List<T> A, int z, int y, int yn) {
@@ -157,7 +157,7 @@ public final class CollectionUtil {
     }
     if (z < y) { Collections.sort(A.subList(z, yn + 1)); }
   }
-  
+
   /**
    * Finds the first index of a minimal element in a list.
    * @param list The <code>List</code> to search.
@@ -175,7 +175,7 @@ public final class CollectionUtil {
     }
     return index;
   }
-  
+
   /**
    * Finds the first index of a maximal element in a list.
    * @param list The <code>List</code> to search.
@@ -193,7 +193,7 @@ public final class CollectionUtil {
     }
     return index;
   }
-  
+
   /**
    * Determines if the given list is sorted (in ascending order).
    * @param list The <code>List</code> to examine.
@@ -208,8 +208,8 @@ public final class CollectionUtil {
     }
     return true;
   }
-  
+
   /** Default constructor. */
   private CollectionUtil() {}
-  
+
 }

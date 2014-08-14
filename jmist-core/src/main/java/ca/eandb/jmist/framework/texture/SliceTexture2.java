@@ -39,25 +39,25 @@ import ca.eandb.jmist.math.Vector3;
  * @author Brad Kimmel
  */
 public final class SliceTexture2 implements Texture2 {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = 8157705084047279308L;
 
   /** The <code>Texture3</code> to slice. */
   private final Texture3 source;
-  
+
   /**
    * The <code>Point3</code> on {@link #source} that maps to the origin for
-   * this <code>Texture2</code>. 
+   * this <code>Texture2</code>.
    */
   private final Point3 origin;
-  
+
   /** The first basis vector for the slice. */
   private final Vector3 u;
-  
+
   /** The second basis vector for the slice. */
   private final Vector3 v;
-  
+
   /**
    * Creates a new <code>SliceTexture2</code>.
    * @param origin The <code>Point3</code> on {@link #source} that maps to
@@ -72,7 +72,7 @@ public final class SliceTexture2 implements Texture2 {
     this.v = v;
     this.source = source;
   }
-  
+
   /**
    * Creates a new <code>SliceTexture2</code>.
    * @param origin The <code>Point3</code> on {@link #source} that maps to

@@ -39,23 +39,23 @@ import ca.eandb.jmist.math.Vector3;
 /**
  * A decorator <code>Material</code> that samples the underlying
  * <code>Material</code> uniformly about each hemisphere.
- * 
+ *
  * @author Brad Kimmel
  */
 public final class UniformSampledMaterial implements Material {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = 7213197062895581035L;
-  
+
   private final Material inner;
-  
+
   private final double reflectance;
-  
+
   public UniformSampledMaterial(Material inner, double reflectance) {
     this.inner = inner;
     this.reflectance = reflectance;
   }
-  
+
   public UniformSampledMaterial(Material inner) {
     this(inner, 1.0);
   }
@@ -126,14 +126,14 @@ public final class UniformSampledMaterial implements Material {
     boolean reflect = RandomUtil.bernoulli(reflectance, ref);
     Vector3 r = RandomUtil.diffuse(ref.seed, rv).toCartesian(x.getBasis());
     double pdf = 1.0 / Math.PI;
-    
+
     if (!reflect) {
       r = r.opposite();
       pdf *= (1.0 - reflectance);
     } else {
       pdf *= reflectance;
     }
-    
+
     Ray3 ray = new Ray3(x.getPosition(), r);
     Color color = inner.bsdf(x, v, r, lambda).divide(pdf);
     return ScatteredRay.diffuse(ray, color, pdf);

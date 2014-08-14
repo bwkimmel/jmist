@@ -42,15 +42,15 @@ import java.util.Map;
  */
 @OpenEXRAttributeType("chlist")
 public final class ChannelList implements Attribute {
-  
+
   private static final Comparator<Channel> CHANNEL_COMPARATOR = new LexigraphicalChannelComparator();
 
   private final List<Channel> channels = new ArrayList<Channel>();
-  
+
   private final Map<String, Integer> lookup = new HashMap<String, Integer>();
-  
+
   private boolean isSorted = true;
-  
+
   public ChannelList addChannel(Channel channel) {
     if (lookup.containsKey(channel.getName())) {
       throw new IllegalArgumentException("Duplicate channel");
@@ -65,12 +65,12 @@ public final class ChannelList implements Attribute {
     channels.add(channel);
     return this;
   }
-  
+
   public List<Channel> channels() {
     ensureSorted();
     return Collections.unmodifiableList(channels);
   }
-  
+
   private void ensureSorted() {
     if (!isSorted) {
       Collections.sort(channels, CHANNEL_COMPARATOR);
@@ -82,16 +82,16 @@ public final class ChannelList implements Attribute {
       isSorted = true;
     }
   }
-  
+
   public boolean hasChannel(String name) {
     return lookup.containsKey(name);
   }
-  
+
   public Channel getChannel(String name) {
     Integer index = lookup.get(name);
     return index != null ? channels.get(index) : null;
   }
-  
+
   public static ChannelList read(DataInput in, int size) throws IOException {
     ChannelList cl = new ChannelList();
     while (true) {
@@ -103,7 +103,7 @@ public final class ChannelList implements Attribute {
     }
     return cl;
   }
-  
+
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.loader.openexr.Attribute#write(java.io.DataOutput)
    */

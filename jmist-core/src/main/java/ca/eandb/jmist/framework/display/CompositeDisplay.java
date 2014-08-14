@@ -37,17 +37,17 @@ import ca.eandb.jmist.framework.color.ColorModel;
 /**
  * A <code>Display</code> that forwards methods to each of a collection of
  * child <code>Display</code>s.
- * 
+ *
  * @author Brad Kimmel
  */
 public final class CompositeDisplay implements Display, Serializable {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = 1296043359308113088L;
-  
+
   /** The <code>List</code> of child <code>Display</code>s to draw to. */
   private final List<Display> children = new ArrayList<Display>();
-  
+
   /**
    * Adds a new child <code>Display</code>.
    * @param child The <code>Display</code> to add to the list.

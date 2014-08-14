@@ -36,23 +36,23 @@ import ca.eandb.util.DoubleArray;
  *
  */
 public final class RepeatableRandom implements Random {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = -6178171395488135601L;
 
   private final Random inner;
-  
+
   private final List<DoubleArray> values = new ArrayList<DoubleArray>();
-  
+
   private int sequence = 0;
-  
+
   private int position = 0;
-  
+
   public RepeatableRandom(Random inner) {
     this.inner = inner;
     values.add(new DoubleArray());
   }
-  
+
   public RepeatableRandom cloneSequence() {
     RepeatableRandom rnd = new RepeatableRandom(
         inner.createCompatibleRandom());
@@ -88,46 +88,46 @@ public final class RepeatableRandom implements Random {
     sequence = 0;
     position = 0;
   }
-  
+
   public void truncateAll() {
     truncate();
     values.subList(sequence + 1, values.size()).clear();
   }
-  
+
   public void truncate() {
     values.get(sequence).resize(position);
   }
-  
+
   public void mark() {
     if (++sequence >= values.size()) {
       values.add(new DoubleArray());
     }
     position = 0;
   }
-  
+
   public void mutate() {
     mutate(1.0 / 16.0);
   }
-  
+
   public void mutate(double width) {
     DoubleArray seq = values.get(sequence);
     for (int i = position, n = seq.size(); i < n; i++) {
       seq.set(i, mutate(seq.get(i), width));
     }
   }
-  
+
   public void mutate(double width, int n) {
     DoubleArray seq = values.get(sequence);
     for (int i = position, j = 0; j < n && i < seq.size(); i++, j++) {
       seq.set(i, mutate(seq.get(i), width));
     }
   }
-  
+
 //  private double mutate(double x, double width) {
 //    x = x + (inner.next() - 0.5) * width;
 //    return x - Math.floor(x);
 //  }
-  
+
   private static final double s1 = 32.0;
   private double mutate(double x, double width) {
     final double rnd = inner.next();
@@ -141,7 +141,7 @@ public final class RepeatableRandom implements Random {
       return (x1 < 0.0) ? x1 + 1.0 : x1;
     }
   }
-  
+
   public void clear() {
     values.clear();
     values.add(new DoubleArray());

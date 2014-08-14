@@ -47,30 +47,30 @@ public final class JToneMappingVisualizerPanel extends JColorVisualizerPanel {
   private static final long serialVersionUID = 719638646469519578L;
 
   private final JToneMapperPanel toneMapperPanel;
-  
+
   private ToneMapper toneMapper = ToneMapper.IDENTITY;
-  
+
   public JToneMappingVisualizerPanel(JToneMapperPanel toneMapperPanel) {
     super(new BorderLayout());
     this.toneMapperPanel = toneMapperPanel;
-    
+
     add(toneMapperPanel, BorderLayout.CENTER);
-    
+
     toneMapperPanel.addChangeListener(new ChangeListener() {
       public void stateChanged(ChangeEvent e) {
         toneMapperPanel_OnStateChanged(e);
       }
     });
   }
-  
+
   private void toneMapperPanel_OnStateChanged(ChangeEvent e) {
     fireStateChanged();
   }
-  
+
   private static final class SampleIterator implements Iterator<CIEXYZ> {
-    
+
     private final Iterator<Color> inner;
-    
+
     public SampleIterator(Iterator<Color> inner) {
       this.inner = inner;
     }
@@ -98,13 +98,13 @@ public final class JToneMappingVisualizerPanel extends JColorVisualizerPanel {
     public void remove() {
       inner.remove();
     }
-    
+
   }
-  
+
   private static final class SampleList implements Iterable<CIEXYZ> {
-    
+
     private final Iterable<Color> inner;
-    
+
     public SampleList(Iterable<Color> inner) {
       this.inner = inner;
     }
@@ -116,7 +116,7 @@ public final class JToneMappingVisualizerPanel extends JColorVisualizerPanel {
     public Iterator<CIEXYZ> iterator() {
       return new SampleIterator(inner.iterator());
     }
-    
+
   }
 
   /* (non-Javadoc)

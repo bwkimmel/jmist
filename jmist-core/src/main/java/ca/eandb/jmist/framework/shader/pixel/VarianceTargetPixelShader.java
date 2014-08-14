@@ -34,11 +34,11 @@ import ca.eandb.jmist.math.Box2;
 /**
  * A pixel shader decorator that averages the results of another pixel shader.
  * The number of samples used may vary within a specified range based on a
- * provided target variance. 
+ * provided target variance.
  * @author Brad Kimmel
  */
 public final class VarianceTargetPixelShader implements PixelShader {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = 2790315811680362011L;
 
@@ -50,16 +50,16 @@ public final class VarianceTargetPixelShader implements PixelShader {
 
   /** Minimum number of samples to use. */
   private final int minSamples;
-  
+
   /** Maximum number of samples to use. */
   private final int maxSamples;
-  
+
   /** The number of samples to compute between variance tests. */
   private final int checkInterval;
 
   /** The pixel shader from which to average the results. */
   private final PixelShader pixelShader;
-  
+
   /**
    * A value indicating whether to render in test mode.  In test mode, the
    * color of the pixel returned is a greyscale value indicating how many
@@ -138,7 +138,7 @@ public final class VarianceTargetPixelShader implements PixelShader {
           }
         }
       }
-      
+
       Color sample = pixelShader.shadePixel(bounds);
       Color oldPixel = pixel;
       pixel = ColorUtil.add(pixel, ColorUtil.div(ColorUtil.sub(sample, pixel), i + 1));

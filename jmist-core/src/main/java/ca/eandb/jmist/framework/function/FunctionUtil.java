@@ -30,11 +30,11 @@ import ca.eandb.jmist.math.Interval;
 
 /**
  * Static utility methods for working with <code>Function</code>s.
- * 
+ *
  * @author Brad Kimmel
  */
 public final class FunctionUtil {
-  
+
   /**
    * Applies a <code>Function1</code> to each value of an array in place.
    * @param f The <code>Function1</code> to apply.
@@ -47,7 +47,7 @@ public final class FunctionUtil {
     }
     return x;
   }
-  
+
   /**
    * Returns a piecewise linear function defined by interpolating the
    * provided <code>Function1</code> at the specified domain points.
@@ -58,7 +58,7 @@ public final class FunctionUtil {
   public static Function1 sample(Function1 f, double[] x) {
     return PiecewiseLinearFunction1.sample(f, x);
   }
-  
+
   /**
    * Returns a piecewise linear function defined by interpolating the
    * provided <code>Function1</code> at uniformly spaced points within

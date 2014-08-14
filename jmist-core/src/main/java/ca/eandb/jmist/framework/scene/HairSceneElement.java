@@ -56,38 +56,38 @@ import ca.eandb.util.UnimplementedException;
  * @author Brad Kimmel
  */
 public final class HairSceneElement implements SceneElement {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = 7426131707749501794L;
 
   private final SceneElement emitter;
-  
+
   private final Material hairMaterial;
-  
+
   private final int base;
 
   private final int amount = 1000;//500000;
-  
+
   private final int segments = 4;
 
   private final Vector3 meanInitialVelocity = new Vector3(0.0, 0.0, 0.2);//0.05);
-  
+
   private final double randomInitialVelocity = 0.02;
-  
+
   private final double roughness = 0.05;//0.01;
-  
+
   private final boolean renderEmitter = true;
-  
+
   private final double baseWidth = 0.01;
-  
+
   private final double tipWidth = 0.01;
-  
+
   private class Strand implements Bounded3 {
-    
+
     private Point3[] vertices;
-    
+
     private ShadingContext emitterContext;
-    
+
     private int strandIndex;
 
     public Box3 boundingBox() {
@@ -102,7 +102,7 @@ public final class HairSceneElement implements SceneElement {
       Box3 box = boundingBox();
       return new Sphere(box.center(), box.diagonal() / 2.0);
     }
-    
+
     public void intersect(final Ray3 ray, IntersectionRecorder recorder) {
       for (int i = 0; i < vertices.length - 3; i++) {
         final double t = GeometryUtil.rayIntersectTriangle(ray, vertices[i], vertices[i+1], vertices[i+2]);
@@ -131,12 +131,12 @@ public final class HairSceneElement implements SceneElement {
               context.setUV(emitterContext.getUV());
               context.setAmbientMedium(emitterContext.getAmbientMedium());
             }
-            
+
           });
         }
       }
     }
-    
+
     public boolean visibility(Ray3 ray) {
       for (int i = 0; i < vertices.length - 3; i++) {
         final double t = GeometryUtil.rayIntersectTriangle(ray, vertices[i], vertices[i+1], vertices[i+1]);
@@ -146,23 +146,23 @@ public final class HairSceneElement implements SceneElement {
       }
       return true;
     }
-    
+
     public boolean intersects(Box3 box) {
       throw new UnimplementedException();
     }
-    
+
   };
-  
+
   public HairSceneElement(SceneElement emitter) {
     this(null, emitter);
   }
-  
+
   public HairSceneElement(Material hairMaterial, SceneElement emitter) {
     this.hairMaterial = hairMaterial;
     this.emitter = emitter;
     this.base = renderEmitter ? emitter.getNumPrimitives() : 0;
   }
-  
+
   private Strand createStrand(int index) {
     Random tempRnd = new Random(index);
     Random rnd = new Random(tempRnd.nextLong());
@@ -173,7 +173,7 @@ public final class HairSceneElement implements SceneElement {
     strand.vertices = new Point3[2 * (segments + 1)];
     strand.emitterContext = context;
     strand.strandIndex = index;
-    
+
     Point3 pos = context.getPosition();
     Vector3 vel = context.getBasis().toStandard(meanInitialVelocity).plus(
         RandomUtil.uniformInsideSphere(randomInitialVelocity, adapter)
@@ -183,24 +183,24 @@ public final class HairSceneElement implements SceneElement {
     double co = Math.cos(orientation);
     double so = Math.sin(orientation);
     Basis3 basis = Basis3.fromWU(vel, context.getTangent());
-    
+
     int segment = 0;
     int i = 0;
     while (true) {
       double t = (double) segment / (double) segments;
       double width = MathUtil.interpolate(baseWidth, tipWidth, t);
-      
+
       strand.vertices[i++] = pos.plus(basis.toStandard(-0.5 * width * co, -0.5 * width * so, 0.0));
       strand.vertices[i++] = pos.plus(basis.toStandard(0.5 * width * co, 0.5 * width * so, 0.0));
-      
+
       if (++segment > segments) {
         break;
       }
-      
+
       pos = pos.plus(vel.times(dt));
       pos = pos.plus(RandomUtil.uniformInsideSphere(roughness, adapter).toCartesian());
     }
-    
+
     return strand;
   }
 
@@ -361,7 +361,7 @@ public final class HairSceneElement implements SceneElement {
     }
     return renderEmitter ? emitter.visibility(ray) : true;
   }
-  
-  
-  
+
+
+
 }

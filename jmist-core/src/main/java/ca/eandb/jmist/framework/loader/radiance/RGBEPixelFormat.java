@@ -38,10 +38,10 @@ final class RGBEPixelFormat implements PixelFormat {
 
   /** Serialization version ID. */
   private static final long serialVersionUID = 8026681085259479612L;
-  
+
   /** The single <code>RGBEPixelFormat</code> instance. */
   public static final RGBEPixelFormat INSTANCE = new RGBEPixelFormat();
-  
+
   /**
    * Creates a new <code>RGBEPixelFormat</code>.
    * This constructor is private because this class is a singleton.

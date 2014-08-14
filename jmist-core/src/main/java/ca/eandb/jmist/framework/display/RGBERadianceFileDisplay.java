@@ -46,19 +46,19 @@ import ca.eandb.util.UnexpectedException;
  * @author Brad Kimmel
  */
 public final class RGBERadianceFileDisplay implements Display, Serializable {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = -8735951495492670231L;
-  
+
   /** Default filename. */
   private static String DEFAULT_FILENAME = "output.hdr";
 
   /** The name of the file to write. */
   private final String fileName;
-  
+
   /** The <code>RadiancePicture</code> image to write. */
   private transient RadiancePicture picture;
-  
+
   /**
    * Creates a new <code>RGBERadianceFileDisplay</code>.
    * @param fileName The name of the file to write.
@@ -66,7 +66,7 @@ public final class RGBERadianceFileDisplay implements Display, Serializable {
   public RGBERadianceFileDisplay(String fileName) {
     this.fileName = fileName;
   }
-  
+
   /**
    * Creates a new <code>RGBERadianceFileDisplay</code>.
    */
@@ -125,7 +125,7 @@ public final class RGBERadianceFileDisplay implements Display, Serializable {
       FileOutputStream os = (service != null) ? service
           .createFileOutputStream(fileName) : new FileOutputStream(
           fileName);
-          
+
       picture.write(os);
     } catch (IOException e) {
       throw new UnexpectedException(e);

@@ -50,7 +50,7 @@ public abstract class AbstractScatteringNode extends AbstractPathNode implements
   private final boolean onLightPath;
 
   private double geometricFactor;
-  
+
   private double reversePDF;
 
   public AbstractScatteringNode(PathNode parent, ScatteredRay sr, double ru, double rv, double rj) {
@@ -102,7 +102,7 @@ public abstract class AbstractScatteringNode extends AbstractPathNode implements
   public final PathNode getParent() {
     return parent;
   }
-  
+
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.path.PathNode#getReversePDF()
    */

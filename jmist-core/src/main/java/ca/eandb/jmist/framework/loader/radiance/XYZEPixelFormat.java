@@ -38,10 +38,10 @@ final class XYZEPixelFormat implements PixelFormat {
 
   /** Serialization version ID. */
   private static final long serialVersionUID = 8026681085259479612L;
-  
+
   /** The single <code>XYZEPixelFormat</code> instance. */
   public static final XYZEPixelFormat INSTANCE = new XYZEPixelFormat();
-  
+
   /**
    * Creates a new <code>XYZEPixelFormat</code>.
    * This constructor is private because this class is a singleton.

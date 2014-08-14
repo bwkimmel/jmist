@@ -73,20 +73,20 @@ public final class PathUtil {
     }
   }
 
-  public static Color join(PathNode a, PathNode b) {    
+  public static Color join(PathNode a, PathNode b) {
 
     Vector3 v = PathUtil.getDirection(a, b);
 
     if (v == null) {
       return null;
     }
-    
+
     double g = PathUtil.getGeometricFactor(a, b);
-    
+
     if (g <= 0.0) {
       return null;
     }
-    
+
     Color etol = a.scatter(v);
     Color ltoe = b.scatter(v.opposite());
     Color c = etol.times(ltoe);
@@ -136,7 +136,7 @@ public final class PathUtil {
     }
     return node;
   }
-  
+
   public static boolean isSameNode(PathNode a, PathNode b) {
     HPoint3 p = a.getPosition();
     HPoint3 q = b.getPosition();

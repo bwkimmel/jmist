@@ -139,7 +139,7 @@ public final class RasterTexture2 implements Texture2 {
    * @see ca.eandb.jmist.framework.Texture2#evaluate(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.color.WavelengthPacket)
    */
   public Color evaluate(Point2 p, WavelengthPacket lambda) {
-    
+
     Raster    raster  = image.getRaster();
     double    u    = p.x() - Math.floor(p.x());
     double    v    = p.y() - Math.floor(p.y());
@@ -197,7 +197,7 @@ public final class RasterTexture2 implements Texture2 {
    * <code>Pixel</code>s.
    */
   private final PixelSpectrumFactory factory;
-  
+
   /**
    * The <code>Texture2</code> to render underneath this texture if the image
    * has an alpha channel.

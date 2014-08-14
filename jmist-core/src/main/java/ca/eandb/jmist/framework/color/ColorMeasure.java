@@ -39,5 +39,5 @@ public interface ColorMeasure extends Serializable {
    * @return The measure of the color.
    */
   double evaluate(Color c);
-  
+
 }

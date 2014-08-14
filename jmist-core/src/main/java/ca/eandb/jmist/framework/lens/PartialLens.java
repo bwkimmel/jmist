@@ -38,7 +38,7 @@ import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Vector3;
 
 /**
- * 
+ *
  * @author Brad Kimmel
  */
 public final class PartialLens extends AbstractLens {
@@ -47,17 +47,17 @@ public final class PartialLens extends AbstractLens {
   private static final long serialVersionUID = -3343619784708416059L;
 
   private final Lens inner;
-  
+
   private final Box2 bounds;
-  
+
   private final double area;
-  
+
   public PartialLens(Box2 bounds, Lens inner) {
     this.inner = inner;
     this.bounds = bounds;
     this.area = bounds.area();
   }
-  
+
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.Lens#sample(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.path.PathInfo, double, double, double)
    */
@@ -67,11 +67,11 @@ public final class PartialLens extends AbstractLens {
     p = bounds.interpolate(p);
     return new PartialEyeNode(inner.sample(p, pathInfo, ru, rv, rj));
   }
-  
+
   private final class PartialEyeNode extends AbstractPathNode implements EyeNode {
-    
+
     private final EyeNode inner;
-    
+
     public PartialEyeNode(EyeNode inner) {
       super(inner.getPathInfo(), inner.getRU(), inner.getRV(), inner.getRJ());
       this.inner = inner;
@@ -166,7 +166,7 @@ public final class PartialLens extends AbstractLens {
     public Color scatter(Vector3 v) {
       return inner.scatter(v);
     }
-    
+
   }
 
 }

@@ -49,16 +49,16 @@ public final class XYZERadianceFileDisplay implements Display, Serializable {
 
   /** Serialization version ID. */
   private static final long serialVersionUID = 7431366666341133926L;
-  
+
   /** Default filename. */
   private static String DEFAULT_FILENAME = "output.hdr";
 
   /** The name of the file to write. */
   private final String fileName;
-  
+
   /** The <code>RadiancePicture</code> image to write. */
   private transient RadiancePicture picture;
-  
+
   /**
    * Creates a new <code>XYZERadianceFileDisplay</code>.
    * @param fileName The name of the file to write.
@@ -66,7 +66,7 @@ public final class XYZERadianceFileDisplay implements Display, Serializable {
   public XYZERadianceFileDisplay(String fileName) {
     this.fileName = fileName;
   }
-  
+
   /**
    * Creates a new <code>XYZERadianceFileDisplay</code>.
    */
@@ -125,7 +125,7 @@ public final class XYZERadianceFileDisplay implements Display, Serializable {
       FileOutputStream os = (service != null) ? service
           .createFileOutputStream(fileName) : new FileOutputStream(
           fileName);
-          
+
       picture.write(os);
     } catch (IOException e) {
       throw new UnexpectedException(e);

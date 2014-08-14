@@ -118,7 +118,7 @@ public final class SurfaceNode extends AbstractScatteringNode {
   public HPoint3 getPosition() {
     return surf.getPosition();
   }
-  
+
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.path.PathNode#reverse(ca.eandb.jmist.framework.path.PathNode, ca.eandb.jmist.framework.path.PathNode)
    */
@@ -138,14 +138,14 @@ public final class SurfaceNode extends AbstractScatteringNode {
               "grandChild and newParent.getParent() are different.");
         }
       }
-      
+
       Vector3 v = PathUtil.getDirection(newParent, this);
       Point3 origin = newParent.isAtInfinity()
           ? surf.getPosition().minus(v)
           : newParent.getPosition().toPoint3();
-      Ray3 ray = new Ray3(origin, v);      
+      Ray3 ray = new Ray3(origin, v);
       ScatteredRay sr;
-      
+
       if (grandChild != null) {
         double rpdf = grandChild.getReversePDF();
         double pdf = grandChild.getPDF();
@@ -167,12 +167,12 @@ public final class SurfaceNode extends AbstractScatteringNode {
         throw new IllegalArgumentException(
             "newParent == null && grandChild != null");
       }
-      
+
       PathInfo pi = getPathInfo();
       Scene scene = pi.getScene();
       Light light = scene.getLight();
       double pdf = light.getSamplePDF(surf, pi);
-      
+
       return ScaledLightNode.create(pdf, new SurfaceLightNode(pi, surf, getRU(), getRV(), getRJ()), getRJ());
     }
   }
@@ -223,7 +223,7 @@ public final class SurfaceNode extends AbstractScatteringNode {
   }
 
 //  @Override
-//  public PathNode reverse(PathNode newParent, PathNode grandChild) {    
+//  public PathNode reverse(PathNode newParent, PathNode grandChild) {
 //    if (newParent != null) {
 //      if (grandChild != null) {
 //        if (grandChild.getParent() == null
@@ -250,7 +250,7 @@ public final class SurfaceNode extends AbstractScatteringNode {
 //      if (grandChild != null) {
 //        throw new IllegalArgumentException("newParent == null && grandChild != null");
 //      }
-//      
+//
 //    }
 //    // TODO Auto-generated method stub
 //    return null;

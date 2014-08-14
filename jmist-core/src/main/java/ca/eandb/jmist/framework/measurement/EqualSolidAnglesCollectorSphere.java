@@ -261,7 +261,7 @@ public final class EqualSolidAnglesCollectorSphere implements CollectorSphere {
   public int sensors() {
     return sensors;
   }
-  
+
   /** The total number of sensors. */
   private final int sensors;
 

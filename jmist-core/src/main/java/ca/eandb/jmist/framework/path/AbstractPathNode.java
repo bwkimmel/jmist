@@ -46,7 +46,7 @@ import ca.eandb.jmist.math.Ray3;
 public abstract class AbstractPathNode implements PathNode {
 
   private final PathInfo pathInfo;
-  
+
   private final double ru, rv, rj;
 
   protected AbstractPathNode(PathInfo pathInfo, double ru, double rv, double rj) {
@@ -55,15 +55,15 @@ public abstract class AbstractPathNode implements PathNode {
     this.rv = rv;
     this.rj = rj;
   }
-  
+
   public final double getRU() {
     return ru;
   }
-  
+
   public final double getRV() {
     return rv;
   }
-  
+
   public final double getRJ() {
     return rj;
   }

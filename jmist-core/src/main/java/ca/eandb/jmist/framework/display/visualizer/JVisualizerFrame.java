@@ -60,65 +60,65 @@ import ca.eandb.util.io.FileUtil;
  *
  */
 public final class JVisualizerFrame extends JFrame implements Display {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = 6053456293463524773L;
-  
+
   private static final String DEFAULT_TITLE = "jMIST Visualizer";
-  
+
   private static final Dimension MINIMUM_SIZE = new Dimension(640, 480);
-  
+
   private static final double[] ZOOM_FACTORS = {
      0.02,  0.05,  0.10,  0.20,  0.33,  0.50,  0.67,  1.00,  2.00,  3.00,
      4.00,  5.00,  6.00,  7.00,  8.00,  9.00, 10.00, 11.00, 12.00, 13.00,
     14.00, 15.00, 16.00, 17.00, 18.00, 19.00, 20.00
   };
-  
+
   private final JVisualizerDisplay display;
-  
+
   private final JScrollPane displayScrollPane;
-  
+
   private final JCheckBoxMenuItem fitInWindowMenuItem;
-  
+
   private final JCheckBoxMenuItem fillWindowMenuItem;
-  
+
   private int width;
-  
+
   private int height;
-  
+
   private static enum ZoomMode {
     NORMAL,
     FIT,
     FILL
   };
-  
+
   private ZoomMode zoomMode = ZoomMode.NORMAL;
-  
+
   private double zoomFactor = 1.0;
-  
-  public JVisualizerFrame(JColorVisualizerPanel visualizerPanel) {    
+
+  public JVisualizerFrame(JColorVisualizerPanel visualizerPanel) {
     display = new JVisualizerDisplay(visualizerPanel);
-    
+
     displayScrollPane = new JScrollPane(display);
     displayScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-    displayScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);    
+    displayScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
     displayScrollPane.addComponentListener(new ComponentAdapter() {
       public void componentResized(ComponentEvent e) {
         displayScrollPane_OnComponentResized(e);
       }
     });
-    
+
     setLayout(new BorderLayout());
     add(displayScrollPane, BorderLayout.CENTER);
     add(visualizerPanel, BorderLayout.SOUTH);
-    
+
     JMenuBar menuBar = new JMenuBar();
     JMenu menu;
     JMenuItem menuItem;
-    
+
     menu = new JMenu("File");
     menu.setMnemonic(KeyEvent.VK_F);
-    
+
     menuItem = new JMenuItem("Save", KeyEvent.VK_S);
     menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
     menuItem.getAccessibleContext().setAccessibleDescription("Save the image to a file.");
@@ -129,10 +129,10 @@ public final class JVisualizerFrame extends JFrame implements Display {
     });
     menu.add(menuItem);
     menuBar.add(menu);
-    
+
     menu = new JMenu("View");
     menu.setMnemonic(KeyEvent.VK_V);
-    
+
     menuItem = new JMenuItem("Zoom In");
     menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_EQUALS, ActionEvent.CTRL_MASK));
     menuItem.getAccessibleContext().setAccessibleDescription("Enlarge the image");
@@ -142,7 +142,7 @@ public final class JVisualizerFrame extends JFrame implements Display {
       }
     });
     menu.add(menuItem);
-    
+
     menuItem = new JMenuItem("Zoom Out");
     menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, ActionEvent.CTRL_MASK));
     menuItem.getAccessibleContext().setAccessibleDescription("Shrink the image");
@@ -152,7 +152,7 @@ public final class JVisualizerFrame extends JFrame implements Display {
       }
     });
     menu.add(menuItem);
-    
+
     menuItem = new JMenuItem("Normal Size");
     menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_0, ActionEvent.CTRL_MASK));
     menuItem.getAccessibleContext().setAccessibleDescription("Show the image at its normal size");
@@ -162,7 +162,7 @@ public final class JVisualizerFrame extends JFrame implements Display {
       }
     });
     menu.add(menuItem);
-    
+
     menuItem = fitInWindowMenuItem = new JCheckBoxMenuItem("Fit in Window");
     menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, ActionEvent.CTRL_MASK | ActionEvent.SHIFT_MASK));
     menuItem.getAccessibleContext().setAccessibleDescription("Adjust the zoom ratio so that the image becomes fully visible");
@@ -172,7 +172,7 @@ public final class JVisualizerFrame extends JFrame implements Display {
       }
     });
     menu.add(menuItem);
-    
+
     menuItem = fillWindowMenuItem = new JCheckBoxMenuItem("Fill Window");
     menuItem.getAccessibleContext().setAccessibleDescription("Adjust the zoom ratio so that the image fills the window");
     menuItem.addActionListener(new ActionListener() {
@@ -180,9 +180,9 @@ public final class JVisualizerFrame extends JFrame implements Display {
         fillWindow_OnActionPerformed(e);
       }
     });
-    menu.add(menuItem);    
+    menu.add(menuItem);
     menuBar.add(menu);
-    
+
     setJMenuBar(menuBar);
     setTitle(DEFAULT_TITLE);
     setMinimumSize(MINIMUM_SIZE);
@@ -195,7 +195,7 @@ public final class JVisualizerFrame extends JFrame implements Display {
     case FIT:
       fitInWindow();
       break;
-      
+
     case FILL:
       fillWindow();
       break;
@@ -250,19 +250,19 @@ public final class JVisualizerFrame extends JFrame implements Display {
       updateZoom(ZOOM_FACTORS[index]);
     }
   }
-  
+
   private void setZoomMode(ZoomMode mode) {
     zoomMode = mode;
     fitInWindowMenuItem.setSelected(mode == ZoomMode.FIT);
     fillWindowMenuItem.setSelected(mode == ZoomMode.FILL);
   }
-  
+
   private void clearZoom() {
     display.setPreferredSize(new Dimension(width, height));
     display.setSize(display.getPreferredSize());
     display.repaint();
   }
-  
+
   private void updateZoom(double zoom) {
     int w = (int) Math.floor(zoom * (double) width);
     int h = (int) Math.floor(zoom * (double) height);

@@ -55,7 +55,7 @@ public final class LayeredMaterial extends OpaqueMaterial {
    * the layers of this <code>SurfaceScatterer</code>.
    */
   private final List<Material> layers = new ArrayList<Material>();
-  
+
   private final Random rnd = new ThreadLocalRandom(new SimpleRandom());
 
   /**
@@ -91,7 +91,7 @@ public final class LayeredMaterial extends OpaqueMaterial {
   public int getNumLayers() {
     return layers.size();
   }
-  
+
   /**
    * Gets the <code>List</code> of layers that comprise this
    * <code>LayeredSurfaceScatterer</code>.  The returned list is
@@ -113,7 +113,7 @@ public final class LayeredMaterial extends OpaqueMaterial {
     Vector3 N = x.getNormal();
     int  depth = (v.dot(N) > 0.0) ? (layers.size() - 1) : 0;
     int dir;
-    
+
     ScatteredRay sr;
     Color col = lambda.getColorModel().getWhite(lambda);
 
@@ -127,7 +127,7 @@ public final class LayeredMaterial extends OpaqueMaterial {
 
       dir = (v.dot(N) > 0.0) ? -1 : 1;
       depth += dir;
-      
+
       col = col.times(sr.getColor());
 
     } while (depth >= 0 && depth < layers.size());

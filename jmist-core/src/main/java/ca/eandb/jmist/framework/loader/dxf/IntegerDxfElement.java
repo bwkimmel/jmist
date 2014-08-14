@@ -32,9 +32,9 @@ package ca.eandb.jmist.framework.loader.dxf;
 public final class IntegerDxfElement extends AbstractDxfElement {
 
   private final int value;
-  
+
   /**
-   * 
+   *
    * @param groupCode
    * @param value
    */
@@ -42,7 +42,7 @@ public final class IntegerDxfElement extends AbstractDxfElement {
     super(groupCode);
     this.value = value;
   }
-  
+
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.loader.dxf.AbstractDxfElement#getIntegerValue()
    */

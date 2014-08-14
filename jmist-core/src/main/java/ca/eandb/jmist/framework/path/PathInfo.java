@@ -39,7 +39,7 @@ public final class PathInfo {
   private final Scene scene;
 
   private final WavelengthPacket wavelengthPacket;
-  
+
   private final double time;
 
   public PathInfo(WavelengthPacket wavelengthPacket) {
@@ -71,7 +71,7 @@ public final class PathInfo {
   public Scene getScene() {
     return scene;
   }
-  
+
   public double getTime() {
     return time;
   }

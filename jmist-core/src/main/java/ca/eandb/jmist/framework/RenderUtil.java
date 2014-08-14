@@ -35,12 +35,12 @@ import ca.eandb.jmist.math.Vector3;
  * @author Brad Kimmel
  */
 public final class RenderUtil {
-  
+
   /**
    * This constructor is private because this class cannot be instantiated.
    */
   private RenderUtil() {}
-  
+
   /**
    * A basic <code>SurfacePointGeometry</code> that has a position,
    * orientation, micro-surface orientation, and texture coordinates.
@@ -48,12 +48,12 @@ public final class RenderUtil {
    *
    */
   private static final class SimpleSurfacePointGeometry implements SurfacePointGeometry {
-    
+
     private final Point3 position;
     private final Basis3 basis;
     private final Basis3 shadingBasis;
     private final Point2 textureCoordinates;
-    
+
     /**
      * @param position
      * @param basis
@@ -99,7 +99,7 @@ public final class RenderUtil {
     public Point2 getUV() {
       return textureCoordinates;
     }
-    
+
   }
 
   /**
@@ -112,7 +112,7 @@ public final class RenderUtil {
     Basis3 basis = Basis3.fromW(N);
     return new SimpleSurfacePointGeometry(p, basis, basis, Point2.ORIGIN);
   }
-  
+
   /**
    * Creates a <code>SurfacePointGeometry</code>.
    * @param p The position.
@@ -125,7 +125,7 @@ public final class RenderUtil {
     Basis3 shadingBasis = Basis3.fromW(shadingNormal);
     return new SimpleSurfacePointGeometry(p, basis, shadingBasis, Point2.ORIGIN);
   }
-  
+
   /**
    * Creates a <code>SurfacePointGeometry</code>.
    * @param p The position.
@@ -135,7 +135,7 @@ public final class RenderUtil {
   public static SurfacePointGeometry createSurfacePointGeometry(Point3 p, Basis3 basis) {
     return new SimpleSurfacePointGeometry(p, basis, basis, Point2.ORIGIN);
   }
-  
+
   /**
    * Creates a <code>SurfacePointGeometry</code>.
    * @param p The position.
@@ -146,7 +146,7 @@ public final class RenderUtil {
   public static SurfacePointGeometry createSurfacePointGeometry(Point3 p, Basis3 basis, Basis3 shadingBasis) {
     return new SimpleSurfacePointGeometry(p, basis, shadingBasis, Point2.ORIGIN);
   }
-  
+
   /**
    * Creates a <code>SurfacePointGeometry</code>.
    * @param p The position.
@@ -156,9 +156,9 @@ public final class RenderUtil {
    */
   public static SurfacePointGeometry createSurfacePointGeometry(Point3 p, Vector3 N, Point2 uv) {
     Basis3 basis = Basis3.fromW(N);
-    return new SimpleSurfacePointGeometry(p, basis, basis, uv);    
+    return new SimpleSurfacePointGeometry(p, basis, basis, uv);
   }
-  
+
   /**
    * Creates a <code>SurfacePointGeometry</code>.
    * @param p The position.
@@ -172,7 +172,7 @@ public final class RenderUtil {
     Basis3 shadingBasis = Basis3.fromW(shadingNormal);
     return new SimpleSurfacePointGeometry(p, basis, shadingBasis, uv);
   }
-  
+
   /**
    * Creates a <code>SurfacePointGeometry</code>.
    * @param p The position.
@@ -183,7 +183,7 @@ public final class RenderUtil {
   public static SurfacePointGeometry createSurfacePointGeometry(Point3 p, Basis3 basis, Point2 uv) {
     return new SimpleSurfacePointGeometry(p, basis, basis, uv);
   }
-  
+
   /**
    * Creates a <code>SurfacePointGeometry</code>.
    * @param p The position.

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package ca.eandb.jmist.math;
 
@@ -293,9 +293,9 @@ public final class MatrixBuffer implements Serializable {
   public double at(int row, int col) {
     return this.elements[indexOf(row, col)];
   }
-  
+
   /**
-   * Sets the element at the specified position in this 
+   * Sets the element at the specified position in this
    * <code>MatrixBuffer</code>.
    * @param row The row of the element to obtain (must be non-negative and
    *     less than <code>this.rows()</code>).
@@ -312,9 +312,9 @@ public final class MatrixBuffer implements Serializable {
     this.elements[indexOf(row, col)] = value;
     return this;
   }
-  
+
   /**
-   * Adds to the element at the specified position in this 
+   * Adds to the element at the specified position in this
    * <code>MatrixBuffer</code>.
    * @param row The row of the element to obtain (must be non-negative and
    *     less than <code>this.rows()</code>).
@@ -456,7 +456,7 @@ public final class MatrixBuffer implements Serializable {
   public static MatrixBuffer columnMajor(int rows, int cols, double[] elements) {
     return new MatrixBuffer(elements, rows, cols, 0, 1, rows);
   }
-  
+
   /**
    * Creates a <code>MatrixBuffer</code> with values arranged in column-major
    * order.
@@ -493,7 +493,7 @@ public final class MatrixBuffer implements Serializable {
   public static MatrixBuffer rowMajor(int rows, int cols, double[] elements) {
     return new MatrixBuffer(elements, rows, cols, 0, cols, 1);
   }
-  
+
   /**
    * Creates a <code>MatrixBuffer</code> with values arranged in row-major
    * order.

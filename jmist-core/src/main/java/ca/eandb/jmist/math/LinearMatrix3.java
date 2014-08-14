@@ -139,7 +139,7 @@ public final class LinearMatrix3 implements Serializable {
   public double trace() {
     return _00 + _11 + _22;
   }
-  
+
   /**
    * Gets the characteristic polynomial of this matrix (i.e., the univariate
    * polynomial in <code>&lambda;</code> given by
@@ -152,10 +152,10 @@ public final class LinearMatrix3 implements Serializable {
     double c1 = _10 * _01 + _20 * _02 + _12 * _21 - _00 * _11 - _00 * _22 - _11 * _22;
     double c2 = trace();
     double c3 = -1.0;
-  
-    return new Polynomial(c0, c1, c2, c3);    
+
+    return new Polynomial(c0, c1, c2, c3);
   }
-  
+
   /**
    * Returns an array of the real eigenvalues of this matrix (i.e., the
    * values <code>&lambda;</code> for which there exists a non-trivial
@@ -165,7 +165,7 @@ public final class LinearMatrix3 implements Serializable {
   public double[] eigenvalues() {
     return characteristic().roots();
   }
-  
+
   /**
    * Returns an array of the <code>Complex</code> eigenvalues of this matrix
    * (i.e., the values <code>&lambda;</code> for which there exists a

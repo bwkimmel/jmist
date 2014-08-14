@@ -81,7 +81,7 @@ public final class FresnelMaterial extends OpaqueMaterial {
       return ScatteredRay.transmitSpecular(new Ray3(x.getPosition(), v),
           lambda.getColorModel().getWhite(lambda), 1.0);
     }
-    
+
   }
 
 }

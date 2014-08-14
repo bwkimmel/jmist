@@ -44,7 +44,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
 public interface Painter extends Serializable {
 
   /**
-   * Gets the <code>Color</code> to apply. 
+   * Gets the <code>Color</code> to apply.
    * @param p The <code>SurfacePoint</code> to consider.
    * @param lambda The <code>WavelengthPacket</code> to use to generate
    *     <code>Color</code>s from <code>Spectrum</code>s.

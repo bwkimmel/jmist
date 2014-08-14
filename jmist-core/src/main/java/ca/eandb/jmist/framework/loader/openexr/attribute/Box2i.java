@@ -36,19 +36,19 @@ import java.io.IOException;
  */
 @OpenEXRAttributeType("box2i")
 public final class Box2i implements Attribute {
-  
+
   private final int xMin;
   private final int yMin;
   private final int xMax;
   private final int yMax;
-  
+
   public Box2i(int xMin, int yMin, int xMax, int yMax) {
     this.xMin = xMin;
     this.yMin = yMin;
     this.xMax = xMax;
     this.yMax = yMax;
   }
-  
+
   /**
    * @return the xMin
    */
@@ -76,11 +76,11 @@ public final class Box2i implements Attribute {
   public int getYMax() {
     return yMax;
   }
-  
+
   public int getXSize() {
     return xMax - xMin + 1;
   }
-  
+
   public int getYSize() {
     return yMax - yMin + 1;
   }
@@ -99,5 +99,5 @@ public final class Box2i implements Attribute {
     out.writeInt(xMax);
     out.writeInt(yMax);
   }
-  
+
 }

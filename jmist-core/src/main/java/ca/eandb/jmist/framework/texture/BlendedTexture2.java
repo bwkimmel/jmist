@@ -34,24 +34,24 @@ import ca.eandb.jmist.math.Point2;
 /**
  * A <code>Texture2<code> that combines two other <code>Texture2</code>s using
  * a <code>Mask2</code>.
- * 
+ *
  * At areas where the mask value is zero, the first texture is used.  Where the
  * mask value is one, the second texture is used.  For other areas, the texture
  * is interpolated between the first and second textures.
- * 
+ *
  * @author Brad Kimmel
  */
 public final class BlendedTexture2 implements Texture2 {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = 3825212205211905179L;
 
   /** The <code>Texture2</code> to use where the mask value is zero. */
   private final Texture2 a;
-  
+
   /** The <code>Texture2</code> to use where the mask value is one. */
   private final Texture2 b;
-  
+
   /** The <code>Mask2</code> that controls the interpolation. */
   private final Mask2 mask;
 

@@ -39,10 +39,10 @@ public interface CollectorSphere extends Serializable {
   public static interface Callback {
     void record(int sensor);
   };
-  
+
   void record(Vector3 v, Callback f);
   void record(SphericalCoordinates v, Callback f);
-  
+
   int sensors();
 
   double getSensorSolidAngle(int sensor);

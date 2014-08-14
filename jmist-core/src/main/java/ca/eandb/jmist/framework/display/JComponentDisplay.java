@@ -124,7 +124,7 @@ public final class JComponentDisplay extends JComponent implements Display,
   public JComponentDisplay(ToneMapperFactory toneMapperFactory, double toneMapperAgeThresholdFraction) {
     this.toneMapperFactory =  toneMapperFactory;
     this.toneMapperAgeThresholdFraction = toneMapperAgeThresholdFraction;
-    
+
     if (toneMapperFactory instanceof JToneMapperPanel) {
       ((JToneMapperPanel) toneMapperFactory).addChangeListener(new ChangeListener() {
         public void stateChanged(ChangeEvent e) {
@@ -171,7 +171,7 @@ public final class JComponentDisplay extends JComponent implements Display,
     }
     return false;
   }
-  
+
   /**
    * Regenerates the <code>ToneMapper</code>.
    */

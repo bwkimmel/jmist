@@ -36,19 +36,19 @@ import java.io.IOException;
  */
 @OpenEXRAttributeType("box2f")
 public final class Box2f implements Attribute {
-  
+
   private final float xMin;
   private final float yMin;
   private final float xMax;
   private final float yMax;
-  
+
   public Box2f(float xMin, float yMin, float xMax, float yMax) {
     this.xMin = xMin;
     this.yMin = yMin;
     this.xMax = xMax;
     this.yMax = yMax;
   }
-  
+
   /**
    * @return the xMin
    */
@@ -76,11 +76,11 @@ public final class Box2f implements Attribute {
   public float getYMax() {
     return yMax;
   }
-  
+
   public float getXSize() {
     return xMax - xMin;
   }
-  
+
   public float getYSize() {
     return yMax - yMin;
   }

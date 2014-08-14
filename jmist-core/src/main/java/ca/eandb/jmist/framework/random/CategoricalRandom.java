@@ -143,9 +143,9 @@ public final class CategoricalRandom implements Serializable {
     int index = Arrays.binarySearch(this.cpf, seed);
     return index >= 0 ? index : -(index + 1);
   }
-  
+
   private void bp() {}
-  
+
   public int next(SeedReference ref) {
     int index = Arrays.binarySearch(this.cpf, ref.seed);
     if (ref.seed > 1.0) {

@@ -114,14 +114,14 @@ public final class PanoramicLens extends AbstractLens {
     /* (non-Javadoc)
      * @see ca.eandb.jmist.framework.path.EyeNode#sample(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.Random)
      */
-    public ScatteredRay sample(double ru, double rv, double rj) {      
+    public ScatteredRay sample(double ru, double rv, double rj) {
       Point2 p = pointOnImagePlane;
       double theta = (p.x() - 0.5) * hfov;
       Vector3 v = new Vector3(
           Math.sin(theta),
           (0.5 - p.y()) * height,
           -Math.cos(theta));
-      double r = v.length();      
+      double r = v.length();
       Ray3 ray = new Ray3(Point3.ORIGIN, v.divide(r));
       Color color = getWhite();
       double pdf = (r * r * r * r) / (hfov * height);

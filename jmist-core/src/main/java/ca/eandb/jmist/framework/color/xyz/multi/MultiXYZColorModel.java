@@ -278,7 +278,7 @@ public final class MultiXYZColorModel extends ColorModel {
     };
   }
 
-  
+
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.color.ColorModel#getChannelName(int)
    */
@@ -293,5 +293,5 @@ public final class MultiXYZColorModel extends ColorModel {
       return String.format("Z%d", channel - (channelsX + channelsY));
     }
   }
-  
+
 }

@@ -43,16 +43,16 @@ import ca.eandb.jmist.math.Vector3;
  *
  */
 public final class ScatteringAdapterMaterial implements Material {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = -3988915073092568279L;
 
   private final Material inner;
-  
+
   private final ScatteringStrategy strategy;
-  
+
   private final double weight;
-  
+
   /**
    * @param inner
    * @param strategy
@@ -97,7 +97,7 @@ public final class ScatteringAdapterMaterial implements Material {
             Vector3 v = ray.direction();
             double pdf = w * sr.getPDF() + (1.0 - w) * inner.getEmissionPDF(x, v, lambda);
             Color edf = inner.emission(x, sr.getRay().direction(), lambda);
-            return new ScatteredRay(ray, edf.divide(pdf), sr.getType(), pdf, sr.isTransmitted());  
+            return new ScatteredRay(ray, edf.divide(pdf), sr.getType(), pdf, sr.isTransmitted());
           }
         }
       } else {
@@ -110,7 +110,7 @@ public final class ScatteringAdapterMaterial implements Material {
             Vector3 v = ray.direction();
             double pdf = w * strategy.getEmissionPDF(x, v, lambda) + (1.0 - w) * sr.getPDF();
             Color edf = inner.emission(x, sr.getRay().direction(), lambda);
-            return new ScatteredRay(ray, edf.divide(pdf), sr.getType(), pdf, sr.isTransmitted());              
+            return new ScatteredRay(ray, edf.divide(pdf), sr.getType(), pdf, sr.isTransmitted());
           }
         }
       }
@@ -167,7 +167,7 @@ public final class ScatteringAdapterMaterial implements Material {
           Vector3 out = adjoint ? v.opposite() : r;
           double pdf = w * sr.getPDF() + (1.0 - w) * inner.getScatteringPDF(x, v, r, adjoint, lambda);
           Color bsdf = inner.bsdf(x, in, out, lambda);
-          return new ScatteredRay(ray, bsdf.divide(pdf), sr.getType(), pdf, sr.isTransmitted());  
+          return new ScatteredRay(ray, bsdf.divide(pdf), sr.getType(), pdf, sr.isTransmitted());
         }
       }
     } else {
@@ -182,13 +182,13 @@ public final class ScatteringAdapterMaterial implements Material {
           Vector3 out = adjoint ? v.opposite() : r;
           double pdf = w * strategy.getScatteringPDF(x, v, r, adjoint, lambda) + (1.0 - w) * sr.getPDF();
           Color bsdf = inner.bsdf(x, in, out, lambda);
-          return new ScatteredRay(ray, bsdf.divide(pdf), sr.getType(), pdf, sr.isTransmitted());              
+          return new ScatteredRay(ray, bsdf.divide(pdf), sr.getType(), pdf, sr.isTransmitted());
         }
       }
     }
-  
-    
-    
+
+
+
 //    if (RandomUtil.bernoulli(weight, ref)) {
 //      ScatteredRay sr = strategy.scatter(x, v, adjoint, lambda, ru, rv, ref.seed);
 //      if (sr == null) {
@@ -201,7 +201,7 @@ public final class ScatteringAdapterMaterial implements Material {
 //      ScatteredRay sr = inner.scatter(x, v, adjoint, lambda, ru, rv, ref.seed);
 //      return sr != null ? ScatteredRay.select(sr, 1.0 - weight) : null;
 //    }
-    
+
     return null;
   }
 

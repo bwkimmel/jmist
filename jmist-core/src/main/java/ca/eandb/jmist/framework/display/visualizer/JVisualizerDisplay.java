@@ -61,19 +61,19 @@ public final class JVisualizerDisplay extends JComponent implements Display,
    * @see #visualizerAgeThresholdFraction
    */
   private static final double DEFAULT_VISUALIZER_AGE_THRESHOLD = 0.05;
-  
+
   /**
    * The <code>ColorVisualizer</code> to use to convert <code>Color</code>s
    * to <code>RGB</code> triplets.
    */
   private final ColorVisualizer visualizer;
-  
+
   /** The <code>ColorModel</code> used by the image. */
   private ColorModel colorModel = null;
-  
+
   /** A <code>BitSet</code> indicating which pixels have been recorded. */
   private BitSet recorded = null;
-  
+
   /** The original, high dynamic range pixel values recorded. */
   private Raster rawImage = null;
 
@@ -97,15 +97,15 @@ public final class JVisualizerDisplay extends JComponent implements Display,
    * <code>ColorVisualizer</code> was regenerated.
    */
   private int visualizerAge = 0;
-  
+
   private final class PixelIterator implements Iterable<Color>, Iterator<Color> {
 
     private int index = 0;
-    
+
     public PixelIterator() {
       index = recorded.nextSetBit(0);
     }
-    
+
     /* (non-Javadoc)
      * @see java.lang.Iterable#iterator()
      */
@@ -141,7 +141,7 @@ public final class JVisualizerDisplay extends JComponent implements Display,
     public void remove() {
       throw new UnsupportedOperationException();
     }
-    
+
   };
 
   /**
@@ -168,14 +168,14 @@ public final class JVisualizerDisplay extends JComponent implements Display,
   public JVisualizerDisplay(ColorVisualizer visualizer, double visualizerAgeThresholdFraction) {
     this.visualizer =  visualizer;
     this.visualizerAgeThresholdFraction = visualizerAgeThresholdFraction;
-    
+
     visualizer.addChangeListener(new ChangeListener() {
       public void stateChanged(ChangeEvent e) {
         visualizer_OnStateChanged(e);
       }
     });
   }
-  
+
   public void export(Display display) {
     if (rawImage == null || colorModel == null) {
       throw new IllegalStateException("Display not initialized");
@@ -186,7 +186,7 @@ public final class JVisualizerDisplay extends JComponent implements Display,
     display.setPixels(0, 0, rawImage);
     display.finish();
   }
-  
+
   public RenderedImage getRenderedImage() {
     if (ldrImage == null) {
       throw new IllegalStateException("Display not initialized");
@@ -229,7 +229,7 @@ public final class JVisualizerDisplay extends JComponent implements Display,
     }
     return false;
   }
-  
+
   /**
    * Regenerates the <code>ColorVisualizer</code>.
    * @param forceReapply Forces the display to reapply the visualization
@@ -261,7 +261,7 @@ public final class JVisualizerDisplay extends JComponent implements Display,
     }
     super.repaint();
   }
-  
+
   /**
    * Repaints the specified rectangular portion of the image.
    * @param x The x-coordinate of the upper left pixel in the image to
@@ -279,14 +279,14 @@ public final class JVisualizerDisplay extends JComponent implements Display,
     int imageH = ldrImage.getHeight();
     double sx = (double) d.width / (double) imageW;
     double sy = (double) d.height / (double) imageH;
-    
+
     int x0 = (int) Math.floor(sx * (double) x);
     int y0 = (int) Math.floor(sy * (double) y);
     int x1 = (int) Math.ceil(sx * (double) (x + w - 1));
     int y1 = (int) Math.ceil(sy * (double) (y + h - 1));
     int dx = x1 - x0 + 1;
     int dy = y1 - y0 + 1;
-    
+
     super.repaint(x0, y0, dx, dy);
   }
 
@@ -299,7 +299,7 @@ public final class JVisualizerDisplay extends JComponent implements Display,
     for (int cy = y; cy < y + h; cy++) {
       recorded.set(cy * iw + x, cy * iw + (x + w));
     }
-    
+
     if (!prepareVisualizer(w * h)) {
       int rgb = visualizer.visualize(color).toR8G8B8();
 
@@ -359,7 +359,7 @@ public final class JVisualizerDisplay extends JComponent implements Display,
     int w = pixels.getWidth();
     int h = pixels.getHeight();
     int iw = rawImage.getWidth();
-    
+
     for (int dy = 0; dy < h; dy++) {
       for (int dx = 0; dx < w; dx++) {
         rawImage.setPixel(x + dx, y + dy, pixels.getPixel(dx, dy));

@@ -38,7 +38,7 @@ import ca.eandb.jmist.math.Vector2;
 /**
  * A decorator <code>Texture2</code> that applies an affine transformation to
  * the decorated <code>Texture2</code>.
- * 
+ *
  * @author Brad Kimmel
  */
 public final class TransformableTexture2 implements Texture2, AffineTransformable2 {
@@ -130,5 +130,5 @@ public final class TransformableTexture2 implements Texture2, AffineTransformabl
   public void translate(Vector2 v) {
     transform.translate(v);
   }
-  
+
 }

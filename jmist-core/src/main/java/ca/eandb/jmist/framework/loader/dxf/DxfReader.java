@@ -32,7 +32,7 @@ package ca.eandb.jmist.framework.loader.dxf;
 public interface DxfReader {
 
   DxfElement getCurrentElement();
-  
+
   void advance() throws DxfException;
-  
+
 }

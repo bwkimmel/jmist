@@ -39,15 +39,15 @@ import ca.eandb.jmist.framework.color.Color;
  * @author Brad Kimmel
  */
 public abstract class VolatileColorVisualizer implements ColorVisualizer {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = 5999173448142814524L;
-  
+
   /**
    * The <code>List</code> of <code>ChangeListener</code>s to be notified
    * when the visualization function changes.
    */
-  private final List<ChangeListener> listeners = new ArrayList<ChangeListener>(); 
+  private final List<ChangeListener> listeners = new ArrayList<ChangeListener>();
 
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.display.visualizer.ColorVisualizer#addChangeListener(javax.swing.event.ChangeListener)
@@ -64,7 +64,7 @@ public abstract class VolatileColorVisualizer implements ColorVisualizer {
   public final void removeChangeListener(ChangeListener l) {
     listeners.remove(l);
   }
-  
+
   /**
    * Notifies all registered <code>ChangeListener</code>s that the
    * visualization function has changed.

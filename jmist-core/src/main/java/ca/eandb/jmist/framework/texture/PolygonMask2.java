@@ -40,25 +40,25 @@ import ca.eandb.util.IntegerArray;
  * @author Brad Kimmel
  */
 public final class PolygonMask2 implements Mask2 {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = -8489210119316141268L;
-  
+
   /** The default lookup table size. */
   private static final int DEFAULT_GRID_SIZE = 100;
 
   /** The bounding <code>Box2</code> of the polygon. */
   private final Box2 boundingBox;
-  
+
   /** The array of vertices of the polygon. */
   private final Point2[] vertices;
-  
+
   /**
    * A lookup table to quickly determine which segments cross which equally
-   * sized bins in the y-coordinate. 
+   * sized bins in the y-coordinate.
    */
   private final IntegerArray[] lookup;
-  
+
   /**
    * Creates a new <code>PolygonMask2</code>.
    * @param vertices The <code>List</code> of vertices defining the polygon.
@@ -69,26 +69,26 @@ public final class PolygonMask2 implements Mask2 {
   public PolygonMask2(List<Point2> vertices, int gridSize) {
     this.vertices = vertices.toArray(new Point2[vertices.size()]);
     this.lookup = new IntegerArray[gridSize];
-    
+
     for (int i = 0; i < gridSize; i++) {
       lookup[i] = new IntegerArray();
     }
-    
+
     BoundingBoxBuilder2 builder = new BoundingBoxBuilder2();
     for (int i = 0; i < this.vertices.length; i++) {
       builder.add(this.vertices[i]);
     }
-    
+
     this.boundingBox = builder.getBoundingBox();
     double yMin = boundingBox.minimumY();
     double yLen = boundingBox.lengthY();
     int n = this.vertices.length;
     double yScale = lookup.length;
-    
+
     for (int i = 0; i < n; i++) {
       int j = i + 1;
       if (j == n) { j = 0; }
-      int a = MathUtil.clamp((int) Math.floor(yScale * (this.vertices[i].y() - yMin) / yLen), 0, lookup.length - 1); 
+      int a = MathUtil.clamp((int) Math.floor(yScale * (this.vertices[i].y() - yMin) / yLen), 0, lookup.length - 1);
       int b = MathUtil.clamp((int) Math.floor(yScale * (this.vertices[j].y() - yMin) / yLen), 0, lookup.length - 1);
       if (a > b) {
         int temp = a;
@@ -100,7 +100,7 @@ public final class PolygonMask2 implements Mask2 {
       }
     }
   }
-    
+
   /**
    * Creates a new <code>PolygonMask2</code>.
    * @param vertices The <code>List</code> of vertices defining the polygon.

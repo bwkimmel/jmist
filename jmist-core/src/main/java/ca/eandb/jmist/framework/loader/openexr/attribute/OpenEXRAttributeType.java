@@ -39,5 +39,5 @@ import java.lang.annotation.Target;
 public @interface OpenEXRAttributeType {
 
   String value();
-  
+
 }

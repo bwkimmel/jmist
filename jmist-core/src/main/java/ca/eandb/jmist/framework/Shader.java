@@ -40,7 +40,7 @@ import ca.eandb.jmist.framework.color.Color;
  */
 public interface Shader extends Serializable {
 
-  /** 
+  /**
    * Computes a <code>Color</code> based on the provided context representing
    * the state of the current ray-intersection event.
    * @param sc The <code>ShadingContext</code>.

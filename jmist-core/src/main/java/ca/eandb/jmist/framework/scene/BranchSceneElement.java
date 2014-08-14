@@ -131,13 +131,13 @@ public final class BranchSceneElement implements SceneElement {
               if (index-- == 0) {
                 return ScaledLightNode.create(1.0 / (double) lightCount,
                     light.sample(pathInfo, ru, rv, ref.seed), rj);
-                
+
               }
             }
           }
           return null;
         }
-        
+
       };
     }
   }

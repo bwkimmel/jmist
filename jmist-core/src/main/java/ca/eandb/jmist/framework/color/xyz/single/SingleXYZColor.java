@@ -42,8 +42,8 @@ import ca.eandb.jmist.framework.color.Color;
    * Casts the color to a wavelength sample (i.e., a wavelength with an
    * associated value).
    * @throws UnsupportedOperationException if this instance is not an
-   *     <code>XYZSample</code>. 
+   *     <code>XYZSample</code>.
    */
   XYZSample asSample();
-  
+
 }

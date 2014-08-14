@@ -111,7 +111,7 @@ public final class Path {
     PathNode newLightTail = lightTail;
     PathNode newEyeTail = eyeTail;
     PathNode grandChild;
-    
+
     grandChild = null;
     while (s0 < s1) {
       if (grandChild == null) {
@@ -184,12 +184,12 @@ public final class Path {
 //  private PathNode reverse(PathNode node, PathNode newParent) {
 //    throw new UnimplementedException();
 //  }
-//  
+//
   public PathNode[] toPathNodes() {
     int k = getLength();
     PathNode[] nodes = new PathNode[k + 1];
     int i;
-    
+
     if (lightTail != null) {
       i = lightTail.getDepth();
       for (PathNode lightNode = lightTail; lightNode != null;
@@ -197,18 +197,18 @@ public final class Path {
         nodes[i--] = lightNode;
       }
     }
-    
+
     if (eyeTail != null) {
-      i = (lightTail != null) ? lightTail.getDepth() + 1 : 0; 
+      i = (lightTail != null) ? lightTail.getDepth() + 1 : 0;
       for (PathNode eyeNode = eyeTail; eyeNode != null;
           eyeNode = eyeNode.getParent()) {
         nodes[i++] = eyeNode;
       }
     }
-    
+
     return nodes;
   }
-  
+
   public Color getUnweightedContribution() {
     if (lightTail != null && eyeTail != null) {
       return PathUtil.join(lightTail, eyeTail);
@@ -221,7 +221,7 @@ public final class Path {
       return pi.getColorModel().getBlack(pi.getWavelengthPacket());
     }
   }
-  
+
   public Color measure(PathMeasure m) {
     return m.evaluate(lightTail, eyeTail);
   }

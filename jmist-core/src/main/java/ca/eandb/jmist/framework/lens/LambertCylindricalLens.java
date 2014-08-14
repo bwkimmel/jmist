@@ -42,7 +42,7 @@ import ca.eandb.jmist.math.Vector3;
  * A <code>Lens</code> that applies a
  * <a href="http://en.wikipedia.org/wiki/Lambert_cylindrical_equal-area_projection">Lambert
  * cylindrical projection</a> to incident radiance.
- *  
+ *
  * @author Brad Kimmel
  */
 public final class LambertCylindricalLens extends AbstractLens {

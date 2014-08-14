@@ -54,13 +54,13 @@ public interface Texture2 extends Serializable {
       return lambda.getColorModel().getBlack(lambda);
     }
   };
-  
+
   /** A solid white <code>Texture2</code>. */
   public static final Texture2 WHITE = new Texture2() {
     private static final long serialVersionUID = 8200945534829723005L;
     public Color evaluate(Point2 p, WavelengthPacket lambda) {
       return lambda.getColorModel().getWhite(lambda);
-    }    
+    }
   };
 
 }

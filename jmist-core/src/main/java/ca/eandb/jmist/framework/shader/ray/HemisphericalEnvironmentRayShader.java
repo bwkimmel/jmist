@@ -39,45 +39,45 @@ import ca.eandb.jmist.math.SphericalCoordinates;
  * representing a hemispherical environment map.  The x-coordinate of the
  * <code>Texture2</code> is interpreted as an azimuthal angle, and the
  * y-coordinate is interpreted as a polar angle from 0 to pi/2.
- * 
+ *
  * @author Brad Kimmel
  */
 public final class HemisphericalEnvironmentRayShader implements RayShader {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = 6076285080204159796L;
 
   /** The <code>Texture2</code> to interpret as a hemispherical map. */
   private final Texture2 texture;
-  
+
   /** The <code>Basis3</code> representing the view orientation. */
   private final Basis3 basis;
 
   /** The <code>RayShader</code> to apply to the lower hemisphere. */
   private final RayShader background;
-  
+
   /**
    * Creates a new <code>HemisphericalEnvironmentRayShader</code>.
-   * @param texture The <code>Texture2</code> to interpret as a hemispherical 
+   * @param texture The <code>Texture2</code> to interpret as a hemispherical
    *     map.
    */
   public HemisphericalEnvironmentRayShader(Texture2 texture) {
     this(texture, Basis3.STANDARD);
   }
-  
+
   /**
    * Creates a new <code>HemisphericalEnvironmentRayShader</code>.
-   * @param texture The <code>Texture2</code> to interpret as a hemispherical 
+   * @param texture The <code>Texture2</code> to interpret as a hemispherical
    *     map.
    * @param basis The <code>Basis3</code> representing the view orientation.
    */
   public HemisphericalEnvironmentRayShader(Texture2 texture, Basis3 basis) {
     this(texture, basis, RayShader.BLACK);
   }
-  
+
   /**
    * Creates a new <code>HemisphericalEnvironmentRayShader</code>.
-   * @param texture The <code>Texture2</code> to interpret as a hemispherical 
+   * @param texture The <code>Texture2</code> to interpret as a hemispherical
    *     map.
    * @param basis The <code>Basis3</code> representing the view orientation.
    * @param background The <code>RayShader</code> to apply to the lower

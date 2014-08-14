@@ -77,7 +77,7 @@ public final class Photometer {
   public CollectorSphere getCollectorSphere() {
     return this.collectorSphere;
   }
-  
+
   public IntegerSensorArray getSensorArray() {
     return this.sensorArray;
   }
@@ -113,7 +113,7 @@ public final class Photometer {
         untilCallback = progressInterval;
 
       }
-      
+
       Vector3 v = specimen.scatter(SurfacePointGeometry.STANDARD, in, false, wavelength, rng);
 
       if (v != null) {

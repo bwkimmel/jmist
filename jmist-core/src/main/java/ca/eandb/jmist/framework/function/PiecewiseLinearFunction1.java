@@ -57,7 +57,7 @@ public final class PiecewiseLinearFunction1 implements Function1 {
     this.xs = xs.clone();
     this.ys = ys.clone();
   }
-  
+
   /**
    * Creates a new <code>PiecewiseLinearFunction1</code> by sampling another
    * <code>Function1</code> at the specified domain points.
@@ -72,7 +72,7 @@ public final class PiecewiseLinearFunction1 implements Function1 {
       ys[i] = f.evaluate(xs[i]);
     }
   }
-  
+
   /**
    * Creates a new <code>PiecewiseLinearFunction1</code> by sampling another
    * <code>Function1</code> at the specified domain points.

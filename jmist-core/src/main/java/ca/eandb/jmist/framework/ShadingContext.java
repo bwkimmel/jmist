@@ -88,7 +88,7 @@ public interface ShadingContext extends SurfacePoint, VisibilityFunction3 {
    */
   Color castRay(ScatteredRay ray);
 
-  /** 
+  /**
    * Shades the incident ray using the <code>Shader</code> associated with
    * this <code>ShadingContext</code>.
    * @return The <code>Color</code> of the shaded ray.

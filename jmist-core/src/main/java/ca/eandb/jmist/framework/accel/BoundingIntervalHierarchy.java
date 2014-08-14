@@ -49,16 +49,16 @@ import ca.eandb.util.UnexpectedException;
 /**
  * A decorator <code>SceneElement</code> that applies a bounded interval
  * hierarchy (BIH) to the primitives of the underlying <code>SceneElement</code>.
- * 
+ *
  * This is an implementation of the algorithm described in the following paper:
- * 
+ *
  * <blockquote>
  * C. Wachter, A. Keller,
  * <a href="http://ainc.de/Research/BIH.pdf">Instant ray tracing: The bounded interval hierarchy</a>,
  * In <em>Proceedings of the Eurgraphics Symposium on Rendering</em>
  * pp. 139-149, 2006.
  * </blockquote>
- * 
+ *
  * @author Brad Kimmel
  */
 public final class BoundingIntervalHierarchy extends SceneElementDecorator {
@@ -77,7 +77,7 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
   private transient boolean ready = false;
 
   private final int maxItemsPerLeaf = 2;
-  
+
   private final double tolerance = MathUtil.EPSILON;
 
   /**
@@ -89,11 +89,11 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
 
   /**
    * @param inner
-   * @throws IOException 
+   * @throws IOException
    */
   public BoundingIntervalHierarchy(SceneElement inner, String filename) throws IOException {
     super(inner);
-    
+
     File file = new File(filename);
     if (file.isFile()) {
       FileInputStream fs = new FileInputStream(file);
@@ -112,57 +112,57 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
       }
     }
   }
-  
+
   public void save(OutputStream out) throws IOException {
     ensureReady();
-    
+
     ObjectOutputStream oos = new ObjectOutputStream(out);
     oos.writeObject(items);
     oos.writeInt(root);
     oos.writeObject(boundingBox);
     oos.writeInt(buffer.next);
-    
+
     byte[] buf = buffer.buf.array();
     oos.write(buf, 0, buffer.next);
-    
+
     oos.flush();
-    
+
     System.out.printf("Wrote %d bytes from backing array of size %d.", buffer.next, buf.length);
     System.out.println();
   }
-  
+
   public void restore(InputStream in) throws IOException {
     ObjectInputStream ois = new ObjectInputStream(in);
-    
+
     try {
       items = (int[]) ois.readObject();
       root = ois.readInt();
       boundingBox = (Box3) ois.readObject();
-      
+
       buffer = new NodeBuffer();
       int size = ois.readInt();
       byte[] buf = new byte[size];
       int pos = 0;
-      
+
       while (pos < size) {
         int read = ois.read(buf, pos, size - pos);
         if (read <= 0) {
-          throw new IOException(String.format("Failed to read node buffer, only read %d of %d bytes (read=%d).", pos, size, read));  
+          throw new IOException(String.format("Failed to read node buffer, only read %d of %d bytes (read=%d).", pos, size, read));
         }
         pos += read;
       }
-      
+
       buffer.buf = ByteBuffer.wrap(buf);
       buffer.next = size;
-      
+
       ready = true;
     } catch (ClassNotFoundException e) {
       throw new UnexpectedException(e);
     }
-    
+
     System.out.println("Restored BIH from file.");
   }
-  
+
 
   public void dump() {
     dump(root, 0);
@@ -228,7 +228,7 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
       ready = true;
     }
   }
-  
+
   private void build(int offset, Bound bound, int start, int end, Clip clip) {
     assert(end > start);
 

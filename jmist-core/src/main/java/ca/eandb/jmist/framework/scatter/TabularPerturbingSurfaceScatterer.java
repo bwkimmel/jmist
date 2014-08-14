@@ -41,7 +41,7 @@ import ca.eandb.jmist.math.Vector3;
 public class TabularPerturbingSurfaceScatterer implements SurfaceScatterer {
 
   private final double[] wavelengths;
-  
+
   private final double[][] luts;
 
   public TabularPerturbingSurfaceScatterer(double[] wavelengths,
@@ -61,7 +61,7 @@ public class TabularPerturbingSurfaceScatterer implements SurfaceScatterer {
    */
   public Vector3 scatter(SurfacePointGeometry x, Vector3 v, boolean adjoint,
       double lambda, Random rnd) {
-    
+
     double[] lut0;
     double[] lut1 = null;
     double t = 0.0;
@@ -80,12 +80,12 @@ public class TabularPerturbingSurfaceScatterer implements SurfaceScatterer {
         t = (lambda - wavelengths[index - 1]) / (wavelengths[index] - wavelengths[index - 1]);
       }
     }
-    
+
     Basis3 basis = Basis3.fromW(v);
     Vector3 N = x.getNormal();
     boolean inDir = (v.dot(N) < 0.0);
     boolean outDir;
-    
+
     do {
       int j = (int) Math.floor(rnd.next() * (double) lut0.length);
       double theta = (lut1 != null)
@@ -96,7 +96,7 @@ public class TabularPerturbingSurfaceScatterer implements SurfaceScatterer {
       v = sc.toCartesian(basis);
       outDir = (v.dot(N) < 0.0);
     } while (inDir != outDir);
-    
+
     return v;
   }
 

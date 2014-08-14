@@ -50,7 +50,7 @@ import ca.eandb.util.progress.ProgressMonitor;
 public final class MaterialPhotometer {
 
   private class PhotometerSurfacePoint implements SurfacePoint {
-    
+
     public Basis3 getBasis() {
       return SurfacePointGeometry.STANDARD.getBasis();
     }
@@ -90,9 +90,9 @@ public final class MaterialPhotometer {
     public Material getMaterial() {
       return specimen;
     }
-    
+
   };
-  
+
   public MaterialPhotometer(CollectorSphere collectorSphere, ColorModel colorModel) {
     this.collectorSphere = collectorSphere;
     this.sensorArray = new ColorSensorArray(collectorSphere.sensors(), colorModel);
@@ -101,7 +101,7 @@ public final class MaterialPhotometer {
   public void reset() {
     this.sensorArray.reset();
   }
-  
+
   public void setAmbientMedium(Medium medium) {
     this.ambientMedium = medium;
   }
@@ -118,7 +118,7 @@ public final class MaterialPhotometer {
   public void setWavelengthPacket(WavelengthPacket lambda) {
     this.lambda = lambda;
   }
-  
+
   public Medium getAmbientMedium() {
     return this.ambientMedium;
   }
@@ -138,7 +138,7 @@ public final class MaterialPhotometer {
   public CollectorSphere getCollectorSphere() {
     return this.collectorSphere;
   }
-  
+
   public ColorSensorArray getSensorArray() {
     return this.sensorArray;
   }
@@ -176,16 +176,16 @@ public final class MaterialPhotometer {
         untilCallback = progressInterval;
 
       }
-      
+
       double ru = rng.next();
       double rv = rng.next();
       double rj = rng.next();
-      
+
       if (i < nbox) {
         ru = (((double) (i % sqrt)) + ru) / (double) sqrt;
         rv = (((double) (i / sqrt)) + rv) / (double) sqrt;
       }
-      
+
       ScatteredRay sr = specimen.scatter(surfacePoint, in, false, lambda, ru, rv, rj);
 
       if (sr != null) {

@@ -38,11 +38,11 @@ import ca.eandb.util.UnexpectedException;
  *
  */
 public final class AttributeFactory {
-  
+
   private Map<String, AttributeReader> readers = new HashMap<String, AttributeReader>();
-  
+
   private static AttributeFactory INSTANCE;
-  
+
   private AttributeFactory() {
     registerClass(Box2f.class);
     registerClass(Box2i.class);
@@ -58,7 +58,7 @@ public final class AttributeFactory {
     registerClass(V3f.class);
     registerClass(V3i.class);
   }
-  
+
   private void registerClass(Class<?> clazz) {
     OpenEXRAttributeType type = clazz.getAnnotation(OpenEXRAttributeType.class);
     if (type == null) {
@@ -74,10 +74,10 @@ public final class AttributeFactory {
     }
     registerAttributeReader(type.value(), new MethodAttributeReader(method));
   }
-  
+
   public static synchronized final AttributeFactory getInstance() {
     if (INSTANCE == null) {
-      INSTANCE = new AttributeFactory();      
+      INSTANCE = new AttributeFactory();
     }
     return INSTANCE;
   }
@@ -86,9 +86,9 @@ public final class AttributeFactory {
     AttributeReader reader = readers.get(type);
     return reader != null ? reader.read(data, size) : null;
   }
-  
+
   public void registerAttributeReader(String type, AttributeReader reader) {
     readers.put(type, reader);
   }
-  
+
 }

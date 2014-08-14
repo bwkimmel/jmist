@@ -30,7 +30,7 @@ import ca.eandb.jmist.math.Point2;
 
 /**
  * A <code>Mask2</code> representing a checkboard pattern.
- * 
+ *
  * @author Brad Kimmel
  */
 public final class CheckerMask2 implements Mask2 {
@@ -40,10 +40,10 @@ public final class CheckerMask2 implements Mask2 {
 
   /** The number of squares per unit in the x direction. */
   private final double nx;
-  
+
   /** The number of squares per unit in the y direction. */
   private final double ny;
-  
+
   /**
    * Creates a new <code>CheckerMask2</code>.
    * @param nx The number of squares per unit in the x direction.
@@ -53,7 +53,7 @@ public final class CheckerMask2 implements Mask2 {
     this.nx = nx;
     this.ny = ny;
   }
-  
+
   /**
    * Creates a new <code>CheckerMask2</code>.
    * @param n The number of squares per unit in either direction.
@@ -68,7 +68,7 @@ public final class CheckerMask2 implements Mask2 {
   public CheckerMask2() {
     this(2);
   }
-  
+
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.Mask2#opacity(ca.eandb.jmist.math.Point2)
    */

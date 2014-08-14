@@ -273,7 +273,7 @@ public final class BoxGeometry extends PrimitiveGeometry {
     boolean dir = RandomUtil.coin(ref);
     int id;
     Point3 p;
-    
+
     ref.seed *= total;
 
     if (ref.seed < xyArea) {

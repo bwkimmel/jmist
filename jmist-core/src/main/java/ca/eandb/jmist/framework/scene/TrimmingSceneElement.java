@@ -50,17 +50,17 @@ public final class TrimmingSceneElement extends SceneElementDecorator {
 
   /** The <code>SceneElement</code> to trim. */
   private final SceneElement inner;
-  
+
   /** The <code>Mask2</code> to trim with. */
   private final Mask2 trim;
-  
+
   /**
    * @param inner
    */
   public TrimmingSceneElement(Mask2 trim, SceneElement inner) {
     super(inner);
     this.inner = inner;
-    this.trim = trim;    
+    this.trim = trim;
   }
 
   /* (non-Javadoc)
@@ -90,7 +90,7 @@ public final class TrimmingSceneElement extends SceneElementDecorator {
       ray = ray.advance(x.getDistance());
       I = new Interval(0, I.maximum() - x.getDistance());
     } while (true);
-    
+
   }
 
   /* (non-Javadoc)

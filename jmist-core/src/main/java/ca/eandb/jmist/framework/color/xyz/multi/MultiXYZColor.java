@@ -111,7 +111,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
       return color.toXYZColor();
     }
   }
-  
+
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.color.Color#abs()
    */

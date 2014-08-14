@@ -34,16 +34,16 @@ import ca.eandb.jmist.framework.color.RGB;
  */
 public final class AutomaticLinearChannelVisualizer extends
     NonVolatileColorVisualizer {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = 6203765621561793103L;
 
   private final int channel;
-  
+
   private final boolean allowMinimumToFloat;
-  
+
   private ColorVisualizer inner;
-  
+
   public AutomaticLinearChannelVisualizer(int channel, boolean allowMinimumToFloat) {
     this.channel = channel;
     this.allowMinimumToFloat = allowMinimumToFloat;

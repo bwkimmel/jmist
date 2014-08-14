@@ -140,8 +140,8 @@ public final class Interval implements Serializable {
   public boolean isEmpty() {
     return Double.isNaN(minimum);
   }
-  
-  /** 
+
+  /**
    * Determines if this interval is infinite.
    * @return A value indicating if this interval is infinite.
    */

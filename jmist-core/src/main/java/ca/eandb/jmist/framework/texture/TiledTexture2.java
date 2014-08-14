@@ -32,17 +32,17 @@ import ca.eandb.jmist.math.Point2;
 
 /**
  * A decorator <code>Texture2</code> that tiles the decorated
- * <code>Texture2</code>. 
+ * <code>Texture2</code>.
  * @author Brad Kimmel
  */
 public final class TiledTexture2 implements Texture2 {
 
   /** Serialization version ID. */
   private static final long serialVersionUID = -3873743899579405693L;
-  
+
   /** The <code>Texture2</code> to tile. */
   private final Texture2 inner;
-  
+
   /**
    * Creates a new <code>TiledTexture2</code>.
    * @param inner The <code>Texture2</code> to tile.

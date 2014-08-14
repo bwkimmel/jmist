@@ -44,16 +44,16 @@ import ca.eandb.jmist.math.Point2;
  * @author Brad Kimmel
  */
 public final class CIExyChromaticityTexture2 implements Texture2 {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = -2115762100667409214L;
 
   /** The single instance of this class. */
   private static final CIExyChromaticityTexture2 INSTANCE = new CIExyChromaticityTexture2();
-  
+
   /** The <code>Mask2</code> denoting the shape of the diagram. */
   private final Mask2 gamutMask;
-  
+
   /**
    * Gets the single instance of this class.
    * @return The single instance of <code>CIExyChromaticityTexture2</code>.
@@ -61,7 +61,7 @@ public final class CIExyChromaticityTexture2 implements Texture2 {
   public static CIExyChromaticityTexture2 getInstance() {
     return INSTANCE;
   }
-  
+
   /**
    * Creates a new <code>CIExyChromaticityTexture2</code>.  This constructor
    * is private because this class is a singleton.
@@ -76,7 +76,7 @@ public final class CIExyChromaticityTexture2 implements Texture2 {
       double y = Y / (X + Y + Z);
       vertices.add(new Point2(x, y));
     }
-    
+
     gamutMask = new PolygonMask2(vertices, 100);
   }
 

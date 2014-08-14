@@ -49,25 +49,25 @@ import ca.eandb.jmist.framework.tone.ToneMapper;
  *
  */
 public final class JCompositeToneMapperPanel extends JToneMapperPanel {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = 3141927300066901460L;
-  
+
   private static final String DEFAULT_COMBOBOX_LABEL = "Operator";
-  
+
   private final List<JToneMapperPanel> settingsPanels = new ArrayList<JToneMapperPanel>();
   private final JComboBox toneMapperComboBox;
   private final JPanel settingsContainerPanel;
   private final CardLayout settingsContainerLayout;
-  
+
   private final ChangeListener settingsPanelChangeListener = new ChangeListener() {
     public void stateChanged(ChangeEvent e) {
       settingsPanel_OnStateChanged(e);
     }
   };
-  
+
   /**
-   * 
+   *
    */
   public JCompositeToneMapperPanel() {
     toneMapperComboBox = new JComboBox();
@@ -76,28 +76,28 @@ public final class JCompositeToneMapperPanel extends JToneMapperPanel {
         toneMapperComboBox_OnActionPerformed(e);
       }
     });
-    
+
     settingsContainerLayout = new CardLayout();
     settingsContainerPanel = new JPanel(settingsContainerLayout);
-    
+
     setLayout(new GridBagLayout());
-    
+
     GridBagConstraints c = new GridBagConstraints();
     c.gridy = 0;
     c.gridx = 0;
     c.anchor = GridBagConstraints.LINE_START;
-    
+
     JLabel label = new JLabel(DEFAULT_COMBOBOX_LABEL);
     label.setPreferredSize(new Dimension(100, 25));
     add(label, c);
-    
+
     c = new GridBagConstraints();
     c.gridy = 0;
     c.gridx = 1;
     c.weightx = 1.0;
     c.fill = GridBagConstraints.HORIZONTAL;
     add(toneMapperComboBox, c);
-    
+
     c = new GridBagConstraints();
     c.gridy = 1;
     c.gridx = 0;
@@ -107,7 +107,7 @@ public final class JCompositeToneMapperPanel extends JToneMapperPanel {
     c.fill = GridBagConstraints.BOTH;
     add(settingsContainerPanel, c);
   }
-  
+
   public JCompositeToneMapperPanel addChild(String name, JToneMapperPanel panel) {
     toneMapperComboBox.addItem(name);
     settingsContainerPanel.add(panel, name);
@@ -115,7 +115,7 @@ public final class JCompositeToneMapperPanel extends JToneMapperPanel {
     panel.addChangeListener(settingsPanelChangeListener);
     return this;
   }
-  
+
   private void settingsPanel_OnStateChanged(ChangeEvent e) {
     int index = toneMapperComboBox.getSelectedIndex();
     if (e.getSource() == settingsPanels.get(index)) {
@@ -138,7 +138,7 @@ public final class JCompositeToneMapperPanel extends JToneMapperPanel {
     JToneMapperPanel settingsPanel = settingsPanels.get(index);
     return settingsPanel.createToneMapper(samples);
   }
-  
+
   public static void main(String[] args) {
     JFrame frame = new JFrame();
     JCompositeToneMapperPanel factory = new JCompositeToneMapperPanel()

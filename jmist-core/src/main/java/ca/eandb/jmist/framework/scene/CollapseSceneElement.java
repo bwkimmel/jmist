@@ -39,7 +39,7 @@ import ca.eandb.jmist.math.Sphere;
 /**
  * A decorator <code>SceneElement</code> that collapses the decorated
  * <code>SceneElement</code> into a single primitive.
- * 
+ *
  * @author Brad Kimmel
  */
 public final class CollapseSceneElement extends SceneElementDecorator {

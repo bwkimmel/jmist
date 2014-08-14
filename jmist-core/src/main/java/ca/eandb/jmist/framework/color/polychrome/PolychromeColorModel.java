@@ -78,7 +78,7 @@ public final class PolychromeColorModel extends ColorModel {
     public RGB toRGB() {
       return ColorUtil.convertSpectrum2RGB(wavelengths, values);
     }
-    
+
     public Color abs() {
       PolychromeColor result = new PolychromeColor();
       for (int i = 0; i < values.length; i++) {
@@ -402,7 +402,7 @@ public final class PolychromeColorModel extends ColorModel {
       }
     };
   }
-  
+
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.color.ColorModel#getChannelName(int)
    */

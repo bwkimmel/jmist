@@ -32,20 +32,20 @@ import ca.eandb.jmist.math.MathUtil;
 /**
  * A piecewise constant <code>Function1</code> with equally spaced bins within
  * its domain.
- * 
+ *
  * @author Brad Kimmel
  */
 public final class UniformPiecewiseConstantFunction1 implements Function1 {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = 816595096646372284L;
 
   /** The <code>Interval</code> within which values are specified. */
   private final Interval domain;
-  
+
   /** The array of values for each bin. */
   private final double[] values;
-  
+
   /**
    * Creates a new <code>UniformPiecewiseConstantFunction1</code>.
    * @param domain The <code>Interval</code> within which values are

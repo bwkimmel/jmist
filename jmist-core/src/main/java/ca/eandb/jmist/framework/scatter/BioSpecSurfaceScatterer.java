@@ -45,7 +45,7 @@ import ca.eandb.jmist.util.ArrayUtil;
  *     skin</a>,
  *   In Computer Graphics Forum 23(3):331-340, 2004.
  * </blockquote>
- * 
+ *
  * @author Brad Kimmel
  * @see <a href="http://www.npsg.uwaterloo.ca/models/biospec.php">Run BioSpec Online</a>
  */

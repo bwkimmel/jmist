@@ -50,7 +50,7 @@ public final class RGBColorModel extends ColorModel {
 
   /** The names of the channels for this <code>ColorModel</code>. */
   private static final String[] CHANNEL_NAMES = { "R", "G", "B" };
-  
+
   /**
    * Creates a new <code>RGBColorModel</code>.
    * This constructor is private because this class is a singleton.
@@ -178,7 +178,7 @@ public final class RGBColorModel extends ColorModel {
       }
     };
   }
-  
+
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.color.ColorModel#getChannelName(int)
    */

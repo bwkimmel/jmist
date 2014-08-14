@@ -30,9 +30,9 @@ package ca.eandb.jmist.framework.loader.dxf;
  *
  */
 public abstract class AbstractDxfElement implements DxfElement {
-  
+
   private final int groupCode;
-  
+
   protected AbstractDxfElement(int groupCode) {
     this.groupCode = groupCode;
   }
@@ -44,7 +44,7 @@ public abstract class AbstractDxfElement implements DxfElement {
   public final int getGroupCode() {
     return groupCode;
   }
-  
+
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.loader.dxf.DxfElement#getBooleanValue()
    */
@@ -68,7 +68,7 @@ public abstract class AbstractDxfElement implements DxfElement {
   public int getIntegerValue() {
     throw new UnsupportedOperationException();
   }
-  
+
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.loader.dxf.DxfElement#getLongValue()
    */

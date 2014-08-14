@@ -41,7 +41,7 @@ public final class UncappedLatLongCollectorSphere implements CollectorSphere {
 
   /** The polar angles at which to subdivide the sphere. */
   private final double[] stacks;
-  
+
   /** The azimuthal angles at which to subdivide the sphere. */
   private final double[] slices;
 
@@ -61,7 +61,7 @@ public final class UncappedLatLongCollectorSphere implements CollectorSphere {
     if (stacks.length < 2) {
       throw new IllegalArgumentException("stacks must have at least two entries");
     }
-    for (int i = 1; i < stacks.length; i++) {      
+    for (int i = 1; i < stacks.length; i++) {
       if (stacks[i - 1] > stacks[i]) {
         throw new IllegalArgumentException("stacks must be ascending");
       }
@@ -72,7 +72,7 @@ public final class UncappedLatLongCollectorSphere implements CollectorSphere {
     if (slices.length < 2) {
       throw new IllegalArgumentException("slices must have at least two entries");
     }
-    for (int i = 1; i < slices.length; i++) {      
+    for (int i = 1; i < slices.length; i++) {
       if (slices[i - 1] > slices[i]) {
         throw new IllegalArgumentException("slices must be ascending");
       }
@@ -91,7 +91,7 @@ public final class UncappedLatLongCollectorSphere implements CollectorSphere {
 
     int stack = sensor / (slices.length - 1);
     int slice = sensor % (slices.length - 1);
-    
+
     double phi = 0.5 * (slices[slice] + slices[slice + 1]);
     double theta = Math.acos(0.5 * (Math.cos(stacks[stack]) + Math.cos(stacks[stack + 1])));
 
@@ -128,32 +128,32 @@ public final class UncappedLatLongCollectorSphere implements CollectorSphere {
   }
 
   private int getSensor(SphericalCoordinates v) {
-    
+
     v = v.canonical();
 
     double theta = v.polar();
     double phi = v.azimuthal();
-    
+
     phi -= 2.0 * Math.PI * Math.floor((phi - slices[0]) / (2.0 * Math.PI));
-    
+
     if (theta < stacks[0] || theta > stacks[stacks.length - 1] || phi > slices[slices.length - 1]) {
       return -1;
     }
-    
+
     int stack = Arrays.binarySearch(stacks, theta);
     if (stack < 0) {
       stack = -(stack + 1);
     }
     stack = Math.max(stack - 1, 0);
-    
+
     int slice = Arrays.binarySearch(slices, phi);
     if (slice < 0) {
       slice = -(slice + 1);
     }
     slice = Math.max(slice - 1, 0);
-    
+
     return stack * (slices.length - 1) + slice;
-    
+
   }
 
   /* (non-Javadoc)

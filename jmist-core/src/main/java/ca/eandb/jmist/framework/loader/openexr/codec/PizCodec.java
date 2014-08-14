@@ -42,7 +42,7 @@ public final class PizCodec implements Codec {
   @Override
   public void compress(IIOByteBuffer buf, Box2i range) {
     // TODO Auto-generated method stub
-    throw new UnimplementedException();    
+    throw new UnimplementedException();
   }
 
   /* (non-Javadoc)

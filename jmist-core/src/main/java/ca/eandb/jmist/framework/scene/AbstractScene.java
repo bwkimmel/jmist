@@ -52,7 +52,7 @@ public abstract class AbstractScene implements Scene {
   public Sphere boundingSphere() {
     return getRoot().boundingSphere();
   }
-  
+
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.Scene#getAnimator()
    */

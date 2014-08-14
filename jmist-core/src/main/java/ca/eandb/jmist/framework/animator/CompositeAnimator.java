@@ -36,15 +36,15 @@ import ca.eandb.jmist.framework.Animator;
  * @author Brad Kimmel
  */
 public final class CompositeAnimator implements Animator {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = 1091240735157061218L;
-  
+
   /** The <code>List</code> of child <code>Animator</code>s. */
   private final List<Animator> children = new ArrayList<Animator>();
-  
+
   /**
-   * Adds a child <code>Animator</code>. 
+   * Adds a child <code>Animator</code>.
    * @param child The <code>Animator</code> to append.
    * @return A reference to this <code>CompositeAnimator</code>.
    */

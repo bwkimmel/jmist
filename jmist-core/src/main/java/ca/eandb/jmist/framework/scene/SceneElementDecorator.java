@@ -48,7 +48,7 @@ public abstract class SceneElementDecorator implements SceneElement, Serializabl
 
   /** Serialization version ID. */
   private static final long serialVersionUID = 7406144984143234198L;
-  
+
   private final SceneElement inner;
 
   public SceneElementDecorator(SceneElement inner) {

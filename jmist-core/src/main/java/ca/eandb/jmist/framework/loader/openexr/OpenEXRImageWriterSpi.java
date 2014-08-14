@@ -39,7 +39,7 @@ import javax.imageio.spi.ImageWriterSpi;
 public final class OpenEXRImageWriterSpi extends ImageWriterSpi {
 
   /**
-   * 
+   *
    */
   public OpenEXRImageWriterSpi() {
     // TODO Auto-generated constructor stub

@@ -36,21 +36,21 @@ public final class GGXMicrofacetModel implements IsotropicMicrofacetModel {
 
   /** Serialization version ID. */
   private static final long serialVersionUID = 4961148298787587229L;
-  
+
   public static final GGXMicrofacetModel GROUND = new GGXMicrofacetModel(0.394);
-  
+
   public static final GGXMicrofacetModel FROSTED = new GGXMicrofacetModel(0.454);
-  
+
   public static final GGXMicrofacetModel ETCHED = new GGXMicrofacetModel(0.553);
-  
+
   public static final GGXMicrofacetModel ANTIGLARE = new GGXMicrofacetModel(0.027);
-  
+
   private final double alpha;
-  
+
   public GGXMicrofacetModel(double alpha) {
     this.alpha = alpha;
   }
-  
+
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.material.support.IsotropicMicrofacetModel#getDistributionPDF(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Vector3)
    */
@@ -60,13 +60,13 @@ public final class GGXMicrofacetModel implements IsotropicMicrofacetModel {
     if (mdotn < 0.0) {
       return 0.0;
     }
-    
+
     double a2 = alpha * alpha;
     double c4 = mdotn * mdotn * mdotn * mdotn;
     double t = Math.tan(Math.acos(mdotn));
     double t2 = t * t;
     double a2pt2 = a2 + t2;
-    
+
     return a2 / (Math.PI * c4 * a2pt2 * a2pt2);
   }
 
@@ -80,11 +80,11 @@ public final class GGXMicrofacetModel implements IsotropicMicrofacetModel {
     double ndoti = -n.dot(in);
     double mdoto = m.dot(out);
     double ndoto = n.dot(out);
-    
+
     if (mdoti / ndoti < 0.0 || mdoto / ndoto < 0.0) {
       return 0.0;
     }
-    
+
     double a2 = alpha * alpha;
     double ti = Math.tan(Math.acos(ndoti));
     double t2i = ti * ti;

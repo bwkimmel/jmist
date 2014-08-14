@@ -44,9 +44,9 @@ import ca.eandb.jmist.math.Vector3;
  *
  */
 public final class PartialFrameLens implements Lens {
-  
+
   private final Lens inner;
-  
+
   private final double fraction;
 
   /**
@@ -61,7 +61,7 @@ public final class PartialFrameLens implements Lens {
    * @see ca.eandb.jmist.framework.Lens#rayAt(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random)
    */
   public ScatteredRay rayAt(Point2 p, WavelengthPacket lambda, Random rnd) {
-    return inner.rayAt(p, lambda, rnd); 
+    return inner.rayAt(p, lambda, rnd);
   }
 
   /* (non-Javadoc)
@@ -71,11 +71,11 @@ public final class PartialFrameLens implements Lens {
       double rj) {
     return new Node(inner.sample(p, pathInfo, ru, rv, rj));
   }
-  
+
   private final class Node extends EyeTerminalNode {
-    
+
     private final EyeNode inner;
-    
+
     public Node(EyeNode inner) {
       super(inner.getPathInfo(), inner.getRU(), inner.getRV(), inner.getRJ());
       this.inner = inner;
@@ -113,7 +113,7 @@ public final class PartialFrameLens implements Lens {
     public Color scatter(Vector3 v) {
       return inner.scatter(v);
     }
-    
+
   }
 
 }

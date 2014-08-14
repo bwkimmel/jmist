@@ -90,7 +90,7 @@ public final class MetropolisLightTransportJob extends
 
   /** The <code>PathMeasure</code> to apply. */
   private final PathMeasure pathMeasure = MeasurementContributionMeasure.getInstance();
-  
+
   /** The <code>ColorMeasure</code> to apply. */
   private final ColorMeasure colorMeasure = LuminanceColorMeasure.getInstance();
 
@@ -111,7 +111,7 @@ public final class MetropolisLightTransportJob extends
 
   /** The number of initial paths to generate. */
   private final int numberOfSeeds;
-  
+
   /**
    * The number of tasks (seeding tasks) to divide the work of generating
    * initial paths into.
@@ -123,53 +123,53 @@ public final class MetropolisLightTransportJob extends
    * generate before resampling to select the initial paths.
    */
   private final int pairsPerSeedTask;
-  
+
   /**
    * The minimum number of initial paths that each seeding task should
    * generate.
    */
   private final int minSeedsPerSeedTask;
-  
+
   /**
    * The number of seeding tasks that should generate one more than the
    * minimum number of initial paths, so as to arrive at the appropriate
    * number ({@link #numberOfSeeds}) of initial paths.
    */
   private final int extraSeeds;
-  
+
   /**
    * The next seed that should be supplied to the random number generator to
    * generate the next sequence of light path/eye path pairs.
    */
   private long nextRandomSeed = 0;
-  
+
   /**
-   * The number of seeding tasks that have been returned by 
+   * The number of seeding tasks that have been returned by
    * {@link #getNextTask()}.
    */
   private int seedTasksProvided;
-  
+
   /**
    * The number of Metropolis Light Transport task whose results have been
    * submitted.
    */
   private int mltTasksSubmitted;
-  
+
   /**
    * A value indicating if partial results should be written to the display
-   * as the results of each Metropolis task is submitted. 
+   * as the results of each Metropolis task is submitted.
    */
   private final boolean displayPartialResults;
 
   /** The <code>Raster</code> to write to as task results are submitted. */
   private transient Raster image = null;
-  
+
   /**
    * The total number of tasks (seeding tasks and MLT tasks) that whose
    * results have been submitted.
    */
   private transient int tasksSubmitted = 0;
-  
+
   /**
    * A <code>Queue</code> containing the <code>PathSeed</code>s returned by
    * seeding tasks that have not yet been supplied as Metropolis Light
@@ -212,7 +212,7 @@ public final class MetropolisLightTransportJob extends
     this.seedTasks = seedTasks;
     this.pairsPerSeedTask = pairsPerSeedTask;
     this.displayPartialResults = displayPartialResults;
-    
+
     this.minSeedsPerSeedTask = numberOfSeeds / seedTasks;
     this.extraSeeds = numberOfSeeds % seedTasks;
   }
@@ -236,29 +236,29 @@ public final class MetropolisLightTransportJob extends
     public int lightPathLength;
     public int eyePathLength;
   };
-  
+
   private static final class SeedTaskInfo implements Serializable {
     private static final long serialVersionUID = 7253264352598221713L;
     public long initialRandomSeed;
     public int numPathSeeds;
   };
-  
+
   private final Path generatePath(long seed) {
     Random rnd = new RandomAdapter(new java.util.Random(seed));
     Color sample = colorModel.sample(rnd);
     WavelengthPacket lambda = sample.getWavelengthPacket();
     PathNode lightTail = generateLightPath(rnd, lambda);
     PathNode eyeTail = generateEyePath(rnd, lambda);
-    
+
     if (lightTail != null && lightTail.getDepth() > 0 && lightTail.isAtInfinity()) {
       lightTail = lightTail.getParent();
     }
     if (eyeTail != null && eyeTail.getDepth() > 0 && eyeTail.isAtInfinity()) {
       eyeTail = eyeTail.getParent();
     }
-    return new Path(lightTail, eyeTail);    
+    return new Path(lightTail, eyeTail);
   }
-  
+
 
   private final Path generatePath(PathSeed seed) {
     Path path = generatePath(seed.randomSeed);
@@ -304,7 +304,7 @@ public final class MetropolisLightTransportJob extends
     } else {
       throw new IllegalArgumentException("Unrecognized task type");
     }
-    
+
     monitor.notifyProgress(++tasksSubmitted, seedTasks + numberOfSeeds);
   }
 
@@ -328,7 +328,7 @@ public final class MetropolisLightTransportJob extends
       }
     }
   }
-  
+
   private void submitTaskResults_generateSeeds(Collection<PathSeed> results) {
       seeds.addAll(results);
   }
@@ -396,20 +396,20 @@ public final class MetropolisLightTransportJob extends
         throw new IllegalArgumentException("Unrecognized task type");
       }
     }
-    
+
     private Object performTask_generateSeeds(long initialRandomSeed,
         int numPathSeeds, ProgressMonitor monitor) {
-      
+
       monitor.notifyStatusChanged("Generating seeds for MLT");
-      
+
       int callbackInterval = Math.min(1000,
           Math.max(1, pairsPerSeedTask / 100));
       int nextCallback = 0;
-      
+
       DoubleArray weight = new DoubleArray();
       short[] lightPathLength = new short[pairsPerSeedTask];
       short[] eyePathLength = new short[pairsPerSeedTask];
-      
+
       long randomSeed = initialRandomSeed;
       for (int i = 0; i < pairsPerSeedTask; i++) {
         if (--nextCallback <= 0) {
@@ -421,7 +421,7 @@ public final class MetropolisLightTransportJob extends
         }
 
         Path path = generatePath(randomSeed++);
-        
+
         /* store information about the path so we don't have to
          * regenerate it during the resampling phase.
          */
@@ -433,19 +433,19 @@ public final class MetropolisLightTransportJob extends
         }
         lightPathLength[i] = (short) path.getLightPathLength();
         eyePathLength[i] = (short) path.getEyePathLength();
-        
+
         join(path.getLightTail(), path.getEyeTail(), weight);
       }
-      
+
       monitor.notifyStatusChanged("Resampling MLT seeds");
-      
-      double totalWeight = MathUtil.sum(weight);      
+
+      double totalWeight = MathUtil.sum(weight);
       double scale = (double) numPathSeeds / totalWeight;
       double x = 0.5;
       int x0 = (int) Math.floor(x);
       int x1;
       List<PathSeed> seeds = new ArrayList<PathSeed>();
-      
+
       for (int i = 0, n = 0; i < pairsPerSeedTask; i++) {
         int s0 = lightPathLength[i];
         int t0 = eyePathLength[i];
@@ -464,50 +464,50 @@ public final class MetropolisLightTransportJob extends
           }
         }
       }
-      
+
       monitor.notifyProgress(pairsPerSeedTask, pairsPerSeedTask);
       monitor.notifyComplete();
-      
+
       return seeds;
-      
+
     }
-    
+
     private void join(PathNode lightTail, PathNode eyeTail,
         DoubleArray weights) {
 
       PathNode lightNode = lightTail;
       while (true) {
-        
+
         PathNode eyeNode = eyeTail;
         while (true) {
-          Color c = pathMeasure.evaluate(lightNode, eyeNode);          
+          Color c = pathMeasure.evaluate(lightNode, eyeNode);
           weights.add(colorMeasure.evaluate(c));
-          
+
           if (eyeNode == null) {
             break;
           }
           eyeNode = eyeNode.getParent();
         }
-        
+
         if (lightNode == null) {
           break;
         }
         lightNode = lightNode.getParent();
       }
-      
+
     }
 
     private Object performTask_MLT(PathSeed seed, int mutations,
         ProgressMonitor monitor) {
-      
-      int callbackInterval = Math  .min(10000, 
+
+      int callbackInterval = Math  .min(10000,
           Math.max(1, mutations / 100));
       int nextCallback = 0;
-      
+
       Path x = generatePath(seed);
       Path y;
       Color c = null;
-      
+
       for (int i = 0; i < mutations; i++) {
         if (--nextCallback <= 0) {
           if (!monitor.notifyProgress(i, mutations)) {
@@ -522,13 +522,13 @@ public final class MetropolisLightTransportJob extends
           c = ColorUtil.div(c, colorMeasure.evaluate(c));
         }
         x = y;
-        
+
         record(x, raster.get(), c);
       }
-      
+
       monitor.notifyProgress(mutations, mutations);
       monitor.notifyComplete();
-      
+
       return raster.get();
     }
 
@@ -544,7 +544,7 @@ public final class MetropolisLightTransportJob extends
       if (y == null || y == x) {
         return x;
       }
-      
+
       double a = a(x, y);
       return RandomUtil.bernoulli(a, random) ? y : x;
     }
@@ -559,7 +559,7 @@ public final class MetropolisLightTransportJob extends
       if (tyx <= 0.0) {
         return 0.0;
       }
-      
+
       double fx = f(x);
       double txy = mutator.getTransitionPDF(x, y);
 
@@ -572,10 +572,10 @@ public final class MetropolisLightTransportJob extends
     }
 
   }
-  
+
   private final void testGeneratePath() {
     java.util.Random rnd = new java.util.Random();
-    
+
     for (int i = 0; i < 1000; i++) {
       long seed = rnd.nextLong();
       Path x = generatePath(seed);
@@ -587,7 +587,7 @@ public final class MetropolisLightTransportJob extends
         }
       }
     }
-    
+
     System.out.println("PASS");
   }
 

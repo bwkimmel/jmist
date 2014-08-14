@@ -40,9 +40,9 @@ import ca.eandb.jmist.math.Vector3;
  *
  */
 public final class TrowbridgeReitzSurfaceScatterer implements SurfaceScatterer {
-  
+
   private final double oblateness;
-  
+
   private final Function1 riBelow;
 
   private final Function1 riAbove;
@@ -56,7 +56,7 @@ public final class TrowbridgeReitzSurfaceScatterer implements SurfaceScatterer {
     this.riBelow = riBelow;
     this.riAbove = riAbove;
   }
-  
+
   public TrowbridgeReitzSurfaceScatterer(double oblateness, double riBelow, double riAbove) {
     this(oblateness, new ConstantFunction1(riBelow), new ConstantFunction1(riAbove));
   }
@@ -70,7 +70,7 @@ public final class TrowbridgeReitzSurfaceScatterer implements SurfaceScatterer {
     double n2 = riBelow.evaluate(lambda);
     Vector3 N = x.getNormal();
     double R = Optics.reflectance(v, n1, n2, N);
-    
+
     if (RandomUtil.bernoulli(R, rnd)) {
       Basis3 basis = x.getBasis();
       double sigma2 = oblateness * oblateness;

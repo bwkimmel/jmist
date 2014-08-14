@@ -38,7 +38,7 @@ public final class RGB extends Tuple3 implements Spectrum {
   private static final long serialVersionUID = -4621493353796327474L;
 
   public static final RGB ZERO = new RGB(0.0, 0.0, 0.0);
-  
+
   public static final RGB BLACK = new RGB(0.0, 0.0, 0.0);
   public static final RGB WHITE = new RGB(1.0, 1.0, 1.0);
   public static final RGB RED = new RGB(1.0, 0.0, 0.0);
@@ -134,7 +134,7 @@ public final class RGB extends Tuple3 implements Spectrum {
       (MathUtil.clamp((int) Math.floor(z * v), 0, 255) <<  8) |
       MathUtil.clamp(e + 128, 0, 255);
   }
-  
+
   public static RGB fromR8G8B8(int rgb) {
     double r = ((double) ((rgb & 0x00ff0000) >> 16)) / 255.0;
     double g = ((double) ((rgb & 0x0000ff00) >>  8)) / 255.0;

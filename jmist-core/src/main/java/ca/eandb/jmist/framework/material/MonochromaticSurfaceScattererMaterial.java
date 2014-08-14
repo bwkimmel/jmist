@@ -42,25 +42,25 @@ import ca.eandb.jmist.math.Vector3;
 /**
  * A <code>Material</code> that adapts a <code>SurfaceScatterer</code> using a
  * fixed wavelength.
- * 
+ *
  * @author Brad Kimmel
  */
 public final class MonochromaticSurfaceScattererMaterial extends
     AbstractMaterial {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = 2504834676929479253L;
 
   private final SurfaceScatterer surface;
-  
+
   private final ColorModel colorModel;
-  
+
   private final Spectrum absorptionCoefficient;
-  
+
   private final double wavelength;
-  
+
   private final Random rnd = new ThreadLocalRandom(new SimpleRandom());
-  
+
   public MonochromaticSurfaceScattererMaterial(SurfaceScatterer surface,
       ColorModel colorModel, Spectrum absorptionCoefficient,
       double wavelength) {
@@ -100,27 +100,27 @@ public final class MonochromaticSurfaceScattererMaterial extends
   @Override
   public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint,
       WavelengthPacket lambda, double ru, double rv, double rj) {
-    
+
     Vector3 r = surface.scatter(x, v, adjoint, wavelength, rnd);
-    
+
     if (r != null) {
-      
+
       Vector3 n = x.getNormal();
       Point3 p = x.getPosition();
       Ray3 ray = new Ray3(p, r);
-      
+
       Color color = colorModel.getWhite(lambda);
-      
+
       if (r.dot(n) > 0.0) {
         return ScatteredRay.specular(ray, color, 0.0);
       } else {
         return ScatteredRay.transmitSpecular(ray, color, 0);
       }
-      
+
     } else { // absorbed
       return null;
     }
-    
+
   }
 
 }

@@ -69,26 +69,26 @@ public final class ABMSieveAbsorbingMaterial extends OpaqueMaterial {
   @Override
   public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint,
       WavelengthPacket lambda, double ru, double rv, double rj) {
-    
+
     Color col = absorptionCoefficient.sample(lambda);
 //    double abs = ColorUtil.getMeanChannelValue(col);
-//    
+//
 //    if (abs > MathUtil.EPSILON) {
 //      double p = -Math.log(1.0 - rnd.next()) * Math.cos(Math.abs(x.getNormal().dot(v))) / abs;
-//      
+//
 //      col = col.times(-thickness).exp();
 //      col = col.divide(ColorUtil.getMeanChannelValue(col));
-//      
+//
 //      if (p > thickness) {
 //        return ScatteredRay.transmitSpecular(new Ray3(x.getPosition(), v), col, 1.0);
 //      }
 //    }
-//    
+//
 //    return null;
-    
+
     col = col.times(-thickness / Math.cos(Math.abs(x.getNormal().dot(v)))).exp();
-    return ScatteredRay.transmitSpecular(new Ray3(x.getPosition(), v), col, 1.0);    
-    
+    return ScatteredRay.transmitSpecular(new Ray3(x.getPosition(), v), col, 1.0);
+
   }
 
 }

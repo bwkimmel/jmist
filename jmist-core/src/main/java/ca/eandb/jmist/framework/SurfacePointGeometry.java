@@ -32,7 +32,7 @@ import ca.eandb.jmist.math.Vector3;
 
 /**
  * Represents the geometric properties of a point on the surface of some
- * element in a scene. 
+ * element in a scene.
  * @author Brad Kimmel
  */
 public interface SurfacePointGeometry {
@@ -60,7 +60,7 @@ public interface SurfacePointGeometry {
 
   /** The ID of the primitive from the <code>SceneElement</code>. */
   int getPrimitiveIndex();
-  
+
   /**
    * A surface point at the origin oriented according to the standard basis
    * (the normal in the positive z-direction).

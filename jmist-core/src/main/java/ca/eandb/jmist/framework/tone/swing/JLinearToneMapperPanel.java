@@ -50,79 +50,79 @@ import ca.eandb.util.ui.JNumberLine;
  *
  */
 public final class JLinearToneMapperPanel extends JToneMapperPanel {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = -376526192816345718L;
 
   private static final double DELTA = 1.0;
-  
+
   private static final int MAX_CHROMATICITY_SLIDER_VALUE = 120;
-  
+
   private static final double MIN_STOP = -10.0;
   private static final double MAX_STOP = 10.0;
-  
+
   private final JCheckBox autoCheckBox;
   private final JNumberLine whiteLuminanceSlider;
   private final JSlider whiteXChromaticitySlider;
   private final JSlider whiteYChromaticitySlider;
-  
+
   private boolean suspendChangeEvents = false;
 
   /**
-   * 
+   *
    */
   public JLinearToneMapperPanel() {
     autoCheckBox = new JCheckBox("Automatic", true);
     whiteLuminanceSlider = new JNumberLine(MIN_STOP, MAX_STOP, 0);
     whiteXChromaticitySlider = new JSlider(0, MAX_CHROMATICITY_SLIDER_VALUE, MAX_CHROMATICITY_SLIDER_VALUE / 3);
     whiteYChromaticitySlider = new JSlider(0, MAX_CHROMATICITY_SLIDER_VALUE, MAX_CHROMATICITY_SLIDER_VALUE / 3);
-    
+
     whiteLuminanceSlider.setEnabled(false);
     whiteXChromaticitySlider.setEnabled(false);
     whiteYChromaticitySlider.setEnabled(false);
-    
+
     autoCheckBox.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         autoCheckBox_OnActionPerformed(e);
       }
     });
-    
+
     whiteLuminanceSlider.addChangeListener(new ChangeListener() {
       public void stateChanged(ChangeEvent e) {
         whiteLuminanceSlider_OnStateChanged(e);
       }
     });
-        
+
     whiteXChromaticitySlider.addChangeListener(new ChangeListener() {
       public void stateChanged(ChangeEvent e) {
         whiteXChromaticitySlider_OnStateChanged(e);
       }
     });
-    
+
     whiteYChromaticitySlider.addChangeListener(new ChangeListener() {
       public void stateChanged(ChangeEvent e) {
         whiteYChromaticitySlider_OnStateChanged(e);
       }
     });
-    
+
     JLabel label;
-    
+
     setLayout(new GridBagLayout());
-    
+
     GridBagConstraints c = new GridBagConstraints();
     c.gridy = 0;
     c.gridx = 0;
     label = new JLabel("");
     label.setPreferredSize(new Dimension(100, 25));
     add(label, c);
-    
+
     c = new GridBagConstraints();
     c.gridy = 0;
     c.gridx = 1;
     c.weightx = 1.0;
     c.anchor = GridBagConstraints.LINE_START;
     add(autoCheckBox, c);
-    
+
     c = new GridBagConstraints();
     c.gridy = 1;
     c.gridx = 0;
@@ -130,14 +130,14 @@ public final class JLinearToneMapperPanel extends JToneMapperPanel {
     label = new JLabel("White Y");
     label.setPreferredSize(new Dimension(100, 25));
     add(label, c);
-    
+
     c = new GridBagConstraints();
     c.gridy = 1;
     c.gridx = 1;
     c.weightx = 1.0;
     c.fill = GridBagConstraints.HORIZONTAL;
     add(whiteLuminanceSlider, c);
-    
+
     c = new GridBagConstraints();
     c.gridy = 2;
     c.gridx = 0;
@@ -145,14 +145,14 @@ public final class JLinearToneMapperPanel extends JToneMapperPanel {
     label = new JLabel("White x");
     label.setPreferredSize(new Dimension(100, 25));
     add(label, c);
-    
+
     c = new GridBagConstraints();
     c.gridy = 2;
     c.gridx = 1;
     c.weightx = 1.0;
     c.fill = GridBagConstraints.HORIZONTAL;
     add(whiteXChromaticitySlider, c);
-    
+
     c = new GridBagConstraints();
     c.gridy = 3;
     c.gridx = 0;
@@ -167,7 +167,7 @@ public final class JLinearToneMapperPanel extends JToneMapperPanel {
     c.weightx = 1.0;
     c.fill = GridBagConstraints.HORIZONTAL;
     add(whiteYChromaticitySlider, c);
-    
+
     c = new GridBagConstraints();
     c.gridy = 4;
     c.gridx = 1;
@@ -178,7 +178,7 @@ public final class JLinearToneMapperPanel extends JToneMapperPanel {
     panel.setPreferredSize(new Dimension(0, 0));
     add(panel, c);
   }
-  
+
   private void whiteLuminanceSlider_OnStateChanged(ChangeEvent e) {
     if (!whiteLuminanceSlider.getValueIsAdjusting()) {
       fireStateChanged();
@@ -237,7 +237,7 @@ public final class JLinearToneMapperPanel extends JToneMapperPanel {
   @Override
   public ToneMapper createToneMapper(Iterable<CIEXYZ> samples) {
     CIExyY white;
-    
+
     if (autoCheckBox.isSelected()) {
       double Yavg = 0.0;
       double Ymax = 0.0;
@@ -257,9 +257,9 @@ public final class JLinearToneMapperPanel extends JToneMapperPanel {
 
       double Ymid = 1.03 - 2.0 / (2.0 + Math.log10(Yavg + 1.0));
       white = new CIExyY(1.0 / 3.0, 1.0 / 3.0, Yavg / Ymid);
-      
+
       double ySliderValue = Math.log(white.Y()) / Math.log(2.0);
-  
+
       suspendChangeEvents = true;
       whiteLuminanceSlider.setValue(ySliderValue);
       whiteXChromaticitySlider.setValue(MAX_CHROMATICITY_SLIDER_VALUE / 3);
@@ -271,10 +271,10 @@ public final class JLinearToneMapperPanel extends JToneMapperPanel {
           ((double) whiteYChromaticitySlider.getValue()) / (double) MAX_CHROMATICITY_SLIDER_VALUE,
           Math.pow(2.0, whiteLuminanceSlider.getValue()));
     }
-    
+
     return new LinearToneMapper(white.toXYZ());
   }
-  
+
   public static void main(String[] args) {
     JFrame frame = new JFrame();
     JLinearToneMapperPanel factory = new JLinearToneMapperPanel();

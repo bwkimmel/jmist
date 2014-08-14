@@ -54,27 +54,27 @@ import ca.eandb.util.UnimplementedException;
  */
 public final class TransformableSceneElement extends SceneElementDecorator
     implements AffineTransformable3 {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = -2120007083803470213L;
 
   private final InvertibleAffineTransformation3 t = new InvertibleAffineTransformation3();
-  
+
   private transient boolean ready = true;
-  
+
   private transient boolean shapePreserving = true;
-  
+
   private transient double scaleFactor = 1.0;
-  
+
   private transient Box3 bound = null;
-  
+
   /**
    * @param inner
    */
   public TransformableSceneElement(SceneElement inner) {
     super(inner);
   }
-  
+
   private synchronized void computeBoundingBox() {
     if (bound != null) {
       return;
@@ -88,7 +88,7 @@ public final class TransformableSceneElement extends SceneElementDecorator
     }
     bound = bbox.getBoundingBox();
   }
-  
+
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#boundingBox()
    */
@@ -192,7 +192,7 @@ public final class TransformableSceneElement extends SceneElementDecorator
     if (!shapePreserving) {
       throw new UnsupportedOperationException();
     }
-    return scaleFactor * scaleFactor * super.getSurfaceArea(); 
+    return scaleFactor * scaleFactor * super.getSurfaceArea();
   }
 
   /* (non-Javadoc)
@@ -206,28 +206,28 @@ public final class TransformableSceneElement extends SceneElementDecorator
     if (!shapePreserving) {
       throw new UnsupportedOperationException();
     }
-    return scaleFactor * scaleFactor * super.getSurfaceArea(); 
+    return scaleFactor * scaleFactor * super.getSurfaceArea();
   }
-  
+
   private void transformShadingContext(ShadingContext context) {
 
     Basis3 basis = context.getShadingBasis();
     Vector3 u = t.apply(basis.u());
     Vector3 v = t.apply(basis.v());
-    
+
     context.setShadingBasis(Basis3.fromUV(u, v));
-    
+
     basis = context.getBasis();
     u = t.apply(basis.u());
     v = t.apply(basis.v());
-    
+
     context.setBasis(Basis3.fromUV(u, v));
-    
+
     Point3 p = t.apply(context.getPosition());
     context.setPosition(p);
-    
+
   }
-  
+
   private class TransformingIntersectionDecorator extends IntersectionRecorderDecorator {
 
     protected TransformingIntersectionDecorator(IntersectionRecorder inner) {
@@ -243,7 +243,7 @@ public final class TransformableSceneElement extends SceneElementDecorator
         }
       });
     }
-    
+
   }
 
   /* (non-Javadoc)
@@ -298,11 +298,11 @@ public final class TransformableSceneElement extends SceneElementDecorator
     if (!ready) {
       AffineMatrix3 matrix = t.apply(AffineMatrix3.IDENTITY);
       scaleFactor = Math.cbrt(matrix.determinant());
-      
+
       Vector3 u = t.apply(Vector3.I).unit();
       Vector3 v = t.apply(Vector3.J).unit();
       Vector3 w = t.apply(Vector3.K).unit();
-      
+
       shapePreserving = (u.dot(v) < MathUtil.EPSILON)
           && (v.dot(w) < MathUtil.EPSILON)
           && (w.dot(u) < MathUtil.EPSILON);

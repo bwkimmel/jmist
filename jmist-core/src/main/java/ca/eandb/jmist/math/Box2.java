@@ -188,8 +188,8 @@ public final class Box2 implements Serializable {
   public boolean isEmpty() {
     return Double.isNaN(minimumX);
   }
-  
-  /** 
+
+  /**
    * Determines if this box is infinite.
    * @return A value indicating if this interval is infinite.
    */
@@ -575,7 +575,7 @@ public final class Box2 implements Serializable {
         (index & 0x2) == 0 ? this.minimumY : this.maximumY
     );
   }
-  
+
   /**
    * Computes the closest point within the box to a given point.
    * @param p The <code>Point2</code> to project.
@@ -586,7 +586,7 @@ public final class Box2 implements Serializable {
         MathUtil.clamp(p.x(), minimumX, maximumX),
         MathUtil.clamp(p.y(), minimumY, maximumY));
   }
-  
+
   /**
    * Returns the affine transformation that maps the unit box to this one.
    * @return The <code>AffineMatrix2</code> representing the transformation

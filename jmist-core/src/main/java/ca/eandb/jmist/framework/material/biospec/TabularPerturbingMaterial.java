@@ -45,12 +45,12 @@ import ca.eandb.jmist.math.Vector3;
 public class TabularPerturbingMaterial extends OpaqueMaterial {
 
 //  private final double[] wavelengths;
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = 359194554532848287L;
 
   private final double[] lut;
-  
+
   private final Random rnd = new ThreadLocalRandom(new SimpleRandom());
 
   public TabularPerturbingMaterial(
@@ -72,7 +72,7 @@ public class TabularPerturbingMaterial extends OpaqueMaterial {
     Vector3 N = x.getNormal();
     boolean inDir = (v.dot(N) < 0.0);
     boolean outDir;
-    
+
     do {
       int j = (int) Math.floor(rnd.next() * (double) lut.length);
       double theta = lut[j];
@@ -81,7 +81,7 @@ public class TabularPerturbingMaterial extends OpaqueMaterial {
       v = sc.toCartesian(basis);
       outDir = (v.dot(N) < 0.0);
     } while (inDir != outDir);
-    
+
     return ScatteredRay.diffuse(new Ray3(x.getPosition(), v), lambda.getColorModel().getWhite(lambda), 1.0);
   }
 

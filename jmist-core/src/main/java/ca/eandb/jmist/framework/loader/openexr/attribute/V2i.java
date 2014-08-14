@@ -39,12 +39,12 @@ public final class V2i implements Attribute {
 
   private final int x;
   private final int y;
-  
+
   public V2i(int x, int y) {
     this.x = x;
     this.y = y;
   }
-  
+
   public static V2i read(DataInput in, int size) throws IOException {
     return new V2i(in.readInt(), in.readInt());
   }
@@ -88,11 +88,11 @@ public final class V2i implements Attribute {
   public int hashCode() {
     return Integer.valueOf(x).hashCode() ^ Integer.valueOf(y).hashCode();
   }
-  
+
   public int getX() {
     return x;
   }
-  
+
   public int getY() {
     return y;
   }

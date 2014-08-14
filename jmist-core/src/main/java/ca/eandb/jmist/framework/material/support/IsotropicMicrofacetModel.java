@@ -36,9 +36,9 @@ import ca.eandb.jmist.math.Vector3;
 public interface IsotropicMicrofacetModel extends Serializable {
 
   double getDistributionPDF(Vector3 m, Vector3 n);
-  
+
   double getShadowingAndMasking(Vector3 in, Vector3 out, Vector3 m, Vector3 n);
-  
+
   SphericalCoordinates sample(double ru, double rv);
-  
+
 }

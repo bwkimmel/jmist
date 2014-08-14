@@ -81,10 +81,10 @@ public final class AppearanceMapSceneElement extends SceneElementDecorator {
   }
 
   private static final class Appearance implements Serializable {
-    
+
     /** Serialization version ID. */
     private static final long serialVersionUID = 1004659206467144573L;
-    
+
     public final Material material;
     public final Shader shader;
 
@@ -92,7 +92,7 @@ public final class AppearanceMapSceneElement extends SceneElementDecorator {
       this.material = material;
       this.shader = shader;
     }
-    
+
   }
 
   private class AppearanceIntersectionRecorder extends IntersectionRecorderDecorator {

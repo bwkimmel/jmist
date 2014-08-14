@@ -43,20 +43,20 @@ import ca.eandb.jmist.math.Vector3;
  *
  */
 public final class ShadingNormalAdapterMaterial implements Material {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = 6083972357040808677L;
-  
+
   private final Material inner;
-  
+
   private static final class SurfacePointAdapter implements SurfacePoint {
 
     private final SurfacePoint inner;
-    
+
     public SurfacePointAdapter(SurfacePoint inner) {
       this.inner = inner;
     }
-    
+
     @Override
     public Point3 getPosition() {
       return inner.getPosition();
@@ -106,9 +106,9 @@ public final class ShadingNormalAdapterMaterial implements Material {
     public Medium getAmbientMedium() {
       return inner.getAmbientMedium();
     }
-    
+
   }
-  
+
   public ShadingNormalAdapterMaterial(Material inner) {
     this.inner = inner;
   }
@@ -152,24 +152,24 @@ public final class ShadingNormalAdapterMaterial implements Material {
   @Override
   public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint,
       WavelengthPacket lambda, double ru, double rv, double rj) {
-    
+
     SurfacePoint adapter = new SurfacePointAdapter(x);
     ScatteredRay sr = inner.scatter(adapter, v, adjoint, lambda, ru, rv, rj);
-    
+
     if (sr != null) {
       double idotn = -v.dot(x.getNormal());
       double odotn = sr.getRay().direction().dot(x.getNormal());
-      
+
       boolean transmitted = sr.isTransmitted();
       boolean sameSide = (idotn > 0 && odotn > 0) || (idotn < 0 && odotn < 0);
-      
+
       if ((transmitted && !sameSide) || (!transmitted && sameSide)) {
         return sr;
       }
     }
-    
+
     return null;
-    
+
   }
 
   /* (non-Javadoc)
@@ -187,12 +187,12 @@ public final class ShadingNormalAdapterMaterial implements Material {
   @Override
   public double getScatteringPDF(SurfacePoint x, Vector3 in, Vector3 out,
       boolean adjoint, WavelengthPacket lambda) {
-    
+
     double idotn = -in.dot(x.getNormal());
     double idots = -in.dot(x.getShadingNormal());
     double odotn = out.dot(x.getNormal());
     double odots = out.dot(x.getShadingNormal());
-    
+
     if ((idotn > 0) == (idots > 0) && (odotn > 0) == (odots > 0)) {
       SurfacePoint adapter = new SurfacePointAdapter(x);
       double pdf = inner.getScatteringPDF(adapter, in, out, adjoint, lambda);
@@ -222,12 +222,12 @@ public final class ShadingNormalAdapterMaterial implements Material {
   @Override
   public Color bsdf(SurfacePoint x, Vector3 in, Vector3 out,
       WavelengthPacket lambda) {
-    
+
     double idotn = -in.dot(x.getNormal());
     double idots = -in.dot(x.getShadingNormal());
     double odotn = out.dot(x.getNormal());
     double odots = out.dot(x.getShadingNormal());
-    
+
     if ((idotn > 0) == (idots > 0) && (odotn > 0) == (odots > 0)) {
       SurfacePoint adapter = new SurfacePointAdapter(x);
       return inner.bsdf(adapter, in, out, lambda);

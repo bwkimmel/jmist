@@ -141,22 +141,22 @@ public final class ThinLens extends AbstractLens {
 
     /** Projected point on the image plane. */
     private final Point2 pointOnImagePlane;
-    
+
     private final Ray3 ray;
 
     public Node(Point2 p, PathInfo pathInfo, double ru, double rv, double rj) {
       super(pathInfo, ru, rv, rj);
       this.pointOnImagePlane = p;
-      
+
       Vector2 uv = RandomUtil.uniformOnDisc(apertureRadius, ru, rv).toCartesian();
       Point3 origin = new Point3(uv.x(), uv.y(), 0.0);
       Point3 focus = new Point3(
           (pointOnImagePlane.x() - 0.5) * objPlaneWidth,
           (0.5 - pointOnImagePlane.y()) * objPlaneHeight,
           -focusDistance);
-      
+
       Vector3 direction = origin.unitVectorTo(focus);
-      
+
       this.ray = new Ray3(origin, direction);
     }
 
@@ -170,24 +170,24 @@ public final class ThinLens extends AbstractLens {
       if (-dir.z() < MathUtil.EPSILON) {
         return null;
       }
-      
+
       double      ratio      = -focusDistance / dir.z();
       double      x        = ray.origin().x() + ratio * dir.x();
       double      y        = ray.origin().y() + ratio * dir.y();
-  
+
       final double  u        = 0.5 + x / objPlaneWidth;
       if (!MathUtil.inRangeCC(u, 0.0, 1.0)) {
         return null;
       }
-  
+
       final double  v        = 0.5 - y / objPlaneHeight;
       if (!MathUtil.inRangeCC(v, 0.0, 1.0)) {
         return null;
       }
-      
+
       return new Point2(u, v);
     }
-    
+
     /* (non-Javadoc)
      * @see ca.eandb.jmist.framework.path.PathNode#getPDF()
      */
@@ -249,6 +249,6 @@ public final class ThinLens extends AbstractLens {
       return (focusDistance * focusDistance)
           / (v.z() * v.z() * v.z() * v.z() * objPlaneWidth * objPlaneHeight);
     }
-    
+
   }
 }

@@ -37,9 +37,9 @@ import ca.eandb.util.UnexpectedException;
  *
  */
 final class MethodAttributeReader implements AttributeReader {
-  
+
   private final Method method;
-  
+
   MethodAttributeReader(Method method) {
     Class<?>[] paramTypes = method.getParameterTypes();
     Class<?> returnType = method.getReturnType();

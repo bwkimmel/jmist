@@ -60,7 +60,7 @@ public interface Display {
    * @param pixel The <code>Color</code> to set the pixel to.
    */
   void setPixel(int x, int y, Color pixel);
-  
+
   /**
    * Copies the provided <code>Raster</code> image onto the display.
    * @param x The x-coordinate of the upper-left corner of the area in which

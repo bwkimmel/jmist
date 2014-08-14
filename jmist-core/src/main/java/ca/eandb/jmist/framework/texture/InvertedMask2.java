@@ -33,13 +33,13 @@ import ca.eandb.jmist.math.Point2;
  * @author Brad Kimmel
  */
 public final class InvertedMask2 implements Mask2 {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = -7699716505833575584L;
-  
+
   /** The <code>Mask2</code> to be inverted. */
   private final Mask2 inner;
-  
+
   /**
    * Creates a new <code>InvertedMask2</code>.
    * @param inner The <code>Mask2</code> to be inverted.

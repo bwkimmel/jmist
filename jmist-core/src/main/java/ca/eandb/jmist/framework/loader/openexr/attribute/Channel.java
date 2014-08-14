@@ -38,23 +38,23 @@ import java.io.IOException;
 public final class Channel implements Attribute {
 
   private final String name;
-  
+
   private final PixelType pixelType;
-  
+
   private final byte pLinear;
-  
+
   private final int xSampling;
-  
+
   private final int ySampling;
-  
+
   public Channel(String name, PixelType pixelType) {
     this(name, pixelType, (byte) 0, 1, 1);
   }
-  
+
   public Channel(String name, PixelType pixelType, int xSampling, int ySampling) {
     this(name, pixelType, (byte) 0, xSampling, ySampling);
   }
-  
+
   public Channel(String name, PixelType pixelType, byte pLinear, int xSampling, int ySampling) {
     this.name = name;
     this.pixelType = pixelType;
@@ -65,7 +65,7 @@ public final class Channel implements Attribute {
       throw new IllegalArgumentException("pLinear must be 0 or 1");
     }
   }
-  
+
   /**
    * @return the name
    */
@@ -113,7 +113,7 @@ public final class Channel implements Attribute {
     int ySampling = in.readInt();
     return new Channel(name, pixelType, pLinear, xSampling, ySampling);
   }
-  
+
   private static String readString(DataInput in) throws IOException {
     StringBuilder s = new StringBuilder();
     while (true) {
@@ -139,5 +139,5 @@ public final class Channel implements Attribute {
     out.writeInt(xSampling);
     out.writeInt(ySampling);
   }
-  
+
 }

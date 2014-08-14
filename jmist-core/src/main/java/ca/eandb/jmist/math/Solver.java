@@ -411,7 +411,7 @@ public final class Solver {
 
     /* The descriminant in the quadratic equation. */
     double descriminant = (c1 * c1) - (4.0 * c2 * c0);
-    
+
     Complex h = Complex.sqrt(descriminant);
     double d = 2.0 * c2;
 
@@ -437,23 +437,23 @@ public final class Solver {
     // Make sure the cubic coefficient is non-zero.
     if (c3 == 0.0)
       return complexRoots(c0, c1, c2);
-    
+
     double    a      = c2 / c3;
     double    b      = c1 / c3;
     double    c      = c0 / c3;
-    
+
     double    A      = a / 3.0;
     double    B      = b / 3.0;
     double    P      = B - A * A;
     double    Q      = 0.5 * c + A * A * A - 1.5 * A * B;
-    
+
     double    D      = Q * Q + P * P * P;
     Complex    zeta1    = new Complex(-0.5, 0.5 * Math.sqrt(3.0));
     Complex    zeta2    = zeta1.conjugate();
-    
+
     Complex    z1      = Complex.sqrt(D).minus(Q).cbrt();
     Complex    z2      = Complex.sqrt(D).negative().minus(Q).cbrt();
-    
+
     return new Complex[]{
         z1.plus(z2).minus(A),
         zeta1.times(z1).plus(zeta2.times(z2)).minus(A),
@@ -481,7 +481,7 @@ public final class Solver {
      */
     if (c4 == 0.0)
       return complexRoots(c0, c1, c2, c3);
-    
+
     c3 /= c4;
     c2 /= c4;
     c1 /= c4;
@@ -498,23 +498,23 @@ public final class Solver {
     Complex    y = u.abs() < MathUtil.TINY_EPSILON
             ? u.plus(-(5.0 / 6.0) * a - Math.cbrt(q))
             : u.plus(-(5.0 / 6.0) * a).minus(u.reciprocal().times(p / 3.0));
-    
+
     Complex    w = y.times(2.0).plus(a).sqrt();
     Complex    wInv = w.reciprocal();
     Complex    wNeg = w.negative();
-    
+
     Complex    _3aADD2y = y.times(2.0).plus(3.0 * a);
     Complex    _2bDIVw = wInv.times(2.0 * b);
     Complex    sPos = _3aADD2y.plus(_2bDIVw).negative().sqrt();
     Complex    sNeg = _3aADD2y.minus(_2bDIVw).negative().sqrt();
-    
+
     return new Complex[]{
         w.plus(sPos).times(0.5).minus(0.25 * c3),
         w.minus(sPos).times(0.5).minus(0.25 * c3),
         wNeg.plus(sNeg).times(0.5).minus(0.25 * c3),
         wNeg.minus(sNeg).times(0.5).minus(0.25 * c3)
     };
-    
+
   }
 
   /**

@@ -77,7 +77,7 @@ public final class TransformedEyeNode extends TransformedPathNode implements
   public double getReversePDF(Vector3 v) {
     return 1.0;
   }
-  
+
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.path.PathNode#getReversePDF()
    */

@@ -50,7 +50,7 @@ public final class MaterialPhotometerJob extends AbstractParallelizableJob {
 
   /** Serialization version ID. */
   private static final long serialVersionUID = -1521758677633805555L;
-  
+
   public MaterialPhotometerJob(Material[] specimens,
       SphericalCoordinates[] incidentAngles, WavelengthPacket[] wavelengths,
       long samplesPerMeasurement, long samplesPerTask, CollectorSphere collector) {
@@ -69,7 +69,7 @@ public final class MaterialPhotometerJob extends AbstractParallelizableJob {
 
 
   }
-  
+
   public MaterialPhotometerJob(Material specimen,
       SphericalCoordinates[] incidentAngles, WavelengthPacket[] wavelengths,
       long samplesPerMeasurement, long samplesPerTask, CollectorSphere collector) {
@@ -124,7 +124,7 @@ public final class MaterialPhotometerJob extends AbstractParallelizableJob {
         measurementIndex
     );
   }
-  
+
   private Material getSpecimen(int measurementIndex) {
     return this.specimens[measurementIndex / (wavelengths.length * incidentAngles.length)];
   }
@@ -160,7 +160,7 @@ public final class MaterialPhotometerJob extends AbstractParallelizableJob {
   public boolean isComplete() {
     return this.outstandingSamplesPerMeasurement >= this.samplesPerMeasurement;
   }
-  
+
   private final String colorToCSV(Color color) {
     double[] values = color.toArray();
     StringBuilder sb = new StringBuilder();
@@ -183,26 +183,26 @@ public final class MaterialPhotometerJob extends AbstractParallelizableJob {
     PrintStream out = new PrintStream(createFileOutputStream("photometer.csv"));
 
     this.writeColumnHeadings(out);
-    
+
     for (int specimenIndex = 0, n = 0; specimenIndex < this.specimens.length; specimenIndex++) {
 
       for (int incidentAngleIndex = 0; incidentAngleIndex < this.incidentAngles.length; incidentAngleIndex++) {
-  
+
         SphericalCoordinates      incidentAngle      = this.incidentAngles[incidentAngleIndex];
-  
+
         for (int wavelengthIndex = 0; wavelengthIndex < this.wavelengths.length; wavelengthIndex++, n++) {
-  
+
           WavelengthPacket      wavelength        = this.wavelengths[wavelengthIndex];
           ColorSensorArray      sensorArray        = this.results[n];
-  
+
           for (int sensor = 0; sensor < worker.collector.sensors(); sensor++) {
-  
+
             SphericalCoordinates  exitantAngle      = worker.collector.getSensorCenter(sensor);
             double          solidAngle        = worker.collector.getSensorSolidAngle(sensor);
             double          projectedSolidAngle    = worker.collector.getSensorProjectedSolidAngle(sensor);
             Color          raw            = sensorArray.getTotalWeight(sensor);
             Color          reflectance        = raw.divide(this.outstandingSamplesPerMeasurement);
-  
+
             out.printf(
                 "%d,%f,%f,%d,%d,%f,%f,%f,%f,%d,%s,%s,%s,%s",
                 specimenIndex,
@@ -221,11 +221,11 @@ public final class MaterialPhotometerJob extends AbstractParallelizableJob {
                 colorToCSV(reflectance.divide(solidAngle))
             );
             out.println();
-  
+
           }
-  
+
         }
-        
+
       }
 
     }
@@ -250,16 +250,16 @@ public final class MaterialPhotometerJob extends AbstractParallelizableJob {
     out.print("\"Solid Angle (sr)\",");
     out.print("\"Projected Solid Angle (sr)\",");
     out.print("\"Samples\",");
-    
+
     if (wavelengths.length == 1) {
-      
+
     }
-    
+
     for (int i = 0; i < maxChannels; i++) {
       out.printf("\"Raw (%s)\",", wavelengths.length > 1 ? Integer.toString(i) : wavelengths[0].getColorModel().getChannelName(i));
     }
     for (int i = 0; i < maxChannels; i++) {
-      out.printf("\"Reflectance (%s)\",", wavelengths.length > 1 ? Integer.toString(i) : wavelengths[0].getColorModel().getChannelName(i));  
+      out.printf("\"Reflectance (%s)\",", wavelengths.length > 1 ? Integer.toString(i) : wavelengths[0].getColorModel().getChannelName(i));
     }
     for (int i = 0; i < maxChannels; i++) {
       out.printf("\"BSDF (%s)\",", wavelengths.length > 1 ? Integer.toString(i) : wavelengths[0].getColorModel().getChannelName(i));
@@ -295,7 +295,7 @@ public final class MaterialPhotometerJob extends AbstractParallelizableJob {
 
     /** Serialization version ID. */
     private static final long serialVersionUID = 4238727637644746732L;
-    
+
     public final Material        specimen;
     public final SphericalCoordinates  incident;
     public final WavelengthPacket    wavelength;

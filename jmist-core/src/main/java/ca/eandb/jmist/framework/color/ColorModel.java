@@ -35,15 +35,15 @@ import ca.eandb.jmist.framework.Raster;
  * A strategy for representing colors.  By varying the <code>ColorModel</code>
  * used in a rendering job, one can perform basic rendering in RGB space, or
  * full spectral rendering, for example.
- * 
+ *
  * A <code>ColorModel</code> is essentially a factory for other color-related
  * classes.
- * 
+ *
  * @see Spectrum
  * @see Color
  * @see WavelengthPacket
  * @see Raster
- * 
+ *
  * @author Brad Kimmel
  */
 public abstract class ColorModel implements Serializable {
@@ -161,7 +161,7 @@ public abstract class ColorModel implements Serializable {
   /**
    * Creates a random sample based on the spectral sensitivity of an observer
    * as represented by this <code>ColorModel</code>.  This represents the
-   * source of <a href="http://www.seanet.com/~myandper/importance.htm">importance</a> 
+   * source of <a href="http://www.seanet.com/~myandper/importance.htm">importance</a>
    * for illumination algorithms.
    * @param random The <code>Random</code> number generator to use.
    * @return The <code>Color</code> sample.
@@ -188,5 +188,5 @@ public abstract class ColorModel implements Serializable {
    * @return A label for the specified channel.
    */
   public abstract String getChannelName(int channel);
-  
+
 }

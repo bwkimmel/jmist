@@ -43,24 +43,24 @@ import ca.eandb.jmist.math.Point2;
  *
  */
 public final class RadianceTexture2 implements Texture2 {
-  
+
   /** Serialized version ID. */
   private static final long serialVersionUID = -763379510350283868L;
-  
+
   private final RadiancePicture picture;
-  
+
   public RadianceTexture2(RadiancePicture picture) {
     this.picture = picture;
   }
-  
+
   public RadianceTexture2(File file) throws IOException {
     this(RadiancePicture.read(file));
   }
-  
+
   public RadianceTexture2(URL url) throws IOException {
-    this(RadiancePicture.read(url));    
+    this(RadiancePicture.read(url));
   }
-  
+
   public RadianceTexture2(InputStream stream) throws IOException {
     this(RadiancePicture.read(stream));
   }
@@ -70,7 +70,7 @@ public final class RadianceTexture2 implements Texture2 {
    */
   @Override
   public Color evaluate(Point2 p, WavelengthPacket lambda) {
-    
+
     double    u    = p.x() - Math.floor(p.x());
     double    v    = 1.0 - (p.y() - Math.floor(p.y()));
     int      w    = picture.getSizeX();

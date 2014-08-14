@@ -90,7 +90,7 @@ public final class CornellBoxScene extends AbstractScene {
     Material matteGreen = new LambertianMaterial(colorModel.getContinuous(green));
     Material matteRed = new LambertianMaterial(colorModel.getContinuous(red));
     Material matteEmissive = new LambertianMaterial(colorModel.getGray(0.78), colorModel.getContinuous(emission));
-    
+
     matteWhite = new ScatteringAdapterMaterial(matteWhite, strategy, weight);
     matteGreen = new ScatteringAdapterMaterial(matteGreen, strategy, weight);
     matteRed = new ScatteringAdapterMaterial(matteRed, strategy, weight);

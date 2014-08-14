@@ -45,44 +45,44 @@ import ca.eandb.util.UnimplementedException;
 
 /**
  * Represents an image stored in RADIANCE (.pic, .hdr) format.
- * 
+ *
  * @author Brad Kimmel
  */
 public class RadiancePicture implements Serializable {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = -5359236700826115108L;
 
   /** The default software string to use when writing an image to a file. */
   private static final String DEFAULT_SOFTWARE = "JMist 0.1 (ca.eandb.jmist)";
-  
+
   /** The string that should be in the first line of a RADIANCE file. */
   private static final String HEADER_IDENTIFIER = "#?RADIANCE";
 
   /** The raw image data. */
   private final byte[] data;
-  
+
   /** The width of the image. */
   private final int sizeX;
-  
+
   /** The height of the image. */
   private final int sizeY;
-  
+
   /** The format that the image is stored in. */
   private Format format;
-  
+
   /** The name of the software that created this image. */
   private String software = DEFAULT_SOFTWARE;
-  
+
   /** The exposure level for the data in this image. */
   private double exposure = 1.0;
 
   /** The pixel aspect ratio. */
   private double pixelAspect = 1.0;
-  
+
   /** The color correction to apply to the raw data in this image. */
   private double[] colorcorr = { 1.0, 1.0, 1.0 };
-  
+
   /** An <code>IntBuffer</code> to read the raw data as 32-bit integers. */
   private transient IntBuffer buffer;
 
@@ -91,19 +91,19 @@ public class RadiancePicture implements Serializable {
    * @author Brad Kimmel
    */
   public static enum Format {
-    
+
     /** Represents an image stored in RGBE format. */
     RGBE("32-bit_rle_rgbe", RGBEPixelFormat.INSTANCE),
-    
+
     /** Represents an image stored in XYZE format. */
     XYZE("32-bit_rle_xyze", XYZEPixelFormat.INSTANCE);
-    
+
     /** The string identifying this format in the file. */
     private final String name;
-    
+
     /** The interpreter for the pixel format. */
     private final PixelFormat interp;
-    
+
     /**
      * Creates a new <code>Format</code>.
      * @param name The string identifying this format in the file.
@@ -114,7 +114,7 @@ public class RadiancePicture implements Serializable {
       this.name = name;
       this.interp = interp;
     }
-    
+
     /**
      * Gets the string identifying this format in the file.
      * @return The string identifying this format in the file.
@@ -122,9 +122,9 @@ public class RadiancePicture implements Serializable {
     public String getName() {
       return name;
     }
-    
+
   };
-  
+
   /**
    * Creates a new <code>RadiancePicture</code>.
    * @param sizeX The width of the image, in pixels.
@@ -141,7 +141,7 @@ public class RadiancePicture implements Serializable {
     this.format = format;
     this.data = data;
   }
-  
+
   /**
    * Creates a new <code>RadiancePicture</code>.
    * @param sizeX The width of the image, in pixels.
@@ -150,7 +150,7 @@ public class RadiancePicture implements Serializable {
   public RadiancePicture(int sizeX, int sizeY) {
     this(sizeX, sizeY, Format.RGBE);
   }
-  
+
   /**
    * Creates a new <code>RadiancePicture</code>.
    * @param sizeX The width of the image, in pixels.
@@ -163,7 +163,7 @@ public class RadiancePicture implements Serializable {
     this.format = format;
     this.data = new byte[sizeX * sizeY * 4];
   }
-  
+
   /**
    * Writes the image to a file.
    * @param file The name of the file to write.
@@ -178,7 +178,7 @@ public class RadiancePicture implements Serializable {
       stream.close();
     }
   }
-  
+
   /**
    * Writes the image to an <code>OutputStream</code>.
    * @param stream The <code>OutputStream</code> to write to.
@@ -215,7 +215,7 @@ public class RadiancePicture implements Serializable {
       stream.close();
     }
   }
-  
+
   /**
    * Reads an image from a <code>URL</code>.
    * @param url The <code>URL</code> indicating the location of the file to
@@ -236,7 +236,7 @@ public class RadiancePicture implements Serializable {
   private static int ubyte2int(byte b) {
     return b < 0 ? ((int) b) + 256 : (int) b;
   }
-  
+
   /**
    * Reads an image from an <code>InputStream</code>.
    * @param stream The <code>InputStream</code> from which to read the image.
@@ -256,12 +256,12 @@ public class RadiancePicture implements Serializable {
     int size[] = new int[2];
     boolean swap;
     String line;
-    
+
     line = reader.readLine();
     if (!line.equalsIgnoreCase(HEADER_IDENTIFIER)) {
       throw new IOException("Incorrect format.");
     }
-    
+
     while (true) {
       line = reader.readLine().trim();
       if (line.isEmpty()) {
@@ -269,11 +269,11 @@ public class RadiancePicture implements Serializable {
       } else if (line.startsWith("#")) {
         continue;
       }
-      
+
       String[] args = line.split("=", 2);
       String key = args[0].trim();
       String val = args[1].trim();
-      
+
       if (key.equalsIgnoreCase("format")) {
         if (val.equalsIgnoreCase(Format.RGBE.getName())) {
           format = Format.RGBE;
@@ -305,11 +305,11 @@ public class RadiancePicture implements Serializable {
         System.err.println(key);
       }
     }
-    
+
     String[] res = reader.readLine().toLowerCase().split("\\s+", 4);
     size[0] = Integer.parseInt(res[1]);
     size[1] = Integer.parseInt(res[3]);
-    
+
     if (res[0].charAt(0) == '+') {
       size[0] = -size[0];
       throw new UnimplementedException();
@@ -318,12 +318,12 @@ public class RadiancePicture implements Serializable {
       size[1] = -size[1];
       throw new UnimplementedException();
     }
-    
+
     swap = (res[0].charAt(1) == 'x');
     if (swap) {
       throw new UnimplementedException();
     }
-    
+
     byte[] data = new byte[size[0] * size[1] * 4];
     ByteBuffer buffer = ByteBuffer.wrap(data);
     byte[] next = new byte[4];
@@ -377,7 +377,7 @@ public class RadiancePicture implements Serializable {
         repmult = 1;
       }
     }
-    
+
     RadiancePicture picture = new RadiancePicture(size[1], size[0], data, format);
     picture.exposure = exposure;
     picture.colorcorr = colorcorr;
@@ -385,9 +385,9 @@ public class RadiancePicture implements Serializable {
     picture.pixelAspect = pixelAspect;
 
     return picture;
-    
+
   }
-  
+
   /**
    * Gets the buffer used to store the raw pixel data.
    * @return The buffer used to store the raw pixel data.
@@ -402,7 +402,7 @@ public class RadiancePicture implements Serializable {
     }
     return buffer;
   }
-  
+
   /**
    * Gets the offset at which to read the specified pixel.
    * @param x The x-coordinate of the pixel.
@@ -415,7 +415,7 @@ public class RadiancePicture implements Serializable {
     }
     return (sizeY - 1 - y) * sizeX + x;
   }
-  
+
   /**
    * Gets the raw value of the specified pixel.
    * @param x The x-coordinate of the pixel.
@@ -425,7 +425,7 @@ public class RadiancePicture implements Serializable {
   private int getPixelRaw(int x, int y) {
     return getBuffer().get(getOffset(x, y));
   }
-  
+
   /**
    * Sets the raw value of the specified pixel.
    * @param x The x-coordinate of the pixel.
@@ -435,7 +435,7 @@ public class RadiancePicture implements Serializable {
   private void setPixelRaw(int x, int y, int value) {
     getBuffer().put(getOffset(x, y), value);
   }
-  
+
   /**
    * Gets the value of the specified pixel as an <code>RGB</code> color.
    * @param x The x-coordinate of the pixel.
@@ -445,7 +445,7 @@ public class RadiancePicture implements Serializable {
   public RGB getPixelRGB(int x, int y) {
     return format.interp.toRGB(getPixelRaw(x, y));
   }
-  
+
   /**
    * Gets the value of the specified pixel as a <code>CIEXYZ</code> color.
    * @param x The x-coordinate of the pixel.
@@ -456,7 +456,7 @@ public class RadiancePicture implements Serializable {
   public CIEXYZ getPixelXYZ(int x, int y) {
     return format.interp.toXYZ(getPixelRaw(x, y));
   }
-  
+
   /**
    * Sets the value of the specified pixel as an <code>RGB</code> color.
    * @param x The x-coordinate of the pixel.
@@ -466,7 +466,7 @@ public class RadiancePicture implements Serializable {
   public void setPixelRGB(int x, int y, RGB rgb) {
     setPixelRaw(x, y, format.interp.toRaw(rgb));
   }
-  
+
   /**
    * Sets the value of the specified pixel as an <code>RGB</code> color.
    * @param x The x-coordinate of the pixel.
@@ -478,7 +478,7 @@ public class RadiancePicture implements Serializable {
   public void setPixelRGB(int x, int y, double r, double g, double b) {
     setPixelRGB(x, y, new RGB(r, g, b));
   }
-  
+
   /**
    * Sets the value of the specified pixel as a <code>CIEXYZ</code> color.
    * @param x The x-coordinate of the pixel.
@@ -488,7 +488,7 @@ public class RadiancePicture implements Serializable {
   public void setPixelXYZ(int x, int y, CIEXYZ xyz) {
     setPixelRaw(x, y, format.interp.toRaw(xyz));
   }
-  
+
   /**
    * Sets the value of the specified pixel as a <code>CIEXYZ</code> color.
    * @param x The x-coordinate of the pixel.
@@ -500,7 +500,7 @@ public class RadiancePicture implements Serializable {
   public void setPixelXYZ(int x, int y, double X, double Y, double Z) {
     setPixelXYZ(x, y, new CIEXYZ(X, Y, Z));
   }
-  
+
   /**
    * Gets the width of the image.
    * @return The width of the image, in pixels.
@@ -508,7 +508,7 @@ public class RadiancePicture implements Serializable {
   public int getSizeX() {
     return sizeX;
   }
-  
+
   /**
    * Gets the height of the image.
    * @return The height of the image, in pixels.
@@ -516,7 +516,7 @@ public class RadiancePicture implements Serializable {
   public int getSizeY() {
     return sizeY;
   }
-  
+
   /**
    * Gets the <code>Format</code> that the image is stored in.
    * @return The <code>Format</code> that the image is stored in.
@@ -524,5 +524,5 @@ public class RadiancePicture implements Serializable {
   public Format getFormat() {
     return format;
   }
-  
+
 }

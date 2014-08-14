@@ -56,7 +56,7 @@ public final class ConeGeometry extends PrimitiveGeometry {
 
   /** The height of the cone */
   private final double height;
-  
+
   /** A value indicating whether the base of the cone is rendered. */
   private final boolean capped;
 
@@ -80,7 +80,7 @@ public final class ConeGeometry extends PrimitiveGeometry {
     this.height = height;
     this.capped = capped;
   }
-  
+
   /**
    * Creates a new <code>ConeGeometry</code>.
    * @param base The <code>Point3</code> at the base of the cone.
@@ -95,10 +95,10 @@ public final class ConeGeometry extends PrimitiveGeometry {
    * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
    */
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
-    
+
     if (capped) {
       double t = Plane3.XZ.intersect(ray);
-            
+
       if (recorder.interval().contains(t)) {
         Point3 p = ray.pointAt(t);
         if (p.distanceToOrigin() <= radius) {
@@ -108,24 +108,24 @@ public final class ConeGeometry extends PrimitiveGeometry {
         }
       }
     }
-        
+
     Point3 org = ray.origin();
     Vector3 dir = ray.direction();
-    
+
     double x0 = org.x() / radius;
     double y0 = org.y() / height - 1.0;
     double z0 = org.z() / radius;
     double x1 = dir.x() / radius;
     double y1 = dir.y() / height;
     double z1 = dir.z() / radius;
-    
+
     Polynomial f = new Polynomial(
         x0 * x0 - y0 * y0 + z0 * z0,
         2.0 * (x0 * x1 - y0 * y1 + z0 * z1),
         x1 * x1 - y1 * y1 + z1 * z1);
-    
+
     double[] t = f.roots();
-    
+
     if (t.length == 2) {
       for (int i = 0; i < 2; i++) {
         if (recorder.interval().contains(t[i])) {
@@ -161,10 +161,10 @@ public final class ConeGeometry extends PrimitiveGeometry {
       return Basis3.fromWV(
           getNormal(x),
           x.getPosition().vectorTo(new Point3(0, height, 0)));
-          
+
     case CONE_SURFACE_BASE:
       return Basis3.fromW(getNormal(x));
-      
+
     default:
       throw new IllegalArgumentException("Invalid surface ID");
     }
@@ -182,15 +182,15 @@ public final class ConeGeometry extends PrimitiveGeometry {
       double c = radius / side;
       double s = height / side;
       double hyp = Math.hypot(p.x(), p.z());
-      
+
       return new Vector3(
           s * p.x() / hyp,
           c,
           s * p.z() / hyp);
-      
+
     case CONE_SURFACE_BASE:
       return Vector3.NEGATIVE_J;
-      
+
     default:
       throw new IllegalArgumentException("Invalid surface ID");
     }
@@ -204,14 +204,14 @@ public final class ConeGeometry extends PrimitiveGeometry {
     Point3 p = x.getPosition();
     switch (x.getTag()) {
     case CONE_SURFACE_BODY:
-      double angle = Math.PI + Math.atan2(p.z(), p.x());      
+      double angle = Math.PI + Math.atan2(p.z(), p.x());
       return new Point2(angle / ((capped ? 4.0 : 2.0) * Math.PI),
           p.y() / height);
-      
+
     case CONE_SURFACE_BASE:
       return new Point2(0.5 + (p.x() + radius) / (4.0 * radius),
-          (p.z() + radius) / (4.0 * radius));      
-      
+          (p.z() + radius) / (4.0 * radius));
+
     default:
       throw new IllegalArgumentException("Invalid surface ID");
     }

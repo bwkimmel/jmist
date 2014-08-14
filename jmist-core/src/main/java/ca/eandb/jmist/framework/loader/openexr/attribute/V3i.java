@@ -40,13 +40,13 @@ public final class V3i implements Attribute {
   private final int x;
   private final int y;
   private final int z;
-  
+
   public V3i(int x, int y, int z) {
     this.x = x;
     this.y = y;
     this.z = z;
   }
-  
+
   public static V3i read(DataInput in, int size) throws IOException {
     return new V3i(in.readInt(), in.readInt(), in.readInt());
   }

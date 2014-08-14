@@ -141,11 +141,11 @@ public abstract class AbstractGeometry implements SceneElement {
         if (basis == null) {
           basis = getBasis();
         }
-        this.setShadingBasis(basis);        
+        this.setShadingBasis(basis);
       }
       return shadingBasis;
     }
-    
+
     public GeometryIntersection setShadingBasis(Basis3 shadingBasis) {
       this.shadingBasis = shadingBasis;
       return this;
@@ -160,11 +160,11 @@ public abstract class AbstractGeometry implements SceneElement {
         if (normal == null) {
           normal = getNormal();
         }
-        this.setShadingNormal(normal);        
+        this.setShadingNormal(normal);
       }
       return shadingNormal;
     }
-    
+
     public GeometryIntersection setShadingNormal(Vector3 shadingNormal) {
       this.shadingNormal = shadingNormal;
       return this;
@@ -287,11 +287,11 @@ public abstract class AbstractGeometry implements SceneElement {
     return this.newSurfacePoint(p, true, surfaceId);
 
   }
-  
+
   protected Basis3 getShadingBasis(GeometryIntersection x) {
     return null;
   }
-  
+
   protected Vector3 getShadingNormal(GeometryIntersection x) {
     return null;
   }

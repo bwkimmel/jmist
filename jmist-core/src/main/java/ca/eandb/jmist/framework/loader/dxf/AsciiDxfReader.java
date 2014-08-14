@@ -35,9 +35,9 @@ import java.io.Reader;
  *
  */
 public final class AsciiDxfReader implements DxfReader {
-  
+
   private static final class AsciiDxfException extends DxfException {
-    
+
     /** Serialization version ID. */
     private static final long serialVersionUID = -360078728659801927L;
 
@@ -55,17 +55,17 @@ public final class AsciiDxfReader implements DxfReader {
     public AsciiDxfException(int lineNumber, String message) {
       super(String.format("%d: %s", lineNumber, message));
     }
-    
+
   }
-  
+
   /**
    * @author Brad
    *
    */
   private static final class AsciiDxfElement extends AbstractDxfElement {
-    
+
     private final String valueLine;
-    
+
     private final int lineNumber;
 
     /**
@@ -136,11 +136,11 @@ public final class AsciiDxfReader implements DxfReader {
   }
 
   private final LineNumberReader reader;
-  
+
   private DxfElement currentElement = null;
-  
+
   private boolean eof = false;
-  
+
   public AsciiDxfReader(Reader reader) {
     this.reader = new LineNumberReader(reader);
   }
@@ -155,7 +155,7 @@ public final class AsciiDxfReader implements DxfReader {
     }
     return currentElement;
   }
-  
+
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.loader.dxf.DxfReader#advance()
    */
@@ -165,9 +165,9 @@ public final class AsciiDxfReader implements DxfReader {
       currentElement = null;
       return;
     }
-    
+
     int ln = 1 + reader.getLineNumber();
-    
+
     String groupCodeLine, valueLine;
     try {
       groupCodeLine = reader.readLine().trim();
@@ -175,18 +175,18 @@ public final class AsciiDxfReader implements DxfReader {
     } catch (IOException e) {
       throw new AsciiDxfException(ln, "Error reading DXF stream", e);
     }
-  
+
     if (groupCodeLine == null || valueLine == null) {
       throw new AsciiDxfException(ln, "Unexpected end of file");
     }
-    
+
     int groupCode;
     try {
       groupCode = Integer.parseInt(groupCodeLine);
     } catch (NumberFormatException e) {
       throw new AsciiDxfException(ln, "Invalid group code", e);
     }
-    
+
     if (valueLine.equals("EOF")) {
       eof = true;
     }

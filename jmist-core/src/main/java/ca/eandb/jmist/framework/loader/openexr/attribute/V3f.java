@@ -40,13 +40,13 @@ public final class V3f implements Attribute {
   private final float x;
   private final float y;
   private final float z;
-  
+
   public V3f(float x, float y, float z) {
     this.x = x;
     this.y = y;
     this.z = z;
   }
-  
+
   public static V3f read(DataInput in, int size) throws IOException {
     return new V3f(in.readFloat(), in.readFloat(), in.readFloat());
   }

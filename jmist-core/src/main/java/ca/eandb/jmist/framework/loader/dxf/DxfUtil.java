@@ -41,7 +41,7 @@ public final class DxfUtil {
   public static DxfReader createDxfReader(Reader reader) {
     return new AsciiDxfReader(reader);
   }
-  
+
   public static Basis3 getBasisFromArbitraryAxis(Vector3 N) {
     Vector3 Wy = Vector3.J;
     Vector3 Wz = Vector3.K;
@@ -53,24 +53,24 @@ public final class DxfUtil {
     }
     return Basis3.fromWU(N, Ax);
   }
-  
+
   public static void advanceToGroupCode(int groupCode, DxfReader dxf) {
     while (dxf.getCurrentElement().getGroupCode() != groupCode) {
       dxf.advance();
     }
   }
-  
+
   public static void advanceToEntity(String name, DxfReader dxf) {
     while (true) {
       advanceToGroupCode(0, dxf);
       if (dxf.getCurrentElement().getStringValue().equals(name)) {
         break;
       }
-      
+
       dxf.advance();
     }
   }
-  
+
   public static void advanceToSection(String name, DxfReader dxf) {
     do {
       advanceToEntity("SECTION", dxf);
@@ -78,15 +78,15 @@ public final class DxfUtil {
     } while (dxf.getCurrentElement().getStringValue() != name);
     dxf.advance();
   }
-  
+
   public static Map<String, DxfElement> parseHeader(DxfReader dxf) {
     advanceToSection("HEADER", dxf);
-    
+
     Map<String, DxfElement> header = new HashMap<String, DxfElement>();
-    
+
     while (true) {
       DxfElement elem = dxf.getCurrentElement();
-      
+
       if (elem.getGroupCode() == 0 && elem.getStringValue().equals("ENDSEC")) {
         break;
       } else if (elem.getGroupCode() == 9) {
@@ -94,11 +94,11 @@ public final class DxfUtil {
         dxf.advance();
         header.put(var, dxf.getCurrentElement());
       }
-      
+
       dxf.advance();
     }
-    
+
     return header;
   }
-  
+
 }

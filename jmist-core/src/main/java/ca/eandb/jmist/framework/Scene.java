@@ -42,7 +42,7 @@ public interface Scene extends Bounded3, Serializable {
 
   /** The <code>Lens</code> from which to view the scene. */
   Lens getLens();
-  
+
   /** An <code>Animator</code> to adjust the time within the scene. */
   Animator getAnimator();
 

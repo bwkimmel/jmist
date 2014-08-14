@@ -160,7 +160,7 @@ public final class StratifiedRandom implements Random {
     }
 
   }
-  
+
 
   private void writeObject(ObjectOutputStream oos) throws IOException {
     oos.defaultWriteObject();

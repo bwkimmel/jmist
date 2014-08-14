@@ -129,7 +129,7 @@ public interface Color extends Serializable {
    * A color for which all components but one are non-zero.  The value of the
    * non-zero channel is equal to the value of the corresponding channel of
    * this color.
-   * @param channel The index of the channel to keep. 
+   * @param channel The index of the channel to keep.
    * @return A <code>Color</code> with only one non-zero component.
    */
   Color disperse(int channel);

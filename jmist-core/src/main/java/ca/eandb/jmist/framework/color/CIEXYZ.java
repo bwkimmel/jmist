@@ -71,7 +71,7 @@ public class CIEXYZ extends Tuple3 {
   public final double Z() {
     return z;
   }
-  
+
   public final CIEXYZ abs() {
     return new CIEXYZ(Math.abs(x), Math.abs(y), Math.abs(z));
   }

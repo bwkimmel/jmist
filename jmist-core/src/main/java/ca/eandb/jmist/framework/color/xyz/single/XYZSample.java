@@ -37,19 +37,19 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
  *
  */
 public final class XYZSample implements SingleXYZColor {
-  
+
   /** Serialization version ID. */
   private static final long serialVersionUID = 7597437809118584565L;
 
   private final double value;
-  
+
   private final SingleXYZWavelengthPacket lambda;
-  
+
   public XYZSample(double value, SingleXYZWavelengthPacket lambda) {
     this.value = value;
     this.lambda = lambda;
   }
-  
+
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.color.xyz.single.SingleXYZColor#toXYZColor()
    */
@@ -58,7 +58,7 @@ public final class XYZSample implements SingleXYZColor {
     CIEXYZ c = ColorUtil.convertSample2XYZ(lambda.getWavelength(), value);
     return new XYZColor(c.X(), c.Y(), c.Z());
   }
-  
+
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.color.xyz.single.SingleXYZColor#asSample()
    */
