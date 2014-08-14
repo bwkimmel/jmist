@@ -568,21 +568,21 @@ public final class Half extends Number implements Comparable<Half>, Serializable
     { double f = Math.pow(2, -24); System.out.printf("%e, %e", f, Half.valueOf(f).doubleValue()); System.out.println(); }
     { double f = Math.pow(2, -25); System.out.printf("%e, %e", f, Half.valueOf(f).doubleValue()); System.out.println(); }
 //        3c00   = 1
-//        c000   = −2
+//        c000   = -2
 //
-//        7bff   = 6.5504 × 104  (max half precision)
+//        7bff   = 6.5504 x 104  (max half precision)
 //
-//        0400   = 2−14 ≈ 6.10352 × 10−5 (minimum positive normal)
+//        0400   = 2-14 ~ 6.10352 x 10-5 (minimum positive normal)
 //
-//        0001   = 2−24 ≈ 5.96046 × 10−8 (minimum strictly positive subnormal)
+//        0001   = 2-24 ~ 5.96046 x 10-8 (minimum strictly positive subnormal)
 //
 //        0000   = 0
-//        8000   = −0
+//        8000   = -0
 //
 //        7c00   = infinity
-//        fc00   = −infinity
+//        fc00   = -infinity
 //
-//        3555   ≈ 0.33325... ≈ 1/3
+//        3555   ~ 0.33325... ~ 1/3
 
     System.out.println(Half.fromShortBits((short) 0x3c00).floatValue());
     System.out.println(Half.fromShortBits((short) 0xc000).floatValue());
