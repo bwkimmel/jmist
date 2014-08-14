@@ -12,6 +12,12 @@
   </scm>
   <name>Java Modular Image Synthesis Toolkit</name>
   <description>A research-oriented framework for image synthesis.</description>
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
+    </license>
+  </licenses>
   <modules>
     <module>jmist-core</module>
   </modules>
