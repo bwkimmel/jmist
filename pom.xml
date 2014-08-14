@@ -18,6 +18,12 @@
       <url>http://www.opensource.org/licenses/mit-license.php</url>
     </license>
   </licenses>
+  <developers>
+    <developer>
+      <name>Brad Kimmel</name>
+      <email>intrepidca@gmail.com</email>
+    </developer>
+  </developers>
   <modules>
     <module>jmist-core</module>
   </modules>
