@@ -110,8 +110,8 @@ public final class Half extends Number implements Comparable<Half>, Serializable
     if (h1.bits == h2.bits) {
       return 0;
     } else {
-      int a = 0xffff & (int) (h1.bits ^ SIGN_MASK);
-      int b = 0xffff & (int) (h2.bits ^ SIGN_MASK);
+      int a = 0xffff & (h1.bits ^ SIGN_MASK);
+      int b = 0xffff & (h2.bits ^ SIGN_MASK);
       return a < b ? -1 : 1;
     }
   }
@@ -126,8 +126,8 @@ public final class Half extends Number implements Comparable<Half>, Serializable
 
   public double doubleValue() {
     long exponentBits = ((long) (bits & EXPONENT_MASK)) >> EXPONENT_SHIFT;
-    long fractionBits = (long) (bits & FRACTION_MASK);
-    long signBit = (long) (bits & SIGN_MASK);
+    long fractionBits = bits & FRACTION_MASK;
+    long signBit = bits & SIGN_MASK;
     if (exponentBits == 0) { // subnormal
       signBit <<= 48;
       if (fractionBits == 0) { // +/- zero
@@ -177,9 +177,9 @@ public final class Half extends Number implements Comparable<Half>, Serializable
   }
 
   public float floatValue() {
-    int exponentBits = ((int) (bits & EXPONENT_MASK)) >> EXPONENT_SHIFT;
-    int fractionBits = (int) (bits & FRACTION_MASK);
-    int signBit = (int) (bits & SIGN_MASK);
+    int exponentBits = (bits & EXPONENT_MASK) >> EXPONENT_SHIFT;
+    int fractionBits = bits & FRACTION_MASK;
+    int signBit = bits & SIGN_MASK;
     if (exponentBits == 0) { // subnormal
       signBit <<= 16;
       if (fractionBits == 0) { // +/- zero
@@ -246,9 +246,9 @@ public final class Half extends Number implements Comparable<Half>, Serializable
   @Override
   public short shortValue() {
     int value = intValue();
-    if (value < (int) Short.MIN_VALUE) {
+    if (value < Short.MIN_VALUE) {
       return Short.MIN_VALUE;
-    } else if (value > (int) Short.MAX_VALUE) {
+    } else if (value > Short.MAX_VALUE) {
       return Short.MAX_VALUE;
     } else {
       return (short) value;
@@ -261,9 +261,9 @@ public final class Half extends Number implements Comparable<Half>, Serializable
   @Override
   public byte byteValue() {
     int value = intValue();
-    if (value < (int) Byte.MIN_VALUE) {
+    if (value < Byte.MIN_VALUE) {
       return Byte.MIN_VALUE;
-    } else if (value > (int) Byte.MAX_VALUE) {
+    } else if (value > Byte.MAX_VALUE) {
       return Byte.MAX_VALUE;
     } else {
       return (byte) value;
@@ -421,7 +421,7 @@ public final class Half extends Number implements Comparable<Half>, Serializable
   }
 
   public static int round(Half a) {
-    return (int) Math.round(a.floatValue());
+    return Math.round(a.floatValue());
   }
 
   public static Half signum(Half a) {
