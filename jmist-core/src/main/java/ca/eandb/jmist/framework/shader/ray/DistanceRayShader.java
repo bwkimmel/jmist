@@ -42,43 +42,43 @@ import ca.eandb.jmist.math.Ray3;
  */
 public final class DistanceRayShader implements RayShader {
 
-	/**
-	 * Serialization version ID.
-	 */
-	private static final long serialVersionUID = -4530038647449382442L;
+  /**
+   * Serialization version ID.
+   */
+  private static final long serialVersionUID = -4530038647449382442L;
 
-	/**
-	 * Creates a <code>DistanceRayShader</code>.
-	 * @param root The <code>SceneElement</code> to use.
-	 */
-	public DistanceRayShader(SceneElement root) {
-		this(root, null);
-	}
+  /**
+   * Creates a <code>DistanceRayShader</code>.
+   * @param root The <code>SceneElement</code> to use.
+   */
+  public DistanceRayShader(SceneElement root) {
+    this(root, null);
+  }
 
-	/**
-	 * Creates a <code>DistanceRayShader</code>.
-	 * @param root The <code>SceneElement</code> to use.
-	 * @param missValue The <code>Spectrum</code> to assign to rays that do not
-	 * 		intersect with any object.
-	 */
-	public DistanceRayShader(SceneElement root, Spectrum missValue) {
-		this.root = root;
-		this.missValue = missValue;
-	}
+  /**
+   * Creates a <code>DistanceRayShader</code>.
+   * @param root The <code>SceneElement</code> to use.
+   * @param missValue The <code>Spectrum</code> to assign to rays that do not
+   *     intersect with any object.
+   */
+  public DistanceRayShader(SceneElement root, Spectrum missValue) {
+    this.root = root;
+    this.missValue = missValue;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.RayShader#shadeRay(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.color.WavelengthPacket)
-	 */
-	public Color shadeRay(Ray3 ray, WavelengthPacket lambda) {
-		Intersection x = NearestIntersectionRecorder.computeNearestIntersection(ray, root);
-		ColorModel cm = lambda.getColorModel();
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.RayShader#shadeRay(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.color.WavelengthPacket)
+   */
+  public Color shadeRay(Ray3 ray, WavelengthPacket lambda) {
+    Intersection x = NearestIntersectionRecorder.computeNearestIntersection(ray, root);
+    ColorModel cm = lambda.getColorModel();
 
-		return (x != null) ? cm.getGray(x.getDistance(), lambda) : (missValue != null) ? missValue.sample(lambda) : cm.getBlack(lambda);
-	}
+    return (x != null) ? cm.getGray(x.getDistance(), lambda) : (missValue != null) ? missValue.sample(lambda) : cm.getBlack(lambda);
+  }
 
-	/** The ray caster to use. */
-	private final SceneElement root;
+  /** The ray caster to use. */
+  private final SceneElement root;
 
-	private final Spectrum missValue;
+  private final Spectrum missValue;
 
 }

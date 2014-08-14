@@ -35,11 +35,11 @@ import ca.eandb.jmist.math.Ray3;
  */
 public interface RayCaster extends VisibilityFunction3, Serializable {
 
-	/**
-	 * Computes the nearest ray-geometry intersections along the specified ray.
-	 * @param ray The <code>Ray3</code> to test.
-	 * @return The nearest <code>Intersection</code> along the ray.
-	 */
-	Intersection castRay(Ray3 ray);
+  /**
+   * Computes the nearest ray-geometry intersections along the specified ray.
+   * @param ray The <code>Ray3</code> to test.
+   * @return The nearest <code>Intersection</code> along the ray.
+   */
+  Intersection castRay(Ray3 ray);
 
 }

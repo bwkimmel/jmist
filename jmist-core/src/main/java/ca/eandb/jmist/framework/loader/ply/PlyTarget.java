@@ -32,20 +32,20 @@ package ca.eandb.jmist.framework.loader.ply;
  */
 public interface PlyTarget {
 
-	/**
-	 * Indicates the beginning of a section (i.e., a block of elements of a
-	 * single type).  Implementations should return an
-	 * <code>ElementListener</code> to receive the individual elements as they
-	 * are read.
-	 * @param desc The <code>ElementDescriptor</code> describing the elements
-	 * 		to follow.
-	 * @return The <code>ElementListener</code> that is to receive the elements
-	 * 		read from the PLY-file, or <code>null</code> if the elements are to
-	 * 		be ignored.
-	 */
-	ElementListener beginSection(ElementDescriptor desc);
+  /**
+   * Indicates the beginning of a section (i.e., a block of elements of a
+   * single type).  Implementations should return an
+   * <code>ElementListener</code> to receive the individual elements as they
+   * are read.
+   * @param desc The <code>ElementDescriptor</code> describing the elements
+   *     to follow.
+   * @return The <code>ElementListener</code> that is to receive the elements
+   *     read from the PLY-file, or <code>null</code> if the elements are to
+   *     be ignored.
+   */
+  ElementListener beginSection(ElementDescriptor desc);
 
-	/** Indicates the end of a section. */
-	void endSection();
+  /** Indicates the end of a section. */
+  void endSection();
 
 }

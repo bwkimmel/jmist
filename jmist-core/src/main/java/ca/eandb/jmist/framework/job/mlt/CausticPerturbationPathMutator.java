@@ -35,34 +35,34 @@ import ca.eandb.jmist.framework.path.PathNode;
  */
 public final class CausticPerturbationPathMutator implements PathMutator {
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.job.mlt.PathMutator#getTransitionPDF(ca.eandb.jmist.framework.path.Path, ca.eandb.jmist.framework.path.Path)
-	 */
-	public double getTransitionPDF(Path from, Path to) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.job.mlt.PathMutator#getTransitionPDF(ca.eandb.jmist.framework.path.Path, ca.eandb.jmist.framework.path.Path)
+   */
+  public double getTransitionPDF(Path from, Path to) {
+    // TODO Auto-generated method stub
+    return 0;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.job.mlt.PathMutator#mutate(ca.eandb.jmist.framework.path.Path, ca.eandb.jmist.framework.Random)
-	 */
-	public Path mutate(Path path, Random rnd) {
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.job.mlt.PathMutator#mutate(ca.eandb.jmist.framework.path.Path, ca.eandb.jmist.framework.Random)
+   */
+  public Path mutate(Path path, Random rnd) {
 
-		int s = path.getLightPathLength();
-		int t = path.getEyePathLength();
+    int s = path.getLightPathLength();
+    int t = path.getEyePathLength();
 
-		path = path.slice(0, s + t - 1);
-		if (path == null) {
-			return null;
-		}
+    path = path.slice(0, s + t - 1);
+    if (path == null) {
+      return null;
+    }
 
-		PathNode newEyeTail = path.getEyeTail();
-		PathNode newLightTail = path.getLightTail();
+    PathNode newEyeTail = path.getEyeTail();
+    PathNode newLightTail = path.getLightTail();
 
-		newLightTail = newLightTail.expand(rnd.next(), rnd.next(), rnd.next()); // FIXME
+    newLightTail = newLightTail.expand(rnd.next(), rnd.next(), rnd.next()); // FIXME
 
-		return new Path(newLightTail, newEyeTail);
+    return new Path(newLightTail, newEyeTail);
 
-	}
+  }
 
 }

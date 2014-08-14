@@ -36,43 +36,43 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class ScaledLightSample implements LightSample {
 
-	private final double factor;
+  private final double factor;
 
-	private final LightSample sample;
+  private final LightSample sample;
 
-	private ScaledLightSample(double factor, LightSample sample) {
-		this.factor = factor;
-		this.sample = sample;
-	}
+  private ScaledLightSample(double factor, LightSample sample) {
+    this.factor = factor;
+    this.sample = sample;
+  }
 
-	public static ScaledLightSample create(double factor, LightSample sample) {
-		if (sample instanceof ScaledLightSample) {
-			ScaledLightSample other = (ScaledLightSample) sample;
-			return new ScaledLightSample(factor * other.factor, other.sample);
-		} else {
-			return new ScaledLightSample(factor, sample);
-		}
-	}
+  public static ScaledLightSample create(double factor, LightSample sample) {
+    if (sample instanceof ScaledLightSample) {
+      ScaledLightSample other = (ScaledLightSample) sample;
+      return new ScaledLightSample(factor * other.factor, other.sample);
+    } else {
+      return new ScaledLightSample(factor, sample);
+    }
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.LightSample#castShadowRay(ca.eandb.jmist.framework.VisibilityFunction3)
-	 */
-	public boolean castShadowRay(VisibilityFunction3 vf) {
-		return sample.castShadowRay(vf);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.LightSample#castShadowRay(ca.eandb.jmist.framework.VisibilityFunction3)
+   */
+  public boolean castShadowRay(VisibilityFunction3 vf) {
+    return sample.castShadowRay(vf);
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.LightSample#getDirToLight()
-	 */
-	public Vector3 getDirToLight() {
-		return sample.getDirToLight();
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.LightSample#getDirToLight()
+   */
+  public Vector3 getDirToLight() {
+    return sample.getDirToLight();
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.LightSample#getRadiantIntensity()
-	 */
-	public Color getRadiantIntensity() {
-		return sample.getRadiantIntensity().times(factor);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.LightSample#getRadiantIntensity()
+   */
+  public Color getRadiantIntensity() {
+    return sample.getRadiantIntensity().times(factor);
+  }
 
 }

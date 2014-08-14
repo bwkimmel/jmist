@@ -36,28 +36,28 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
  */
 public final class SingleXYZContinuousSpectrum implements Spectrum {
 
-	/** Serialization version ID. */
-	private static final long serialVersionUID = -8764904429587291648L;
-	
-	private final Function1 spectrum;
+  /** Serialization version ID. */
+  private static final long serialVersionUID = -8764904429587291648L;
+  
+  private final Function1 spectrum;
 
-	/**
-	 * @param spectrum
-	 */
-	public SingleXYZContinuousSpectrum(Function1 spectrum) {
-		this.spectrum = spectrum;
-	}
+  /**
+   * @param spectrum
+   */
+  public SingleXYZContinuousSpectrum(Function1 spectrum) {
+    this.spectrum = spectrum;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.color.Spectrum#sample(ca.eandb.jmist.framework.color.WavelengthPacket)
-	 */
-	public Color sample(WavelengthPacket lambda) {
-		return sample((SingleXYZWavelengthPacket) lambda);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.color.Spectrum#sample(ca.eandb.jmist.framework.color.WavelengthPacket)
+   */
+  public Color sample(WavelengthPacket lambda) {
+    return sample((SingleXYZWavelengthPacket) lambda);
+  }
 
-	public Color sample(SingleXYZWavelengthPacket lambda) {
-		double value = spectrum.evaluate(lambda.getWavelength());
-		return new XYZSample(value, lambda);
-	}
+  public Color sample(SingleXYZWavelengthPacket lambda) {
+    double value = spectrum.evaluate(lambda.getWavelength());
+    return new XYZSample(value, lambda);
+  }
 
 }

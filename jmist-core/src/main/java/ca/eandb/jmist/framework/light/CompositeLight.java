@@ -37,45 +37,45 @@ import ca.eandb.jmist.framework.Light;
  */
 public abstract class CompositeLight extends AbstractLight {
 
-	/** Serialization version ID. */
-	private static final long serialVersionUID = -741001548686087987L;
+  /** Serialization version ID. */
+  private static final long serialVersionUID = -741001548686087987L;
 
-	/**
-	 * Initializes this <code>CompositeLight</code> with no light sources.
-	 */
-	protected CompositeLight() {
-		/* nothing to do. */
-	}
+  /**
+   * Initializes this <code>CompositeLight</code> with no light sources.
+   */
+  protected CompositeLight() {
+    /* nothing to do. */
+  }
 
-	/**
-	 * Initializes this <code>CompositeLight</code> with the specified child
-	 * light sources.
-	 * @param children
-	 */
-	protected CompositeLight(Collection<? extends Light> children) {
-		this.children.addAll(children);
-	}
+  /**
+   * Initializes this <code>CompositeLight</code> with the specified child
+   * light sources.
+   * @param children
+   */
+  protected CompositeLight(Collection<? extends Light> children) {
+    this.children.addAll(children);
+  }
 
-	/**
-	 * Adds a child <code>Light</code> to this <code>CompositeLight</code>.
-	 * @param child The child <code>Light</code> to add.
-	 * @return A reference to this <code>CompositeLight</code> so that calls to
-	 * 		this method may be chained.
-	 */
-	public CompositeLight addChild(Light child) {
-		this.children.add(child);
-		return this;
-	}
+  /**
+   * Adds a child <code>Light</code> to this <code>CompositeLight</code>.
+   * @param child The child <code>Light</code> to add.
+   * @return A reference to this <code>CompositeLight</code> so that calls to
+   *     this method may be chained.
+   */
+  public CompositeLight addChild(Light child) {
+    this.children.add(child);
+    return this;
+  }
 
-	/**
-	 * Gets the list of child lights.
-	 * @return The <code>List</code> of child lights.
-	 */
-	protected final List<Light> children() {
-		return this.children;
-	}
+  /**
+   * Gets the list of child lights.
+   * @return The <code>List</code> of child lights.
+   */
+  protected final List<Light> children() {
+    return this.children;
+  }
 
-	/** The child lights. */
-	private final List<Light> children = new ArrayList<Light>();
+  /** The child lights. */
+  private final List<Light> children = new ArrayList<Light>();
 
 }

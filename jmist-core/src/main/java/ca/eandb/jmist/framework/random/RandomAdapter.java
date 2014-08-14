@@ -33,64 +33,64 @@ import ca.eandb.jmist.framework.Random;
  */
 public final class RandomAdapter implements Random {
 
-	/**
-	 * Serialization version ID.
-	 */
-	private static final long serialVersionUID = 3052795767906803323L;
+  /**
+   * Serialization version ID.
+   */
+  private static final long serialVersionUID = 3052795767906803323L;
 
-	/** The wrapped <code>java.util.Random</code>. */
-	private final java.util.Random rnd;
+  /** The wrapped <code>java.util.Random</code>. */
+  private final java.util.Random rnd;
 
-	/**
-	 * Creates a new <code>RandomAdapter</code>.
-	 * @param rnd The <code>java.util.Random</code> to adapt.
-	 */
-	public RandomAdapter(java.util.Random rnd) {
-		this.rnd = rnd;
-	}
-	
-	/**
-	 * Creates a new <code>RandomAdapter</code>.
-	 */
-	public RandomAdapter() {
-		this(new java.util.Random());
-	}
-	
-	/**
-	 * Creates a new <code>RandomAdapter</code>.
-	 * @param seed The seed used by the random number generator.
-	 */
-	public RandomAdapter(long seed) {
-		this(new java.util.Random(seed));
-	}
-	
-	/**
-	 * Sets the seed used by the inner <code>java.util.Random</code>.
-	 * @param seed The seed used by the random number generator.
-	 */
-	public void setSeed(long seed) {
-		rnd.setSeed(seed);
-	}
+  /**
+   * Creates a new <code>RandomAdapter</code>.
+   * @param rnd The <code>java.util.Random</code> to adapt.
+   */
+  public RandomAdapter(java.util.Random rnd) {
+    this.rnd = rnd;
+  }
+  
+  /**
+   * Creates a new <code>RandomAdapter</code>.
+   */
+  public RandomAdapter() {
+    this(new java.util.Random());
+  }
+  
+  /**
+   * Creates a new <code>RandomAdapter</code>.
+   * @param seed The seed used by the random number generator.
+   */
+  public RandomAdapter(long seed) {
+    this(new java.util.Random(seed));
+  }
+  
+  /**
+   * Sets the seed used by the inner <code>java.util.Random</code>.
+   * @param seed The seed used by the random number generator.
+   */
+  public void setSeed(long seed) {
+    rnd.setSeed(seed);
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Random#createCompatibleRandom()
-	 */
-	public Random createCompatibleRandom() {
-		return new RandomAdapter(rnd);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Random#createCompatibleRandom()
+   */
+  public Random createCompatibleRandom() {
+    return new RandomAdapter(rnd);
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Random#next()
-	 */
-	public double next() {
-		return rnd.nextDouble();
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Random#next()
+   */
+  public double next() {
+    return rnd.nextDouble();
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Random#reset()
-	 */
-	public void reset() {
-		/* nothing to do. */
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Random#reset()
+   */
+  public void reset() {
+    /* nothing to do. */
+  }
 
 }

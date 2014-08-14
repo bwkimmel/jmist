@@ -36,38 +36,38 @@ import ca.eandb.jmist.framework.path.ScatteringNode;
  */
 public final class MeasurementContributionMeasure implements PathMeasure {
 
-	/** Serialization version ID. */
-	private static final long serialVersionUID = 6245725963682383802L;
+  /** Serialization version ID. */
+  private static final long serialVersionUID = 6245725963682383802L;
 
-	private static final PathMeasure INSTANCE = new MeasurementContributionMeasure();
+  private static final PathMeasure INSTANCE = new MeasurementContributionMeasure();
 
-	private MeasurementContributionMeasure() {}
+  private MeasurementContributionMeasure() {}
 
-	public static PathMeasure getInstance() {
-		return INSTANCE;
-	}
+  public static PathMeasure getInstance() {
+    return INSTANCE;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.path.BidiPathMeasure#evaluate(ca.eandb.jmist.framework.path.PathNode, ca.eandb.jmist.framework.path.PathNode)
-	 */
-	public Color evaluate(PathNode lightTail, PathNode eyeTail) {
-		if (lightTail != null && eyeTail != null) {
-			return evaluateInner(lightTail, eyeTail);
-		} else if (lightTail == null && eyeTail != null
-				&& eyeTail instanceof ScatteringNode) {
-			return evaluateEyePathOnLight((ScatteringNode) eyeTail);
-		} else {
-			return null;
-		}
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.path.BidiPathMeasure#evaluate(ca.eandb.jmist.framework.path.PathNode, ca.eandb.jmist.framework.path.PathNode)
+   */
+  public Color evaluate(PathNode lightTail, PathNode eyeTail) {
+    if (lightTail != null && eyeTail != null) {
+      return evaluateInner(lightTail, eyeTail);
+    } else if (lightTail == null && eyeTail != null
+        && eyeTail instanceof ScatteringNode) {
+      return evaluateEyePathOnLight((ScatteringNode) eyeTail);
+    } else {
+      return null;
+    }
+  }
 
-	private Color evaluateInner(PathNode lightTail, PathNode eyeTail) {
-		return PathUtil.join(lightTail, eyeTail);
-	}
+  private Color evaluateInner(PathNode lightTail, PathNode eyeTail) {
+    return PathUtil.join(lightTail, eyeTail);
+  }
 
-	private Color evaluateEyePathOnLight(ScatteringNode eyeTail) {
-		return ColorUtil.mul(eyeTail.getCumulativeWeight(),
-				eyeTail.getSourceRadiance());
-	}
+  private Color evaluateEyePathOnLight(ScatteringNode eyeTail) {
+    return ColorUtil.mul(eyeTail.getCumulativeWeight(),
+        eyeTail.getSourceRadiance());
+  }
 
 }

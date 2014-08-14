@@ -37,18 +37,18 @@ import ca.eandb.jmist.math.Ray3;
  */
 public interface RayTraversalStrategy3 extends Serializable {
 
-	/**
-	 * Intersects the specified <code>Ray3</code> with the objects in this
-	 * collection.
-	 * @param ray The <code>Ray3</code> to intersect with the objects in this
-	 * 		hierarchy.
-	 * @param I The <code>Interval</code> along the <code>ray</code> to
-	 * 		consider.
-	 * @param visitor The <code>Visitor</code> to notify when the bounding box
-	 * 		of an item is hit.
-	 * @return A value indicating whether the operation was completed without
-	 * 		being canceled.
-	 */
-	boolean intersect(Ray3 ray, Interval I, Visitor visitor);
+  /**
+   * Intersects the specified <code>Ray3</code> with the objects in this
+   * collection.
+   * @param ray The <code>Ray3</code> to intersect with the objects in this
+   *     hierarchy.
+   * @param I The <code>Interval</code> along the <code>ray</code> to
+   *     consider.
+   * @param visitor The <code>Visitor</code> to notify when the bounding box
+   *     of an item is hit.
+   * @return A value indicating whether the operation was completed without
+   *     being canceled.
+   */
+  boolean intersect(Ray3 ray, Interval I, Visitor visitor);
 
 }

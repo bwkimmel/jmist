@@ -36,57 +36,57 @@ import ca.eandb.jmist.math.Point2;
  */
 public final class RasterUtil {
 
-	/**
-	 * This constructor is private because this class cannot be instantiated.
-	 */
-	private RasterUtil() {}
+  /**
+   * This constructor is private because this class cannot be instantiated.
+   */
+  private RasterUtil() {}
 
-	/**
-	 * Sets the value of the pixel at the specified location on the image
-	 * plane.
-	 * @param raster The <code>Raster</code> containing the pixel to set.
-	 * @param p The <code>Point2</code> on the image plane for which to set the
-	 * 		corresponding pixel.
-	 * @param c The <code>Color</code> to set the pixel to.
-	 */
-	public static void setPixel(RasterWriter raster, Point2 p, Color c) {
-		int w = raster.getWidth();
-		int h = raster.getHeight();
-		int x = MathUtil.clamp((int) Math.floor(p.x() * w), 0, w - 1);
-		int y = MathUtil.clamp((int) Math.floor(p.y() * h), 0, h - 1);
-		raster.setPixel(x, y, c);
-	}
+  /**
+   * Sets the value of the pixel at the specified location on the image
+   * plane.
+   * @param raster The <code>Raster</code> containing the pixel to set.
+   * @param p The <code>Point2</code> on the image plane for which to set the
+   *     corresponding pixel.
+   * @param c The <code>Color</code> to set the pixel to.
+   */
+  public static void setPixel(RasterWriter raster, Point2 p, Color c) {
+    int w = raster.getWidth();
+    int h = raster.getHeight();
+    int x = MathUtil.clamp((int) Math.floor(p.x() * w), 0, w - 1);
+    int y = MathUtil.clamp((int) Math.floor(p.y() * h), 0, h - 1);
+    raster.setPixel(x, y, c);
+  }
 
-	/**
-	 * Adds to the value of the pixel at the specified location on the image
-	 * plane.
-	 * @param raster The <code>Raster</code> containing the pixel to add to.
-	 * @param p The <code>Point2</code> on the image plane for which to add to
-	 * 		the corresponding pixel.
-	 * @param c The <code>Color</code> to add to the pixel.
-	 */
-	public static void addPixel(Raster raster, Point2 p, Color c) {
-		int w = raster.getWidth();
-		int h = raster.getHeight();
-		int x = MathUtil.clamp((int) Math.floor(p.x() * w), 0, w - 1);
-		int y = MathUtil.clamp((int) Math.floor(p.y() * h), 0, h - 1);
-		raster.addPixel(x, y, c);
-	}
+  /**
+   * Adds to the value of the pixel at the specified location on the image
+   * plane.
+   * @param raster The <code>Raster</code> containing the pixel to add to.
+   * @param p The <code>Point2</code> on the image plane for which to add to
+   *     the corresponding pixel.
+   * @param c The <code>Color</code> to add to the pixel.
+   */
+  public static void addPixel(Raster raster, Point2 p, Color c) {
+    int w = raster.getWidth();
+    int h = raster.getHeight();
+    int x = MathUtil.clamp((int) Math.floor(p.x() * w), 0, w - 1);
+    int y = MathUtil.clamp((int) Math.floor(p.y() * h), 0, h - 1);
+    raster.addPixel(x, y, c);
+  }
 
-	/**
-	 * Gets the value of the pixel at the specified location on the image
-	 * plane.
-	 * @param raster The <code>Raster</code> containing the pixel to get.
-	 * @param p The <code>Point2</code> on the image plane for which to get the
-	 * 		corresponding pixel.
-	 * @return The <code>Color</code> of the pixel.
-	 */
-	public static Color getPixel(Raster raster, Point2 p) {
-		int w = raster.getWidth();
-		int h = raster.getHeight();
-		int x = MathUtil.clamp((int) Math.floor(p.x() * w), 0, w - 1);
-		int y = MathUtil.clamp((int) Math.floor(p.y() * h), 0, h - 1);
-		return raster.getPixel(x, y);
-	}
+  /**
+   * Gets the value of the pixel at the specified location on the image
+   * plane.
+   * @param raster The <code>Raster</code> containing the pixel to get.
+   * @param p The <code>Point2</code> on the image plane for which to get the
+   *     corresponding pixel.
+   * @return The <code>Color</code> of the pixel.
+   */
+  public static Color getPixel(Raster raster, Point2 p) {
+    int w = raster.getWidth();
+    int h = raster.getHeight();
+    int x = MathUtil.clamp((int) Math.floor(p.x() * w), 0, w - 1);
+    int y = MathUtil.clamp((int) Math.floor(p.y() * h), 0, h - 1);
+    return raster.getPixel(x, y);
+  }
 
 }

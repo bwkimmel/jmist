@@ -37,36 +37,36 @@ import ca.eandb.jmist.framework.ShadingContext;
  */
 public final class CompositeModifier implements Modifier {
 
-	/**
-	 * Serialization version ID.
-	 */
-	private static final long serialVersionUID = 3443065225852391116L;
+  /**
+   * Serialization version ID.
+   */
+  private static final long serialVersionUID = 3443065225852391116L;
 
-	private final Collection<Modifier> modifiers;
+  private final Collection<Modifier> modifiers;
 
-	/**
-	 * @param modifiers
-	 */
-	public CompositeModifier(Collection<Modifier> modifiers) {
-		this.modifiers = modifiers;
-	}
+  /**
+   * @param modifiers
+   */
+  public CompositeModifier(Collection<Modifier> modifiers) {
+    this.modifiers = modifiers;
+  }
 
-	public CompositeModifier() {
-		this(new ArrayList<Modifier>());
-	}
+  public CompositeModifier() {
+    this(new ArrayList<Modifier>());
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Modifier#modify(ca.eandb.jmist.framework.ShadingContext)
-	 */
-	public void modify(ShadingContext context) {
-		for (Modifier modifier : modifiers) {
-			modifier.modify(context);
-		}
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Modifier#modify(ca.eandb.jmist.framework.ShadingContext)
+   */
+  public void modify(ShadingContext context) {
+    for (Modifier modifier : modifiers) {
+      modifier.modify(context);
+    }
+  }
 
-	public final CompositeModifier addModifier(Modifier modifier) {
-		modifiers.add(modifier);
-		return this;
-	}
+  public final CompositeModifier addModifier(Modifier modifier) {
+    modifiers.add(modifier);
+    return this;
+  }
 
 }

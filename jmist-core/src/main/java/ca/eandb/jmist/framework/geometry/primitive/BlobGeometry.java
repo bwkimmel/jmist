@@ -37,48 +37,48 @@ import ca.eandb.jmist.math.Sphere;
  */
 public final class BlobGeometry extends PrimitiveGeometry {
 
-	/**
-	 * Serialization version ID.
-	 */
-	private static final long serialVersionUID = 228798680340979029L;
+  /**
+   * Serialization version ID.
+   */
+  private static final long serialVersionUID = 228798680340979029L;
 
-	/**
-	 *
-	 */
-	public BlobGeometry() {
-		// TODO Auto-generated constructor stub
-	}
+  /**
+   *
+   */
+  public BlobGeometry() {
+    // TODO Auto-generated constructor stub
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-	 */
-	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
-		// TODO Auto-generated method stub
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+   */
+  public void intersect(Ray3 ray, IntersectionRecorder recorder) {
+    // TODO Auto-generated method stub
 
-	}
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SceneElement#isClosed()
-	 */
-	public boolean isClosed() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.SceneElement#isClosed()
+   */
+  public boolean isClosed() {
+    // TODO Auto-generated method stub
+    return false;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
-	 */
-	public Box3 boundingBox() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
+   */
+  public Box3 boundingBox() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
-	 */
-	public Sphere boundingSphere() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
+   */
+  public Sphere boundingSphere() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
 }

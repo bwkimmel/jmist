@@ -46,120 +46,120 @@ import ca.eandb.jmist.math.Sphere;
  */
 public abstract class SceneElementDecorator implements SceneElement, Serializable {
 
-	/** Serialization version ID. */
-	private static final long serialVersionUID = 7406144984143234198L;
-	
-	private final SceneElement inner;
+  /** Serialization version ID. */
+  private static final long serialVersionUID = 7406144984143234198L;
+  
+  private final SceneElement inner;
 
-	public SceneElementDecorator(SceneElement inner) {
-		this.inner = inner;
-	}
+  public SceneElementDecorator(SceneElement inner) {
+    this.inner = inner;
+  }
 
-	public Box3 boundingBox() {
-		return inner.boundingBox();
-	}
+  public Box3 boundingBox() {
+    return inner.boundingBox();
+  }
 
-	public Sphere boundingSphere() {
-		return inner.boundingSphere();
-	}
+  public Sphere boundingSphere() {
+    return inner.boundingSphere();
+  }
 
-//	/**
-//	 * @return
-//	 * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint()
-//	 */
-//	public SurfacePoint generateRandomSurfacePoint() {
-//		return inner.generateRandomSurfacePoint();
-//	}
+//  /**
+//   * @return
+//   * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint()
+//   */
+//  public SurfacePoint generateRandomSurfacePoint() {
+//    return inner.generateRandomSurfacePoint();
+//  }
 //
-//	/**
-//	 * @param index
-//	 * @return
-//	 * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(int)
-//	 */
-//	public SurfacePoint generateRandomSurfacePoint(int index) {
-//		return inner.generateRandomSurfacePoint(index);
-//	}
+//  /**
+//   * @param index
+//   * @return
+//   * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(int)
+//   */
+//  public SurfacePoint generateRandomSurfacePoint(int index) {
+//    return inner.generateRandomSurfacePoint(index);
+//  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(int, ca.eandb.jmist.framework.ShadingContext)
-	 */
-	public void generateRandomSurfacePoint(int index, ShadingContext context, double ru, double rv, double rj) {
-		inner.generateRandomSurfacePoint(index, context, ru, rv, rj);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(int, ca.eandb.jmist.framework.ShadingContext)
+   */
+  public void generateRandomSurfacePoint(int index, ShadingContext context, double ru, double rv, double rj) {
+    inner.generateRandomSurfacePoint(index, context, ru, rv, rj);
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext)
-	 */
-	public void generateRandomSurfacePoint(ShadingContext context, double ru, double rv, double rj) {
-		inner.generateRandomSurfacePoint(context, ru, rv, rj);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext)
+   */
+  public void generateRandomSurfacePoint(ShadingContext context, double ru, double rv, double rj) {
+    inner.generateRandomSurfacePoint(context, ru, rv, rj);
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SceneElement#generateImportanceSampledSurfacePoint(int, ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext)
-	 */
-	public double generateImportanceSampledSurfacePoint(int index,
-			SurfacePoint x, ShadingContext context, double ru, double rv, double rj) {
-		return inner.generateImportanceSampledSurfacePoint(index, x, context, ru, rv, rj);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.SceneElement#generateImportanceSampledSurfacePoint(int, ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext)
+   */
+  public double generateImportanceSampledSurfacePoint(int index,
+      SurfacePoint x, ShadingContext context, double ru, double rv, double rj) {
+    return inner.generateImportanceSampledSurfacePoint(index, x, context, ru, rv, rj);
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SceneElement#generateImportanceSampledSurfacePoint(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext)
-	 */
-	public double generateImportanceSampledSurfacePoint(SurfacePoint x,
-			ShadingContext context, double ru, double rv, double rj) {
-		return inner.generateImportanceSampledSurfacePoint(x, context, ru, rv, rj);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.SceneElement#generateImportanceSampledSurfacePoint(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext)
+   */
+  public double generateImportanceSampledSurfacePoint(SurfacePoint x,
+      ShadingContext context, double ru, double rv, double rj) {
+    return inner.generateImportanceSampledSurfacePoint(x, context, ru, rv, rj);
+  }
 
-	public Box3 getBoundingBox(int index) {
-		return inner.getBoundingBox(index);
-	}
+  public Box3 getBoundingBox(int index) {
+    return inner.getBoundingBox(index);
+  }
 
-	public Sphere getBoundingSphere(int index) {
-		return inner.getBoundingSphere(index);
-	}
+  public Sphere getBoundingSphere(int index) {
+    return inner.getBoundingSphere(index);
+  }
 
-	public int getNumPrimitives() {
-		return inner.getNumPrimitives();
-	}
+  public int getNumPrimitives() {
+    return inner.getNumPrimitives();
+  }
 
-	public double getSurfaceArea() {
-		return inner.getSurfaceArea();
-	}
+  public double getSurfaceArea() {
+    return inner.getSurfaceArea();
+  }
 
-	public double getSurfaceArea(int index) {
-		return inner.getSurfaceArea(index);
-	}
+  public double getSurfaceArea(int index) {
+    return inner.getSurfaceArea(index);
+  }
 
-	public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
-		inner.intersect(index, ray, recorder);
-	}
+  public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
+    inner.intersect(index, ray, recorder);
+  }
 
-	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
-		inner.intersect(ray, recorder);
-	}
+  public void intersect(Ray3 ray, IntersectionRecorder recorder) {
+    inner.intersect(ray, recorder);
+  }
 
-	public boolean intersects(int index, Box3 box) {
-		return inner.intersects(index, box);
-	}
+  public boolean intersects(int index, Box3 box) {
+    return inner.intersects(index, box);
+  }
 
-	public boolean visibility(int index, Ray3 ray) {
-		return inner.visibility(index, ray);
-	}
+  public boolean visibility(int index, Ray3 ray) {
+    return inner.visibility(index, ray);
+  }
 
-	public boolean visibility(Ray3 ray) {
-		return inner.visibility(ray);
-	}
+  public boolean visibility(Ray3 ray) {
+    return inner.visibility(ray);
+  }
 
-	public Light createLight() {
-		return inner.createLight();
-	}
+  public Light createLight() {
+    return inner.createLight();
+  }
 
-//	/**
-//	 * @return
-//	 * @see ca.eandb.jmist.framework.SceneElement#isEmissive()
-//	 */
-//	public boolean isEmissive() {
-//		return inner.isEmissive();
-//	}
+//  /**
+//   * @return
+//   * @see ca.eandb.jmist.framework.SceneElement#isEmissive()
+//   */
+//  public boolean isEmissive() {
+//    return inner.isEmissive();
+//  }
 
 }

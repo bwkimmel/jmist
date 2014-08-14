@@ -32,18 +32,18 @@ import ca.eandb.jmist.framework.color.Color;
  */
 /* package */ interface SingleXYZColor extends Color {
 
-	/**
-	 * Converts the color to an XYZ representation (without an associated
-	 * wavelength).
-	 */
-	XYZColor toXYZColor();
+  /**
+   * Converts the color to an XYZ representation (without an associated
+   * wavelength).
+   */
+  XYZColor toXYZColor();
 
-	/**
-	 * Casts the color to a wavelength sample (i.e., a wavelength with an
-	 * associated value).
-	 * @throws UnsupportedOperationException if this instance is not an
-	 * 		<code>XYZSample</code>. 
-	 */
-	XYZSample asSample();
-	
+  /**
+   * Casts the color to a wavelength sample (i.e., a wavelength with an
+   * associated value).
+   * @throws UnsupportedOperationException if this instance is not an
+   *     <code>XYZSample</code>. 
+   */
+  XYZSample asSample();
+  
 }

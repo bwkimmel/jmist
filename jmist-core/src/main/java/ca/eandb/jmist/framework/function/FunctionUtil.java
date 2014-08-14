@@ -34,44 +34,44 @@ import ca.eandb.jmist.math.Interval;
  * @author Brad Kimmel
  */
 public final class FunctionUtil {
-	
-	/**
-	 * Applies a <code>Function1</code> to each value of an array in place.
-	 * @param f The <code>Function1</code> to apply.
-	 * @param x The values to apply the function to.
-	 * @return A reference to <code>x</code>.
-	 */
-	public static double[] apply(Function1 f, double[] x) {
-		for (int i = 0; i < x.length; i++) {
-			x[i] = f.evaluate(x[i]);
-		}
-		return x;
-	}
-	
-	/**
-	 * Returns a piecewise linear function defined by interpolating the
-	 * provided <code>Function1</code> at the specified domain points.
-	 * @param f The <code>Function1</code> to sample.
-	 * @param x The domain points at which to evaluate <code>f</code>.
-	 * @return A piecewise linear <code>Function1</code>.
-	 */
-	public static Function1 sample(Function1 f, double[] x) {
-		return PiecewiseLinearFunction1.sample(f, x);
-	}
-	
-	/**
-	 * Returns a piecewise linear function defined by interpolating the
-	 * provided <code>Function1</code> at uniformly spaced points within
-	 * the specified domain.
-	 * @param f The <code>Function1</code> to sample.
-	 * @param domain The <code>Interval</code> in which to sample
-	 * 		<code>f</code>.  The domain must be non-empty and finite.
-	 * @param count The number of sub-intervals to divide <code>domain</code>
-	 * 		into.
-	 * @return A piecewise linear <code>Function1</code>.
-	 */
-	public static Function1 sample(Function1 f, Interval domain, int count) {
-		return UniformPiecewiseLinearFunction1.sample(f, domain, count);
-	}
+  
+  /**
+   * Applies a <code>Function1</code> to each value of an array in place.
+   * @param f The <code>Function1</code> to apply.
+   * @param x The values to apply the function to.
+   * @return A reference to <code>x</code>.
+   */
+  public static double[] apply(Function1 f, double[] x) {
+    for (int i = 0; i < x.length; i++) {
+      x[i] = f.evaluate(x[i]);
+    }
+    return x;
+  }
+  
+  /**
+   * Returns a piecewise linear function defined by interpolating the
+   * provided <code>Function1</code> at the specified domain points.
+   * @param f The <code>Function1</code> to sample.
+   * @param x The domain points at which to evaluate <code>f</code>.
+   * @return A piecewise linear <code>Function1</code>.
+   */
+  public static Function1 sample(Function1 f, double[] x) {
+    return PiecewiseLinearFunction1.sample(f, x);
+  }
+  
+  /**
+   * Returns a piecewise linear function defined by interpolating the
+   * provided <code>Function1</code> at uniformly spaced points within
+   * the specified domain.
+   * @param f The <code>Function1</code> to sample.
+   * @param domain The <code>Interval</code> in which to sample
+   *     <code>f</code>.  The domain must be non-empty and finite.
+   * @param count The number of sub-intervals to divide <code>domain</code>
+   *     into.
+   * @return A piecewise linear <code>Function1</code>.
+   */
+  public static Function1 sample(Function1 f, Interval domain, int count) {
+    return UniformPiecewiseLinearFunction1.sample(f, domain, count);
+  }
 
 }

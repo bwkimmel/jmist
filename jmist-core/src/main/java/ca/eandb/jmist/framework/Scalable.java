@@ -31,10 +31,10 @@ package ca.eandb.jmist.framework;
  */
 public interface Scalable {
 
-	/**
-	 * Scales the object by a constant factor.
-	 * @param c The factor by which to scale the object.
-	 */
-	void scale(double c);
+  /**
+   * Scales the object by a constant factor.
+   * @param c The factor by which to scale the object.
+   */
+  void scale(double c);
 
 }

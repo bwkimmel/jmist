@@ -57,102 +57,102 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class MaterialSceneElement extends ModifierSceneElement {
 
-	/**
-	 * Serialization version ID.
-	 */
-	private static final long serialVersionUID = -3086927820777987668L;
+  /**
+   * Serialization version ID.
+   */
+  private static final long serialVersionUID = -3086927820777987668L;
 
-	private final Material material;
+  private final Material material;
 
-	public MaterialSceneElement(Material material, SceneElement inner) {
-		super(new MaterialModifier(material), inner);
-		this.material = material;
-	}
+  public MaterialSceneElement(Material material, SceneElement inner) {
+    super(new MaterialModifier(material), inner);
+    this.material = material;
+  }
 
-	public MaterialSceneElement(Material material, Shader shader, SceneElement inner) {
-		super(new CompositeModifier().addModifier(new MaterialModifier(material)).addModifier(new ShaderModifier(shader)), inner);
-		this.material = material;
-	}
+  public MaterialSceneElement(Material material, Shader shader, SceneElement inner) {
+    super(new CompositeModifier().addModifier(new MaterialModifier(material)).addModifier(new ShaderModifier(shader)), inner);
+    this.material = material;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#createLight()
-	 */
-	@Override
-	public Light createLight() {
-		if (!material.isEmissive()) {
-			return null;
-		}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#createLight()
+   */
+  @Override
+  public Light createLight() {
+    if (!material.isEmissive()) {
+      return null;
+    }
 
-		final double surfaceArea = getSurfaceArea();
+    final double surfaceArea = getSurfaceArea();
 
-		return new AbstractLight() {
+    return new AbstractLight() {
 
-			private static final long serialVersionUID = -2578460152471816304L;
+      private static final long serialVersionUID = -2578460152471816304L;
 
-			public void illuminate(SurfacePoint x, WavelengthPacket lambda, Random rng, Illuminable target) {
+      public void illuminate(SurfacePoint x, WavelengthPacket lambda, Random rng, Illuminable target) {
 
-				ShadingContext context = new MinimalShadingContext(rng);
-				generateImportanceSampledSurfacePoint(x, context, rng.next(), rng.next(), rng.next());
-				context.getModifier().modify(context);
+        ShadingContext context = new MinimalShadingContext(rng);
+        generateImportanceSampledSurfacePoint(x, context, rng.next(), rng.next(), rng.next());
+        context.getModifier().modify(context);
 
-				Point3 p = context.getPosition();
-				Material mat = material;//context.getMaterial();
-				Vector3 v = x.getPosition().unitVectorFrom(p);
-				Vector3 n = context.getShadingNormal();
-				double d2 = x.getPosition().squaredDistanceTo(p);
-				double atten = Math.max(n.dot(v), 0.0) * surfaceArea / (4.0 * Math.PI * d2);
-				Color ri = mat.emission(context, v, lambda).times(atten);
+        Point3 p = context.getPosition();
+        Material mat = material;//context.getMaterial();
+        Vector3 v = x.getPosition().unitVectorFrom(p);
+        Vector3 n = context.getShadingNormal();
+        double d2 = x.getPosition().squaredDistanceTo(p);
+        double atten = Math.max(n.dot(v), 0.0) * surfaceArea / (4.0 * Math.PI * d2);
+        Color ri = mat.emission(context, v, lambda).times(atten);
 
-				LightSample sample = new PointLightSample(x, p, ri);
+        LightSample sample = new PointLightSample(x, p, ri);
 
-				target.addLightSample(sample);
+        target.addLightSample(sample);
 
-			}
+      }
 
-			public LightNode sample(PathInfo pathInfo, double ru, double rv, double rj) {
-				ShadingContext context = new MinimalShadingContext(null);
-				generateRandomSurfacePoint(context, ru, rv, rj);
-				context.getModifier().modify(context);
+      public LightNode sample(PathInfo pathInfo, double ru, double rv, double rj) {
+        ShadingContext context = new MinimalShadingContext(null);
+        generateRandomSurfacePoint(context, ru, rv, rj);
+        context.getModifier().modify(context);
 
-				return ScaledLightNode.create(1.0 / surfaceArea,
-						new SurfaceLightNode(pathInfo, context, ru, rv, rj), rj);
-			}
+        return ScaledLightNode.create(1.0 / surfaceArea,
+            new SurfaceLightNode(pathInfo, context, ru, rv, rj), rj);
+      }
 
-			public double getSamplePDF(SurfacePoint x, PathInfo pathInfo) {
-				return 1.0 / surfaceArea;
-			}
+      public double getSamplePDF(SurfacePoint x, PathInfo pathInfo) {
+        return 1.0 / surfaceArea;
+      }
 
-		};
-	}
+    };
+  }
 
-//	/* (non-Javadoc)
-//	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#isEmissive()
-//	 */
-//	@Override
-//	public boolean isEmissive() {
-//		return material.isEmissive();
-//	}
+//  /* (non-Javadoc)
+//   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#isEmissive()
+//   */
+//  @Override
+//  public boolean isEmissive() {
+//    return material.isEmissive();
+//  }
 
-	private static final class MaterialModifier implements Modifier {
+  private static final class MaterialModifier implements Modifier {
 
-		/**
-		 * Serialization version ID.
-		 */
-		private static final long serialVersionUID = -2275096890951731906L;
+    /**
+     * Serialization version ID.
+     */
+    private static final long serialVersionUID = -2275096890951731906L;
 
-		private final Material material;
+    private final Material material;
 
-		/**
-		 * @param material
-		 */
-		public MaterialModifier(Material material) {
-			this.material = material;
-		}
+    /**
+     * @param material
+     */
+    public MaterialModifier(Material material) {
+      this.material = material;
+    }
 
-		public void modify(ShadingContext context) {
-			context.setMaterial(material);
-		}
+    public void modify(ShadingContext context) {
+      context.setMaterial(material);
+    }
 
-	}
+  }
 
 }

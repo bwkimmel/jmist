@@ -40,21 +40,21 @@ import ca.eandb.jmist.framework.color.Color;
  */
 public interface Shader extends Serializable {
 
-	/** 
-	 * Computes a <code>Color</code> based on the provided context representing
-	 * the state of the current ray-intersection event.
-	 * @param sc The <code>ShadingContext</code>.
-	 * @return The resulting <code>Color</code>.
-	 */
-	Color shade(ShadingContext sc);
+  /** 
+   * Computes a <code>Color</code> based on the provided context representing
+   * the state of the current ray-intersection event.
+   * @param sc The <code>ShadingContext</code>.
+   * @return The resulting <code>Color</code>.
+   */
+  Color shade(ShadingContext sc);
 
-	/** A dummy <code>Shader</code> that always returns black. */
-	public static final Shader BLACK = new Shader() {
-		private static final long serialVersionUID = 7697217516861477920L;
-		public Color shade(ShadingContext sc) {
-			return sc.getWavelengthPacket().getColorModel().getBlack(
-					sc.getWavelengthPacket());
-		}
-	};
+  /** A dummy <code>Shader</code> that always returns black. */
+  public static final Shader BLACK = new Shader() {
+    private static final long serialVersionUID = 7697217516861477920L;
+    public Color shade(ShadingContext sc) {
+      return sc.getWavelengthPacket().getColorModel().getBlack(
+          sc.getWavelengthPacket());
+    }
+  };
 
 }

@@ -33,27 +33,27 @@ import ca.eandb.jmist.math.Point2;
  */
 public final class TiledMask2 implements Mask2 {
 
-	/** Serialization version ID. */
-	private static final long serialVersionUID = 2040730054854181920L;
+  /** Serialization version ID. */
+  private static final long serialVersionUID = 2040730054854181920L;
 
-	/** The <code>Mask2</code> to be tiled. */
-	private final Mask2 inner;
+  /** The <code>Mask2</code> to be tiled. */
+  private final Mask2 inner;
 
-	/**
-	 * Creates a new <code>TiledMask2</code>.
-	 * @param inner The <code>Mask2</code> to be tiled.
-	 */
-	public TiledMask2(Mask2 inner) {
-		this.inner = inner;
-	}
+  /**
+   * Creates a new <code>TiledMask2</code>.
+   * @param inner The <code>Mask2</code> to be tiled.
+   */
+  public TiledMask2(Mask2 inner) {
+    this.inner = inner;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Mask2#opacity(ca.eandb.jmist.math.Point2)
-	 */
-	@Override
-	public double opacity(Point2 p) {
-		p = new Point2(p.x() - Math.floor(p.x()), p.y() - Math.floor(p.y()));
-		return inner.opacity(p);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Mask2#opacity(ca.eandb.jmist.math.Point2)
+   */
+  @Override
+  public double opacity(Point2 p) {
+    p = new Point2(p.x() - Math.floor(p.x()), p.y() - Math.floor(p.y()));
+    return inner.opacity(p);
+  }
 
 }

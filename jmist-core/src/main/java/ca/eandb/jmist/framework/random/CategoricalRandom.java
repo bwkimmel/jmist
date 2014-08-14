@@ -39,155 +39,155 @@ import ca.eandb.util.DoubleArray;
  */
 public final class CategoricalRandom implements Serializable {
 
-	/**
-	 * Creates a new <code>CategoricalRandom</code>.
-	 * @param weights An array of the weights associated with each integer
-	 * 		from zero to <code>weights.length - 1</code>.
-	 * @param source The <code>Random</code> number generator to use to seed
-	 * 		this <code>CategoricalRandom</code>.
-	 */
-	public CategoricalRandom(DoubleArray weights, Random source) {
-		this.source = source;
-		this.cpf = weights.toDoubleArray();
-		initialize();
-	}
+  /**
+   * Creates a new <code>CategoricalRandom</code>.
+   * @param weights An array of the weights associated with each integer
+   *     from zero to <code>weights.length - 1</code>.
+   * @param source The <code>Random</code> number generator to use to seed
+   *     this <code>CategoricalRandom</code>.
+   */
+  public CategoricalRandom(DoubleArray weights, Random source) {
+    this.source = source;
+    this.cpf = weights.toDoubleArray();
+    initialize();
+  }
 
-	/**
-	 * Creates a new <code>CategoricalRandom</code>.
-	 * @param weights An array of the weights associated with each integer
-	 * 		from zero to <code>weights.length - 1</code>.
-	 */
-	public CategoricalRandom(DoubleArray weights) {
-		this(weights, null);
-	}
+  /**
+   * Creates a new <code>CategoricalRandom</code>.
+   * @param weights An array of the weights associated with each integer
+   *     from zero to <code>weights.length - 1</code>.
+   */
+  public CategoricalRandom(DoubleArray weights) {
+    this(weights, null);
+  }
 
-	/**
-	 * Creates a new <code>CategoricalRandom</code>.
-	 * @param weights An array of the weights associated with each integer
-	 * 		from zero to <code>weights.length - 1</code>.
-	 * @param source The <code>Random</code> number generator to use to seed
-	 * 		this <code>CategoricalRandom</code>.
-	 */
-	public CategoricalRandom(List<Double> weights, Random source) {
-		this.source = source;
-		this.cpf = new double[weights.size()];
-		for (int i = 0; i < cpf.length; i++) {
-			cpf[i] = weights.get(i);
-		}
-		initialize();
-	}
+  /**
+   * Creates a new <code>CategoricalRandom</code>.
+   * @param weights An array of the weights associated with each integer
+   *     from zero to <code>weights.length - 1</code>.
+   * @param source The <code>Random</code> number generator to use to seed
+   *     this <code>CategoricalRandom</code>.
+   */
+  public CategoricalRandom(List<Double> weights, Random source) {
+    this.source = source;
+    this.cpf = new double[weights.size()];
+    for (int i = 0; i < cpf.length; i++) {
+      cpf[i] = weights.get(i);
+    }
+    initialize();
+  }
 
-	/**
-	 * Creates a new <code>CategoricalRandom</code>.
-	 * @param weights An array of the weights associated with each integer
-	 * 		from zero to <code>weights.length - 1</code>.
-	 */
-	public CategoricalRandom(List<Double> weights) {
-		this(weights, null);
-	}
+  /**
+   * Creates a new <code>CategoricalRandom</code>.
+   * @param weights An array of the weights associated with each integer
+   *     from zero to <code>weights.length - 1</code>.
+   */
+  public CategoricalRandom(List<Double> weights) {
+    this(weights, null);
+  }
 
-	/**
-	 * Creates a new <code>CategoricalRandom</code>.
-	 * @param weights An array of the weights associated with each integer
-	 * 		from zero to <code>weights.length - 1</code>.
-	 * @param source The <code>Random</code> number generator to use to seed
-	 * 		this <code>CategoricalRandom</code>.
-	 */
-	public CategoricalRandom(double[] weights, Random source) {
-		this.source = source;
-		this.cpf = weights.clone();
-		initialize();
-	}
+  /**
+   * Creates a new <code>CategoricalRandom</code>.
+   * @param weights An array of the weights associated with each integer
+   *     from zero to <code>weights.length - 1</code>.
+   * @param source The <code>Random</code> number generator to use to seed
+   *     this <code>CategoricalRandom</code>.
+   */
+  public CategoricalRandom(double[] weights, Random source) {
+    this.source = source;
+    this.cpf = weights.clone();
+    initialize();
+  }
 
-	/**
-	 * Creates a new <code>CategoricalRandom</code>.
-	 * @param weights An array of the weights associated with each integer
-	 * 		from zero to <code>weights.length - 1</code>.
-	 */
-	public CategoricalRandom(double[] weights) {
-		this(weights, null);
-	}
+  /**
+   * Creates a new <code>CategoricalRandom</code>.
+   * @param weights An array of the weights associated with each integer
+   *     from zero to <code>weights.length - 1</code>.
+   */
+  public CategoricalRandom(double[] weights) {
+    this(weights, null);
+  }
 
-	/**
-	 * Initializes the cumulative probability function for this
-	 * <code>CategoricalRandom</code>.
-	 */
-	private void initialize() {
-		/* Compute the cumulative probability function. */
-		for (int i = 1; i < cpf.length; i++) {
-			this.cpf[i] += this.cpf[i - 1];
-		}
+  /**
+   * Initializes the cumulative probability function for this
+   * <code>CategoricalRandom</code>.
+   */
+  private void initialize() {
+    /* Compute the cumulative probability function. */
+    for (int i = 1; i < cpf.length; i++) {
+      this.cpf[i] += this.cpf[i - 1];
+    }
 
-		for (int i = 0; i < cpf.length; i++) {
-			this.cpf[i] /= this.cpf[cpf.length - 1];
-		}
-	}
+    for (int i = 0; i < cpf.length; i++) {
+      this.cpf[i] /= this.cpf[cpf.length - 1];
+    }
+  }
 
-	/**
-	 * Generates a new sample of this <code>CategoricalRandom</code>
-	 * variable.
-	 * @return The next sample.
-	 */
-	public int next(Random random) {
-		return next(source != null ? source.next() : RandomUtil.canonical(random));
-	}
+  /**
+   * Generates a new sample of this <code>CategoricalRandom</code>
+   * variable.
+   * @return The next sample.
+   */
+  public int next(Random random) {
+    return next(source != null ? source.next() : RandomUtil.canonical(random));
+  }
 
-	/**
-	 * Generates a new sample of this <code>CategoricalRandom</code>
-	 * variable.
-	 * @param seed The seed value.  This method is guaranteed to return the
-	 * 		same value given the same seed.
-	 * @return The next sample.
-	 */
-	public int next(double seed) {
-		int index = Arrays.binarySearch(this.cpf, seed);
-		return index >= 0 ? index : -(index + 1);
-	}
-	
-	private void bp() {}
-	
-	public int next(SeedReference ref) {
-		int index = Arrays.binarySearch(this.cpf, ref.seed);
-		if (ref.seed > 1.0) {
-			bp();
-		}
-		index = (index >= 0) ? index : -(index + 1);
-		if (index > 0) {
-			ref.seed -= cpf[index - 1];
-		}
-		ref.seed /= getProbability(index);
-		if (ref.seed > 1.0) bp();
-		return index;
-	}
+  /**
+   * Generates a new sample of this <code>CategoricalRandom</code>
+   * variable.
+   * @param seed The seed value.  This method is guaranteed to return the
+   *     same value given the same seed.
+   * @return The next sample.
+   */
+  public int next(double seed) {
+    int index = Arrays.binarySearch(this.cpf, seed);
+    return index >= 0 ? index : -(index + 1);
+  }
+  
+  private void bp() {}
+  
+  public int next(SeedReference ref) {
+    int index = Arrays.binarySearch(this.cpf, ref.seed);
+    if (ref.seed > 1.0) {
+      bp();
+    }
+    index = (index >= 0) ? index : -(index + 1);
+    if (index > 0) {
+      ref.seed -= cpf[index - 1];
+    }
+    ref.seed /= getProbability(index);
+    if (ref.seed > 1.0) bp();
+    return index;
+  }
 
-	/**
-	 * Gets the probability that this <code>CategoricalRandom</code> yields
-	 * the specified number.
-	 * @param value The value to get the probability of.
-	 * @return The probability for the specified value.
-	 */
-	public double getProbability(int value) {
-		if (value < 0 || value >= cpf.length) {
-			return 0.0;
-		} else if (value == 0) {
-			return cpf[0];
-		} else {
-			return cpf[value] - cpf[value - 1];
-		}
-	}
+  /**
+   * Gets the probability that this <code>CategoricalRandom</code> yields
+   * the specified number.
+   * @param value The value to get the probability of.
+   * @return The probability for the specified value.
+   */
+  public double getProbability(int value) {
+    if (value < 0 || value >= cpf.length) {
+      return 0.0;
+    } else if (value == 0) {
+      return cpf[0];
+    } else {
+      return cpf[value] - cpf[value - 1];
+    }
+  }
 
-	/** The cumulative probability function. */
-	private final double[] cpf;
+  /** The cumulative probability function. */
+  private final double[] cpf;
 
-	/**
-	 * The <code>Random</code> number generator to use to seed this
-	 * <code>CategoricalRandom</code>.
-	 */
-	private final Random source;
+  /**
+   * The <code>Random</code> number generator to use to seed this
+   * <code>CategoricalRandom</code>.
+   */
+  private final Random source;
 
-	/**
-	 * Serialization version ID.
-	 */
-	private static final long serialVersionUID = 1462018249783769480L;
+  /**
+   * Serialization version ID.
+   */
+  private static final long serialVersionUID = 1462018249783769480L;
 
 }

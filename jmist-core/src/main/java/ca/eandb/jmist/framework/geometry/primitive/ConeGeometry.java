@@ -45,205 +45,205 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class ConeGeometry extends PrimitiveGeometry {
 
-	/** Serialization version ID. */
-	private static final long serialVersionUID = -9049728620213203671L;
+  /** Serialization version ID. */
+  private static final long serialVersionUID = -9049728620213203671L;
 
-	/** The point at the base of the cone */
-	private final Point3 base;
+  /** The point at the base of the cone */
+  private final Point3 base;
 
-	/** The radius of the base of the cone */
-	private final double radius;
+  /** The radius of the base of the cone */
+  private final double radius;
 
-	/** The height of the cone */
-	private final double height;
-	
-	/** A value indicating whether the base of the cone is rendered. */
-	private final boolean capped;
+  /** The height of the cone */
+  private final double height;
+  
+  /** A value indicating whether the base of the cone is rendered. */
+  private final boolean capped;
 
-	/** The surface ID for the body of the cone. */
-	private static final int CONE_SURFACE_BODY = 0;
+  /** The surface ID for the body of the cone. */
+  private static final int CONE_SURFACE_BODY = 0;
 
-	/** The surface ID for the base of the cone. */
-	private static final int CONE_SURFACE_BASE = 1;
+  /** The surface ID for the base of the cone. */
+  private static final int CONE_SURFACE_BASE = 1;
 
-	/**
-	 * Creates a new <code>ConeGeometry</code>.
-	 * @param base The <code>Point3</code> at the base of the cone.
-	 * @param radius The radius of the base of the cone.
-	 * @param height The height of the cone.
-	 * @param capped A value indicating whether the base of the cone is
-	 * 		rendered.
-	 */
-	public ConeGeometry(Point3 base, double radius, double height, boolean capped) {
-		this.base = base;
-		this.radius = radius;
-		this.height = height;
-		this.capped = capped;
-	}
-	
-	/**
-	 * Creates a new <code>ConeGeometry</code>.
-	 * @param base The <code>Point3</code> at the base of the cone.
-	 * @param radius The radius of the base of the cone.
-	 * @param height The height of the cone.
-	 */
-	public ConeGeometry(Point3 base, double radius, double height) {
-		this(base, radius, height, true);
-	}
+  /**
+   * Creates a new <code>ConeGeometry</code>.
+   * @param base The <code>Point3</code> at the base of the cone.
+   * @param radius The radius of the base of the cone.
+   * @param height The height of the cone.
+   * @param capped A value indicating whether the base of the cone is
+   *     rendered.
+   */
+  public ConeGeometry(Point3 base, double radius, double height, boolean capped) {
+    this.base = base;
+    this.radius = radius;
+    this.height = height;
+    this.capped = capped;
+  }
+  
+  /**
+   * Creates a new <code>ConeGeometry</code>.
+   * @param base The <code>Point3</code> at the base of the cone.
+   * @param radius The radius of the base of the cone.
+   * @param height The height of the cone.
+   */
+  public ConeGeometry(Point3 base, double radius, double height) {
+    this(base, radius, height, true);
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-	 */
-	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
-		
-		if (capped) {
-			double t = Plane3.XZ.intersect(ray);
-						
-			if (recorder.interval().contains(t)) {
-				Point3 p = ray.pointAt(t);
-				if (p.distanceToOrigin() <= radius) {
-					Intersection x = super.newIntersection(ray, t, ray.origin().y() < 0.0, CONE_SURFACE_BASE)
-						.setLocation(p);
-					recorder.record(x);
-				}
-			}
-		}
-				
-		Point3 org = ray.origin();
-		Vector3 dir = ray.direction();
-		
-		double x0 = org.x() / radius;
-		double y0 = org.y() / height - 1.0;
-		double z0 = org.z() / radius;
-		double x1 = dir.x() / radius;
-		double y1 = dir.y() / height;
-		double z1 = dir.z() / radius;
-		
-		Polynomial f = new Polynomial(
-				x0 * x0 - y0 * y0 + z0 * z0,
-				2.0 * (x0 * x1 - y0 * y1 + z0 * z1),
-				x1 * x1 - y1 * y1 + z1 * z1);
-		
-		double[] t = f.roots();
-		
-		if (t.length == 2) {
-			for (int i = 0; i < 2; i++) {
-				if (recorder.interval().contains(t[i])) {
-					Point3 p = ray.pointAt(t[i]);
-					if (0.0 <= p.y() && p.y() <= height) {
-						Intersection x = super.newIntersection(ray, t[i], i == 0, CONE_SURFACE_BODY)
-							.setLocation(p);
-						recorder.record(x);
-					}
-				}
-			}
-		}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+   */
+  public void intersect(Ray3 ray, IntersectionRecorder recorder) {
+    
+    if (capped) {
+      double t = Plane3.XZ.intersect(ray);
+            
+      if (recorder.interval().contains(t)) {
+        Point3 p = ray.pointAt(t);
+        if (p.distanceToOrigin() <= radius) {
+          Intersection x = super.newIntersection(ray, t, ray.origin().y() < 0.0, CONE_SURFACE_BASE)
+            .setLocation(p);
+          recorder.record(x);
+        }
+      }
+    }
+        
+    Point3 org = ray.origin();
+    Vector3 dir = ray.direction();
+    
+    double x0 = org.x() / radius;
+    double y0 = org.y() / height - 1.0;
+    double z0 = org.z() / radius;
+    double x1 = dir.x() / radius;
+    double y1 = dir.y() / height;
+    double z1 = dir.z() / radius;
+    
+    Polynomial f = new Polynomial(
+        x0 * x0 - y0 * y0 + z0 * z0,
+        2.0 * (x0 * x1 - y0 * y1 + z0 * z1),
+        x1 * x1 - y1 * y1 + z1 * z1);
+    
+    double[] t = f.roots();
+    
+    if (t.length == 2) {
+      for (int i = 0; i < 2; i++) {
+        if (recorder.interval().contains(t[i])) {
+          Point3 p = ray.pointAt(t[i]);
+          if (0.0 <= p.y() && p.y() <= height) {
+            Intersection x = super.newIntersection(ray, t[i], i == 0, CONE_SURFACE_BODY)
+              .setLocation(p);
+            recorder.record(x);
+          }
+        }
+      }
+    }
 
-	}
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#getSurfaceArea()
-	 */
-	@Override
-	public double getSurfaceArea() {
-		double s = Math.hypot(radius, height);
-		return capped ? Math.PI * radius * radius + Math.PI * s * radius
-				: Math.PI * s * radius;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#getSurfaceArea()
+   */
+  @Override
+  public double getSurfaceArea() {
+    double s = Math.hypot(radius, height);
+    return capped ? Math.PI * radius * radius + Math.PI * s * radius
+        : Math.PI * s * radius;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getBasis(ca.eandb.jmist.framework.geometry.AbstractGeometry.GeometryIntersection)
-	 */
-	@Override
-	protected Basis3 getBasis(GeometryIntersection x) {
-		switch (x.getTag()) {
-		case CONE_SURFACE_BODY:
-			return Basis3.fromWV(
-					getNormal(x),
-					x.getPosition().vectorTo(new Point3(0, height, 0)));
-					
-		case CONE_SURFACE_BASE:
-			return Basis3.fromW(getNormal(x));
-			
-		default:
-			throw new IllegalArgumentException("Invalid surface ID");
-		}
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getBasis(ca.eandb.jmist.framework.geometry.AbstractGeometry.GeometryIntersection)
+   */
+  @Override
+  protected Basis3 getBasis(GeometryIntersection x) {
+    switch (x.getTag()) {
+    case CONE_SURFACE_BODY:
+      return Basis3.fromWV(
+          getNormal(x),
+          x.getPosition().vectorTo(new Point3(0, height, 0)));
+          
+    case CONE_SURFACE_BASE:
+      return Basis3.fromW(getNormal(x));
+      
+    default:
+      throw new IllegalArgumentException("Invalid surface ID");
+    }
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getNormal(ca.eandb.jmist.framework.geometry.AbstractGeometry.GeometryIntersection)
-	 */
-	@Override
-	protected Vector3 getNormal(GeometryIntersection x) {
-		switch (x.getTag()) {
-		case CONE_SURFACE_BODY:
-			Point3 p = x.getPosition();
-			double side = Math.hypot(radius, height);
-			double c = radius / side;
-			double s = height / side;
-			double hyp = Math.hypot(p.x(), p.z());
-			
-			return new Vector3(
-					s * p.x() / hyp,
-					c,
-					s * p.z() / hyp);
-			
-		case CONE_SURFACE_BASE:
-			return Vector3.NEGATIVE_J;
-			
-		default:
-			throw new IllegalArgumentException("Invalid surface ID");
-		}
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getNormal(ca.eandb.jmist.framework.geometry.AbstractGeometry.GeometryIntersection)
+   */
+  @Override
+  protected Vector3 getNormal(GeometryIntersection x) {
+    switch (x.getTag()) {
+    case CONE_SURFACE_BODY:
+      Point3 p = x.getPosition();
+      double side = Math.hypot(radius, height);
+      double c = radius / side;
+      double s = height / side;
+      double hyp = Math.hypot(p.x(), p.z());
+      
+      return new Vector3(
+          s * p.x() / hyp,
+          c,
+          s * p.z() / hyp);
+      
+    case CONE_SURFACE_BASE:
+      return Vector3.NEGATIVE_J;
+      
+    default:
+      throw new IllegalArgumentException("Invalid surface ID");
+    }
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getTextureCoordinates(ca.eandb.jmist.framework.geometry.AbstractGeometry.GeometryIntersection)
-	 */
-	@Override
-	protected Point2 getTextureCoordinates(GeometryIntersection x) {
-		Point3 p = x.getPosition();
-		switch (x.getTag()) {
-		case CONE_SURFACE_BODY:
-			double angle = Math.PI + Math.atan2(p.z(), p.x());			
-			return new Point2(angle / ((capped ? 4.0 : 2.0) * Math.PI),
-					p.y() / height);
-			
-		case CONE_SURFACE_BASE:
-			return new Point2(0.5 + (p.x() + radius) / (4.0 * radius),
-					(p.z() + radius) / (4.0 * radius));			
-			
-		default:
-			throw new IllegalArgumentException("Invalid surface ID");
-		}
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getTextureCoordinates(ca.eandb.jmist.framework.geometry.AbstractGeometry.GeometryIntersection)
+   */
+  @Override
+  protected Point2 getTextureCoordinates(GeometryIntersection x) {
+    Point3 p = x.getPosition();
+    switch (x.getTag()) {
+    case CONE_SURFACE_BODY:
+      double angle = Math.PI + Math.atan2(p.z(), p.x());      
+      return new Point2(angle / ((capped ? 4.0 : 2.0) * Math.PI),
+          p.y() / height);
+      
+    case CONE_SURFACE_BASE:
+      return new Point2(0.5 + (p.x() + radius) / (4.0 * radius),
+          (p.z() + radius) / (4.0 * radius));      
+      
+    default:
+      throw new IllegalArgumentException("Invalid surface ID");
+    }
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SceneElement#isClosed()
-	 */
-	public boolean isClosed() {
-		return capped;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.SceneElement#isClosed()
+   */
+  public boolean isClosed() {
+    return capped;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
-	 */
-	public Box3 boundingBox() {
-		return new Box3(
-				base.x() - radius,
-				base.y(),
-				base.z() - radius,
-				base.x() + radius,
-				base.y() + height,
-				base.z() + radius);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
+   */
+  public Box3 boundingBox() {
+    return new Box3(
+        base.x() - radius,
+        base.y(),
+        base.z() - radius,
+        base.x() + radius,
+        base.y() + height,
+        base.z() + radius);
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
-	 */
-	public Sphere boundingSphere() {
-		double yc = (height * height - radius * radius) / (2.0 * height);
-		return yc > 0.0 ? new Sphere(new Point3(0, yc, 0), height - yc)
-				: new Sphere(Point3.ORIGIN, radius);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
+   */
+  public Sphere boundingSphere() {
+    double yc = (height * height - radius * radius) / (2.0 * height);
+    return yc > 0.0 ? new Sphere(new Point3(0, yc, 0), height - yc)
+        : new Sphere(Point3.ORIGIN, radius);
+  }
 
 }

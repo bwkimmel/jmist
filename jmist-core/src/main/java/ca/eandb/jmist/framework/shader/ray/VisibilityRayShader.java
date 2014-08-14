@@ -39,53 +39,53 @@ import ca.eandb.jmist.math.Ray3;
  */
 public final class VisibilityRayShader implements RayShader {
 
-	/**
-	 * Serialization version ID.
-	 */
-	private static final long serialVersionUID = 6959718984918444342L;
+  /**
+   * Serialization version ID.
+   */
+  private static final long serialVersionUID = 6959718984918444342L;
 
-	/**
-	 * Initializes the visibility function to evaluate.
-	 * @param visibilityFunction The visibility function to evaluate.
-	 */
-	public VisibilityRayShader(VisibilityFunction3 visibilityFunction) {
-		this(visibilityFunction, null, null);
-	}
+  /**
+   * Initializes the visibility function to evaluate.
+   * @param visibilityFunction The visibility function to evaluate.
+   */
+  public VisibilityRayShader(VisibilityFunction3 visibilityFunction) {
+    this(visibilityFunction, null, null);
+  }
 
-	/**
-	 * Initializes the visibility function to evaluate and the values to assign
-	 * to rays that hit or do not hit an object.
-	 * @param visibilityFunction The visibility function to evaluate.
-	 * @param hitValue The <code>Spectrum</code> to assign to rays that hit an
-	 * 		object.
-	 * @param missValue The <code>Spectrum</code> to assign to rays that do not
-	 * 		hit an object.
-	 */
-	public VisibilityRayShader(VisibilityFunction3 visibilityFunction,
-			Spectrum hitValue, Spectrum missValue) {
-		this.visibilityFunction = visibilityFunction;
-		this.hitValue = hitValue;
-		this.missValue = missValue;
-	}
+  /**
+   * Initializes the visibility function to evaluate and the values to assign
+   * to rays that hit or do not hit an object.
+   * @param visibilityFunction The visibility function to evaluate.
+   * @param hitValue The <code>Spectrum</code> to assign to rays that hit an
+   *     object.
+   * @param missValue The <code>Spectrum</code> to assign to rays that do not
+   *     hit an object.
+   */
+  public VisibilityRayShader(VisibilityFunction3 visibilityFunction,
+      Spectrum hitValue, Spectrum missValue) {
+    this.visibilityFunction = visibilityFunction;
+    this.hitValue = hitValue;
+    this.missValue = missValue;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.RayShader#shadeRay(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.color.WavelengthPacket)
-	 */
-	public Color shadeRay(Ray3 ray, WavelengthPacket lambda) {
-		if (ray == null || this.visibilityFunction.visibility(ray)) {
-			return (missValue != null) ? missValue.sample(lambda) : lambda.getColorModel().getBlack(lambda);
-		} else {
-			return (hitValue != null) ? hitValue.sample(lambda) : lambda.getColorModel().getWhite(lambda);
-		}
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.RayShader#shadeRay(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.color.WavelengthPacket)
+   */
+  public Color shadeRay(Ray3 ray, WavelengthPacket lambda) {
+    if (ray == null || this.visibilityFunction.visibility(ray)) {
+      return (missValue != null) ? missValue.sample(lambda) : lambda.getColorModel().getBlack(lambda);
+    } else {
+      return (hitValue != null) ? hitValue.sample(lambda) : lambda.getColorModel().getWhite(lambda);
+    }
+  }
 
-	/** The visibility function to evaluate. */
-	private final VisibilityFunction3 visibilityFunction;
+  /** The visibility function to evaluate. */
+  private final VisibilityFunction3 visibilityFunction;
 
-	/** The value to assign to rays that hit an object. */
-	private final Spectrum hitValue;
+  /** The value to assign to rays that hit an object. */
+  private final Spectrum hitValue;
 
-	/** The value to assign to rays that do not hit an object. */
-	private final Spectrum missValue;
+  /** The value to assign to rays that do not hit an object. */
+  private final Spectrum missValue;
 
 }

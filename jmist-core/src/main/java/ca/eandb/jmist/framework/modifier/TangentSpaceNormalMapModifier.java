@@ -44,51 +44,51 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class TangentSpaceNormalMapModifier implements Modifier {
 
-	/** Serialization version ID. */
-	private static final long serialVersionUID = 3272308697162050809L;
+  /** Serialization version ID. */
+  private static final long serialVersionUID = 3272308697162050809L;
 
-	/** Stored wavelength packet for RGB color model. */
-	private static final WavelengthPacket WAVELENGTH_PACKET =
-			RGBColorModel.getInstance().sample(Random.DEFAULT).getWavelengthPacket();
+  /** Stored wavelength packet for RGB color model. */
+  private static final WavelengthPacket WAVELENGTH_PACKET =
+      RGBColorModel.getInstance().sample(Random.DEFAULT).getWavelengthPacket();
 
-	/** Painter to obtain normal-map colours from shading context. */
-	private final Painter painter;
+  /** Painter to obtain normal-map colours from shading context. */
+  private final Painter painter;
 
-	/**
-	 * Create a new <code>NormalMapModifier</code>.
-	 * @param painter The <code>Painter</code> to use to obtain normal-map
-	 * 		colours from the shading context.  It must use the
-	 * 		<code>RGBColorModel</code>.
-	 * @see ca.eandb.jmist.framework.color.rgb.RGBColorModel
-	 */
-	public TangentSpaceNormalMapModifier(Painter painter) {
-		this.painter = painter;
-	}
+  /**
+   * Create a new <code>NormalMapModifier</code>.
+   * @param painter The <code>Painter</code> to use to obtain normal-map
+   *     colours from the shading context.  It must use the
+   *     <code>RGBColorModel</code>.
+   * @see ca.eandb.jmist.framework.color.rgb.RGBColorModel
+   */
+  public TangentSpaceNormalMapModifier(Painter painter) {
+    this.painter = painter;
+  }
 
-	/**
-	 * Create a new <code>NormalMapModifier</code>.
-	 * @param texture The <code>Texture2</code> to use to obtain normal-map
-	 * 		colours from the shading context.  It must use the
-	 * 		<code>RGBColorModel</code>.
-	 * @see ca.eandb.jmist.framework.color.rgb.RGBColorModel
-	 */
-	public TangentSpaceNormalMapModifier(Texture2 texture) {
-		this(new Texture2Painter(texture));
-	}
+  /**
+   * Create a new <code>NormalMapModifier</code>.
+   * @param texture The <code>Texture2</code> to use to obtain normal-map
+   *     colours from the shading context.  It must use the
+   *     <code>RGBColorModel</code>.
+   * @see ca.eandb.jmist.framework.color.rgb.RGBColorModel
+   */
+  public TangentSpaceNormalMapModifier(Texture2 texture) {
+    this(new Texture2Painter(texture));
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Modifier#modify(ca.eandb.jmist.framework.ShadingContext)
-	 */
-	@Override
-	public void modify(ShadingContext context) {
-		Basis3 basis = context.getShadingBasis();
-		RGB c = painter.getColor(context, WAVELENGTH_PACKET).toRGB();
-		Vector3 n = basis.toStandard(c.r() - 0.5, 0.5 - c.g(), c.b() - 0.5).unit();
-		Vector3 u = basis.u();
-		Vector3 v = basis.v();
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Modifier#modify(ca.eandb.jmist.framework.ShadingContext)
+   */
+  @Override
+  public void modify(ShadingContext context) {
+    Basis3 basis = context.getShadingBasis();
+    RGB c = painter.getColor(context, WAVELENGTH_PACKET).toRGB();
+    Vector3 n = basis.toStandard(c.r() - 0.5, 0.5 - c.g(), c.b() - 0.5).unit();
+    Vector3 u = basis.u();
+    Vector3 v = basis.v();
 
-		basis = Basis3.fromWUV(n, u, v);
-		context.setShadingBasis(basis);
-	}
+    basis = Basis3.fromWUV(n, u, v);
+    context.setShadingBasis(basis);
+  }
 
 }

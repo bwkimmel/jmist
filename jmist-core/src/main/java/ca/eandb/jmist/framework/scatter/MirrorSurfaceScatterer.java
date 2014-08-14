@@ -38,44 +38,44 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class MirrorSurfaceScatterer implements SurfaceScatterer {
 
-	/** Serialization version ID. */
-	private static final long serialVersionUID = -3125700858196796582L;
+  /** Serialization version ID. */
+  private static final long serialVersionUID = -3125700858196796582L;
 
-	/**
-	 * The <code>Function1</code> indicating the probability that an incident
-	 * ray is reflected.
-	 */
-	private final Function1 reflectance;
+  /**
+   * The <code>Function1</code> indicating the probability that an incident
+   * ray is reflected.
+   */
+  private final Function1 reflectance;
 
-	/**
-	 * Creates a new <code>MirrorSurfaceScatterer</code>.
-	 * @param reflectance The <code>Function1</code> indicating the
-	 *		probability that an incident ray is reflected.
-	 */
-	public MirrorSurfaceScatterer(Function1 reflectance) {
-		this.reflectance = reflectance;
-	}
+  /**
+   * Creates a new <code>MirrorSurfaceScatterer</code>.
+   * @param reflectance The <code>Function1</code> indicating the
+   *    probability that an incident ray is reflected.
+   */
+  public MirrorSurfaceScatterer(Function1 reflectance) {
+    this.reflectance = reflectance;
+  }
 
-	/**
-	 * Creates a new <code>MirrorSurfaceScatterer</code> with unit reflectance.
-	 */
-	public MirrorSurfaceScatterer() {
-		this(Function1.ONE);
-	}
+  /**
+   * Creates a new <code>MirrorSurfaceScatterer</code> with unit reflectance.
+   */
+  public MirrorSurfaceScatterer() {
+    this(Function1.ONE);
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.scatter.SurfaceScatterer#scatter(ca.eandb.jmist.framework.SurfacePointGeometry, ca.eandb.jmist.math.Vector3, boolean, double, ca.eandb.jmist.framework.Random)
-	 */
-	public Vector3 scatter(SurfacePointGeometry x, Vector3 v, boolean adjoint,
-			double wavelength, Random rnd) {
-		double R = reflectance.evaluate(wavelength);
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.scatter.SurfaceScatterer#scatter(ca.eandb.jmist.framework.SurfacePointGeometry, ca.eandb.jmist.math.Vector3, boolean, double, ca.eandb.jmist.framework.Random)
+   */
+  public Vector3 scatter(SurfacePointGeometry x, Vector3 v, boolean adjoint,
+      double wavelength, Random rnd) {
+    double R = reflectance.evaluate(wavelength);
 
-		if (RandomUtil.bernoulli(R, rnd)) {
-			Vector3 N = x.getNormal();
-			return Optics.reflect(v, N);
-		} else {
-			return null;
-		}
-	}
+    if (RandomUtil.bernoulli(R, rnd)) {
+      Vector3 N = x.getNormal();
+      return Optics.reflect(v, N);
+    } else {
+      return null;
+    }
+  }
 
 }

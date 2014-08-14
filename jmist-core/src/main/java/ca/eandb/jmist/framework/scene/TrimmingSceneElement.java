@@ -45,82 +45,82 @@ import ca.eandb.jmist.math.Ray3;
  */
 public final class TrimmingSceneElement extends SceneElementDecorator {
 
-	/** Serialization version ID. */
-	private static final long serialVersionUID = -208418976070459240L;
+  /** Serialization version ID. */
+  private static final long serialVersionUID = -208418976070459240L;
 
-	/** The <code>SceneElement</code> to trim. */
-	private final SceneElement inner;
-	
-	/** The <code>Mask2</code> to trim with. */
-	private final Mask2 trim;
-	
-	/**
-	 * @param inner
-	 */
-	public TrimmingSceneElement(Mask2 trim, SceneElement inner) {
-		super(inner);
-		this.inner = inner;
-		this.trim = trim;		
-	}
+  /** The <code>SceneElement</code> to trim. */
+  private final SceneElement inner;
+  
+  /** The <code>Mask2</code> to trim with. */
+  private final Mask2 trim;
+  
+  /**
+   * @param inner
+   */
+  public TrimmingSceneElement(Mask2 trim, SceneElement inner) {
+    super(inner);
+    this.inner = inner;
+    this.trim = trim;    
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-	 */
-	@Override
-	public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
-		Interval I = recorder.interval();
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+   */
+  @Override
+  public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
+    Interval I = recorder.interval();
 
-		do {
-			NearestIntersectionRecorder rec = new NearestIntersectionRecorder(I);
-			super.intersect(index, ray, rec);
+    do {
+      NearestIntersectionRecorder rec = new NearestIntersectionRecorder(I);
+      super.intersect(index, ray, rec);
 
-			if (rec.isEmpty()) {
-				break;
-			}
-			Intersection x = rec.nearestIntersection();
-			MinimalShadingContext ctx = new MinimalShadingContext(Random.DEFAULT);
-			x.prepareShadingContext(ctx);
-			Point2 uv = ctx.getUV();
-			if (trim.opacity(new Point2(uv.x(), 1.0 - uv.y())) > 0.5) {
-				recorder.record(x);
-				if (!recorder.needAllIntersections()) {
-					break;
-				}
-			}
-			ray = ray.advance(x.getDistance());
-			I = new Interval(0, I.maximum() - x.getDistance());
-		} while (true);
-		
-	}
+      if (rec.isEmpty()) {
+        break;
+      }
+      Intersection x = rec.nearestIntersection();
+      MinimalShadingContext ctx = new MinimalShadingContext(Random.DEFAULT);
+      x.prepareShadingContext(ctx);
+      Point2 uv = ctx.getUV();
+      if (trim.opacity(new Point2(uv.x(), 1.0 - uv.y())) > 0.5) {
+        recorder.record(x);
+        if (!recorder.needAllIntersections()) {
+          break;
+        }
+      }
+      ray = ray.advance(x.getDistance());
+      I = new Interval(0, I.maximum() - x.getDistance());
+    } while (true);
+    
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-	 */
-	@Override
-	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
-		Interval I = recorder.interval();
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+   */
+  @Override
+  public void intersect(Ray3 ray, IntersectionRecorder recorder) {
+    Interval I = recorder.interval();
 
-		do {
-			NearestIntersectionRecorder rec = new NearestIntersectionRecorder(I);
-			super.intersect(ray, rec);
+    do {
+      NearestIntersectionRecorder rec = new NearestIntersectionRecorder(I);
+      super.intersect(ray, rec);
 
-			if (rec.isEmpty()) {
-				break;
-			}
-			Intersection x = rec.nearestIntersection();
-			MinimalShadingContext ctx = new MinimalShadingContext(Random.DEFAULT);
-			x.prepareShadingContext(ctx);
-			Point2 uv = ctx.getUV();
-			if (trim.opacity(new Point2(uv.x(), 1.0 - uv.y())) > 0.5) {
-				recorder.record(x);
-				if (!recorder.needAllIntersections()) {
-					break;
-				}
-			}
-			ray = ray.advance(x.getDistance());
-			I = new Interval(0, I.maximum() - x.getDistance());
-		} while (true);
+      if (rec.isEmpty()) {
+        break;
+      }
+      Intersection x = rec.nearestIntersection();
+      MinimalShadingContext ctx = new MinimalShadingContext(Random.DEFAULT);
+      x.prepareShadingContext(ctx);
+      Point2 uv = ctx.getUV();
+      if (trim.opacity(new Point2(uv.x(), 1.0 - uv.y())) > 0.5) {
+        recorder.record(x);
+        if (!recorder.needAllIntersections()) {
+          break;
+        }
+      }
+      ray = ray.advance(x.getDistance());
+      I = new Interval(0, I.maximum() - x.getDistance());
+    } while (true);
 
-	}
+  }
 
 }

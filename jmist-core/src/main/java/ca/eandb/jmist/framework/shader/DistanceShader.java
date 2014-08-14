@@ -38,86 +38,86 @@ import ca.eandb.jmist.math.Interval;
  */
 public final class DistanceShader implements Shader {
 
-	/**
-	 * Serialization version ID.
-	 */
-	private static final long serialVersionUID = -6744005479057812858L;
+  /**
+   * Serialization version ID.
+   */
+  private static final long serialVersionUID = -6744005479057812858L;
 
-	private final Interval distanceInterval;
+  private final Interval distanceInterval;
 
-	private final Spectrum minDistanceValue;
+  private final Spectrum minDistanceValue;
 
-	private final Spectrum maxDistanceValue;
+  private final Spectrum maxDistanceValue;
 
-	private final Spectrum nearValue;
+  private final Spectrum nearValue;
 
-	private final Spectrum farValue;
+  private final Spectrum farValue;
 
-	/**
-	 * @param distanceInterval
-	 * @param minDistanceValue
-	 * @param maxDistanceValue
-	 * @param nearValue
-	 * @param farValue
-	 */
-	public DistanceShader(Interval distanceInterval, Spectrum minDistanceValue, Spectrum maxDistanceValue,
-			Spectrum nearValue, Spectrum farValue) {
-		this.distanceInterval = distanceInterval;
-		this.minDistanceValue = minDistanceValue;
-		this.maxDistanceValue = maxDistanceValue;
-		this.nearValue = nearValue;
-		this.farValue = farValue;
-	}
+  /**
+   * @param distanceInterval
+   * @param minDistanceValue
+   * @param maxDistanceValue
+   * @param nearValue
+   * @param farValue
+   */
+  public DistanceShader(Interval distanceInterval, Spectrum minDistanceValue, Spectrum maxDistanceValue,
+      Spectrum nearValue, Spectrum farValue) {
+    this.distanceInterval = distanceInterval;
+    this.minDistanceValue = minDistanceValue;
+    this.maxDistanceValue = maxDistanceValue;
+    this.nearValue = nearValue;
+    this.farValue = farValue;
+  }
 
-	/**
-	 * @param distanceInterval
-	 * @param minDistanceValue
-	 * @param maxDistanceValue
-	 */
-	public DistanceShader(Interval distanceInterval, Spectrum minDistanceValue, Spectrum maxDistanceValue) {
-		this(distanceInterval, minDistanceValue, maxDistanceValue, minDistanceValue, maxDistanceValue);
-	}
+  /**
+   * @param distanceInterval
+   * @param minDistanceValue
+   * @param maxDistanceValue
+   */
+  public DistanceShader(Interval distanceInterval, Spectrum minDistanceValue, Spectrum maxDistanceValue) {
+    this(distanceInterval, minDistanceValue, maxDistanceValue, minDistanceValue, maxDistanceValue);
+  }
 
-	/**
-	 * @param distanceInterval
-	 */
-	public DistanceShader(Interval distanceInterval) {
-		this(distanceInterval, null, null);
-	}
+  /**
+   * @param distanceInterval
+   */
+  public DistanceShader(Interval distanceInterval) {
+    this(distanceInterval, null, null);
+  }
 
-	/**
-	 * @param maxDistance
-	 */
-	public DistanceShader(double maxDistance) {
-		this(new Interval(0, maxDistance));
-	}
+  /**
+   * @param maxDistance
+   */
+  public DistanceShader(double maxDistance) {
+    this(new Interval(0, maxDistance));
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
-	 */
-	public Color shade(ShadingContext sc) {
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
+   */
+  public Color shade(ShadingContext sc) {
 
-		WavelengthPacket lambda = sc.getWavelengthPacket();
-		double d = sc.getDistance();
-		if (distanceInterval.contains(d)) {
-			double t = (d - distanceInterval.minimum()) / distanceInterval.length();
-			Color ncol = getColorWhiteDefault(minDistanceValue, lambda);
-			Color fcol = getColorBlackDefault(maxDistanceValue, lambda);
-			return ncol.times(1.0 - t).plus(fcol.times(t));
-		} else if (d < distanceInterval.minimum()) {
-			return getColorWhiteDefault(nearValue, lambda);
-		} else {
-			return getColorBlackDefault(farValue, lambda);
-		}
+    WavelengthPacket lambda = sc.getWavelengthPacket();
+    double d = sc.getDistance();
+    if (distanceInterval.contains(d)) {
+      double t = (d - distanceInterval.minimum()) / distanceInterval.length();
+      Color ncol = getColorWhiteDefault(minDistanceValue, lambda);
+      Color fcol = getColorBlackDefault(maxDistanceValue, lambda);
+      return ncol.times(1.0 - t).plus(fcol.times(t));
+    } else if (d < distanceInterval.minimum()) {
+      return getColorWhiteDefault(nearValue, lambda);
+    } else {
+      return getColorBlackDefault(farValue, lambda);
+    }
 
-	}
+  }
 
-	public Color getColorWhiteDefault(Spectrum s, WavelengthPacket lambda) {
-		return (s != null) ? s.sample(lambda) : lambda.getColorModel().getWhite(lambda);
-	}
+  public Color getColorWhiteDefault(Spectrum s, WavelengthPacket lambda) {
+    return (s != null) ? s.sample(lambda) : lambda.getColorModel().getWhite(lambda);
+  }
 
-	public Color getColorBlackDefault(Spectrum s, WavelengthPacket lambda) {
-		return (s != null) ? s.sample(lambda) : lambda.getColorModel().getBlack(lambda);
-	}
+  public Color getColorBlackDefault(Spectrum s, WavelengthPacket lambda) {
+    return (s != null) ? s.sample(lambda) : lambda.getColorModel().getBlack(lambda);
+  }
 
 }

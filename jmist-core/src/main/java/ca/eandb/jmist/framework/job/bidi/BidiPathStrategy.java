@@ -40,10 +40,10 @@ import ca.eandb.jmist.math.Point2;
  */
 public interface BidiPathStrategy extends Serializable {
 
-	PathNode traceLightPath(Light light, PathInfo pathInfo, Random rnd);
+  PathNode traceLightPath(Light light, PathInfo pathInfo, Random rnd);
 
-	PathNode traceEyePath(Lens lens, Point2 p, PathInfo pathInfo, Random rnd);
+  PathNode traceEyePath(Lens lens, Point2 p, PathInfo pathInfo, Random rnd);
 
-	double getWeight(PathNode lightNode, PathNode eyeNode);
+  double getWeight(PathNode lightNode, PathNode eyeNode);
 
 }

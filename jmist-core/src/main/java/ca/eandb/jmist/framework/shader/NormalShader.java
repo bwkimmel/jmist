@@ -37,23 +37,23 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class NormalShader implements Shader {
 
-	/** Serialization version ID. */
-	private static final long serialVersionUID = -4724073342278275837L;
+  /** Serialization version ID. */
+  private static final long serialVersionUID = -4724073342278275837L;
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
-	 */
-	@Override
-	public Color shade(ShadingContext sc) {
-		Vector3 n = sc.getShadingNormal();
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
+   */
+  @Override
+  public Color shade(ShadingContext sc) {
+    Vector3 n = sc.getShadingNormal();
 
-		double r = Math.abs(n.x());
-		double g = Math.abs(n.y());
-		double b = Math.abs(n.z());
+    double r = Math.abs(n.x());
+    double g = Math.abs(n.y());
+    double b = Math.abs(n.z());
 
-		double c = Math.max(r, Math.max(g, b));
+    double c = Math.max(r, Math.max(g, b));
 
-		return sc.getColorModel().fromRGB(r / c, g / c, b / c).sample(sc.getWavelengthPacket());
-	}
+    return sc.getColorModel().fromRGB(r / c, g / c, b / c).sample(sc.getWavelengthPacket());
+  }
 
 }

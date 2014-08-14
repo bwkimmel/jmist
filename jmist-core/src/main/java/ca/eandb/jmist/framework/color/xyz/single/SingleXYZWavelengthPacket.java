@@ -36,29 +36,29 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
  * @see http://en.wikipedia.org/wiki/Luminous_efficacy
  */
 public final class SingleXYZWavelengthPacket implements WavelengthPacket {
-	
-	/** Wavelength sampled in meters. */
-	private final double lambda;
-	
-	/**
-	 * Creates a new <code>XYZWavelength</code>.
-	 * @param lambda The wavelength, in meters.
-	 */
-	public SingleXYZWavelengthPacket(double lambda) {
-		this.lambda = lambda;
-	}
+  
+  /** Wavelength sampled in meters. */
+  private final double lambda;
+  
+  /**
+   * Creates a new <code>XYZWavelength</code>.
+   * @param lambda The wavelength, in meters.
+   */
+  public SingleXYZWavelengthPacket(double lambda) {
+    this.lambda = lambda;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.color.WavelengthPacket#getColorModel()
-	 */
-	@Override
-	public ColorModel getColorModel() {
-		return SingleXYZColorModel.getInstance();
-	}
-	
-	/** Gets the wavelength for this sample, in meters. */
-	public double getWavelength() {
-		return lambda;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.color.WavelengthPacket#getColorModel()
+   */
+  @Override
+  public ColorModel getColorModel() {
+    return SingleXYZColorModel.getInstance();
+  }
+  
+  /** Gets the wavelength for this sample, in meters. */
+  public double getWavelength() {
+    return lambda;
+  }
 
 }

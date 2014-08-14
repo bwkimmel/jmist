@@ -35,10 +35,10 @@ import ca.eandb.jmist.math.AffineMatrix3;
  */
 public interface AffineTransformable3 extends LinearTransformable3, ShapePreservingTransformable3, Stretchable3 {
 
-	/**
-	 * Transforms this object according to the specified affine transformation.
-	 * @param T The matrix representing the affine transformation to apply.
-	 */
-	void transform(AffineMatrix3 T);
+  /**
+   * Transforms this object according to the specified affine transformation.
+   * @param T The matrix representing the affine transformation to apply.
+   */
+  void transform(AffineMatrix3 T);
 
 }

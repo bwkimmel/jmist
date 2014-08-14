@@ -35,21 +35,21 @@ import ca.eandb.jmist.framework.color.Color;
  */
 public interface RasterWriter extends Serializable {
 
-	/** Gets the width of the image, in pixels. */
-	int getWidth();
+  /** Gets the width of the image, in pixels. */
+  int getWidth();
 
-	/** Gets the height of the image, in pixels. */
-	int getHeight();
+  /** Gets the height of the image, in pixels. */
+  int getHeight();
 
-	/**
-	 * Sets the <code>Color</code> of the specified pixel.
-	 * @param x The x-coordinate of the pixel.
-	 * @param y The y-coordinate of the pixel.
-	 * @param color The <code>Color</code> to set the pixel to.
-	 */
-	void setPixel(int x, int y, Color color);
+  /**
+   * Sets the <code>Color</code> of the specified pixel.
+   * @param x The x-coordinate of the pixel.
+   * @param y The y-coordinate of the pixel.
+   * @param color The <code>Color</code> to set the pixel to.
+   */
+  void setPixel(int x, int y, Color color);
 
-	/** Clears the entire image. */
-	void clear();
+  /** Clears the entire image. */
+  void clear();
 
 }

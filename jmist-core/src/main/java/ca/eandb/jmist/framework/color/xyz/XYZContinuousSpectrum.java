@@ -36,35 +36,35 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
  */
 /* package */ final class XYZContinuousSpectrum implements Spectrum {
 
-	/**
-	 * Serialization version ID.
-	 */
-	private static final long serialVersionUID = -2786148246514418922L;
+  /**
+   * Serialization version ID.
+   */
+  private static final long serialVersionUID = -2786148246514418922L;
 
-	private final Function1 spectrum;
+  private final Function1 spectrum;
 
-	/**
-	 * @param spectrum
-	 */
-	public XYZContinuousSpectrum(Function1 spectrum) {
-		this.spectrum = spectrum;
-	}
+  /**
+   * @param spectrum
+   */
+  public XYZContinuousSpectrum(Function1 spectrum) {
+    this.spectrum = spectrum;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.color.Spectrum#sample(ca.eandb.jmist.framework.color.WavelengthPacket)
-	 */
-	public Color sample(WavelengthPacket lambda) {
-		return sample((XYZWavelengthPacket) lambda);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.color.Spectrum#sample(ca.eandb.jmist.framework.color.WavelengthPacket)
+   */
+  public Color sample(WavelengthPacket lambda) {
+    return sample((XYZWavelengthPacket) lambda);
+  }
 
-	public Color sample(XYZWavelengthPacket lambda) {
-		if (lambda == null || spectrum == null) {
-			lambda = null;
-		}
-		double x = spectrum.evaluate(lambda.getLambdaX());
-		double y = spectrum.evaluate(lambda.getLambdaY());
-		double z = spectrum.evaluate(lambda.getLambdaZ());
-		return new XYZColor(x, y, z, lambda);
-	}
+  public Color sample(XYZWavelengthPacket lambda) {
+    if (lambda == null || spectrum == null) {
+      lambda = null;
+    }
+    double x = spectrum.evaluate(lambda.getLambdaX());
+    double y = spectrum.evaluate(lambda.getLambdaY());
+    double z = spectrum.evaluate(lambda.getLambdaZ());
+    return new XYZColor(x, y, z, lambda);
+  }
 
 }

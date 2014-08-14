@@ -34,30 +34,30 @@ import java.util.List;
  */
 public final class CompositeElementListener implements ElementListener {
 
-	/** The <code>List</code> of child <code>ElementListener</code>s. */
-	private final List<ElementListener> listeners = new LinkedList<ElementListener>();
+  /** The <code>List</code> of child <code>ElementListener</code>s. */
+  private final List<ElementListener> listeners = new LinkedList<ElementListener>();
 
-	/** Creates a new <code>CompositeElementListener</code>. */
-	public CompositeElementListener() {}
+  /** Creates a new <code>CompositeElementListener</code>. */
+  public CompositeElementListener() {}
 
-	/**
-	 * Adds a new child <code>ElementListener</code>.
-	 * @param listener The <code>ElementListener</code> to add.
-	 * @return A reference to this <code>CompositeElementListener</code>.
-	 */
-	public CompositeElementListener addListener(ElementListener listener) {
-		listeners.add(listener);
-		return this;
-	}
+  /**
+   * Adds a new child <code>ElementListener</code>.
+   * @param listener The <code>ElementListener</code> to add.
+   * @return A reference to this <code>CompositeElementListener</code>.
+   */
+  public CompositeElementListener addListener(ElementListener listener) {
+    listeners.add(listener);
+    return this;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.ply.ElementListener#element(ca.eandb.jmist.framework.loader.ply.PlyElement)
-	 */
-	@Override
-	public void element(PlyElement element) {
-		for (ElementListener listener : listeners) {
-			listener.element(element);
-		}
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.loader.ply.ElementListener#element(ca.eandb.jmist.framework.loader.ply.PlyElement)
+   */
+  @Override
+  public void element(PlyElement element) {
+    for (ElementListener listener : listeners) {
+      listener.element(element);
+    }
+  }
 
 }

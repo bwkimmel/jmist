@@ -32,28 +32,28 @@ import java.io.IOException;
  */
 interface DataReader {
 
-	/** Reads a signed byte value (char). */
-	byte readChar() throws IOException;
+  /** Reads a signed byte value (char). */
+  byte readChar() throws IOException;
 
-	/** Reads an unsigned byte value (uchar). */
-	int readUnsignedChar() throws IOException;
+  /** Reads an unsigned byte value (uchar). */
+  int readUnsignedChar() throws IOException;
 
-	/** Reads a signed short value (short). */
-	short readShort() throws IOException;
+  /** Reads a signed short value (short). */
+  short readShort() throws IOException;
 
-	/** Reads an unsigned short value (ushort). */
-	int readUnsignedShort() throws IOException;
+  /** Reads an unsigned short value (ushort). */
+  int readUnsignedShort() throws IOException;
 
-	/** Reads a signed integer value (int). */
-	int readInt() throws IOException;
+  /** Reads a signed integer value (int). */
+  int readInt() throws IOException;
 
-	/** Reads an unsigned integer value (uint). */
-	long readUnsignedInt() throws IOException;
+  /** Reads an unsigned integer value (uint). */
+  long readUnsignedInt() throws IOException;
 
-	/** Reads a single-precision floating point value (float). */
-	float readFloat() throws IOException;
+  /** Reads a single-precision floating point value (float). */
+  float readFloat() throws IOException;
 
-	/** Reads a double-precision floating point value (double). */
-	double readDouble() throws IOException;
+  /** Reads a double-precision floating point value (double). */
+  double readDouble() throws IOException;
 
 }

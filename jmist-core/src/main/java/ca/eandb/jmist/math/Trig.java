@@ -31,32 +31,32 @@ package ca.eandb.jmist.math;
  */
 public final class Trig {
 
-	/** 256 cosine values uniformly spaced from zero to pi. */
-	public static final double[] COS_THETA = new double[256];
+  /** 256 cosine values uniformly spaced from zero to pi. */
+  public static final double[] COS_THETA = new double[256];
 
-	/** 256 sine values uniformly spaced from zero to pi. */
-	public static final double[] SIN_THETA = new double[256];
+  /** 256 sine values uniformly spaced from zero to pi. */
+  public static final double[] SIN_THETA = new double[256];
 
-	/** 256 cosine values uniformly spaced from zero to 2*pi. */
-	public static final double[] COS_PHI = new double[256];
+  /** 256 cosine values uniformly spaced from zero to 2*pi. */
+  public static final double[] COS_PHI = new double[256];
 
-	/** 256 sine values uniformly spaced from zero to 2*pi. */
-	public static final double[] SIN_PHI = new double[256];
+  /** 256 sine values uniformly spaced from zero to 2*pi. */
+  public static final double[] SIN_PHI = new double[256];
 
-	/**
-	 * Precomputed trigonometric quantities.
-	 */
-	static {
-		for (int i = 0; i < 256; i++) {
-			double angle = (double) i * (1.0 / 256.0) * Math.PI;
-			COS_THETA[i] = Math.cos(angle);
-			SIN_THETA[i] = Math.sin(angle);
-			COS_PHI[i] = Math.cos(2.0 * angle);
-			SIN_PHI[i] = Math.sin(2.0 * angle);
-		}
-	}
+  /**
+   * Precomputed trigonometric quantities.
+   */
+  static {
+    for (int i = 0; i < 256; i++) {
+      double angle = (double) i * (1.0 / 256.0) * Math.PI;
+      COS_THETA[i] = Math.cos(angle);
+      SIN_THETA[i] = Math.sin(angle);
+      COS_PHI[i] = Math.cos(2.0 * angle);
+      SIN_PHI[i] = Math.sin(2.0 * angle);
+    }
+  }
 
-	/** Private constructure to ensure that this class is not instantiated. */
-	private Trig() {}
+  /** Private constructure to ensure that this class is not instantiated. */
+  private Trig() {}
 
 }

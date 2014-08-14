@@ -33,43 +33,43 @@ import ca.eandb.jmist.framework.Function1;
  */
 public final class ScaledFunction1 implements Function1 {
 
-	/**
-	 * Serialization version ID.
-	 */
-	private static final long serialVersionUID = 7790001536461093763L;
+  /**
+   * Serialization version ID.
+   */
+  private static final long serialVersionUID = 7790001536461093763L;
 
-	/**
-	 * Creates a new <code>ScaledFunction1</code>.
-	 * @param factor The factor by which to multiply the decorated
-	 * 		<code>Function1</code>.
-	 * @param inner The <code>Function1</code> to be multiplied by a constant
-	 * 		factor.
-	 */
-	public ScaledFunction1(double factor, Function1 inner) {
+  /**
+   * Creates a new <code>ScaledFunction1</code>.
+   * @param factor The factor by which to multiply the decorated
+   *     <code>Function1</code>.
+   * @param inner The <code>Function1</code> to be multiplied by a constant
+   *     factor.
+   */
+  public ScaledFunction1(double factor, Function1 inner) {
 
-		/* Combine successive ScaledFunction1 instances into one. */
-		while (inner instanceof ScaledFunction1) {
-			ScaledFunction1 f = (ScaledFunction1) inner;
-			factor *= f.factor;
-			inner = f.inner;
-		}
+    /* Combine successive ScaledFunction1 instances into one. */
+    while (inner instanceof ScaledFunction1) {
+      ScaledFunction1 f = (ScaledFunction1) inner;
+      factor *= f.factor;
+      inner = f.inner;
+    }
 
-		this.factor = factor;
-		this.inner = inner;
+    this.factor = factor;
+    this.inner = inner;
 
-	}
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Function1#evaluate(double)
-	 */
-	public double evaluate(double x) {
-		return this.factor * this.inner.evaluate(x);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Function1#evaluate(double)
+   */
+  public double evaluate(double x) {
+    return this.factor * this.inner.evaluate(x);
+  }
 
-	/** The factor by which to multiply the decorated <code>Function1</code>. */
-	private final double factor;
+  /** The factor by which to multiply the decorated <code>Function1</code>. */
+  private final double factor;
 
-	/** The <code>Function1</code> to be multiplied by a constant factor. */
-	private final Function1 inner;
+  /** The <code>Function1</code> to be multiplied by a constant factor. */
+  private final Function1 inner;
 
 }

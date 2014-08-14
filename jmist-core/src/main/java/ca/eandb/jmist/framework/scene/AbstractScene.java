@@ -36,28 +36,28 @@ import ca.eandb.jmist.math.Sphere;
  */
 public abstract class AbstractScene implements Scene {
 
-	/** Serialization version ID. */
-	private static final long serialVersionUID = -4940169789326164886L;
+  /** Serialization version ID. */
+  private static final long serialVersionUID = -4940169789326164886L;
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
-	 */
-	public Box3 boundingBox() {
-		return getRoot().boundingBox();
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
+   */
+  public Box3 boundingBox() {
+    return getRoot().boundingBox();
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
-	 */
-	public Sphere boundingSphere() {
-		return getRoot().boundingSphere();
-	}
-	
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Scene#getAnimator()
-	 */
-	public Animator getAnimator() {
-		return Animator.STATIC;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
+   */
+  public Sphere boundingSphere() {
+    return getRoot().boundingSphere();
+  }
+  
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Scene#getAnimator()
+   */
+  public Animator getAnimator() {
+    return Animator.STATIC;
+  }
 
 }

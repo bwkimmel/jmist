@@ -39,22 +39,22 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class DiffusingSurfaceScatterer implements SurfaceScatterer {
 
-	/** Serialization version ID. */
-	private static final long serialVersionUID = 5755264699518450187L;
+  /** Serialization version ID. */
+  private static final long serialVersionUID = 5755264699518450187L;
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.scatter.SurfaceScatterer#scatter(ca.eandb.jmist.framework.SurfacePointGeometry, ca.eandb.jmist.math.Vector3, boolean, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random)
-	 */
-	public Vector3 scatter(SurfacePointGeometry x, Vector3 v,
-			boolean adjoint, double lambda, Random rnd) {
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.scatter.SurfaceScatterer#scatter(ca.eandb.jmist.framework.SurfacePointGeometry, ca.eandb.jmist.math.Vector3, boolean, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random)
+   */
+  public Vector3 scatter(SurfacePointGeometry x, Vector3 v,
+      boolean adjoint, double lambda, Random rnd) {
 
-		Vector3 N = x.getNormal();
+    Vector3 N = x.getNormal();
 
-		if (v.dot(N) < 0.0) {
-			N = N.opposite();
-		}
+    if (v.dot(N) < 0.0) {
+      N = N.opposite();
+    }
 
-		return RandomUtil.diffuse(rnd).toCartesian(Basis3.fromW(N));
-	}
+    return RandomUtil.diffuse(rnd).toCartesian(Basis3.fromW(N));
+  }
 
 }

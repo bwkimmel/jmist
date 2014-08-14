@@ -34,7 +34,7 @@ import java.io.IOException;
  *
  */
 public interface AttributeReader {
-	
-	Attribute read(DataInput in, int size) throws IOException;
+  
+  Attribute read(DataInput in, int size) throws IOException;
 
 }

@@ -33,11 +33,11 @@ import ca.eandb.jmist.math.Vector2;
  */
 public interface Stretchable2 extends AxisStretchable2 {
 
-	/**
-	 * Stretches the object along an arbitrary axis.
-	 * @param axis The axis along which to stretch the object (must not be Vector2.ZERO).
-	 * @param c The factor by which to stretch the object.
-	 */
-	void stretch(Vector2 axis, double c);
+  /**
+   * Stretches the object along an arbitrary axis.
+   * @param axis The axis along which to stretch the object (must not be Vector2.ZERO).
+   * @param c The factor by which to stretch the object.
+   */
+  void stretch(Vector2 axis, double c);
 
 }

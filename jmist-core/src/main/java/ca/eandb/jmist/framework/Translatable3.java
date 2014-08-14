@@ -34,10 +34,10 @@ import ca.eandb.jmist.math.Vector3;
  */
 public interface Translatable3 {
 
-	/**
-	 * Translates the object along the specified vector.
-	 * @param v The vector to translate the object by.
-	 */
-	void translate(Vector3 v);
+  /**
+   * Translates the object along the specified vector.
+   * @param v The vector to translate the object by.
+   */
+  void translate(Vector3 v);
 
 }

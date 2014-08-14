@@ -34,6 +34,6 @@ import ca.eandb.jmist.framework.Shader;
  */
 interface AppearanceVisitor {
 
-	void visit(String name, Material material, Shader shader);
+  void visit(String name, Material material, Shader shader);
 
 }

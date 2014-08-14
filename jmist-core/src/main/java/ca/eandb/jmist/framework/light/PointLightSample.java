@@ -39,56 +39,56 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class PointLightSample implements LightSample {
 
-	private final SurfacePoint x;
+  private final SurfacePoint x;
 
-	private final Point3 position;
+  private final Point3 position;
 
-	private final Color intensity;
+  private final Color intensity;
 
-	private final boolean shadows;
+  private final boolean shadows;
 
-	/**
-	 * @param x
-	 * @param position
-	 * @param intensity
-	 * @param shadows
-	 */
-	public PointLightSample(SurfacePoint x, Point3 position, Color intensity,
-			boolean shadows) {
-		this.x = x;
-		this.position = position;
-		this.intensity = intensity;
-		this.shadows = shadows;
-	}
+  /**
+   * @param x
+   * @param position
+   * @param intensity
+   * @param shadows
+   */
+  public PointLightSample(SurfacePoint x, Point3 position, Color intensity,
+      boolean shadows) {
+    this.x = x;
+    this.position = position;
+    this.intensity = intensity;
+    this.shadows = shadows;
+  }
 
-	/**
-	 * @param x
-	 * @param position
-	 * @param intensity
-	 */
-	public PointLightSample(SurfacePoint x, Point3 position, Color intensity) {
-		this(x, position, intensity, true);
-	}
+  /**
+   * @param x
+   * @param position
+   * @param intensity
+   */
+  public PointLightSample(SurfacePoint x, Point3 position, Color intensity) {
+    this(x, position, intensity, true);
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.LightSample#castShadowRay(ca.eandb.jmist.framework.VisibilityFunction3)
-	 */
-	public boolean castShadowRay(VisibilityFunction3 vf) {
-		return shadows && !vf.visibility(new Ray3(x.getPosition(), position));
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.LightSample#castShadowRay(ca.eandb.jmist.framework.VisibilityFunction3)
+   */
+  public boolean castShadowRay(VisibilityFunction3 vf) {
+    return shadows && !vf.visibility(new Ray3(x.getPosition(), position));
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.LightSample#getRadiantIntensity()
-	 */
-	public Color getRadiantIntensity() {
-		return intensity;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.LightSample#getRadiantIntensity()
+   */
+  public Color getRadiantIntensity() {
+    return intensity;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.LightSample#getDirToLight()
-	 */
-	public Vector3 getDirToLight() {
-		return x.getPosition().vectorTo(position).unit();
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.LightSample#getDirToLight()
+   */
+  public Vector3 getDirToLight() {
+    return x.getPosition().vectorTo(position).unit();
+  }
 
 }

@@ -33,21 +33,21 @@ import ca.eandb.jmist.framework.Function1;
  */
 public final class CIEIlluminantASpectrum implements Function1 {
 
-	/** Serialization version ID. */
-	private static final long serialVersionUID = 5075105015802796920L;
+  /** Serialization version ID. */
+  private static final long serialVersionUID = 5075105015802796920L;
 
-	/** Numerator in formula for CIE Illuminant A distribution. */
-	private static final double NUMERATOR = Math.exp(1.435e7 / (2848.0 * 560.0)) - 1.0;
+  /** Numerator in formula for CIE Illuminant A distribution. */
+  private static final double NUMERATOR = Math.exp(1.435e7 / (2848.0 * 560.0)) - 1.0;
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Function1#evaluate(double)
-	 */
-	@Override
-	public double evaluate(double x) {
-		double lambda = x * 1e9; // wavelength (in nm)
-		double denominator = Math.exp(1.435e7 / (2848.0 * lambda)) - 1.0;
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Function1#evaluate(double)
+   */
+  @Override
+  public double evaluate(double x) {
+    double lambda = x * 1e9; // wavelength (in nm)
+    double denominator = Math.exp(1.435e7 / (2848.0 * lambda)) - 1.0;
 
-		return 100.0 * Math.pow(560.0 / lambda, 5.0) * (NUMERATOR / denominator);
-	}
+    return 100.0 * Math.pow(560.0 / lambda, 5.0) * (NUMERATOR / denominator);
+  }
 
 }

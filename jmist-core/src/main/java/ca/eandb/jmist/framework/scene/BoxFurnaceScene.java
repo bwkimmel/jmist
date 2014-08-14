@@ -45,40 +45,40 @@ import ca.eandb.jmist.math.Box3;
  */
 public final class BoxFurnaceScene extends AbstractScene {
 
-	/**
-	 * Serialization version ID.
-	 */
-	private static final long serialVersionUID = 8454473677375672984L;
+  /**
+   * Serialization version ID.
+   */
+  private static final long serialVersionUID = 8454473677375672984L;
 
-	private static final Lens lens = new FisheyeLens();
+  private static final Lens lens = new FisheyeLens();
 
-	private final SceneElement root;
+  private final SceneElement root;
 
-	public BoxFurnaceScene(Spectrum reflectance, Spectrum emittance) {
-		root = new MaterialSceneElement(
-				new LambertianMaterial(reflectance, emittance),
-				new InsideOutGeometry(new BoxGeometry(new Box3(-1, -1, -1, 1, 1, 1))));
-	}
+  public BoxFurnaceScene(Spectrum reflectance, Spectrum emittance) {
+    root = new MaterialSceneElement(
+        new LambertianMaterial(reflectance, emittance),
+        new InsideOutGeometry(new BoxGeometry(new Box3(-1, -1, -1, 1, 1, 1))));
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Scene#getLens()
-	 */
-	public Lens getLens() {
-		return lens;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Scene#getLens()
+   */
+  public Lens getLens() {
+    return lens;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Scene#getLight()
-	 */
-	public Light getLight() {
-		return root.createLight();
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Scene#getLight()
+   */
+  public Light getLight() {
+    return root.createLight();
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Scene#getRoot()
-	 */
-	public SceneElement getRoot() {
-		return root;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Scene#getRoot()
+   */
+  public SceneElement getRoot() {
+    return root;
+  }
 
 }

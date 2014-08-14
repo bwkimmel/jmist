@@ -35,21 +35,21 @@ import ca.eandb.jmist.framework.color.Color;
  */
 public final class StandardCompositeShader extends CompositeShader {
 
-	/**
-	 * Serialization version ID.
-	 */
-	private static final long serialVersionUID = -870791462232286251L;
+  /**
+   * Serialization version ID.
+   */
+  private static final long serialVersionUID = -870791462232286251L;
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
-	 */
-	public Color shade(ShadingContext sc) {
-		Color result = sc.getColorModel().getBlack(sc.getWavelengthPacket());
-		for (Shader shader : shaders) {
-			Color color = shader.shade(sc);
-			result = result.plus(color);
-		}
-		return result;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
+   */
+  public Color shade(ShadingContext sc) {
+    Color result = sc.getColorModel().getBlack(sc.getWavelengthPacket());
+    for (Shader shader : shaders) {
+      Color color = shader.shade(sc);
+      result = result.plus(color);
+    }
+    return result;
+  }
 
 }

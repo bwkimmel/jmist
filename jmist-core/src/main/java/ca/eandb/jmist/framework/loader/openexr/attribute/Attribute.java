@@ -33,7 +33,7 @@ import java.io.IOException;
  *
  */
 public interface Attribute {
-	
-	void write(DataOutput out) throws IOException;
+  
+  void write(DataOutput out) throws IOException;
 
 }

@@ -36,60 +36,60 @@ import ca.eandb.jmist.util.ArrayUtil;
  * @author Brad Kimmel
  */
 public abstract class AbstractProbabilityDensityFunction implements
-		ProbabilityDensityFunction {
+    ProbabilityDensityFunction {
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#sample(ca.eandb.jmist.framework.Random)
-	 */
-	public double sample(Random random) {
-		return this.warp(RandomUtil.canonical(random));
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#sample(ca.eandb.jmist.framework.Random)
+   */
+  public double sample(Random random) {
+    return this.warp(RandomUtil.canonical(random));
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#evaluate(double[], double[])
-	 */
-	public double[] evaluate(double[] x, double[] results) {
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#evaluate(double[], double[])
+   */
+  public double[] evaluate(double[] x, double[] results) {
 
-		results = ArrayUtil.initialize(results, x.length);
+    results = ArrayUtil.initialize(results, x.length);
 
-		for (int i = 0; i < results.length; i++) {
-			results[i] = this.evaluate(x[i]);
-		}
+    for (int i = 0; i < results.length; i++) {
+      results[i] = this.evaluate(x[i]);
+    }
 
-		return results;
+    return results;
 
-	}
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#sample(ca.eandb.jmist.framework.Random, double[])
-	 */
-	public double[] sample(Random random, double[] results) {
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#sample(ca.eandb.jmist.framework.Random, double[])
+   */
+  public double[] sample(Random random, double[] results) {
 
-		for (int i = 0; i < results.length; i++) {
-			results[i] = this.sample(random);
-		}
+    for (int i = 0; i < results.length; i++) {
+      results[i] = this.sample(random);
+    }
 
-		return results;
+    return results;
 
-	}
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#warp(double[], double[])
-	 */
-	public double[] warp(double[] seeds, double[] results) {
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#warp(double[], double[])
+   */
+  public double[] warp(double[] seeds, double[] results) {
 
-		if (results == null) {
-			results = new double[seeds.length];
-		} else if (results.length != seeds.length) {
-			throw new IllegalArgumentException("results.length != seeds.length");
-		}
+    if (results == null) {
+      results = new double[seeds.length];
+    } else if (results.length != seeds.length) {
+      throw new IllegalArgumentException("results.length != seeds.length");
+    }
 
-		for (int i = 0; i < results.length; i++) {
-			results[i] = this.warp(seeds[i]);
-		}
+    for (int i = 0; i < results.length; i++) {
+      results[i] = this.warp(seeds[i]);
+    }
 
-		return results;
+    return results;
 
-	}
+  }
 
 }

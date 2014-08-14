@@ -34,81 +34,81 @@ import ca.eandb.jmist.util.ArrayUtil;
  */
 public abstract class DoubleRaster implements Raster {
 
-	/** Serialization version ID. */
-	private static final long serialVersionUID = 3651188089171016945L;
+  /** Serialization version ID. */
+  private static final long serialVersionUID = 3651188089171016945L;
 
-	private final double[] raster;
+  private final double[] raster;
 
-	private final int width;
+  private final int width;
 
-	private final int height;
+  private final int height;
 
-	private final int channels;
+  private final int channels;
 
-	protected DoubleRaster(int width, int height, int channels) {
-		this.width = width;
-		this.height = height;
-		this.channels = channels;
-		this.raster = new double[width * height * channels];
-	}
+  protected DoubleRaster(int width, int height, int channels) {
+    this.width = width;
+    this.height = height;
+    this.channels = channels;
+    this.raster = new double[width * height * channels];
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Raster#getPixel(int, int)
-	 */
-	public final Color getPixel(int x, int y) {
-		int index = (y * width + x) * channels;
-		return getPixel(raster, index);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Raster#getPixel(int, int)
+   */
+  public final Color getPixel(int x, int y) {
+    int index = (y * width + x) * channels;
+    return getPixel(raster, index);
+  }
 
-	protected abstract Color getPixel(double[] raster, int index);
+  protected abstract Color getPixel(double[] raster, int index);
 
-	protected void addPixel(double[] raster, int index, Color pixel) {
-		for (int ch = 0; ch < channels; ch++) {
-			raster[index++] += pixel.getValue(ch);
-		}
-	}
+  protected void addPixel(double[] raster, int index, Color pixel) {
+    for (int ch = 0; ch < channels; ch++) {
+      raster[index++] += pixel.getValue(ch);
+    }
+  }
 
-	protected void setPixel(double[] raster, int index, Color pixel) {
-		for (int ch = 0; ch < channels; ch++) {
-			raster[index++] = pixel.getValue(ch);
-		}
-	}
+  protected void setPixel(double[] raster, int index, Color pixel) {
+    for (int ch = 0; ch < channels; ch++) {
+      raster[index++] = pixel.getValue(ch);
+    }
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Raster#addPixel(int, int, ca.eandb.jmist.framework.color.Color)
-	 */
-	public final void addPixel(int x, int y, Color pixel) {
-		int index = (y * width + x) * channels;
-		addPixel(raster, index, pixel);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Raster#addPixel(int, int, ca.eandb.jmist.framework.color.Color)
+   */
+  public final void addPixel(int x, int y, Color pixel) {
+    int index = (y * width + x) * channels;
+    addPixel(raster, index, pixel);
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.RasterWriter#getHeight()
-	 */
-	public final int getHeight() {
-		return height;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.RasterWriter#getHeight()
+   */
+  public final int getHeight() {
+    return height;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.RasterWriter#getWidth()
-	 */
-	public final int getWidth() {
-		return width;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.RasterWriter#getWidth()
+   */
+  public final int getWidth() {
+    return width;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.RasterWriter#setPixel(int, int, ca.eandb.jmist.framework.color.Color)
-	 */
-	public final void setPixel(int x, int y, Color color) {
-		int index = (y * width + x) * channels;
-		setPixel(raster, index, color);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.RasterWriter#setPixel(int, int, ca.eandb.jmist.framework.color.Color)
+   */
+  public final void setPixel(int x, int y, Color color) {
+    int index = (y * width + x) * channels;
+    setPixel(raster, index, color);
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.RasterWriter#clear()
-	 */
-	public final void clear() {
-		ArrayUtil.setAll(raster, 0.0);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.RasterWriter#clear()
+   */
+  public final void clear() {
+    ArrayUtil.setAll(raster, 0.0);
+  }
 
 }

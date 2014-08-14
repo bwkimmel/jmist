@@ -30,48 +30,48 @@ package ca.eandb.jmist.framework.loader.ply;
  */
 final class PlyFloatProperty extends PlySingletonProperty {
 
-	/** The value of this property. */
-	private final double value;
+  /** The value of this property. */
+  private final double value;
 
-	/**
-	 * Creates a new <code>PlyFloatProperty</code>.
-	 * @param value The value of the property.
-	 * @param descriptor The <code>PropertyDescriptor</code> describing this
-	 * 		property.
-	 * @throws IllegalArgumentException if <code>descriptor</code> describes a
-	 * 		list or integral (not-float) property.
-	 */
-	public PlyFloatProperty(double value, PropertyDescriptor descriptor) {
-		super(descriptor);
+  /**
+   * Creates a new <code>PlyFloatProperty</code>.
+   * @param value The value of the property.
+   * @param descriptor The <code>PropertyDescriptor</code> describing this
+   *     property.
+   * @throws IllegalArgumentException if <code>descriptor</code> describes a
+   *     list or integral (not-float) property.
+   */
+  public PlyFloatProperty(double value, PropertyDescriptor descriptor) {
+    super(descriptor);
 
-		if (!descriptor.getDataType().isFloatingPoint()) {
-			throw new IllegalArgumentException("Floating point data type required");
-		}
-		this.value = value;
-	}
+    if (!descriptor.getDataType().isFloatingPoint()) {
+      throw new IllegalArgumentException("Floating point data type required");
+    }
+    this.value = value;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getNormalizedDoubleValue()
-	 */
-	@Override
-	public double getNormalizedDoubleValue() {
-		return value;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getNormalizedDoubleValue()
+   */
+  @Override
+  public double getNormalizedDoubleValue() {
+    return value;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getDoubleValue()
-	 */
-	@Override
-	public double getDoubleValue() {
-		return value;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getDoubleValue()
+   */
+  @Override
+  public double getDoubleValue() {
+    return value;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getIntValue()
-	 */
-	@Override
-	public int getIntValue() {
-		return (int) value;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getIntValue()
+   */
+  @Override
+  public int getIntValue() {
+    return (int) value;
+  }
 
 }

@@ -36,30 +36,30 @@ import java.io.IOException;
  */
 @OpenEXRAttributeType("float")
 public final class FloatAttribute implements Attribute {
-	
-	private final float value;
-	
-	public FloatAttribute(float value) {
-		this.value = value;
-	}
+  
+  private final float value;
+  
+  public FloatAttribute(float value) {
+    this.value = value;
+  }
 
-	/**
-	 * @return the value
-	 */
-	public float getValue() {
-		return value;
-	}
-	
-	public static FloatAttribute read(DataInput in, int size) throws IOException {
-		return new FloatAttribute(in.readFloat());
-	}
+  /**
+   * @return the value
+   */
+  public float getValue() {
+    return value;
+  }
+  
+  public static FloatAttribute read(DataInput in, int size) throws IOException {
+    return new FloatAttribute(in.readFloat());
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.openexr.Attribute#write(java.io.DataOutput)
-	 */
-	@Override
-	public void write(DataOutput out) throws IOException {
-		out.writeFloat(value);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.loader.openexr.Attribute#write(java.io.DataOutput)
+   */
+  @Override
+  public void write(DataOutput out) throws IOException {
+    out.writeFloat(value);
+  }
 
 }

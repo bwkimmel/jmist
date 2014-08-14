@@ -36,19 +36,19 @@ import ca.eandb.jmist.framework.Shader;
  */
 public abstract class CompositeShader implements Shader {
 
-	protected List<Shader> shaders;
+  protected List<Shader> shaders;
 
-	protected CompositeShader() {
-		shaders = new ArrayList<Shader>();
-	}
+  protected CompositeShader() {
+    shaders = new ArrayList<Shader>();
+  }
 
-	protected CompositeShader(List<Shader> shaders) {
-		this.shaders = shaders;
-	}
+  protected CompositeShader(List<Shader> shaders) {
+    this.shaders = shaders;
+  }
 
-	public CompositeShader addShader(Shader shader) {
-		shaders.add(shader);
-		return this;
-	}
+  public CompositeShader addShader(Shader shader) {
+    shaders.add(shader);
+    return this;
+  }
 
 }

@@ -37,25 +37,25 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
  */
 public final class Texture3Painter implements Painter {
 
-	/**
-	 * Serialization version ID.
-	 */
-	private static final long serialVersionUID = 4426164816497002859L;
+  /**
+   * Serialization version ID.
+   */
+  private static final long serialVersionUID = 4426164816497002859L;
 
-	private final Texture3 texture;
+  private final Texture3 texture;
 
-	/**
-	 * @param texture
-	 */
-	public Texture3Painter(Texture3 texture) {
-		this.texture = texture;
-	}
+  /**
+   * @param texture
+   */
+  public Texture3Painter(Texture3 texture) {
+    this.texture = texture;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Painter#getColor(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.color.WavelengthPacket)
-	 */
-	public Color getColor(SurfacePoint p, WavelengthPacket lambda) {
-		return texture.evaluate(p.getPosition(), lambda);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Painter#getColor(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.color.WavelengthPacket)
+   */
+  public Color getColor(SurfacePoint p, WavelengthPacket lambda) {
+    return texture.evaluate(p.getPosition(), lambda);
+  }
 
 }

@@ -30,53 +30,53 @@ package ca.eandb.jmist.framework.loader.ply;
  */
 abstract class PlyListProperty implements PlyProperty {
 
-	/** The <code>PropertyDescriptor</code> describing this property. */
-	private final PropertyDescriptor descriptor;
+  /** The <code>PropertyDescriptor</code> describing this property. */
+  private final PropertyDescriptor descriptor;
 
-	/**
-	 * Initializes this <code>PlyListProperty</code>.
-	 * @param descriptor The <code>PropertyDescriptor</code> describing this
-	 * 		property.
-	 * @throws IllegalArgumentException If <code>descriptor</code> describes a
-	 * 		singleton (non-list) property.
-	 */
-	public PlyListProperty(PropertyDescriptor descriptor) {
-		if (!descriptor.isList()) {
-			throw new IllegalArgumentException("Property type must be a list");
-		}
-		this.descriptor = descriptor;
-	}
+  /**
+   * Initializes this <code>PlyListProperty</code>.
+   * @param descriptor The <code>PropertyDescriptor</code> describing this
+   *     property.
+   * @throws IllegalArgumentException If <code>descriptor</code> describes a
+   *     singleton (non-list) property.
+   */
+  public PlyListProperty(PropertyDescriptor descriptor) {
+    if (!descriptor.isList()) {
+      throw new IllegalArgumentException("Property type must be a list");
+    }
+    this.descriptor = descriptor;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getPropertyDescriptor()
-	 */
-	@Override
-	public final PropertyDescriptor getPropertyDescriptor() {
-		return descriptor;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getPropertyDescriptor()
+   */
+  @Override
+  public final PropertyDescriptor getPropertyDescriptor() {
+    return descriptor;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getNormalizedDoubleValue()
-	 */
-	@Override
-	public double getNormalizedDoubleValue() {
-		return getNormalizedDoubleValue(0);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getNormalizedDoubleValue()
+   */
+  @Override
+  public double getNormalizedDoubleValue() {
+    return getNormalizedDoubleValue(0);
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getDoubleValue()
-	 */
-	@Override
-	public double getDoubleValue() {
-		return getDoubleValue(0);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getDoubleValue()
+   */
+  @Override
+  public double getDoubleValue() {
+    return getDoubleValue(0);
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getIntValue()
-	 */
-	@Override
-	public int getIntValue() {
-		return getIntValue(0);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getIntValue()
+   */
+  @Override
+  public int getIntValue() {
+    return getIntValue(0);
+  }
 
 }

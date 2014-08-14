@@ -35,12 +35,12 @@ import java.io.Serializable;
  */
 public interface Spectrum extends Serializable {
 
-	/**
-	 * Samples this spectrum.
-	 * @param lambda The <code>WavelengthPacket</code> to use to sample the
-	 * 		spectrum.
-	 * @return The <code>Color</code> sample.
-	 */
-	Color sample(WavelengthPacket lambda);
+  /**
+   * Samples this spectrum.
+   * @param lambda The <code>WavelengthPacket</code> to use to sample the
+   *     spectrum.
+   * @return The <code>Color</code> sample.
+   */
+  Color sample(WavelengthPacket lambda);
 
 }

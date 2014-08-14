@@ -39,29 +39,29 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class DirectLightingShader implements Shader {
 
-	/**
-	 * Serialization version ID.
-	 */
-	private static final long serialVersionUID = -7391459165157437122L;
+  /**
+   * Serialization version ID.
+   */
+  private static final long serialVersionUID = -7391459165157437122L;
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
-	 */
-	public Color shade(ShadingContext sc) {
-		Material mat = sc.getMaterial();
-		WavelengthPacket lambda = sc.getWavelengthPacket();
-		Vector3 normal = sc.getShadingNormal();
-		Color sum = sc.getColorModel().getBlack(lambda);
-		for (LightSample sample : sc.getLightSamples()) {
-			if (!sample.castShadowRay(sc)) {
-				Vector3 in = sample.getDirToLight().opposite();
-				Vector3 out = sc.getIncident().opposite();
-				Color bsdf = mat.bsdf(sc, in, out, lambda);
-				double dot = Math.abs(in.dot(normal));
-				sum = sum.plus(sample.getRadiantIntensity().times(bsdf.times(dot)));
-			}
-		}
-		return sum;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
+   */
+  public Color shade(ShadingContext sc) {
+    Material mat = sc.getMaterial();
+    WavelengthPacket lambda = sc.getWavelengthPacket();
+    Vector3 normal = sc.getShadingNormal();
+    Color sum = sc.getColorModel().getBlack(lambda);
+    for (LightSample sample : sc.getLightSamples()) {
+      if (!sample.castShadowRay(sc)) {
+        Vector3 in = sample.getDirToLight().opposite();
+        Vector3 out = sc.getIncident().opposite();
+        Color bsdf = mat.bsdf(sc, in, out, lambda);
+        double dot = Math.abs(in.dot(normal));
+        sum = sum.plus(sample.getRadiantIntensity().times(bsdf.times(dot)));
+      }
+    }
+    return sum;
+  }
 
 }

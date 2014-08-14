@@ -31,10 +31,10 @@ package ca.eandb.jmist.framework;
  */
 public interface Rotatable2 {
 
-	/**
-	 * Rotates the object.
-	 * @param angle The angle (in radians) to rotate the object by.
-	 */
-	void rotate(double angle);
+  /**
+   * Rotates the object.
+   * @param angle The angle (in radians) to rotate the object by.
+   */
+  void rotate(double angle);
 
 }

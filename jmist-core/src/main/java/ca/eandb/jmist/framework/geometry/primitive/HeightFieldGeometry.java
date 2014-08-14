@@ -52,198 +52,198 @@ import ca.eandb.jmist.math.Sphere;
  */
 public final class HeightFieldGeometry extends PrimitiveGeometry {
 
-	/**
-	 * Serialization version ID.
-	 */
-	private static final long serialVersionUID = -9067100310767210560L;
+  /**
+   * Serialization version ID.
+   */
+  private static final long serialVersionUID = -9067100310767210560L;
 
-	/**
-	 * Creates a new <code>HeightFieldGeometry</code>.
-	 * @param xz The <code>Box2</code> describing the extent of the height
-	 * 		field along the <code>x</code> and <code>z</code> axes (must not be
-	 * 		empty).
-	 * @param height A <code>Matrix</code> with at least <code>2</code> rows
-	 * 		and <code>2</code> columns, with <code>height.at(i, j)</code>
-	 * 		being the <code>y</code> coordinate corresponding to
-	 * 		<code>x == xz.interpolateX(i / (height.rows() - 1))</code> and
-	 * 		<code>z == xz.interpolateY(j / (height.columns() - 1))</code> for
-	 * 		<code>0 &lt;= i &lt; height.rows()</code> and
-	 * 		<code>0 &lt;= j &lt; height.columns()</code>.
-	 */
-	public HeightFieldGeometry(Box2 xz, Matrix height) {
-		if (xz.isEmpty()) {
-			throw new IllegalArgumentException("xz must be non-empty");
-		}
+  /**
+   * Creates a new <code>HeightFieldGeometry</code>.
+   * @param xz The <code>Box2</code> describing the extent of the height
+   *     field along the <code>x</code> and <code>z</code> axes (must not be
+   *     empty).
+   * @param height A <code>Matrix</code> with at least <code>2</code> rows
+   *     and <code>2</code> columns, with <code>height.at(i, j)</code>
+   *     being the <code>y</code> coordinate corresponding to
+   *     <code>x == xz.interpolateX(i / (height.rows() - 1))</code> and
+   *     <code>z == xz.interpolateY(j / (height.columns() - 1))</code> for
+   *     <code>0 &lt;= i &lt; height.rows()</code> and
+   *     <code>0 &lt;= j &lt; height.columns()</code>.
+   */
+  public HeightFieldGeometry(Box2 xz, Matrix height) {
+    if (xz.isEmpty()) {
+      throw new IllegalArgumentException("xz must be non-empty");
+    }
 
-		if (height.rows() < 2 || height.columns() < 2) {
-			throw new IllegalArgumentException("height must have at least two rows and two columns");
-		}
+    if (height.rows() < 2 || height.columns() < 2) {
+      throw new IllegalArgumentException("height must have at least two rows and two columns");
+    }
 
-		Box3 bounds = new Box3(xz.spanX(), height.range().expand(MathUtil.EPSILON), xz.spanY());
-		this.grid = new Grid3(bounds, height.rows() - 1, 1, height.columns() - 1);
-		this.height = height;
-	}
+    Box3 bounds = new Box3(xz.spanX(), height.range().expand(MathUtil.EPSILON), xz.spanY());
+    this.grid = new Grid3(bounds, height.rows() - 1, 1, height.columns() - 1);
+    this.height = height;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-	 */
-	public void intersect(Ray3 ray, final IntersectionRecorder recorder) {
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+   */
+  public void intersect(Ray3 ray, final IntersectionRecorder recorder) {
 
-		this.grid.intersect(ray, recorder.interval(), new Grid3.Visitor() {
+    this.grid.intersect(ray, recorder.interval(), new Grid3.Visitor() {
 
-			/* (non-Javadoc)
-			 * @see ca.eandb.jmist.toolkit.Grid3.Visitor#visit(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.toolkit.Interval, ca.eandb.jmist.toolkit.Grid3.Cell)
-			 */
-			public boolean visit(Ray3 ray, Interval I, Cell cell) {
+      /* (non-Javadoc)
+       * @see ca.eandb.jmist.toolkit.Grid3.Visitor#visit(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.toolkit.Interval, ca.eandb.jmist.toolkit.Grid3.Cell)
+       */
+      public boolean visit(Ray3 ray, Interval I, Cell cell) {
 
-				/* Get the points at which the ray enters and exits the cell.
-				 */
-				Point3 p0 = ray.pointAt(I.minimum());
-				Point3 p1 = ray.pointAt(I.maximum());
+        /* Get the points at which the ray enters and exits the cell.
+         */
+        Point3 p0 = ray.pointAt(I.minimum());
+        Point3 p1 = ray.pointAt(I.maximum());
 
-				/* Get the range of y-values for the ray within the cell, and
-				 * get the portion of the height matrix within the cell.
-				 */
-				Interval h = Interval.between(p0.y(), p1.y());
-				Matrix slice = height.slice(cell.getX(), cell.getZ(), 2, 2);
+        /* Get the range of y-values for the ray within the cell, and
+         * get the portion of the height matrix within the cell.
+         */
+        Interval h = Interval.between(p0.y(), p1.y());
+        Matrix slice = height.slice(cell.getX(), cell.getZ(), 2, 2);
 
-				boolean hit = false;
+        boolean hit = false;
 
-				/* If the range of y-values intersect, then there may be an
-				 * intersection.
-				 */
-				if (h.intersects(slice.range())) {
+        /* If the range of y-values intersect, then there may be an
+         * intersection.
+         */
+        if (h.intersects(slice.range())) {
 
-					Box3 bounds = cell.getBoundingBox();
+          Box3 bounds = cell.getBoundingBox();
 
-					/* Get the points on the height field. */
-					Point3 p00 = new Point3(bounds.minimumX(), slice.at(0, 0), bounds.minimumZ());
-					Point3 p01 = new Point3(bounds.minimumX(), slice.at(0, 1), bounds.maximumZ());
-					Point3 p10 = new Point3(bounds.maximumX(), slice.at(1, 0), bounds.minimumZ());
-					Point3 p11 = new Point3(bounds.maximumX(), slice.at(1, 1), bounds.maximumZ());
+          /* Get the points on the height field. */
+          Point3 p00 = new Point3(bounds.minimumX(), slice.at(0, 0), bounds.minimumZ());
+          Point3 p01 = new Point3(bounds.minimumX(), slice.at(0, 1), bounds.maximumZ());
+          Point3 p10 = new Point3(bounds.maximumX(), slice.at(1, 0), bounds.minimumZ());
+          Point3 p11 = new Point3(bounds.maximumX(), slice.at(1, 1), bounds.maximumZ());
 
-					Plane3 plane;
-					double t;
+          Plane3 plane;
+          double t;
 
-					/* Divide the four points into two triangles and check for
-					 * an intersection with each triangle.
-					 */
-					plane = Plane3.throughPoints(p00, p10, p11);
-					t = plane.intersect(ray);
+          /* Divide the four points into two triangles and check for
+           * an intersection with each triangle.
+           */
+          plane = Plane3.throughPoints(p00, p10, p11);
+          t = plane.intersect(ray);
 
-					if (I.contains(t)) {
-						Point3 p = ray.pointAt(t);
+          if (I.contains(t)) {
+            Point3 p = ray.pointAt(t);
 
-						/* Get the normalized (x,z) coordinates, (cx, cz),
-						 * within the bounds of the cell.  If cx > cz, then
-						 * the intersection hit the triangle, otherwise, it hit
-						 * the plane, but on the other half of the cell.
-						 */
-						double cx = (p.x() - p00.x()) / (p10.x() - p00.x());
-						double cz = (p.z() - p10.z()) / (p11.z() - p10.z());
+            /* Get the normalized (x,z) coordinates, (cx, cz),
+             * within the bounds of the cell.  If cx > cz, then
+             * the intersection hit the triangle, otherwise, it hit
+             * the plane, but on the other half of the cell.
+             */
+            double cx = (p.x() - p00.x()) / (p10.x() - p00.x());
+            double cz = (p.z() - p10.z()) / (p11.z() - p10.z());
 
-						if (cx > cz) {
-							Intersection x = newIntersection(ray, t, ray.direction().dot(plane.normal()) < 0.0)
-								.setBasis(Basis3.fromW(plane.normal(), Basis3.Orientation.RIGHT_HANDED))
-								.setLocation(p);
+            if (cx > cz) {
+              Intersection x = newIntersection(ray, t, ray.direction().dot(plane.normal()) < 0.0)
+                .setBasis(Basis3.fromW(plane.normal(), Basis3.Orientation.RIGHT_HANDED))
+                .setLocation(p);
 
-							recorder.record(x);
+              recorder.record(x);
 
-							hit = true;
-						}
-					}
+              hit = true;
+            }
+          }
 
-					plane = Plane3.throughPoints(p00, p11, p01);
-					t = plane.intersect(ray);
+          plane = Plane3.throughPoints(p00, p11, p01);
+          t = plane.intersect(ray);
 
-					if (I.contains(t)) {
-						Point3 p = ray.pointAt(t);
+          if (I.contains(t)) {
+            Point3 p = ray.pointAt(t);
 
-						/* Get the normalized (x,z) coordinates, (cx, cz),
-						 * within the bounds of the cell.  If cx < cz, then
-						 * the intersection hit the triangle, otherwise, it hit
-						 * the plane, but on the other half of the cell.
-						 */
-						double cx = (p.x() - p00.x()) / (p10.x() - p00.x());
-						double cz = (p.z() - p10.z()) / (p11.z() - p10.z());
+            /* Get the normalized (x,z) coordinates, (cx, cz),
+             * within the bounds of the cell.  If cx < cz, then
+             * the intersection hit the triangle, otherwise, it hit
+             * the plane, but on the other half of the cell.
+             */
+            double cx = (p.x() - p00.x()) / (p10.x() - p00.x());
+            double cz = (p.z() - p10.z()) / (p11.z() - p10.z());
 
-						if (cx < cz) {
-							Intersection x = newIntersection(ray, t, ray.direction().dot(plane.normal()) < 0.0)
-								.setBasis(Basis3.fromW(plane.normal(), Basis3.Orientation.RIGHT_HANDED))
-								.setLocation(p);
+            if (cx < cz) {
+              Intersection x = newIntersection(ray, t, ray.direction().dot(plane.normal()) < 0.0)
+                .setBasis(Basis3.fromW(plane.normal(), Basis3.Orientation.RIGHT_HANDED))
+                .setLocation(p);
 
-							recorder.record(x);
+              recorder.record(x);
 
-							hit = true;
-						}
-					}
+              hit = true;
+            }
+          }
 
-				}
+        }
 
-				/* If we got a hit, and if the recorder does not need all
-				 * intersections, then we are done.
-				 */
-				return !hit || recorder.needAllIntersections();
+        /* If we got a hit, and if the recorder does not need all
+         * intersections, then we are done.
+         */
+        return !hit || recorder.needAllIntersections();
 
-			}
+      }
 
-		});
+    });
 
-	}
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.AbstractGeometry#getTextureCoordinates(ca.eandb.jmist.framework.AbstractGeometry.GeometryIntersection)
-	 */
-	@Override
-	protected Point2 getTextureCoordinates(GeometryIntersection x) {
-		Point3 p = x.getPosition();
-		Box3 bounds = grid.getBoundingBox();
-		return new Point2(
-				(p.x() - bounds.minimumX()) / (bounds.maximumX() - bounds.minimumX()),
-				(p.z() - bounds.minimumZ()) / (bounds.maximumZ() - bounds.minimumZ())
-		);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.AbstractGeometry#getTextureCoordinates(ca.eandb.jmist.framework.AbstractGeometry.GeometryIntersection)
+   */
+  @Override
+  protected Point2 getTextureCoordinates(GeometryIntersection x) {
+    Point3 p = x.getPosition();
+    Box3 bounds = grid.getBoundingBox();
+    return new Point2(
+        (p.x() - bounds.minimumX()) / (bounds.maximumX() - bounds.minimumX()),
+        (p.z() - bounds.minimumZ()) / (bounds.maximumZ() - bounds.minimumZ())
+    );
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SceneElement#isClosed()
-	 */
-	public boolean isClosed() {
-		return false;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.SceneElement#isClosed()
+   */
+  public boolean isClosed() {
+    return false;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
-	 */
-	public Box3 boundingBox() {
-		return grid.getBoundingBox();
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
+   */
+  public Box3 boundingBox() {
+    return grid.getBoundingBox();
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
-	 */
-	public Sphere boundingSphere() {
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
+   */
+  public Sphere boundingSphere() {
 
-		List<Point3> points = new ArrayList<Point3>();
-		Box3 bounds = grid.getBoundingBox();
-		int nx = height.rows();
-		int nz = height.columns();
+    List<Point3> points = new ArrayList<Point3>();
+    Box3 bounds = grid.getBoundingBox();
+    int nx = height.rows();
+    int nz = height.columns();
 
-		for (int ix = 0; ix < nx; ix++) {
-			double x = (double) ix / (double) (nx - 1);
-			for (int iz = 0; iz < nz; iz++) {
-				double z = (double) iz / (double) (nz - 1);
-				points.add(new Point3(bounds.interpolateX(x), height.at(ix, iz), bounds.interpolateZ(z)));
-			}
-		}
+    for (int ix = 0; ix < nx; ix++) {
+      double x = (double) ix / (double) (nx - 1);
+      for (int iz = 0; iz < nz; iz++) {
+        double z = (double) iz / (double) (nz - 1);
+        points.add(new Point3(bounds.interpolateX(x), height.at(ix, iz), bounds.interpolateZ(z)));
+      }
+    }
 
-		return Sphere.smallestContaining(points);
+    return Sphere.smallestContaining(points);
 
-	}
+  }
 
-	/** The <code>Grid3</code> elements of the height field. */
-	private final Grid3 grid;
+  /** The <code>Grid3</code> elements of the height field. */
+  private final Grid3 grid;
 
-	/** The <code>Matrix</code> of <code>y</code> coordinates. */
-	private final Matrix height;
+  /** The <code>Matrix</code> of <code>y</code> coordinates. */
+  private final Matrix height;
 
 }

@@ -34,25 +34,25 @@ import ca.eandb.jmist.framework.ShadingContext;
  */
 public final class ModifierModifier implements Modifier {
 
-	/**
-	 * Serialization version ID.
-	 */
-	private static final long serialVersionUID = -3371318079635189435L;
+  /**
+   * Serialization version ID.
+   */
+  private static final long serialVersionUID = -3371318079635189435L;
 
-	private final Modifier modifier;
+  private final Modifier modifier;
 
-	/**
-	 * @param modifier
-	 */
-	public ModifierModifier(Modifier modifier) {
-		this.modifier = modifier;
-	}
+  /**
+   * @param modifier
+   */
+  public ModifierModifier(Modifier modifier) {
+    this.modifier = modifier;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Modifier#modify(ca.eandb.jmist.framework.ShadingContext)
-	 */
-	public void modify(ShadingContext context) {
-		context.setModifier(modifier);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Modifier#modify(ca.eandb.jmist.framework.ShadingContext)
+   */
+  public void modify(ShadingContext context) {
+    context.setModifier(modifier);
+  }
 
 }

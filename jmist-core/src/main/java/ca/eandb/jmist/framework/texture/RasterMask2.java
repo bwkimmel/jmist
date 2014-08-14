@@ -49,96 +49,96 @@ import ca.eandb.jmist.math.Point2;
  */
 public final class RasterMask2 implements Mask2 {
 
-	/**
-	 * Serialization version ID.
-	 */
-	private static final long serialVersionUID = -2712131011948642676L;
+  /**
+   * Serialization version ID.
+   */
+  private static final long serialVersionUID = -2712131011948642676L;
 
-	/**
-	 * Creates a new <code>RasterMask2</code>.
-	 * @param image The <code>BufferedImage</code> to use as the basis for the
-	 * 		new <code>Mask2</code>.
-	 */
-	public RasterMask2(BufferedImage image) {
-		this.image = image;
-	}
+  /**
+   * Creates a new <code>RasterMask2</code>.
+   * @param image The <code>BufferedImage</code> to use as the basis for the
+   *     new <code>Mask2</code>.
+   */
+  public RasterMask2(BufferedImage image) {
+    this.image = image;
+  }
 
-	public RasterMask2(File file) throws IOException {
-		this(ImageIO.read(file));
-	}
+  public RasterMask2(File file) throws IOException {
+    this(ImageIO.read(file));
+  }
 
-	public RasterMask2(URL input) throws IOException {
-		this(ImageIO.read(input));
-	}
+  public RasterMask2(URL input) throws IOException {
+    this(ImageIO.read(input));
+  }
 
-	public RasterMask2(ImageInputStream stream) throws IOException {
-		this(ImageIO.read(stream));
-	}
+  public RasterMask2(ImageInputStream stream) throws IOException {
+    this(ImageIO.read(stream));
+  }
 
-	public RasterMask2(InputStream input) throws IOException {
-		this(ImageIO.read(input));
-	}
+  public RasterMask2(InputStream input) throws IOException {
+    this(ImageIO.read(input));
+  }
 
-	private void writeObject(ObjectOutputStream oos) throws IOException {
-		oos.defaultWriteObject();
-		ImageIO.write(image, "png", oos);
-	}
+  private void writeObject(ObjectOutputStream oos) throws IOException {
+    oos.defaultWriteObject();
+    ImageIO.write(image, "png", oos);
+  }
 
-	private void readObject(ObjectInputStream ois)
-			throws ClassNotFoundException, IOException {
-		ois.defaultReadObject();
-		image = ImageIO.read(ois);
-		placeholder = new ThreadLocal<double[]>();
-	}
+  private void readObject(ObjectInputStream ois)
+      throws ClassNotFoundException, IOException {
+    ois.defaultReadObject();
+    image = ImageIO.read(ois);
+    placeholder = new ThreadLocal<double[]>();
+  }
 
-	/** Get the width of the image (in pixels). */
-	public int getWidth() {
-		return image.getWidth();
-	}
+  /** Get the width of the image (in pixels). */
+  public int getWidth() {
+    return image.getWidth();
+  }
 
-	/** Get the height of the image (in pixels). */
-	public int getHeight() {
-		return image.getHeight();
-	}
+  /** Get the height of the image (in pixels). */
+  public int getHeight() {
+    return image.getHeight();
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Mask2#opacity(ca.eandb.jmist.math.Point2)
-	 */
-	public double opacity(Point2 p) {
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Mask2#opacity(ca.eandb.jmist.math.Point2)
+   */
+  public double opacity(Point2 p) {
 
-		Raster		raster	= image.getRaster();
-		double		u		= p.x() - Math.floor(p.x());
-		double		v		= p.y() - Math.floor(p.y());
-		int			w		= raster.getWidth();
-		int			h		= raster.getHeight();
-		int			x		= MathUtil.clamp((int) Math.floor(u * (double) w), 0, w - 1);
-		int			y		= MathUtil.clamp((int) Math.floor(v * (double) h), 0, h - 1);
-		double[]	pixel	= raster.getPixel(x, y, placeholder.get());
+    Raster    raster  = image.getRaster();
+    double    u    = p.x() - Math.floor(p.x());
+    double    v    = p.y() - Math.floor(p.y());
+    int      w    = raster.getWidth();
+    int      h    = raster.getHeight();
+    int      x    = MathUtil.clamp((int) Math.floor(u * (double) w), 0, w - 1);
+    int      y    = MathUtil.clamp((int) Math.floor(v * (double) h), 0, h - 1);
+    double[]  pixel  = raster.getPixel(x, y, placeholder.get());
 
-		placeholder.set(pixel);
+    placeholder.set(pixel);
 
-		switch (pixel.length) {
-		case 1:
-			return pixel[0]/255.0;
-		case 3:
-		case 4:
-			return pixel[1]/255.0;
-		default:
-			throw new RuntimeException("Raster has unrecognized number of bands.");
-		}
+    switch (pixel.length) {
+    case 1:
+      return pixel[0]/255.0;
+    case 3:
+    case 4:
+      return pixel[1]/255.0;
+    default:
+      throw new RuntimeException("Raster has unrecognized number of bands.");
+    }
 
-	}
+  }
 
-	/**
-	 * A place holder to hold a double array for the pixel, so that one is not
-	 * allocated on every call to {@link #evaluate(Point2, WavelengthPacket)}.
-	 */
-	private transient ThreadLocal<double[]> placeholder = new ThreadLocal<double[]>();
+  /**
+   * A place holder to hold a double array for the pixel, so that one is not
+   * allocated on every call to {@link #evaluate(Point2, WavelengthPacket)}.
+   */
+  private transient ThreadLocal<double[]> placeholder = new ThreadLocal<double[]>();
 
-	/**
-	 * The <code>BufferedImage</code> that serves as the basis for this
-	 * <code>Texture2</code>.
-	 */
-	private transient BufferedImage image;
+  /**
+   * The <code>BufferedImage</code> that serves as the basis for this
+   * <code>Texture2</code>.
+   */
+  private transient BufferedImage image;
 
 }

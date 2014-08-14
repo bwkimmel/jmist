@@ -36,25 +36,25 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
  */
 /* package */ final class LuminanceContinuousSpectrum implements Spectrum {
 
-	/** Serialization version ID. */
-	private static final long serialVersionUID = 1202132371356039167L;
+  /** Serialization version ID. */
+  private static final long serialVersionUID = 1202132371356039167L;
 
-	private final Function1 spectrum;
+  private final Function1 spectrum;
 
-	public LuminanceContinuousSpectrum(Function1 spectrum) {
-		this.spectrum = spectrum;
-	}
+  public LuminanceContinuousSpectrum(Function1 spectrum) {
+    this.spectrum = spectrum;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.color.Spectrum#sample(ca.eandb.jmist.framework.color.WavelengthPacket)
-	 */
-	public Color sample(WavelengthPacket lambda) {
-		return sample((LuminanceWavelengthPacket) lambda);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.color.Spectrum#sample(ca.eandb.jmist.framework.color.WavelengthPacket)
+   */
+  public Color sample(WavelengthPacket lambda) {
+    return sample((LuminanceWavelengthPacket) lambda);
+  }
 
-	public LuminanceColor sample(LuminanceWavelengthPacket lambda) {
-		double value = spectrum.evaluate(lambda.getWavelength());
-		return new LuminanceColor(value, lambda);
-	}
+  public LuminanceColor sample(LuminanceWavelengthPacket lambda) {
+    double value = spectrum.evaluate(lambda.getWavelength());
+    return new LuminanceColor(value, lambda);
+  }
 
 }

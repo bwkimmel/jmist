@@ -34,47 +34,47 @@ import java.util.Map;
  */
 public final class PlyElement {
 
-	/** The <code>ElementDescriptor</code> describing this element. */
-	private final ElementDescriptor descriptor;
+  /** The <code>ElementDescriptor</code> describing this element. */
+  private final ElementDescriptor descriptor;
 
-	/** The properties of this element. */
-	private final Map<String, PlyProperty> properties = new HashMap<String, PlyProperty>();
+  /** The properties of this element. */
+  private final Map<String, PlyProperty> properties = new HashMap<String, PlyProperty>();
 
-	/**
-	 * Creates a new <code>PlyElement</code> (only accessible within this
-	 * package).
-	 * @param descriptor The <code>ElementDescriptor</code> describing this
-	 * 		element.
-	 */
-	PlyElement(ElementDescriptor descriptor) {
-		this.descriptor = descriptor;
-	}
+  /**
+   * Creates a new <code>PlyElement</code> (only accessible within this
+   * package).
+   * @param descriptor The <code>ElementDescriptor</code> describing this
+   *     element.
+   */
+  PlyElement(ElementDescriptor descriptor) {
+    this.descriptor = descriptor;
+  }
 
-	/**
-	 * Adds a property to this element (only accessible within this package).
-	 * @param property The <code>PlyProperty</code> to add.
-	 */
-	/* package */
-	void addProperty(PlyProperty property) {
-		properties.put(property.getPropertyDescriptor().getName(), property);
-	}
+  /**
+   * Adds a property to this element (only accessible within this package).
+   * @param property The <code>PlyProperty</code> to add.
+   */
+  /* package */
+  void addProperty(PlyProperty property) {
+    properties.put(property.getPropertyDescriptor().getName(), property);
+  }
 
-	/**
-	 * Gets the <code>ElementDescriptor</code> describing this element.
-	 * @return The <code>ElementDescriptor</code> describing this element.
-	 */
-	public ElementDescriptor getElementDescriptor() {
-		return descriptor;
-	}
+  /**
+   * Gets the <code>ElementDescriptor</code> describing this element.
+   * @return The <code>ElementDescriptor</code> describing this element.
+   */
+  public ElementDescriptor getElementDescriptor() {
+    return descriptor;
+  }
 
-	/**
-	 * Gets the property with the specified name.
-	 * @param name The name of the property to get.
-	 * @return The requested <code>PlyProperty</code>, if it exists, or
-	 * 		<code>null</code> otherwise.
-	 */
-	public PlyProperty getProperty(String name) {
-		return properties.get(name);
-	}
+  /**
+   * Gets the property with the specified name.
+   * @param name The name of the property to get.
+   * @return The requested <code>PlyProperty</code>, if it exists, or
+   *     <code>null</code> otherwise.
+   */
+  public PlyProperty getProperty(String name) {
+    return properties.get(name);
+  }
 
 }

@@ -34,47 +34,47 @@ import ca.eandb.jmist.math.MathUtil;
  */
 public final class ReinhardToneMapperFactory implements ToneMapperFactory {
 
-	/** Serialization version ID. */
-	private static final long serialVersionUID = -8014074363504189066L;
+  /** Serialization version ID. */
+  private static final long serialVersionUID = -8014074363504189066L;
 
-	private static final double DEFAULT_KEY = 0.18;
+  private static final double DEFAULT_KEY = 0.18;
 
-	private static final double DEFAULT_DELTA = MathUtil.EPSILON;
+  private static final double DEFAULT_DELTA = MathUtil.EPSILON;
 
-	private final double key;
+  private final double key;
 
-	private final double delta;
+  private final double delta;
 
-	public ReinhardToneMapperFactory(double key, double delta) {
-		this.key = key;
-		this.delta = delta;
-	}
+  public ReinhardToneMapperFactory(double key, double delta) {
+    this.key = key;
+    this.delta = delta;
+  }
 
-	public ReinhardToneMapperFactory() {
-		this(DEFAULT_KEY, DEFAULT_DELTA);
-	}
+  public ReinhardToneMapperFactory() {
+    this(DEFAULT_KEY, DEFAULT_DELTA);
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.color.ToneMapperFactory#createToneMapper(java.lang.Iterable)
-	 */
-	public ToneMapper createToneMapper(Iterable<CIEXYZ> samples) {
-		double Yavg = 0.0;
-		double Ymax = 0.0;
-		int n = 0;
-		for (CIEXYZ sample : samples) {
-			if (sample != null) {
-				double Y = sample.Y();
-				if (Y > Ymax) {
-					Ymax = Y;
-				}
-				Yavg += Math.log(delta + Y);
-				n++;
-			}
-		}
-		Yavg /= (double) n;
-		Yavg = Math.exp(Yavg) - delta;
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.color.ToneMapperFactory#createToneMapper(java.lang.Iterable)
+   */
+  public ToneMapper createToneMapper(Iterable<CIEXYZ> samples) {
+    double Yavg = 0.0;
+    double Ymax = 0.0;
+    int n = 0;
+    for (CIEXYZ sample : samples) {
+      if (sample != null) {
+        double Y = sample.Y();
+        if (Y > Ymax) {
+          Ymax = Y;
+        }
+        Yavg += Math.log(delta + Y);
+        n++;
+      }
+    }
+    Yavg /= (double) n;
+    Yavg = Math.exp(Yavg) - delta;
 
-		return new ReinhardToneMapper(key / Yavg, Ymax);
-	}
+    return new ReinhardToneMapper(key / Yavg, Ymax);
+  }
 
 }

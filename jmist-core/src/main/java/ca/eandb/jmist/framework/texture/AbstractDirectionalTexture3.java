@@ -36,18 +36,18 @@ import ca.eandb.jmist.math.Vector3;
  *
  */
 public abstract class AbstractDirectionalTexture3 implements
-		DirectionalTexture3 {
+    DirectionalTexture3 {
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.DirectionalTexture3#evaluate(ca.eandb.jmist.math.Vector3)
-	 */
-	public Spectrum evaluate(final Vector3 v) {
-		return new Spectrum() {
-			private static final long serialVersionUID = -3558496271642281773L;
-			public Color sample(WavelengthPacket lambda) {
-				return evaluate(v, lambda);
-			}
-		};
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.DirectionalTexture3#evaluate(ca.eandb.jmist.math.Vector3)
+   */
+  public Spectrum evaluate(final Vector3 v) {
+    return new Spectrum() {
+      private static final long serialVersionUID = -3558496271642281773L;
+      public Color sample(WavelengthPacket lambda) {
+        return evaluate(v, lambda);
+      }
+    };
+  }
 
 }

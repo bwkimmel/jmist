@@ -33,11 +33,11 @@ import ca.eandb.jmist.math.Vector3;
  */
 public interface Stretchable3 extends AxisStretchable3 {
 
-	/**
-	 * Stretches the object along an arbitrary axis.
-	 * @param axis The axis along which to stretch the object (must not be Vector3.ZERO).
-	 * @param c The factor by which to stretch the object.
-	 */
-	void stretch(Vector3 axis, double c);
+  /**
+   * Stretches the object along an arbitrary axis.
+   * @param axis The axis along which to stretch the object (must not be Vector3.ZERO).
+   * @param c The factor by which to stretch the object.
+   */
+  void stretch(Vector3 axis, double c);
 
 }

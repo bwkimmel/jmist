@@ -37,38 +37,38 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class UniformDirectionalTexture3 implements DirectionalTexture3 {
 
-	/**
-	 * Serialization version ID.
-	 */
-	private static final long serialVersionUID = 374707255898630419L;
+  /**
+   * Serialization version ID.
+   */
+  private static final long serialVersionUID = 374707255898630419L;
 
-	/**
-	 * The <code>Spectrum</code> assigned to this
-	 * <code>UniformDirectionalTexture3</code>.
-	 */
-	private final Spectrum value;
+  /**
+   * The <code>Spectrum</code> assigned to this
+   * <code>UniformDirectionalTexture3</code>.
+   */
+  private final Spectrum value;
 
-	/**
-	 * Creates a new <code>UniformDirectionalTexture3</code>.
-	 * @param value The <code>Spectrum</code> assigned to this
-	 * 		<code>UniformDirectionalTexture3</code>.
-	 */
-	public UniformDirectionalTexture3(Spectrum value) {
-		this.value = value;
-	}
+  /**
+   * Creates a new <code>UniformDirectionalTexture3</code>.
+   * @param value The <code>Spectrum</code> assigned to this
+   *     <code>UniformDirectionalTexture3</code>.
+   */
+  public UniformDirectionalTexture3(Spectrum value) {
+    this.value = value;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.DirectionalTexture3#evaluate(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
-	 */
-	public Color evaluate(Vector3 v, WavelengthPacket lambda) {
-		return value.sample(lambda);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.DirectionalTexture3#evaluate(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
+   */
+  public Color evaluate(Vector3 v, WavelengthPacket lambda) {
+    return value.sample(lambda);
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.DirectionalTexture3#evaluate(ca.eandb.jmist.math.Vector3)
-	 */
-	public Spectrum evaluate(Vector3 v) {
-		return value;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.DirectionalTexture3#evaluate(ca.eandb.jmist.math.Vector3)
+   */
+  public Spectrum evaluate(Vector3 v) {
+    return value;
+  }
 
 }

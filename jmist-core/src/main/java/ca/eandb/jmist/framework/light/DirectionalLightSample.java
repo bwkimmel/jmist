@@ -38,57 +38,57 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class DirectionalLightSample implements LightSample {
 
-	private final SurfacePoint x;
+  private final SurfacePoint x;
 
-	private final Vector3 direction;
+  private final Vector3 direction;
 
-	private final Color radiance;
+  private final Color radiance;
 
-	private final boolean shadows;
+  private final boolean shadows;
 
-	/**
-	 * @param x
-	 * @param direction
-	 * @param radiance
-	 * @param shadows
-	 */
-	public DirectionalLightSample(SurfacePoint x, Vector3 direction,
-			Color radiance, boolean shadows) {
-		this.x = x;
-		this.direction = direction;
-		this.radiance = radiance;
-		this.shadows = shadows;
-	}
+  /**
+   * @param x
+   * @param direction
+   * @param radiance
+   * @param shadows
+   */
+  public DirectionalLightSample(SurfacePoint x, Vector3 direction,
+      Color radiance, boolean shadows) {
+    this.x = x;
+    this.direction = direction;
+    this.radiance = radiance;
+    this.shadows = shadows;
+  }
 
-	/**
-	 * @param x
-	 * @param direction
-	 * @param radiance
-	 */
-	public DirectionalLightSample(SurfacePoint x, Vector3 direction,
-			Color radiance) {
-		this(x, direction, radiance, true);
-	}
+  /**
+   * @param x
+   * @param direction
+   * @param radiance
+   */
+  public DirectionalLightSample(SurfacePoint x, Vector3 direction,
+      Color radiance) {
+    this(x, direction, radiance, true);
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.LightSample#castShadowRay(ca.eandb.jmist.framework.VisibilityFunction3)
-	 */
-	public boolean castShadowRay(VisibilityFunction3 vf) {
-		return shadows && vf.visibility(new Ray3(x.getPosition(), direction));
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.LightSample#castShadowRay(ca.eandb.jmist.framework.VisibilityFunction3)
+   */
+  public boolean castShadowRay(VisibilityFunction3 vf) {
+    return shadows && vf.visibility(new Ray3(x.getPosition(), direction));
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.LightSample#getRadiantIntensity()
-	 */
-	public Color getRadiantIntensity() {
-		return radiance;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.LightSample#getRadiantIntensity()
+   */
+  public Color getRadiantIntensity() {
+    return radiance;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.LightSample#getDirToLight()
-	 */
-	public Vector3 getDirToLight() {
-		return direction;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.LightSample#getDirToLight()
+   */
+  public Vector3 getDirToLight() {
+    return direction;
+  }
 
 }

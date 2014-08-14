@@ -40,83 +40,83 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class LayeredSurfaceScatterer implements SurfaceScatterer {
 
-	/** Serialization version ID. */
-	private static final long serialVersionUID = -8457484575034697420L;
+  /** Serialization version ID. */
+  private static final long serialVersionUID = -8457484575034697420L;
 
-	/**
-	 * A <code>List</code> of the <code>SurfaceScatterer</code>s representing
-	 * the layers of this <code>SurfaceScatterer</code>.
-	 */
-	private final List<SurfaceScatterer> layers = new ArrayList<SurfaceScatterer>();
+  /**
+   * A <code>List</code> of the <code>SurfaceScatterer</code>s representing
+   * the layers of this <code>SurfaceScatterer</code>.
+   */
+  private final List<SurfaceScatterer> layers = new ArrayList<SurfaceScatterer>();
 
-	/**
-	 * Adds a <code>SurfaceScatterer</code> as a new layer on the top.
-	 * @param e The <code>SurfaceScatterer</code> to add as the new top layer.
-	 * @return This <code>LayeredSurfaceScatterer</code>.
-	 */
-	public LayeredSurfaceScatterer addLayerToTop(SurfaceScatterer e) {
-		layers.add(0, e);
-		return this;
-	}
+  /**
+   * Adds a <code>SurfaceScatterer</code> as a new layer on the top.
+   * @param e The <code>SurfaceScatterer</code> to add as the new top layer.
+   * @return This <code>LayeredSurfaceScatterer</code>.
+   */
+  public LayeredSurfaceScatterer addLayerToTop(SurfaceScatterer e) {
+    layers.add(0, e);
+    return this;
+  }
 
-	/**
-	 * Adds a <code>SurfaceScatterer</code> as a new layer on the bottom.
-	 * @param e The <code>SurfaceScatterer</code> to add as the new bottom
-	 * 		layer.
-	 * @return This <code>LayeredSurfaceScatterer</code>.
-	 */
-	public LayeredSurfaceScatterer addLayerToBottom(SurfaceScatterer e) {
-		layers.add(e);
-		return this;
-	}
+  /**
+   * Adds a <code>SurfaceScatterer</code> as a new layer on the bottom.
+   * @param e The <code>SurfaceScatterer</code> to add as the new bottom
+   *     layer.
+   * @return This <code>LayeredSurfaceScatterer</code>.
+   */
+  public LayeredSurfaceScatterer addLayerToBottom(SurfaceScatterer e) {
+    layers.add(e);
+    return this;
+  }
 
-	/** Removes all layers. */
-	public void clear() {
-		layers.clear();
-	}
+  /** Removes all layers. */
+  public void clear() {
+    layers.clear();
+  }
 
-	/**
-	 * Gets the number of layers.
-	 * @return The number of layers.
-	 */
-	public int getNumLayers() {
-		return layers.size();
-	}
-	
-	/**
-	 * Gets the <code>List</code> of layers that comprise this
-	 * <code>LayeredSurfaceScatterer</code>.  The returned list is
-	 * unmodifiable.
-	 * @return The <code>List</code> of layers that comprise this
-	 * 		<code>LayeredSurfaceScatterer</code>.
-	 */
-	public List<SurfaceScatterer> getLayers() {
-		return Collections.unmodifiableList(layers);
-	}
+  /**
+   * Gets the number of layers.
+   * @return The number of layers.
+   */
+  public int getNumLayers() {
+    return layers.size();
+  }
+  
+  /**
+   * Gets the <code>List</code> of layers that comprise this
+   * <code>LayeredSurfaceScatterer</code>.  The returned list is
+   * unmodifiable.
+   * @return The <code>List</code> of layers that comprise this
+   *     <code>LayeredSurfaceScatterer</code>.
+   */
+  public List<SurfaceScatterer> getLayers() {
+    return Collections.unmodifiableList(layers);
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.scatter.SurfaceScatterer#scatter(ca.eandb.jmist.framework.SurfacePointGeometry, ca.eandb.jmist.math.Vector3, boolean, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random)
-	 */
-	public Vector3 scatter(SurfacePointGeometry x, Vector3 v, boolean adjoint,
-			double lambda, Random rnd) {
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.scatter.SurfaceScatterer#scatter(ca.eandb.jmist.framework.SurfacePointGeometry, ca.eandb.jmist.math.Vector3, boolean, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random)
+   */
+  public Vector3 scatter(SurfacePointGeometry x, Vector3 v, boolean adjoint,
+      double lambda, Random rnd) {
 
-		Vector3 N = x.getNormal();
-		int	depth = (v.dot(N) > 0.0) ? (layers.size() - 1) : 0;
-		int dir;
+    Vector3 N = x.getNormal();
+    int  depth = (v.dot(N) > 0.0) ? (layers.size() - 1) : 0;
+    int dir;
 
-		do  {
+    do  {
 
-			SurfaceScatterer layer = layers.get(depth);
-			v = layer.scatter(x, v, adjoint, lambda, rnd);
+      SurfaceScatterer layer = layers.get(depth);
+      v = layer.scatter(x, v, adjoint, lambda, rnd);
 
-			if (v == null) break;
+      if (v == null) break;
 
-			dir = (v.dot(N) > 0.0) ? -1 : 1;
-			depth += dir;
+      dir = (v.dot(N) > 0.0) ? -1 : 1;
+      depth += dir;
 
-		} while (depth >= 0 && depth < layers.size());
+    } while (depth >= 0 && depth < layers.size());
 
-		return v;
-	}
+    return v;
+  }
 
 }

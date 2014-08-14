@@ -34,49 +34,49 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
  */
 /* package */ final class XYZWavelengthPacket implements WavelengthPacket {
 
-	private final double lambdaX;
+  private final double lambdaX;
 
-	private final double lambdaY;
+  private final double lambdaY;
 
-	private final double lambdaZ;
+  private final double lambdaZ;
 
-	/**
-	 * @param lambdaX
-	 * @param lambdaY
-	 * @param lambdaZ
-	 */
-	public XYZWavelengthPacket(double lambdaX, double lambdaY, double lambdaZ) {
-		this.lambdaX = lambdaX;
-		this.lambdaY = lambdaY;
-		this.lambdaZ = lambdaZ;
-	}
+  /**
+   * @param lambdaX
+   * @param lambdaY
+   * @param lambdaZ
+   */
+  public XYZWavelengthPacket(double lambdaX, double lambdaY, double lambdaZ) {
+    this.lambdaX = lambdaX;
+    this.lambdaY = lambdaY;
+    this.lambdaZ = lambdaZ;
+  }
 
-	/**
-	 * @return the lambdaX
-	 */
-	public double getLambdaX() {
-		return lambdaX;
-	}
+  /**
+   * @return the lambdaX
+   */
+  public double getLambdaX() {
+    return lambdaX;
+  }
 
-	/**
-	 * @return the lambdaY
-	 */
-	public double getLambdaY() {
-		return lambdaY;
-	}
+  /**
+   * @return the lambdaY
+   */
+  public double getLambdaY() {
+    return lambdaY;
+  }
 
-	/**
-	 * @return the lambdaZ
-	 */
-	public double getLambdaZ() {
-		return lambdaZ;
-	}
+  /**
+   * @return the lambdaZ
+   */
+  public double getLambdaZ() {
+    return lambdaZ;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.color.WavelengthPacket#getColorModel()
-	 */
-	public ColorModel getColorModel() {
-		return XYZColorModel.getInstance();
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.color.WavelengthPacket#getColorModel()
+   */
+  public ColorModel getColorModel() {
+    return XYZColorModel.getInstance();
+  }
 
 }

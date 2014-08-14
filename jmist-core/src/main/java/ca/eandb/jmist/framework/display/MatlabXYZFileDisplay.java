@@ -48,120 +48,120 @@ import ca.eandb.util.UnexpectedException;
  */
 public final class MatlabXYZFileDisplay implements Display, Serializable {
 
-	/**
-	 * Serialization version ID.
-	 */
-	private static final long serialVersionUID = 4433336367833663738L;
+  /**
+   * Serialization version ID.
+   */
+  private static final long serialVersionUID = 4433336367833663738L;
 
-	private static final String DEFAULT_FILENAME = "output.mat";
+  private static final String DEFAULT_FILENAME = "output.mat";
 
-	private static final String DEFAULT_IMAGE_NAME = "image";
+  private static final String DEFAULT_IMAGE_NAME = "image";
 
-	private final String fileName;
+  private final String fileName;
 
-	private final String imageName;
+  private final String imageName;
 
-	private double[] array;
+  private double[] array;
 
-	private int width;
+  private int width;
 
-	private int height;
+  private int height;
 
-	public MatlabXYZFileDisplay(String fileName, String imageName) {
-		this.fileName = fileName;
-		this.imageName = imageName;
-	}
+  public MatlabXYZFileDisplay(String fileName, String imageName) {
+    this.fileName = fileName;
+    this.imageName = imageName;
+  }
 
-	public MatlabXYZFileDisplay(String filename) {
-		this(filename, DEFAULT_IMAGE_NAME);
-	}
+  public MatlabXYZFileDisplay(String filename) {
+    this(filename, DEFAULT_IMAGE_NAME);
+  }
 
-	public MatlabXYZFileDisplay() {
-		this(DEFAULT_FILENAME, DEFAULT_IMAGE_NAME);
-	}
+  public MatlabXYZFileDisplay() {
+    this(DEFAULT_FILENAME, DEFAULT_IMAGE_NAME);
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Display#fill(int, int, int, int, ca.eandb.jmist.framework.color.Color)
-	 */
-	public void fill(int x, int y, int w, int h, Color color) {
-		for (int dy = 0; dy < h; dy++, y++) {
-			int index = (y * width + x) * 3;
-			for (int dx = 0; dx < w; dx++) {
-				CIEXYZ c = color.toXYZ();
-				array[index++] = c.X();
-				array[index++] = c.Y();
-				array[index++] = c.Z();
-			}
-		}
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Display#fill(int, int, int, int, ca.eandb.jmist.framework.color.Color)
+   */
+  public void fill(int x, int y, int w, int h, Color color) {
+    for (int dy = 0; dy < h; dy++, y++) {
+      int index = (y * width + x) * 3;
+      for (int dx = 0; dx < w; dx++) {
+        CIEXYZ c = color.toXYZ();
+        array[index++] = c.X();
+        array[index++] = c.Y();
+        array[index++] = c.Z();
+      }
+    }
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Display#finish()
-	 */
-	public void finish() {
-		try {
-			OutputStream stream = getOutputStream();
-			MatlabWriter matlab = new MatlabWriter(stream);
-			matlab.write(imageName, array, null,
-					new int[] { height, width, 3 },
-					new int[] { 3 * width, 3, 1 });
-			matlab.flush();
-			matlab.close();
-		} catch (IOException e) {
-			throw new UnexpectedException(e);
-		}
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Display#finish()
+   */
+  public void finish() {
+    try {
+      OutputStream stream = getOutputStream();
+      MatlabWriter matlab = new MatlabWriter(stream);
+      matlab.write(imageName, array, null,
+          new int[] { height, width, 3 },
+          new int[] { 3 * width, 3, 1 });
+      matlab.flush();
+      matlab.close();
+    } catch (IOException e) {
+      throw new UnexpectedException(e);
+    }
+  }
 
-	/**
-	 * Gets the <code>OutputStream</code> to write to.
-	 * @return The <code>OutputStream</code> to write to.
-	 * @throws FileNotFoundException If the file cannot be created.
-	 */
-	private FileOutputStream getOutputStream() throws FileNotFoundException {
-		HostService service = JdcpUtil.getHostService();
-		if (service != null) {
-			return service.createFileOutputStream(fileName);
-		} else {
-			return new FileOutputStream(fileName);
-		}
-	}
+  /**
+   * Gets the <code>OutputStream</code> to write to.
+   * @return The <code>OutputStream</code> to write to.
+   * @throws FileNotFoundException If the file cannot be created.
+   */
+  private FileOutputStream getOutputStream() throws FileNotFoundException {
+    HostService service = JdcpUtil.getHostService();
+    if (service != null) {
+      return service.createFileOutputStream(fileName);
+    } else {
+      return new FileOutputStream(fileName);
+    }
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Display#initialize(int, int, ca.eandb.jmist.framework.color.ColorModel)
-	 */
-	public void initialize(int w, int h, ColorModel colorModel) {
-		this.width = w;
-		this.height = h;
-		this.array = new double[width * height * 3];
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Display#initialize(int, int, ca.eandb.jmist.framework.color.ColorModel)
+   */
+  public void initialize(int w, int h, ColorModel colorModel) {
+    this.width = w;
+    this.height = h;
+    this.array = new double[width * height * 3];
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Display#setPixel(int, int, ca.eandb.jmist.framework.color.Color)
-	 */
-	public void setPixel(int x, int y, Color pixel) {
-		int index = (y * width + x) * 3;
-		CIEXYZ c = pixel.toXYZ();
-		array[index++] = c.X();
-		array[index++] = c.Y();
-		array[index] = c.Z();
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Display#setPixel(int, int, ca.eandb.jmist.framework.color.Color)
+   */
+  public void setPixel(int x, int y, Color pixel) {
+    int index = (y * width + x) * 3;
+    CIEXYZ c = pixel.toXYZ();
+    array[index++] = c.X();
+    array[index++] = c.Y();
+    array[index] = c.Z();
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Display#setPixels(int, int, ca.eandb.jmist.framework.Raster)
-	 */
-	public void setPixels(int x, int y, Raster pixels) {
-		int w = pixels.getWidth();
-		int h = pixels.getHeight();
-		for (int ry = 0; ry < h; ry++, y++) {
-			int index = (y * width + x) * 3;
-			for (int rx = 0; rx < w; rx++) {
-				Color pixel = pixels.getPixel(rx, ry);
-				CIEXYZ c = pixel.toXYZ();
-				array[index++] = c.X();
-				array[index++] = c.Y();
-				array[index++] = c.Z();
-			}
-		}
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Display#setPixels(int, int, ca.eandb.jmist.framework.Raster)
+   */
+  public void setPixels(int x, int y, Raster pixels) {
+    int w = pixels.getWidth();
+    int h = pixels.getHeight();
+    for (int ry = 0; ry < h; ry++, y++) {
+      int index = (y * width + x) * 3;
+      for (int rx = 0; rx < w; rx++) {
+        Color pixel = pixels.getPixel(rx, ry);
+        CIEXYZ c = pixel.toXYZ();
+        array[index++] = c.X();
+        array[index++] = c.Y();
+        array[index++] = c.Z();
+      }
+    }
+  }
 
 }

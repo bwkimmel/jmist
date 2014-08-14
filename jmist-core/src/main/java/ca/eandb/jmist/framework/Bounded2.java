@@ -34,16 +34,16 @@ import ca.eandb.jmist.math.Circle;
  */
 public interface Bounded2 {
 
-	/**
-	 * Gets a circle that bounds this object.
-	 * @return A bounding circle.
-	 */
-	Circle boundingCircle();
+  /**
+   * Gets a circle that bounds this object.
+   * @return A bounding circle.
+   */
+  Circle boundingCircle();
 
-	/**
-	 * Gets a box that bounds this object.
-	 * @return A bounding box.
-	 */
-	Box2 boundingBox();
+  /**
+   * Gets a box that bounds this object.
+   * @return A bounding box.
+   */
+  Box2 boundingBox();
 
 }

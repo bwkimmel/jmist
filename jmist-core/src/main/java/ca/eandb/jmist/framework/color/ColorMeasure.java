@@ -33,11 +33,11 @@ import java.io.Serializable;
  */
 public interface ColorMeasure extends Serializable {
 
-	/**
-	 * Evaluates the measure.
-	 * @param c The <code>Color</code> to measure.
-	 * @return The measure of the color.
-	 */
-	double evaluate(Color c);
-	
+  /**
+   * Evaluates the measure.
+   * @param c The <code>Color</code> to measure.
+   * @return The measure of the color.
+   */
+  double evaluate(Color c);
+  
 }

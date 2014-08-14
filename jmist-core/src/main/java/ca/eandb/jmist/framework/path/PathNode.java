@@ -37,48 +37,48 @@ import ca.eandb.jmist.math.Vector3;
  */
 public interface PathNode {
 
-	Color getCumulativeWeight();
+  Color getCumulativeWeight();
 
-	double getGeometricFactor();
+  double getGeometricFactor();
 
-	double getPDF();
-	
-	double getReversePDF();
+  double getPDF();
+  
+  double getReversePDF();
 
-	boolean isSpecular();
+  boolean isSpecular();
 
-	PathNode getParent();
+  PathNode getParent();
 
-	HPoint3 getPosition();
+  HPoint3 getPosition();
 
-	boolean isAtInfinity();
+  boolean isAtInfinity();
 
-	boolean isOnEyePath();
+  boolean isOnEyePath();
 
-	boolean isOnLightPath();
+  boolean isOnLightPath();
 
-	int getDepth();
+  int getDepth();
 
-	ScatteredRay sample(double ru, double rv, double rj);
+  ScatteredRay sample(double ru, double rv, double rj);
 
-	Color scatter(Vector3 v);
+  Color scatter(Vector3 v);
 
-	double getCosine(Vector3 v);
+  double getCosine(Vector3 v);
 
-	double getPDF(Vector3 v);
+  double getPDF(Vector3 v);
 
-	double getReversePDF(Vector3 v);
+  double getReversePDF(Vector3 v);
 
-	ScatteringNode expand(double ru, double rv, double rj);
-	
-	double getRU();
-	
-	double getRV();
-	
-	double getRJ();
-	
-	PathNode reverse(PathNode newParent, PathNode grandChild);
+  ScatteringNode expand(double ru, double rv, double rj);
+  
+  double getRU();
+  
+  double getRV();
+  
+  double getRJ();
+  
+  PathNode reverse(PathNode newParent, PathNode grandChild);
 
-	PathInfo getPathInfo();
-	
+  PathInfo getPathInfo();
+  
 }

@@ -36,8 +36,8 @@ import ca.eandb.jmist.framework.path.Path;
  */
 public interface PathMutator extends Serializable {
 
-	Path mutate(Path path, Random rnd);
+  Path mutate(Path path, Random rnd);
 
-	double getTransitionPDF(Path from, Path to);
+  double getTransitionPDF(Path from, Path to);
 
 }

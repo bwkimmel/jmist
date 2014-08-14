@@ -36,20 +36,20 @@ import ca.eandb.jmist.math.Box2;
  */
 public final class SimplePixelShader extends ImageRasterizingPixelShader {
 
-	/**
-	 * Serialization version ID.
-	 */
-	private static final long serialVersionUID = -5897498480208145443L;
+  /**
+   * Serialization version ID.
+   */
+  private static final long serialVersionUID = -5897498480208145443L;
 
-	public SimplePixelShader(ImageShader camera, ColorModel model) {
-		super(camera, model);
-	}
+  public SimplePixelShader(ImageShader camera, ColorModel model) {
+    super(camera, model);
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.PixelShader#shadePixel(ca.eandb.jmist.math.Box2)
-	 */
-	public Color shadePixel(Box2 bounds) {
-		return shadeAt(bounds.center());
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.PixelShader#shadePixel(ca.eandb.jmist.math.Box2)
+   */
+  public Color shadePixel(Box2 bounds) {
+    return shadeAt(bounds.center());
+  }
 
 }

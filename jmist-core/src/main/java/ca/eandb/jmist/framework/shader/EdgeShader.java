@@ -38,36 +38,36 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class EdgeShader implements Shader {
 
-	/**
-	 * Serialization version ID.
-	 */
-	private static final long serialVersionUID = -2391452537161495498L;
+  /**
+   * Serialization version ID.
+   */
+  private static final long serialVersionUID = -2391452537161495498L;
 
-	private final Spectrum edgeColor;
+  private final Spectrum edgeColor;
 
-	private final Spectrum interiorColor;
+  private final Spectrum interiorColor;
 
-	private final double threshold;
+  private final double threshold;
 
-	/**
-	 * @param edgeColor
-	 * @param interiorColor
-	 * @param threshold
-	 */
-	public EdgeShader(Spectrum edgeColor, Spectrum interiorColor, double threshold) {
-		this.edgeColor = edgeColor;
-		this.interiorColor = interiorColor;
-		this.threshold = threshold;
-	}
+  /**
+   * @param edgeColor
+   * @param interiorColor
+   * @param threshold
+   */
+  public EdgeShader(Spectrum edgeColor, Spectrum interiorColor, double threshold) {
+    this.edgeColor = edgeColor;
+    this.interiorColor = interiorColor;
+    this.threshold = threshold;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
-	 */
-	public Color shade(ShadingContext sc) {
-		WavelengthPacket lambda = sc.getWavelengthPacket();
-		Vector3 n = sc.getNormal();
-		Vector3 v = sc.getIncident().opposite();
-		return Math.abs(n.dot(v)) < threshold ? edgeColor.sample(lambda) : interiorColor.sample(lambda);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
+   */
+  public Color shade(ShadingContext sc) {
+    WavelengthPacket lambda = sc.getWavelengthPacket();
+    Vector3 n = sc.getNormal();
+    Vector3 v = sc.getIncident().opposite();
+    return Math.abs(n.dot(v)) < threshold ? edgeColor.sample(lambda) : interiorColor.sample(lambda);
+  }
 
 }

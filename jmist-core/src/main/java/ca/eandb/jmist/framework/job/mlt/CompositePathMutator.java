@@ -39,54 +39,54 @@ import ca.eandb.util.DoubleArray;
  */
 public final class CompositePathMutator implements PathMutator {
 
-	private final List<PathMutator> mutators = new ArrayList<PathMutator>();
+  private final List<PathMutator> mutators = new ArrayList<PathMutator>();
 
-	private final DoubleArray weights = new DoubleArray();
+  private final DoubleArray weights = new DoubleArray();
 
-	private CategoricalRandom random = null;
+  private CategoricalRandom random = null;
 
-	public CompositePathMutator add(double weight, PathMutator mutator) {
-		mutators.add(mutator);
-		weights.add(weight);
-		random = null;
-		return this;
-	}
+  public CompositePathMutator add(double weight, PathMutator mutator) {
+    mutators.add(mutator);
+    weights.add(weight);
+    random = null;
+    return this;
+  }
 
-	private void ensureReady() {
-		if (random == null) {
-			synchronized (this) {
-				if (random == null) {
-					random = new CategoricalRandom(weights);
-				}
-			}
-		}
-	}
+  private void ensureReady() {
+    if (random == null) {
+      synchronized (this) {
+        if (random == null) {
+          random = new CategoricalRandom(weights);
+        }
+      }
+    }
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.job.mlt.PathMutator#getTransitionPDF(ca.eandb.jmist.framework.path.Path, ca.eandb.jmist.framework.path.Path)
-	 */
-	public double getTransitionPDF(Path from, Path to) {
-		ensureReady();
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.job.mlt.PathMutator#getTransitionPDF(ca.eandb.jmist.framework.path.Path, ca.eandb.jmist.framework.path.Path)
+   */
+  public double getTransitionPDF(Path from, Path to) {
+    ensureReady();
 
-		double pdf = 0.0;
-		for (int i = 0, n = mutators.size(); i < n; i++) {
-			PathMutator mutator = mutators.get(i);
-			double weight = random.getProbability(i);
-			pdf += weight * mutator.getTransitionPDF(from, to);
-		}
-		return pdf;
-	}
+    double pdf = 0.0;
+    for (int i = 0, n = mutators.size(); i < n; i++) {
+      PathMutator mutator = mutators.get(i);
+      double weight = random.getProbability(i);
+      pdf += weight * mutator.getTransitionPDF(from, to);
+    }
+    return pdf;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.job.mlt.PathMutator#mutate(ca.eandb.jmist.framework.path.Path, ca.eandb.jmist.framework.Random)
-	 */
-	public Path mutate(Path path, Random rnd) {
-		ensureReady();
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.job.mlt.PathMutator#mutate(ca.eandb.jmist.framework.path.Path, ca.eandb.jmist.framework.Random)
+   */
+  public Path mutate(Path path, Random rnd) {
+    ensureReady();
 
-		int index = random.next(rnd);
-		PathMutator mutator = mutators.get(index);
+    int index = random.next(rnd);
+    PathMutator mutator = mutators.get(index);
 
-		return mutator.mutate(path, rnd);
-	}
+    return mutator.mutate(path, rnd);
+  }
 
 }

@@ -38,18 +38,18 @@ import ca.eandb.jmist.math.Point2;
  */
 public interface ImageShader extends Serializable {
 
-	/**
-	 * Obtains the camera colour response at a specified point on the image
-	 * plane.
-	 * @param p The point on the image plane in normalized
-	 * 		device coordinates (must fall within
-	 * 		{@code Box2.UNIT}).
-	 * @param lambda The <code>WavelengthPacket</code> to use to sample
-	 * 		<code>Spectrum</code>s.
-	 * @return The <code>Color</code> response at the specified point on the
-	 * 		image plane.
-	 * @see Box2#UNIT
-	 */
-	Color shadeAt(Point2 p, WavelengthPacket lambda);
+  /**
+   * Obtains the camera colour response at a specified point on the image
+   * plane.
+   * @param p The point on the image plane in normalized
+   *     device coordinates (must fall within
+   *     {@code Box2.UNIT}).
+   * @param lambda The <code>WavelengthPacket</code> to use to sample
+   *     <code>Spectrum</code>s.
+   * @return The <code>Color</code> response at the specified point on the
+   *     image plane.
+   * @see Box2#UNIT
+   */
+  Color shadeAt(Point2 p, WavelengthPacket lambda);
 
 }

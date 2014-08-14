@@ -38,16 +38,16 @@ import ca.eandb.jmist.framework.modifier.ShaderModifier;
  */
 public final class ShaderSceneElement extends ModifierSceneElement {
 
-	/** Serialization version ID. */
-	private static final long serialVersionUID = 568999595548948811L;
+  /** Serialization version ID. */
+  private static final long serialVersionUID = 568999595548948811L;
 
-	/**
-	 * Creates a new <code>ShaderSceneElement</code>.
-	 * @param shader The <code>Shader</code> to apply.
-	 * @param inner The <code>SceneElement</code> to modify.
-	 */
-	public ShaderSceneElement(Shader shader, SceneElement inner) {
-		super(new ShaderModifier(shader), inner);
-	}
-	
+  /**
+   * Creates a new <code>ShaderSceneElement</code>.
+   * @param shader The <code>Shader</code> to apply.
+   * @param inner The <code>SceneElement</code> to modify.
+   */
+  public ShaderSceneElement(Shader shader, SceneElement inner) {
+    super(new ShaderModifier(shader), inner);
+  }
+  
 }

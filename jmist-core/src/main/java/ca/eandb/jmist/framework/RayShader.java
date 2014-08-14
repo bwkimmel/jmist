@@ -37,26 +37,26 @@ import ca.eandb.jmist.math.Ray3;
  */
 public interface RayShader extends Serializable {
 
-	/**
-	 * Computes an estimate of the colour channel responses at the origin
-	 * of the ray traveling in the direction opposite the direction of
-	 * the ray.
-	 * @param ray The ray indicating the point and direction along which to
-	 * 		compute the colour channel responses.
-	 * @param lambda The wavelengths at which to compute the color channel
-	 * 		responses.
-	 * @return The colour channel responses.
-	 */
-	Color shadeRay(Ray3 ray, WavelengthPacket lambda);
+  /**
+   * Computes an estimate of the colour channel responses at the origin
+   * of the ray traveling in the direction opposite the direction of
+   * the ray.
+   * @param ray The ray indicating the point and direction along which to
+   *     compute the colour channel responses.
+   * @param lambda The wavelengths at which to compute the color channel
+   *     responses.
+   * @return The colour channel responses.
+   */
+  Color shadeRay(Ray3 ray, WavelengthPacket lambda);
 
-	/**
-	 * A <code>RayShader</code> that shades all rays black.
-	 */
-	public static final RayShader BLACK = new RayShader() {
-		private static final long serialVersionUID = -6360034977196703057L;
-		public Color shadeRay(Ray3 ray, WavelengthPacket lambda) {
-			return lambda.getColorModel().getBlack(lambda);
-		}
-	};
+  /**
+   * A <code>RayShader</code> that shades all rays black.
+   */
+  public static final RayShader BLACK = new RayShader() {
+    private static final long serialVersionUID = -6360034977196703057L;
+    public Color shadeRay(Ray3 ray, WavelengthPacket lambda) {
+      return lambda.getColorModel().getBlack(lambda);
+    }
+  };
 
 }

@@ -38,146 +38,146 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class PlySceneElementBuilder implements PlyTarget {
 
-	/** Possible names for the vertex index property on the face element. */
-	private static final String[] VERTEX_INDEX_PROP_NAMES = {
-		"vertex_index", "vertex_indices"
-	};
+  /** Possible names for the vertex index property on the face element. */
+  private static final String[] VERTEX_INDEX_PROP_NAMES = {
+    "vertex_index", "vertex_indices"
+  };
 
-	/** The result <code>SceneElement</code>. */
-	private PolyhedronGeometry geometry = new PolyhedronGeometry();
+  /** The result <code>SceneElement</code>. */
+  private PolyhedronGeometry geometry = new PolyhedronGeometry();
 
-	/**
-	 * A value indicating if this mesh has vertex normals (i.e., if the
-	 * properties <code>nx</code>, <code>ny</code>, and <code>nz</code> are
-	 * present on the <code>vertex</code> element).
-	 */
-	private boolean hasVertexNormals = false;
+  /**
+   * A value indicating if this mesh has vertex normals (i.e., if the
+   * properties <code>nx</code>, <code>ny</code>, and <code>nz</code> are
+   * present on the <code>vertex</code> element).
+   */
+  private boolean hasVertexNormals = false;
 
-	/**
-	 * A value indicating if this mesh has vertex normals (i.e., if the
-	 * properties <code>u</code> and <code>v</code> are present on the
-	 * <code>vertex</code> element).
-	 */
-	private boolean hasTexCoords = false;
+  /**
+   * A value indicating if this mesh has vertex normals (i.e., if the
+   * properties <code>u</code> and <code>v</code> are present on the
+   * <code>vertex</code> element).
+   */
+  private boolean hasTexCoords = false;
 
-	/**
-	 * Creates the <code>SceneElement</code>.
-	 * @return The <code>SceneElement</code> read from the PLY-file.
-	 */
-	public SceneElement build() {
-		return geometry;
-	}
+  /**
+   * Creates the <code>SceneElement</code>.
+   * @return The <code>SceneElement</code> read from the PLY-file.
+   */
+  public SceneElement build() {
+    return geometry;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.ply.PlyTarget#beginSection(ca.eandb.jmist.framework.loader.ply.ElementDescriptor)
-	 */
-	@Override
-	public ElementListener beginSection(ElementDescriptor desc) {
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.loader.ply.PlyTarget#beginSection(ca.eandb.jmist.framework.loader.ply.ElementDescriptor)
+   */
+  @Override
+  public ElementListener beginSection(ElementDescriptor desc) {
 
-		CompositeElementListener listeners = new CompositeElementListener();
-		switch (desc.getName().toLowerCase()) {
-		case "vertex":
-			hasVertexNormals = desc.hasAllProperties("nx", "ny", "nz");
-			if (hasVertexNormals) {
-				listeners.addListener(new ElementListener() {
-					public void element(PlyElement element) {
-						readNormal(element);
-					}
-				});
-			}
+    CompositeElementListener listeners = new CompositeElementListener();
+    switch (desc.getName().toLowerCase()) {
+    case "vertex":
+      hasVertexNormals = desc.hasAllProperties("nx", "ny", "nz");
+      if (hasVertexNormals) {
+        listeners.addListener(new ElementListener() {
+          public void element(PlyElement element) {
+            readNormal(element);
+          }
+        });
+      }
 
-			hasTexCoords = desc.hasAllProperties("u", "v");
-			if (hasTexCoords) {
-				listeners.addListener(new ElementListener() {
-					public void element(PlyElement element) {
-						readTexCoord(element);
-					}
-				});
-			}
+      hasTexCoords = desc.hasAllProperties("u", "v");
+      if (hasTexCoords) {
+        listeners.addListener(new ElementListener() {
+          public void element(PlyElement element) {
+            readTexCoord(element);
+          }
+        });
+      }
 
-			if (desc.hasAllProperties("red", "green", "blue")) {
-				listeners.addListener(new ElementListener() {
-					public void element(PlyElement element) {
-						readVertexColor(element);
-					}
-				});
-			}
+      if (desc.hasAllProperties("red", "green", "blue")) {
+        listeners.addListener(new ElementListener() {
+          public void element(PlyElement element) {
+            readVertexColor(element);
+          }
+        });
+      }
 
-			listeners.addListener(new ElementListener() {
-				public void element(PlyElement element) {
-					readVertex(element);
-				}
-			});
+      listeners.addListener(new ElementListener() {
+        public void element(PlyElement element) {
+          readVertex(element);
+        }
+      });
 
-			break;
+      break;
 
-		case "face":
-			String propName = null;
-			for (String name : VERTEX_INDEX_PROP_NAMES) {
-				if (desc.hasProperty(name)) {
-					propName = name;
-					break;
-				}
-			}
-			if (propName != null) {
-				final String name = propName;
-				listeners.addListener(new ElementListener() {
-					public void element(PlyElement element) {
-						readFace(element.getProperty(name));
-					}
-				});
-			}
+    case "face":
+      String propName = null;
+      for (String name : VERTEX_INDEX_PROP_NAMES) {
+        if (desc.hasProperty(name)) {
+          propName = name;
+          break;
+        }
+      }
+      if (propName != null) {
+        final String name = propName;
+        listeners.addListener(new ElementListener() {
+          public void element(PlyElement element) {
+            readFace(element.getProperty(name));
+          }
+        });
+      }
 
-		}
+    }
 
-		return listeners;
-	}
+    return listeners;
+  }
 
-	private void readVertex(PlyElement element) {
-		double x = element.getProperty("x").getDoubleValue();
-		double y = element.getProperty("y").getDoubleValue();
-		double z = element.getProperty("z").getDoubleValue();
+  private void readVertex(PlyElement element) {
+    double x = element.getProperty("x").getDoubleValue();
+    double y = element.getProperty("y").getDoubleValue();
+    double z = element.getProperty("z").getDoubleValue();
 
-		geometry.addVertex(new Point3(x, y, z));
-	}
+    geometry.addVertex(new Point3(x, y, z));
+  }
 
-	private void readNormal(PlyElement element) {
-		double nx = element.getProperty("nx").getDoubleValue();
-		double ny = element.getProperty("ny").getDoubleValue();
-		double nz = element.getProperty("nz").getDoubleValue();
+  private void readNormal(PlyElement element) {
+    double nx = element.getProperty("nx").getDoubleValue();
+    double ny = element.getProperty("ny").getDoubleValue();
+    double nz = element.getProperty("nz").getDoubleValue();
 
-		geometry.addNormal(new Vector3(nx, ny, nz));
-	}
+    geometry.addNormal(new Vector3(nx, ny, nz));
+  }
 
-	private void readTexCoord(PlyElement element) {
-		double u = element.getProperty("u").getDoubleValue();
-		double v = element.getProperty("v").getDoubleValue();
+  private void readTexCoord(PlyElement element) {
+    double u = element.getProperty("u").getDoubleValue();
+    double v = element.getProperty("v").getDoubleValue();
 
-		geometry.addTexCoord(new Point2(u, v));
-	}
+    geometry.addTexCoord(new Point2(u, v));
+  }
 
-	private void readVertexColor(PlyElement element) {
-		/* not yet implemented. */
-	}
+  private void readVertexColor(PlyElement element) {
+    /* not yet implemented. */
+  }
 
-	private void readFace(PlyProperty property) {
-		int count = property.getCount();
-		int face[] = new int[count];
-		for (int i = 0; i < count; i++) {
-			face[i] = property.getIntValue(i);
-		}
+  private void readFace(PlyProperty property) {
+    int count = property.getCount();
+    int face[] = new int[count];
+    for (int i = 0; i < count; i++) {
+      face[i] = property.getIntValue(i);
+    }
 
-		geometry.addFace(face,
-				hasTexCoords ? face : null,
-				hasVertexNormals ? face : null);
-	}
+    geometry.addFace(face,
+        hasTexCoords ? face : null,
+        hasVertexNormals ? face : null);
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.ply.PlyTarget#endSection()
-	 */
-	@Override
-	public void endSection() {
-		/* nothing to do */
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.loader.ply.PlyTarget#endSection()
+   */
+  @Override
+  public void endSection() {
+    /* nothing to do */
+  }
 
 }

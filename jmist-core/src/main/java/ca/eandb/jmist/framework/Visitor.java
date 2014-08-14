@@ -31,11 +31,11 @@ package ca.eandb.jmist.framework;
  */
 public interface Visitor {
 
-	/**
-	 * Visits an item stored in the collection.
-	 * @param object The <code>Object</code> that was visited.
-	 * @return A value indicating whether the traversal should continue.
-	 */
-	boolean visit(Object object);
+  /**
+   * Visits an item stored in the collection.
+   * @param object The <code>Object</code> that was visited.
+   * @return A value indicating whether the traversal should continue.
+   */
+  boolean visit(Object object);
 
 }

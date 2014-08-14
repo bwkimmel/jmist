@@ -42,137 +42,137 @@ import ca.eandb.jmist.math.Ray3;
  */
 public final class InsideOutGeometry extends SceneElementDecorator {
 
-	/**
-	 * Serialization version ID.
-	 */
-	private static final long serialVersionUID = -3257320253470920058L;
+  /**
+   * Serialization version ID.
+   */
+  private static final long serialVersionUID = -3257320253470920058L;
 
-	/**
-	 * Creates a new <code>InsideOutGeometry</code>.
-	 * @param inner The <code>SceneElement</code> to turn inside out.
-	 */
-	public InsideOutGeometry(SceneElement inner) {
-		super(inner);
-	}
+  /**
+   * Creates a new <code>InsideOutGeometry</code>.
+   * @param inner The <code>SceneElement</code> to turn inside out.
+   */
+  public InsideOutGeometry(SceneElement inner) {
+    super(inner);
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.SceneElement#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-	 */
-	public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
-		recorder = new InsideOutIntersectionRecorder(recorder);
-		super.intersect(index, ray, recorder);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.SceneElement#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+   */
+  public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
+    recorder = new InsideOutIntersectionRecorder(recorder);
+    super.intersect(index, ray, recorder);
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-	 */
-	@Override
-	public void intersect(Ray3 ray, IntersectionRecorder recorder) {
-		recorder = new InsideOutIntersectionRecorder(recorder);
-		super.intersect(ray, recorder);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
+   */
+  @Override
+  public void intersect(Ray3 ray, IntersectionRecorder recorder) {
+    recorder = new InsideOutIntersectionRecorder(recorder);
+    super.intersect(ray, recorder);
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#generateImportanceSampledSurfacePoint(int, ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext)
-	 */
-	@Override
-	public double generateImportanceSampledSurfacePoint(int index,
-			SurfacePoint x, ShadingContext context, double ru, double rv, double rj) {
-		double weight = super.generateImportanceSampledSurfacePoint(index, x, context, ru, rv, rj);
-		flip(context);
-		return weight;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#generateImportanceSampledSurfacePoint(int, ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext)
+   */
+  @Override
+  public double generateImportanceSampledSurfacePoint(int index,
+      SurfacePoint x, ShadingContext context, double ru, double rv, double rj) {
+    double weight = super.generateImportanceSampledSurfacePoint(index, x, context, ru, rv, rj);
+    flip(context);
+    return weight;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#generateImportanceSampledSurfacePoint(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext)
-	 */
-	@Override
-	public double generateImportanceSampledSurfacePoint(SurfacePoint x,
-			ShadingContext context, double ru, double rv, double rj) {
-		double weight = super.generateImportanceSampledSurfacePoint(x, context, ru, rv, rj);
-		flip(context);
-		return weight;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#generateImportanceSampledSurfacePoint(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext)
+   */
+  @Override
+  public double generateImportanceSampledSurfacePoint(SurfacePoint x,
+      ShadingContext context, double ru, double rv, double rj) {
+    double weight = super.generateImportanceSampledSurfacePoint(x, context, ru, rv, rj);
+    flip(context);
+    return weight;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#generateRandomSurfacePoint(int, ca.eandb.jmist.framework.ShadingContext)
-	 */
-	@Override
-	public void generateRandomSurfacePoint(int index, ShadingContext context, double ru, double rv, double rj) {
-		super.generateRandomSurfacePoint(index, context, ru, rv, rj);
-		flip(context);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#generateRandomSurfacePoint(int, ca.eandb.jmist.framework.ShadingContext)
+   */
+  @Override
+  public void generateRandomSurfacePoint(int index, ShadingContext context, double ru, double rv, double rj) {
+    super.generateRandomSurfacePoint(index, context, ru, rv, rj);
+    flip(context);
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext)
-	 */
-	@Override
-	public void generateRandomSurfacePoint(ShadingContext context, double ru, double rv, double rj) {
-		super.generateRandomSurfacePoint(context, ru, rv, rj);
-		flip(context);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext)
+   */
+  @Override
+  public void generateRandomSurfacePoint(ShadingContext context, double ru, double rv, double rj) {
+    super.generateRandomSurfacePoint(context, ru, rv, rj);
+    flip(context);
+  }
 
-	private static void flip(ShadingContext context) {
-		context.setBasis(context.getBasis().opposite());
-		context.setShadingBasis(context.getShadingBasis().opposite());
-	}
+  private static void flip(ShadingContext context) {
+    context.setBasis(context.getBasis().opposite());
+    context.setShadingBasis(context.getShadingBasis().opposite());
+  }
 
-	/**
-	 * An <code>IntersectionRecorder</code> decorator that flips the normals,
-	 * bases, tangents and the {@link Intersection#isFront()} property of all
-	 * <code>Intersection</code>s recorded to it.
-	 * @author Brad Kimmel
-	 */
-	private static final class InsideOutIntersectionRecorder extends
-			IntersectionRecorderDecorator {
+  /**
+   * An <code>IntersectionRecorder</code> decorator that flips the normals,
+   * bases, tangents and the {@link Intersection#isFront()} property of all
+   * <code>Intersection</code>s recorded to it.
+   * @author Brad Kimmel
+   */
+  private static final class InsideOutIntersectionRecorder extends
+      IntersectionRecorderDecorator {
 
-		/**
-		 * Creates a new <code>InsideOutIntersectionRecorder</code>.
-		 * @param inner The <code>IntersectionRecorder</code> to decorate.
-		 */
-		public InsideOutIntersectionRecorder(IntersectionRecorder inner) {
-			super(inner);
-		}
+    /**
+     * Creates a new <code>InsideOutIntersectionRecorder</code>.
+     * @param inner The <code>IntersectionRecorder</code> to decorate.
+     */
+    public InsideOutIntersectionRecorder(IntersectionRecorder inner) {
+      super(inner);
+    }
 
-		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.IntersectionRecorderDecorator#record(ca.eandb.jmist.framework.Intersection)
-		 */
-		@Override
-		public void record(Intersection intersection) {
-			inner.record(new InsideOutIntersection(intersection));
-		}
+    /* (non-Javadoc)
+     * @see ca.eandb.jmist.framework.IntersectionRecorderDecorator#record(ca.eandb.jmist.framework.Intersection)
+     */
+    @Override
+    public void record(Intersection intersection) {
+      inner.record(new InsideOutIntersection(intersection));
+    }
 
-		/**
-		 * An <code>Intersection</code> decorator that flips the normals,
-		 * bases, tangents, and the {@link Intersection#isFront()} properties of
-		 * the decorated <code>Intersection</code>.
-		 * @author Brad Kimmel
-		 */
-		private static final class InsideOutIntersection extends IntersectionDecorator {
+    /**
+     * An <code>Intersection</code> decorator that flips the normals,
+     * bases, tangents, and the {@link Intersection#isFront()} properties of
+     * the decorated <code>Intersection</code>.
+     * @author Brad Kimmel
+     */
+    private static final class InsideOutIntersection extends IntersectionDecorator {
 
-			/**
-			 * Creates a new <code>InsideOutIntersection</code>.
-			 * @param inner The decorated <code>Intersection</code>.
-			 */
-			public InsideOutIntersection(Intersection inner) {
-				super(inner);
-			}
+      /**
+       * Creates a new <code>InsideOutIntersection</code>.
+       * @param inner The decorated <code>Intersection</code>.
+       */
+      public InsideOutIntersection(Intersection inner) {
+        super(inner);
+      }
 
-			/* (non-Javadoc)
-			 * @see ca.eandb.jmist.framework.IntersectionDecorator#front()
-			 */
-			@Override
-			public boolean isFront() {
-				return !inner.isFront();
-			}
+      /* (non-Javadoc)
+       * @see ca.eandb.jmist.framework.IntersectionDecorator#front()
+       */
+      @Override
+      public boolean isFront() {
+        return !inner.isFront();
+      }
 
-			@Override
-			protected void transformShadingContext(ShadingContext context) {
-				flip(context);
-			}
+      @Override
+      protected void transformShadingContext(ShadingContext context) {
+        flip(context);
+      }
 
-		}
+    }
 
-	}
+  }
 
 }

@@ -33,10 +33,10 @@ import ca.eandb.jmist.math.LinearMatrix3;
  */
 public interface LinearTransformable3 extends Rotatable3 {
 
-	/**
-	 * Transforms this object according to the specified linear transformation.
-	 * @param T The matrix representing the linear transformation to apply.
-	 */
-	void transform(LinearMatrix3 T);
+  /**
+   * Transforms this object according to the specified linear transformation.
+   * @param T The matrix representing the linear transformation to apply.
+   */
+  void transform(LinearMatrix3 T);
 
 }

@@ -35,43 +35,43 @@ import ca.eandb.jmist.framework.color.ColorModel;
  */
 public interface Display {
 
-	/**
-	 * Initialize the display.
-	 * @param w The width, in pixels, of the image to initialize.
-	 * @param h The height, in pixels, of the image to initialize.
-	 * @param colorModel The <code>ColorModel</code> to use for the image.
-	 */
-	void initialize(int w, int h, ColorModel colorModel);
+  /**
+   * Initialize the display.
+   * @param w The width, in pixels, of the image to initialize.
+   * @param h The height, in pixels, of the image to initialize.
+   * @param colorModel The <code>ColorModel</code> to use for the image.
+   */
+  void initialize(int w, int h, ColorModel colorModel);
 
-	/**
-	 * Fills a rectangular area with the specified <code>Color</code>.
-	 * @param x The x-coordinate of the upper-left corner of the rectangle.
-	 * @param y The y-coordinate of the upper-left corner of the rectangle.
-	 * @param w The width, in pixels, of the rectangle to fill.
-	 * @param h The height, in pixels, of the rectangle to fill.
-	 * @param color The <code>Color</code> to fill the area with.
-	 */
-	void fill(int x, int y, int w, int h, Color color);
+  /**
+   * Fills a rectangular area with the specified <code>Color</code>.
+   * @param x The x-coordinate of the upper-left corner of the rectangle.
+   * @param y The y-coordinate of the upper-left corner of the rectangle.
+   * @param w The width, in pixels, of the rectangle to fill.
+   * @param h The height, in pixels, of the rectangle to fill.
+   * @param color The <code>Color</code> to fill the area with.
+   */
+  void fill(int x, int y, int w, int h, Color color);
 
-	/**
-	 * Sets the specified pixel to the provided <code>Color</code>.
-	 * @param x The x-coordinate of the pixel to set.
-	 * @param y The y-coordinate of the pixel to set.
-	 * @param pixel The <code>Color</code> to set the pixel to.
-	 */
-	void setPixel(int x, int y, Color pixel);
-	
-	/**
-	 * Copies the provided <code>Raster</code> image onto the display.
-	 * @param x The x-coordinate of the upper-left corner of the area in which
-	 * 		to place the <code>Raster</code> image onto.
-	 * @param y The y-coordinate of the upper-left corner of the area in which
-	 * 		to place the <code>Raster</code> image onto.
-	 * @param pixels The <code>Raster</code> image to write to the display.
-	 */
-	void setPixels(int x, int y, Raster pixels);
+  /**
+   * Sets the specified pixel to the provided <code>Color</code>.
+   * @param x The x-coordinate of the pixel to set.
+   * @param y The y-coordinate of the pixel to set.
+   * @param pixel The <code>Color</code> to set the pixel to.
+   */
+  void setPixel(int x, int y, Color pixel);
+  
+  /**
+   * Copies the provided <code>Raster</code> image onto the display.
+   * @param x The x-coordinate of the upper-left corner of the area in which
+   *     to place the <code>Raster</code> image onto.
+   * @param y The y-coordinate of the upper-left corner of the area in which
+   *     to place the <code>Raster</code> image onto.
+   * @param pixels The <code>Raster</code> image to write to the display.
+   */
+  void setPixels(int x, int y, Raster pixels);
 
-	/** Finalize the displayed image. */
-	void finish();
+  /** Finalize the displayed image. */
+  void finish();
 
 }

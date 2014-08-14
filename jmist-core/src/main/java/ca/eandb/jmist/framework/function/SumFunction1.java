@@ -33,40 +33,40 @@ import ca.eandb.jmist.framework.Function1;
  */
 public final class SumFunction1 extends CompositeFunction1 {
 
-	/**
-	 * Serialization version ID.
-	 */
-	private static final long serialVersionUID = 2089927530431867078L;
+  /**
+   * Serialization version ID.
+   */
+  private static final long serialVersionUID = 2089927530431867078L;
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.function.CompositeFunction1#addChild(ca.eandb.jmist.framework.Function1)
-	 */
-	@Override
-	public SumFunction1 addChild(Function1 child) {
-		if (child instanceof SumFunction1) {
-			SumFunction1 sum = (SumFunction1) child;
-			for (Function1 grandChild : sum.children()) {
-				this.addChild(grandChild);
-			}
-		} else {
-			super.addChild(child);
-		}
-		return this;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.function.CompositeFunction1#addChild(ca.eandb.jmist.framework.Function1)
+   */
+  @Override
+  public SumFunction1 addChild(Function1 child) {
+    if (child instanceof SumFunction1) {
+      SumFunction1 sum = (SumFunction1) child;
+      for (Function1 grandChild : sum.children()) {
+        this.addChild(grandChild);
+      }
+    } else {
+      super.addChild(child);
+    }
+    return this;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Function1#evaluate(double)
-	 */
-	public double evaluate(double x) {
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Function1#evaluate(double)
+   */
+  public double evaluate(double x) {
 
-		double sum = 0.0;
+    double sum = 0.0;
 
-		for (Function1 component : this.children()) {
-			sum += component.evaluate(x);
-		}
+    for (Function1 component : this.children()) {
+      sum += component.evaluate(x);
+    }
 
-		return sum;
+    return sum;
 
-	}
+  }
 
 }

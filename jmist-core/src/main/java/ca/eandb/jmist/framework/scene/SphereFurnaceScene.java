@@ -45,40 +45,40 @@ import ca.eandb.jmist.math.Sphere;
  */
 public final class SphereFurnaceScene extends AbstractScene {
 
-	/**
-	 * Serialization version ID.
-	 */
-	private static final long serialVersionUID = 4543096941699942144L;
+  /**
+   * Serialization version ID.
+   */
+  private static final long serialVersionUID = 4543096941699942144L;
 
-	private static final Lens lens = new FisheyeLens();
+  private static final Lens lens = new FisheyeLens();
 
-	private final SceneElement root;
+  private final SceneElement root;
 
-	public SphereFurnaceScene(Spectrum reflectance, Spectrum emittance) {
-		root = new MaterialSceneElement(
-				new LambertianMaterial(reflectance, emittance),
-				new InsideOutGeometry(new SphereGeometry(Sphere.UNIT)));
-	}
+  public SphereFurnaceScene(Spectrum reflectance, Spectrum emittance) {
+    root = new MaterialSceneElement(
+        new LambertianMaterial(reflectance, emittance),
+        new InsideOutGeometry(new SphereGeometry(Sphere.UNIT)));
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Scene#getLens()
-	 */
-	public Lens getLens() {
-		return lens;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Scene#getLens()
+   */
+  public Lens getLens() {
+    return lens;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Scene#getLight()
-	 */
-	public Light getLight() {
-		return root.createLight();
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Scene#getLight()
+   */
+  public Light getLight() {
+    return root.createLight();
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Scene#getRoot()
-	 */
-	public SceneElement getRoot() {
-		return root;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Scene#getRoot()
+   */
+  public SceneElement getRoot() {
+    return root;
+  }
 
 }

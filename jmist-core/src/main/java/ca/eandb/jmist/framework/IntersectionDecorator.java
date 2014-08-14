@@ -36,46 +36,46 @@ package ca.eandb.jmist.framework;
  */
 public abstract class IntersectionDecorator implements Intersection {
 
-	/**
-	 * Initializes an <code>IntersectionDecorator</code>.
-	 * @param inner The <code>Intersection</code> to be decorated.
-	 */
-	protected IntersectionDecorator(Intersection inner) {
-		this.inner = inner;
-	}
+  /**
+   * Initializes an <code>IntersectionDecorator</code>.
+   * @param inner The <code>Intersection</code> to be decorated.
+   */
+  protected IntersectionDecorator(Intersection inner) {
+    this.inner = inner;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Intersection#distance()
-	 */
-	public double getDistance() {
-		return this.inner.getDistance();
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Intersection#distance()
+   */
+  public double getDistance() {
+    return this.inner.getDistance();
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Intersection#getTolerance()
-	 */
-	public double getTolerance() {
-		return this.inner.getTolerance();
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Intersection#getTolerance()
+   */
+  public double getTolerance() {
+    return this.inner.getTolerance();
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Intersection#front()
-	 */
-	public boolean isFront() {
-		return this.inner.isFront();
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Intersection#front()
+   */
+  public boolean isFront() {
+    return this.inner.isFront();
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Intersection#prepareShadingContext(ca.eandb.jmist.framework.ShadingContext)
-	 */
-	public final void prepareShadingContext(ShadingContext context) {
-		inner.prepareShadingContext(context);
-		transformShadingContext(context);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Intersection#prepareShadingContext(ca.eandb.jmist.framework.ShadingContext)
+   */
+  public final void prepareShadingContext(ShadingContext context) {
+    inner.prepareShadingContext(context);
+    transformShadingContext(context);
+  }
 
-	protected abstract void transformShadingContext(ShadingContext context);
+  protected abstract void transformShadingContext(ShadingContext context);
 
-	/** The decorated <code>Intersection</code>. */
-	protected final Intersection inner;
+  /** The decorated <code>Intersection</code>. */
+  protected final Intersection inner;
 
 }

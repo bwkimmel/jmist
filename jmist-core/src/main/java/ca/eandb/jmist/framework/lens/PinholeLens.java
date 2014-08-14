@@ -47,200 +47,200 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class PinholeLens extends AbstractLens {
 
-	/** Serialization version ID. */
-	private static final long serialVersionUID = 4259241970405882988L;
+  /** Serialization version ID. */
+  private static final long serialVersionUID = 4259241970405882988L;
 
-	/** The width of the virtual image plane. */
-	private final double width;
+  /** The width of the virtual image plane. */
+  private final double width;
 
-	/** The height of the virtual image plane. */
-	private final double height;
+  /** The height of the virtual image plane. */
+  private final double height;
 
-	/**
-	 * Initializes the pinhole camera from the specified dimensions of the
-	 * virtual image plane.  The virtual image plane is one meter from the
-	 * origin along the negative z-axis.
-	 * @param width The width of the virtual image plane (in meters).
-	 * @param height The height of the virtual image plane (in meters).
-	 */
-	public PinholeLens(double width, double height) {
-		this.width = width;
-		this.height = height;
-	}
+  /**
+   * Initializes the pinhole camera from the specified dimensions of the
+   * virtual image plane.  The virtual image plane is one meter from the
+   * origin along the negative z-axis.
+   * @param width The width of the virtual image plane (in meters).
+   * @param height The height of the virtual image plane (in meters).
+   */
+  public PinholeLens(double width, double height) {
+    this.width = width;
+    this.height = height;
+  }
 
-	/**
-	 * Initializes the pinhole camera from the specified
-	 * field of view and aspect ratio.
-	 * @param horizontalFieldOfView The field of view in the horizontal
-	 * 		direction (in radians).  This value must be in
-	 * 		(0, PI).
-	 * @param aspectRatio The ratio between the width and
-	 * 		height of the image.  This value must be positive.
-	 */
-	public static PinholeLens fromHfovAndAspect(double horizontalFieldOfView, double aspectRatio) {
+  /**
+   * Initializes the pinhole camera from the specified
+   * field of view and aspect ratio.
+   * @param horizontalFieldOfView The field of view in the horizontal
+   *     direction (in radians).  This value must be in
+   *     (0, PI).
+   * @param aspectRatio The ratio between the width and
+   *     height of the image.  This value must be positive.
+   */
+  public static PinholeLens fromHfovAndAspect(double horizontalFieldOfView, double aspectRatio) {
 
-		// Compute the width and height of the virtual
-		// image plane from the provided field of view
-		// and aspect ratio.  The image plane is assumed
-		// to be one unit away from the origin.
-		double width = 2.0 * Math.tan(0.5 * horizontalFieldOfView);
-		double height = width / aspectRatio;
-		return new PinholeLens(width, height);
+    // Compute the width and height of the virtual
+    // image plane from the provided field of view
+    // and aspect ratio.  The image plane is assumed
+    // to be one unit away from the origin.
+    double width = 2.0 * Math.tan(0.5 * horizontalFieldOfView);
+    double height = width / aspectRatio;
+    return new PinholeLens(width, height);
 
-	}
+  }
 
-	/**
-	 * Initializes the pinhole camera from the specified
-	 * field of view and aspect ratio.
-	 * @param verticalFieldOfView The field of view in the vertical
-	 * 		direction (in radians).  This value must be in
-	 * 		(0, PI).
-	 * @param aspectRatio The ratio between the width and
-	 * 		height of the image.  This value must be positive.
-	 */
-	public static PinholeLens fromVfovAndAspect(double verticalFieldOfView, double aspectRatio) {
+  /**
+   * Initializes the pinhole camera from the specified
+   * field of view and aspect ratio.
+   * @param verticalFieldOfView The field of view in the vertical
+   *     direction (in radians).  This value must be in
+   *     (0, PI).
+   * @param aspectRatio The ratio between the width and
+   *     height of the image.  This value must be positive.
+   */
+  public static PinholeLens fromVfovAndAspect(double verticalFieldOfView, double aspectRatio) {
 
-		// Compute the width and height of the virtual
-		// image plane from the provided field of view
-		// and aspect ratio.  The image plane is assumed
-		// to be one unit away from the origin.
-		double height = 2.0 * Math.tan(0.5 * verticalFieldOfView);
-		double width = height * aspectRatio;
-		return new PinholeLens(width, height);
+    // Compute the width and height of the virtual
+    // image plane from the provided field of view
+    // and aspect ratio.  The image plane is assumed
+    // to be one unit away from the origin.
+    double height = 2.0 * Math.tan(0.5 * verticalFieldOfView);
+    double width = height * aspectRatio;
+    return new PinholeLens(width, height);
 
-	}
+  }
 
-	/**
-	 * Initializes the pinhole camera from the specified
-	 * field of view in the horizontal and vertical directions
-	 * @param horizontalFieldOfView The field of view in the horizontal
-	 * 		direction (in radians).  This value must be in
-	 * 		(0, PI).
-	 * @param verticalFieldOfView The field of view in the vertical
-	 * 		direction (in radians).  This value must be in
-	 * 		(0, PI).
-	 */
-	public static PinholeLens fromFieldOfView(double horizontalFieldOfView,
-			double verticalFieldOfView) {
+  /**
+   * Initializes the pinhole camera from the specified
+   * field of view in the horizontal and vertical directions
+   * @param horizontalFieldOfView The field of view in the horizontal
+   *     direction (in radians).  This value must be in
+   *     (0, PI).
+   * @param verticalFieldOfView The field of view in the vertical
+   *     direction (in radians).  This value must be in
+   *     (0, PI).
+   */
+  public static PinholeLens fromFieldOfView(double horizontalFieldOfView,
+      double verticalFieldOfView) {
 
-		// Compute the width and height of the virtual
-		// image plane from the provided field of view
-		// and aspect ratio.  The image plane is assumed
-		// to be one unit away from the origin.
-		double width = 2.0 * Math.tan(0.5 * horizontalFieldOfView);
-		double height = 2.0 * Math.tan(0.5 * verticalFieldOfView);
-		return new PinholeLens(width, height);
+    // Compute the width and height of the virtual
+    // image plane from the provided field of view
+    // and aspect ratio.  The image plane is assumed
+    // to be one unit away from the origin.
+    double width = 2.0 * Math.tan(0.5 * horizontalFieldOfView);
+    double height = 2.0 * Math.tan(0.5 * verticalFieldOfView);
+    return new PinholeLens(width, height);
 
-	}
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Lens#sample(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.path.PathInfo, ca.eandb.jmist.framework.Random)
-	 */
-	public EyeNode sample(Point2 p, PathInfo pathInfo, double ru, double rv, double rj) {
-		return new Node(p, pathInfo, ru, rv, rj);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Lens#sample(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.path.PathInfo, ca.eandb.jmist.framework.Random)
+   */
+  public EyeNode sample(Point2 p, PathInfo pathInfo, double ru, double rv, double rj) {
+    return new Node(p, pathInfo, ru, rv, rj);
+  }
 
-	/**
-	 * An <code>EyeNode</code> generated by a <code>PinholeLens</code>.
-	 */
-	private final class Node extends EyeTerminalNode {
+  /**
+   * An <code>EyeNode</code> generated by a <code>PinholeLens</code>.
+   */
+  private final class Node extends EyeTerminalNode {
 
-		/** Projected point on the image plane. */
-		private final Point2 pointOnImagePlane;
+    /** Projected point on the image plane. */
+    private final Point2 pointOnImagePlane;
 
-		/**
-		 * Creates a <code>Node</code>.
-		 * @param pointOnImagePlane The <code>Point2</code> on the image plane.
-		 * @param pathInfo The <code>PathInfo</code> describing the context for
-		 * 		this node.
-		 */
-		public Node(Point2 pointOnImagePlane, PathInfo pathInfo, double ru, double rv, double rj) {
-			super(pathInfo, ru, rv, rj);
-			this.pointOnImagePlane = pointOnImagePlane;
-		}
+    /**
+     * Creates a <code>Node</code>.
+     * @param pointOnImagePlane The <code>Point2</code> on the image plane.
+     * @param pathInfo The <code>PathInfo</code> describing the context for
+     *     this node.
+     */
+    public Node(Point2 pointOnImagePlane, PathInfo pathInfo, double ru, double rv, double rj) {
+      super(pathInfo, ru, rv, rj);
+      this.pointOnImagePlane = pointOnImagePlane;
+    }
 
-		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.path.EyeNode#sample(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.Random)
-		 */
-		public ScatteredRay sample(double ru, double rv, double rj) {
-			Point2 p = pointOnImagePlane;
-			Vector3 v = new Vector3(
-					width * (p.x() - 0.5),
-					height * (0.5 - p.y()),
-					-1.0);
-			Ray3 ray = new Ray3(Point3.ORIGIN, v.unit());
-			Color color = getWhite();
-			double z = v.x() * v.x() + v.y() * v.y() + 1.0;
-			double pdf = z * z / (width * height);
-			return ScatteredRay.diffuse(ray, color, pdf);
-		}
+    /* (non-Javadoc)
+     * @see ca.eandb.jmist.framework.path.EyeNode#sample(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.Random)
+     */
+    public ScatteredRay sample(double ru, double rv, double rj) {
+      Point2 p = pointOnImagePlane;
+      Vector3 v = new Vector3(
+          width * (p.x() - 0.5),
+          height * (0.5 - p.y()),
+          -1.0);
+      Ray3 ray = new Ray3(Point3.ORIGIN, v.unit());
+      Color color = getWhite();
+      double z = v.x() * v.x() + v.y() * v.y() + 1.0;
+      double pdf = z * z / (width * height);
+      return ScatteredRay.diffuse(ray, color, pdf);
+    }
 
-		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.path.PathNode#scatterTo(ca.eandb.jmist.framework.path.PathNode)
-		 */
-		public Color scatter(Vector3 v) {
-			return getGray(getPDF(v));
-		}
+    /* (non-Javadoc)
+     * @see ca.eandb.jmist.framework.path.PathNode#scatterTo(ca.eandb.jmist.framework.path.PathNode)
+     */
+    public Color scatter(Vector3 v) {
+      return getGray(getPDF(v));
+    }
 
-		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.path.EyeNode#project(ca.eandb.jmist.math.HPoint3)
-		 */
-		public Point2 project(HPoint3 x) {
-			Ray3 ray = new Ray3(Point3.ORIGIN, x);
-			Vector3 v = ray.direction();
-			if (-v.z() < MathUtil.EPSILON) {
-				return null;
-			}
-			Point2 p = new Point2(
-					0.5 - v.x() / (width * v.z()),
-					0.5 + v.y() / (height * v.z()));
-			return Box2.UNIT.contains(p) ? p : null;
-		}
+    /* (non-Javadoc)
+     * @see ca.eandb.jmist.framework.path.EyeNode#project(ca.eandb.jmist.math.HPoint3)
+     */
+    public Point2 project(HPoint3 x) {
+      Ray3 ray = new Ray3(Point3.ORIGIN, x);
+      Vector3 v = ray.direction();
+      if (-v.z() < MathUtil.EPSILON) {
+        return null;
+      }
+      Point2 p = new Point2(
+          0.5 - v.x() / (width * v.z()),
+          0.5 + v.y() / (height * v.z()));
+      return Box2.UNIT.contains(p) ? p : null;
+    }
 
-		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.path.PathNode#getCosine(ca.eandb.jmist.math.Vector3)
-		 */
-		public double getCosine(Vector3 v) {
-			return -v.z() / v.length();
-		}
+    /* (non-Javadoc)
+     * @see ca.eandb.jmist.framework.path.PathNode#getCosine(ca.eandb.jmist.math.Vector3)
+     */
+    public double getCosine(Vector3 v) {
+      return -v.z() / v.length();
+    }
 
-		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.path.PathNode#getPosition()
-		 */
-		public HPoint3 getPosition() {
-			return Point3.ORIGIN;
-		}
+    /* (non-Javadoc)
+     * @see ca.eandb.jmist.framework.path.PathNode#getPosition()
+     */
+    public HPoint3 getPosition() {
+      return Point3.ORIGIN;
+    }
 
-		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.path.PathNode#getPDF()
-		 */
-		public double getPDF() {
-			return 1.0;
-		}
+    /* (non-Javadoc)
+     * @see ca.eandb.jmist.framework.path.PathNode#getPDF()
+     */
+    public double getPDF() {
+      return 1.0;
+    }
 
-		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.path.PathNode#isSpecular()
-		 */
-		public boolean isSpecular() {
-			return true;
-		}
+    /* (non-Javadoc)
+     * @see ca.eandb.jmist.framework.path.PathNode#isSpecular()
+     */
+    public boolean isSpecular() {
+      return true;
+    }
 
-		/* (non-Javadoc)
-		 * @see ca.eandb.jmist.framework.path.PathNode#getPDF(ca.eandb.jmist.math.Vector3)
-		 */
-		public double getPDF(Vector3 v) {
-			double x = -v.x() / v.z();
-			double y = -v.y() / v.z();
-			if (-v.z() >= MathUtil.EPSILON
-					&& MathUtil.inRangeCC(x, -0.5 * width, 0.5 * width)
-					&& MathUtil.inRangeCC(y, -0.5 * height, 0.5 * height)) {
-				double z = x * x + y * y + 1.0;
-				return z * z / (width * height);
-			} else {
-				return 0.0;
-			}
-		}
+    /* (non-Javadoc)
+     * @see ca.eandb.jmist.framework.path.PathNode#getPDF(ca.eandb.jmist.math.Vector3)
+     */
+    public double getPDF(Vector3 v) {
+      double x = -v.x() / v.z();
+      double y = -v.y() / v.z();
+      if (-v.z() >= MathUtil.EPSILON
+          && MathUtil.inRangeCC(x, -0.5 * width, 0.5 * width)
+          && MathUtil.inRangeCC(y, -0.5 * height, 0.5 * height)) {
+        double z = x * x + y * y + 1.0;
+        return z * z / (width * height);
+      } else {
+        return 0.0;
+      }
+    }
 
-	}
+  }
 
 }

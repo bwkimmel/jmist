@@ -64,450 +64,450 @@ import ca.eandb.util.progress.ProgressMonitor;
  */
 public final class BidiPathTracerJob extends AbstractParallelizableJob {
 
-	/** Serialization version ID. */
-	private static final long serialVersionUID = -6940841062797196504L;
+  /** Serialization version ID. */
+  private static final long serialVersionUID = -6940841062797196504L;
 
-	private final Scene scene;
+  private final Scene scene;
 
-	private final ColorModel colorModel;
+  private final ColorModel colorModel;
 
-	private final Random random;
+  private final Random random;
 
-	private transient Raster raster;
+  private transient Raster raster;
 
-	private final Display display;
+  private final Display display;
 
-	private final BidiPathStrategy strategy;
+  private final BidiPathStrategy strategy;
 
-	private final PathMeasure measure;
+  private final PathMeasure measure;
 
-	private final int tasks;
+  private final int tasks;
 
-	private final int width;
+  private final int width;
 
-	private final int height;
-	
-	private final Interval shutter;
+  private final int height;
+  
+  private final Interval shutter;
 
-	private final int eyePathsPerPixel;
+  private final int eyePathsPerPixel;
 
-	private final int lightPathsPerEyePath;
+  private final int lightPathsPerEyePath;
 
-	private final int minPassesPerTask;
+  private final int minPassesPerTask;
 
-	private final int extraPasses;
+  private final int extraPasses;
 
-	private final boolean displayPartialResults;
+  private final boolean displayPartialResults;
 
-	private transient int tasksProvided = 0;
+  private transient int tasksProvided = 0;
 
-	private transient int tasksSubmitted = 0;
+  private transient int tasksSubmitted = 0;
 
-	private transient int passesSubmitted = 0;
-	
-	private final FloatArray contribList = new FloatArray();
+  private transient int passesSubmitted = 0;
+  
+  private final FloatArray contribList = new FloatArray();
 
-	public BidiPathTracerJob(Scene scene, Display display, int width,
-			int height, Interval shutter, ColorModel colorModel, Random random,
-			BidiPathStrategy strategy, PathMeasure measure, int eyePathsPerPixel,
-			int lightPathsPerEyePath, int tasks, boolean displayPartialResults) {
-		this.scene = scene;
-		this.display = display;
-		this.colorModel = colorModel;
-		this.random = random;
-		this.tasks = tasks;
-		this.width = width;
-		this.height = height;
-		this.shutter = shutter;
-		this.strategy = strategy;
-		this.measure = measure;
-		this.eyePathsPerPixel = eyePathsPerPixel;
-		this.lightPathsPerEyePath = lightPathsPerEyePath;
-		this.minPassesPerTask = eyePathsPerPixel / tasks;
-		this.extraPasses = eyePathsPerPixel - minPassesPerTask * tasks;
-		this.displayPartialResults = displayPartialResults;
-	}
-	
-	public BidiPathTracerJob(Scene scene, Display display, int width,
-			int height, ColorModel colorModel, Random random,
-			BidiPathStrategy strategy, PathMeasure measure, int eyePathsPerPixel,
-			int lightPathsPerEyePath, int tasks, boolean displayPartialResults) {
-		this(scene, display, width, height, null, colorModel, random, strategy,
-				measure, eyePathsPerPixel, lightPathsPerEyePath, tasks,
-				displayPartialResults);
-	}
-	
-	/* (non-Javadoc)
-	 * @see ca.eandb.jdcp.job.ParallelizableJob#getNextTask()
-	 */
-	public synchronized Object getNextTask() throws Exception {
-		if (tasksProvided < tasks) {
-			return tasksProvided++ < extraPasses ? minPassesPerTask + 1
-					: minPassesPerTask;
-		} else {
-			return null;
-		}
-	}
+  public BidiPathTracerJob(Scene scene, Display display, int width,
+      int height, Interval shutter, ColorModel colorModel, Random random,
+      BidiPathStrategy strategy, PathMeasure measure, int eyePathsPerPixel,
+      int lightPathsPerEyePath, int tasks, boolean displayPartialResults) {
+    this.scene = scene;
+    this.display = display;
+    this.colorModel = colorModel;
+    this.random = random;
+    this.tasks = tasks;
+    this.width = width;
+    this.height = height;
+    this.shutter = shutter;
+    this.strategy = strategy;
+    this.measure = measure;
+    this.eyePathsPerPixel = eyePathsPerPixel;
+    this.lightPathsPerEyePath = lightPathsPerEyePath;
+    this.minPassesPerTask = eyePathsPerPixel / tasks;
+    this.extraPasses = eyePathsPerPixel - minPassesPerTask * tasks;
+    this.displayPartialResults = displayPartialResults;
+  }
+  
+  public BidiPathTracerJob(Scene scene, Display display, int width,
+      int height, ColorModel colorModel, Random random,
+      BidiPathStrategy strategy, PathMeasure measure, int eyePathsPerPixel,
+      int lightPathsPerEyePath, int tasks, boolean displayPartialResults) {
+    this(scene, display, width, height, null, colorModel, random, strategy,
+        measure, eyePathsPerPixel, lightPathsPerEyePath, tasks,
+        displayPartialResults);
+  }
+  
+  /* (non-Javadoc)
+   * @see ca.eandb.jdcp.job.ParallelizableJob#getNextTask()
+   */
+  public synchronized Object getNextTask() throws Exception {
+    if (tasksProvided < tasks) {
+      return tasksProvided++ < extraPasses ? minPassesPerTask + 1
+          : minPassesPerTask;
+    } else {
+      return null;
+    }
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jdcp.job.ParallelizableJob#isComplete()
-	 */
-	public boolean isComplete() throws Exception {
-		return tasksSubmitted == tasks;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jdcp.job.ParallelizableJob#isComplete()
+   */
+  public boolean isComplete() throws Exception {
+    return tasksSubmitted == tasks;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jdcp.job.ParallelizableJob#submitTaskResults(java.lang.Object, java.lang.Object, ca.eandb.util.progress.ProgressMonitor)
-	 */
-	public synchronized void submitTaskResults(Object task, Object results,
-			ProgressMonitor monitor) throws Exception {
+  /* (non-Javadoc)
+   * @see ca.eandb.jdcp.job.ParallelizableJob#submitTaskResults(java.lang.Object, java.lang.Object, ca.eandb.util.progress.ProgressMonitor)
+   */
+  public synchronized void submitTaskResults(Object task, Object results,
+      ProgressMonitor monitor) throws Exception {
 
-		int taskPasses = (Integer) task;
-		Raster taskRaster = (Raster) results;
+    int taskPasses = (Integer) task;
+    Raster taskRaster = (Raster) results;
 
-		monitor.notifyStatusChanged("Accumulating partial results...");
+    monitor.notifyStatusChanged("Accumulating partial results...");
 
-		passesSubmitted += taskPasses;
-		if (displayPartialResults) {
-			double alpha = (double) taskPasses / (double) passesSubmitted;
-			for (int y = 0; y < height; y++) {
-				for (int x = 0; x < width; x++) {
-					raster.setPixel(x, y, raster.getPixel(x, y).times(
-							1.0 - alpha).plus(
-							taskRaster.getPixel(x, y).times(alpha)));
-				}
-			}
-			display.setPixels(0, 0, raster);
-		} else {
-			for (int y = 0; y < height; y++) {
-				for (int x = 0; x < width; x++) {
-					raster.setPixel(x, y, raster.getPixel(x, y).plus(taskRaster.getPixel(x, y)));
-				}
-			}
-		}
-		
-		writeContribList();
+    passesSubmitted += taskPasses;
+    if (displayPartialResults) {
+      double alpha = (double) taskPasses / (double) passesSubmitted;
+      for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+          raster.setPixel(x, y, raster.getPixel(x, y).times(
+              1.0 - alpha).plus(
+              taskRaster.getPixel(x, y).times(alpha)));
+        }
+      }
+      display.setPixels(0, 0, raster);
+    } else {
+      for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+          raster.setPixel(x, y, raster.getPixel(x, y).plus(taskRaster.getPixel(x, y)));
+        }
+      }
+    }
+    
+    writeContribList();
 
-		monitor.notifyProgress(++tasksSubmitted, tasks);
-		if (tasksSubmitted == tasks) {
-			monitor.notifyStatusChanged("Ready to write results");
-		} else {
-			monitor.notifyStatusChanged("Waiting for partial results");
-		}
+    monitor.notifyProgress(++tasksSubmitted, tasks);
+    if (tasksSubmitted == tasks) {
+      monitor.notifyStatusChanged("Ready to write results");
+    } else {
+      monitor.notifyStatusChanged("Waiting for partial results");
+    }
 
-	}
-	
-	private synchronized void writeContribList() {
-//		try {
-////			synchronized (contribList) {
-////				System.out.printf("Writing %d contributions", contribList.size());
-////				MatlabWriter writer = new MatlabWriter(new FileOutputStream("contribs.mat"));
-////				writer.write("contribs", contribList.toFloatArray(), new int[]{ contribList.size(), 1 });
-////				writer.close();
-////				System.exit(0);
-////			}
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-	}
+  }
+  
+  private synchronized void writeContribList() {
+//    try {
+////      synchronized (contribList) {
+////        System.out.printf("Writing %d contributions", contribList.size());
+////        MatlabWriter writer = new MatlabWriter(new FileOutputStream("contribs.mat"));
+////        writer.write("contribs", contribList.toFloatArray(), new int[]{ contribList.size(), 1 });
+////        writer.close();
+////        System.exit(0);
+////      }
+//    } catch (IOException e) {
+//      // TODO Auto-generated catch block
+//      e.printStackTrace();
+//    }
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jdcp.job.AbstractParallelizableJob#initialize()
-	 */
-	@Override
-	public void initialize() throws Exception {
-		raster = colorModel.createRaster(width, height);
-		if (displayPartialResults) {
-			display.initialize(width, height, colorModel);
-		}
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jdcp.job.AbstractParallelizableJob#initialize()
+   */
+  @Override
+  public void initialize() throws Exception {
+    raster = colorModel.createRaster(width, height);
+    if (displayPartialResults) {
+      display.initialize(width, height, colorModel);
+    }
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jdcp.job.AbstractParallelizableJob#finish()
-	 */
-	@Override
-	public void finish() throws Exception {
-		if (!displayPartialResults) {
-			for (int y = 0; y < height; y++) {
-				for (int x = 0; x < width; x++) {
-					raster.setPixel(x, y, raster.getPixel(x, y).divide(eyePathsPerPixel));
-				}
-			}
-			display.initialize(width, height, colorModel);
-			display.setPixels(0, 0, raster);
-		}
-		display.finish();
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jdcp.job.AbstractParallelizableJob#finish()
+   */
+  @Override
+  public void finish() throws Exception {
+    if (!displayPartialResults) {
+      for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+          raster.setPixel(x, y, raster.getPixel(x, y).divide(eyePathsPerPixel));
+        }
+      }
+      display.initialize(width, height, colorModel);
+      display.setPixels(0, 0, raster);
+    }
+    display.finish();
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jdcp.job.ParallelizableJob#worker()
-	 */
-	public TaskWorker worker() throws Exception {
-		return new Worker();
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jdcp.job.ParallelizableJob#worker()
+   */
+  public TaskWorker worker() throws Exception {
+    return new Worker();
+  }
 
-	private final class Worker implements TaskWorker {
+  private final class Worker implements TaskWorker {
 
-		/** Serialization version ID. */
-		private static final long serialVersionUID = -7848301189373426210L;
+    /** Serialization version ID. */
+    private static final long serialVersionUID = -7848301189373426210L;
 
-		private transient ThreadLocal<Raster> raster = null;
-		
-		private synchronized void initialize() {
-			if (raster == null) {
-				raster = new ThreadLocal<Raster>() {
-					protected Raster initialValue() {
-						return colorModel.createRaster(width, height);
-					}
-				};
-			}
-		}
+    private transient ThreadLocal<Raster> raster = null;
+    
+    private synchronized void initialize() {
+      if (raster == null) {
+        raster = new ThreadLocal<Raster>() {
+          protected Raster initialValue() {
+            return colorModel.createRaster(width, height);
+          }
+        };
+      }
+    }
 
-		/* (non-Javadoc)
-		 * @see ca.eandb.jdcp.job.TaskWorker#performTask(java.lang.Object, ca.eandb.util.progress.ProgressMonitor)
-		 */
-		public Object performTask(Object task, ProgressMonitor monitor) {
+    /* (non-Javadoc)
+     * @see ca.eandb.jdcp.job.TaskWorker#performTask(java.lang.Object, ca.eandb.util.progress.ProgressMonitor)
+     */
+    public Object performTask(Object task, ProgressMonitor monitor) {
 
-			int			passes				= (Integer) task;
-			Box2		bounds;
-			double		x0, y0, x1, y1;
-			double		w					= width;
-			double		h					= height;
-			int			numPixels			= width * height;
-			int			samplesPerPixel		= passes * lightPathsPerEyePath;
-			double		lightImageWeight	= 1.0 / (double) samplesPerPixel;
-			Light		light				= scene.getLight();
-			Lens		lens				= scene.getLens();
-			Animator	animator			= scene.getAnimator();
+      int      passes        = (Integer) task;
+      Box2    bounds;
+      double    x0, y0, x1, y1;
+      double    w          = width;
+      double    h          = height;
+      int      numPixels      = width * height;
+      int      samplesPerPixel    = passes * lightPathsPerEyePath;
+      double    lightImageWeight  = 1.0 / (double) samplesPerPixel;
+      Light    light        = scene.getLight();
+      Lens    lens        = scene.getLens();
+      Animator  animator      = scene.getAnimator();
 
-			initialize();
-			raster.get().clear();
+      initialize();
+      raster.get().clear();
 
-			for (int n = 0, y = 0; y < height; y++) {
+      for (int n = 0, y = 0; y < height; y++) {
 
-				if (!monitor.notifyProgress(n, numPixels))
-					return null;
+        if (!monitor.notifyProgress(n, numPixels))
+          return null;
 
-				y0			= (double) y / h;
-				y1			= (double) (y + 1) / h;
+        y0      = (double) y / h;
+        y1      = (double) (y + 1) / h;
 
-				for (int x = 0; x < width; x++, n++) {
+        for (int x = 0; x < width; x++, n++) {
 
-					x0			= (double) x / w;
-					x1			= (double) (x + 1) / w;
+          x0      = (double) x / w;
+          x1      = (double) (x + 1) / w;
 
-					bounds		= new Box2(x0, y0, x1, y1);
+          bounds    = new Box2(x0, y0, x1, y1);
 
-					for (int i = 0; i < passes; i++) {
-						
-						if (shutter != null) {
-							double time		= RandomUtil.uniform(shutter, random);
-							animator.setTime(time);
-						}
+          for (int i = 0; i < passes; i++) {
+            
+            if (shutter != null) {
+              double time    = RandomUtil.uniform(shutter, random);
+              animator.setTime(time);
+            }
 
-						Point2 p			= RandomUtil.uniform(bounds, random);
-						Color sample		= colorModel.sample(random);
-						PathInfo path		= new PathInfo(scene, sample.getWavelengthPacket());
-						PathNode eyeTail	= strategy.traceEyePath(lens, p,
-													path, random);
+            Point2 p      = RandomUtil.uniform(bounds, random);
+            Color sample    = colorModel.sample(random);
+            PathInfo path    = new PathInfo(scene, sample.getWavelengthPacket());
+            PathNode eyeTail  = strategy.traceEyePath(lens, p,
+                          path, random);
 
-						for (int j = 0; j < lightPathsPerEyePath; j++) {
+            for (int j = 0; j < lightPathsPerEyePath; j++) {
 
-							PathNode lightTail	= strategy.traceLightPath(
-														light, path, random);
+              PathNode lightTail  = strategy.traceLightPath(
+                            light, path, random);
 
-							Color score			= join(lightTail, eyeTail,
-														lightImageWeight);
-							if (score != null) {
-								raster.get().addPixel(x, y,
-										score.divide(samplesPerPixel));
-							}
+              Color score      = join(lightTail, eyeTail,
+                            lightImageWeight);
+              if (score != null) {
+                raster.get().addPixel(x, y,
+                    score.divide(samplesPerPixel));
+              }
 
-						}
+            }
 
-					}
+          }
 
-				}
+        }
 
-			}
+      }
 
-			monitor.notifyProgress(numPixels, numPixels);
-			monitor.notifyComplete();
+      monitor.notifyProgress(numPixels, numPixels);
+      monitor.notifyComplete();
 
-			return raster.get();
+      return raster.get();
 
-		}
+    }
 
 //
-//		private void joinLightPathToEye(EyeNode eye, PathNode tail, double weight) {
-//			PathNode node = tail;
-//			while (node != null) {
-//				double w = strategy.getWeight(node, eye);
-//				if (!MathUtil.isZero(w)) {
-//					Color c = PathUtil.join(eye, node);
-//					if (c != null) {
-//						Point2 p = eye.project(node.getPosition());
-//						if (p != null) {
-//							if (node instanceof LightNode) {
-//								write(p, c.times(w));
-//							} else {
-//								write(p, c.times(weight * w));
-//							}
-//						}
-//					}
-//				}
-//				node = node.getParent();
-//			}
-//		}
+//    private void joinLightPathToEye(EyeNode eye, PathNode tail, double weight) {
+//      PathNode node = tail;
+//      while (node != null) {
+//        double w = strategy.getWeight(node, eye);
+//        if (!MathUtil.isZero(w)) {
+//          Color c = PathUtil.join(eye, node);
+//          if (c != null) {
+//            Point2 p = eye.project(node.getPosition());
+//            if (p != null) {
+//              if (node instanceof LightNode) {
+//                write(p, c.times(w));
+//              } else {
+//                write(p, c.times(weight * w));
+//              }
+//            }
+//          }
+//        }
+//        node = node.getParent();
+//      }
+//    }
 //
-//		private Color joinInnerToInner(PathNode eyeNode, PathNode lightNode) {
-//			assert(eyeNode.getDepth() > 0 && lightNode.getDepth() > 0);
-//			double w = strategy.getWeight(lightNode, eyeNode);
-//			if (!MathUtil.isZero(w)) {
-//				Color c = PathUtil.join(eyeNode, lightNode);
-//				return ColorUtil.mul(c, w);
-//			} else {
-//				return null;
-//			}
-//		}
+//    private Color joinInnerToInner(PathNode eyeNode, PathNode lightNode) {
+//      assert(eyeNode.getDepth() > 0 && lightNode.getDepth() > 0);
+//      double w = strategy.getWeight(lightNode, eyeNode);
+//      if (!MathUtil.isZero(w)) {
+//        Color c = PathUtil.join(eyeNode, lightNode);
+//        return ColorUtil.mul(c, w);
+//      } else {
+//        return null;
+//      }
+//    }
 //
-//		private Color joinInnerToLight(ScatteringNode eyeNode, LightNode light) {
-//			return joinInnerToInner(eyeNode, light);
-//		}
+//    private Color joinInnerToLight(ScatteringNode eyeNode, LightNode light) {
+//      return joinInnerToInner(eyeNode, light);
+//    }
 
-		private Color join(PathNode lightTail, PathNode eyeTail, double lightImageWeight) {
-			Color score = null;
+    private Color join(PathNode lightTail, PathNode eyeTail, double lightImageWeight) {
+      Color score = null;
 
-			PathNode lightNode = lightTail;
-			while (true) {
+      PathNode lightNode = lightTail;
+      while (true) {
 
-				PathNode eyeNode = eyeTail;
-				while (true) {
+        PathNode eyeNode = eyeTail;
+        while (true) {
 
-					Color c = joinAt(lightNode, eyeNode, lightImageWeight);
-					score = ColorUtil.add(score, c);
+          Color c = joinAt(lightNode, eyeNode, lightImageWeight);
+          score = ColorUtil.add(score, c);
 
-					if (eyeNode == null) {
-						break;
-					}
-					eyeNode = eyeNode.getParent();
-				} // eye path loop
+          if (eyeNode == null) {
+            break;
+          }
+          eyeNode = eyeNode.getParent();
+        } // eye path loop
 
-				if (lightNode == null) {
-					break;
-				}
-				lightNode = lightNode.getParent();
-			} // light path loop
+        if (lightNode == null) {
+          break;
+        }
+        lightNode = lightNode.getParent();
+      } // light path loop
 
-			return score;
-		}
+      return score;
+    }
 
-		private Color joinAt(PathNode lightNode, PathNode eyeNode, double lightImageWeight) {
-			int l = lightNode != null ? lightNode.getDepth() : -1;
-			int e = eyeNode != null ? eyeNode.getDepth() : -1;
-			Color c = null;
-			if (e == 0 && l == 0) {
-				c = joinLightToEye((LightNode) lightNode, (EyeNode) eyeNode,
-						lightImageWeight);
-			} else if (e <= 0 && l <= 0) {
-				c = null;
-			} else if (e < 0) {
-				c = lightPathOnCamera((ScatteringNode) lightNode,
-						lightImageWeight);
-			} else if (l < 0) {
-				c = eyePathOnLight((ScatteringNode) eyeNode);
-			} else if (e == 0) {
-				c = joinInnerToEye(lightNode, (EyeNode) eyeNode,
-						lightImageWeight);
-			} else if (l == 0) {
-				c = joinLightToInner((LightNode) lightNode, eyeNode);
-			} else {
-				c = joinInnerToInner((ScatteringNode) lightNode, eyeNode);
-			}
-			
-			if (c != null) {
-//				synchronized (contribList) {
-//					contribList.add((float) c.luminance());
-//				}
-				
-				if (c.luminance() < 0.0) {
-					bp();
-				}
-			}
-			
-			return c;
-		}
-		
-		private void bp() {
-		
-		}
+    private Color joinAt(PathNode lightNode, PathNode eyeNode, double lightImageWeight) {
+      int l = lightNode != null ? lightNode.getDepth() : -1;
+      int e = eyeNode != null ? eyeNode.getDepth() : -1;
+      Color c = null;
+      if (e == 0 && l == 0) {
+        c = joinLightToEye((LightNode) lightNode, (EyeNode) eyeNode,
+            lightImageWeight);
+      } else if (e <= 0 && l <= 0) {
+        c = null;
+      } else if (e < 0) {
+        c = lightPathOnCamera((ScatteringNode) lightNode,
+            lightImageWeight);
+      } else if (l < 0) {
+        c = eyePathOnLight((ScatteringNode) eyeNode);
+      } else if (e == 0) {
+        c = joinInnerToEye(lightNode, (EyeNode) eyeNode,
+            lightImageWeight);
+      } else if (l == 0) {
+        c = joinLightToInner((LightNode) lightNode, eyeNode);
+      } else {
+        c = joinInnerToInner((ScatteringNode) lightNode, eyeNode);
+      }
+      
+      if (c != null) {
+//        synchronized (contribList) {
+//          contribList.add((float) c.luminance());
+//        }
+        
+        if (c.luminance() < 0.0) {
+          bp();
+        }
+      }
+      
+      return c;
+    }
+    
+    private void bp() {
+    
+    }
 
-		private Color joinInnerToInner(PathNode lightNode, PathNode eyeNode) {
-			double w = strategy.getWeight(lightNode, eyeNode);
-			if (w > 0.0) {//MathUtil.EPSILON) {
-				Color c = measure.evaluate(lightNode, eyeNode);
-				return ColorUtil.mul(c, w);
-			} else {
-				return null;
-			}
-		}
+    private Color joinInnerToInner(PathNode lightNode, PathNode eyeNode) {
+      double w = strategy.getWeight(lightNode, eyeNode);
+      if (w > 0.0) {//MathUtil.EPSILON) {
+        Color c = measure.evaluate(lightNode, eyeNode);
+        return ColorUtil.mul(c, w);
+      } else {
+        return null;
+      }
+    }
 
-		private Color joinLightToInner(LightNode lightNode, PathNode eyeNode) {
-			// TODO Ignore given light node and select a better light node
-			// for the the node on the eye path we want to illuminate.
-			return joinInnerToInner(lightNode, eyeNode);
-		}
+    private Color joinLightToInner(LightNode lightNode, PathNode eyeNode) {
+      // TODO Ignore given light node and select a better light node
+      // for the the node on the eye path we want to illuminate.
+      return joinInnerToInner(lightNode, eyeNode);
+    }
 
-		private Color joinInnerToEye(PathNode lightNode, EyeNode eyeNode,
-				double weight) {
-			double w = strategy.getWeight(lightNode, eyeNode);
-			if (w > 0.0) {//MathUtil.EPSILON) {
-				Point2 p = eyeNode.project(lightNode.getPosition());
-				if (p != null) {
-					Color c = measure.evaluate(lightNode, eyeNode);
-					c = ColorUtil.mul(c, weight * w);
-					if (c != null) {
-//						synchronized (contribList) {
-//							contribList.add((float) c.luminance());
-//						}
-						if (c.luminance() < 0.0) {
-							bp();
-						}
-						RasterUtil.addPixel(raster.get(), p, c);
-					}
-				}
-			}
-			return null;
-		}
+    private Color joinInnerToEye(PathNode lightNode, EyeNode eyeNode,
+        double weight) {
+      double w = strategy.getWeight(lightNode, eyeNode);
+      if (w > 0.0) {//MathUtil.EPSILON) {
+        Point2 p = eyeNode.project(lightNode.getPosition());
+        if (p != null) {
+          Color c = measure.evaluate(lightNode, eyeNode);
+          c = ColorUtil.mul(c, weight * w);
+          if (c != null) {
+//            synchronized (contribList) {
+//              contribList.add((float) c.luminance());
+//            }
+            if (c.luminance() < 0.0) {
+              bp();
+            }
+            RasterUtil.addPixel(raster.get(), p, c);
+          }
+        }
+      }
+      return null;
+    }
 
-		private Color eyePathOnLight(ScatteringNode eyeNode) {
-			if (!eyeNode.isOnLightSource()) {
-				return null;
-			}
+    private Color eyePathOnLight(ScatteringNode eyeNode) {
+      if (!eyeNode.isOnLightSource()) {
+        return null;
+      }
 
-			double w = strategy.getWeight(null, eyeNode);
-			if (w > 0.0) {// MathUtil.EPSILON) {
-				Color c = measure.evaluate(null, eyeNode);
-				return ColorUtil.mul(c, w);
-			} else {
-				return null;
-			}
-		}
+      double w = strategy.getWeight(null, eyeNode);
+      if (w > 0.0) {// MathUtil.EPSILON) {
+        Color c = measure.evaluate(null, eyeNode);
+        return ColorUtil.mul(c, w);
+      } else {
+        return null;
+      }
+    }
 
-		private Color lightPathOnCamera(ScatteringNode lightNode,
-				double weight) {
-			// This cannot happen because the aperture is not part of the scene
-			return null;
-		}
+    private Color lightPathOnCamera(ScatteringNode lightNode,
+        double weight) {
+      // This cannot happen because the aperture is not part of the scene
+      return null;
+    }
 
-		private Color joinLightToEye(LightNode lightNode, EyeNode eyeNode,
-				double weight) {
-			return joinInnerToEye(lightNode, eyeNode, weight);
-		}
+    private Color joinLightToEye(LightNode lightNode, EyeNode eyeNode,
+        double weight) {
+      return joinInnerToEye(lightNode, eyeNode, weight);
+    }
 
 
 
-	}
+  }
 
 }

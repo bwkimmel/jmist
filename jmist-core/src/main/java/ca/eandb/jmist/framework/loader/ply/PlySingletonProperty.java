@@ -30,75 +30,75 @@ package ca.eandb.jmist.framework.loader.ply;
  */
 abstract class PlySingletonProperty implements PlyProperty {
 
-	/** The <code>PropertyDescriptor</code> describing this property. */
-	private final PropertyDescriptor descriptor;
+  /** The <code>PropertyDescriptor</code> describing this property. */
+  private final PropertyDescriptor descriptor;
 
-	/**
-	 * Initializes this <code>PlySingletonProperty</code>.
-	 * @param descriptor The <code>PropertyDescriptor</code> describing this
-	 * 		property.
-	 * @throws IllegalArgumentException If <code>descriptor</code> describes a
-	 * 		list property.
-	 */
-	public PlySingletonProperty(PropertyDescriptor descriptor) {
-		if (descriptor.isList()) {
-			throw new IllegalArgumentException("Property type must be a singleton");
-		}
-		this.descriptor = descriptor;
-	}
+  /**
+   * Initializes this <code>PlySingletonProperty</code>.
+   * @param descriptor The <code>PropertyDescriptor</code> describing this
+   *     property.
+   * @throws IllegalArgumentException If <code>descriptor</code> describes a
+   *     list property.
+   */
+  public PlySingletonProperty(PropertyDescriptor descriptor) {
+    if (descriptor.isList()) {
+      throw new IllegalArgumentException("Property type must be a singleton");
+    }
+    this.descriptor = descriptor;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getPropertyDescriptor()
-	 */
-	@Override
-	public final PropertyDescriptor getPropertyDescriptor() {
-		return descriptor;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getPropertyDescriptor()
+   */
+  @Override
+  public final PropertyDescriptor getPropertyDescriptor() {
+    return descriptor;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getCount()
-	 */
-	@Override
-	public final int getCount() {
-		return 1;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getCount()
+   */
+  @Override
+  public final int getCount() {
+    return 1;
+  }
 
-	/**
-	 * Ensures that the index is valid for this property.
-	 * @param index The index to check.
-	 * @throws IndexOutOfBoundsException if <code>index != 0</code>.
-	 */
-	private void checkIndex(int index) {
-		if (index != 0) {
-			throw new IndexOutOfBoundsException();
-		}
-	}
+  /**
+   * Ensures that the index is valid for this property.
+   * @param index The index to check.
+   * @throws IndexOutOfBoundsException if <code>index != 0</code>.
+   */
+  private void checkIndex(int index) {
+    if (index != 0) {
+      throw new IndexOutOfBoundsException();
+    }
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getNormalizedDoubleValue(int)
-	 */
-	@Override
-	public double getNormalizedDoubleValue(int index) {
-		checkIndex(index);
-		return getNormalizedDoubleValue();
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getNormalizedDoubleValue(int)
+   */
+  @Override
+  public double getNormalizedDoubleValue(int index) {
+    checkIndex(index);
+    return getNormalizedDoubleValue();
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getDoubleValue(int)
-	 */
-	@Override
-	public double getDoubleValue(int index) {
-		checkIndex(index);
-		return getDoubleValue();
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getDoubleValue(int)
+   */
+  @Override
+  public double getDoubleValue(int index) {
+    checkIndex(index);
+    return getDoubleValue();
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getIntValue(int)
-	 */
-	@Override
-	public int getIntValue(int index) {
-		checkIndex(index);
-		return getIntValue();
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getIntValue(int)
+   */
+  @Override
+  public int getIntValue(int index) {
+    checkIndex(index);
+    return getIntValue();
+  }
 
 }

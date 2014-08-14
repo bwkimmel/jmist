@@ -41,40 +41,40 @@ import ca.eandb.jmist.math.Point2;
  */
 public abstract class ImageRasterizingPixelShader implements PixelShader {
 
-	/** Serialization version ID. */
-	private static final long serialVersionUID = -6845318344104841243L;
+  /** Serialization version ID. */
+  private static final long serialVersionUID = -6845318344104841243L;
 
-	/**
-	 * Initializes the image shader to use for this pixel shader.
-	 * @param shader The <code>ImageShader</code> to use for this pixel shader.
-	 * @param model The <code>ColorModel</code> to use for sampling in te
-	 * 		wavelength domain.
-	 */
-	protected ImageRasterizingPixelShader(ImageShader shader, ColorModel model) {
-		this.shader = shader;
-		this.model = model;
-	}
+  /**
+   * Initializes the image shader to use for this pixel shader.
+   * @param shader The <code>ImageShader</code> to use for this pixel shader.
+   * @param model The <code>ColorModel</code> to use for sampling in te
+   *     wavelength domain.
+   */
+  protected ImageRasterizingPixelShader(ImageShader shader, ColorModel model) {
+    this.shader = shader;
+    this.model = model;
+  }
 
-	/**
-	 * Shades the specified pixel using this shader's image shader.
-	 * @param p The point on the image plane to shade.
-	 * @return The shaded pixel.
-	 */
-	protected Color shadeAt(Point2 p) {
-		Color				sample = model.sample(Random.DEFAULT);
-		WavelengthPacket	lambda = sample.getWavelengthPacket();
+  /**
+   * Shades the specified pixel using this shader's image shader.
+   * @param p The point on the image plane to shade.
+   * @return The shaded pixel.
+   */
+  protected Color shadeAt(Point2 p) {
+    Color        sample = model.sample(Random.DEFAULT);
+    WavelengthPacket  lambda = sample.getWavelengthPacket();
 
-		Color				shade = shader.shadeAt(p, lambda);
-		return shade.times(sample);
-	}
+    Color        shade = shader.shadeAt(p, lambda);
+    return shade.times(sample);
+  }
 
-	/** The <code>ImageShader</code> to use for shading points. */
-	private final ImageShader shader;
+  /** The <code>ImageShader</code> to use for shading points. */
+  private final ImageShader shader;
 
-	/**
-	 * The <code>ColorModel</code> to use for sampling in the wavelength
-	 * domain.
-	 */
-	private final ColorModel model;
+  /**
+   * The <code>ColorModel</code> to use for sampling in the wavelength
+   * domain.
+   */
+  private final ColorModel model;
 
 }

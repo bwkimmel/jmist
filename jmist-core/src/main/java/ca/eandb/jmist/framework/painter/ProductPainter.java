@@ -37,48 +37,48 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
  */
 public final class ProductPainter implements Painter {
 
-	/**
-	 * Serialization version ID.
-	 */
-	private static final long serialVersionUID = -2530604202721199134L;
+  /**
+   * Serialization version ID.
+   */
+  private static final long serialVersionUID = -2530604202721199134L;
 
-	private final Painter a;
+  private final Painter a;
 
-	private final Painter b;
+  private final Painter b;
 
-	/**
-	 * Creates a new <code>ProductPainter</code>.
-	 * @param a The first <code>Painter</code>.
-	 * @param b The second <code>Painter</code>.
-	 */
-	public ProductPainter(Painter a, Painter b) {
-		this.a = a;
-		this.b = b;
-	}
+  /**
+   * Creates a new <code>ProductPainter</code>.
+   * @param a The first <code>Painter</code>.
+   * @param b The second <code>Painter</code>.
+   */
+  public ProductPainter(Painter a, Painter b) {
+    this.a = a;
+    this.b = b;
+  }
 
-	/**
-	 * Creates a new <code>ProductPainter</code>.
-	 * @param a The <code>Spectrum</code> to be multiplied.
-	 * @param b The <code>Painter</code> to be multiplied.
-	 */
-	public ProductPainter(Spectrum a, Painter b) {
-		this(new UniformPainter(a), b);
-	}
+  /**
+   * Creates a new <code>ProductPainter</code>.
+   * @param a The <code>Spectrum</code> to be multiplied.
+   * @param b The <code>Painter</code> to be multiplied.
+   */
+  public ProductPainter(Spectrum a, Painter b) {
+    this(new UniformPainter(a), b);
+  }
 
-	/**
-	 * Creates a new <code>ProductPainter</code>.
-	 * @param a The <code>Painter</code> to be multiplied.
-	 * @param b The <code>Spectrum</code> to be multiplied.
-	 */
-	public ProductPainter(Painter a, Spectrum b) {
-		this(a, new UniformPainter(b));
-	}
+  /**
+   * Creates a new <code>ProductPainter</code>.
+   * @param a The <code>Painter</code> to be multiplied.
+   * @param b The <code>Spectrum</code> to be multiplied.
+   */
+  public ProductPainter(Painter a, Spectrum b) {
+    this(a, new UniformPainter(b));
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Painter#getColor(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.color.WavelengthPacket)
-	 */
-	public Color getColor(SurfacePoint p, WavelengthPacket lambda) {
-		return a.getColor(p, lambda).times(b.getColor(p, lambda));
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Painter#getColor(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.color.WavelengthPacket)
+   */
+  public Color getColor(SurfacePoint p, WavelengthPacket lambda) {
+    return a.getColor(p, lambda).times(b.getColor(p, lambda));
+  }
 
 }

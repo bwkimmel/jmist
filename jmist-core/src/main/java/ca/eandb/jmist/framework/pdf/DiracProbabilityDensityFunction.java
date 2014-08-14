@@ -34,71 +34,71 @@ import ca.eandb.jmist.util.ArrayUtil;
  * specified value.
  */
 public final class DiracProbabilityDensityFunction implements
-		ProbabilityDensityFunction {
+    ProbabilityDensityFunction {
 
-	/** Serialization version ID. */
-	private static final long serialVersionUID = -1453075946221988460L;
+  /** Serialization version ID. */
+  private static final long serialVersionUID = -1453075946221988460L;
 
-	/** The value to generate. */
-	private final double value;
+  /** The value to generate. */
+  private final double value;
 
-	/**
-	 * Create a new <code>DiracProbabilityDensityFunction</code>.
-	 * @param value The value to generate.
-	 */
-	public DiracProbabilityDensityFunction(double value) {
-		this.value = value;
-	}
+  /**
+   * Create a new <code>DiracProbabilityDensityFunction</code>.
+   * @param value The value to generate.
+   */
+  public DiracProbabilityDensityFunction(double value) {
+    this.value = value;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#sample(ca.eandb.jmist.framework.Random)
-	 */
-	@Override
-	public double sample(Random random) {
-		return value;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#sample(ca.eandb.jmist.framework.Random)
+   */
+  @Override
+  public double sample(Random random) {
+    return value;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#warp(double)
-	 */
-	@Override
-	public double warp(double seed) {
-		return value;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#warp(double)
+   */
+  @Override
+  public double warp(double seed) {
+    return value;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#evaluate(double)
-	 */
-	@Override
-	public double evaluate(double x) {
-		return (x == value) ? Double.POSITIVE_INFINITY : 0.0;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#evaluate(double)
+   */
+  @Override
+  public double evaluate(double x) {
+    return (x == value) ? Double.POSITIVE_INFINITY : 0.0;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#sample(ca.eandb.jmist.framework.Random, double[])
-	 */
-	@Override
-	public double[] sample(Random random, double[] results) {
-		return ArrayUtil.setAll(results, value);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#sample(ca.eandb.jmist.framework.Random, double[])
+   */
+  @Override
+  public double[] sample(Random random, double[] results) {
+    return ArrayUtil.setAll(results, value);
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#warp(double[], double[])
-	 */
-	@Override
-	public double[] warp(double[] seeds, double[] results) {
-		return ArrayUtil.setAll(results, value);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#warp(double[], double[])
+   */
+  @Override
+  public double[] warp(double[] seeds, double[] results) {
+    return ArrayUtil.setAll(results, value);
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#evaluate(double[], double[])
-	 */
-	@Override
-	public double[] evaluate(double[] x, double[] results) {
-		for (int i = 0; i < x.length; i++) {
-			results[i] = evaluate(x[i]);
-		}
-		return results;
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#evaluate(double[], double[])
+   */
+  @Override
+  public double[] evaluate(double[] x, double[] results) {
+    for (int i = 0; i < x.length; i++) {
+      results[i] = evaluate(x[i]);
+    }
+    return results;
+  }
 
 }

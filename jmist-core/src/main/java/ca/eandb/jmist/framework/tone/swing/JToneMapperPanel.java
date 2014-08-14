@@ -41,66 +41,66 @@ import ca.eandb.jmist.framework.tone.ToneMapperFactory;
  * @author Brad Kimmel
  */
 public abstract class JToneMapperPanel extends JPanel implements
-		ToneMapperFactory {
-	
-	/** Serialization version ID. */
-	private static final long serialVersionUID = 7574943635232635058L;
-	
-	private final Set<ChangeListener> changeListeners = new HashSet<ChangeListener>();	
+    ToneMapperFactory {
+  
+  /** Serialization version ID. */
+  private static final long serialVersionUID = 7574943635232635058L;
+  
+  private final Set<ChangeListener> changeListeners = new HashSet<ChangeListener>();  
 
-	/**
-	 * 
-	 */
-	public JToneMapperPanel() {
-	}
+  /**
+   * 
+   */
+  public JToneMapperPanel() {
+  }
 
-	/**
-	 * @param layout
-	 */
-	public JToneMapperPanel(LayoutManager layout) {
-		super(layout);
-	}
+  /**
+   * @param layout
+   */
+  public JToneMapperPanel(LayoutManager layout) {
+    super(layout);
+  }
 
-	/**
-	 * @param isDoubleBuffered
-	 */
-	public JToneMapperPanel(boolean isDoubleBuffered) {
-		super(isDoubleBuffered);
-	}
+  /**
+   * @param isDoubleBuffered
+   */
+  public JToneMapperPanel(boolean isDoubleBuffered) {
+    super(isDoubleBuffered);
+  }
 
-	/**
-	 * @param layout
-	 * @param isDoubleBuffered
-	 */
-	public JToneMapperPanel(LayoutManager layout, boolean isDoubleBuffered) {
-		super(layout, isDoubleBuffered);
-	}
-	
-	public void addChangeListener(ChangeListener l) {
-		changeListeners.add(l);
-	}
-	
-	public void removeChangeListener(ChangeListener l) {
-		changeListeners.remove(l);
-	}
-	
-	protected void fireStateChanged() {
-		ChangeEvent e = new ChangeEvent(this);
-		for (ChangeListener l : changeListeners) {
-			l.stateChanged(e);
-		}
-	}
+  /**
+   * @param layout
+   * @param isDoubleBuffered
+   */
+  public JToneMapperPanel(LayoutManager layout, boolean isDoubleBuffered) {
+    super(layout, isDoubleBuffered);
+  }
+  
+  public void addChangeListener(ChangeListener l) {
+    changeListeners.add(l);
+  }
+  
+  public void removeChangeListener(ChangeListener l) {
+    changeListeners.remove(l);
+  }
+  
+  protected void fireStateChanged() {
+    ChangeEvent e = new ChangeEvent(this);
+    for (ChangeListener l : changeListeners) {
+      l.stateChanged(e);
+    }
+  }
 
-	/**
-	 * Creates a <code>JToneMapperPanel</code> that allows for switching
-	 * between all tone mapper types.
-	 */
-	public static JToneMapperPanel allToneMappers() {
-		return new JCompositeToneMapperPanel()
-				.addChild("(None)", new JIdentityToneMapperPanel())
-				.addChild("Linear", new JLinearToneMapperPanel())
-				.addChild("Reinhard", new JReinhardToneMapperPanel())
-				;
-	}
+  /**
+   * Creates a <code>JToneMapperPanel</code> that allows for switching
+   * between all tone mapper types.
+   */
+  public static JToneMapperPanel allToneMappers() {
+    return new JCompositeToneMapperPanel()
+        .addChild("(None)", new JIdentityToneMapperPanel())
+        .addChild("Linear", new JLinearToneMapperPanel())
+        .addChild("Reinhard", new JReinhardToneMapperPanel())
+        ;
+  }
 
 }

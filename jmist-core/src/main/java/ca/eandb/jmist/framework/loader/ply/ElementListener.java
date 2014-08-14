@@ -30,10 +30,10 @@ package ca.eandb.jmist.framework.loader.ply;
  */
 public interface ElementListener {
 
-	/**
-	 * Provide an element read from the PLY-file.
-	 * @param element The <code>PlyElement</code> read from the file.
-	 */
-	void element(PlyElement element);
+  /**
+   * Provide an element read from the PLY-file.
+   * @param element The <code>PlyElement</code> read from the file.
+   */
+  void element(PlyElement element);
 
 }

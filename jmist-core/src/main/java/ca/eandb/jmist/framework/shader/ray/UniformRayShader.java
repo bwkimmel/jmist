@@ -37,20 +37,20 @@ import ca.eandb.jmist.math.Ray3;
  */
 public final class UniformRayShader implements RayShader {
 
-	/**  Serialization version ID. */
-	private static final long serialVersionUID = 8603094124915356764L;
+  /**  Serialization version ID. */
+  private static final long serialVersionUID = 8603094124915356764L;
 
-	private final Spectrum value;
+  private final Spectrum value;
 
-	public UniformRayShader(Spectrum value) {
-		this.value = value;
-	}
+  public UniformRayShader(Spectrum value) {
+    this.value = value;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.RayShader#shadeRay(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.color.WavelengthPacket)
-	 */
-	public Color shadeRay(Ray3 ray, WavelengthPacket lambda) {
-		return value.sample(lambda);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.RayShader#shadeRay(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.color.WavelengthPacket)
+   */
+  public Color shadeRay(Ray3 ray, WavelengthPacket lambda) {
+    return value.sample(lambda);
+  }
 
 }

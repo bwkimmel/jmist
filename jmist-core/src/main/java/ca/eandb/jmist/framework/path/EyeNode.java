@@ -34,6 +34,6 @@ import ca.eandb.jmist.math.Point2;
  */
 public interface EyeNode extends PathNode {
 
-	Point2 project(HPoint3 x);
+  Point2 project(HPoint3 x);
 
 }

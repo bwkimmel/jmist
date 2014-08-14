@@ -36,32 +36,32 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
  */
 /* package */ final class MultiXYZContinuousSpectrum implements Spectrum {
 
-	/** Serialization version ID. */
-	private static final long serialVersionUID = -7352432684808571109L;
+  /** Serialization version ID. */
+  private static final long serialVersionUID = -7352432684808571109L;
 
-	private final Function1 spectrum;
+  private final Function1 spectrum;
 
-	/**
-	 * @param spectrum
-	 */
-	public MultiXYZContinuousSpectrum(Function1 spectrum) {
-		this.spectrum = spectrum;
-	}
+  /**
+   * @param spectrum
+   */
+  public MultiXYZContinuousSpectrum(Function1 spectrum) {
+    this.spectrum = spectrum;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.color.Spectrum#sample(ca.eandb.jmist.framework.color.WavelengthPacket)
-	 */
-	public Color sample(WavelengthPacket lambda) {
-		return sample((MultiXYZWavelengthPacket) lambda);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.color.Spectrum#sample(ca.eandb.jmist.framework.color.WavelengthPacket)
+   */
+  public Color sample(WavelengthPacket lambda) {
+    return sample((MultiXYZWavelengthPacket) lambda);
+  }
 
-	public Color sample(MultiXYZWavelengthPacket lambda) {
-		MultiXYZColorModel owner = (MultiXYZColorModel) lambda.getColorModel();
-		double[] values = new double[owner.getNumChannels()];
-		for (int i = 0; i < values.length; i++) {
-			values[i] = spectrum.evaluate(lambda.getLambda(i));
-		}
-		return new MultiXYZColor(values, lambda);
-	}
+  public Color sample(MultiXYZWavelengthPacket lambda) {
+    MultiXYZColorModel owner = (MultiXYZColorModel) lambda.getColorModel();
+    double[] values = new double[owner.getNumChannels()];
+    for (int i = 0; i < values.length; i++) {
+      values[i] = spectrum.evaluate(lambda.getLambda(i));
+    }
+    return new MultiXYZColor(values, lambda);
+  }
 
 }

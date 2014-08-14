@@ -36,44 +36,44 @@ import ca.eandb.jmist.framework.scene.EmptyScene;
  */
 public final class PathInfo {
 
-	private final Scene scene;
+  private final Scene scene;
 
-	private final WavelengthPacket wavelengthPacket;
-	
-	private final double time;
+  private final WavelengthPacket wavelengthPacket;
+  
+  private final double time;
 
-	public PathInfo(WavelengthPacket wavelengthPacket) {
-		this(EmptyScene.INSTANCE, wavelengthPacket, 0.0);
-	}
+  public PathInfo(WavelengthPacket wavelengthPacket) {
+    this(EmptyScene.INSTANCE, wavelengthPacket, 0.0);
+  }
 
-	public PathInfo(WavelengthPacket wavelengthPacket, double time) {
-		this(EmptyScene.INSTANCE, wavelengthPacket, time);
-	}
+  public PathInfo(WavelengthPacket wavelengthPacket, double time) {
+    this(EmptyScene.INSTANCE, wavelengthPacket, time);
+  }
 
-	public PathInfo(Scene scene, WavelengthPacket wavelengthPacket, double time) {
-		this.scene = scene;
-		this.wavelengthPacket = wavelengthPacket;
-		this.time = time;
-	}
+  public PathInfo(Scene scene, WavelengthPacket wavelengthPacket, double time) {
+    this.scene = scene;
+    this.wavelengthPacket = wavelengthPacket;
+    this.time = time;
+  }
 
-	public PathInfo(Scene scene, WavelengthPacket wavelengthPacket) {
-		this(scene, wavelengthPacket, 0.0);
-	}
+  public PathInfo(Scene scene, WavelengthPacket wavelengthPacket) {
+    this(scene, wavelengthPacket, 0.0);
+  }
 
-	public ColorModel getColorModel() {
-		return wavelengthPacket.getColorModel();
-	}
+  public ColorModel getColorModel() {
+    return wavelengthPacket.getColorModel();
+  }
 
-	public WavelengthPacket getWavelengthPacket() {
-		return wavelengthPacket;
-	}
+  public WavelengthPacket getWavelengthPacket() {
+    return wavelengthPacket;
+  }
 
-	public Scene getScene() {
-		return scene;
-	}
-	
-	public double getTime() {
-		return time;
-	}
+  public Scene getScene() {
+    return scene;
+  }
+  
+  public double getTime() {
+    return time;
+  }
 
 }

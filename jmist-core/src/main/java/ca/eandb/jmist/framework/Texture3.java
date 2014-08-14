@@ -37,14 +37,14 @@ import ca.eandb.jmist.math.Point3;
  */
 public interface Texture3 extends Serializable {
 
-	/**
-	 * Computes the color at the specified <code>Point2</code> in the
-	 * domain.
-	 * @param p The <code>Point2</code> in the domain.
-	 * @param lambda The <code>WavelengthPacket</code> denoting the wavelengths
-	 * 		at which to evaluate the texture.
-	 * @return The <code>Color</code> at <code>p</code>.
-	 */
-	Color evaluate(Point3 p, WavelengthPacket lambda);
+  /**
+   * Computes the color at the specified <code>Point2</code> in the
+   * domain.
+   * @param p The <code>Point2</code> in the domain.
+   * @param lambda The <code>WavelengthPacket</code> denoting the wavelengths
+   *     at which to evaluate the texture.
+   * @return The <code>Color</code> at <code>p</code>.
+   */
+  Color evaluate(Point3 p, WavelengthPacket lambda);
 
 }

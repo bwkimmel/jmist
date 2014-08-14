@@ -34,16 +34,16 @@ import ca.eandb.jmist.math.Sphere;
  */
 public interface Bounded3 {
 
-	/**
-	 * Gets a sphere that bounds this object.
-	 * @return A bounding sphere.
-	 */
-	Sphere boundingSphere();
+  /**
+   * Gets a sphere that bounds this object.
+   * @return A bounding sphere.
+   */
+  Sphere boundingSphere();
 
-	/**
-	 * Gets a box that bounds this object.
-	 * @return A bounding box.
-	 */
-	Box3 boundingBox();
+  /**
+   * Gets a box that bounds this object.
+   * @return A bounding box.
+   */
+  Box3 boundingBox();
 
 }

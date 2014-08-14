@@ -39,60 +39,60 @@ import ca.eandb.jmist.math.Sphere;
  */
 public abstract class SceneDecorator implements Scene {
 
-	/** Serialization version ID. */
-	private static final long serialVersionUID = 5875837932212956822L;
-	
-	/** The <code>Scene</code> that this scene is to be based on. */
-	private final Scene inner;
+  /** Serialization version ID. */
+  private static final long serialVersionUID = 5875837932212956822L;
+  
+  /** The <code>Scene</code> that this scene is to be based on. */
+  private final Scene inner;
 
-	/**
-	 * Initializes this <code>SceneDecorator</code>.
-	 * @param inner The <code>Scene</code> that this scene is to be based on.
-	 */
-	protected SceneDecorator(Scene inner) {
-		this.inner = inner;
-	}
+  /**
+   * Initializes this <code>SceneDecorator</code>.
+   * @param inner The <code>Scene</code> that this scene is to be based on.
+   */
+  protected SceneDecorator(Scene inner) {
+    this.inner = inner;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Scene#getLens()
-	 */
-	public Lens getLens() {
-		return inner.getLens();
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Scene#getLens()
+   */
+  public Lens getLens() {
+    return inner.getLens();
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Scene#getLight()
-	 */
-	public Light getLight() {
-		return inner.getLight();
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Scene#getLight()
+   */
+  public Light getLight() {
+    return inner.getLight();
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Scene#getRoot()
-	 */
-	public SceneElement getRoot() {
-		return inner.getRoot();
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Scene#getRoot()
+   */
+  public SceneElement getRoot() {
+    return inner.getRoot();
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
-	 */
-	public Box3 boundingBox() {
-		return inner.boundingBox();
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
+   */
+  public Box3 boundingBox() {
+    return inner.boundingBox();
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
-	 */
-	public Sphere boundingSphere() {
-		return inner.boundingSphere();
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
+   */
+  public Sphere boundingSphere() {
+    return inner.boundingSphere();
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Scene#getAnimator()
-	 */
-	public Animator getAnimator() {
-		return inner.getAnimator();
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Scene#getAnimator()
+   */
+  public Animator getAnimator() {
+    return inner.getAnimator();
+  }
 
 }

@@ -44,255 +44,255 @@ import ca.eandb.util.progress.ProgressMonitor;
  */
 public final class PlyReader {
 
-	/** The latest version of the PLY format supported. */
-	private static final String PLY_VERSION = "1.0";
+  /** The latest version of the PLY format supported. */
+  private static final String PLY_VERSION = "1.0";
 
-	/** The number of elements to read between progress updates. */
-	private static final int PROGRESS_INTERVAL = 100;
+  /** The number of elements to read between progress updates. */
+  private static final int PROGRESS_INTERVAL = 100;
 
-	/**
-	 * Reads the PLY-file at the specified URL.
-	 * @param url The <code>URL</code> where the PLY file is located.
-	 * @param target The <code>PlyTarget</code> to receive the PLY data.
-	 * @throws IOException If an error occurs while reading from the specified
-	 * 		URL.
-	 */
-	public void read(URL url, PlyTarget target) throws IOException {
-		read(url, target, DummyProgressMonitor.getInstance());
-	}
+  /**
+   * Reads the PLY-file at the specified URL.
+   * @param url The <code>URL</code> where the PLY file is located.
+   * @param target The <code>PlyTarget</code> to receive the PLY data.
+   * @throws IOException If an error occurs while reading from the specified
+   *     URL.
+   */
+  public void read(URL url, PlyTarget target) throws IOException {
+    read(url, target, DummyProgressMonitor.getInstance());
+  }
 
-	/**
-	 * Reads the PLY-file at the specified URL.
-	 * @param url The <code>URL</code> where the PLY file is located.
-	 * @param target The <code>PlyTarget</code> to receive the PLY data.
-	 * @param monitor The <code>ProgressMonitor</code> to report progress to.
-	 * @throws IOException If an error occurs while reading from the specified
-	 * 		URL.
-	 */
-	public void read(URL url, PlyTarget target, ProgressMonitor monitor) throws IOException {
-		try (InputStream in = url.openStream()) {
-			read(in, target, monitor);
-		}
-	}
+  /**
+   * Reads the PLY-file at the specified URL.
+   * @param url The <code>URL</code> where the PLY file is located.
+   * @param target The <code>PlyTarget</code> to receive the PLY data.
+   * @param monitor The <code>ProgressMonitor</code> to report progress to.
+   * @throws IOException If an error occurs while reading from the specified
+   *     URL.
+   */
+  public void read(URL url, PlyTarget target, ProgressMonitor monitor) throws IOException {
+    try (InputStream in = url.openStream()) {
+      read(in, target, monitor);
+    }
+  }
 
-	/**
-	 * Reads the PLY-file at the specified file.
-	 * @param file The <code>File</code> containing the PLY data.
-	 * @param target The <code>PlyTarget</code> to receive the PLY data.
-	 * @param monitor The <code>ProgressMonitor</code> to report progress to.
-	 * @throws IOException If an error occurs while reading from the specified
-	 * 		file.
-	 */
-	public void read(File file, PlyTarget target) throws FileNotFoundException, IOException {
-		read(file, target, DummyProgressMonitor.getInstance());
-	}
+  /**
+   * Reads the PLY-file at the specified file.
+   * @param file The <code>File</code> containing the PLY data.
+   * @param target The <code>PlyTarget</code> to receive the PLY data.
+   * @param monitor The <code>ProgressMonitor</code> to report progress to.
+   * @throws IOException If an error occurs while reading from the specified
+   *     file.
+   */
+  public void read(File file, PlyTarget target) throws FileNotFoundException, IOException {
+    read(file, target, DummyProgressMonitor.getInstance());
+  }
 
-	/**
-	 * Reads the PLY-file at the specified URL.
-	 * @param file The <code>File</code> containing the PLY data.
-	 * @param target The <code>PlyTarget</code> to receive the PLY data.
-	 * @param monitor The <code>ProgressMonitor</code> to report progress to.
-	 * @throws IOException If an error occurs while reading from the specified
-	 * 		file.
-	 */
-	public void read(File file, PlyTarget target, ProgressMonitor monitor) throws FileNotFoundException, IOException {
-		try (InputStream in = new FileInputStream(file)) {
-			read(in, target, monitor);
-		}
-	}
+  /**
+   * Reads the PLY-file at the specified URL.
+   * @param file The <code>File</code> containing the PLY data.
+   * @param target The <code>PlyTarget</code> to receive the PLY data.
+   * @param monitor The <code>ProgressMonitor</code> to report progress to.
+   * @throws IOException If an error occurs while reading from the specified
+   *     file.
+   */
+  public void read(File file, PlyTarget target, ProgressMonitor monitor) throws FileNotFoundException, IOException {
+    try (InputStream in = new FileInputStream(file)) {
+      read(in, target, monitor);
+    }
+  }
 
-	/**
-	 * Reads the PLY-file from the specified <code>InputStream</code>.
-	 * @param in The <code>InputStream</code> to read the PLY data from.
-	 * @param target The <code>PlyTarget</code> to receive the PLY data.
-	 * @throws IOException If an error occurs while reading from the underlying
-	 * 		stream.
-	 */
-	public void read(InputStream in, PlyTarget target) throws IOException {
-		read(in, target, DummyProgressMonitor.getInstance());
-	}
+  /**
+   * Reads the PLY-file from the specified <code>InputStream</code>.
+   * @param in The <code>InputStream</code> to read the PLY data from.
+   * @param target The <code>PlyTarget</code> to receive the PLY data.
+   * @throws IOException If an error occurs while reading from the underlying
+   *     stream.
+   */
+  public void read(InputStream in, PlyTarget target) throws IOException {
+    read(in, target, DummyProgressMonitor.getInstance());
+  }
 
-	/**
-	 * Reads the PLY-file from the specified <code>InputStream</code>.
-	 * @param in The <code>InputStream</code> to read the PLY data from.
-	 * @param target The <code>PlyTarget</code> to receive the PLY data.
-	 * @param monitor The <code>ProgressMonitor</code> to report progress to.
-	 * @throws IOException If an error occurs while reading from the underlying
-	 * 		stream.
-	 */
-	public void read(InputStream is, PlyTarget target, ProgressMonitor monitor) throws IOException {
+  /**
+   * Reads the PLY-file from the specified <code>InputStream</code>.
+   * @param in The <code>InputStream</code> to read the PLY data from.
+   * @param target The <code>PlyTarget</code> to receive the PLY data.
+   * @param monitor The <code>ProgressMonitor</code> to report progress to.
+   * @throws IOException If an error occurs while reading from the underlying
+   *     stream.
+   */
+  public void read(InputStream is, PlyTarget target, ProgressMonitor monitor) throws IOException {
 
-		PushbackInputStream in = new PushbackInputStream(is, 1024);
-		LineReader reader = new LineReader(in, 1024);
+    PushbackInputStream in = new PushbackInputStream(is, 1024);
+    LineReader reader = new LineReader(in, 1024);
 
-		int lineNumber = 0;
-		boolean magic = false;
-		boolean inHeader = true;
+    int lineNumber = 0;
+    boolean magic = false;
+    boolean inHeader = true;
 
-		List<ElementDescriptor> elements = new ArrayList<ElementDescriptor>();
-		List<PropertyDescriptor> properties = null;
-		DataReader dataReader = null;
-		int totalElements = 0;
-		String format = null;
+    List<ElementDescriptor> elements = new ArrayList<ElementDescriptor>();
+    List<PropertyDescriptor> properties = null;
+    DataReader dataReader = null;
+    int totalElements = 0;
+    String format = null;
 
-		monitor.notifyStatusChanged("Reading header");
-		if (!monitor.notifyIndeterminantProgress()) {
-			return;
-		}
+    monitor.notifyStatusChanged("Reading header");
+    if (!monitor.notifyIndeterminantProgress()) {
+      return;
+    }
 
-		while (inHeader) {
+    while (inHeader) {
 
-			lineNumber++;
-			String line = reader.readLine();
-			if (line == null) {
-				throw new RuntimeException(String.format(
-						"Unexpected end of file at line %d", lineNumber));
-			}
+      lineNumber++;
+      String line = reader.readLine();
+      if (line == null) {
+        throw new RuntimeException(String.format(
+            "Unexpected end of file at line %d", lineNumber));
+      }
 
-			line = line.trim();
-			if (line.isEmpty()) {
-				continue;
-			}
+      line = line.trim();
+      if (line.isEmpty()) {
+        continue;
+      }
 
-			String args[] = line.split("\\s+");
+      String args[] = line.split("\\s+");
 
-			if (lineNumber > 1 && !magic) {
-				throw new RuntimeException(
-						"File format indicator missing, is this a PLY file?");
-			}
+      if (lineNumber > 1 && !magic) {
+        throw new RuntimeException(
+            "File format indicator missing, is this a PLY file?");
+      }
 
-			switch (args[0].toLowerCase()) {
+      switch (args[0].toLowerCase()) {
 
-			case "ply":
-				if (lineNumber > 1) {
-					throw new RuntimeException(String.format(
-							"Unexpected command (ply) on line %d", lineNumber));
-				}
-				magic = true;
-				break;
+      case "ply":
+        if (lineNumber > 1) {
+          throw new RuntimeException(String.format(
+              "Unexpected command (ply) on line %d", lineNumber));
+        }
+        magic = true;
+        break;
 
-			case "format": {
-				checkArgs(args, 2);
-				format = args[1];
-				String version = args[2];
-				if (version.compareTo(PLY_VERSION) > 0) {
-					throw new RuntimeException(String.format(
-							"Unsupported PLY version (%s)", version));
-				}
-				break;
-			}
+      case "format": {
+        checkArgs(args, 2);
+        format = args[1];
+        String version = args[2];
+        if (version.compareTo(PLY_VERSION) > 0) {
+          throw new RuntimeException(String.format(
+              "Unsupported PLY version (%s)", version));
+        }
+        break;
+      }
 
-			case "comment":
-				/* nothing to do. */
-				break;
+      case "comment":
+        /* nothing to do. */
+        break;
 
-			case "element": {
-				checkArgs(args, 2);
-				String name = args[1];
-				int count = Integer.valueOf(args[2]);
+      case "element": {
+        checkArgs(args, 2);
+        String name = args[1];
+        int count = Integer.valueOf(args[2]);
 
-				totalElements += count;
-				properties = new ArrayList<PropertyDescriptor>();
-				elements.add(new ElementDescriptor(name, count, properties));
-				break;
-			}
+        totalElements += count;
+        properties = new ArrayList<PropertyDescriptor>();
+        elements.add(new ElementDescriptor(name, count, properties));
+        break;
+      }
 
-			case "property": {
-				if (properties == null) {
-					throw new RuntimeException(String.format(
-							"Element command required before property on line %d",
-							lineNumber));
-				}
+      case "property": {
+        if (properties == null) {
+          throw new RuntimeException(String.format(
+              "Element command required before property on line %d",
+              lineNumber));
+        }
 
-				if (args.length > 1 && args[1].toLowerCase().equals("list")) {
-					checkArgs(args, 4);
-					PlyDataType countType = PlyDataType.fromString(args[2]);
-					PlyDataType dataType = PlyDataType.fromString(args[3]);
-					String name = args[4];
+        if (args.length > 1 && args[1].toLowerCase().equals("list")) {
+          checkArgs(args, 4);
+          PlyDataType countType = PlyDataType.fromString(args[2]);
+          PlyDataType dataType = PlyDataType.fromString(args[3]);
+          String name = args[4];
 
-					properties.add(PropertyDescriptor.list(name, countType, dataType));
-				} else { // !list
-					checkArgs(args, 2);
-					PlyDataType type = PlyDataType.fromString(args[1]);
-					String name = args[2];
+          properties.add(PropertyDescriptor.list(name, countType, dataType));
+        } else { // !list
+          checkArgs(args, 2);
+          PlyDataType type = PlyDataType.fromString(args[1]);
+          String name = args[2];
 
-					properties.add(PropertyDescriptor.singleton(name, type));
-				}
-				break;
-			}
+          properties.add(PropertyDescriptor.singleton(name, type));
+        }
+        break;
+      }
 
-			case "end_header":
-				inHeader = false;
-				break;
+      case "end_header":
+        inHeader = false;
+        break;
 
-			default:
-				throw new RuntimeException(String.format(
-						"Unrecognized command (%s) on line %d",
-						args[0], lineNumber));
-			}
+      default:
+        throw new RuntimeException(String.format(
+            "Unrecognized command (%s) on line %d",
+            args[0], lineNumber));
+      }
 
-		}
+    }
 
-		if (format == null) {
-			throw new RuntimeException("Format not specified");
-		}
+    if (format == null) {
+      throw new RuntimeException("Format not specified");
+    }
 
-		reader.unreadBuffer();
+    reader.unreadBuffer();
 
-		switch (format.toLowerCase()) {
-		case "ascii":
-			dataReader = new AsciiDataReader(in);
-			break;
-		case "binary_little_endian":
-			dataReader = BinaryDataReader.littleEndian(in);
-			break;
-		case "binary_big_endian":
-			dataReader = BinaryDataReader.bigEndian(in);
-			break;
-		default:
-			throw new RuntimeException(String.format(
-					"Unrecognized format (%s)", format));
-		}
+    switch (format.toLowerCase()) {
+    case "ascii":
+      dataReader = new AsciiDataReader(in);
+      break;
+    case "binary_little_endian":
+      dataReader = BinaryDataReader.littleEndian(in);
+      break;
+    case "binary_big_endian":
+      dataReader = BinaryDataReader.bigEndian(in);
+      break;
+    default:
+      throw new RuntimeException(String.format(
+          "Unrecognized format (%s)", format));
+    }
 
-		int elementsRead = 0;
-		int nextProgress = 0;
-		for (ElementDescriptor element : elements) {
-			monitor.notifyStatusChanged(String.format("Reading %s data", element.getName()));
-			ElementListener listener = target.beginSection(element);
-			for (int i = 0, n = element.getCount(); i < n; i++) {
-				if (--nextProgress < 0) {
-					nextProgress = PROGRESS_INTERVAL;
-					if (!monitor.notifyProgress(elementsRead, totalElements)) {
-						monitor.notifyCancelled();
-						return;
-					}
-				}
-				PlyElement e = element.read(dataReader);
-				if (listener != null) {
-					listener.element(e);
-				}
-				elementsRead++;
-			}
-			target.endSection();
-		}
+    int elementsRead = 0;
+    int nextProgress = 0;
+    for (ElementDescriptor element : elements) {
+      monitor.notifyStatusChanged(String.format("Reading %s data", element.getName()));
+      ElementListener listener = target.beginSection(element);
+      for (int i = 0, n = element.getCount(); i < n; i++) {
+        if (--nextProgress < 0) {
+          nextProgress = PROGRESS_INTERVAL;
+          if (!monitor.notifyProgress(elementsRead, totalElements)) {
+            monitor.notifyCancelled();
+            return;
+          }
+        }
+        PlyElement e = element.read(dataReader);
+        if (listener != null) {
+          listener.element(e);
+        }
+        elementsRead++;
+      }
+      target.endSection();
+    }
 
-		monitor.notifyProgress(elementsRead, totalElements);
-		monitor.notifyComplete();
+    monitor.notifyProgress(elementsRead, totalElements);
+    monitor.notifyComplete();
 
-	}
+  }
 
-	/**
-	 * Ensure the provided header command has the specified number of
-	 * parameters.
-	 * @param args The tokens in the header command (including the keyword).
-	 * @param count The expected number of arguments (excluding the keyword).
-	 */
-	private void checkArgs(String[] args, int count) {
-		if (args.length - 1 != count) {
-			throw new RuntimeException(String.format(
-					"Unexpected number of arguments for %s (expected %d, got %d)",
-					args[0], count, args.length - 1));
-		}
-	}
+  /**
+   * Ensure the provided header command has the specified number of
+   * parameters.
+   * @param args The tokens in the header command (including the keyword).
+   * @param count The expected number of arguments (excluding the keyword).
+   */
+  private void checkArgs(String[] args, int count) {
+    if (args.length - 1 != count) {
+      throw new RuntimeException(String.format(
+          "Unexpected number of arguments for %s (expected %d, got %d)",
+          args[0], count, args.length - 1));
+    }
+  }
 
 }

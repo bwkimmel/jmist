@@ -32,56 +32,56 @@ import java.util.List;
  */
 final class PlyIntegralListProperty extends PlyListProperty {
 
-	/** The list of values. */
-	private final List<Integer> values;
+  /** The list of values. */
+  private final List<Integer> values;
 
-	/**
-	 * Creates a new <code>PlyIntegralListProperty</code>.
-	 * @param values The list of values.
-	 * @param descriptor The <code>PropertyDescriptor</code> describing this
-	 * 		property.
-	 * @throws IllegalArgumentException if <code>descriptor</code> describes a
-	 * 		singleton (non-list) or floating point (non-integral) property.
-	 */
-	public PlyIntegralListProperty(List<Integer> values, PropertyDescriptor descriptor) {
-		super(descriptor);
+  /**
+   * Creates a new <code>PlyIntegralListProperty</code>.
+   * @param values The list of values.
+   * @param descriptor The <code>PropertyDescriptor</code> describing this
+   *     property.
+   * @throws IllegalArgumentException if <code>descriptor</code> describes a
+   *     singleton (non-list) or floating point (non-integral) property.
+   */
+  public PlyIntegralListProperty(List<Integer> values, PropertyDescriptor descriptor) {
+    super(descriptor);
 
-		if (!descriptor.getDataType().isIntegral()) {
-			throw new IllegalArgumentException("Integral data type required");
-		}
-		this.values = values;
-	}
+    if (!descriptor.getDataType().isIntegral()) {
+      throw new IllegalArgumentException("Integral data type required");
+    }
+    this.values = values;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getNormalizedDoubleValue(int)
-	 */
-	@Override
-	public double getNormalizedDoubleValue(int index) {
-		return values.get(index).doubleValue() / getPropertyDescriptor().getDataType().getMaxValue();
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getNormalizedDoubleValue(int)
+   */
+  @Override
+  public double getNormalizedDoubleValue(int index) {
+    return values.get(index).doubleValue() / getPropertyDescriptor().getDataType().getMaxValue();
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getDoubleValue(int)
-	 */
-	@Override
-	public double getDoubleValue(int index) {
-		return values.get(index).doubleValue();
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getDoubleValue(int)
+   */
+  @Override
+  public double getDoubleValue(int index) {
+    return values.get(index).doubleValue();
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getIntValue(int)
-	 */
-	@Override
-	public int getIntValue(int index) {
-		return values.get(index);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getIntValue(int)
+   */
+  @Override
+  public int getIntValue(int index) {
+    return values.get(index);
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getCount()
-	 */
-	@Override
-	public int getCount() {
-		return values.size();
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getCount()
+   */
+  @Override
+  public int getCount() {
+    return values.size();
+  }
 
 }

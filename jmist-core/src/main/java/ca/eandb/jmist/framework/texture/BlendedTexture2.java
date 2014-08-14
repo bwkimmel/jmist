@@ -42,40 +42,40 @@ import ca.eandb.jmist.math.Point2;
  * @author Brad Kimmel
  */
 public final class BlendedTexture2 implements Texture2 {
-	
-	/** Serialization version ID. */
-	private static final long serialVersionUID = 3825212205211905179L;
+  
+  /** Serialization version ID. */
+  private static final long serialVersionUID = 3825212205211905179L;
 
-	/** The <code>Texture2</code> to use where the mask value is zero. */
-	private final Texture2 a;
-	
-	/** The <code>Texture2</code> to use where the mask value is one. */
-	private final Texture2 b;
-	
-	/** The <code>Mask2</code> that controls the interpolation. */
-	private final Mask2 mask;
+  /** The <code>Texture2</code> to use where the mask value is zero. */
+  private final Texture2 a;
+  
+  /** The <code>Texture2</code> to use where the mask value is one. */
+  private final Texture2 b;
+  
+  /** The <code>Mask2</code> that controls the interpolation. */
+  private final Mask2 mask;
 
-	/**
-	 * Creates a new <code>BlendedTexture2</code>.
-	 * @param a The <code>Texture2</code> to use where the mask value is zero.
-	 * @param b The <code>Texture2</code> to use where the mask value is one.
-	 * @param mask The <code>Mask2</code> that controls the interpolation.
-	 */
-	public BlendedTexture2(Texture2 a, Texture2 b, Mask2 mask) {
-		super();
-		this.a = a;
-		this.b = b;
-		this.mask = mask;
-	}
+  /**
+   * Creates a new <code>BlendedTexture2</code>.
+   * @param a The <code>Texture2</code> to use where the mask value is zero.
+   * @param b The <code>Texture2</code> to use where the mask value is one.
+   * @param mask The <code>Mask2</code> that controls the interpolation.
+   */
+  public BlendedTexture2(Texture2 a, Texture2 b, Mask2 mask) {
+    super();
+    this.a = a;
+    this.b = b;
+    this.mask = mask;
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Texture2#evaluate(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.color.WavelengthPacket)
-	 */
-	@Override
-	public Color evaluate(Point2 p, WavelengthPacket lambda) {
-		double t = mask.opacity(p);
-		return a.evaluate(p, lambda).times(1.0 - t).plus(
-				b.evaluate(p, lambda).times(t));
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Texture2#evaluate(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.color.WavelengthPacket)
+   */
+  @Override
+  public Color evaluate(Point2 p, WavelengthPacket lambda) {
+    double t = mask.opacity(p);
+    return a.evaluate(p, lambda).times(1.0 - t).plus(
+        b.evaluate(p, lambda).times(t));
+  }
 
 }

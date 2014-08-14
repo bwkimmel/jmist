@@ -39,30 +39,30 @@ import ca.eandb.jmist.framework.painter.UniformPainter;
  */
 public final class ConstantShader implements Shader {
 
-	/**
-	 * Serialization version ID.
-	 */
-	private static final long serialVersionUID = 8241125325130501697L;
+  /**
+   * Serialization version ID.
+   */
+  private static final long serialVersionUID = 8241125325130501697L;
 
-	private final Painter painter;
+  private final Painter painter;
 
-	/**
-	 * @param painter
-	 */
-	public ConstantShader(Painter painter) {
-		this.painter = painter;
-	}
+  /**
+   * @param painter
+   */
+  public ConstantShader(Painter painter) {
+    this.painter = painter;
+  }
 
-	public ConstantShader(Spectrum value) {
-		this(new UniformPainter(value));
-	}
+  public ConstantShader(Spectrum value) {
+    this(new UniformPainter(value));
+  }
 
-	/* (non-Javadoc)
-	 * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
-	 */
-	public Color shade(ShadingContext sc) {
-		WavelengthPacket lambda = sc.getWavelengthPacket();
-		return painter.getColor(sc, lambda);
-	}
+  /* (non-Javadoc)
+   * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
+   */
+  public Color shade(ShadingContext sc) {
+    WavelengthPacket lambda = sc.getWavelengthPacket();
+    return painter.getColor(sc, lambda);
+  }
 
 }
