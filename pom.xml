@@ -7,8 +7,9 @@
   <artifactId>jmist</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>Java Modular Image Synthesis Toolkit</name>
-  <description>A research-oriented framework for image synthesis.</description>
+  <name>${project.groupId}:${project.artifactId}</name>
+  <description>Java Modular Image Synthesis Toolkit: A research-oriented
+      framework for image synthesis.</description>
   <licenses>
     <license>
       <name>MIT License</name>

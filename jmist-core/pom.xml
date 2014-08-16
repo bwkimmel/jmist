@@ -9,8 +9,8 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>jmist-core</artifactId>
-  <name>Java Modular Image Synthesis Toolkit</name>
-  <description>A research-oriented framework for image synthesis.</description>
+  <name>${project.groupId}:${project.artifactId}</name>
+  <description>Java Modular Image Synthesis Toolkit: Core library</description>
   <dependencies>
     <dependency>
       <groupId>ca.eandb.util</groupId>
