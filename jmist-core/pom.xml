@@ -9,9 +9,6 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>jmist-core</artifactId>
-  <scm>
-    <url>https://github.com/bwkimmel/jmist</url>
-  </scm>
   <name>Java Modular Image Synthesis Toolkit</name>
   <description>A research-oriented framework for image synthesis.</description>
   <dependencies>
