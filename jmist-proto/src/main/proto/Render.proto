@@ -1,0 +1,41 @@
+syntax = "proto2";
+
+option java_package = "ca.eandb.jmist.proto";
+option java_outer_classname = "RenderProtos";
+
+import "Scene.proto";
+
+message Size {
+  required uint32 x = 1;
+  required uint32 y = 2;
+}
+
+message RenderJob {
+
+  optional Scene scene = 1;
+  optional Size imageSize = 2;
+  optional Size tileSize = 3;
+
+  enum TileOrdering {
+    CENTER = 1;
+    RANDOM = 2;
+    TOP_TO_BOTTOM = 3;
+    BOTTOM_TO_TOP = 4;
+    LEFT_TO_RIGHT = 5;
+    RIGHT_TO_LEFT = 6;
+  }
+  optional TileOrdering tileOrdering = 4;
+
+  optional uint32 samplesPerPixel = 5;
+
+  optional uint32 minBounces = 6;
+  optional uint32 maxBounces = 7;
+
+  optional uint32 maxDiffuseBounces = 8;
+  optional uint32 maxGlossyBounces = 9;
+  optional uint32 maxTransmissionBounces = 10;
+
+  optional double pixelAspectX = 11;
+  optional double pixelAspectY = 12;
+
+}

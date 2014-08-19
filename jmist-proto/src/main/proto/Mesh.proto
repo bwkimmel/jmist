@@ -1,0 +1,92 @@
+syntax = "proto2";
+
+option java_package = "ca.eandb.jmist.proto";
+option java_outer_classname = "MeshProtos";
+
+enum VectorFormat {
+  DOUBLE_XYZ = 0;
+}
+
+enum IndexFormat {
+  UINT8 = 0;
+  UINT16 = 1;
+  UINT32 = 2;
+}
+
+message DataSlice {
+  optional uint64 offset = 1;
+  optional uint64 stride = 2;
+  optional uint64 count = 3;
+}
+
+message VectorBlock {
+  required VectorFormat format = 1;
+  required DataSlice slice = 2;
+}
+
+message IndexBlock {
+  required IndexFormat format = 1;
+  required DataSlice slice = 2;
+}
+
+message PolygonBlock {
+  optional IndexFormat indexFormat = 1;
+  optional DataSlice indexSlice = 2;
+  optional IndexFormat countFormat = 3;
+  optional DataSlice countSlice = 4;
+}
+
+message UVBlock {
+  enum Format {
+    DOUBLE_UV = 0;
+  }
+  required Format format = 1;
+  required DataSlice slice = 2;
+}
+
+message ColorBlock {
+  enum Format {
+    DOUBLE_RGB = 0;
+    DOUBLE_RGBA = 1;
+    DOUBLE_XYZ = 2;
+  }
+  required Format format = 1;
+  required DataSlice slice = 2;
+}
+
+message VertexBlock {
+  optional VectorBlock coords = 1;
+  optional VectorBlock normals = 2;
+  optional UVBlock uvs = 3;
+  optional ColorBlock colors = 4;
+}
+
+message LoopBlock {
+  optional IndexBlock indices = 1;
+  optional VectorBlock normals = 2;
+  optional UVBlock uvs = 3;
+  optional ColorBlock colors = 4;
+}
+
+message FaceBlock {
+  optional PolygonBlock polygons = 1;
+  optional VectorBlock normals = 2;
+  optional IndexBlock materials = 3;
+  optional ColorBlock colors = 4;
+}
+
+message MeshFormat {
+
+  optional uint64 offset = 1;
+  optional uint32 maxPolygonVertexCount = 2;
+
+  optional VertexBlock vertices = 3;
+  optional LoopBlock loops = 4;
+  optional FaceBlock faces = 5;
+
+}
+
+message Mesh {
+  required MeshFormat format = 1;
+  required bytes data = 2;
+}

@@ -29,6 +29,8 @@
   </scm>
   <modules>
     <module>jmist-core</module>
+    <module>jmist-proto</module>
+    <module>jmist-blender</module>
   </modules>
 
   <distributionManagement>

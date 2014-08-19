@@ -1,0 +1,27 @@
+syntax = "proto2";
+
+option java_package = "ca.eandb.jmist.proto";
+option java_outer_classname = "CameraProtos";
+
+message PinholeCamera {
+  optional double angleX = 1;
+  optional double angleY = 2;
+}
+
+message OrthographicCamera {
+  optional double scaleX = 1;
+  optional double scaleY = 2;
+}
+
+message Camera {
+  enum Type {
+    PINHOLE = 0;
+    ORTHOGRAPHIC = 1;
+  }
+  required Type type = 1;
+  repeated double worldToView = 2;
+
+  optional PinholeCamera pinhole_camera = 3;
+  optional OrthographicCamera orthographic_camera = 4;
+
+}

@@ -1,0 +1,24 @@
+syntax = "proto2";
+
+option java_package = "ca.eandb.jmist.proto";
+option java_outer_classname = "SceneProtos";
+
+import "Camera.proto";
+import "Core.proto";
+import "Light.proto";
+import "Mesh.proto";
+
+message Object {
+  enum Type {
+    MESH = 0;
+  }
+  required Type type = 1;
+  repeated double worldToLocal = 2;
+  optional Mesh mesh_object = 3;
+}
+
+message Scene {
+  optional Camera camera = 1;
+  repeated Light lights = 2;
+  repeated Object objects = 3;
+}

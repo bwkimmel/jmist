@@ -1,0 +1,32 @@
+syntax = "proto2";
+
+option java_package = "ca.eandb.jmist.proto";
+option java_outer_classname = "LightProtos";
+
+import "Core.proto";
+
+message PointLight {
+  optional Vector3 position = 1;
+}
+
+message AreaLight {
+  optional Vector3 center = 1;
+  optional Vector3 u = 2;
+  optional Vector3 v = 3;
+  optional double sizeU = 4;
+  optional double sizeV = 5;
+}
+
+message Light {
+  enum Type {
+    POINT = 0;
+    AREA = 1;
+  }
+  required Type type = 1;
+
+  optional double energy = 2;
+  optional Color color = 3;
+
+  optional PointLight point_light = 4;
+  optional AreaLight area_light = 5;
+}
