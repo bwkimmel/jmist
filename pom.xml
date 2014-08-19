@@ -10,6 +10,7 @@
   <name>${project.groupId}:${project.artifactId}</name>
   <description>Java Modular Image Synthesis Toolkit: A research-oriented
       framework for image synthesis.</description>
+  <url>http://jmist.eandb.ca</url>
   <licenses>
     <license>
       <name>MIT License</name>
