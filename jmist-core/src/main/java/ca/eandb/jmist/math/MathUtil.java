@@ -768,6 +768,20 @@ public final class MathUtil {
   }
 
   /**
+   * Returns the smallest (closest to negative infinity) integer that is at
+   * least as large as <code>a / b</code>.
+   * @param a The numerator.
+   * @param b The denominator.
+   * @return <code>a / b</code>, if <code>a % b == 0</code>, or
+   *         <code>a / b + 1</code> otherwise.
+   */
+  public static int divRoundUp(int a, int b) {
+    int quotient = a / b;
+    int remainder = a % b;
+    return remainder == 0 ? quotient : quotient + 1;
+  }
+
+  /**
    * Returns the minimum value in an array of <code>double</code>s.
    * @param array The array of <code>double</code>s of which to find the
    *     minimum value.
@@ -840,7 +854,7 @@ public final class MathUtil {
    * @return The mean of the values in <code>array</code>.
    */
   public static double mean(double[] array) {
-    return MathUtil.sum(array) / (double) array.length;
+    return MathUtil.sum(array) / array.length;
   }
 
   /**
