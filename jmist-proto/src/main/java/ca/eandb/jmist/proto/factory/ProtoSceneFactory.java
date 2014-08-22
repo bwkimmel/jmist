@@ -76,7 +76,7 @@ public final class ProtoSceneFactory {
 
   private SceneElement createSceneRoot(SceneProtos.Scene sceneIn) {
     if (sceneIn.getObjectsCount() == 0) {
-      throw new UnimplementedException("ProtoSceneFactory.createSceneRoot/n==0");
+      return new MergeSceneElement();
     } else if (sceneIn.getObjectsCount() == 1) {
       return createObject(sceneIn.getObjects(0));
     } else {
