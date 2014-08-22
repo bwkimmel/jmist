@@ -13,7 +13,7 @@ message Object {
     MESH = 0;
   }
   required Type type = 1;
-  repeated double worldToLocal = 2;
+  repeated double world_to_local = 2;
   optional Mesh mesh_object = 3;
 }
 

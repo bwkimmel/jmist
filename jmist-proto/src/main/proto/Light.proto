@@ -13,8 +13,8 @@ message AreaLight {
   optional Vector3 center = 1;
   optional Vector3 u = 2;
   optional Vector3 v = 3;
-  optional double sizeU = 4;
-  optional double sizeV = 5;
+  optional double size_u = 4;
+  optional double size_v = 5;
 }
 
 message Light {

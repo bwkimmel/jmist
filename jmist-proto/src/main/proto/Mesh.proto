@@ -30,10 +30,10 @@ message IndexBlock {
 }
 
 message PolygonBlock {
-  optional IndexFormat indexFormat = 1;
-  optional DataSlice indexSlice = 2;
-  optional IndexFormat countFormat = 3;
-  optional DataSlice countSlice = 4;
+  optional IndexFormat index_format = 1;
+  optional DataSlice index_slice = 2;
+  optional IndexFormat count_format = 3;
+  optional DataSlice count_slice = 4;
 }
 
 message UVBlock {
@@ -78,7 +78,7 @@ message FaceBlock {
 message MeshFormat {
 
   optional uint64 offset = 1;
-  optional uint32 maxPolygonVertexCount = 2;
+  optional uint32 max_polygon_vertex_count = 2;
 
   optional VertexBlock vertices = 3;
   optional LoopBlock loops = 4;
