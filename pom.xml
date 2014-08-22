@@ -30,7 +30,7 @@
   <modules>
     <module>jmist-core</module>
     <module>jmist-proto</module>
-    <module>jmist-blender</module>
+    <module>jmist-pipe</module>
   </modules>
 
   <distributionManagement>

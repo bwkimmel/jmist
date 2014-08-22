@@ -21,15 +21,20 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
-package ca.eandb.jmist.blender.render;
+package ca.eandb.jmist.pipe;
+
 
 /**
- * 
+ *
  */
-public final class ConnectionHandler {
-  
-  private final InputStream in;
-  
-  private final OutputStream out;
+public final class PipeMain {
+
+  /**
+   * @param args
+   */
+  public static void main(String[] args) {
+    ConnectionHandler handler = new ConnectionHandler(System.in, System.out);
+    handler.run();
+  }
 
 }

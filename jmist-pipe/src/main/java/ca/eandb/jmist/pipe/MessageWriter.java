@@ -21,18 +21,56 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
-package ca.eandb.jmist.blender.render;
+package ca.eandb.jmist.pipe;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.concurrent.BlockingQueue;
+
+import com.google.protobuf.MessageLite;
 
 /**
  *
  */
-public final class RenderEngineMain {
+public final class MessageWriter<T extends MessageLite> implements Runnable {
 
-  /**
-   * @param args
-   */
-  public static void main(String[] args) {
-    // TODO Auto-generated method stub
+  private final BlockingQueue<T> messages;
+
+  private final OutputStream output;
+
+  private boolean done = false;
+
+  public MessageWriter(BlockingQueue<T> messages, OutputStream output) {
+    this.messages = messages;
+    this.output = output;
+  }
+
+  @Override
+  public void run() {
+    try {
+      while (!done) {
+        try {
+          T message = messages.take();
+          message.writeDelimitedTo(output);
+          output.flush();
+        } catch (InterruptedException e) {}
+      }
+
+      while (true) {
+        T message = messages.poll();
+        if (message == null) {
+          break;
+        }
+        message.writeDelimitedTo(output);
+        output.flush();
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void shutdown() {
+    done = true;
   }
 
 }

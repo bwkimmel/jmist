@@ -21,11 +21,11 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
-package ca.eandb.jmist.blender.render;
+package ca.eandb.jmist.pipe;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.util.concurrent.BlockingQueue;
 
 import ca.eandb.jmist.engine.proto.RenderEngineProtos.Position;
 import ca.eandb.jmist.engine.proto.RenderEngineProtos.Rectangle;
@@ -47,10 +47,10 @@ import com.google.protobuf.ByteString.Output;
  */
 public final class RenderCallbackDisplay implements Display {
 
-  private final OutputStream out;
+  private final BlockingQueue<RenderCallback> messages;
 
-  public RenderCallbackDisplay(OutputStream out) {
-    this.out = out;
+  public RenderCallbackDisplay(BlockingQueue<RenderCallback> messages) {
+    this.messages = messages;
   }
 
   /* (non-Javadoc)
@@ -83,18 +83,18 @@ public final class RenderCallbackDisplay implements Display {
   @Override
   public void setPixels(int x, int y, Raster pixels) {
     try {
-      RenderCallback.newBuilder()
-          .setDrawTile(DrawTile.newBuilder()
-              .setFormat(PixelFormat.DOUBLE_RGBA)
-              .setData(serializePixels(pixels))
-              .setTile(Rectangle.newBuilder()
-                  .setPosition(Position.newBuilder().setX(x).setY(y))
-                  .setSize(Size.newBuilder()
-                      .setX(pixels.getWidth())
-                      .setY(pixels.getHeight()))))
-          .build().writeDelimitedTo(out);
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
+      messages.put(
+          RenderCallback.newBuilder()
+              .setDrawTile(DrawTile.newBuilder()
+                  .setFormat(PixelFormat.DOUBLE_RGBA)
+                  .setData(serializePixels(pixels))
+                  .setTile(Rectangle.newBuilder()
+                      .setPosition(Position.newBuilder().setX(x).setY(y))
+                      .setSize(Size.newBuilder()
+                          .setX(pixels.getWidth())
+                          .setY(pixels.getHeight()))))
+              .build());
+    } catch (IOException | InterruptedException e) {
       e.printStackTrace();
     }
   }
@@ -122,11 +122,7 @@ public final class RenderCallbackDisplay implements Display {
    */
   @Override
   public void finish() {
-    try {
-      RenderCallback.newBuilder().setDone(true).build().writeDelimitedTo(out);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    // nothing to do
   }
 
 }
