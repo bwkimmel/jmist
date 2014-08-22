@@ -854,7 +854,7 @@ public final class MathUtil {
    * @return The mean of the values in <code>array</code>.
    */
   public static double mean(double[] array) {
-    return MathUtil.sum(array) / (double) array.length;
+    return MathUtil.sum(array) / array.length;
   }
 
   /**
