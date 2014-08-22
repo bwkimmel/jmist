@@ -27,6 +27,8 @@ package ca.eandb.jmist.util;
 
 import java.util.Arrays;
 
+import ca.eandb.jmist.math.MathUtil;
+
 /**
  * Static utility methods for working with arrays.
  * @author Brad Kimmel
@@ -257,33 +259,47 @@ public final class ArrayUtil {
 
   /**
    * Fills an array with each value within a specified range.
-   * @param array The array to populate.
-   * @param first The value to assign to the first element of
-   *     <code>array</code> (must be <code>null</code> or of length equal to
-   *     <code>1 + |last - first|</code>.
-   * @param last The value to assign to the last element of the
+   * @param array The array to populate (must be <code>null</code> or of length
+   *     equal to <code>max(0, end - start)</code>).
+   * @param start The value to assign to the first element of the
+   *     <code>array</code>.
+   * @param end One more than the value to assign to the last element of the
    *     <code>array</code>.
    * @return A reference to <code>array</code>, populated with the values
-   *     <code>first</code> through <code>last</code>.
+   *     <code>start</code> (inclusive) through <code>end</code> (exclusive).
    * @throws IllegalArgumentException if <code>array != null</code> and
-   *     <code>array.length != 1 + Math.abs(last - first)</code>.
+   *     <code>array.length != max(0, end - start)</code>.
    */
-  public static int[] fillRange(int[] array, int first, int last) {
+  public static int[] fillRange(int[] array, int start, int end) {
+    return fillRange(array, start, end, 1);
+  }
 
-    array = ArrayUtil.initialize(array, 1 + Math.abs(last - first), first);
+  /**
+   * Fills an array with each value within a specified range.
+   * @param array The array to populate (must be <code>null</code> or of length
+   *     equal to <code>max(0, ceil((end - start) / step))</code>).
+   * @param start The value to assign to the first element of the
+   *     <code>array</code>.
+   * @param end One more than the value to assign to the last element of the
+   *     <code>array</code>.
+   * @param step The difference between successive elements in the array.
+   * @return A reference to <code>array</code>, populated with the values
+   *     <code>start</code> (inclusive) through <code>end</code> (exclusive).
+   * @throws IllegalArgumentException if <code>array != null</code> and
+   *     <code>array.length != max(0, ceil((end - start) / step))</code>.
+   */
+  public static int[] fillRange(int[] array, int start, int end, int step) {
+    if (step == 0) {
+      throw new IllegalArgumentException("step must be non-zero.");
+    }
 
-    if (last >= first) {
-      for (int i = 0; i < array.length; i++) {
-        array[i] += i;
-      }
-    } else { /* last < first */
-      for (int i = 0; i < array.length; i++) {
-        array[i] -= i;
-      }
+    int length = Math.max(0, MathUtil.divRoundUp(end - start, step));
+    array = ArrayUtil.initialize(array, length);
+    for (int i = 0, value = start; i < array.length; i++, value += step) {
+      array[i] = value;
     }
 
     return array;
-
   }
 
   /**
@@ -302,13 +318,31 @@ public final class ArrayUtil {
 
   /**
    * Creates a new array populated with values in the specified range.
-   * @param first The value to assign to the first element of the array.
-   * @param last The value to assign to the last element of the array.
-   * @return An array of the given length, populated with the values
-   *     from <code>first</code> to <code>last</code>.
+   * @param start The value to assign to the first element of the array.
+   * @param end One more than the value to assign to the last element of the
+   *     array.
+   * @return An array of the length <code>end - start</code>, populated with the
+   *     values from <code>start</code> to <code>end</code>.  If
+   *     <code>end &lt;= start</code>, an empty array is returned.
    */
-  public static int[] range(int first, int last) {
-    return ArrayUtil.fillRange((int[]) null, first, last);
+  public static int[] range(int start, int end) {
+    return range(start, end, 1);
+  }
+
+  /**
+   * Creates a new array populated with values in the specified range.
+   * @param start The value to assign to the first element of the array.
+   * @param end One more than the value to assign to the last element of the
+   *     array.
+   * @param step The difference between successive elements.
+   * @return An array of the values from <code>start</code> (inclusive) to
+   *     <code>end</code> (exclusive) with successive values differing by
+   *     <code>step</code>.  If <code>(end - start) * step &lt;= 0</code>, an
+   *     empty array is returned.
+   * @throws IllegalArgumentException if <code>step == 0</code>.
+   */
+  public static int[] range(int start, int end, int step) {
+    return ArrayUtil.fillRange((int[]) null, start, end, step);
   }
 
   /**
