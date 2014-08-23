@@ -3,7 +3,7 @@ syntax = "proto2";
 option java_package = "ca.eandb.jmist.engine.proto";
 option java_outer_classname = "RenderEngineProtos";
 
-import "Render.proto";
+import "render.proto";
 
 message Position {
   required uint32 x = 1;

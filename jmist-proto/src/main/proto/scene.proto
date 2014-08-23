@@ -3,10 +3,10 @@ syntax = "proto2";
 option java_package = "ca.eandb.jmist.proto";
 option java_outer_classname = "SceneProtos";
 
-import "Camera.proto";
-import "Core.proto";
-import "Light.proto";
-import "Mesh.proto";
+import "camera.proto";
+import "core.proto";
+import "light.proto";
+import "mesh.proto";
 
 message Object {
   enum Type {

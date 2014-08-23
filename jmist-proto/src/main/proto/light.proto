@@ -3,7 +3,7 @@ syntax = "proto2";
 option java_package = "ca.eandb.jmist.proto";
 option java_outer_classname = "LightProtos";
 
-import "Core.proto";
+import "core.proto";
 
 message PointLight {
   optional Vector3 position = 1;
