@@ -5,6 +5,8 @@ PROTO_SRCDIR=ext/build/protobuf-py3
 PROTO_HOME=build/protobuf
 PROTOC=$(PROTO_HOME)/bin/protoc
 PYTHON3=python3
+VERSION=$(shell xmlstarlet sel -t -v '/_:project/_:version/text()' ../pom.xml)
+JMIST_PIPE_JAR=$(TOPDIR)/jmist-pipe/target/jmist-pipe-$(VERSION).jar
 
 JMIST_PROTOS=$(TOPDIR)/jmist-proto/src/main/proto/*.proto
 JMIST_PIPE_PROTOS=$(TOPDIR)/jmist-pipe/src/main/proto/*.proto
@@ -14,8 +16,17 @@ all: dist
 
 dist: $(BUILDDIR)/jmist-blender.zip
 
-$(BUILDDIR)/jmist-blender.zip: protobuf protos srcs
+$(BUILDDIR)/jmist-blender.zip: protobuf protos srcs jars
+	rm -rf $@
 	cd $(BUILDDIR) && zip -r jmist-blender.zip jmist-blender
+
+jars: $(BUILDDIR)/jmist-blender/jmist/blender/jmist-pipe.jar
+
+$(JMIST_PIPE_JAR):
+	cd $(TOPDIR) && mvn package
+
+$(BUILDDIR)/jmist-blender/jmist/blender/jmist-pipe.jar: $(JMIST_PIPE_JAR)
+	cp $< $@
 
 protos: $(PROTOC) $(BUILDDIR)/proto
 	mkdir -p $(BUILDDIR)/jmist-blender/jmist/proto
