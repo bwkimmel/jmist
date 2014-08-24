@@ -38,6 +38,7 @@ import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.RGB;
 import ca.eandb.jmist.proto.RenderProtos.Size;
+import ca.eandb.util.io.LittleEndianDataOutputStream;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.ByteString.Output;
@@ -103,7 +104,8 @@ public final class RenderCallbackDisplay implements Display {
     int w = pixels.getWidth();
     int h = pixels.getHeight();
     Output output = ByteString.newOutput(w * h * 4 * 8);
-    DataOutputStream stream = new DataOutputStream(output);
+    LittleEndianDataOutputStream stream =
+        new LittleEndianDataOutputStream(output);
     for (int y = 0; y < h; y++) {
       for (int x = 0; x < w; x++) {
         RGB rgb = pixels.getPixel(x, y).toRGB();
