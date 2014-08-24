@@ -3,6 +3,15 @@ bl_info = {
   "category": "Render"
 }
 
+# To support reload properly, try to access a package var,
+# if it's there, reload everything
+if "bpy" in locals():
+    import imp
+    imp.reload(blender)
+else:
+    import jmist.blender
+
+
 import bpy
 from jmist.blender.engine import JmistRenderEngine
 
