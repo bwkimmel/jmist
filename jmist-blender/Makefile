@@ -49,10 +49,9 @@ protobuf: $(PROTO_SRCDIR)/python/build/lib
 	mkdir -p $(BUILDDIR)/jmist-blender
 	cp -r $(PROTO_SRCDIR)/python/build/lib/* $(BUILDDIR)/jmist-blender
 
-srcs: jmist addon.py
+srcs: jmist
 	mkdir -p $(BUILDDIR)/jmist-blender
 	cp -r jmist $(BUILDDIR)/jmist-blender
-	cp -r addon.py $(BUILDDIR)/jmist-blender
 
 clean:
 	rm -rf $(BUILDDIR)
