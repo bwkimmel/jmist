@@ -2,7 +2,7 @@ import bpy
 import struct
 import sys
 
-import jmist.proto.mesh_pb2
+import jmist.proto.mesh_pb2 as mesh_pb2
 
 
 class MeshExporter:
