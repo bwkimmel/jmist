@@ -12,8 +12,11 @@ class MessageReader:
     bytes_needed = total_bytes - len(self.buffer)
     while bytes_needed > 0:
       bytes_in = self.input.read(bytes_needed)
+      if len(bytes_in) == 0:
+        return False
       bytes_needed = bytes_needed - len(bytes_in)
       self.buffer = self.buffer + bytes_in
+    return True
     
   def read(self):
     if not self._requireBytes(self.min_buffer_size) and self.buffer == 0:
