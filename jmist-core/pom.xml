@@ -20,7 +20,7 @@
     <dependency>
       <groupId>ca.eandb.jdcp</groupId>
       <artifactId>jdcp-core</artifactId>
-      <version>0.3.0</version>
+      <version>0.3.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>
