@@ -55,10 +55,10 @@ class MeshExporter:
     format.faces.polygons.count_slice.count = (
         format.faces.polygons.index_slice.count)
     
-    format.vertices.coords.format = DOUBLE_XYZ
-    format.vertices.normals.format = DOUBLE_XYZ
-    format.loops.indices.format = UINT32
-    format.faces.polygons.index_format = UINT32
-    format.faces.polygons.count_format = UINT32
+    format.vertices.coords.format = mesh_pb2.DOUBLE_XYZ
+    format.vertices.normals.format = mesh_pb2.DOUBLE_XYZ
+    format.loops.indices.format = mesh_pb2.UINT32
+    format.faces.polygons.index_format = mesh_pb2.UINT32
+    format.faces.polygons.count_format = mesh_pb2.UINT32
     return format
   
