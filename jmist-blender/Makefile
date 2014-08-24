@@ -40,7 +40,7 @@ $(BUILDDIR)/proto:
 	cp $(JMIST_PROTOS) $(BUILDDIR)/proto
 	cp $(JMIST_PIPE_PROTOS) $(BUILDDIR)/proto
 
-$(PROTO_SRCDIR)/python/build/lib: $(PROTO_SRCDIR)/python/setup.py
+$(PROTO_SRCDIR)/python/build/lib: $(PROTO_SRCDIR)/python/setup.py $(PROTOC)
 	cd $(PROTO_SRCDIR)/python && $(PYTHON3) setup.py build
 
 $(PROTO_SRCDIR)/python/setup.py: $(PROTO_SRCDIR)
@@ -75,5 +75,5 @@ $(PROTO_SRCDIR)/Makefile: $(PROTO_SRCDIR)/configure
 	cd $(PROTO_SRCDIR) && ./configure --prefix=$(DIR)/$(PROTO_HOME)
 
 $(PROTOC): $(PROTO_SRCDIR)/Makefile
-	cd $(PROTO_SRCDIR) && make install
+	cd $(PROTO_SRCDIR) && make && make install
 
