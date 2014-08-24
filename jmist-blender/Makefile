@@ -18,7 +18,7 @@ dist: $(BUILDDIR)/jmist-blender.zip
 
 $(BUILDDIR)/jmist-blender.zip: protobuf protos srcs jars
 	rm -rf $@
-	cd $(BUILDDIR) && zip -r jmist-blender.zip jmist-blender
+	cd $(BUILDDIR)/jmist-blender && zip -r ../jmist-blender.zip *
 
 jars: $(BUILDDIR)/jmist-blender/jmist/blender/jmist-pipe.jar
 
