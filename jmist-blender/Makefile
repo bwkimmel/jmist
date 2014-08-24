@@ -16,7 +16,7 @@ all: dist
 
 dist: $(BUILDDIR)/jmist-blender.zip
 
-$(BUILDDIR)/jmist-blender.zip: protobuf protos srcs jars
+$(BUILDDIR)/jmist-blender.zip: protobuf protos srcs jars pkg_resources
 	rm -rf $@
 	cd $(BUILDDIR)/jmist-blender && zip -r ../jmist-blender.zip *
 
@@ -39,6 +39,12 @@ $(BUILDDIR)/proto:
 	mkdir -p $(BUILDDIR)/proto
 	cp $(JMIST_PROTOS) $(BUILDDIR)/proto
 	cp $(JMIST_PIPE_PROTOS) $(BUILDDIR)/proto
+
+pkg_resources: $(BUILDDIR)/jmist-blender/pkg_resources.py
+
+$(BUILDDIR)/jmist-blender/pkg_resources.py:
+	virtualenv -p $(PYTHON3) $(BUILDDIR)/env
+	cp $(BUILDDIR)/env/lib/python*/site-packages/pkg_resources.py $(BUILDDIR)/jmist-blender
 
 $(PROTO_SRCDIR)/python/build/lib: $(PROTO_SRCDIR)/python/setup.py $(PROTOC)
 	cd $(PROTO_SRCDIR)/python && $(PYTHON3) setup.py build
