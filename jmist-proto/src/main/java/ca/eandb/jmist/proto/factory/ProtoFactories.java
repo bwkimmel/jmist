@@ -45,7 +45,8 @@ public final class ProtoFactories {
     colorFactory = new ProtoColorFactory(colorModel);
     cameraFactory = new ProtoCameraFactory(coreFactory);
     lightFactory = new ProtoLightFactory(colorFactory, coreFactory, colorModel);
-    sceneFactory = new ProtoSceneFactory(cameraFactory, lightFactory);
+    sceneFactory = new ProtoSceneFactory(cameraFactory, coreFactory,
+                                         lightFactory);
   }
 
   public ProtoSceneFactory getSceneFactory() {

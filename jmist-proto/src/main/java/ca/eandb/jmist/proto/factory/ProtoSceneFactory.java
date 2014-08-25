@@ -32,7 +32,10 @@ import ca.eandb.jmist.framework.light.CompositeLight;
 import ca.eandb.jmist.framework.light.SimpleCompositeLight;
 import ca.eandb.jmist.framework.scene.AbstractScene;
 import ca.eandb.jmist.framework.scene.MergeSceneElement;
+import ca.eandb.jmist.framework.scene.TransformableSceneElement;
+import ca.eandb.jmist.math.AffineMatrix3;
 import ca.eandb.jmist.proto.LightProtos;
+import ca.eandb.jmist.proto.MeshProtos;
 import ca.eandb.jmist.proto.SceneProtos;
 import ca.eandb.util.UnimplementedException;
 
@@ -42,11 +45,14 @@ import ca.eandb.util.UnimplementedException;
 public final class ProtoSceneFactory {
 
   private final ProtoCameraFactory cameraFactory;
+  private final ProtoCoreFactory coreFactory;
   private final ProtoLightFactory lightFactory;
 
   public ProtoSceneFactory(ProtoCameraFactory cameraFactory,
+                           ProtoCoreFactory coreFactory,
                            ProtoLightFactory lightFactory) {
     this.cameraFactory = cameraFactory;
+    this.coreFactory = coreFactory;
     this.lightFactory = lightFactory;
   }
 
@@ -88,8 +94,30 @@ public final class ProtoSceneFactory {
     }
   }
 
+  private SceneElement createMesh(MeshProtos.Mesh meshIn) {
+    throw new UnimplementedException("ProtoSceneFactory.createMesh");
+  }
+
   private SceneElement createObject(SceneProtos.Object objectIn) {
-    throw new UnimplementedException("ProtoSceneFactory.createObject");
+    SceneElement obj;
+    switch (objectIn.getType()) {
+      case MESH:
+        obj = createMesh(objectIn.getMeshObject());
+        break;
+      default:
+        throw new IllegalArgumentException(String.format(
+            "Unrecognized object type: %d", objectIn.getType().getNumber()));
+    }
+
+    if (objectIn.getWorldToLocalCount() > 0) {
+      AffineMatrix3 transform =
+          coreFactory.createAffineMatrix3(objectIn.getWorldToLocalList());
+      TransformableSceneElement transformedObj =
+          new TransformableSceneElement(obj);
+      transformedObj.transform(transform);
+      obj = transformedObj;
+    }
+    return obj;
   }
 
   private Light createSceneLight(SceneProtos.Scene sceneIn) {
