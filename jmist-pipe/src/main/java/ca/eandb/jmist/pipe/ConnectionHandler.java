@@ -70,22 +70,27 @@ public final class ConnectionHandler implements Runnable {
           break;
         }
 
-        Display display = new RenderCallbackDisplay(messages);
-        ProgressMonitor monitor = new RenderCallbackProgressMonitor(messages);
-        ParallelizableJob job =
-            renderFactory.createRenderJob(request.getJob(), display);
+        try {
+          Display display = new RenderCallbackDisplay(messages);
+          ProgressMonitor monitor = new RenderCallbackProgressMonitor(messages);
+          ParallelizableJob job =
+              renderFactory.createRenderJob(request.getJob(), display);
 
-        ParallelizableJobRunner.Builder runner =
-            ParallelizableJobRunner.newBuilder()
-                .setJob(job)
-                .setProgressMonitor(monitor);
-        if (request.hasThreads()) {
-          runner.setMaxConcurrentWorkers(request.getThreads());
+          ParallelizableJobRunner.Builder runner =
+              ParallelizableJobRunner.newBuilder()
+                  .setJob(job)
+                  .setProgressMonitor(monitor);
+          if (request.hasThreads()) {
+            runner.setMaxConcurrentWorkers(request.getThreads());
+          }
+
+          runner.build().run();
+        } catch (Exception e) {
+          messages.put(
+              RenderCallback.newBuilder().setError(e.toString()).build());
         }
-
-        runner.build().run();
       }
-    } catch (IOException e) {
+    } catch (IOException | InterruptedException e) {
       e.printStackTrace();
     }
 
