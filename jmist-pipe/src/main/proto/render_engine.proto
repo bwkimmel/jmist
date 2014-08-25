@@ -25,12 +25,7 @@ message RenderRequest {
 message RenderCallback {
   optional bool done = 1;
   optional double progress = 2;
-
-  message SetTransferFile {
-    required string filename = 1;
-    optional uint64 size = 2;
-  }
-  optional SetTransferFile set_transfer_file = 3;
+  optional string error = 3;
 
   message DrawTile {
     optional Rectangle tile = 2;
