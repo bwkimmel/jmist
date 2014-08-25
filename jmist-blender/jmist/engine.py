@@ -10,17 +10,19 @@ from io import BytesIO
 from array import array
 import threading
 
-from jmist.blender.message_reader import MessageReader
-from jmist.blender.message_writer import MessageWriter
-from jmist.blender.mesh_exporter import MeshExporter
+from jmist.message_reader import MessageReader
+from jmist.message_writer import MessageWriter
+from jmist.scene_exporter import export_scene
 
 import jmist.proto.mesh_pb2 as mesh_pb2
+import jmist.proto.render_pb2 as render_pb2
 import jmist.proto.render_engine_pb2 as render_engine_pb2
 
 
 class JmistRenderEngine(bpy.types.RenderEngine):
   bl_idname = "jmist_renderengine"
   bl_label = "JMist Render Engine"
+  bl_use_shading_nodes = True
 
   def __init__(self):
     self._lock = threading.Lock()
@@ -29,12 +31,6 @@ class JmistRenderEngine(bpy.types.RenderEngine):
 
     try:
 
-#      exporter = MeshExporter()
-#      out = BytesIO()
-#      mesh = mesh_pb2.Mesh()
-#      mesh.format.CopyFrom(exporter.export(bpy.data.objects[1].data, out))
-#      mesh.data = out.getvalue()
-#
       request = render_engine_pb2.RenderRequest()
 
       scale = scene.render.resolution_percentage / 100.0
@@ -44,9 +40,21 @@ class JmistRenderEngine(bpy.types.RenderEngine):
       request.job.tile_size.x = scene.render.tile_x
       request.job.tile_size.y = scene.render.tile_y
 
+      request.job.color_model.type = render_pb2.ColorModel.RGB
+
+      export_scene(scene, request.job.scene)
+
+      args = ['java']
+      if scene.jmist.debug:
+        port = scene.jmist.debug_port
+        args.extend(
+            ['-Xdebug',
+             '-Xrunjdwp:server=y,transport=dt_socket,address=%d,suspend=y'
+                 % port])
       jar_file = os.path.join(os.path.dirname(__file__),
                               'jmist-pipe.jar')
-      args = ['java', '-jar', jar_file]
+      args.extend(['-jar', jar_file])
+      print(args)
       with subprocess.Popen(args,
                             stdin=subprocess.PIPE,
                             stdout=subprocess.PIPE) as p:
@@ -68,6 +76,9 @@ class JmistRenderEngine(bpy.types.RenderEngine):
           if callback.done:
             self.done()
             return {"FINISHED2"}
+
+          if callback.HasField('error'):
+            raise Exception('JMist Error: %s' % callback.error)
 
           if callback.HasField('set_transfer_file'):
             self.setTransferFile(callback.set_transfer_file.filename,

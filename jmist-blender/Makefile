@@ -20,12 +20,12 @@ $(BUILDDIR)/jmist-blender.zip: protobuf protos srcs jars pkg_resources
 	rm -rf $@
 	cd $(BUILDDIR)/jmist-blender && zip -r ../jmist-blender.zip *
 
-jars: $(BUILDDIR)/jmist-blender/jmist/blender/jmist-pipe.jar
+jars: $(BUILDDIR)/jmist-blender/jmist/jmist-pipe.jar
 
 $(JMIST_PIPE_JAR):
 	cd $(TOPDIR) && mvn package
 
-$(BUILDDIR)/jmist-blender/jmist/blender/jmist-pipe.jar: $(JMIST_PIPE_JAR)
+$(BUILDDIR)/jmist-blender/jmist/jmist-pipe.jar: $(JMIST_PIPE_JAR)
 	cp $< $@
 
 protos: $(PROTOC) $(BUILDDIR)/proto

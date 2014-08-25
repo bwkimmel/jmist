@@ -19,7 +19,7 @@ class MessageReader:
     return True
     
   def read(self):
-    if not self._requireBytes(self.min_buffer_size) and self.buffer == 0:
+    if not self._requireBytes(self.min_buffer_size) and len(self.buffer) == 0:
       return None
     (size, position) = decoder._DecodeVarint(self.buffer, 0)
 
