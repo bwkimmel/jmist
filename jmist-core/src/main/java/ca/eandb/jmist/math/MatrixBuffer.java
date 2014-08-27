@@ -4,6 +4,7 @@
 package ca.eandb.jmist.math;
 
 import java.io.Serializable;
+import java.nio.DoubleBuffer;
 import java.util.AbstractList;
 import java.util.Iterator;
 import java.util.List;
@@ -16,8 +17,8 @@ public final class MatrixBuffer implements Serializable {
   /** Serialization version ID. */
   private static final long serialVersionUID = -7273426889569165478L;
 
-  /** The array containing the elements of this <code>MatrixBuffer</code>. */
-  private final double[] elements;
+  /** The buffer containing the elements of this <code>MatrixBuffer</code>. */
+  private final DoubleBuffer elements;
 
   /** The number of rows. */
   private final int rows;
@@ -41,7 +42,7 @@ public final class MatrixBuffer implements Serializable {
   private final int colStride;
 
   /**
-   * Creates a new <code>MatrixBuffer</code>.
+   * Creates a new array-backed <code>MatrixBuffer</code>.
    * @param elements The array of <code>double</code>s containing the
    *     elements of the matrix (must be large enough so that the index of
    *     the last element [<code>offset + (rows-1) * rowStride + (cols-1) *
@@ -62,8 +63,35 @@ public final class MatrixBuffer implements Serializable {
    * @throws IllegalArgumentException if <code>elements</code> is not large
    *     enough to hold all elements of the array).
    */
-  public MatrixBuffer(double[] elements, int rows, int cols, int offset, int rowStride, int colStride) {
+  public MatrixBuffer(double[] elements, int rows, int cols, int offset,
+                      int rowStride, int colStride) {
+    this(DoubleBuffer.wrap(elements), rows, cols, offset, rowStride, colStride);
+  }
 
+  /**
+   * Creates a new <code>MatrixBuffer</code>.
+   * @param elements The <code>DoubleBuffer</code> containing the elements of
+   *     the matrix (must be large enough so that the index of the last element
+   *     [<code>offset + (rows-1) * rowStride + (cols-1) * colStride</code>] is
+   *     in the array).
+   * @param rows The number of rows in the matrix (must be non-negative).
+   * @param cols The number of columns in the matrix (must be non-negative).
+   * @param offset The offset into <code>elements</code> of the first element
+   *     of the matrix (must be non-negative).
+   * @param rowStride The difference between the indices into
+   *     <code>elements</code> of the first element of the first row and the
+   *     first element of the second row.
+   * @param colStride The difference between the indices into
+   *     <code>elements</code> of the first element of the first column and
+   *     the first element of the second column.
+   * @throws IllegalArgumentException if <code>offset</code> is negative.
+   * @throws IllegalArgumentException if <code>rows</code> or
+   *     <code>cols</code> is negative.
+   * @throws IllegalArgumentException if <code>elements</code> is not large
+   *     enough to hold all elements of the array).
+   */
+  public MatrixBuffer(DoubleBuffer elements, int rows, int cols, int offset,
+                      int rowStride, int colStride) {
     if (offset < 0) {
       throw new IllegalArgumentException("offset must be non-negative");
     }
@@ -72,7 +100,8 @@ public final class MatrixBuffer implements Serializable {
       throw new IllegalArgumentException("rows and cols must be non-negative");
     }
 
-    if ((offset + (cols - 1) * colStride + (rows - 1) * rowStride) >= elements.length) {
+    if ((offset + (cols - 1) * colStride + (rows - 1) * rowStride)
+        >= elements.limit()) {
       throw new IllegalArgumentException("not enough elements");
     }
 
@@ -82,7 +111,6 @@ public final class MatrixBuffer implements Serializable {
     this.offset = offset;
     this.rowStride = rowStride;
     this.colStride = colStride;
-
   }
 
   /**
@@ -134,7 +162,7 @@ public final class MatrixBuffer implements Serializable {
           pos = rpos;
         }
 
-        return elements[j];
+        return elements.get(j);
       }
 
       @Override
@@ -200,19 +228,17 @@ public final class MatrixBuffer implements Serializable {
    * @return The smallest value in this <code>MatrixBuffer</code>.
    */
   public double minimum() {
-
     double min = Double.POSITIVE_INFINITY;
 
     for (int r = 0, rpos = offset; r < rows; r++, rpos += rowStride) {
       for (int c = 0, pos = rpos; c < cols; c++, pos += colStride) {
-        if (elements[pos] < min) {
-          min = elements[pos];
+        if (elements.get(pos) < min) {
+          min = elements.get(pos);
         }
       }
     }
 
     return min;
-
   }
 
   /**
@@ -220,19 +246,17 @@ public final class MatrixBuffer implements Serializable {
    * @return The largest value in this <code>MatrixBuffer</code>.
    */
   public double maximum() {
-
     double max = Double.NEGATIVE_INFINITY;
 
     for (int r = 0, rpos = offset; r < rows; r++, rpos += rowStride) {
       for (int c = 0, pos = rpos; c < cols; c++, pos += colStride) {
-        if (elements[pos] > max) {
-          max = elements[pos];
+        if (elements.get(pos) > max) {
+          max = elements.get(pos);
         }
       }
     }
 
     return max;
-
   }
 
   /**
@@ -240,23 +264,21 @@ public final class MatrixBuffer implements Serializable {
    * @return The ranges of values in this <code>MatrixBuffer</code>.
    */
   public Interval range() {
-
     double min = Double.POSITIVE_INFINITY;
     double max = Double.NEGATIVE_INFINITY;
 
     for (int r = 0, rpos = offset; r < rows; r++, rpos += rowStride) {
       for (int c = 0, pos = rpos; c < cols; c++, pos += colStride) {
-        if (elements[pos] > max) {
-          max = elements[pos];
+        if (elements.get(pos) > max) {
+          max = elements.get(pos);
         }
-        if (elements[pos] < min) {
-          min = elements[pos];
+        if (elements.get(pos) < min) {
+          min = elements.get(pos);
         }
       }
     }
 
     return new Interval(min, max);
-
   }
 
   /**
@@ -264,17 +286,15 @@ public final class MatrixBuffer implements Serializable {
    * @return The largest value in this <code>MatrixBuffer</code>.
    */
   public double sum() {
-
     double sum = 0.0;
 
     for (int r = 0, rpos = offset; r < rows; r++, rpos += rowStride) {
       for (int c = 0, pos = rpos; c < cols; c++, pos += colStride) {
-        sum += elements[pos];
+        sum += elements.get(pos);
       }
     }
 
     return sum;
-
   }
 
   /**
@@ -291,7 +311,7 @@ public final class MatrixBuffer implements Serializable {
    * @see #columns()
    */
   public double at(int row, int col) {
-    return this.elements[indexOf(row, col)];
+    return this.elements.get(indexOf(row, col));
   }
 
   /**
@@ -309,7 +329,7 @@ public final class MatrixBuffer implements Serializable {
    * @see #columns()
    */
   public MatrixBuffer set(int row, int col, double value) {
-    this.elements[indexOf(row, col)] = value;
+    this.elements.put(indexOf(row, col), value);
     return this;
   }
 
@@ -328,7 +348,8 @@ public final class MatrixBuffer implements Serializable {
    * @see #columns()
    */
   public MatrixBuffer add(int row, int col, double value) {
-    this.elements[indexOf(row, col)] += value;
+    int index = indexOf(row, col);
+    this.elements.put(index, elements.get(index) + value);
     return this;
   }
 
@@ -394,7 +415,8 @@ public final class MatrixBuffer implements Serializable {
    * @see #columns()
    */
   public MatrixBuffer slice(int row, int col, int rows, int cols) {
-    return new MatrixBuffer(elements, rows, cols, indexOf(row, col), rowStride, colStride);
+    return new MatrixBuffer(elements, rows, cols, indexOf(row, col),
+                            rowStride, colStride);
   }
 
   /**
@@ -407,7 +429,8 @@ public final class MatrixBuffer implements Serializable {
    * @see Math#min(int, int)
    */
   public MatrixBuffer diagonal() {
-    return new MatrixBuffer(elements, Math.min(rows, cols), 1, offset, rowStride + colStride, 0);
+    return new MatrixBuffer(elements, Math.min(rows, cols), 1, offset,
+                            rowStride + colStride, 0);
   }
 
   /**
@@ -453,7 +476,30 @@ public final class MatrixBuffer implements Serializable {
    * @throws IllegalArgumentException if <code>rows</code> or
    *     <code>cols</code> is negative.
    */
-  public static MatrixBuffer columnMajor(int rows, int cols, double[] elements) {
+  public static MatrixBuffer columnMajor(int rows, int cols,
+                                         DoubleBuffer elements) {
+    return new MatrixBuffer(elements, rows, cols, 0, 1, rows);
+  }
+
+  /**
+   * Creates a <code>MatrixBuffer</code> with the specified values in column-major
+   * order.
+   * @param rows The number of rows in the <code>MatrixBuffer</code> (must be
+   *     non-negative).
+   * @param cols The number of columns in the <code>MatrixBuffer</code> (must be
+   *     non-negative).
+   * @param elements The elements of the <code>MatrixBuffer</code> in column-major
+   *     order (must have at least <code>rows * cols</code> elements --
+   *     additional elements will be ignored).
+   * @return The <code>rows</code> by <code>cols</code> <code>MatrixBuffer</code>
+   *     consisting of the elements specified.
+   * @throws IllegalArgumentException if
+   *     <code>elements.length &lt; rows * cols</code>.
+   * @throws IllegalArgumentException if <code>rows</code> or
+   *     <code>cols</code> is negative.
+   */
+  public static MatrixBuffer columnMajor(int rows, int cols,
+                                         double[] elements) {
     return new MatrixBuffer(elements, rows, cols, 0, 1, rows);
   }
 
@@ -471,6 +517,28 @@ public final class MatrixBuffer implements Serializable {
    */
   public static MatrixBuffer columnMajor(int rows, int cols) {
     return columnMajor(rows, cols, new double[rows * cols]);
+  }
+
+  /**
+   * Creates a <code>MatrixBuffer</code> with the specified values in row-major
+   * order.
+   * @param rows The number of rows in the <code>MatrixBuffer</code> (must be
+   *     non-negative).
+   * @param cols The number of columns in the <code>MatrixBuffer</code> (must be
+   *     non-negative).
+   * @param elements The elements of the <code>MatrixBuffer</code> in row-major
+   *     order (must have at least <code>rows * cols</code> elements --
+   *     additional elements will be ignored).
+   * @return The <code>rows</code> by <code>cols</code> <code>MatrixBuffer</code>
+   *     consisting of the elements specified.
+   * @throws IllegalArgumentException if
+   *     <code>elements.length &lt; rows * cols</code>.
+   * @throws IllegalArgumentException if <code>rows</code> or
+   *     <code>cols</code> is negative.
+   */
+  public static MatrixBuffer rowMajor(int rows, int cols,
+                                      DoubleBuffer elements) {
+    return new MatrixBuffer(elements, rows, cols, 0, cols, 1);
   }
 
   /**
