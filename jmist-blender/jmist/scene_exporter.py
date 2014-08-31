@@ -46,57 +46,50 @@ def export_lamp(bl_lamp, light):
 
 
 def export_mesh(bl_mesh, mesh):
+  vertices = mesh.format.vertices
+  vertices.coords.format = mesh_pb2.VectorSlice.DOUBLE_XYZ
+  vertices.normals.format = mesh_pb2.VectorSlice.DOUBLE_XYZ
+
+  loops = mesh.format.loops
+  loops.indices.format = mesh_pb2.IndexSlice.UINT32
+
+  faces = mesh.format.faces;
+  faces.loop_start.format = mesh_pb2.IndexSlice.UINT32
+  faces.loop_count.format = mesh_pb2.IndexSlice.UINT8
+
   vertex_struct = struct.Struct("!3d")
   normal_struct = struct.Struct("!3d")
   vertex_index_struct = struct.Struct("!i")
   uv_struct = struct.Struct("!2d")
   poly_index_struct = struct.Struct("!i")
-  poly_count_struct = struct.Struct("!i")
-
+  poly_count_struct = struct.Struct("!B")
+  
   out = BytesIO()
- 
+
+  vertices.offset = out.tell()
+  vertices.stride = vertex_struct.size + normal_struct.size
+  vertices.count = len(bl_mesh.vertices)
+  vertices.coords.offset = 0
+  vertices.normals.offset = vertex_struct.size
   for vertex in bl_mesh.vertices:
     out.write(vertex_struct.pack(*vertex.co))
     out.write(normal_struct.pack(*vertex.normal))
   
-  coords_slice = mesh.format.vertices.coords.slice
-  normals_slice = mesh.format.vertices.normals.slice
-  coords_slice.offset = 0
-  coords_slice.stride = vertex_struct.size + normal_struct.size
-  coords_slice.count = len(bl_mesh.vertices)
-  normals_slice.offset = coords_slice.offset + vertex_struct.size
-  normals_slice.stride = coords_slice.stride
-  normals_slice.count = coords_slice.count
-   
-  for loop_index in range(len(bl_mesh.loops)):
-    loop = bl_mesh.loops[loop_index]
+  loops.offset = out.tell()
+  loops.stride = vertex_index_struct.size
+  loops.count = len(bl_mesh.loops)
+  loops.indices.offset = 0
+  for loop in bl_mesh.loops:
     out.write(vertex_index_struct.pack(loop.vertex_index))
-
-  loops_slice = mesh.format.loops.indices.slice
-  loops_slice.offset = (coords_slice.offset +
-      coords_slice.stride * coords_slice.count)
-  loops_slice.stride = vertex_index_struct.size
-  loops_slice.count = len(bl_mesh.loops)
-    
+  
+  faces.offset = out.tell()
+  faces.stride = poly_index_struct.size + poly_count_struct.size
+  faces.count = len(bl_mesh.polygons)
+  faces.loop_start.offset = 0
+  faces.loop_count.offset = poly_index_struct.size
   for poly in bl_mesh.polygons:
     out.write(poly_index_struct.pack(poly.loop_start))
     out.write(poly_count_struct.pack(poly.loop_total))
-    
-  poly_index_slice = mesh.format.faces.polygons.index_slice
-  poly_count_slice = mesh.format.faces.polygons.count_slice
-  poly_index_slice.offset = (loops_slice.offset +
-      loops_slice.stride * loops_slice.count)
-  poly_index_slice.stride = poly_index_struct.size + poly_count_struct.size
-  poly_index_slice.count = len(bl_mesh.polygons)
-  poly_count_slice.offset = poly_index_slice.offset + poly_index_struct.size
-  poly_count_slice.stride = poly_index_slice.stride
-  poly_count_slice.count = poly_index_slice.count
-  
-  mesh.format.vertices.coords.format = mesh_pb2.DOUBLE_XYZ
-  mesh.format.vertices.normals.format = mesh_pb2.DOUBLE_XYZ
-  mesh.format.loops.indices.format = mesh_pb2.UINT32
-  mesh.format.faces.polygons.index_format = mesh_pb2.UINT32
-  mesh.format.faces.polygons.count_format = mesh_pb2.UINT32
 
   mesh.data = out.getvalue()
 

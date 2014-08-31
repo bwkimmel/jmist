@@ -28,6 +28,11 @@ import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.Scene;
 import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.accel.BoundingIntervalHierarchy;
+import ca.eandb.jmist.framework.geometry.mesh.BufferMesh;
+import ca.eandb.jmist.framework.geometry.mesh.IndexReader;
+import ca.eandb.jmist.framework.geometry.mesh.MeshGeometry;
+import ca.eandb.jmist.framework.geometry.mesh.Point3Format;
+import ca.eandb.jmist.framework.geometry.mesh.Vector3Format;
 import ca.eandb.jmist.framework.light.CompositeLight;
 import ca.eandb.jmist.framework.light.SimpleCompositeLight;
 import ca.eandb.jmist.framework.scene.AbstractScene;
@@ -37,7 +42,6 @@ import ca.eandb.jmist.math.AffineMatrix3;
 import ca.eandb.jmist.proto.LightProtos;
 import ca.eandb.jmist.proto.MeshProtos;
 import ca.eandb.jmist.proto.SceneProtos;
-import ca.eandb.util.UnimplementedException;
 
 /**
  *
@@ -94,8 +98,66 @@ public final class ProtoSceneFactory {
     }
   }
 
+  private IndexReader getIndexReader(MeshProtos.IndexSlice slice) {
+    int offset = (int) slice.getOffset();
+    switch (slice.getFormat()) {
+      case UINT32: return (buffer, base) -> buffer.getInt(base + offset);
+      case UINT16:
+        return (buffer, base) ->
+          Short.toUnsignedInt(buffer.getShort(base + offset));
+      case UINT8:
+        return (buffer, base) ->
+          Byte.toUnsignedInt(buffer.get(base + offset));
+      default:
+        throw new IllegalArgumentException(String.format(
+            "Unrecognized index format: %d", slice.getFormat().getNumber()));
+    }
+  }
+
+  private Point3Format getPoint3Format(MeshProtos.VectorSlice.Format format) {
+    switch (format) {
+      case DOUBLE_XYZ: return Point3Format.DOUBLE_XYZ;
+      default:
+        throw new IllegalArgumentException(String.format(
+            "Unrecognized Point3 format: %d", format.getNumber()));
+    }
+  }
+
+  private Vector3Format getVector3Format(MeshProtos.VectorSlice.Format format) {
+    switch (format) {
+      case DOUBLE_XYZ: return Vector3Format.DOUBLE_XYZ;
+      default:
+        throw new IllegalArgumentException(String.format(
+            "Unrecognized Vector3 format: %d", format.getNumber()));
+    }
+  }
+
   private SceneElement createMesh(MeshProtos.Mesh meshIn) {
-    throw new UnimplementedException("ProtoSceneFactory.createMesh");
+    MeshProtos.MeshFormat format = meshIn.getFormat();
+    MeshProtos.VertexBlock vertices = format.getVertices();
+    MeshProtos.LoopBlock loops = format.getLoops();
+    MeshProtos.FaceBlock faces = format.getFaces();
+    BufferMesh.Builder builder = BufferMesh.newBuilder()
+        .setCommonBuffer(meshIn.getData().asReadOnlyByteBuffer())
+        .setVertexOffset((int) vertices.getOffset())
+        .setVertexStride((int) vertices.getStride())
+        .setVertexCount(vertices.getCount())
+        .setVertexCoordSpec(
+            (int) vertices.getCoords().getOffset(),
+            getPoint3Format(vertices.getCoords().getFormat()))
+        .setVertexNormalSpec(
+            (int) vertices.getNormals().getOffset(),
+            getVector3Format(vertices.getNormals().getFormat()))
+        .setLoopOffset((int) loops.getOffset())
+        .setLoopStride((int) loops.getStride())
+        .setLoopCount(loops.getCount())
+        .setLoopVertexIndexReader(getIndexReader(loops.getIndices()))
+        .setFaceOffset((int) faces.getOffset())
+        .setFaceStride((int) faces.getStride())
+        .setFaceCount(faces.getCount())
+        .setFaceLoopStartReader(getIndexReader(faces.getLoopStart()))
+        .setFaceLoopCountReader(getIndexReader(faces.getLoopCount()));
+    return new MeshGeometry(builder.build());
   }
 
   private SceneElement createObject(SceneProtos.Object objectIn) {
