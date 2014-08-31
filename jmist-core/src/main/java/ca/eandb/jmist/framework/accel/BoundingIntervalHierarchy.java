@@ -403,10 +403,10 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
       float left = (float) clip.left;
       float right = (float) clip.right;
       if (left < clip.left) {
-        left = MathUtil.nextUp(left);
+        left = Math.nextUp(left);
       }
       if (right > clip.right) {
-        right = MathUtil.nextDown(right);
+        right = Math.nextDown(right);
       }
       buf.putFloat(left);
       buf.putFloat(right);
