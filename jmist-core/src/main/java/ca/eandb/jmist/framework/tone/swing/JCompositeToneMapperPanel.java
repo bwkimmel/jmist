@@ -55,7 +55,7 @@ public final class JCompositeToneMapperPanel extends JToneMapperPanel {
 
   private static final String DEFAULT_COMBOBOX_LABEL = "Operator";
 
-  private final List<JToneMapperPanel> settingsPanels = new ArrayList<JToneMapperPanel>();
+  private final List<JToneMapperPanel> settingsPanels = new ArrayList<>();
   private final JComboBox<String> toneMapperComboBox;
   private final JPanel settingsContainerPanel;
   private final CardLayout settingsContainerLayout;
