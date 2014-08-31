@@ -47,6 +47,7 @@ final class TriangulatedMesh implements Mesh {
         faceIndices.add(faceIndex);
         keyVertexIndices.add((byte) keyVertexIndex);
       }
+      faceIndex++;
     }
   }
   
