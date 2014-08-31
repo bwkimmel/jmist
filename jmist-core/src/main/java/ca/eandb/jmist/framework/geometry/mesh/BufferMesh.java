@@ -284,33 +284,28 @@ public final class BufferMesh implements Mesh {
   
   @Override
   public Iterable<Vertex> getVertices() {
-    final int vertexLimit = vertexOffset + vertexCount * vertexStride;
-    return new Iterable<Vertex>() {
+    int vertexLimit = vertexOffset + vertexCount * vertexStride;
+    return () -> new Iterator<Vertex>() {
+      int offset = vertexOffset;
+
       @Override
-      public Iterator<Vertex> iterator() {
-        return new Iterator<Vertex>() {
-          int offset = vertexOffset;
-    
-          @Override
-          public boolean hasNext() {
-            return offset != vertexLimit;
-          }
-    
-          @Override
-          public Vertex next() {
-            if (!hasNext()) {
-              throw new NoSuchElementException();
-            }
-            Vertex vertex = new MeshVertex(offset);
-            offset += vertexStride;
-            return vertex;
-          }
-    
-          @Override
-          public void remove() {
-            throw new UnsupportedOperationException();
-          }
-        };
+      public boolean hasNext() {
+        return offset != vertexLimit;
+      }
+
+      @Override
+      public Vertex next() {
+        if (!hasNext()) {
+          throw new NoSuchElementException();
+        }
+        Vertex vertex = new MeshVertex(offset);
+        offset += vertexStride;
+        return vertex;
+      }
+
+      @Override
+      public void remove() {
+        throw new UnsupportedOperationException();
       }
     };
   }
@@ -330,33 +325,28 @@ public final class BufferMesh implements Mesh {
 
   @Override
   public Iterable<Face> getFaces() {
-    final int faceLimit = faceOffset + faceCount * faceStride;
-    return new Iterable<Face>() {
+    int faceLimit = faceOffset + faceCount * faceStride;
+    return () -> new Iterator<Face>() {
+      int offset = faceOffset;
+
       @Override
-      public Iterator<Face> iterator() {
-        return new Iterator<Face>() {
-          int offset = faceOffset;
-    
-          @Override
-          public boolean hasNext() {
-            return offset != faceLimit;
-          }
-    
-          @Override
-          public Face next() {
-            if (!hasNext()) {
-              throw new NoSuchElementException();
-            }
-            Face face = new MeshFace(offset);
-            offset += faceStride;
-            return face;
-          }
-    
-          @Override
-          public void remove() {
-            throw new UnsupportedOperationException();
-          }
-        };
+      public boolean hasNext() {
+        return offset != faceLimit;
+      }
+
+      @Override
+      public Face next() {
+        if (!hasNext()) {
+          throw new NoSuchElementException();
+        }
+        Face face = new MeshFace(offset);
+        offset += faceStride;
+        return face;
+      }
+
+      @Override
+      public void remove() {
+        throw new UnsupportedOperationException();
       }
     };
   }
@@ -427,33 +417,27 @@ public final class BufferMesh implements Mesh {
     
     @Override
     public Iterable<Vertex> getVertices() {
-      final int loopLimit = loopOffset + getVertexCount() * loopStride;
-      return new Iterable<Vertex>() {
+      int loopLimit = loopOffset + getVertexCount() * loopStride;
+      return () -> new Iterator<Vertex>() {
         int offset = loopOffset;
         @Override
-        public Iterator<Vertex> iterator() {
-          return new Iterator<Vertex>() {
+        public boolean hasNext() {
+          return offset != loopLimit;
+        }
 
-            @Override
-            public boolean hasNext() {
-              return offset != loopLimit;
-            }
+        @Override
+        public Vertex next() {
+          if (!hasNext()) {
+            throw new NoSuchElementException();
+          }
+          Vertex vertex = new FaceVertex(offset);
+          offset += loopStride;
+          return vertex;
+        }
 
-            @Override
-            public Vertex next() {
-              if (!hasNext()) {
-                throw new NoSuchElementException();
-              }
-              Vertex vertex = new FaceVertex(offset);
-              offset += loopStride;
-              return vertex;
-            }
-
-            @Override
-            public void remove() {
-              throw new UnsupportedOperationException();
-            }
-          };
+        @Override
+        public void remove() {
+          throw new UnsupportedOperationException();
         }
       };
     }

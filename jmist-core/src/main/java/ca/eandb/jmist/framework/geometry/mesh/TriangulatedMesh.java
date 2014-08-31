@@ -120,35 +120,30 @@ final class TriangulatedMesh implements Mesh {
    */
   @Override
   public Iterable<Face> getFaces() {
-    return new Iterable<Face>() {
+    return () -> new Iterator<Face>() {
+      Iterator<Face> inner = mesh.getFaces().iterator();
+      Mesh.Face face;
+      int numFaceVertices;
+      int keyVertexIndex;
+
       @Override
-      public Iterator<Face> iterator() {
-        return new Iterator<Face>() {
-          Iterator<Face> inner = mesh.getFaces().iterator();
-          Mesh.Face face;
-          int numFaceVertices;
-          int keyVertexIndex;
+      public boolean hasNext() {
+        return (keyVertexIndex < numFaceVertices - 1) || inner.hasNext();
+      }
 
-          @Override
-          public boolean hasNext() {
-            return (keyVertexIndex < numFaceVertices - 1) || inner.hasNext();
-          }
+      @Override
+      public Face next() {
+        if (keyVertexIndex >= numFaceVertices - 1) {
+          face = inner.next();
+          numFaceVertices = face.getVertexCount();
+          keyVertexIndex = 1;
+        }
+        return new Triangle(face, keyVertexIndex++);
+      }
 
-          @Override
-          public Face next() {
-            if (keyVertexIndex >= numFaceVertices - 1) {
-              face = inner.next();
-              numFaceVertices = face.getVertexCount();
-              keyVertexIndex = 1;
-            }
-            return new Triangle(face, keyVertexIndex++);
-          }
-
-          @Override
-          public void remove() {
-            throw new UnsupportedOperationException();
-          }
-        };
+      @Override
+      public void remove() {
+        throw new UnsupportedOperationException();
       }
     };
   }
