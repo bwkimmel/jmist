@@ -36,6 +36,9 @@ import ca.eandb.jmist.framework.Shader;
  */
 public abstract class CompositeShader implements Shader {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = 6350130597640516888L;
+
   protected List<Shader> shaders;
 
   protected CompositeShader() {
