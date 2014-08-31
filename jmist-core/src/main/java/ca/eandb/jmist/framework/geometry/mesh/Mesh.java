@@ -3,6 +3,9 @@
  */
 package ca.eandb.jmist.framework.geometry.mesh;
 
+import java.util.stream.IntStream;
+import java.util.stream.StreamSupport;
+
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Vector3;
@@ -21,7 +24,12 @@ public interface Mesh {
   public interface Face {
     int getVertexCount();
     Vertex getVertex(int index);
-    Iterable<Vertex> getVertices();
+
+    default Iterable<Vertex> getVertices() {
+      return () -> IntStream.range(0,  getVertexCount())
+          .mapToObj(this::getVertex)
+          .iterator();
+    }
   }
   
   int getMaxFaceVertexCount();
@@ -34,10 +42,20 @@ public interface Mesh {
 
   int getFaceCount();
   Face getFace(int index);
-  Iterable<Face> getFaces();
+
+  default Iterable<Face> getFaces() {
+    return () -> IntStream.range(0, getFaceCount())
+        .mapToObj(this::getFace)
+        .iterator();
+  }
   
   int getVertexCount();
   Vertex getVertex(int index);
-  Iterable<Vertex> getVertices();
+
+  default Iterable<Vertex> getVertices() {
+    return () -> IntStream.range(0, getVertexCount())
+        .mapToObj(this::getVertex)
+        .iterator();
+  }
   
 }

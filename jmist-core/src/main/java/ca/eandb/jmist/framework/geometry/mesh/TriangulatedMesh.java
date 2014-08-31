@@ -201,32 +201,6 @@ final class TriangulatedMesh implements Mesh {
           throw new IllegalArgumentException("vertex index out of bounds");
       }
     }
-
-    @Override
-    public Iterable<Vertex> getVertices() {
-      return new Iterable<Vertex>() {
-        @Override
-        public Iterator<Vertex> iterator() {
-          return new Iterator<Vertex>() {
-            int index = 0;
-            @Override
-            public boolean hasNext() {
-              return index < 3;
-            }
-
-            @Override
-            public Vertex next() {
-              return getVertex(index);
-            }
-
-            @Override
-            public void remove() {
-              throw new UnsupportedOperationException();
-            }
-          };
-        }
-      };
-    }
   }
 
 }

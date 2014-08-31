@@ -25,29 +25,11 @@
  */
 package ca.eandb.jmist.framework.geometry.mesh;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.BitSet;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import ca.eandb.jmist.framework.Bounded3;
-import ca.eandb.jmist.framework.BoundingBoxBuilder2;
-import ca.eandb.jmist.framework.BoundingBoxBuilder3;
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
 import ca.eandb.jmist.framework.ShadingContext;
-import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.geometry.AbstractGeometry;
-import ca.eandb.jmist.framework.random.CategoricalRandom;
-import ca.eandb.jmist.framework.random.RandomUtil;
-import ca.eandb.jmist.framework.random.SeedReference;
-import ca.eandb.jmist.math.AffineMatrix2;
 import ca.eandb.jmist.math.Basis3;
-import ca.eandb.jmist.math.Box2;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.GeometryUtil;
 import ca.eandb.jmist.math.MathUtil;
@@ -58,7 +40,6 @@ import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
 import ca.eandb.jmist.math.Vector2;
 import ca.eandb.jmist.math.Vector3;
-import ca.eandb.util.IntegerArray;
 
 /**
  * A polyhedron <code>SceneElement</code>.
