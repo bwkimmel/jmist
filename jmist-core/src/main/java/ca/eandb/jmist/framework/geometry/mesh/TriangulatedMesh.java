@@ -112,7 +112,7 @@ final class TriangulatedMesh implements Mesh {
   @Override
   public Face getFace(int index) {
     return new Triangle(mesh.getFace(faceIndices.get(index)),
-                        keyVertexIndices.get(index));
+                        Byte.toUnsignedInt(keyVertexIndices.get(index)));
   }
 
   /* (non-Javadoc)
