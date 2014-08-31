@@ -1,7 +1,6 @@
 import bpy
 import subprocess
 import sys
-import mmap
 import traceback
 import os
 #import time
@@ -74,15 +73,10 @@ class JmistRenderEngine(bpy.types.RenderEngine):
             self.update_progress(callback.progress)
 
           if callback.done:
-            self.done()
             return {"FINISHED2"}
 
           if callback.HasField('error'):
             raise Exception('JMist Error: %s' % callback.error)
-
-          if callback.HasField('set_transfer_file'):
-            self.setTransferFile(callback.set_transfer_file.filename,
-                                 callback.set_transfer_file.size)
 
           if callback.HasField('draw_tile'):
             self.drawTile(callback.draw_tile)
@@ -97,22 +91,8 @@ class JmistRenderEngine(bpy.types.RenderEngine):
 
     return {"FALLTHROUGH"}
 
-  def done(self):
-    if hasattr(self, 'transfer_file') and self.transfer_file:
-      self.transfer_file.close()
-      del self.transfer_file
-    if hasattr(self, 'transfer') and self.transfer:
-      self.transfer.close()
-      del self.transfer
-
   def isCancelled(self):
     return self.test_break()
-
-  def setTransferFile(self, filename, size):
-    print("Transfer file: name=%s, size=%d" % (filename, size))
-    self.transfer_file = open(filename, "rb")
-    self.transfer = mmap.mmap(self.transfer_file.fileno(), size,
-                              access=mmap.ACCESS_READ)
 
   def drawTile(self, rendered):
     if rendered.HasField('tile'):
@@ -123,13 +103,7 @@ class JmistRenderEngine(bpy.types.RenderEngine):
 
       layer = tile_result.layers[0]
       rect = array('d')
-      if rendered.data:
-        rect.fromstring(rendered.data)
-      else:
-        with self._lock:
-          self.transfer.seek(rendered.offset)
-          data = self.transfer.read(rendered.length)
-          rect.fromstring(data)
+      rect.fromstring(rendered.data)
 
       if (rendered.format ==
           render_engine_pb2.RenderCallback.DrawTile.DOUBLE_RGBA):
