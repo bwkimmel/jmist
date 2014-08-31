@@ -33,7 +33,7 @@ public final class MeshUtil {
   private static Sphere getBoundingSphere(Iterable<Mesh.Vertex> vertices) {
     return Sphere.smallestContaining(() ->
         StreamSupport.stream(vertices.spliterator(), false)
-            .map(v -> v.getPosition())
+            .map(Mesh.Vertex::getPosition)
             .iterator());
   }
 
