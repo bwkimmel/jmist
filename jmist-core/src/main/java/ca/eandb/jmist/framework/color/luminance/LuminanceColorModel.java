@@ -42,7 +42,7 @@ import ca.eandb.jmist.math.MathUtil;
  * @author Brad
  *
  */
-public final class LuminanceColorModel extends ColorModel {
+public final class LuminanceColorModel implements ColorModel {
 
   /** Serialization version ID. */
   private static final long serialVersionUID = -3535058346087410384L;

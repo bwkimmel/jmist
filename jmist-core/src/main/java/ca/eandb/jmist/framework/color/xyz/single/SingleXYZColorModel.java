@@ -43,7 +43,7 @@ import ca.eandb.jmist.framework.pdf.PiecewiseLinearProbabilityDensityFunction;
  * A <code>ColorModel</code> that maintains a single (wavelength, value) pair
  * to represent all three XYZ channels while tracing a path.
  */
-public final class SingleXYZColorModel extends ColorModel {
+public final class SingleXYZColorModel implements ColorModel {
 
   /** Serialization version ID. */
   private static final long serialVersionUID = 4579926945614312541L;

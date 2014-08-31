@@ -43,7 +43,7 @@ import ca.eandb.jmist.util.ArrayUtil;
  * @author brad
  *
  */
-public final class PolychromeColorModel extends ColorModel {
+public final class PolychromeColorModel implements ColorModel {
 
   /**
    * Serialization version ID.
