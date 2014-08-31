@@ -134,14 +134,6 @@ public final class JVisualizerDisplay extends JComponent implements Display,
       return rawImage.getPixel(x, y);
     }
 
-    /* (non-Javadoc)
-     * @see java.util.Iterator#remove()
-     */
-    @Override
-    public void remove() {
-      throw new UnsupportedOperationException();
-    }
-
   };
 
   /**

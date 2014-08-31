@@ -164,11 +164,6 @@ public final class MatrixBuffer implements Serializable {
 
         return elements.get(j);
       }
-
-      @Override
-      public void remove() {
-        throw new UnsupportedOperationException();
-      }
     };
   }
 
