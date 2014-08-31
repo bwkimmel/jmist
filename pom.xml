@@ -43,6 +43,7 @@
 
   <properties>
     <github.global.server>github</github.global.server>
+    <additionalparam>-Xdoclint:none</additionalparam>
   </properties>
 
   <build>

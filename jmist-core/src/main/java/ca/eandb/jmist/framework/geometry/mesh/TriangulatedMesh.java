@@ -140,11 +140,6 @@ final class TriangulatedMesh implements Mesh {
         }
         return new Triangle(face, keyVertexIndex++);
       }
-
-      @Override
-      public void remove() {
-        throw new UnsupportedOperationException();
-      }
     };
   }
 

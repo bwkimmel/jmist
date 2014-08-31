@@ -542,13 +542,6 @@ public final class Tuple extends AbstractList<Double> implements Serializable {
       return values[index++];
     }
 
-    /* (non-Javadoc)
-     * @see java.util.Iterator#remove()
-     */
-    public void remove() {
-      throw new UnsupportedOperationException();
-    }
-
   }
 
   /**

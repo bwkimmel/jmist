@@ -302,11 +302,6 @@ public final class BufferMesh implements Mesh {
         offset += vertexStride;
         return vertex;
       }
-
-      @Override
-      public void remove() {
-        throw new UnsupportedOperationException();
-      }
     };
   }
   
@@ -342,11 +337,6 @@ public final class BufferMesh implements Mesh {
         Face face = new MeshFace(offset);
         offset += faceStride;
         return face;
-      }
-
-      @Override
-      public void remove() {
-        throw new UnsupportedOperationException();
       }
     };
   }
@@ -433,11 +423,6 @@ public final class BufferMesh implements Mesh {
           Vertex vertex = new FaceVertex(offset);
           offset += loopStride;
           return vertex;
-        }
-
-        @Override
-        public void remove() {
-          throw new UnsupportedOperationException();
         }
       };
     }

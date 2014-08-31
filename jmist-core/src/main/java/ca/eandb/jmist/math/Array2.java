@@ -259,13 +259,6 @@ public final class Array2<T> implements Iterable<T> {
       return value;
     }
 
-    /* (non-Javadoc)
-     * @see java.util.Iterator#remove()
-     */
-    public void remove() {
-      throw new UnsupportedOperationException();
-    }
-
   }
 
 }
