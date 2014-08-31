@@ -28,17 +28,16 @@ package ca.eandb.jmist.framework.material.biospec;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.framework.color.ColorUtil;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.material.OpaqueMaterial;
-import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
 
 /**
- * @author brad
- *
+ * A Material that transmits light passing through it absorbed by an amount
+ * according to the specified absorption coefficient, thickness, and direction
+ * of incidence, but without altering the direction of the incident light.
  */
 public final class AbsorbingMaterial extends OpaqueMaterial {
 
@@ -69,28 +68,9 @@ public final class AbsorbingMaterial extends OpaqueMaterial {
   @Override
   public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint,
       WavelengthPacket lambda, double ru, double rv, double rj) {
-
     Color col = absorptionCoefficient.sample(lambda);
-//    double abs = ColorUtil.getMeanChannelValue(col);
-//
-//    if (abs > MathUtil.EPSILON) {
-//      double p = -Math.log(1.0 - ru) * Math.abs(x.getNormal().dot(v)) / abs;
-//
-//      col = col.times(-thickness).exp();
-//      col = col.divide(ColorUtil.getMeanChannelValue(col));
-//
-//      if (p > thickness) {
-//        return ScatteredRay.transmitSpecular(new Ray3(x.getPosition(), v), col, 1.0);
-//      }
-//    }
-//
-//    return null;
-
     col = col.times(-thickness / Math.abs(x.getNormal().dot(v))).exp();
     return ScatteredRay.transmitSpecular(new Ray3(x.getPosition(), v), col, 1.0);
-
   }
-
-
 
 }

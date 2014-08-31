@@ -3,15 +3,10 @@
  */
 package ca.eandb.jmist.framework.geometry.mesh;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import ca.eandb.jmist.framework.BoundingBoxBuilder3;
 import ca.eandb.jmist.math.Box3;
-import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Sphere;
 
 /**

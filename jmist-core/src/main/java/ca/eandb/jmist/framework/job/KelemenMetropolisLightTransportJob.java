@@ -251,44 +251,10 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
     }
   }
 
-  private static final class LCG {
-    private final java.util.Random rnd = new java.util.Random();
-    private long seed;
-    private long a;
-    private long c;
-    private int pos;
-    private final int length;
-    private final long mask;
-
-    public LCG(int length) {
-      this.length = length;
-      this.pos = length;
-      this.mask = (long) (Integer.highestOneBit(length) << 1) - 1;
-    }
-    public int next() {
-      if (pos++ >= length) {
-        seed = (rnd.nextLong() ^ 0x5DEECE66DL) & ((1L << 48) - 1);
-        a = (rnd.nextLong() ^ 0x5DEECE66DL) & ((1L << 48) - 1);
-        c = (rnd.nextLong() ^ 0x5DEECE66DL) & ((1L << 48) - 1);
-        a = (a ^ (a & 0x3L)) | 0x1L;
-        c = (c ^ (c & 0x1L)) | 0x1L;
-        pos = 0;
-      }
-      int x;
-      do {
-        seed = (seed * a + c) & ((1L << 48) - 1);
-        x = (int) (seed & mask);
-      } while (x >= length);
-      return x;
-    }
-  };
-
   private final class Worker implements TaskWorker {
 
     /** Serialization version ID. */
     private static final long serialVersionUID = -7848301189373426210L;
-
-    private transient ThreadLocal<LCG> lcg;
 
     private transient ThreadLocal<Raster> raster;
 
@@ -299,12 +265,7 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
     private transient ThreadLocal<CategoricalRandom> mutationType;
 
     private synchronized void initialize() {
-      if (lcg == null) {
-        lcg = new ThreadLocal<LCG>() {
-          protected LCG initialValue() {
-            return new LCG(width * height);
-          }
-        };
+      if (raster == null) {
         raster = new ThreadLocal<Raster>() {
           protected Raster initialValue() {
             return colorModel.createRaster(width, height);
@@ -335,19 +296,6 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
       RepeatableRandom seq = (RepeatableRandom) seqX.get().createCompatibleRandom();
       seqY.set(seq);
 
-//      int index      = lcg.get().next();
-//      int x        = index % width;
-//      int y        = index / width;
-//
-//      double y0      = (double) y / height;
-//      double y1      = (double) (y + 1) / height;
-//
-//      double x0      = (double) x / width;
-//      double x1      = (double) (x + 1) / width;
-//
-//      Box2 bounds      = new Box2(x0, y0, x1, y1);
-
-      //Point2 p      = RandomUtil.uniform(bounds, seq);
       Point2 p      = RandomUtil.canonical2(seq);
       seq.mark();
 
@@ -450,15 +398,15 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
      */
     public Object performTask(Object task, ProgressMonitor monitor) {
 
-      int    mutations      = (Integer) task;
-      int    numPixels      = width * height;
-      double  mutationsPerPixel  = (double) mutations / (double) numPixels;
-      double  lightImageWeight  = 1.0 / mutationsPerPixel;
-      Path  x          = null;
-      double  fy;
-      double  fx = 0.0;
-      List<Contribution> cx    = new ArrayList<Contribution>();
-      List<Contribution> cy    = new ArrayList<Contribution>();
+      int mutations = (Integer) task;
+      int numPixels = width * height;
+      double mutationsPerPixel = (double) mutations / (double) numPixels;
+      double lightImageWeight = 1.0 / mutationsPerPixel;
+      Path x = null;
+      double fy;
+      double fx = 0.0;
+      List<Contribution> cx = new ArrayList<>();
+      List<Contribution> cy = new ArrayList<>();
       boolean accept;
 
       initialize();
@@ -473,8 +421,8 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
 
         Path y = (x != null) ? mutate(x) : generateNewPath();
 
-        Color score      = join(y.getLightTail(), y.getEyeTail(),
-                      lightImageWeight, cy);
+        Color score = join(y.getLightTail(), y.getEyeTail(),
+            lightImageWeight, cy);
         if (score != null) {
           Point2 p = y.getPointOnImagePlane();
           cy.add(new Contribution(p, score));
@@ -676,8 +624,6 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
         double weight, List<Contribution> contrib) {
       return joinInnerToEye(lightNode, eyeNode, weight, contrib);
     }
-
-
 
   }
 

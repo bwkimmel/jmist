@@ -30,7 +30,6 @@ import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.framework.geometry.primitive.PolyhedronGeometry;
 import ca.eandb.jmist.framework.path.EyeNode;
 import ca.eandb.jmist.framework.path.EyeTerminalNode;
 import ca.eandb.jmist.framework.path.PathInfo;

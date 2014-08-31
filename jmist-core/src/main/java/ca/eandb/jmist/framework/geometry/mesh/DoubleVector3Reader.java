@@ -5,7 +5,6 @@ package ca.eandb.jmist.framework.geometry.mesh;
 
 import java.nio.ByteBuffer;
 
-import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Vector3;
 
 /**

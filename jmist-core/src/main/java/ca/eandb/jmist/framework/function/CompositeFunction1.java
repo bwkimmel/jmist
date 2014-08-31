@@ -36,6 +36,9 @@ import ca.eandb.jmist.framework.Function1;
  */
 public abstract class CompositeFunction1 implements Function1 {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = 5931608814801153372L;
+
   /**
    * Adds a <code>Function1</code> to this <code>CompositeFunction1</code>.
    * @param child The child <code>Function1</code> to add.

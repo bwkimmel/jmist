@@ -69,7 +69,6 @@ public final class PolylineSweptSphereBuilder {
       double jointRadius1 = previous.radius();
       double jointRadius2 = sphere.radius();
       double djr = jointRadius1 - jointRadius2;
-      double s2 = length2 - djr * djr;
       double cosTheta = djr / length;
       double sinTheta = Math.sqrt(1.0 - cosTheta * cosTheta);
       double h1 = jointRadius1 * cosTheta;

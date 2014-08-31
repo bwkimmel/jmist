@@ -4,7 +4,6 @@
 package ca.eandb.jmist.framework.geometry.mesh;
 
 import java.util.stream.IntStream;
-import java.util.stream.StreamSupport;
 
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;

@@ -38,6 +38,9 @@ import ca.eandb.jmist.util.ArrayUtil;
 public abstract class AbstractProbabilityDensityFunction implements
     ProbabilityDensityFunction {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = -2318384217933195477L;
+
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#sample(ca.eandb.jmist.framework.Random)
    */

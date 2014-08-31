@@ -54,8 +54,8 @@ public final class JCompositeVisualizerPanel extends JColorVisualizerPanel {
 
   private static final String DEFAULT_COMBOBOX_LABEL = "Render";
 
-  private final List<JColorVisualizerPanel> settingsPanels = new ArrayList<JColorVisualizerPanel>();
-  private final JComboBox visualizerComboBox;
+  private final List<JColorVisualizerPanel> settingsPanels = new ArrayList<>();
+  private final JComboBox<String> visualizerComboBox;
   private final JPanel settingsContainerPanel;
   private final CardLayout settingsContainerLayout;
 
@@ -70,7 +70,7 @@ public final class JCompositeVisualizerPanel extends JColorVisualizerPanel {
    */
   public JCompositeVisualizerPanel() {
     super(new GridBagLayout());
-    visualizerComboBox = new JComboBox();
+    visualizerComboBox = new JComboBox<>();
     visualizerComboBox.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         visualizerComboBox_OnActionPerformed(e);
