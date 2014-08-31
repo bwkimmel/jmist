@@ -30,8 +30,6 @@ import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
-import ca.eandb.jmist.framework.path.LightNode;
-import ca.eandb.jmist.framework.path.PathInfo;
 import ca.eandb.jmist.math.Vector3;
 
 /**

@@ -31,10 +31,13 @@ import java.util.List;
 import ca.eandb.jmist.framework.Shader;
 
 /**
- * @author brad
- *
+ * An abstract base class for Shaders whose behavior is based on a collection of
+ * other Shaders.
  */
 public abstract class CompositeShader implements Shader {
+
+  /** Serialization version ID. */
+  private static final long serialVersionUID = 6350130597640516888L;
 
   protected List<Shader> shaders;
 

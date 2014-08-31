@@ -48,9 +48,6 @@ public final class TrimmingSceneElement extends SceneElementDecorator {
   /** Serialization version ID. */
   private static final long serialVersionUID = -208418976070459240L;
 
-  /** The <code>SceneElement</code> to trim. */
-  private final SceneElement inner;
-
   /** The <code>Mask2</code> to trim with. */
   private final Mask2 trim;
 
@@ -59,7 +56,6 @@ public final class TrimmingSceneElement extends SceneElementDecorator {
    */
   public TrimmingSceneElement(Mask2 trim, SceneElement inner) {
     super(inner);
-    this.inner = inner;
     this.trim = trim;
   }
 

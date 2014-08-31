@@ -25,11 +25,6 @@
  */
 package ca.eandb.jmist.framework.job;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-
 import ca.eandb.jdcp.job.AbstractParallelizableJob;
 import ca.eandb.jdcp.job.TaskWorker;
 import ca.eandb.jmist.framework.Animator;
@@ -43,8 +38,8 @@ import ca.eandb.jmist.framework.Scene;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.ColorUtil;
-import ca.eandb.jmist.framework.job.bidi.PathMeasure;
 import ca.eandb.jmist.framework.job.bidi.BidiPathStrategy;
+import ca.eandb.jmist.framework.job.bidi.PathMeasure;
 import ca.eandb.jmist.framework.path.EyeNode;
 import ca.eandb.jmist.framework.path.LightNode;
 import ca.eandb.jmist.framework.path.PathInfo;
@@ -54,13 +49,10 @@ import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.math.Box2;
 import ca.eandb.jmist.math.Interval;
 import ca.eandb.jmist.math.Point2;
-import ca.eandb.jmist.util.matlab.MatlabWriter;
-import ca.eandb.util.FloatArray;
 import ca.eandb.util.progress.ProgressMonitor;
 
 /**
- * @author brad
- *
+ * A ParallelizableJob that renders a scene using bidirectional path tracing.
  */
 public final class BidiPathTracerJob extends AbstractParallelizableJob {
 
@@ -104,8 +96,6 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
   private transient int tasksSubmitted = 0;
 
   private transient int passesSubmitted = 0;
-
-  private final FloatArray contribList = new FloatArray();
 
   public BidiPathTracerJob(Scene scene, Display display, int width,
       int height, Interval shutter, ColorModel colorModel, Random random,
@@ -268,68 +258,54 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
      * @see ca.eandb.jdcp.job.TaskWorker#performTask(java.lang.Object, ca.eandb.util.progress.ProgressMonitor)
      */
     public Object performTask(Object task, ProgressMonitor monitor) {
-
-      int      passes        = (Integer) task;
-      Box2    bounds;
-      double    x0, y0, x1, y1;
-      double    w          = width;
-      double    h          = height;
-      int      numPixels      = width * height;
-      int      samplesPerPixel    = passes * lightPathsPerEyePath;
-      double    lightImageWeight  = 1.0 / (double) samplesPerPixel;
-      Light    light        = scene.getLight();
-      Lens    lens        = scene.getLens();
-      Animator  animator      = scene.getAnimator();
+      int passes = (Integer) task;
+      Box2 bounds;
+      double x0, y0, x1, y1;
+      double w = width;
+      double h = height;
+      int numPixels = width * height;
+      int samplesPerPixel = passes * lightPathsPerEyePath;
+      double lightImageWeight = 1.0 / (double) samplesPerPixel;
+      Light light = scene.getLight();
+      Lens lens = scene.getLens();
+      Animator animator = scene.getAnimator();
 
       initialize();
       raster.get().clear();
 
       for (int n = 0, y = 0; y < height; y++) {
-
         if (!monitor.notifyProgress(n, numPixels))
           return null;
 
-        y0      = (double) y / h;
-        y1      = (double) (y + 1) / h;
+        y0 = (double) y / h;
+        y1 = (double) (y + 1) / h;
 
         for (int x = 0; x < width; x++, n++) {
+          x0 = (double) x / w;
+          x1 = (double) (x + 1) / w;
 
-          x0      = (double) x / w;
-          x1      = (double) (x + 1) / w;
-
-          bounds    = new Box2(x0, y0, x1, y1);
+          bounds = new Box2(x0, y0, x1, y1);
 
           for (int i = 0; i < passes; i++) {
-
             if (shutter != null) {
               double time    = RandomUtil.uniform(shutter, random);
               animator.setTime(time);
             }
 
-            Point2 p      = RandomUtil.uniform(bounds, random);
-            Color sample    = colorModel.sample(random);
-            PathInfo path    = new PathInfo(scene, sample.getWavelengthPacket());
-            PathNode eyeTail  = strategy.traceEyePath(lens, p,
-                          path, random);
+            Point2 p = RandomUtil.uniform(bounds, random);
+            Color sample = colorModel.sample(random);
+            PathInfo path = new PathInfo(scene, sample.getWavelengthPacket());
+            PathNode eyeTail = strategy.traceEyePath(lens, p, path, random);
 
             for (int j = 0; j < lightPathsPerEyePath; j++) {
-
-              PathNode lightTail  = strategy.traceLightPath(
-                            light, path, random);
-
-              Color score      = join(lightTail, eyeTail,
-                            lightImageWeight);
+              PathNode lightTail = strategy.traceLightPath(light, path, random);
+              Color score = join(lightTail, eyeTail, lightImageWeight);
               if (score != null) {
-                raster.get().addPixel(x, y,
-                    score.divide(samplesPerPixel));
+                raster.get().addPixel(x, y, score.divide(samplesPerPixel));
               }
-
             }
-
           }
-
         }
-
       }
 
       monitor.notifyProgress(numPixels, numPixels);
@@ -505,8 +481,6 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
         double weight) {
       return joinInnerToEye(lightNode, eyeNode, weight);
     }
-
-
 
   }
 

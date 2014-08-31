@@ -44,7 +44,7 @@ import ca.eandb.jmist.math.MathUtil;
  * @author Brad
  *
  */
-public final class MonochromeColorModel extends ColorModel {
+public final class MonochromeColorModel implements ColorModel {
 
   /**
    * Serialization version ID.

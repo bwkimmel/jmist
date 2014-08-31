@@ -316,10 +316,6 @@ public final class SceneRayShader implements RayShader {
       return stack.peek().modifier;
     }
 
-    public Random getRandom() {
-      return rng;
-    }
-
     public Ray3 getRay() {
       return stack.peek().ray;
     }

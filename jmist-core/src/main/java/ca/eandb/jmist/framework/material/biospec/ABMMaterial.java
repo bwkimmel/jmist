@@ -282,9 +282,6 @@ public final class ABMMaterial extends OpaqueMaterial {
   private static final Function1 IOR_CUTICLE = new PiecewiseLinearFunction1(
       WAVELENGTHS, IOR_CUTICLE_VALUES);
 
-  /** Index of refraction for air. */
-  private static final Function1 IOR_AIR = Function1.ONE;
-
   /**
    * Specific absorption coefficient for protein (in
    * m<sup>2</sup> kg<sup>-1</sup>).
@@ -690,8 +687,6 @@ public final class ABMMaterial extends OpaqueMaterial {
     System.out.println();
 
     double iorCuticle = MathUtil.mean(IOR_CUTICLE_VALUES);
-    double iorWater = MathUtil.mean(IOR_WATER_VALUES);
-
     if (bifacial) {
       subsurface
         .addLayerToBottom(new ABMInterfaceMaterial(

@@ -403,10 +403,10 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
       float left = (float) clip.left;
       float right = (float) clip.right;
       if (left < clip.left) {
-        left = MathUtil.nextUp(left);
+        left = Math.nextUp(left);
       }
       if (right > clip.right) {
-        right = MathUtil.nextDown(right);
+        right = Math.nextDown(right);
       }
       buf.putFloat(left);
       buf.putFloat(right);
@@ -566,97 +566,6 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
 
       }
     }
-
-  }
-
-  private boolean nodeVisibility(int node, Ray3 ray) {
-
-    if (ray.limit() < 0.0) {
-      return true;
-    }
-
-    int type = buffer.getType(node);
-
-    if (type == NodeBuffer.TYPE_LEAF) {
-      int start = buffer.getStart(node);
-      int end = buffer.getEnd(node);
-      for (int i = start; i < end; i++) {
-        if (i == 1) {
-          i = 1;
-        }
-        if (!visibility(items[i], ray)) {
-          return false;
-        }
-      }
-      return true;
-    } else {
-      double p = ray.origin().get(type);
-      double v = ray.direction().get(type);
-
-      double lp = buffer.getLeftPlane(node);
-      double rp = buffer.getRightPlane(node);
-
-      double ld = (lp - p) / v;
-      double rd = (rp - p) / v;
-
-      if (v > 0.0) { // left to right
-
-        if (0.0 < ld) {
-          int child = buffer.getLeftChild(node);
-          if (child >= 0) {
-            ray = new Ray3(
-                ray.origin(),
-                ray.direction(),
-                Math.min(ld, ray.limit()));
-            if (!nodeVisibility(child, ray)) {
-              return false;
-            }
-          }
-        }
-
-        if (rd < ray.limit()) {
-          int child = buffer.getRightChild(node);
-          if (child >= 0) {
-            if (rd > 0.0) {
-              ray = ray.advance(rd);
-            }
-            if (!nodeVisibility(child, ray)) {
-              return false;
-            }
-          }
-        }
-
-      } else { // right to left
-
-        if (0.0 < rd) {
-          int child = buffer.getRightChild(node);
-          if (child >= 0) {
-            ray = new Ray3(
-                ray.origin(),
-                ray.direction(),
-                Math.min(rd, ray.limit()));
-            if (!nodeVisibility(child, ray)) {
-              return false;
-            }
-          }
-        }
-
-        if (ld < ray.limit()) {
-          int child = buffer.getLeftChild(node);
-          if (child >= 0) {
-            if (ld > 0.0) {
-              ray = ray.advance(ld);
-            }
-            if (!nodeVisibility(child, ray)) {
-              return false;
-            }
-          }
-        }
-
-      }
-    }
-
-    return true;
 
   }
 

@@ -41,6 +41,9 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class TrowbridgeReitzSurfaceScatterer implements SurfaceScatterer {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = 2947832022516453405L;
+
   private final double oblateness;
 
   private final Function1 riBelow;

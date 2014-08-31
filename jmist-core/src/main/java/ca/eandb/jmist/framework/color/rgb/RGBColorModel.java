@@ -40,7 +40,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
  * A three channel <code>ColorModel</code>.
  * @author Brad
  */
-public final class RGBColorModel extends ColorModel {
+public final class RGBColorModel implements ColorModel {
 
   /** Serialization version ID. */
   private static final long serialVersionUID = 5180023685340681958L;

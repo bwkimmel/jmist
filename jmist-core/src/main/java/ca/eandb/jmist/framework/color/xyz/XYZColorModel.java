@@ -43,7 +43,7 @@ import ca.eandb.jmist.math.MathUtil;
  * @author brad
  *
  */
-public final class XYZColorModel extends ColorModel {
+public final class XYZColorModel implements ColorModel {
 
   /**
    * Serialization version ID.

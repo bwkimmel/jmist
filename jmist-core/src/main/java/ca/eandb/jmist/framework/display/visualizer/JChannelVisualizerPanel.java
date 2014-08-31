@@ -48,14 +48,14 @@ public final class JChannelVisualizerPanel extends JColorVisualizerPanel {
   /** Serialization version ID. */
   private static final long serialVersionUID = 5281037549254812907L;
 
-  private final JComboBox channelComboBox;
+  private final JComboBox<String> channelComboBox;
 
   private ColorVisualizer visualizer = null;
 
   public JChannelVisualizerPanel(ColorModel cm) {
     super(new GridBagLayout());
 
-    channelComboBox = new JComboBox();
+    channelComboBox = new JComboBox<>();
     for (int i = 0, n = cm.getNumChannels(); i < n; i++) {
       String title = String.format("%d: %s", i, cm.getChannelName(i));
       channelComboBox.addItem(title);

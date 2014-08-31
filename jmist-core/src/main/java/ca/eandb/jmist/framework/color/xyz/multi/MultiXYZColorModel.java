@@ -43,7 +43,7 @@ import ca.eandb.jmist.math.MathUtil;
  * @author brad
  *
  */
-public final class MultiXYZColorModel extends ColorModel {
+public final class MultiXYZColorModel implements ColorModel {
 
   /** Serialization version ID. */
   private static final long serialVersionUID = -3425932421454424320L;

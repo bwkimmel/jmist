@@ -89,13 +89,15 @@ public final class MetropolisLightTransportJob extends
   private final PathMutator mutator;
 
   /** The <code>PathMeasure</code> to apply. */
-  private final PathMeasure pathMeasure = MeasurementContributionMeasure.getInstance();
+  private final PathMeasure pathMeasure =
+      MeasurementContributionMeasure.getInstance();
 
   /** The <code>ColorMeasure</code> to apply. */
   private final ColorMeasure colorMeasure = LuminanceColorMeasure.getInstance();
 
   /** The <code>BidiPathStrategy</code> to use to generate initial paths. */
-  private final BidiPathStrategy strategy = MultipleImportanceSamplingStrategy.usePowerHeuristic(10, 10);
+  private final BidiPathStrategy strategy =
+      MultipleImportanceSamplingStrategy.usePowerHeuristic(10, 10);
 
   /** The <code>Random</code> number generator to use for mutations. */
   private final Random random = new SimpleRandom();
@@ -175,14 +177,7 @@ public final class MetropolisLightTransportJob extends
    * seeding tasks that have not yet been supplied as Metropolis Light
    * Transport tasks via {@link #getNextTask()}.
    */
-  private final Queue<PathSeed> seeds = new LinkedList<PathSeed>();
-
-//  /**
-//   *
-//   */
-//  public MetropolisLightTransportJob() {
-//    // TODO Auto-generated constructor stub
-//  }
+  private final Queue<PathSeed> seeds = new LinkedList<>();
 
   /**
    * @param scene
@@ -571,24 +566,6 @@ public final class MetropolisLightTransportJob extends
       return colorMeasure.evaluate(c);
     }
 
-  }
-
-  private final void testGeneratePath() {
-    java.util.Random rnd = new java.util.Random();
-
-    for (int i = 0; i < 1000; i++) {
-      long seed = rnd.nextLong();
-      Path x = generatePath(seed);
-      for (int j = 0; j < 100; j++) {
-        Path y = generatePath(seed);
-        if (x.getLength() != y.getLength() || x.getEyePathLength() != y.getEyePathLength()) {
-          System.out.println("FAIL");
-          return;
-        }
-      }
-    }
-
-    System.out.println("PASS");
   }
 
 }
