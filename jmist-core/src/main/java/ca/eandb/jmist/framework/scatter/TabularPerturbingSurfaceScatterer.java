@@ -40,6 +40,9 @@ import ca.eandb.jmist.math.Vector3;
  */
 public class TabularPerturbingSurfaceScatterer implements SurfaceScatterer {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = -3854233707113259287L;
+
   private final double[] wavelengths;
 
   private final double[][] luts;
