@@ -3,7 +3,11 @@
  */
 package ca.eandb.jmist.framework.geometry.mesh;
 
+import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import ca.eandb.jmist.framework.BoundingBoxBuilder3;
 import ca.eandb.jmist.math.Box3;
@@ -31,30 +35,11 @@ public final class MeshUtil {
     return getBoundingSphere(face.getVertices());
   }
   
-  private static Sphere getBoundingSphere(final Iterable<Mesh.Vertex> vertices) {
-    return Sphere.smallestContaining(new Iterable<Point3>() {
-      @Override
-      public Iterator<Point3> iterator() {
-        return new Iterator<Point3>() {
-          Iterator<Mesh.Vertex> inner = vertices.iterator(); 
-
-          @Override
-          public boolean hasNext() {
-            return inner.hasNext();
-          }
-
-          @Override
-          public Point3 next() {
-            return inner.next().getPosition();
-          }
-
-          @Override
-          public void remove() {
-            throw new UnsupportedOperationException();
-          }
-        };
-      }
-    });
+  private static Sphere getBoundingSphere(Iterable<Mesh.Vertex> vertices) {
+    return Sphere.smallestContaining(() ->
+        StreamSupport.stream(vertices.spliterator(), false)
+            .map(v -> v.getPosition())
+            .iterator());
   }
 
   public static Box3 getBoundingBox(Mesh mesh) {
