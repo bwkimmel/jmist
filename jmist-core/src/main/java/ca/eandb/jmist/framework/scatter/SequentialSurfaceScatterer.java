@@ -38,10 +38,13 @@ import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
 
 /**
- * @author brad
- *
+ * A SurfaceScatterer that scatters using each SurfaceScatterer from a
+ * collection, one after another.
  */
 public final class SequentialSurfaceScatterer implements SurfaceScatterer {
+
+  /** Serialization version ID. */
+  private static final long serialVersionUID = 2843506781652498601L;
 
   private final List<SurfaceScatterer> inner = new ArrayList<SurfaceScatterer>();
 
