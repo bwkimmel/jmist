@@ -88,8 +88,8 @@ public final class MatlabImageWriter extends ImageWriter {
    * @see javax.imageio.ImageWriter#write(javax.imageio.metadata.IIOMetadata, javax.imageio.IIOImage, javax.imageio.ImageWriteParam)
    */
   @Override
-  public void write(IIOMetadata streamMetadata, IIOImage image, ImageWriteParam param)
-      throws IOException {
+  public void write(IIOMetadata streamMetadata, IIOImage image,
+      ImageWriteParam param) throws IOException {
 
     Raster raster = null;
 
@@ -103,34 +103,36 @@ public final class MatlabImageWriter extends ImageWriter {
     }
 
     if (raster != null) {
+      try (MatlabOutputStream out =
+          new MatlabOutputStream((ImageOutputStream) super.output)) {
+        assert(raster != null);
 
-      MatlabOutputStream out = new MatlabOutputStream((ImageOutputStream) super.output);
+        int width = raster.getWidth();
+        int height = raster.getHeight();
+        int bands = raster.getNumBands();
+        int size = height * width * bands;
+        double[] column = new double[height];
 
-      assert(raster != null);
+        out.beginElement(MatlabDataType.COMPRESSED);
+        out.beginArrayElement(
+            "image", MatlabArrayType.DOUBLE, MatlabDataType.DOUBLE,
+            false, false, false, new int[]{ height, width, bands }, size);
+        out.beginElement(
+            MatlabDataType.DOUBLE, MatlabDataType.DOUBLE.size * size);
 
-      int width = raster.getWidth();
-      int height = raster.getHeight();
-      int bands = raster.getNumBands();
-      int size = height * width * bands;
-      double[] column = new double[height];
-
-      out.beginElement(MatlabDataType.COMPRESSED);
-      out.beginArrayElement("image", MatlabArrayType.DOUBLE, MatlabDataType.DOUBLE, false, false, false, new int[]{ height, width, bands }, size);
-      out.beginElement(MatlabDataType.DOUBLE, MatlabDataType.DOUBLE.size * size);
-
-      for (int band = 0; band < bands; band++) {
-        for (int x = 0; x < width; x++) {
-          raster.getSamples(x, 0, 1, height, band, column);
-          out.writeDoubles(column);
+        for (int band = 0; band < bands; band++) {
+          for (int x = 0; x < width; x++) {
+            raster.getSamples(x, 0, 1, height, band, column);
+            out.writeDoubles(column);
+          }
         }
+
+        out.endElement();
+        out.endElement();
+        out.endElement();
+
+        out.flush();
       }
-
-      out.endElement();
-      out.endElement();
-      out.endElement();
-
-      out.flush();
-
     }
 
   }
