@@ -286,7 +286,6 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
       totalSurfaceArea += weight[i];
     }
 
-    final double scale = totalSurfaceArea / emissive.size();
     final double totalWeight = totalSurfaceArea;
     final CategoricalRandom rnd = new CategoricalRandom(weight);
 
