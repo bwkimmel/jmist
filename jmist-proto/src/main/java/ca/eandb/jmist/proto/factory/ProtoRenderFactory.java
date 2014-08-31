@@ -34,7 +34,6 @@ import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.rgb.RGBColorModel;
 import ca.eandb.jmist.framework.color.xyz.XYZColorModel;
 import ca.eandb.jmist.framework.job.RasterJob;
-import ca.eandb.jmist.framework.random.NRooksRandom;
 import ca.eandb.jmist.framework.random.SimpleRandom;
 import ca.eandb.jmist.framework.random.ThreadLocalRandom;
 import ca.eandb.jmist.framework.shader.image.CameraImageShader;
