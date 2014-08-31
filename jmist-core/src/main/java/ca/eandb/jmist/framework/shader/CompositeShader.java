@@ -31,8 +31,8 @@ import java.util.List;
 import ca.eandb.jmist.framework.Shader;
 
 /**
- * @author brad
- *
+ * An abstract base class for Shaders whose behavior is based on a collection of
+ * other Shaders.
  */
 public abstract class CompositeShader implements Shader {
 
