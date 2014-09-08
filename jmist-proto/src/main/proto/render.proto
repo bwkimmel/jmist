@@ -35,7 +35,7 @@ message RenderJob {
   }
   optional TileOrdering tile_ordering = 5;
 
-  optional uint32 samples_per_pixel = 6;
+  optional uint32 samples_per_pixel = 6 [default = 1];
 
   optional uint32 min_bounces = 7;
   optional uint32 max_bounces = 8;
