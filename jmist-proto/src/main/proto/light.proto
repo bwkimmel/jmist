@@ -26,7 +26,8 @@ message Light {
 
   optional double energy = 2;
   optional Color color = 3;
+  optional bool shadow = 4 [default = true];
 
-  optional PointLight point_light = 4;
-  optional AreaLight area_light = 5;
+  optional PointLight point_light = 5;
+  optional AreaLight area_light = 6;
 }

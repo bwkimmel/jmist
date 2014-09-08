@@ -66,6 +66,7 @@ def export_lamp(bl_lamp, light):
   light.color.channels.extend(bl_lamp.data.color[:])
 
   light.energy = bl_lamp.data.energy
+  light.shadow = bl_lamp.data.use_shadow
 
 
 def export_mesh(bl_mesh, mesh):
