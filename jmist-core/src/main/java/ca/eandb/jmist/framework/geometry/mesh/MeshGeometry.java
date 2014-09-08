@@ -78,11 +78,9 @@ public final class MeshGeometry extends AbstractGeometry {
 
     if (recorder.interval().contains(t)) {
       Point3 p = ray.pointAt(t);
-      Vector3 ab = a.vectorTo(b);
-      Vector3 ac = a.vectorTo(c);
-      Vector3 ap = a.vectorTo(p);
-      final double u = ap.dot(ab);
-      final double v = ap.dot(ac);
+      Point2 uv = GeometryUtil.barycentric(p, a, b, c);
+      final double u = uv.x();
+      final double v = uv.y();
 
       if (u > 0.0 && v > 0.0 && (u + v) < 1.0) {
         recorder.record(new Intersection() {
@@ -215,11 +213,11 @@ public final class MeshGeometry extends AbstractGeometry {
       ShadingContext context, int index, double u, double v) {
     Mesh.Face face = mesh.getFace(index);
     Mesh.Vertex va = face.getVertex(0);
-    Mesh.Vertex vb = face.getVertex(0);
-    Mesh.Vertex vc = face.getVertex(0);
+    Mesh.Vertex vb = face.getVertex(1);
+    Mesh.Vertex vc = face.getVertex(2);
     Point3 a = va.getPosition();
-    Point3 b = va.getPosition();
-    Point3 c = va.getPosition();
+    Point3 b = vb.getPosition();
+    Point3 c = vc.getPosition();
     Plane3 plane = Plane3.throughPoints(a, b, c);
     Vector3 ab = a.vectorTo(b);
     Vector3 ac = a.vectorTo(c);
@@ -229,34 +227,46 @@ public final class MeshGeometry extends AbstractGeometry {
     context.setPrimitiveIndex(index);
 
     Vector3 n = plane.normal();
-    Point2 ta = va.getUV();
-    Point2 tb = vb.getUV();
-    Point2 tc = vc.getUV();
-    Vector2 tab = ta.vectorTo(tb);
-    Vector2 tac = ta.vectorTo(tc);
-    context.setUV(ta.plus(tab.times(u))
-                    .plus(tac.times(v)));
+    Vector3 tu = null;
+    Vector3 tv = null;
+    if (mesh.hasUVs()) {
+      Point2 ta = va.getUV();
+      Point2 tb = vb.getUV();
+      Point2 tc = vc.getUV();
+      Vector2 tab = ta.vectorTo(tb);
+      Vector2 tac = ta.vectorTo(tc);
+      context.setUV(ta.plus(tab.times(u))
+                      .plus(tac.times(v)));
 
-    Vector3 na = va.getNormal();
-    Vector3 nb = vb.getNormal();
-    Vector3 nc = vc.getNormal();
-    Vector3 shadingNormal = na.times(1.0 - u - v)
-        .plus(nb.times(u)).plus(nc.times(v)).unit();
+      // See http://www.terathon.com/code/tangent.html
+      double r = 1.0 / (tab.x() * tac.y() - tab.y() * tac.x());
 
-    // See http://www.terathon.com/code/tangent.html
-    double r = 1.0 / (tab.x() * tac.y() - tab.y() * tac.x());
+      tu = new Vector3(
+          r * (tac.y() * ab.x() - tab.y() * ac.x()),
+          r * (tac.y() * ab.y() - tab.y() * ac.y()),
+          r * (tac.y() * ab.z() - tab.y() * ac.z()));
+      tv = new Vector3(
+          r * (tab.x() * ac.x() - tac.x() * ab.x()),
+          r * (tab.x() * ac.y() - tac.x() * ab.y()),
+          r * (tab.x() * ac.z() - tac.x() * ab.z()));
 
-    Vector3 tu = new Vector3(
-        r * (tac.y() * ab.x() - tab.y() * ac.x()),
-        r * (tac.y() * ab.y() - tab.y() * ac.y()),
-        r * (tac.y() * ab.z() - tab.y() * ac.z()));
-    Vector3 tv = new Vector3(
-        r * (tab.x() * ac.x() - tac.x() * ab.x()),
-        r * (tab.x() * ac.y() - tac.x() * ab.y()),
-        r * (tab.x() * ac.z() - tac.x() * ab.z()));
+      context.setBasis(Basis3.fromWUV(n, tu, tv));
+    } else {  // !mesh.hasUVs()
+      context.setNormal(n);
+    }
 
-    context.setBasis(Basis3.fromWUV(n, tu, tv));
-    context.setShadingBasis(Basis3.fromWUV(shadingNormal, tu, tv));
+    if (mesh.hasVertexNormals()) {
+      Vector3 na = va.getNormal();
+      Vector3 nb = vb.getNormal();
+      Vector3 nc = vc.getNormal();
+      Vector3 shadingNormal = na.times(1.0 - u - v)
+          .plus(nb.times(u)).plus(nc.times(v)).unit();
+      if (mesh.hasUVs()) {
+        context.setShadingBasis(Basis3.fromWUV(shadingNormal, tu, tv));
+      } else {
+        context.setShadingNormal(shadingNormal);
+      }
+    }
   }
 
   private final Mesh mesh;
