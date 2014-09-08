@@ -118,10 +118,13 @@ def export_mesh(bl_mesh, mesh):
   mesh.data = out.getvalue()
 
 
-def export_object(bl_obj, obj):
+def export_object(bl_obj, obj, bl_scene):
   if bl_obj.type == 'MESH':
     obj.type = scene_pb2.Object.MESH
-    export_mesh(bl_obj.data, obj.mesh_object)
+    export_mesh(bl_obj.to_mesh(scene=bl_scene,
+                               apply_modifiers=True,
+                               settings='RENDER'),
+                obj.mesh_object)
   else:
     raise Exception('Unrecognized object type: %s' % bl_obj.type)
 
