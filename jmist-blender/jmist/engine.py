@@ -31,6 +31,7 @@ class JmistRenderEngine(bpy.types.RenderEngine):
     try:
 
       request = render_engine_pb2.RenderRequest()
+      request.threads = scene.render.threads
 
       scale = scene.render.resolution_percentage / 100.0
 
