@@ -65,8 +65,8 @@ public final class ProtoSceneFactory {
       private static final long serialVersionUID = -6778930813957201547L;
       Lens lens = cameraFactory.createLens(sceneIn.getCamera());
       Light light = createSceneLight(sceneIn);
-      SceneElement root = new BoundingIntervalHierarchy(
-          createSceneRoot(sceneIn));
+      SceneElement root =
+          new BoundingIntervalHierarchy(createSceneRoot(sceneIn));
 
       @Override
       public Light getLight() {
