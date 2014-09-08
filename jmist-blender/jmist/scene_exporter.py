@@ -39,6 +39,26 @@ def export_lamp(bl_lamp, light):
     light.point_light.position.x = bl_lamp.location[0]
     light.point_light.position.y = bl_lamp.location[1]
     light.point_light.position.z = bl_lamp.location[2]
+  elif bl_lamp.data.type == 'AREA':
+    light.type = light_pb2.Light.AREA
+    light.area_light.center.x = bl_lamp.location[0]
+    light.area_light.center.y = bl_lamp.location[1]
+    light.area_light.center.z = bl_lamp.location[2]
+    light.area_light.size_u = bl_lamp.data.size
+    light.area_light.size_v = (bl_lamp.data.size_y
+        if bl_lamp.data.shape == 'RECTANGLE'
+        else bl_lamp.data.size)
+    light.area_light.u.x = bl_lamp.matrix_world[0][0]
+    light.area_light.u.y = bl_lamp.matrix_world[1][0]
+    light.area_light.u.z = bl_lamp.matrix_world[2][0]
+    light.area_light.v.x = -bl_lamp.matrix_world[0][1]
+    light.area_light.v.y = -bl_lamp.matrix_world[1][1]
+    light.area_light.v.z = -bl_lamp.matrix_world[2][1]
+  elif bl_lamp.data.type == 'SUN':
+    light.type = light_pb2.Light.DIRECTIONAL
+    light.directional_light.direction.x = bl_lamp.matrix_world[0][2]
+    light.directional_light.direction.y = bl_lamp.matrix_world[1][2]
+    light.directional_light.direction.z = bl_lamp.matrix_world[2][2]
   else:
     raise Exception('Unsupported lamp type: %s' % bl_lamp.data.type)
 
