@@ -96,7 +96,40 @@ public final class GeometryUtil {
     return false;
   }
 
+  public static boolean pointInTriangle(Point3 p, Point3 a, Point3 b, Point3 c) {
+    Point2 uv = barycentric(p, a, b, c);
+
+    // Check if point is in triangle
+    return (uv.x() > 0) && (uv.y() > 0) && (uv.x() + uv.y() < 1);
+  }
+
+  public static Point2 barycentric(Point3 p, Point3 a, Point3 b, Point3 c) {
+    Vector3 ab = a.vectorTo(b);
+    Vector3 ac = a.vectorTo(c);
+    Vector3 ap = a.vectorTo(p);
+
+    double dot00 = ab.dot(ab);
+    double dot01 = ab.dot(ac);
+    double dot02 = ab.dot(ap);
+    double dot11 = ac.dot(ac);
+    double dot12 = ac.dot(ap);
+
+    // Compute barycentric coordinates
+    double invDenom = 1 / (dot00 * dot11 - dot01 * dot01);
+    double u = (dot11 * dot02 - dot01 * dot12) * invDenom;
+    double v = (dot00 * dot12 - dot01 * dot02) * invDenom;
+
+    return new Point2(u, v);
+  }
+
   public static boolean pointInTriangle(Point2 p, Point2 a, Point2 b, Point2 c) {
+    Point2 uv = barycentric(p, a, b, c);
+
+    // Check if point is in triangle
+    return (uv.x() > 0) && (uv.y() > 0) && (uv.x() + uv.y() < 1);
+  }
+
+  public static Point2 barycentric(Point2 p, Point2 a, Point2 b, Point2 c) {
     Vector2 ab = a.vectorTo(b);
     Vector2 ac = a.vectorTo(c);
     Vector2 ap = a.vectorTo(p);
@@ -112,8 +145,7 @@ public final class GeometryUtil {
     double u = (dot11 * dot02 - dot01 * dot12) * invDenom;
     double v = (dot00 * dot12 - dot01 * dot02) * invDenom;
 
-    // Check if point is in triangle
-    return (u > 0) && (v > 0) && (u + v < 1);
+    return new Point2(u, v);
   }
 
   public static double areaOfTriangle(Point3 a, Point3 b, Point3 c) {
