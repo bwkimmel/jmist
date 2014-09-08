@@ -135,10 +135,13 @@ def export_object(bl_obj, obj):
 def export_scene(bl_scene, scene):
   export_camera(bl_scene.camera, scene.camera)
   for bl_obj in bl_scene.objects:
-    if bl_obj.type == 'LAMP':
-      export_lamp(bl_obj, scene.lights.add())
-    elif bl_obj.type == 'CAMERA':
-      pass
-    else:
-      export_object(bl_obj, scene.objects.add())
+    if bl_obj.is_visible(bl_scene):
+      if bl_obj.type == 'LAMP':
+        export_lamp(bl_obj, scene.lights.add())
+      elif bl_obj.type == 'CAMERA':
+        pass
+      elif bl_obj.type == 'EMPTY':
+        pass
+      else:
+        export_object(bl_obj, scene.objects.add(), bl_scene=bl_scene)
   
