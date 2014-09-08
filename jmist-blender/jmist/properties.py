@@ -53,7 +53,7 @@ def register():
 
 
 def unregister():
-  bpy.types.RENDER_PT_render.append(draw_debug)
+  bpy.types.RENDER_PT_render.remove(draw_debug)
   for panel in get_panels():
     panel.COMPAT_ENGINES.remove('jmist_renderengine')
   bpy.utils.unregister_class(JMistRenderSettings)
