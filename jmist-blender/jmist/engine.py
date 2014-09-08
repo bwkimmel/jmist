@@ -42,8 +42,8 @@ class JmistRenderEngine(bpy.types.RenderEngine):
       request.job.color_model.type = render_pb2.ColorModel.RGB
 
       export_scene(scene, request.job.scene)
-
-      args = ['java']
+      args = ['java', '-server', '-XX:+AggressiveOpts', '-XX:+UseLargePages',
+              '-XX:+UseFastAccessorMethods', '-XX:+UseBiasedLocking']
       if scene.jmist.debug:
         port = scene.jmist.debug_port
         args.extend(
