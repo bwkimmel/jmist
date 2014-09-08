@@ -23,9 +23,13 @@
  */
 package ca.eandb.jmist.pipe;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -86,8 +90,11 @@ public final class ConnectionHandler implements Runnable {
 
           runner.build().run();
         } catch (Exception e) {
+          StringWriter sw = new StringWriter();
+          PrintWriter pw = new PrintWriter(sw);
+          e.printStackTrace(pw);
           messages.put(
-              RenderCallback.newBuilder().setError(e.toString()).build());
+              RenderCallback.newBuilder().setError(sw.toString()).build());
         }
       }
     } catch (IOException | InterruptedException e) {
