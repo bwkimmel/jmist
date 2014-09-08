@@ -96,6 +96,7 @@ public final class ConnectionHandler implements Runnable {
           messages.put(
               RenderCallback.newBuilder().setError(sw.toString()).build());
         }
+        messages.put(RenderCallback.newBuilder().setDone(true).build());
       }
     } catch (IOException | InterruptedException e) {
       e.printStackTrace();

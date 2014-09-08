@@ -75,11 +75,6 @@ public class RenderCallbackProgressMonitor implements ProgressMonitor {
    */
   @Override
   public void notifyComplete() {
-    try {
-      messages.put(RenderCallback.newBuilder().setDone(true).build());
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
   }
 
   /* (non-Javadoc)
