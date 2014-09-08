@@ -75,7 +75,7 @@ public final class MeshGeometry extends AbstractGeometry {
     Point3 c = vc.getPosition();
     final Plane3 plane = Plane3.throughPoints(a, b, c);
     final double t = plane.intersect(ray);
-    
+
     if (recorder.interval().contains(t)) {
       Point3 p = ray.pointAt(t);
       Vector3 ab = a.vectorTo(b);
@@ -109,7 +109,7 @@ public final class MeshGeometry extends AbstractGeometry {
       }
     }
   }
-  
+
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.SceneElement#getBoundingBox(int)
    */

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package ca.eandb.jmist.framework.geometry.mesh;
 
@@ -13,13 +13,13 @@ import ca.eandb.util.IntegerArray;
  *
  */
 final class TriangulatedMesh implements Mesh {
-  
+
   private final Mesh mesh;
-  
+
   private final IntegerArray faceIndices = new IntegerArray();
-  
+
   private final ByteArray keyVertexIndices = new ByteArray();
-  
+
   TriangulatedMesh(Mesh mesh) {
     this.mesh = mesh;
     prepare();
@@ -35,10 +35,10 @@ final class TriangulatedMesh implements Mesh {
       }
       numTriangles += face.getVertexCount() - 2;
     }
-    
+
     faceIndices.ensureCapacity(numTriangles);
     keyVertexIndices.ensureCapacity(numTriangles);
-    
+
     int faceIndex = 0;
     for (Mesh.Face face : mesh.getFaces()) {
       int numFaceTriangles = face.getVertexCount() - 2;
@@ -50,7 +50,7 @@ final class TriangulatedMesh implements Mesh {
       faceIndex++;
     }
   }
-  
+
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.geometry.mesh.Mesh#getMaxFaceVertexCount()
    */
@@ -167,11 +167,11 @@ final class TriangulatedMesh implements Mesh {
   public Iterable<Vertex> getVertices() {
     return mesh.getVertices();
   }
-  
+
   private final class Triangle implements Mesh.Face {
     private final Mesh.Face face;
     private final int keyVertexIndex;
-    
+
     public Triangle(Mesh.Face face, int keyVertexIndex) {
       this.face = face;
       this.keyVertexIndex = keyVertexIndex;
