@@ -28,6 +28,7 @@ import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.geometry.primitive.RectangleGeometry;
+import ca.eandb.jmist.framework.light.DirectionalLight;
 import ca.eandb.jmist.framework.light.PointLight;
 import ca.eandb.jmist.framework.material.LambertianMaterial;
 import ca.eandb.jmist.framework.scene.MaterialSceneElement;
@@ -57,6 +58,8 @@ public final class ProtoLightFactory {
         return createPointLight(lightIn);
       case AREA:
         return createAreaLight(lightIn);
+      case DIRECTIONAL:
+        return createDirectionalLight(lightIn);
       default:
         throw new IllegalArgumentException(String.format(
             "Unrecognized light type: %d.", lightIn.getType().getNumber()));
@@ -67,7 +70,14 @@ public final class ProtoLightFactory {
     return new PointLight(
         coreFactory.createPoint3(lightIn.getPointLight().getPosition()),
         colorFactory.createSpectrum(lightIn.getColor()),
-        true);
+        lightIn.getShadow());
+  }
+
+  private Light createDirectionalLight(LightProtos.Light lightIn) {
+    return new DirectionalLight(
+        coreFactory.createVector3(lightIn.getDirectionalLight().getDirection()),
+        colorFactory.createSpectrum(lightIn.getColor()),
+        lightIn.getShadow());
   }
 
   private Light createAreaLight(LightProtos.Light lightIn) {

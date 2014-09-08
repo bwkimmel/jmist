@@ -17,10 +17,15 @@ message AreaLight {
   optional double size_v = 5;
 }
 
+message DirectionalLight {
+  optional Vector3 direction = 1;
+}
+
 message Light {
   enum Type {
     POINT = 0;
     AREA = 1;
+    DIRECTIONAL = 2;
   }
   required Type type = 1;
 
@@ -30,4 +35,5 @@ message Light {
 
   optional PointLight point_light = 5;
   optional AreaLight area_light = 6;
+  optional DirectionalLight directional_light = 7;
 }
