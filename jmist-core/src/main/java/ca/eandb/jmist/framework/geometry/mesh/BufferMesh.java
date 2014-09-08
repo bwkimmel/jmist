@@ -259,12 +259,16 @@ public final class BufferMesh implements Mesh {
 
     @Override
     public Vector3 getNormal() {
-      return vertexNormalReader.read(vertexBuffer, vertexBase);
+      return vertexNormalReader != null
+          ? vertexNormalReader.read(vertexBuffer, vertexBase)
+          : Vector3.ZERO;
     }
 
     @Override
     public Point2 getUV() {
-      return vertexUVReader.read(vertexBuffer, vertexBase);
+      return vertexUVReader != null
+          ? vertexUVReader.read(vertexBuffer, vertexBase)
+          : Point2.ORIGIN;
     }
     
   }
