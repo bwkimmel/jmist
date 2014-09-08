@@ -37,6 +37,7 @@ import ca.eandb.jmist.framework.job.RasterJob;
 import ca.eandb.jmist.framework.random.SimpleRandom;
 import ca.eandb.jmist.framework.random.ThreadLocalRandom;
 import ca.eandb.jmist.framework.shader.image.CameraImageShader;
+import ca.eandb.jmist.framework.shader.pixel.AveragingPixelShader;
 import ca.eandb.jmist.framework.shader.pixel.RandomPixelShader;
 import ca.eandb.jmist.framework.shader.ray.SceneRayShader;
 import ca.eandb.jmist.proto.RenderProtos;
@@ -72,6 +73,10 @@ public final class ProtoRenderFactory {
 //        new NRooksRandom(jobIn.getSamplesPerPixel(), 2));
     PixelShader pixelShader = new RandomPixelShader(pixelRandom, imageShader,
                                                     colorModel);
+    if (jobIn.getSamplesPerPixel() > 1) {
+      pixelShader = new AveragingPixelShader(jobIn.getSamplesPerPixel(),
+                                             pixelShader);
+    }
     RenderProtos.Size imageSize = jobIn.getImageSize();
     int rows = jobIn.hasTileSize() ?
         Math.max(1, imageSize.getX() / jobIn.getTileSize().getX()) : 10;
