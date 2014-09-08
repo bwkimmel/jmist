@@ -62,6 +62,7 @@ public final class ProtoSceneFactory {
 
   public Scene createScene(final SceneProtos.Scene sceneIn) {
     return new AbstractScene() {
+      private static final long serialVersionUID = -6778930813957201547L;
       Lens lens = cameraFactory.createLens(sceneIn.getCamera());
       Light light = createSceneLight(sceneIn);
       SceneElement root = new BoundingIntervalHierarchy(
