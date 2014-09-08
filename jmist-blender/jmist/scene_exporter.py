@@ -23,9 +23,12 @@ def export_camera(bl_camera, camera):
   else:
     raise Exception('Unsupported camera type: %s' % bl_camera.data.type)
 
+  def multiplier(i, j):
+    return -1 if j == 1 else 1;
+
   del camera.world_to_view[:]
   camera.world_to_view.extend(
-      [bl_camera.matrix_world[i][j]
+      [bl_camera.matrix_world[i][j] * multiplier(i, j)
         for i in range(0, 3)
         for j in range(0, 4)])
 
