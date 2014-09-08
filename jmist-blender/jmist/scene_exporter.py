@@ -76,6 +76,7 @@ def export_mesh(bl_mesh, mesh):
 
   loops = mesh.format.loops
   loops.indices.format = mesh_pb2.IndexSlice.UINT32
+  loops.normals.format = mesh_pb2.VectorSlice.DOUBLE_XYZ
 
   faces = mesh.format.faces;
   faces.loop_start.format = mesh_pb2.IndexSlice.UINT32
@@ -99,12 +100,16 @@ def export_mesh(bl_mesh, mesh):
     out.write(vertex_struct.pack(*vertex.co))
     out.write(normal_struct.pack(*vertex.normal))
   
+  bl_mesh.calc_normals_split()
   loops.offset = out.tell()
-  loops.stride = vertex_index_struct.size
+  loops.stride = vertex_index_struct.size + normal_struct.size
   loops.count = len(bl_mesh.loops)
   loops.indices.offset = 0
+  loops.normals.offset = vertex_index_struct.size
   for loop in bl_mesh.loops:
     out.write(vertex_index_struct.pack(loop.vertex_index))
+    out.write(normal_struct.pack(*loop.normal))
+  bl_mesh.free_normals_split()
   
   faces.offset = out.tell()
   faces.stride = poly_index_struct.size + poly_count_struct.size
