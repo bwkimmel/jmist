@@ -315,13 +315,13 @@ public final class RasterJob extends AbstractParallelizableJob {
         if (!monitor.notifyProgress(n, numPixels))
           return null;
 
-        y0      = (double) y / h;
-        y1      = (double) (y + 1) / h;
+        y0      = y / h;
+        y1      = (y + 1) / h;
 
         for (int x = cell.x; x < cell.x + cell.width; x++, n++) {
 
-          x0    = (double) x / w;
-          x1    = (double) (x + 1) / w;
+          x0    = x / w;
+          x1    = (x + 1) / w;
 
           bounds  = new Box2(x0, y0, x1, y1);
 
