@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package ca.eandb.jmist.framework.geometry.mesh;
 
@@ -15,13 +15,13 @@ import ca.eandb.jmist.math.Vector3;
  *
  */
 public final class BufferMesh implements Mesh {
-  
+
   private final ByteBuffer faceBuffer;
-  
+
   private final ByteBuffer loopBuffer;
-  
+
   private final ByteBuffer vertexBuffer;
-  
+
   private final int maxFaceVertexCount;
 
   private final int faceCount;
@@ -29,38 +29,38 @@ public final class BufferMesh implements Mesh {
   private final int faceOffset;
 
   private final int faceStride;
-  
+
   private final int loopCount;
-  
+
   private final int loopOffset;
-  
+
   private final int loopStride;
 
   private final int vertexCount;
-  
+
   private final int vertexOffset;
-  
+
   private final int vertexStride;
-  
+
   private final IndexReader faceLoopStartReader;
-  
+
   private final IndexReader faceLoopCountReader;
-  
+
   private final IndexReader loopVertexIndexReader;
 
   private final MeshElementReader<Vector3> loopNormalReader;
-  
+
   private final MeshElementReader<Point2> loopUVReader;
-  
+
   private final MeshElementReader<Point3> vertexCoordReader;
-  
+
   private final MeshElementReader<Vector3> vertexNormalReader;
-  
+
   private final MeshElementReader<Point2> vertexUVReader;
-  
+
   public static final class Builder {
     private Builder() {}
-    
+
     private ByteBuffer faceBuffer;
     private ByteBuffer loopBuffer;
     private ByteBuffer vertexBuffer;
@@ -82,7 +82,7 @@ public final class BufferMesh implements Mesh {
     private MeshElementReader<Point3> vertexCoordReader;
     private MeshElementReader<Vector3> vertexNormalReader;
     private MeshElementReader<Point2> vertexUVReader;
-    
+
     public BufferMesh build() {
       return new BufferMesh(faceBuffer, loopBuffer, vertexBuffer,
           maxFaceVertexCount, faceCount, faceOffset, faceStride, loopCount,
@@ -179,7 +179,7 @@ public final class BufferMesh implements Mesh {
       this.vertexUVReader = vertexUVReader;
       return this;
     }
-    
+
     public Builder setFaceLoopStartSpec(int offset, IndexFormat format) {
       return setFaceLoopStartReader(format.createReader(offset));
     }
@@ -205,11 +205,11 @@ public final class BufferMesh implements Mesh {
       return setVertexUVReader(format.createReader(offset));
     }
   }
-  
+
   public static Builder newBuilder() {
     return new Builder();
   }
-  
+
   private BufferMesh(ByteBuffer faceBuffer, ByteBuffer loopBuffer,
       ByteBuffer vertexBuffer, int maxFaceVertexCount, int faceCount,
       int faceOffset, int faceStride, int loopCount, int loopOffset,
@@ -245,9 +245,9 @@ public final class BufferMesh implements Mesh {
   }
 
   private final class MeshVertex implements Mesh.Vertex {
-    
+
     private final int vertexBase;
-    
+
     public MeshVertex(int vertexBase) {
       this.vertexBase = vertexBase;
     }
@@ -259,21 +259,25 @@ public final class BufferMesh implements Mesh {
 
     @Override
     public Vector3 getNormal() {
-      return vertexNormalReader.read(vertexBuffer, vertexBase);
+      return vertexNormalReader != null
+          ? vertexNormalReader.read(vertexBuffer, vertexBase)
+          : Vector3.ZERO;
     }
 
     @Override
     public Point2 getUV() {
-      return vertexUVReader.read(vertexBuffer, vertexBase);
+      return vertexUVReader != null
+          ? vertexUVReader.read(vertexBuffer, vertexBase)
+          : Point2.ORIGIN;
     }
-    
+
   }
-  
+
   @Override
   public int getVertexCount() {
     return vertexCount;
   }
-  
+
   @Override
   public Vertex getVertex(int index) {
     if (index < 0 || index >= vertexCount) {
@@ -281,7 +285,7 @@ public final class BufferMesh implements Mesh {
     }
     return new MeshVertex(vertexOffset + index * vertexStride);
   }
-  
+
   @Override
   public Iterable<Vertex> getVertices() {
     int vertexLimit = vertexOffset + vertexCount * vertexStride;
@@ -304,7 +308,7 @@ public final class BufferMesh implements Mesh {
       }
     };
   }
-  
+
   @Override
   public int getFaceCount() {
     return faceCount;
@@ -342,21 +346,21 @@ public final class BufferMesh implements Mesh {
   }
 
   private final class MeshFace implements Mesh.Face {
-    
+
     private final int faceBase;
-    
+
     public MeshFace(int faceBase) {
       this.faceBase = faceBase;
     }
-    
+
     private final class FaceVertex implements Mesh.Vertex {
-      
+
       private final int loopBase;
-      
+
       public FaceVertex(int loopBase) {
         this.loopBase = loopBase;
       }
-      
+
       private Vertex getMeshVertex() {
         return BufferMesh.this.getVertex(
             loopVertexIndexReader.read(loopBuffer, loopBase));
@@ -380,7 +384,7 @@ public final class BufferMesh implements Mesh {
             ? loopUVReader.read(loopBuffer, loopBase)
             : getMeshVertex().getUV();
       }
-      
+
     }
 
     @Override
@@ -404,7 +408,7 @@ public final class BufferMesh implements Mesh {
       int loopBase = loopOffset + loopIndex * loopStride;
       return new FaceVertex(loopBase);
     }
-    
+
     @Override
     public Iterable<Vertex> getVertices() {
       int loopLimit = loopOffset + getVertexCount() * loopStride;

@@ -269,13 +269,13 @@ public final class RandomUtil {
   }
 
   public static int discrete(int minimum, int maximum, double seed) {
-    return minimum + (int) Math.floor(seed * (double) (maximum - minimum + 1));
+    return minimum + (int) Math.floor(seed * (maximum - minimum + 1));
   }
 
   public static int discrete(int minimum, int maximum, SeedReference ref) {
     double offset;
 
-    ref.seed *= (double) (maximum - minimum + 1);
+    ref.seed *= maximum - minimum + 1;
     offset = Math.floor(ref.seed);
     ref.seed -= offset;
 
