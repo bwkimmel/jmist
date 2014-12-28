@@ -67,14 +67,13 @@ class JmistRenderEngine(bpy.types.RenderEngine):
         while not self.isCancelled():
           callback = reader.read()
           if not callback:
-            self.done()
             return {"CANCELLED"}
 
           if callback.HasField('progress'):
             self.update_progress(callback.progress)
 
           if callback.done:
-            return {"FINISHED2"}
+            return {"FINISHED"}
 
           if callback.HasField('error'):
             raise Exception('JMist Error: %s' % callback.error)
