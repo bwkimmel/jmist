@@ -6,3 +6,4 @@ target/
 .project
 .classpath
 *.versionsBackup
+dependency-reduced-pom.xml
