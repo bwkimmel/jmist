@@ -105,7 +105,7 @@ public final class RGB extends Tuple3 implements Spectrum {
     return new RGB(
         MathUtil.clamp(x, min, max),
         MathUtil.clamp(y, min, max),
-        MathUtil.clamp(y, min, max));
+        MathUtil.clamp(z, min, max));
   }
 
   public final double luminance() {

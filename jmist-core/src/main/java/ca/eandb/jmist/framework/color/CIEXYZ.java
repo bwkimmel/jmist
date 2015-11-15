@@ -108,7 +108,7 @@ public class CIEXYZ extends Tuple3 {
     return new CIEXYZ(
         MathUtil.clamp(x, min, max),
         MathUtil.clamp(y, min, max),
-        MathUtil.clamp(y, min, max));
+        MathUtil.clamp(z, min, max));
   }
 
   public final CIEXYZ adapt(CIEXYZ fromRef, CIEXYZ toRef) {
