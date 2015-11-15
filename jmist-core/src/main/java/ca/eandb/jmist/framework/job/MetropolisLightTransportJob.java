@@ -179,8 +179,6 @@ public final class MetropolisLightTransportJob extends
    */
   private final Queue<PathSeed> seeds = new LinkedList<>();
 
-  private final Queue<PathSeed> seeds = new LinkedList<PathSeed>();
-
   public MetropolisLightTransportJob(Scene scene, Display display,
       ColorModel colorModel, PathMutator mutator, int width, int height,
       int mutationsPerSeed, int numberOfSeeds, int seedTasks,

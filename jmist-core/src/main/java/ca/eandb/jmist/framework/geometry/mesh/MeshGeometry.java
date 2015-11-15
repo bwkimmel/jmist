@@ -51,11 +51,8 @@ public final class MeshGeometry extends AbstractGeometry {
   private static final long serialVersionUID = 262374288661771750L;
 
   /**
-   * Creates a new <code>PolyhedronGeometry</code>.
-   * @param vertices An array of the vertices of the polyhedron.
-   * @param faces An array of faces.  Each face is an array of indices into
-   *     the <code>vertices</code> array.  The front side of the face is the
-   *     side from which the vertices appear in counter-clockwise order.
+   * Creates a new <code>MeshGeometry</code>.
+   * @param mesh The <code>Mesh</code> to create the geometry from.
    */
   public MeshGeometry(Mesh mesh) {
     this.mesh = MeshUtil.triangulate(mesh);
