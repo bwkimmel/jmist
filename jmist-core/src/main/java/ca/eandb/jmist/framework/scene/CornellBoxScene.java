@@ -50,14 +50,9 @@ import ca.eandb.jmist.util.ArrayUtil;
  */
 public final class CornellBoxScene extends AbstractScene {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 7403862242448612196L;
 
-  /**
-   * Creates a new <code>CornellBoxModel</code>.
-   */
   public CornellBoxScene(ColorModel colorModel) {
     Material matteWhite = new LambertianMaterial(colorModel.getContinuous(white));
     Material matteGreen = new LambertianMaterial(colorModel.getContinuous(green));
@@ -82,9 +77,6 @@ public final class CornellBoxScene extends AbstractScene {
     this.light = cornellBox.createLight();
   }
 
-  /**
-   * Creates a new <code>CornellBoxModel</code>.
-   */
   public CornellBoxScene(ColorModel colorModel, ScatteringStrategy strategy, double weight) {
     Material matteWhite = new LambertianMaterial(colorModel.getContinuous(white));
     Material matteGreen = new LambertianMaterial(colorModel.getContinuous(green));

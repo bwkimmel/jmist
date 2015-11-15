@@ -69,6 +69,7 @@ public final class Plane3 implements Serializable {
    * and has a given normal.
    * @param p A <code>Point3</code> on the plane.
    * @param normal A <code>Vector3</code> that is normal to the plane.
+   * @return The new <code>Plane3</code>.
    */
   public static Plane3 throughPoint(Point3 p, Vector3 normal) {
     return new Plane3(normal, -normal.unit().dot(p.vectorFromOrigin()));

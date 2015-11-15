@@ -177,26 +177,6 @@ public final class MetropolisLightTransportJob extends
    */
   private final Queue<PathSeed> seeds = new LinkedList<PathSeed>();
 
-//  /**
-//   *
-//   */
-//  public MetropolisLightTransportJob() {
-//    // TODO Auto-generated constructor stub
-//  }
-
-  /**
-   * @param scene
-   * @param display
-   * @param colorModel
-   * @param mutator
-   * @param width
-   * @param height
-   * @param mutationsPerSeed
-   * @param numberOfSeeds
-   * @param seedTasks
-   * @param pairsPerSeedTask
-   * @param displayPartialResults
-   */
   public MetropolisLightTransportJob(Scene scene, Display display,
       ColorModel colorModel, PathMutator mutator, int width, int height,
       int mutationsPerSeed, int numberOfSeeds, int seedTasks,

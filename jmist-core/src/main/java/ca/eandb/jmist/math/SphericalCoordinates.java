@@ -323,6 +323,8 @@ public final class SphericalCoordinates implements Serializable {
    * form.  The second is not.  A <code>SphericalCoordinates</code> vector is
    * considered to be in canonical form if <code>0 &lt;= polar &lt;= PI</code>,
    * <code>-PI &lt;= azimuthal &lt; PI</code>, and <code>radius &gt;= 0</code>.
+   * @param polar The polar angle.
+   * @param azimuthal The azimuthal angle.
    * @return The canonical <code>SphericalCoordinates</code> representation
    *     of this vector.
    */
@@ -347,6 +349,9 @@ public final class SphericalCoordinates implements Serializable {
    * form.  The second is not.  A <code>SphericalCoordinates</code> vector is
    * considered to be in canonical form if <code>0 &lt;= polar &lt;= PI</code>,
    * <code>-PI &lt;= azimuthal &lt; PI</code>, and <code>radius &gt;= 0</code>.
+   * @param polar The polar angle.
+   * @param azimuthal The azimuthal angle.
+   * @param radius The distance from the center.
    * @return The canonical <code>SphericalCoordinates</code> representation
    *     of this vector.
    */

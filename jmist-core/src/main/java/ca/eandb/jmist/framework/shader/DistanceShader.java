@@ -38,9 +38,7 @@ import ca.eandb.jmist.math.Interval;
  */
 public final class DistanceShader implements Shader {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -6744005479057812858L;
 
   private final Interval distanceInterval;
@@ -53,13 +51,6 @@ public final class DistanceShader implements Shader {
 
   private final Spectrum farValue;
 
-  /**
-   * @param distanceInterval
-   * @param minDistanceValue
-   * @param maxDistanceValue
-   * @param nearValue
-   * @param farValue
-   */
   public DistanceShader(Interval distanceInterval, Spectrum minDistanceValue, Spectrum maxDistanceValue,
       Spectrum nearValue, Spectrum farValue) {
     this.distanceInterval = distanceInterval;
@@ -69,25 +60,14 @@ public final class DistanceShader implements Shader {
     this.farValue = farValue;
   }
 
-  /**
-   * @param distanceInterval
-   * @param minDistanceValue
-   * @param maxDistanceValue
-   */
   public DistanceShader(Interval distanceInterval, Spectrum minDistanceValue, Spectrum maxDistanceValue) {
     this(distanceInterval, minDistanceValue, maxDistanceValue, minDistanceValue, maxDistanceValue);
   }
 
-  /**
-   * @param distanceInterval
-   */
   public DistanceShader(Interval distanceInterval) {
     this(distanceInterval, null, null);
   }
 
-  /**
-   * @param maxDistance
-   */
   public DistanceShader(double maxDistance) {
     this(new Interval(0, maxDistance));
   }

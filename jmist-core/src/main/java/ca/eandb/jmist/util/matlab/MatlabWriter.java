@@ -605,7 +605,7 @@ public final class MatlabWriter {
   /**
    * Writes a <code>String</code> cell-array variable to the MAT-file.
    * @param name The name of the variable.
-   * @param array The real parts of the array elements.
+   * @param array The array elements.
    * @param dimensions The array dimensions (there must be at least two
    *     dimensions and the product of the dimensions must be
    *     <code>array.length</code>).
@@ -620,7 +620,7 @@ public final class MatlabWriter {
   /**
    * Writes a <code>String</code> cell-array variable to the MAT-file.
    * @param name The name of the variable.
-   * @param array The real parts of the array elements.
+   * @param array The array elements.
    * @param dimensions The array dimensions (there must be at least two
    *     dimensions and the product of the dimensions must be
    *     <code>array.length</code>).
@@ -636,7 +636,7 @@ public final class MatlabWriter {
   /**
    * Writes a <code>String</code> cell-array variable to the MAT-file.
    * @param name The name of the variable.
-   * @param array The real parts of the array elements.
+   * @param p The array elements.
    * @param dimensions The array dimensions (there must be at least two
    *     dimensions and the product of the dimensions must be
    *     <code>array.length</code>).

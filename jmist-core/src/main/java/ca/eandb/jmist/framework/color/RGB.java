@@ -51,12 +51,6 @@ public final class RGB extends Tuple3 implements Spectrum {
   public static final RGB GREY25 = new RGB(0.25, 0.25, 0.25);
   public static final RGB GREY75 = new RGB(0.75, 0.75, 0.75);
 
-  /**
-   *
-   * @param r
-   * @param g
-   * @param b
-   */
   public RGB(double r, double g, double b) {
     super(r, g, b);
   }

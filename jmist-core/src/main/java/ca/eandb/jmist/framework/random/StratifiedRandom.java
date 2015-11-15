@@ -47,6 +47,8 @@ public final class StratifiedRandom implements Random {
    * Default constructor.  Creates a random number generator equivalent to
    * a {@link SimpleRandom}.  Also equivalent to {@link #StratifiedRandom(int)}
    * with {@code n == 1}.
+   * @param inner The <code>Random</code> to use to generate random number
+   *     samples.
    */
   public StratifiedRandom(Random inner) {
     this(1, inner);
@@ -58,6 +60,8 @@ public final class StratifiedRandom implements Random {
    * {@code 0 <= i < n} for each block of {@code n} successive calls to
    * {@link #next()}.
    * @param n The number of intervals to divide the interval [0, 1) into.
+   * @param inner The <code>Random</code> to use to generate random number
+   *     samples.
    * @see #next()
    */
   public StratifiedRandom(int n, Random inner) {

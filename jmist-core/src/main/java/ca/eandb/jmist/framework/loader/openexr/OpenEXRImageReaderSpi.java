@@ -37,33 +37,10 @@ import javax.imageio.spi.ImageReaderSpi;
  */
 public final class OpenEXRImageReaderSpi extends ImageReaderSpi {
 
-  /**
-   *
-   */
   public OpenEXRImageReaderSpi() {
     // TODO Auto-generated constructor stub
   }
 
-  /**
-   * @param vendorName
-   * @param version
-   * @param names
-   * @param suffixes
-   * @param MIMETypes
-   * @param readerClassName
-   * @param inputTypes
-   * @param writerSpiNames
-   * @param supportsStandardStreamMetadataFormat
-   * @param nativeStreamMetadataFormatName
-   * @param nativeStreamMetadataFormatClassName
-   * @param extraStreamMetadataFormatNames
-   * @param extraStreamMetadataFormatClassNames
-   * @param supportsStandardImageMetadataFormat
-   * @param nativeImageMetadataFormatName
-   * @param nativeImageMetadataFormatClassName
-   * @param extraImageMetadataFormatNames
-   * @param extraImageMetadataFormatClassNames
-   */
   public OpenEXRImageReaderSpi(String vendorName, String version,
       String[] names, String[] suffixes, String[] MIMETypes,
       String readerClassName, Class[] inputTypes,

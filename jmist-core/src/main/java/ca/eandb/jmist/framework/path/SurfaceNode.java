@@ -45,11 +45,6 @@ public final class SurfaceNode extends AbstractScatteringNode {
 
   private final SurfacePoint surf;
 
-  /**
-   * @param parent
-   * @param sr
-   * @param surf
-   */
   public SurfaceNode(PathNode parent, ScatteredRay sr, SurfacePoint surf, double ru, double rv, double rj) {
     super(parent, sr, ru, rv, rj);
     this.surf = surf;

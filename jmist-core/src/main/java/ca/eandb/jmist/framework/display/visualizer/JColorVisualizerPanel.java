@@ -53,31 +53,18 @@ public abstract class JColorVisualizerPanel extends JPanel implements
    */
   private final List<ChangeListener> listeners = new ArrayList<ChangeListener>();
 
-  /**
-   *
-   */
   public JColorVisualizerPanel() {
     super();
   }
 
-  /**
-   * @param isDoubleBuffered
-   */
   public JColorVisualizerPanel(boolean isDoubleBuffered) {
     super(isDoubleBuffered);
   }
 
-  /**
-   * @param layout
-   * @param isDoubleBuffered
-   */
   public JColorVisualizerPanel(LayoutManager layout, boolean isDoubleBuffered) {
     super(layout, isDoubleBuffered);
   }
 
-  /**
-   * @param layout
-   */
   public JColorVisualizerPanel(LayoutManager layout) {
     super(layout);
   }
@@ -120,6 +107,7 @@ public abstract class JColorVisualizerPanel extends JPanel implements
    * Creates a <code>JColorVisualizerPanel</code> that allows for switching
    * between all visualizer types.
    * @param cm The <code>ColorModel</code> to use.
+   * @return The new <code>JColorVisualizerPanel</code>.
    */
   public static JColorVisualizerPanel allColorVisualizers(ColorModel cm) {
     return new JCompositeVisualizerPanel()

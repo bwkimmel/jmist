@@ -39,22 +39,22 @@ public final class Matrix4 implements Serializable {
 
   /**
    * Initializes the matrix from its elements.
-   * @param _00
-   * @param _01
-   * @param _02
-   * @param _03
-   * @param _10
-   * @param _11
-   * @param _12
-   * @param _13
-   * @param _20
-   * @param _21
-   * @param _22
-   * @param _23
-   * @param _30
-   * @param _31
-   * @param _32
-   * @param _33
+   * @param _00 The element in row 0, column 0.
+   * @param _01 The element in row 0, column 1.
+   * @param _02 The element in row 0, column 2.
+   * @param _03 The element in row 0, column 3.
+   * @param _10 The element in row 1, column 0.
+   * @param _11 The element in row 1, column 1.
+   * @param _12 The element in row 1, column 2.
+   * @param _13 The element in row 1, column 3.
+   * @param _20 The element in row 2, column 0.
+   * @param _21 The element in row 2, column 1.
+   * @param _22 The element in row 2, column 2.
+   * @param _23 The element in row 2, column 3.
+   * @param _30 The element in row 3, column 0.
+   * @param _31 The element in row 3, column 1.
+   * @param _32 The element in row 3, column 2.
+   * @param _33 The element in row 3, column 3.
    */
   public Matrix4(
       double _00, double _01, double _02, double _03,
@@ -221,8 +221,8 @@ public final class Matrix4 implements Serializable {
 
   /**
    * Gets an element of the matrix.
-   * @param row The row containing the element to get (0 <= row < 4).
-   * @param col The column containing the element to get (0 <= col < 4).
+   * @param row The row containing the element to get (0 &lt;= row &lt; 4).
+   * @param col The column containing the element to get (0 &lt;= col &lt; 4).
    * @return The value of the element at the specified position.
    */
   public double at(int row, int col) {

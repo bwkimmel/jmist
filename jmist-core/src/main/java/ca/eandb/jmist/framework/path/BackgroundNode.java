@@ -37,10 +37,6 @@ public final class BackgroundNode extends AbstractScatteringNode {
 
   private final Vector3 direction;
 
-  /**
-   * @param parent
-   * @param sr
-   */
   public BackgroundNode(PathNode parent, ScatteredRay sr, double ru, double rv, double rj) {
     super(parent, sr, ru, rv, rj);
     this.direction = sr.getRay().direction();

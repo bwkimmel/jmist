@@ -79,6 +79,7 @@ public final class PiecewiseLinearFunction1 implements Function1 {
    * @param f The <code>Function1</code> to sample.
    * @param xs The array of domain points at which to sample <code>f</code>.
    *     The array must be ascending.
+   * @return The new <code>PiecewiseLinearFunction1</code>.
    */
   public static PiecewiseLinearFunction1 sample(Function1 f, double[] xs) {
     return new PiecewiseLinearFunction1(f, xs);

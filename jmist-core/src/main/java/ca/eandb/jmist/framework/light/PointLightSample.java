@@ -47,12 +47,6 @@ public final class PointLightSample implements LightSample {
 
   private final boolean shadows;
 
-  /**
-   * @param x
-   * @param position
-   * @param intensity
-   * @param shadows
-   */
   public PointLightSample(SurfacePoint x, Point3 position, Color intensity,
       boolean shadows) {
     this.x = x;
@@ -61,11 +55,6 @@ public final class PointLightSample implements LightSample {
     this.shadows = shadows;
   }
 
-  /**
-   * @param x
-   * @param position
-   * @param intensity
-   */
   public PointLightSample(SurfacePoint x, Point3 position, Color intensity) {
     this(x, position, intensity, true);
   }

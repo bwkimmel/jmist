@@ -38,9 +38,7 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class EdgeShader implements Shader {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -2391452537161495498L;
 
   private final Spectrum edgeColor;
@@ -49,11 +47,6 @@ public final class EdgeShader implements Shader {
 
   private final double threshold;
 
-  /**
-   * @param edgeColor
-   * @param interiorColor
-   * @param threshold
-   */
   public EdgeShader(Spectrum edgeColor, Spectrum interiorColor, double threshold) {
     this.edgeColor = edgeColor;
     this.interiorColor = interiorColor;

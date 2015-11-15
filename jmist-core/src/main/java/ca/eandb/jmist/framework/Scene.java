@@ -34,16 +34,28 @@ import java.io.Serializable;
  */
 public interface Scene extends Bounded3, Serializable {
 
-  /** The <code>Light</code> sources in the scene. */
+  /**
+   * The <code>Light</code> sources in the scene.
+   * @return The <code>Light</code> sources in the scene.
+   */
   Light getLight();
 
-  /** The scene description (geometry, materials, shaders, etc.). */
+  /**
+   * The scene description (geometry, materials, shaders, etc.).
+   * @return The scene description (geometry, materials, shaders, etc.).
+   */
   SceneElement getRoot();
 
-  /** The <code>Lens</code> from which to view the scene. */
+  /**
+   * The <code>Lens</code> from which to view the scene.
+   * @return The <code>Lens</code> from which to view the scene.
+   */
   Lens getLens();
 
-  /** An <code>Animator</code> to adjust the time within the scene. */
+  /**
+   * An <code>Animator</code> to adjust the time within the scene.
+   * @return An <code>Animator</code> to adjust the time within the scene.
+   */
   Animator getAnimator();
 
 }

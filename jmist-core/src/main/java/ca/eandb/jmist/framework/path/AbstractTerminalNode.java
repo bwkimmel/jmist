@@ -34,9 +34,6 @@ import ca.eandb.jmist.math.Vector3;
  */
 public abstract class AbstractTerminalNode extends AbstractPathNode {
 
-  /**
-   * @param pathInfo
-   */
   public AbstractTerminalNode(PathInfo pathInfo, double ru, double rv, double rj) {
     super(pathInfo, ru, rv, rj);
   }

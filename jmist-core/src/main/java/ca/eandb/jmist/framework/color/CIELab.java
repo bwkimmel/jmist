@@ -40,14 +40,21 @@ public final class CIELab extends Tuple3 {
   public static final CIELab ZERO = new CIELab(0.0, 0.0, 0.0);
 
   /**
-   * @param L
-   * @param a
-   * @param b
+   * @param L The luminance.
+   * @param a The value along the red/green axis (positive=red, negative=green).
+   * @param b The value along the yellow/blue axis (positive=yellow,
+   *     negative=blue).
    */
   public CIELab(double L, double a, double b) {
     super(L, a, b);
   }
 
+  /**
+   * Computes the Euclidean distance between two points in CIELab space.
+   * @param p The first colour.
+   * @param q The second colour.
+   * @return The distance between <code>p</code> and <code>q</code>.
+   */
   public static double deltaE(CIELab p, CIELab q) {
     double dL = p.x - q.x;
     double da = p.y - q.y;
@@ -55,34 +62,76 @@ public final class CIELab extends Tuple3 {
     return Math.sqrt(dL * dL + da * da + db * db);
   }
 
+  /**
+   * Gets the luminance.
+   * @return The luminance.
+   */
   public double L() {
     return x;
   }
 
+  /**
+   * Gets the value along the red/green axis (positive=red, negative=green).
+   * @return The value along the red/green axis (positive=red, negative=green).
+   */
   public double a() {
     return y;
   }
 
+  /**
+   * Gets the value along the yellow/blue axis (positive=yellow, negative=blue).
+   * @return The value along the yellow/blue axis (positive=yellow,
+   *     negative=blue).
+   */
   public double b() {
     return z;
   }
 
+  /**
+   * Scales the luminance by the specified factor.
+   * @param c The factor to scale the luminance by.
+   * @return The scaled colour.
+   */
   public CIELab times(double c) {
     return new CIELab(x * c, y, z);
   }
 
+  /**
+   * Divides the luminance by the specified factor.
+   * @param c The factor to divide the luminance by.
+   * @return The value of this colour divided by <code>c</code>.
+   */
   public CIELab divide(double c) {
     return new CIELab(x / c, y, z);
   }
 
+  /**
+   * Converts this colour to the CIE XYZ colour space.
+   * @param ref The <code>CIEXYZ</code> for the reference white.
+   * @return This colour represented in CIE XYZ colour space.
+   */
   public CIEXYZ toXYZ(CIEXYZ ref) {
     return ColorUtil.convertLab2XYZ(this, ref);
   }
 
+  /**
+   * Converts a colour from CIE XYZ colour space to CIE Lab colour space.
+   * @param X The X coordinate in CIE XYZ colour space.
+   * @param Y The Y coordinate in CIE XYZ colour space.
+   * @param Z The Z coordinate in CIE XYZ colour space.
+   * @param ref The <code>CIEXYZ</code> for the reference white.
+   * @return The specified colour in CIE Lab colour space.
+   */
   public static CIELab fromXYZ(double X, double Y, double Z, CIEXYZ ref) {
     return ColorUtil.convertXYZ2Lab(X, Y, Z, ref);
   }
 
+  /**
+   * Converts a colour from CIE XYZ colour space to CIE Lab colour space.
+   * @param xyz The colour in <code>CIEXYZ</code> colour space.
+   * @param ref The <code>CIEXYZ</code> for the reference white.
+   * @return The specified colour in CIE Lab colour space.
+   */
   public static CIELab fromXYZ(CIEXYZ xyz, CIEXYZ ref) {
     return ColorUtil.convertXYZ2Lab(xyz, ref);
   }

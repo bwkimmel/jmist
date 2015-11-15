@@ -49,9 +49,6 @@ public final class PartialFrameLens implements Lens {
 
   private final double fraction;
 
-  /**
-   * @param inner
-   */
   public PartialFrameLens(Lens inner, double fraction) {
     this.inner = inner;
     this.fraction = fraction;

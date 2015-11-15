@@ -44,16 +44,11 @@ import ca.eandb.jmist.math.Ray3;
 public class ModifierSceneElement extends SceneElementDecorator implements
     Serializable {
 
-  /**
-   *
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 2488933216910499979L;
 
   private final Modifier modifier;
 
-  /**
-   * @param inner
-   */
   public ModifierSceneElement(Modifier modifier, SceneElement inner) {
     super(inner);
     this.modifier = modifier;

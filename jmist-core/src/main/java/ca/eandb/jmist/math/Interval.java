@@ -51,8 +51,8 @@ public final class Interval implements Serializable {
    * Gets the interval between the specified values.
    * @param a The first value.
    * @param b The second value.
-   * @return The interval [a, b], if a <= b. The interval [b, a], if
-   *     b < a.
+   * @return The interval [a, b], if a &lt;= b. The interval [b, a], if
+   *     b &lt; a.
    */
   public static Interval between(double a, double b) {
     return new Interval(Math.min(a, b), Math.max(a, b));
@@ -153,6 +153,7 @@ public final class Interval implements Serializable {
    * Extends this interval to include the specified value.
    * Guarantees that {@code this.contains(t)} after this method is called.
    * @param t The value to include in this interval.
+   * @return The extended interval.
    * @see #contains(double)
    */
   public Interval extendTo(double t) {

@@ -144,15 +144,15 @@ public final class JVisualizerDisplay extends JComponent implements Display,
 
   };
 
-  /**
-   * Creates a new <code>JComponentDisplay</code>.
-   */
+  /** Creates a new <code>JComponentDisplay</code>. */
   public JVisualizerDisplay() {
     this(ColorVisualizer.DEFAULT, DEFAULT_VISUALIZER_AGE_THRESHOLD);
   }
 
   /**
    * Creates a new <code>JComponentDisplay</code>.
+   * @param visualizer The <code>ColorVisualizer</code> to use to convert
+   *     <code>Color</code> objects to <code>RGB</code> triplets.
    */
   public JVisualizerDisplay(ColorVisualizer visualizer) {
     this(visualizer, DEFAULT_VISUALIZER_AGE_THRESHOLD);

@@ -46,10 +46,6 @@ public final class UniformWeightedStrategy implements BidiPathStrategy {
 
   private final int maxEyeDepth;
 
-  /**
-   * @param maxLightDepth
-   * @param maxEyeDepth
-   */
   public UniformWeightedStrategy(int maxLightDepth, int maxEyeDepth) {
     this.maxLightDepth = maxLightDepth;
     this.maxEyeDepth = maxEyeDepth;

@@ -81,15 +81,19 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
   private final double tolerance = MathUtil.EPSILON;
 
   /**
-   * @param inner
+   * @param inner The <code>SceneElement</code> to apply the bounding interval
+   *     hierarchy to.
    */
   public BoundingIntervalHierarchy(SceneElement inner) {
     super(inner);
   }
 
   /**
-   * @param inner
-   * @throws IOException
+   * @param inner The <code>SceneElement</code> to apply the bounding interval
+   *     hierarchy to.
+   * @param filename The name of the file containing the pre-generated bounding
+   *     interval hierarchy.
+   * @throws IOException If the specified file could not be read.
    */
   public BoundingIntervalHierarchy(SceneElement inner, String filename) throws IOException {
     super(inner);

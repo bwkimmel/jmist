@@ -37,28 +37,52 @@ import ca.eandb.jmist.math.Vector3;
  */
 public interface SurfacePointGeometry {
 
-  /** The position of the surface point. */
+  /**
+   * The position of the surface point.
+   * @return The position of the surface point.
+   */
   Point3 getPosition();
 
-  /** The direction perpendicular to the surface. */
+  /**
+   * The direction perpendicular to the surface.
+   * @return The direction perpendicular to the surface.
+   */
   Vector3 getNormal();
 
-  /** The orientation of the surface. */
+  /**
+   * The orientation of the surface.
+   * @return The orientation of the surface.
+   */
   Basis3 getBasis();
 
-  /** The micro-surface normal. */
+  /**
+   * The micro-surface normal.
+   * @return The micro-surface normal.
+   */
   Vector3 getShadingNormal();
 
-  /** The micro-surface orientation. */
+  /**
+   * The micro-surface orientation.
+   * @return The micro-surface orientation.
+   */
   Basis3 getShadingBasis();
 
-  /** The first tangent vector. */
+  /**
+   * The first tangent vector.
+   * @return The first tangent vector.
+   */
   Vector3 getTangent();
 
-  /** The texture coordinates. */
+  /**
+   * The texture coordinates.
+   * @return The texture coordinates.
+   */
   Point2 getUV();
 
-  /** The ID of the primitive from the <code>SceneElement</code>. */
+  /**
+   * The ID of the primitive from the <code>SceneElement</code>.
+   * @return The ID of the primitive from the <code>SceneElement</code>.
+   */
   int getPrimitiveIndex();
 
   /**
