@@ -9,6 +9,7 @@ ca.eandb.jmist.framework.color.polychrome
 ca.eandb.jmist.framework.color.rgb
 ca.eandb.jmist.framework.color.xyz
 ca.eandb.jmist.framework.color.xyz.multi
+ca.eandb.jmist.framework.color.xyz.single
 ca.eandb.jmist.framework.display
 ca.eandb.jmist.framework.display.visualizer
 ca.eandb.jmist.framework.function
@@ -25,6 +26,7 @@ ca.eandb.jmist.framework.loader.obj
 ca.eandb.jmist.framework.loader.openexr
 ca.eandb.jmist.framework.loader.openexr.attribute
 ca.eandb.jmist.framework.loader.openexr.codec
+ca.eandb.jmist.framework.loader.ply
 ca.eandb.jmist.framework.loader.radiance
 ca.eandb.jmist.framework.material
 ca.eandb.jmist.framework.material.biospec
