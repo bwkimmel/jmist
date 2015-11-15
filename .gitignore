@@ -4,6 +4,7 @@ build.properties
 target/
 .settings/
 .project
+.pydevproject
 .classpath
 *.versionsBackup
 dependency-reduced-pom.xml
