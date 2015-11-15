@@ -44,9 +44,6 @@
       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
   </distributionManagement>
-  <modules>
-    <module>jmist-core</module>
-  </modules>
 
   <build>
     <plugins>
