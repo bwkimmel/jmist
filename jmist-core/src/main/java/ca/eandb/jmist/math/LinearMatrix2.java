@@ -31,11 +31,13 @@ import ca.eandb.util.UnimplementedException;
 
 /**
  * A 3x3 matrix of the form
- * <table>
- *     <tr><td>a</td><td>b</td><td>0</td></tr>
- *     <tr><td>c</td><td>d</td><td>0</td></tr>
- *     <tr><td>0</td><td>0</td><td>1</td></tr>
- * </table>
+ * \[\left(
+ * \begin{matrix}
+ *   a &amp; b &amp; 0 \\
+ *   c &amp; d &amp; 0 \\
+ *   0 &amp; 0 &amp; 1
+ * \end{matrix}
+ * \right)\]
  * for applying two dimensional linear transformations.
  * This class is immutable.
  * @author Brad Kimmel
@@ -65,10 +67,10 @@ public final class LinearMatrix2 implements Serializable {
 
   /**
    * Initializes the matrix from its elements.
-   * @param _00
-   * @param _01
-   * @param _10
-   * @param _11
+   * @param _00 The element in row 0, column 0.
+   * @param _01 The element in row 0, column 1.
+   * @param _10 The element in row 1, column 0.
+   * @param _11 The element in row 1, column 1.
    */
   public LinearMatrix2(
       double _00, double _01,
@@ -187,8 +189,8 @@ public final class LinearMatrix2 implements Serializable {
 
   /**
    * Gets an element of the matrix.
-   * @param row The row containing the element to get (0 <= row < 2).
-   * @param col The column containing the element to get (0 <= col < 2).
+   * @param row The row containing the element to get (0 &lt;= row &lt; 2).
+   * @param col The column containing the element to get (0 &lt;= col &lt; 2).
    * @return The value of the element at the specified position.
    */
   public double at(int row, int col) {

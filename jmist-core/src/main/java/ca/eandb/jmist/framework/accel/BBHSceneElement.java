@@ -52,7 +52,8 @@ public final class BBHSceneElement extends SceneElementDecorator {
   private transient BoundingBoxHierarchy3 bbh = null;
 
   /**
-   * @param inner
+   * @param inner The <code>SceneElement</code> to apply the bounding box
+   *     hierarchy to.
    */
   public BBHSceneElement(SceneElement inner) {
     super(inner);

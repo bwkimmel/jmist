@@ -47,6 +47,10 @@ public interface Lens extends Serializable {
    * the specified point on the image plane.
    * @param p The point on the image plane in normalized device coordinates
    *     (must fall within {@code Box2.UNIT}).
+   * @param lambda The <code>WavelengthPacket</code> indicating the colour of
+   *     light being traced.
+   * @param rnd The <code>Random</code> number generated to use in generating
+   *     the ray.
    * @return The ray to cast for ray shading.
    * @see Box2#UNIT
    */

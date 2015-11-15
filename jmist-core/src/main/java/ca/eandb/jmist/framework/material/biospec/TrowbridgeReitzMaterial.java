@@ -51,10 +51,6 @@ public final class TrowbridgeReitzMaterial extends OpaqueMaterial {
 
   private final double riAbove;
 
-  /**
-   * @param riBelow
-   * @param riAbove
-   */
   public TrowbridgeReitzMaterial(double oblateness, double riBelow, double riAbove) {
     this.oblateness = oblateness;
     this.riBelow = riBelow;

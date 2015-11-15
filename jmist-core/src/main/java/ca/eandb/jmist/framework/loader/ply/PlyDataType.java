@@ -27,7 +27,7 @@ package ca.eandb.jmist.framework.loader.ply;
 
 /**
  * A enumeration of the primitive data types supported by the PLY format.
- * @see http://paulbourke.net/dataformats/ply/
+ * @see <a href="http://paulbourke.net/dataformats/ply/">PLY - Polygon File Format</a>
  */
 public enum PlyDataType {
 

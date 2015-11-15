@@ -32,9 +32,6 @@ package ca.eandb.jmist.framework.path;
 public abstract class LightTerminalNode extends AbstractTerminalNode implements
     LightNode {
 
-  /**
-   * @param pathInfo
-   */
   public LightTerminalNode(PathInfo pathInfo, double ru, double rv, double rj) {
     super(pathInfo, ru, rv, rj);
   }

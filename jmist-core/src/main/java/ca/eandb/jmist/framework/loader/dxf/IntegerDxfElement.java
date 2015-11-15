@@ -33,11 +33,6 @@ public final class IntegerDxfElement extends AbstractDxfElement {
 
   private final int value;
 
-  /**
-   *
-   * @param groupCode
-   * @param value
-   */
   public IntegerDxfElement(int groupCode, int value) {
     super(groupCode);
     this.value = value;

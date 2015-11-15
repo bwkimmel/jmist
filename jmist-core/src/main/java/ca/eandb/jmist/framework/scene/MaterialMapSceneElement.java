@@ -181,6 +181,7 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
    * @param length The number of primitives to apply the material to.
    * @param name The name of the material (as provided to
    *     {@link #addMaterial(String, Material)}).
+   * @return This <code>MaterialMapSceneElement</code>.
    */
   public MaterialMapSceneElement setMaterialRange(int start, int length,
       String name) {
@@ -197,6 +198,7 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
    * @param primitive The ID of the primitive.
    * @param name The name of the material (as provided to
    *     {@link #addMaterial(String, Material)}).
+   * @return This <code>MaterialMapSceneElement</code>.
    */
   public MaterialMapSceneElement setMaterial(int primitive, String name) {
     return setMaterialRange(primitive, 1, name);

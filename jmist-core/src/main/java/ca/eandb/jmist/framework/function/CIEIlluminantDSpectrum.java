@@ -32,7 +32,7 @@ import ca.eandb.jmist.util.ArrayUtil;
 
 /**
  * Spectral power distribution for CIE Illuminant D.
- * @see http://en.wikipedia.org/wiki/Standard_illuminant#Illuminant_D
+ * @see <a href="http://en.wikipedia.org/wiki/Standard_illuminant#Illuminant_D">Illuminant D</a>
  */
 public final class CIEIlluminantDSpectrum implements Function1 {
 
@@ -166,11 +166,11 @@ public final class CIEIlluminantDSpectrum implements Function1 {
    * provided nominal color temperature (i.e., the temperature suggested by
    * the name of a standard illuminant.  For example: 6500K for D65).  This
    * differs slightly from correlated color temperature (see
-   * {@link http://en.wikipedia.org/wiki/Illuminant_D65#Why_6504_K.3F}).
+   * <a href="http://en.wikipedia.org/wiki/Illuminant_D65#Why_6504_K.3F">Why 6504K?</a>).
    * @param t The correlated color temperature (in Kelvin).
    * @return The CIE Illuminant D spectral power distribution with the
    *     specified correlated color temperature.
-   * @see http://en.wikipedia.org/wiki/Illuminant_D65#Why_6504_K.3F
+   * @see <a href="http://en.wikipedia.org/wiki/Illuminant_D65#Why_6504_K.3F">Illuminant D65 - Why 6504K?</a>
    */
   public static CIEIlluminantDSpectrum fromNominalColorTemperature(double t) {
     return fromCorrelatedColorTemperature(t * (1.4388 / 1.438));

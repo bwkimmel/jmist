@@ -48,10 +48,16 @@ import ca.eandb.jmist.framework.Raster;
  */
 public interface ColorModel extends Serializable {
 
-  /** A <code>Spectrum</code> representing the absense of light. */
+  /**
+   * A <code>Spectrum</code> representing the absense of light.
+   * @return A <code>Spectrum</code> representing the absense of light.
+   */
   Spectrum getBlack();
 
-  /** A <code>Spectrum</code> representing unit reflectance. */
+  /**
+   * A <code>Spectrum</code> representing unit reflectance.
+   * @return A <code>Spectrum</code> representing unit reflectance.
+   */
   Spectrum getWhite();
 
   /**
@@ -175,7 +181,10 @@ public interface ColorModel extends Serializable {
    */
   Raster createRaster(int width, int height);
 
-  /** The number of channels for colors in this <code>ColorModel</code>. */
+  /**
+   * The number of channels for colors in this <code>ColorModel</code>.
+   * @return The number of channels for colors in this <code>ColorModel</code>.
+   */
   int getNumChannels();
 
   /**

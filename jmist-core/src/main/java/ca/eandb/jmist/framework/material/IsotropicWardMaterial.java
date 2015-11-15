@@ -55,24 +55,12 @@ public final class IsotropicWardMaterial extends OpaqueMaterial {
 
   private final double alpha;
 
-  /**
-   *
-   * @param diffuse
-   * @param specular
-   * @param alpha
-   */
   public IsotropicWardMaterial(Painter diffuse, Painter specular, double alpha) {
     this.diffuse = diffuse;
     this.specular = specular;
     this.alpha = alpha;
   }
 
-  /**
-   *
-   * @param diffuse
-   * @param specular
-   * @param alpha
-   */
   public IsotropicWardMaterial(Spectrum diffuse, Spectrum specular, double alpha) {
     this(new UniformPainter(diffuse), new UniformPainter(specular), alpha);
   }

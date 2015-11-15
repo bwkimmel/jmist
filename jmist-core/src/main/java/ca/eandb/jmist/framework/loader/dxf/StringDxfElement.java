@@ -32,10 +32,6 @@ public final class StringDxfElement extends AbstractDxfElement {
 
   private final String value;
 
-  /**
-   * @param groupCode
-   * @param value
-   */
   public StringDxfElement(int groupCode, String value) {
     super(groupCode);
     this.value = value;

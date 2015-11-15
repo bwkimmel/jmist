@@ -40,8 +40,8 @@ import ca.eandb.jmist.math.Vector3;
 /**
  * Transforms the shading basis using a normal map.  The RGB values in the
  * image [0,1]^3 map directly to the normal in object space ([-1,1]^3).
- * @see http://en.wikipedia.org/wiki/Normal_mapping
- * @see http://wiki.polycount.com/NormalMap/#Object-space_normal_map
+ * @see <a href="http://en.wikipedia.org/wiki/Normal_mapping">Normal mapping</a>
+ * @see <a href="http://wiki.polycount.com/NormalMap/#Object-space_normal_map">Object-space normal map</a>
  */
 public final class ObjectSpaceNormalMapModifier implements Modifier {
 

@@ -124,6 +124,8 @@ public interface SceneElement extends Bounded3, VisibilityFunction3, Serializabl
   /**
    * Computes the surface area of the specified primitive (optional
    * operation).
+   * @param index The index of the primitive for which to compute the
+   *     surface area.
    * @return The surface area of the primitive.
    * @throws UnsupportedOperationException If the operation is not
    *     supported by this <code>SceneElement</code>.
@@ -173,6 +175,8 @@ public interface SceneElement extends Bounded3, VisibilityFunction3, Serializabl
    * operation).
    * @param index The index of the primitive from which to generate the
    *     random point.
+   * @param x The <code>SurfacePoint</code> to be illuminated, that should
+   *     influence the sampling distribution.
    * @param context The <code>ShadingContext</code> to receive the
    *     generated surface point.
    * @param ru The first random variable (must be in [0, 1]).
@@ -187,6 +191,8 @@ public interface SceneElement extends Bounded3, VisibilityFunction3, Serializabl
   /**
    * Generates a <code>SurfacePoint</code> randomly that is uniformly
    * distributed over the surface of this geometry (optional operation).
+   * @param x The <code>SurfacePoint</code> to be illuminated, that should
+   *     influence the sampling distribution.
    * @param context The <code>ShadingContext</code> to receive the
    *     generated surface point.
    * @param ru The first random variable (must be in [0, 1]).

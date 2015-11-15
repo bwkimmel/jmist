@@ -126,6 +126,8 @@ public final class CategoricalRandom implements Serializable {
   /**
    * Generates a new sample of this <code>CategoricalRandom</code>
    * variable.
+   * @param random The <code>Random</code> to use to generate random number
+   *     samples.
    * @return The next sample.
    */
   public int next(Random random) {

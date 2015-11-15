@@ -33,7 +33,7 @@ import ca.eandb.util.UnexpectedException;
 
 /**
  * Describes a property within an element of a PLY-file.
- * @see http://paulbourke.net/dataformats/ply/
+ * @see <a href="http://paulbourke.net/dataformats/ply/">PLY - Polygon File Format</a>
  */
 public final class PropertyDescriptor {
 

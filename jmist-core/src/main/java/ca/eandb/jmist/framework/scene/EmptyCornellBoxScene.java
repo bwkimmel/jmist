@@ -51,6 +51,7 @@ public final class EmptyCornellBoxScene extends AbstractScene {
 
   /**
    * Creates a new <code>CornellBoxModel</code>.
+   * @param colorModel The <code>ColorModel</code> to use.
    */
   public EmptyCornellBoxScene(ColorModel colorModel) {
     Material matteWhite = new LambertianMaterial(colorModel.getContinuous(white));

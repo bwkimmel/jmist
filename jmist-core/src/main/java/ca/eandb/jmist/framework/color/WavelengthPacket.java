@@ -32,7 +32,10 @@ package ca.eandb.jmist.framework.color;
  */
 public interface WavelengthPacket {
 
-  /** The <code>ColorModel</code> that created this packet. */
+  /**
+   * The <code>ColorModel</code> that created this packet.
+   * @return The <code>ColorModel</code> that created this packet.
+   */
   ColorModel getColorModel();
 
 }

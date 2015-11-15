@@ -50,10 +50,6 @@ public final class TrowbridgeReitzSurfaceScatterer implements SurfaceScatterer {
 
   private final Function1 riAbove;
 
-  /**
-   * @param riBelow
-   * @param riAbove
-   */
   public TrowbridgeReitzSurfaceScatterer(double oblateness, Function1 riBelow, Function1 riAbove) {
     this.oblateness = oblateness;
     this.riBelow = riBelow;

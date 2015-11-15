@@ -49,15 +49,13 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class SuperellipsoidGeometry extends PrimitiveGeometry {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -1585163561012430479L;
 
   /**
    * Creates a new <code>SuperellipsoidGeometry</code>.
-   * @param e
-   * @param n
+   * @param e The radial exponent.
+   * @param n The vertical exponent.
    */
   public SuperellipsoidGeometry(double e, double n) {
     if (e < 0.0 || n < 0.0) {
