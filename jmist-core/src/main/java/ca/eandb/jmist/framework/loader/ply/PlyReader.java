@@ -40,7 +40,7 @@ import ca.eandb.util.progress.ProgressMonitor;
 
 /**
  * Reads a PLY-file from an <code>InputStream</code>.
- * @see http://paulbourke.net/dataformats/ply/
+ * @see <a href="http://paulbourke.net/dataformats/ply/">PLY - Polygon File Format</a>
  */
 public final class PlyReader {
 
@@ -79,7 +79,7 @@ public final class PlyReader {
    * Reads the PLY-file at the specified file.
    * @param file The <code>File</code> containing the PLY data.
    * @param target The <code>PlyTarget</code> to receive the PLY data.
-   * @param monitor The <code>ProgressMonitor</code> to report progress to.
+   * @throws FileNotFoundException If the file could not be found.
    * @throws IOException If an error occurs while reading from the specified
    *     file.
    */
@@ -92,6 +92,7 @@ public final class PlyReader {
    * @param file The <code>File</code> containing the PLY data.
    * @param target The <code>PlyTarget</code> to receive the PLY data.
    * @param monitor The <code>ProgressMonitor</code> to report progress to.
+   * @throws FileNotFoundException If the file could not be found.
    * @throws IOException If an error occurs while reading from the specified
    *     file.
    */
@@ -114,7 +115,7 @@ public final class PlyReader {
 
   /**
    * Reads the PLY-file from the specified <code>InputStream</code>.
-   * @param in The <code>InputStream</code> to read the PLY data from.
+   * @param is The <code>InputStream</code> to read the PLY data from.
    * @param target The <code>PlyTarget</code> to receive the PLY data.
    * @param monitor The <code>ProgressMonitor</code> to report progress to.
    * @throws IOException If an error occurs while reading from the underlying

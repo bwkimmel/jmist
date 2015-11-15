@@ -39,11 +39,6 @@ public final class CIELuv extends Tuple3 {
 
   public static final CIELuv ZERO = new CIELuv(0.0, 0.0, 0.0);
 
-  /**
-   * @param L
-   * @param u
-   * @param v
-   */
   public CIELuv(double L, double u, double v) {
     super(L, u, v);
   }

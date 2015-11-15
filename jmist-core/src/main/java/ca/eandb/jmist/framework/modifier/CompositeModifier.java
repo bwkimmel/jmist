@@ -37,16 +37,11 @@ import ca.eandb.jmist.framework.ShadingContext;
  */
 public final class CompositeModifier implements Modifier {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 3443065225852391116L;
 
   private final Collection<Modifier> modifiers;
 
-  /**
-   * @param modifiers
-   */
   public CompositeModifier(Collection<Modifier> modifiers) {
     this.modifiers = modifiers;
   }

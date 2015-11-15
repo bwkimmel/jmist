@@ -285,9 +285,6 @@ public final class MonochromeColorModel extends ColorModel {
 
   }
 
-  /**
-   * @param wavelength
-   */
   public MonochromeColorModel(double wavelength) {
     this.wavelength = wavelength;
   }

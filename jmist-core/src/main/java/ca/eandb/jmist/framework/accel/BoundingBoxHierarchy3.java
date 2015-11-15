@@ -57,7 +57,7 @@ public final class BoundingBoxHierarchy3 implements RayTraversalStrategy3 {
 
   /**
    * Adds a new item to this <code>BoundingBoxHierarchy3</code>.
-   * @param item The <code>Bounded3</item> item to add.
+   * @param item The <code>Bounded3</code> item to add.
    * @return A reference to this <code>BoundingBoxHierarchy3</code> so that
    *     calls to this method may be chained.
    */

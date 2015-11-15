@@ -34,7 +34,7 @@ import ca.eandb.jmist.framework.color.RGB;
 
 /**
  * An object that computes an <code>RGB</code> triplet to visualize some aspect
- * of a provided <code>Color</object>.
+ * of a provided <code>Color</code>.
  *
  * @author Brad Kimmel
  */

@@ -41,30 +41,48 @@ import ca.eandb.jmist.math.Vector3;
 public interface ShadingContext extends SurfacePoint, VisibilityFunction3 {
 
   /**
-   * The <code>WavelengthPacket</code> of the light transmitted along the
-   * path.
+   * The <code>WavelengthPacket</code> of the light transmitted along the path.
+   * @return The <code>WavelengthPacket</code> of the light transmitted along
+   *     the path.
    */
   WavelengthPacket getWavelengthPacket();
 
-  /** The ray from which the intersection was computed. */
+  /**
+   * The ray from which the intersection was computed.
+   * @return The ray from which the intersection was computed.
+   */
   Ray3 getRay();
 
-  /** The incident direction (points <em>toward</em> the intersection). */
+  /**
+   * The incident direction (points <em>toward</em> the intersection).
+   * @return The incident direction (points <em>toward</em> the intersection).
+   */
   Vector3 getIncident();
 
-  /** The distance along the ray at which the intersection lies. */
+  /**
+   * The distance along the ray at which the intersection lies.
+   * @return The distance along the ray at which the intersection lies.
+   */
   double getDistance();
 
   /**
-   * A value indicating whether the ray hit from the front side of the
-   * surface.
+   * A value indicating whether the ray hit from the front side of the surface.
+   * @return A value indicating whether the ray hit from the front side of the
+   *     surface.
    */
   boolean isFront();
 
-  /** The number of ray-scattering events along this path so far. */
+  /**
+   * The number of ray-scattering events along this path so far.
+   * @return The number of ray-scattering events along this path so far.
+   */
   int getPathDepth();
 
-  /** The cumulative product of the colors from each ray-scattering event. */
+  /**
+   * The cumulative product of the colors from each ray-scattering event.
+   * @return The cumulative product of the colors from each ray-scattering
+   *     event.
+   */
   Color getImportance();
 
   /**
@@ -72,13 +90,21 @@ public interface ShadingContext extends SurfacePoint, VisibilityFunction3 {
    * encountered along the path so far.
    * @param type The type of ray-scattering event to count (diffuse, glossy,
    *     specular).
+   * @return The number of ray-scattering events of the specified type
+   *     encountered along the path so far.
    */
   int getPathDepthByType(ScatteredRay.Type type);
 
-  /** The <code>ColorModel</code> for the current rendering. */
+  /**
+   * The <code>ColorModel</code> for the current rendering.
+   * @return The <code>ColorModel</code> for the current rendering.
+   */
   ColorModel getColorModel();
 
-  /** The current ray-scatter event. */
+  /**
+   * The current ray-scatter event.
+   * @return The current ray-scatter event.
+   */
   ScatteredRay getScatteredRay();
 
   /**
@@ -95,52 +121,96 @@ public interface ShadingContext extends SurfacePoint, VisibilityFunction3 {
    */
   Color shade();
 
-  /** The recorded <code>LightSample</code>s illuminating the surface point. */
+  /**
+   * The recorded <code>LightSample</code>s illuminating the surface point.
+   * @return The recorded <code>LightSample</code>s illuminating the surface
+   *     point.
+   */
   Iterable<LightSample> getLightSamples();
 
-  /** The <code>Shader</code> to use. */
+  /**
+   * The <code>Shader</code> to use.
+   * @return The <code>Shader</code> to use.
+   */
   Shader getShader();
 
-  /** The <code>Modifier</code> to use. */
+  /**
+   * The <code>Modifier</code> to use.
+   * @return The <code>Modifier</code> to use.
+   */
   Modifier getModifier();
 
-  /** The ambient light term. */
+  /**
+   * The ambient light term.
+   * @return The ambient light term.
+   */
   Color getAmbientLight();
 
-  /** Sets the position of the ray-intersection. */
+  /**
+   * Sets the position of the ray-intersection.
+   * @param position The position of the ray-intersection.
+   */
   void setPosition(Point3 position);
 
-  /** Sets the surface normal. */
+  /**
+   * Sets the surface normal.
+   * @param normal The surface normal.
+   */
   void setNormal(Vector3 normal);
 
-  /** Sets the surface orientation. */
+  /**
+   * Sets the surface orientation.
+   * @param basis The surface orientation.
+   */
   void setBasis(Basis3 basis);
 
-  /** Sets the ID of the primitive that was intersected. */
+  /**
+   * Sets the ID of the primitive that was intersected.
+   * @param index The ID of the primitive that was intersected.
+   */
   void setPrimitiveIndex(int index);
 
-  /** Sets the micro-surface orientation. */
+  /**
+   * Sets the micro-surface orientation.
+   * @param basis The micro-surface orientation.
+   */
   void setShadingBasis(Basis3 basis);
 
-  /** Sets the micro-surface normal. */
+  /**
+   * Sets the micro-surface normal.
+   * @param normal The micro-surface normal.
+   */
   void setShadingNormal(Vector3 normal);
 
-  /** Sets the texture coordinates. */
+  /**
+   * Sets the texture coordinates.
+   * @param uv The texture coordinates.
+   */
   void setUV(Point2 uv);
 
-  /** Sets the <code>Material</code> to apply to the surface. */
+  /**
+   * Sets the <code>Material</code> to apply to the surface.
+   * @param material The <code>Material</code> to apply to the surface.
+   */
   void setMaterial(Material material);
 
   /**
    * Sets the <code>Medium</code> on the upper side of the surface (i.e., the
    * side toward which the normal points).
+   * @param medium The <code>Medium</code> on the upper side of the surface.
    */
   void setAmbientMedium(Medium medium);
 
-  /** Sets the <code>Shader</code> to use. */
+  /**
+   * Sets the <code>Shader</code> to use.
+   * @param shader The <code>Shader</code> to use.
+   */
   void setShader(Shader shader);
 
-  /** Sets the <code>Modifier</code> to use. */
+  /**
+   * Sets the <code>Modifier</code> to use.
+   * @param modifier The <code>Modifier</code> to use.
+   */
   void setModifier(Modifier modifier);
 
 }

@@ -68,9 +68,6 @@ public final class TransformableSceneElement extends SceneElementDecorator
 
   private transient Box3 bound = null;
 
-  /**
-   * @param inner
-   */
   public TransformableSceneElement(SceneElement inner) {
     super(inner);
   }

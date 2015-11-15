@@ -51,10 +51,16 @@ public abstract class ColorModel implements Serializable {
   /** Serialization version ID. */
   private static final long serialVersionUID = -102213996206421899L;
 
-  /** A <code>Spectrum</code> representing the absense of light. */
+  /**
+   * A <code>Spectrum</code> representing the absense of light.
+   * @return A <code>Spectrum</code> representing the absense of light.
+   */
   public abstract Spectrum getBlack();
 
-  /** A <code>Spectrum</code> representing unit reflectance. */
+  /**
+   * A <code>Spectrum</code> representing unit reflectance.
+   * @return A <code>Spectrum</code> representing unit reflectance.
+   */
   public abstract Spectrum getWhite();
 
   /**
@@ -178,7 +184,10 @@ public abstract class ColorModel implements Serializable {
    */
   public abstract Raster createRaster(int width, int height);
 
-  /** The number of channels for colors in this <code>ColorModel</code>. */
+  /**
+   * The number of channels for colors in this <code>ColorModel</code>.
+   * @return The number of channels for colors in this <code>ColorModel</code>.
+   */
   public abstract int getNumChannels();
 
   /**

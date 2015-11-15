@@ -33,11 +33,6 @@ public final class FloatDxfElement extends AbstractDxfElement {
 
   private final double value;
 
-  /**
-   *
-   * @param groupCode
-   * @param value
-   */
   public FloatDxfElement(int groupCode, double value) {
     super(groupCode);
     this.value = value;

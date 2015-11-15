@@ -47,6 +47,7 @@ public interface Raster extends RasterWriter, Serializable {
    * Adds the <code>Color</code> to the value stored at the specified pixel.
    * @param x The x-coordinate of the pixel.
    * @param y The y-coordinate of the pixel.
+   * @param pixel The <code>Color</code> to add to the pixel.
    */
   void addPixel(int x, int y, Color pixel);
 

@@ -33,9 +33,6 @@ package ca.eandb.jmist.framework.path;
 public abstract class EyeTerminalNode extends AbstractTerminalNode implements
     EyeNode {
 
-  /**
-   * @param pathInfo
-   */
   public EyeTerminalNode(PathInfo pathInfo, double ru, double rv, double rj) {
     super(pathInfo, ru, rv, rj);
   }

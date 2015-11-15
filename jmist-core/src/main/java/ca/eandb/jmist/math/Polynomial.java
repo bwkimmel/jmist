@@ -64,6 +64,7 @@ public final class Polynomial implements Serializable {
   /**
    * Gets the degree of this polynomial (the highest exponent with a non-zero
    * coefficient).
+   * @return The degree of this polynomial.
    */
   public int degree() {
     this.checkInvariant();

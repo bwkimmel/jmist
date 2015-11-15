@@ -29,12 +29,14 @@ import java.io.Serializable;
 
 /**
  * A 4x4 matrix of the form
- * <table>
- *     <tr><td>a</td><td>b</td><td>c</td><td>0</td></tr>
- *     <tr><td>d</td><td>e</td><td>f</td><td>0</td></tr>
- *     <tr><td>g</td><td>h</td><td>i</td><td>0</td></tr>
- *     <tr><td>0</td><td>0</td><td>0</td><td>1</td></tr>
- * </table>
+ * \[\left(
+ * \begin{matrix}
+ *   a &amp; b &amp; c &amp; 0 \\
+ *   d &amp; e &amp; f &amp; 0 \\
+ *   g &amp; h &amp; i &amp; 0 \\
+ *   0 &amp; 0 &amp; 0 &amp; 1
+ * \end{matrix}
+ * \right)\]
  * for applying three dimensional linear transformations.
  * This class is immutable.
  * @author Brad Kimmel
@@ -43,15 +45,15 @@ public final class LinearMatrix3 implements Serializable {
 
   /**
    * Initializes the matrix from its elements.
-   * @param _00
-   * @param _01
-   * @param _02
-   * @param _10
-   * @param _11
-   * @param _12
-   * @param _20
-   * @param _21
-   * @param _22
+   * @param _00 The element in row 0, column 0.
+   * @param _01 The element in row 0, column 1.
+   * @param _02 The element in row 0, column 2.
+   * @param _10 The element in row 1, column 0.
+   * @param _11 The element in row 1, column 1.
+   * @param _12 The element in row 1, column 2.
+   * @param _20 The element in row 2, column 0.
+   * @param _21 The element in row 2, column 1.
+   * @param _22 The element in row 2, column 2.
    */
   public LinearMatrix3(
       double _00, double _01, double _02,
@@ -182,8 +184,8 @@ public final class LinearMatrix3 implements Serializable {
 
   /**
    * Gets an element of the matrix.
-   * @param row The row containing the element to get (0 <= row < 3).
-   * @param col The column containing the element to get (0 <= col < 3).
+   * @param row The row containing the element to get (0 &lt;= row &lt; 3).
+   * @param col The column containing the element to get (0 &lt;= col &lt; 3).
    * @return The value of the element at the specified position.
    */
   public double at(int row, int col) {

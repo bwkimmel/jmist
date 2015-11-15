@@ -43,9 +43,6 @@ public final class SurfaceLightNode extends LightTerminalNode {
 
   private final SurfacePoint surf;
 
-  /**
-   * @param pathInfo
-   */
   public SurfaceLightNode(PathInfo pathInfo, SurfacePoint surf, double ru, double rv, double rj) {
     super(pathInfo, ru, rv, rj);
     this.surf = surf;

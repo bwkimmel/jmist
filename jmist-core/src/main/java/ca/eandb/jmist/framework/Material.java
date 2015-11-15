@@ -42,7 +42,10 @@ public interface Material extends Medium, Serializable {
 //  Color scattering(SurfacePoint x, Vector3 in, Vector3 out, WavelengthPacket lambda);
 //  Color emission(SurfacePoint x, Vector3 out, WavelengthPacket lambda);
 
-  /** Gets a value indicating if this <code>Material</code> emits light. */
+  /**
+   * Gets a value indicating if this <code>Material</code> emits light.
+   * @return A value indicating if this <code>Material</code> emits light.
+   */
   boolean isEmissive();
 
 //  void scatter(SurfacePoint x, Vector3 v, WavelengthPacket lambda, Random rng, ScatteredRayRecorder recorder);
@@ -53,7 +56,7 @@ public interface Material extends Medium, Serializable {
    * @param x The <code>SurfacePoint</code> that the ray is incident upon.
    * @param v The <code>Vector3</code> indicating the direction of travel of
    *     the incident ray (note that the <code>Vector3</code> points
-   *     <em>toward</code> the surface).
+   *     <em>toward</em> the surface).
    * @param adjoint A value indicating whether the path being simulated is in
    *     the reverse direction from the direction in which light is
    *     traveling (i.e., <code>true</code> for path tracing from the eye,

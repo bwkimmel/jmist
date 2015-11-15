@@ -47,15 +47,12 @@ public final class SimpleCompositeLight extends CompositeLight {
   /** Serialization version ID. */
   private static final long serialVersionUID = -899825873190702438L;
 
-  /**
-   *
-   */
   public SimpleCompositeLight() {
     super();
   }
 
   /**
-   * @param children
+   * @param children The <code>Collection</code> of lights making up this light.
    */
   public SimpleCompositeLight(Collection<? extends Light> children) {
     super(children);

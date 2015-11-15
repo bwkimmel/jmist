@@ -273,6 +273,7 @@ public final class Matrix implements Serializable {
    *     non-negative).
    * @param cols The number of columns in the <code>Matrix</code> (must be
    *     non-negative).
+   * @param value The value to use for all of the elements of the matrix.
    * @return The <code>Matrix</code> with all elements having the same value.
    * @throws IllegalArgumentException if <code>rows</code> or
    *     <code>cols</code> is negative.

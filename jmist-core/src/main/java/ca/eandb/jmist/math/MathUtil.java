@@ -1565,7 +1565,8 @@ public final class MathUtil {
    * @param x The value to threshold.
    * @param min The minimum of the range to threshold to.
    * @param max The maximum of the range to threshold to.
-   * @return x, if min <= x <= max.  min, if x < min.  max, if x > max.
+   * @return x, if min &lt;= x &lt;= max.  min, if x &lt; min.  max, if x &gt;
+   *     max.
    */
   public static double clamp(double x, double min, double max) {
     if (x < min) {
@@ -1583,7 +1584,8 @@ public final class MathUtil {
    * @param x The value to threshold.
    * @param min The minimum of the range to threshold to.
    * @param max The maximum of the range to threshold to.
-   * @return x, if min <= x <= max.  min, if x < min.  max, if x > max.
+   * @return x, if min &lt;= x &lt;= max.  min, if x &lt; min.  max, if x &gt;
+   *     max.
    */
   public static int clamp(int x, int min, int max) {
     if (x < min) {
@@ -1601,7 +1603,8 @@ public final class MathUtil {
    * @param x The value to threshold.
    * @param min The minimum of the range to threshold to.
    * @param max The maximum of the range to threshold to.
-   * @return x, if min <= x <= max.  min, if x < min.  max, if x > max.
+   * @return x, if min &lt;= x &lt;= max.  min, if x &lt; min.  max, if x &gt;
+   *     max.
    */
   public static long clamp(long x, long min, long max) {
     if (x < min) {
@@ -1981,7 +1984,6 @@ public final class MathUtil {
    *     <code>x0</code>).
    * @param y An array of the y-coordinates.
    * @param x The x-coordinate at which to interpolate.
-   * @param wrap A value indicating whether the curve is periodic.
    * @return The y-coordinate corresponding to <code>x</code>.
    */
   public static double interpolateWrapped(double x0, double x1, double[] y, double x) {

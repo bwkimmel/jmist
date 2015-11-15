@@ -50,7 +50,7 @@ public abstract class CompositeLight extends AbstractLight {
   /**
    * Initializes this <code>CompositeLight</code> with the specified child
    * light sources.
-   * @param children
+   * @param children The <code>Collection</code> of lights making up this light.
    */
   protected CompositeLight(Collection<? extends Light> children) {
     this.children.addAll(children);

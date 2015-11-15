@@ -52,11 +52,6 @@ public final class MultipleImportanceSamplingStrategy implements BidiPathStrateg
 
   private final Function1 heuristic;
 
-  /**
-   * @param maxLightDepth
-   * @param maxEyeDepth
-   * @param heuristic
-   */
   public MultipleImportanceSamplingStrategy(int maxLightDepth, int maxEyeDepth, Function1 heuristic) {
     this.maxLightDepth = maxLightDepth;
     this.maxEyeDepth = maxEyeDepth;

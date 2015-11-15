@@ -93,29 +93,43 @@ public final class ScatteredRay {
 
   }
 
-  /** Gets the origin and direction of the scattered ray. */
+  /**
+   * Gets the origin and direction of the scattered ray.
+   * @return The origin and direction of the scattered ray.
+   */
   public final Ray3 getRay() {
     return scatteredRay;
   }
 
-  /** Gets the <code>Color</code> applied by this scattering event. */
+  /**
+   * Gets the <code>Color</code> applied by this scattering event.
+   * @return The <code>Color</code> applied by this scattering event.
+   */
   public final Color getColor() {
     return color;
   }
 
-  /** Gets the <code>Type</code> of scattering event (diffuse, glossy, specular). */
+  /**
+   * Gets the <code>Type</code> of scattering event (diffuse, glossy, specular).
+   * @return The <code>Type</code> of scattering event (diffuse, glossy, specular).
+   */
   public final Type getType() {
     return type;
   }
 
-  /** Gets the marginal probability of generating this scattering event. */
+  /**
+   * Gets the marginal probability of generating this scattering event.
+   * @return The marginal probability of generating this scattering event.
+   */
   public final double getPDF() {
     return pdf;
   }
 
   /**
-   * Gets a value indicating whether the scattered ray emits from the
-   * opposite side of the surface from the incident ray.
+   * Gets a value indicating whether the scattered ray emits from the opposite
+   * side of the surface from the incident ray.
+   * @return A value indicating whether the scattered ray emits from the
+   *     opposite side of the surface from the incident ray.
    */
   public final boolean isTransmitted() {
     return transmitted;

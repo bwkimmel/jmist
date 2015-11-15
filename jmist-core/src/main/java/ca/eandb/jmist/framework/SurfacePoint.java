@@ -33,12 +33,16 @@ package ca.eandb.jmist.framework;
  */
 public interface SurfacePoint extends SurfacePointGeometry {
 
-  /** The <code>Material</code> properties at this surface point. */
+  /**
+   * The <code>Material</code> properties at this surface point.
+   * @return The <code>Material</code> properties at this surface point.
+   */
   Material getMaterial();
 
   /**
    * The <code>Medium</code> on the upper side of the surface (i.e., in the
    * direction which the normal points).
+   * @return The <code>Medium</code> on the upper side of the surface.
    */
   Medium getAmbientMedium();
 

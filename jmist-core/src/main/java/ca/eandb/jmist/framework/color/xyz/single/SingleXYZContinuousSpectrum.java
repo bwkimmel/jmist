@@ -41,9 +41,6 @@ public final class SingleXYZContinuousSpectrum implements Spectrum {
 
   private final Function1 spectrum;
 
-  /**
-   * @param spectrum
-   */
   public SingleXYZContinuousSpectrum(Function1 spectrum) {
     this.spectrum = spectrum;
   }

@@ -40,9 +40,6 @@ import javax.imageio.spi.ImageWriterSpi;
  */
 public final class OpenEXRImageWriter extends ImageWriter {
 
-  /**
-   * @param originatingProvider
-   */
   public OpenEXRImageWriter(ImageWriterSpi originatingProvider) {
     super(originatingProvider);
     // TODO Auto-generated constructor stub

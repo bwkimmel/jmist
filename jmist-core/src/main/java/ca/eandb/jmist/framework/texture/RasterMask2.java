@@ -91,12 +91,18 @@ public final class RasterMask2 implements Mask2 {
     placeholder = new ThreadLocal<double[]>();
   }
 
-  /** Get the width of the image (in pixels). */
+  /**
+   * Get the width of the image (in pixels).
+   * @return The width of the image (in pixels).
+   */
   public int getWidth() {
     return image.getWidth();
   }
 
-  /** Get the height of the image (in pixels). */
+  /**
+   * Get the height of the image (in pixels).
+   * @return The height of the image (in pixels).
+   */
   public int getHeight() {
     return image.getHeight();
   }

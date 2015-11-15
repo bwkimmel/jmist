@@ -108,6 +108,8 @@ public final class JComponentDisplay extends JComponent implements Display,
 
   /**
    * Creates a new <code>JComponentDisplay</code>.
+   * @param toneMapperFactory The <code>ToneMapperFactory</code> to use to
+   *     create <code>ToneMapper</code>s based on the content of this display.
    */
   public JComponentDisplay(ToneMapperFactory toneMapperFactory) {
     this(toneMapperFactory, DEFAULT_TONE_MAPPER_AGE_THRESHOLD);

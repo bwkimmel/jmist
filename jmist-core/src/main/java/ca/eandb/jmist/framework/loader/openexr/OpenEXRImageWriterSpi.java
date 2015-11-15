@@ -38,33 +38,10 @@ import javax.imageio.spi.ImageWriterSpi;
  */
 public final class OpenEXRImageWriterSpi extends ImageWriterSpi {
 
-  /**
-   *
-   */
   public OpenEXRImageWriterSpi() {
     // TODO Auto-generated constructor stub
   }
 
-  /**
-   * @param vendorName
-   * @param version
-   * @param names
-   * @param suffixes
-   * @param MIMETypes
-   * @param writerClassName
-   * @param outputTypes
-   * @param readerSpiNames
-   * @param supportsStandardStreamMetadataFormat
-   * @param nativeStreamMetadataFormatName
-   * @param nativeStreamMetadataFormatClassName
-   * @param extraStreamMetadataFormatNames
-   * @param extraStreamMetadataFormatClassNames
-   * @param supportsStandardImageMetadataFormat
-   * @param nativeImageMetadataFormatName
-   * @param nativeImageMetadataFormatClassName
-   * @param extraImageMetadataFormatNames
-   * @param extraImageMetadataFormatClassNames
-   */
   public OpenEXRImageWriterSpi(String vendorName, String version,
       String[] names, String[] suffixes, String[] MIMETypes,
       String writerClassName, Class[] outputTypes,
