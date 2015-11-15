@@ -35,10 +35,16 @@ import ca.eandb.jmist.framework.color.Color;
  */
 public interface RasterWriter extends Serializable {
 
-  /** Gets the width of the image, in pixels. */
+  /**
+   * Gets the width of the image, in pixels.
+   * @return The width of the image, in pixels.
+   */
   int getWidth();
 
-  /** Gets the height of the image, in pixels. */
+  /**
+   * Gets the height of the image, in pixels.
+   * @return The height of the image, in pixels.
+   */
   int getHeight();
 
   /**

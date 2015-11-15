@@ -57,7 +57,10 @@ public final class SingleXYZColorModel implements ColorModel {
 
   private final Spectrum white = new SingleXYZContinuousSpectrum(Function1.ONE);
 
-  /** Gets the single instance of this <code>ColorModel</code>. */
+  /**
+   * Gets the single instance of this <code>ColorModel</code>.
+   * @return The single instance of this <code>ColorModel</code>.
+   */
   public synchronized static SingleXYZColorModel getInstance() {
     return instance;
   }

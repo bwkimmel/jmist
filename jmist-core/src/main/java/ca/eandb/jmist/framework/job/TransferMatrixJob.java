@@ -153,7 +153,10 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
     private CollectorSphere exitantCollector = null;
     private boolean incidentPointsOutward = false;
 
-    /** Create the <code>TransferMatrixJob</code> instance. */
+    /**
+     * Create the <code>TransferMatrixJob</code> instance.
+     * @return The new <code>TransferMatrixJob</code>.
+     */
     public TransferMatrixJob build() {
       setDefaults();
       return new TransferMatrixJob(
@@ -236,7 +239,6 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 
     /**
      * Add the specified channel to the job.
-     * @param name The name of the channel.
      * @param channel The <code>ProbabilityDensityFunction</code> for the
      *     channel to add.
      * @return A reference to this <code>Builder</code>.
@@ -259,7 +261,7 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 
     /**
      * Adds the specified wavelengths to the job.
-     * @param wavelength The array of wavelengths to add.
+     * @param wavelengths The array of wavelengths to add.
      * @return A reference to this <code>Builder</code>.
      */
     public Builder addWavelengths(double[] wavelengths) {
@@ -271,7 +273,7 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 
     /**
      * Adds the specified wavelengths to the job.
-     * @param wavelength The list of wavelengths to add.
+     * @param wavelengths The list of wavelengths to add.
      * @return A reference to this <code>Builder</code>.
      */
     public Builder addWavelengths(Iterable<Double> wavelengths) {

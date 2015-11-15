@@ -41,6 +41,7 @@ public final class CollectionUtil {
    * <code>list.get(0), ..., list.get(split-1)</code> and
    * <code>list.get(split), ..., list.get(list.size() - 1)</code>
    * must be sorted.  The results are undefined otherwise.
+   * @param <T> The type of list to sort.
    * @param list The <code>List</code> to sort.
    * @param split The number of elements in the first sub-list.
    */
@@ -160,6 +161,7 @@ public final class CollectionUtil {
 
   /**
    * Finds the first index of a minimal element in a list.
+   * @param <T> The type of list to sort.
    * @param list The <code>List</code> to search.
    * @return The first index of a minimal element in the list.
    */
@@ -178,6 +180,7 @@ public final class CollectionUtil {
 
   /**
    * Finds the first index of a maximal element in a list.
+   * @param <T> The type of list to sort.
    * @param list The <code>List</code> to search.
    * @return The first index of a maximal element in the list.
    */
@@ -196,6 +199,7 @@ public final class CollectionUtil {
 
   /**
    * Determines if the given list is sorted (in ascending order).
+   * @param <T> The type of list to sort.
    * @param list The <code>List</code> to examine.
    * @return A value indciating whether the list is sorted in ascending
    *     order.

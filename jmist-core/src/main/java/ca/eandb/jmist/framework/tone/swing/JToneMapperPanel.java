@@ -48,30 +48,17 @@ public abstract class JToneMapperPanel extends JPanel implements
 
   private final Set<ChangeListener> changeListeners = new HashSet<ChangeListener>();
 
-  /**
-   *
-   */
   public JToneMapperPanel() {
   }
 
-  /**
-   * @param layout
-   */
   public JToneMapperPanel(LayoutManager layout) {
     super(layout);
   }
 
-  /**
-   * @param isDoubleBuffered
-   */
   public JToneMapperPanel(boolean isDoubleBuffered) {
     super(isDoubleBuffered);
   }
 
-  /**
-   * @param layout
-   * @param isDoubleBuffered
-   */
   public JToneMapperPanel(LayoutManager layout, boolean isDoubleBuffered) {
     super(layout, isDoubleBuffered);
   }
@@ -94,6 +81,7 @@ public abstract class JToneMapperPanel extends JPanel implements
   /**
    * Creates a <code>JToneMapperPanel</code> that allows for switching
    * between all tone mapper types.
+   * @return The new <code>JToneMapperPanel</code>.
    */
   public static JToneMapperPanel allToneMappers() {
     return new JCompositeToneMapperPanel()

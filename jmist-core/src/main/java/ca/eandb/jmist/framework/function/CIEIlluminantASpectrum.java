@@ -29,7 +29,7 @@ import ca.eandb.jmist.framework.Function1;
 
 /**
  * Spectral power distribution for CIE Illuminant A.
- * @see http://en.wikipedia.org/wiki/Standard_illuminant#Illuminant_A
+ * @see <a href="http://en.wikipedia.org/wiki/Standard_illuminant#Illuminant_A">Illuminant A</a>
  */
 public final class CIEIlluminantASpectrum implements Function1 {
 

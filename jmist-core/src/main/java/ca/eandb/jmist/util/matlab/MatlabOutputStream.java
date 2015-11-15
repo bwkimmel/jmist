@@ -413,6 +413,9 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
   /**
    * Writes a <code>boolean</code> MATLAB element to the underlying stream.
    * @param array The array of <code>boolean</code> values to write.
+   * @param dims Indicates the size of the array long each dimension.
+   * @param strides The distance between the start of consecutive rows within
+   *     the backing array for each dimension.
    * @throws IOException if writing to the underlying stream fails.
    */
   public void writeElement(boolean[] array, int[] dims, int[] strides) throws IOException {
@@ -423,6 +426,9 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
   /**
    * Writes a <code>double</code> MATLAB element to the underlying stream.
    * @param array The array of <code>double</code> values to write.
+   * @param dims Indicates the size of the array long each dimension.
+   * @param strides The distance between the start of consecutive rows within
+   *     the backing array for each dimension.
    * @throws IOException if writing to the underlying stream fails.
    */
   public void writeElement(double[] array, int[] dims, int[] strides) throws IOException {
@@ -433,6 +439,9 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
   /**
    * Writes a <code>float</code> MATLAB element to the underlying stream.
    * @param array The array of <code>float</code> values to write.
+   * @param dims Indicates the size of the array long each dimension.
+   * @param strides The distance between the start of consecutive rows within
+   *     the backing array for each dimension.
    * @throws IOException if writing to the underlying stream fails.
    */
   public void writeElement(float[] array, int[] dims, int[] strides) throws IOException {
@@ -443,6 +452,9 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
   /**
    * Writes a <code>byte</code> MATLAB element to the underlying stream.
    * @param array The array of <code>byte</code> values to write.
+   * @param dims Indicates the size of the array long each dimension.
+   * @param strides The distance between the start of consecutive rows within
+   *     the backing array for each dimension.
    * @throws IOException if writing to the underlying stream fails.
    */
   public void writeElement(byte[] array, int[] dims, int[] strides) throws IOException {
@@ -453,6 +465,9 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
   /**
    * Writes a <code>short</code> MATLAB element to the underlying stream.
    * @param array The array of <code>short</code> values to write.
+   * @param dims Indicates the size of the array long each dimension.
+   * @param strides The distance between the start of consecutive rows within
+   *     the backing array for each dimension.
    * @throws IOException if writing to the underlying stream fails.
    */
   public void writeElement(short[] array, int[] dims, int[] strides) throws IOException {
@@ -463,6 +478,9 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
   /**
    * Writes a <code>int</code> MATLAB element to the underlying stream.
    * @param array The array of <code>int</code> values to write.
+   * @param dims Indicates the size of the array long each dimension.
+   * @param strides The distance between the start of consecutive rows within
+   *     the backing array for each dimension.
    * @throws IOException if writing to the underlying stream fails.
    */
   public void writeElement(int[] array, int[] dims, int[] strides) throws IOException {
@@ -473,6 +491,9 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
   /**
    * Writes a <code>long</code> MATLAB element to the underlying stream.
    * @param array The array of <code>long</code> values to write.
+   * @param dims Indicates the size of the array long each dimension.
+   * @param strides The distance between the start of consecutive rows within
+   *     the backing array for each dimension.
    * @throws IOException if writing to the underlying stream fails.
    */
   public void writeElement(long[] array, int[] dims, int[] strides) throws IOException {
@@ -484,6 +505,9 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
    * Writes an unsigned <code>byte</code> MATLAB element to the underlying
    * stream.
    * @param array The array of <code>byte</code> values to write.
+   * @param dims Indicates the size of the array long each dimension.
+   * @param strides The distance between the start of consecutive rows within
+   *     the backing array for each dimension.
    * @throws IOException if writing to the underlying stream fails.
    */
   public void writeUnsignedElement(byte[] array, int[] dims, int[] strides) throws IOException {
@@ -495,6 +519,9 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
    * Writes an unsigned <code>short</code> MATLAB element to the underlying
    * stream.
    * @param array The array of <code>short</code> values to write.
+   * @param dims Indicates the size of the array long each dimension.
+   * @param strides The distance between the start of consecutive rows within
+   *     the backing array for each dimension.
    * @throws IOException if writing to the underlying stream fails.
    */
   public void writeUnsignedElement(short[] array, int[] dims, int[] strides) throws IOException {
@@ -506,6 +533,9 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
    * Writes an unsigned <code>int</code> MATLAB element to the underlying
    * stream.
    * @param array The array of <code>int</code> values to write.
+   * @param dims Indicates the size of the array long each dimension.
+   * @param strides The distance between the start of consecutive rows within
+   *     the backing array for each dimension.
    * @throws IOException if writing to the underlying stream fails.
    */
   public void writeUnsignedElement(int[] array, int[] dims, int[] strides) throws IOException {
@@ -517,6 +547,9 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
    * Writes an unsigned <code>long</code> MATLAB element to the underlying
    * stream.
    * @param array The array of <code>long</code> values to write.
+   * @param dims Indicates the size of the array long each dimension.
+   * @param strides The distance between the start of consecutive rows within
+   *     the backing array for each dimension.
    * @throws IOException if writing to the underlying stream fails.
    */
   public void writeUnsignedElement(long[] array, int[] dims, int[] strides) throws IOException {

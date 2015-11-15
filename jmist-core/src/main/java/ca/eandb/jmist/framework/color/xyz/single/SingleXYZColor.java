@@ -35,6 +35,7 @@ import ca.eandb.jmist.framework.color.Color;
   /**
    * Converts the color to an XYZ representation (without an associated
    * wavelength).
+   * @return The <code>XYZColor</code> representation of this color.
    */
   XYZColor toXYZColor();
 
@@ -43,6 +44,7 @@ import ca.eandb.jmist.framework.color.Color;
    * associated value).
    * @throws UnsupportedOperationException if this instance is not an
    *     <code>XYZSample</code>.
+   * @return This <code>XYZSample</code>.
    */
   XYZSample asSample();
 

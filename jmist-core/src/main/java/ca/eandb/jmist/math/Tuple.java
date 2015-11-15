@@ -162,7 +162,7 @@ public final class Tuple extends AbstractList<Double> implements Serializable {
    * @return A Tuple with the elements of this Tuple plus
    *     the specified value.
    * @see #Tuple(double)
-   * @see #append(Tuple).
+   * @see #append(Tuple)
    */
   public Tuple append(double value) {
 
@@ -187,7 +187,7 @@ public final class Tuple extends AbstractList<Double> implements Serializable {
    * @return The concatenation of this Tuple with the given
    *     array of values.
    * @see #Tuple(double[])
-   * @see #append(Tuple).
+   * @see #append(Tuple)
    */
   public Tuple append(double[] values) {
 

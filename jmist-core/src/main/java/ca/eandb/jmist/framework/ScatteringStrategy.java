@@ -40,7 +40,7 @@ public interface ScatteringStrategy {
    * @param x The <code>SurfacePoint</code> that the ray is incident upon.
    * @param v The <code>Vector3</code> indicating the direction of travel of
    *     the incident ray (note that the <code>Vector3</code> points
-   *     <em>toward</code> the surface).
+   *     <em>toward</em> the surface).
    * @param adjoint A value indicating whether the path being simulated is in
    *     the reverse direction from the direction in which light is
    *     traveling (i.e., <code>true</code> for path tracing from the eye,

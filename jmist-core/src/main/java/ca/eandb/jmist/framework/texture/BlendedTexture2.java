@@ -32,7 +32,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Point2;
 
 /**
- * A <code>Texture2<code> that combines two other <code>Texture2</code>s using
+ * A <code>Texture2</code> that combines two other <code>Texture2</code>s using
  * a <code>Mask2</code>.
  *
  * At areas where the mask value is zero, the first texture is used.  Where the

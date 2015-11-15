@@ -51,9 +51,6 @@ public final class TrimmingSceneElement extends SceneElementDecorator {
   /** The <code>Mask2</code> to trim with. */
   private final Mask2 trim;
 
-  /**
-   * @param inner
-   */
   public TrimmingSceneElement(Mask2 trim, SceneElement inner) {
     super(inner);
     this.trim = trim;

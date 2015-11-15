@@ -35,7 +35,7 @@ import ca.eandb.jmist.math.Vector3;
 
 /**
  * Transforms the shading basis using a normal map.
- * @see http://en.wikipedia.org/wiki/Normal_mapping
+ * @see <a href="http://en.wikipedia.org/wiki/Normal_mapping">Normal mapping</a>
  */
 public final class BumpMapModifier implements Modifier {
 

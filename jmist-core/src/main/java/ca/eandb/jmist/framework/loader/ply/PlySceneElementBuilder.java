@@ -34,7 +34,7 @@ import ca.eandb.jmist.math.Vector3;
 /**
  * A <code>PlyTarget</code> that creates a <code>SceneElement</code> consisting
  * of a single polygonal mesh.
- * @see http://paulbourke.net/dataformats/ply/
+ * @see <a href="http://paulbourke.net/dataformats/ply/">PLY - Polygon File Format</a>
  */
 public final class PlySceneElementBuilder implements PlyTarget {
 

@@ -32,7 +32,7 @@ import java.util.List;
 
 /**
  * Describes an element in a PLY-file.
- * @see http://paulbourke.net/dataformats/ply/
+ * @see <a href="http://paulbourke.net/dataformats/ply/">PLY - Polygon File Format</a>
  */
 public final class ElementDescriptor {
 

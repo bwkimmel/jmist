@@ -37,20 +37,11 @@ import ca.eandb.jmist.math.Vector3;
 public final class TransformedEyeNode extends TransformedPathNode implements
     EyeNode {
 
-  /**
-   * @param inner
-   * @param localToWorld
-   * @param worldToLocal
-   */
   public TransformedEyeNode(EyeNode inner, AffineMatrix3 localToWorld,
       AffineMatrix3 worldToLocal) {
     super(inner, localToWorld, worldToLocal);
   }
 
-  /**
-   * @param inner
-   * @param worldToLocal
-   */
   public TransformedEyeNode(EyeNode inner, AffineMatrix3 worldToLocal) {
     super(inner, worldToLocal);
   }

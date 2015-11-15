@@ -41,9 +41,6 @@ import javax.imageio.spi.ImageReaderSpi;
  */
 public final class OpenEXRImageReader extends ImageReader {
 
-  /**
-   * @param originatingProvider
-   */
   public OpenEXRImageReader(ImageReaderSpi originatingProvider) {
     super(originatingProvider);
     // TODO Auto-generated constructor stub

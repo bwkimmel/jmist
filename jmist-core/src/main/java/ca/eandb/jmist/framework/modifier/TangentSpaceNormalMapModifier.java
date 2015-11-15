@@ -39,8 +39,8 @@ import ca.eandb.jmist.math.Vector3;
 
 /**
  * Transforms the shading basis using a normal map.
- * @see http://en.wikipedia.org/wiki/Normal_mapping
- * @see http://wiki.polycount.com/NormalMap/#Tangent-space_normal_map
+ * @see <a href="http://en.wikipedia.org/wiki/Normal_mapping">Normal mapping</a>
+ * @see <a href="http://wiki.polycount.com/NormalMap/#Tangent-space_normal_map">Tangent-space normal map</a>
  */
 public final class TangentSpaceNormalMapModifier implements Modifier {
 

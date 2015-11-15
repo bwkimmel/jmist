@@ -39,64 +39,114 @@ public interface Color extends Serializable {
   /**
    * The <code>WavelengthPacket</code> used to generate the sample from a
    * <code>Spectrum</code> (may be <code>null</code>).
+   * @return The <code>WavelengthPacket</code> used to generate the sample from
+   *     a <code>Spectrum</code> (may be <code>null</code>).
    */
   WavelengthPacket getWavelengthPacket();
 
-  /** The <code>ColorModel</code> that this <code>Color</code> came from. */
+  /**
+   * The <code>ColorModel</code> that this <code>Color</code> came from.
+   * @return The <code>ColorModel</code> that this <code>Color</code> came from.
+   */
   ColorModel getColorModel();
 
-  /** Multiplies this color by another. */
+  /**
+   * Multiplies this color by another.
+   * @param other The <code>Color</code> to multiply by.
+   * @return The product of <code>this</code> and <code>other</code>.
+   */
   Color times(Color other);
 
-  /** Multiplies this color by a constant. */
+  /**
+   * Multiplies this color by a constant.
+   * @param c The factor to multiply by.
+   * @return A <code>Color</code> equal to this <code>Color</code> times
+   *     <code>c</code>.
+   */
   Color times(double c);
 
-  /** Divides this color by another. */
+  /**
+   * Divides this color by another.
+   * @param other The <code>Color</code> to divide by.
+   * @return The quotient of <code>this</code> and <code>other</code>.
+   */
   Color divide(Color other);
 
-  /** Divides this color by a constant. */
+  /**
+   * Divides this color by a constant.
+   * @param c The factor to divide by.
+   * @return A <code>Color</code> equal to this <code>Color</code> divided by
+   *     <code>c</code>.
+   */
   Color divide(double c);
 
-  /** Adds this color to another. */
+  /**
+   * Adds this color to another.
+   * @param other The <code>Color</code> to add.
+   * @return The sum of <code>this</code> and <code>other</code>.
+   */
   Color plus(Color other);
 
-  /** Subtracts another color from this color. */
+  /**
+   * Subtracts another color from this color.
+   * @param other The <code>Color</code> to subtract.
+   * @return The value of <code>this</code> minus <code>other</code>.
+   */
   Color minus(Color other);
 
   /**
    * A color of the same quality whose luminance is the square root of the
    * luminance of this color.
+   * @return A <code>Color</code> of the same quality whose luminance is the
+   *     square root of the luminance of this color.
    */
   Color sqrt();
 
   /**
    * A color of the same quality whose luminance is <em>e</em> raised to the
    * luminance of this color.
+   * @return A <code>Color</code> of the same quality whose luminance is
+   *     <em>e</em> raised to the luminance of this color.
    */
   Color exp();
 
   /**
    * A color whose luminance is <code>1 - x</code>, where <code>x</code> is
    * the luminance of this color.
+   * @return A <code>Color</code> whose luminance is <code>1 - x</code>, where
+   *     <code>x</code> is the luminance of this color.
    */
   Color invert();
 
-  /** A color whose luminance the negation of the luminance of this color. */
+  /**
+   * A color whose luminance the negation of the luminance of this color.
+   * @return A <code>Color</code> whose luminance the negation of the luminance
+   *     of this color.
+   */
   Color negative();
 
   /**
    * A color whose luminance is the absolute value of the luminance of this
    * color.
+   * @return A <code>Color</code> whose luminance is the absolute value of the
+   *     luminance of this color.
    */
   Color abs();
 
   /**
-   * A color whose luminance is the absolute value of the luminance of this
-   * color.
+   * Raises this color to the power of another, componentwise.
+   * @param other The <code>Color</code> to raise this color to.
+   * @return A <code>Color</code> representing this color raised to the power of
+   *     <code>other</code>, componentwise.
    */
   Color pow(Color other);
 
-  /** A color whose luminance is that of this color raised to a constant. */
+  /**
+   * A color whose luminance is that of this color raised to a constant.
+   * @param e The exponent.
+   * @return A <code>Color</code> whose luminance is that of this color raised
+   *     to a constant.
+   */
   Color pow(double e);
 
   /**
@@ -134,7 +184,10 @@ public interface Color extends Serializable {
    */
   Color disperse(int channel);
 
-  /** The intensity of this color. */
+  /**
+   * The intensity of this color.
+   * @return The intensity of this color.
+   */
   double luminance();
 
   /**
@@ -142,16 +195,22 @@ public interface Color extends Serializable {
    * be the backing array (if there is one) for this <code>Color</code> (i.e.,
    * modifying the contents of the array will not affect this
    * <code>Color</code>).
+   * @return The components of this <code>Color</code>.
    */
   double[] toArray();
 
   /**
    * The CIE XYZ tristimulus values indicating how this color appears to a
    * human observer.
+   * @return The <code>CIEXYZ</code> tristimulus values indicating how this
+   *     color appears to a human observer.
    */
   CIEXYZ toXYZ();
 
-  /** An RGB representation of this color. */
+  /**
+   * An RGB representation of this color.
+   * @return An <code>RGB</code> representation of this color.
+   */
   RGB toRGB();
 
 }

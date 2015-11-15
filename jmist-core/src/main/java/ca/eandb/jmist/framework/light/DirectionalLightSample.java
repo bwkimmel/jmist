@@ -46,12 +46,6 @@ public final class DirectionalLightSample implements LightSample {
 
   private final boolean shadows;
 
-  /**
-   * @param x
-   * @param direction
-   * @param radiance
-   * @param shadows
-   */
   public DirectionalLightSample(SurfacePoint x, Vector3 direction,
       Color radiance, boolean shadows) {
     this.x = x;
@@ -60,11 +54,6 @@ public final class DirectionalLightSample implements LightSample {
     this.shadows = shadows;
   }
 
-  /**
-   * @param x
-   * @param direction
-   * @param radiance
-   */
   public DirectionalLightSample(SurfacePoint x, Vector3 direction,
       Color radiance) {
     this(x, direction, radiance, true);

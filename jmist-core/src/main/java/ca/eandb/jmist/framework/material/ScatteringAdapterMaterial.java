@@ -53,11 +53,6 @@ public final class ScatteringAdapterMaterial implements Material {
 
   private final double weight;
 
-  /**
-   * @param inner
-   * @param strategy
-   * @param weight
-   */
   public ScatteringAdapterMaterial(Material inner, ScatteringStrategy strategy, double weight) {
     this.inner = inner;
     this.strategy = strategy;

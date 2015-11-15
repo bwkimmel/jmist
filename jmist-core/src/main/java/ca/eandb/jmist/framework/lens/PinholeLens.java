@@ -76,6 +76,7 @@ public final class PinholeLens extends AbstractLens {
    *     (0, PI).
    * @param aspectRatio The ratio between the width and
    *     height of the image.  This value must be positive.
+   * @return The new <code>PinholeLens</code>.
    */
   public static PinholeLens fromHfovAndAspect(double horizontalFieldOfView, double aspectRatio) {
 
@@ -97,6 +98,7 @@ public final class PinholeLens extends AbstractLens {
    *     (0, PI).
    * @param aspectRatio The ratio between the width and
    *     height of the image.  This value must be positive.
+   * @return The new <code>PinholeLens</code>.
    */
   public static PinholeLens fromVfovAndAspect(double verticalFieldOfView, double aspectRatio) {
 
@@ -119,6 +121,7 @@ public final class PinholeLens extends AbstractLens {
    * @param verticalFieldOfView The field of view in the vertical
    *     direction (in radians).  This value must be in
    *     (0, PI).
+   * @return The new <code>PinholeLens</code>.
    */
   public static PinholeLens fromFieldOfView(double horizontalFieldOfView,
       double verticalFieldOfView) {

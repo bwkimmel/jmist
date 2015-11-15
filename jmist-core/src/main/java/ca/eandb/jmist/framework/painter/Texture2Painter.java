@@ -37,16 +37,11 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
  */
 public final class Texture2Painter implements Painter {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -5817945592971984069L;
 
   private final Texture2 texture;
 
-  /**
-   * @param texture
-   */
   public Texture2Painter(Texture2 texture) {
     this.texture = texture;
   }

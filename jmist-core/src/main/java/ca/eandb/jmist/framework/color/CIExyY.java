@@ -50,11 +50,6 @@ public final class CIExyY extends Tuple3 {
   public static final CIExyY F7 = CIExyY.fromXYZ(CIEXYZ.F7);
   public static final CIExyY F11 = CIExyY.fromXYZ(CIEXYZ.F11);
 
-  /**
-   * @param x
-   * @param y
-   * @param Y
-   */
   public CIExyY(double x, double y, double Y) {
     super(x, y, Y);
   }

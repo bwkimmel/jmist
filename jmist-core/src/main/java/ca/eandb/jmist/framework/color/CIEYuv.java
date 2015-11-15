@@ -39,11 +39,6 @@ public final class CIEYuv extends Tuple3 {
 
   public static final CIEYuv ZERO = new CIEYuv(0.0, 0.0, 0.0);
 
-  /**
-   * @param Y
-   * @param u
-   * @param v
-   */
   public CIEYuv(double Y, double u, double v) {
     super(Y, u, v);
   }

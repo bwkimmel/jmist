@@ -51,11 +51,6 @@ public class CIEXYZ extends Tuple3 {
   public static final CIEXYZ F7 = new CIEXYZ(0.95041, 1.00000, 1.08747);
   public static final CIEXYZ F11 = new CIEXYZ(1.00962, 1.00000, 0.64350);
 
-  /**
-   * @param X
-   * @param Y
-   * @param Z
-   */
   public CIEXYZ(double X, double Y, double Z) {
     super(X, Y, Z);
   }
@@ -108,7 +103,7 @@ public class CIEXYZ extends Tuple3 {
     return new CIEXYZ(
         MathUtil.clamp(x, min, max),
         MathUtil.clamp(y, min, max),
-        MathUtil.clamp(y, min, max));
+        MathUtil.clamp(z, min, max));
   }
 
   public final CIEXYZ adapt(CIEXYZ fromRef, CIEXYZ toRef) {

@@ -63,22 +63,34 @@ public final class Photon {
     this(new Ray3(position, direction), power);
   }
 
-  /** The <code>Ray3</code>. */
+  /**
+   * The <code>Ray3</code>.
+   * @return The <code>Ray3</code>.
+   */
   public Ray3 ray() {
     return ray;
   }
 
-  /** The <code>Color</code>. */
+  /**
+   * The <code>Color</code>.
+   * @return The <code>Color</code>.
+   */
   public Color power() {
     return power;
   }
 
-  /** The <code>Point3</code> at the origin of the ray. */
+  /**
+   * The <code>Point3</code> at the origin of the ray.
+   * @return The <code>Point3</code> at the origin of the ray. 
+   */
   public Point3 position() {
     return ray.origin();
   }
 
-  /** The <code>Vector3</code>indicating the direction of the ray. */
+  /**
+   * The <code>Vector3</code>indicating the direction of the ray.
+   * @return The <code>Vector3</code>indicating the direction of the ray.
+   */
   public Vector3 direction() {
     return ray.direction();
   }
