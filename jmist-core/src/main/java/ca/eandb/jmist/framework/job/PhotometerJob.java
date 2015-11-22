@@ -28,6 +28,8 @@ package ca.eandb.jmist.framework.job;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import ca.eandb.jdcp.job.AbstractParallelizableJob;
 import ca.eandb.jdcp.job.TaskWorker;
@@ -36,6 +38,7 @@ import ca.eandb.jmist.framework.measurement.IntegerSensorArray;
 import ca.eandb.jmist.framework.measurement.Photometer;
 import ca.eandb.jmist.framework.scatter.SurfaceScatterer;
 import ca.eandb.jmist.math.SphericalCoordinates;
+import ca.eandb.util.DoubleArray;
 import ca.eandb.util.io.Archive;
 import ca.eandb.util.progress.ProgressMonitor;
 
@@ -50,14 +53,139 @@ import ca.eandb.util.progress.ProgressMonitor;
  */
 public final class PhotometerJob extends AbstractParallelizableJob {
 
-  public PhotometerJob(SurfaceScatterer[] specimens,
+  /** A builder for creating <code>PhotometerJob</code>s. */
+  public static final class Builder {
+    private final List<SurfaceScatterer> specimens = new ArrayList<>();
+    private final List<SphericalCoordinates> incidentAngles = new ArrayList<>();
+    private final DoubleArray wavelengths = new DoubleArray();
+    private long samplesPerMeasurement = 1;
+    private long samplesPerTask = 0;
+    private long tasksPerMeasurement = 1;
+    private CollectorSphere collector = CollectorSphere.NULL;
+
+    private Builder() {}
+
+    /**
+     * Builds a new <code>PhotometerJob</code>.
+     * @return The new <code>PhotometerJob</code>.
+     */
+    public PhotometerJob build() {
+      if (samplesPerTask == 0) {
+        samplesPerTask = samplesPerMeasurement / tasksPerMeasurement;
+      }
+      return new PhotometerJob(
+          specimens.toArray(new SurfaceScatterer[0]),
+          incidentAngles.toArray(new SphericalCoordinates[0]),
+          wavelengths.toDoubleArray(), samplesPerMeasurement, samplesPerTask,
+          collector);
+    }
+
+    /**
+     * Adds a <code>SurfaceScatterer</code> to be measured.
+     * @param specimen The <code>SurfaceScatterer</code> to be measured.
+     * @return This <code>Builder</code>.
+     */
+    public Builder addSpecimen(SurfaceScatterer specimen) {
+      specimens.add(specimen);
+      return this;
+    }
+
+    /**
+     * Adds an incident angle to direct incident light from.
+     * @param incidentAngle The <code>SphericalCoordinates</code> for the
+     *     incident angle.
+     * @return This <code>Builder</code>.
+     */
+    public Builder addIncidentAngle(SphericalCoordinates incidentAngle) {
+      incidentAngles.add(incidentAngle);
+      return this;
+    }
+
+    /**
+     * Adds a wavelength to use for measurement.
+     * @param wavelength The wavelength.
+     * @return This <code>Builder</code>.
+     */
+    public Builder addWavelength(double wavelength) {
+      wavelengths.add(wavelength);
+      return this;
+    }
+
+    /**
+     * Adds all of the specified wavelengths to use for measurement.
+     * @param wavelengths An array of wavelengths.
+     * @return This <code>Builder</code>.
+     */
+    public Builder addWavelengths(double[] wavelengths) {
+      this.wavelengths.addAll(wavelengths);
+      return this;
+    }
+
+    /**
+     * Sets the number of samples to use for each measurement.
+     * @param samplesPerMeasurement The number of samples to use.
+     * @return This <code>Builder</code>.
+     */
+    public Builder setSamplesPerMeasurement(long samplesPerMeasurement) {
+      this.samplesPerMeasurement = samplesPerMeasurement;
+      return this;
+    }
+
+    /**
+     * Sets the number of samples to use for each task.  If this is not set,
+     * it defaults to a value determined by the number of tasks per measurement.
+     * The default number of tasks per measurement is 1.
+     * @param samplesPerMeasurement The number of samples to use.
+     * @return This <code>Builder</code>.
+     * @see #setTasksPerMeasurement(long)
+     */
+    public Builder setSamplesPerTask(long samplesPerTask) {
+      this.samplesPerTask = samplesPerTask;
+      return this;
+    }
+
+    /**
+     * Sets the number of tasks to divide each measurement into.  The default is
+     * 1.  This is only relevant if the number of samples per task is not set
+     * explicitly.
+     * @param tasksPerMeasurement The number of tasks to divide each measurement
+     *     into.
+     * @return This <code>Builder</code>.
+     * @see #setSamplesPerTask(long)
+     */
+    public Builder setTasksPerMeasurement(long tasksPerMeasurement) {
+      this.samplesPerTask = 0;
+      this.tasksPerMeasurement = tasksPerMeasurement;
+      return this;
+    }
+
+    /**
+     * Sets the collector sphere to use.
+     * @param collector The <code>CollectorSphere</code> to use.
+     * @return This <code>Builder</code>.
+     */
+    public Builder setCollector(CollectorSphere collector) {
+      this.collector = collector;
+      return this;
+    }
+  }
+
+  /**
+   * Returns a new builder to create a <code>PhotometerJob</code>.
+   * @return The new <code>Builder</code>.
+   */
+  public static Builder newBuilder() {
+    return new Builder();
+  }
+
+  private PhotometerJob(SurfaceScatterer[] specimens,
       SphericalCoordinates[] incidentAngles, double[] wavelengths,
       long samplesPerMeasurement, long samplesPerTask,
       CollectorSphere collector) {
     this.worker = new PhotometerTaskWorker(collector);
-    this.specimens = specimens.clone();
-    this.incidentAngles = incidentAngles.clone();
-    this.wavelengths = wavelengths.clone();
+    this.specimens = specimens;
+    this.incidentAngles = incidentAngles;
+    this.wavelengths = wavelengths;
     this.samplesPerMeasurement = samplesPerMeasurement;
     this.samplesPerTask = samplesPerTask;
     this.totalTasks =
