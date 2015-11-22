@@ -91,9 +91,7 @@ public final class RasterJob extends AbstractParallelizableJob {
    * @see ca.eandb.jmist.framework.ParallelizableJob#getNextTask()
    */
   public Object getNextTask() {
-
     if (this.nextRow < this.rows) {
-
       /* Get the next cell. */
       Cell cell = this.getCell(this.nextCol++, this.nextRow);
 
@@ -104,14 +102,10 @@ public final class RasterJob extends AbstractParallelizableJob {
       }
 
       return cell;
-
     } else { /* this.nextRow >= this.rows */
-
       /* no remaining tasks. */
       return null;
-
     }
-
   }
 
   /**
@@ -158,7 +152,6 @@ public final class RasterJob extends AbstractParallelizableJob {
    * @return The cell bounds.
    */
   private Cell getCell(int col, int row) {
-
     /* Figure out how big the cells should be:
      *    - Make them as large as possible without exceeding the size
      *      of the image.
@@ -207,23 +200,20 @@ public final class RasterJob extends AbstractParallelizableJob {
     assert(0 <= ymin && ymin <= ymax && ymax < height);
 
     return new Cell(xmin, ymin, xmax - xmin + 1, ymax - ymin + 1);
-
   }
 
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.ParallelizableJob#submitTaskResults(java.lang.Object, java.lang.Object, ca.eandb.util.progress.ProgressMonitor)
    */
   public void submitTaskResults(Object task, Object results, ProgressMonitor monitor) {
-
-    Cell  cell  = (Cell) task;
-    Raster  pixels  = (Raster) results;
+    Cell cell = (Cell) task;
+    Raster pixels = (Raster) results;
 
     /* Write the submitted results to the raster. */
     display.setPixels(cell.x, cell.y, pixels);
 
     /* Update the progress monitor. */
     monitor.notifyProgress(++this.tasksComplete, this.rows * this.cols);
-
   }
 
   /* (non-Javadoc)
@@ -300,48 +290,37 @@ public final class RasterJob extends AbstractParallelizableJob {
      * @see ca.eandb.jmist.framework.TaskWorker#performTask(java.lang.Object, ca.eandb.util.progress.ProgressMonitor)
      */
     public Object performTask(Object task, ProgressMonitor monitor) {
-
-      Cell  cell        = (Cell) task;
-      int    numPixels      = cell.width * cell.height;
-      Color  pixel;
-      Box2  bounds;
-      double  x0, y0, x1, y1;
-      double  w          = width;
-      double  h          = height;
-      Raster  raster        = colorModel.createRaster(cell.width, cell.height);
+      Cell cell = (Cell) task;
+      int numPixels = cell.width * cell.height;
+      Color pixel;
+      Box2 bounds;
+      double x0, y0, x1, y1;
+      double w = width;
+      double h = height;
+      Raster raster = colorModel.createRaster(cell.width, cell.height);
 
       for (int n = 0, y = cell.y; y < cell.y + cell.height; y++) {
-
         if (!monitor.notifyProgress(n, numPixels))
           return null;
-
-        y0      = (double) y / h;
-        y1      = (double) (y + 1) / h;
+        y0 = y / h;
+        y1 = (y + 1) / h;
 
         for (int x = cell.x; x < cell.x + cell.width; x++, n++) {
-
-          x0    = (double) x / w;
-          x1    = (double) (x + 1) / w;
-
+          x0 = x / w;
+          x1 = (x + 1) / w;
           bounds  = new Box2(x0, y0, x1, y1);
 
           pixel = pixelShader.shadePixel(bounds);
           raster.addPixel(x - cell.x, y - cell.y, pixel);
-
         }
-
       }
 
       monitor.notifyProgress(numPixels, numPixels);
       monitor.notifyComplete();
-
       return raster;
-
     }
 
-    /**
-     * Serialization version ID.
-     */
+    /** Serialization version ID. */
     private static final long serialVersionUID = 8318742231359439076L;
 
   }
@@ -379,9 +358,7 @@ public final class RasterJob extends AbstractParallelizableJob {
   /** The number of tasks that have been completed. */
   private transient int tasksComplete = 0;
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 9173731839475893020L;
 
 }
