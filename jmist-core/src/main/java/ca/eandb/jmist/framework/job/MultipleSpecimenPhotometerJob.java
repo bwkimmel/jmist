@@ -40,8 +40,13 @@ import ca.eandb.util.io.Archive;
 import ca.eandb.util.progress.ProgressMonitor;
 
 /**
- * @author Brad Kimmel
- *
+ * A <code>ParallelizableJob</code> that measures the scattering distribution of
+ * <code>SurfaceScatterer</code>s using a virtual goniophotometer [1].<br/>
+ * <br/>
+ * [1] Krishnaswamy, A.; Baranoski, G.V.G.; Rokne, J.G.,
+ *     <a href="http://dx.doi.org/10.1080/10867651.2004.10504894">Improving the
+ *     Reliability/Cost Ratio of Goniophotometric Comparisons</a>, Journal of
+ *     Graphics Tools 9(3):1-20, 2004.
  */
 public final class MultipleSpecimenPhotometerJob extends AbstractParallelizableJob {
 
