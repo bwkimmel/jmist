@@ -40,26 +40,30 @@ import ca.eandb.util.io.Archive;
 import ca.eandb.util.progress.ProgressMonitor;
 
 /**
- * @author Brad Kimmel
- *
+ * A <code>ParallelizableJob</code> that measures the scattering distribution of
+ * <code>SurfaceScatterer</code>s using a virtual goniophotometer [1].<br/>
+ * <br/>
+ * [1] Krishnaswamy, A.; Baranoski, G.V.G.; Rokne, J.G.,
+ *     <a href="http://dx.doi.org/10.1080/10867651.2004.10504894">Improving the
+ *     Reliability/Cost Ratio of Goniophotometric Comparisons</a>, Journal of
+ *     Graphics Tools 9(3):1-20, 2004.
  */
 public final class PhotometerJob extends AbstractParallelizableJob {
 
-  public PhotometerJob(SurfaceScatterer specimen,
+  public PhotometerJob(SurfaceScatterer[] specimens,
       SphericalCoordinates[] incidentAngles, double[] wavelengths,
-      long samplesPerMeasurement, long samplesPerTask, CollectorSphere collector) {
-
-    this.worker            = new PhotometerTaskWorker(specimen, collector);
-    this.incidentAngles        = incidentAngles.clone();
-    this.wavelengths        = wavelengths.clone();
-    this.samplesPerMeasurement    = samplesPerMeasurement;
-    this.samplesPerTask        = samplesPerTask;
-    this.totalTasks          = wavelengths.length
-                        * incidentAngles.length
-                        * ((int) (samplesPerMeasurement / samplesPerTask) + ((samplesPerMeasurement % samplesPerTask) > 0 ? 1
-                            : 0));
-
-
+      long samplesPerMeasurement, long samplesPerTask,
+      CollectorSphere collector) {
+    this.worker = new PhotometerTaskWorker(collector);
+    this.specimens = specimens.clone();
+    this.incidentAngles = incidentAngles.clone();
+    this.wavelengths = wavelengths.clone();
+    this.samplesPerMeasurement = samplesPerMeasurement;
+    this.samplesPerTask = samplesPerTask;
+    this.totalTasks =
+        specimens.length * wavelengths.length * incidentAngles.length
+        * ((int) (samplesPerMeasurement / samplesPerTask)
+            + ((samplesPerMeasurement % samplesPerTask) > 0 ? 1 : 0));
   }
 
   /* (non-Javadoc)
@@ -67,7 +71,8 @@ public final class PhotometerJob extends AbstractParallelizableJob {
    */
   @Override
   public void initialize() {
-    this.results = new IntegerSensorArray[wavelengths.length * incidentAngles.length];
+    this.results = new IntegerSensorArray[
+        wavelengths.length * incidentAngles.length * specimens.length];
     for (int i = 0; i < this.results.length; i++) {
       this.results[i] = new IntegerSensorArray(worker.collector);
     }
@@ -79,28 +84,21 @@ public final class PhotometerJob extends AbstractParallelizableJob {
    * @see ca.eandb.jmist.framework.ParallelizableJob#getNextTask()
    */
   public synchronized Object getNextTask() {
-
     if (outstandingSamplesPerMeasurement < samplesPerMeasurement) {
-
       PhotometerTask task = this.getPhotometerTask(this.nextMeasurementIndex);
-
       if (++this.nextMeasurementIndex >= this.results.length) {
         this.outstandingSamplesPerMeasurement += this.samplesPerTask;
         this.nextMeasurementIndex = 0;
       }
-
       return task;
-
     } else {
-
       return null;
-
     }
-
   }
 
   private PhotometerTask getPhotometerTask(int measurementIndex) {
     return new PhotometerTask(
+        this.getSpecimen(measurementIndex),
         this.getIncidentAngle(measurementIndex),
         this.getWavelength(measurementIndex),
         Math.min(samplesPerTask, samplesPerMeasurement - outstandingSamplesPerMeasurement),
@@ -108,12 +106,18 @@ public final class PhotometerJob extends AbstractParallelizableJob {
     );
   }
 
+  private SurfaceScatterer getSpecimen(int measurementIndex) {
+    return this.specimens[measurementIndex / (wavelengths.length * incidentAngles.length)];
+  }
+
   private SphericalCoordinates getIncidentAngle(int measurementIndex) {
-    return this.incidentAngles[measurementIndex / this.wavelengths.length];
+    int specimenMeasurementIndex = measurementIndex % (wavelengths.length * incidentAngles.length);
+    return this.incidentAngles[specimenMeasurementIndex / this.wavelengths.length];
   }
 
   private double getWavelength(int measurementIndex) {
-    return this.wavelengths[measurementIndex % this.wavelengths.length];
+    int specimenMeasurementIndex = measurementIndex % (wavelengths.length * incidentAngles.length);
+    return this.wavelengths[specimenMeasurementIndex % this.wavelengths.length];
   }
 
   /* (non-Javadoc)
@@ -121,75 +125,69 @@ public final class PhotometerJob extends AbstractParallelizableJob {
    */
   public void submitTaskResults(Object task, Object results,
       ProgressMonitor monitor) {
-
-    PhotometerTask    info    = (PhotometerTask) task;
-    IntegerSensorArray  sensorArray  = (IntegerSensorArray) results;
-
+    PhotometerTask info = (PhotometerTask) task;
+    IntegerSensorArray sensorArray = (IntegerSensorArray) results;
     this.results[info.measurementIndex].merge(sensorArray);
-
     monitor.notifyProgress(++this.tasksReturned, this.totalTasks);
-
   }
 
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.ParallelizableJob#isComplete()
    */
   public boolean isComplete() {
-    return tasksReturned >= totalTasks;
+    return this.tasksReturned >= this.totalTasks;
   }
 
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.ParallelizableJob#finish()
    */
   public void finish() {
-
     PrintStream out = new PrintStream(createFileOutputStream("photometer.csv"));
-
     this.writeColumnHeadings(out);
 
-    for (int incidentAngleIndex = 0, n = 0; incidentAngleIndex < this.incidentAngles.length; incidentAngleIndex++) {
+    for (int specimenIndex = 0, n = 0; specimenIndex < this.specimens.length;
+         specimenIndex++) {
 
-      SphericalCoordinates      incidentAngle      = this.incidentAngles[incidentAngleIndex];
+      for (int incidentAngleIndex = 0;
+           incidentAngleIndex < this.incidentAngles.length;
+           incidentAngleIndex++) {
+        SphericalCoordinates incidentAngle = this.incidentAngles[incidentAngleIndex];
 
-      for (int wavelengthIndex = 0; wavelengthIndex < this.wavelengths.length; wavelengthIndex++, n++) {
+        for (int wavelengthIndex = 0; wavelengthIndex < this.wavelengths.length;
+             wavelengthIndex++, n++) {
+          double wavelength = this.wavelengths[wavelengthIndex];
+          IntegerSensorArray sensorArray = this.results[n];
 
-        double            wavelength        = this.wavelengths[wavelengthIndex];
-        IntegerSensorArray      sensorArray        = this.results[n];
+          for (int sensor = 0; sensor < worker.collector.sensors(); sensor++) {
+            SphericalCoordinates exitantAngle = worker.collector.getSensorCenter(sensor);
+            double solidAngle = worker.collector.getSensorSolidAngle(sensor);
+            double projectedSolidAngle = worker.collector.getSensorProjectedSolidAngle(sensor);
+            long hits = sensorArray.hits(sensor);
+            double reflectance = (double) hits / (double) this.samplesPerMeasurement;
 
-        for (int sensor = 0; sensor < worker.collector.sensors(); sensor++) {
-
-          SphericalCoordinates  exitantAngle      = worker.collector.getSensorCenter(sensor);
-          double          solidAngle        = worker.collector.getSensorSolidAngle(sensor);
-          double          projectedSolidAngle    = worker.collector.getSensorProjectedSolidAngle(sensor);
-          long          hits          = sensorArray.hits(sensor);
-          double          reflectance        = (double) hits / (double) this.samplesPerMeasurement;
-
-          out.printf(
-              "%f,%f,%e,%d,%f,%f,%f,%f,%d,%d,%f,%e,%e",
-              incidentAngle.polar(),
-              incidentAngle.azimuthal(),
-              wavelength,
-              sensor,
-              exitantAngle.polar(),
-              exitantAngle.azimuthal(),
-              solidAngle,
-              projectedSolidAngle,
-              this.samplesPerMeasurement,
-              hits,
-              reflectance,
-              reflectance / projectedSolidAngle,
-              reflectance / solidAngle
-          );
-          out.println();
-
+            out.printf(
+                "%d,%f,%f,%e,%d,%f,%f,%f,%f,%d,%d,%f,%e,%e",
+                specimenIndex,
+                incidentAngle.polar(),
+                incidentAngle.azimuthal(),
+                wavelength,
+                sensor,
+                exitantAngle.polar(),
+                exitantAngle.azimuthal(),
+                solidAngle,
+                projectedSolidAngle,
+                this.samplesPerMeasurement,
+                hits,
+                reflectance,
+                reflectance / projectedSolidAngle,
+                reflectance / solidAngle
+            );
+            out.println();
+          }
         }
-
       }
-
     }
-
     out.close();
-
   }
 
   /**
@@ -197,7 +195,7 @@ public final class PhotometerJob extends AbstractParallelizableJob {
    * @param out The <code>PrintStream</code> to write the column headings to.
    */
   private void writeColumnHeadings(PrintStream out) {
-
+    out.print("\"Specimen\",");
     out.print("\"Incident Polar (radians)\",");
     out.print("\"Incident Azimuthal (radians)\",");
     out.print("\"Wavelength (m)\",");
@@ -212,7 +210,6 @@ public final class PhotometerJob extends AbstractParallelizableJob {
     out.print("\"BSDF\",");
     out.print("\"SPF\"");
     out.println();
-
   }
 
   /* (non-Javadoc)
@@ -234,24 +231,24 @@ public final class PhotometerJob extends AbstractParallelizableJob {
   }
 
   private static class PhotometerTask implements Serializable {
+    public final SurfaceScatterer specimen;
+    public final SphericalCoordinates incident;
+    public final double wavelength;
+    public final long samples;
+    public final int measurementIndex;
 
-    public final SphericalCoordinates  incident;
-    public final double          wavelength;
-    public final long          samples;
-    public final int          measurementIndex;
-
-    public PhotometerTask(SphericalCoordinates incident, double wavelength, long samples, int measurementIndex) {
-      this.incident      = incident;
-      this.wavelength      = wavelength;
-      this.samples      = samples;
-      this.measurementIndex  = measurementIndex;
+    public PhotometerTask(SurfaceScatterer specimen,
+        SphericalCoordinates incident, double wavelength, long samples,
+        int measurementIndex) {
+      this.specimen = specimen;
+      this.incident = incident;
+      this.wavelength = wavelength;
+      this.samples = samples;
+      this.measurementIndex = measurementIndex;
     }
 
-    /**
-     * Serialization version ID.
-     */
-    private static final long serialVersionUID = 3363497232661744930L;
-
+    /** Serialization version ID. */
+    private static final long serialVersionUID = 4380806718949297914L;
   }
 
   private static class PhotometerTaskWorker implements TaskWorker, Serializable {
@@ -259,11 +256,10 @@ public final class PhotometerJob extends AbstractParallelizableJob {
     /**
      * Creates a new <code>PhotometerTaskWorker</code>.
      * @param specimen The <code>SurfaceScatterer</code> to be measured.
-     * @param collector The collector <code>CollectorSphere</code> from
+     * @param collector The prototype <code>CollectorSphere</code> from
      *     which clones are constructed to record hits to.
      */
-    public PhotometerTaskWorker(SurfaceScatterer specimen, CollectorSphere collector) {
-      this.specimen = specimen;
+    public PhotometerTaskWorker(CollectorSphere collector) {
       this.collector = collector;
     }
 
@@ -271,40 +267,32 @@ public final class PhotometerJob extends AbstractParallelizableJob {
      * @see ca.eandb.jmist.framework.TaskWorker#performTask(java.lang.Object, ca.eandb.util.progress.ProgressMonitor)
      */
     public Object performTask(Object task, ProgressMonitor monitor) {
+      Photometer photometer = new Photometer(collector);
+      PhotometerTask info = (PhotometerTask) task;
 
-      Photometer      photometer    = new Photometer(collector);
-      PhotometerTask    info      = (PhotometerTask) task;
-
-      photometer.setSpecimen(specimen);
+      photometer.setSpecimen(info.specimen);
       photometer.setIncidentAngle(info.incident);
       photometer.setWavelength(info.wavelength);
       photometer.castPhotons(info.samples, monitor);
 
       return photometer.getSensorArray();
-
     }
 
     /**
-     * The <code>SurfaceScatterer</code> to be measured.
-     */
-    private final SurfaceScatterer specimen;
-
-    /**
-     * The collector <code>CollectorSphere</code> from which clones are
+     * The prototype <code>CollectorSphere</code> from which clones are
      * constructed to record hits to.
      */
     private final CollectorSphere collector;
 
-    /**
-     * Serialization version ID.
-     */
-    private static final long serialVersionUID = -2402548700898513324L;
+    /** Serialization version ID. */
+    private static final long serialVersionUID = -7564344525831112742L;
 
   }
 
   /** The <code>TaskWorker</code> that performs the work for this job. */
   private final PhotometerTaskWorker worker;
 
+  private final SurfaceScatterer[] specimens;
   private final double[] wavelengths;
   private final SphericalCoordinates[] incidentAngles;
   private final long samplesPerMeasurement;
@@ -315,9 +303,7 @@ public final class PhotometerJob extends AbstractParallelizableJob {
   private transient long outstandingSamplesPerMeasurement = 0;
   private transient int tasksReturned = 0;
 
-  /**
-   * Serialization version ID.
-   */
-  private static final long serialVersionUID = 5640925441217948685L;
+  /** Serialization version ID. */
+  private static final long serialVersionUID = -5367125667531320522L;
 
 }
