@@ -70,8 +70,10 @@ public final class MaterialPhotometerJob extends AbstractParallelizableJob {
 
   public MaterialPhotometerJob(Material specimen,
       SphericalCoordinates[] incidentAngles, WavelengthPacket[] wavelengths,
-      long samplesPerMeasurement, long samplesPerTask, CollectorSphere collector) {
-    this(new Material[]{ specimen }, incidentAngles, wavelengths, samplesPerMeasurement, samplesPerTask, collector);
+      long samplesPerMeasurement, long samplesPerTask,
+      CollectorSphere collector) {
+    this(new Material[]{ specimen }, incidentAngles, wavelengths,
+         samplesPerMeasurement, samplesPerTask, collector);
   }
 
   /* (non-Javadoc)
@@ -79,17 +81,17 @@ public final class MaterialPhotometerJob extends AbstractParallelizableJob {
    */
   @Override
   public void initialize() {
-    this.results = new ColorSensorArray[wavelengths.length * incidentAngles.length * specimens.length];
+    this.results = new ColorSensorArray[
+        wavelengths.length * incidentAngles.length * specimens.length];
     for (int i = 0; i < this.results.length; i++) {
       ColorModel colorModel = this.getWavelength(i).getColorModel();
-      this.results[i] = new ColorSensorArray(worker.collector.sensors(), colorModel);
+      this.results[i] =
+          new ColorSensorArray(worker.collector.sensors(), colorModel);
       maxChannels = Math.max(maxChannels, colorModel.getNumChannels());
     }
   }
 
-  /*
-   * (non-Javadoc)
-   *
+  /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.ParallelizableJob#getNextTask()
    */
   public Object getNextTask() {
@@ -111,8 +113,7 @@ public final class MaterialPhotometerJob extends AbstractParallelizableJob {
         this.getIncidentAngle(measurementIndex),
         this.getWavelength(measurementIndex),
         this.samplesPerTask,
-        measurementIndex
-    );
+        measurementIndex);
   }
 
   private Material getSpecimen(int measurementIndex) {
@@ -137,9 +138,8 @@ public final class MaterialPhotometerJob extends AbstractParallelizableJob {
    */
   public void submitTaskResults(Object task, Object results,
       ProgressMonitor monitor) {
-    PhotometerTask    info    = (PhotometerTask) task;
-    ColorSensorArray  sensorArray  = (ColorSensorArray) results;
-
+    PhotometerTask info = (PhotometerTask) task;
+    ColorSensorArray sensorArray = (ColorSensorArray) results;
     this.results[info.measurementIndex].merge(sensorArray);
     monitor.notifyProgress(++this.tasksReturned, this.totalTasks);
   }
@@ -209,8 +209,7 @@ public final class MaterialPhotometerJob extends AbstractParallelizableJob {
                 colorToCSV(raw),
                 colorToCSV(reflectance),
                 colorToCSV(reflectance.divide(projectedSolidAngle)),
-                colorToCSV(reflectance.divide(solidAngle))
-            );
+                colorToCSV(reflectance.divide(solidAngle)));
             out.println();
           }
         }
