@@ -46,6 +46,139 @@ import ca.eandb.util.progress.ProgressMonitor;
  */
 public final class RasterJob extends AbstractParallelizableJob {
 
+  /** The first step in building a <code>RasterJob</code>. */
+  public static interface Builder1 {
+    /**
+     * Sets the color model to use.
+     * @param colorModel The <code>ColorModel</code>.
+     * @return The next builder step.
+     */
+    Builder2 setColorModel(ColorModel colorModel);
+  }
+
+  /** The second step in building a <code>RasterJob</code>. */
+  public static interface Builder2 {
+    /**
+     * Sets the pixel shader to use.
+     * @param pixelShader The <code>PixelShader</code>.
+     * @return The next builder step.
+     */
+    Builder3 setPixelShader(PixelShader pixelShader);
+  }
+
+  /** The third step in building a <code>RasterJob</code>. */
+  public static interface Builder3 {
+    /**
+     * Sets the display to render the image to.
+     * @param display The <code>Display</code> to render to.
+     * @return The next builder step.
+     */
+    Builder setDisplay(Display display);
+  }
+
+  /** A builder for creating <code>RasterJob</code>s. */
+  public static final class Builder implements Builder1, Builder2, Builder3 {
+    private ColorModel colorModel = null;
+    private PixelShader pixelShader = null;
+    private Display display = null;
+    private int width = 1;
+    private int height = 1;
+    private int cols = 1;
+    private int rows = 1;
+
+    private Builder() {}
+
+    /**
+     * Builds the new <code>RasterJob</code>.
+     * @return The new <code>RasterJob</code>.
+     */
+    public RasterJob build() {
+      return new RasterJob(colorModel, pixelShader, display, width, height,
+                           cols, rows);
+    }
+
+    /**
+     * Sets the color model to use.
+     * @param colorModel The <code>ColorModel</code>.
+     * @return This <code>Builder</code>.
+     */
+    public Builder setColorModel(ColorModel colorModel) {
+      this.colorModel = colorModel;
+      return this;
+    }
+
+    /**
+     * Sets the pixel shader to use.
+     * @param pixelShader The <code>PixelShader</code>.
+     * @return This <code>Builder</code>.
+     */
+    public Builder setPixelShader(PixelShader pixelShader) {
+      this.pixelShader = pixelShader;
+      return this;
+    }
+
+    /**
+     * Sets the display to render the image to.
+     * @param display The <code>Display</code> to render to.
+     * @return This <code>Builder</code>.
+     */
+    public Builder setDisplay(Display display) {
+      this.display = display;
+      return this;
+    }
+
+    /**
+     * Sets the size of the image to render.
+     * @param width The width of the image, in pixels.
+     * @param height The height of the image, in pixels.
+     * @return This <code>Builder</code>.
+     */
+    public Builder setImageSize(int width, int height) {
+      this.width = width;
+      this.height = height;
+      return this;
+    }
+
+    /**
+     * Sets the approximate size of tile to use.
+     * @param tileWidth The approximate tile width, in pixels.
+     * @param tileHeight The approximate tile height, in pixels.
+     * @return This <code>Builder</code>.
+     */
+    public Builder setTileSize(int tileWidth, int tileHeight) {
+      this.cols = Math.max(1, width / tileWidth);
+      this.rows = Math.max(1, height / tileHeight);
+      return this;
+    }
+
+    /**
+     * Sets the number of tiles to use.
+     * @param cols The number of columns to divide the image into.
+     * @param rows The number of rows to divide the image into.
+     * @return This <code>Builder</code>.
+     * @throws IllegalArgumentException If rows &lt;= 0 or cols &lt;= 0.
+     */
+    public Builder setTileCount(int cols, int rows) {
+      if (cols <= 0) {
+        throw new IllegalArgumentException("cols <= 0");
+      }
+      if (rows <= 0) {
+        throw new IllegalArgumentException("rows <= 0");
+      }
+      this.cols = cols;
+      this.rows = rows;
+      return this;
+    }
+  }
+
+  /**
+   * Returns a new builder to create a <code>RasterJob</code>.
+   * @return The new <code>Builder</code>.
+   */
+  public static Builder1 newBuilder() {
+    return new Builder();
+  }
+
   /**
    * Creates a new <code>RasterJob</code>.  This job will
    * divide the image into <code>rows * cols</code> tasks to render roughly
@@ -60,7 +193,8 @@ public final class RasterJob extends AbstractParallelizableJob {
    * @param cols The number of columns to divide the image into.
    * @param rows The number of rows to divide the image into.
    */
-  public RasterJob(ColorModel colorModel, PixelShader pixelShader, Display display, int width, int height, int cols, int rows) {
+  private RasterJob(ColorModel colorModel, PixelShader pixelShader,
+      Display display, int width, int height, int cols, int rows) {
     this.pixelShader = pixelShader;
     this.colorModel = colorModel;
     this.width = width;
