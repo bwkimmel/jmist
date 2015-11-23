@@ -144,9 +144,9 @@ public final class OrthographicLens extends AbstractLens {
       Point2 p = pointOnImagePlane;
       Ray3 ray = new Ray3(
           new Point3(
-            (p.x() - 0.5) * width,
-            (0.5 - p.y()) * height,
-            0.0),
+              (p.x() - 0.5) * width,
+              (0.5 - p.y()) * height,
+              0.0),
           Vector3.NEGATIVE_K);
       Color color = getWhite();
       return ScatteredRay.specular(ray, color, 1.0);
