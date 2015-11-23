@@ -90,6 +90,82 @@ public final class ThinLens extends AbstractLens {
   /** The height of the virtual screen at the focus distance (in meters). */
   private final double objPlaneHeight;
 
+  public static final class Builder {
+    private double focalLength = DEFAULT_FOCAL_LENGTH;
+    private double aperture = DEFAULT_APERTURE;
+    private double focusDistance = DEFAULT_FOCUS_DISTANCE;
+    private double fov = DEFAULT_FIELD_OF_VIEW;
+    private double aspect = DEFAULT_ASPECT_RATIO;
+
+    private Builder() {}
+
+    /**
+     * Sets the focal length.
+     * @param focalLength The focal length (in meters).
+     * @return This <code>Builder</code>.
+     */
+    public Builder setFocalLength(double focalLength) {
+      this.focalLength = focalLength;
+      return this;
+    }
+
+    /**
+     * Sets the aperture size.
+     * @param aperture The aperture (f-number).
+     * @return This <code>Builder</code>.
+     */
+    public Builder setAperture(double aperture) {
+      this.aperture = aperture;
+      return this;
+    }
+
+    /**
+     * Sets the distance to the plane in focus.
+     * @param focusDistance The focus distance (in meters).
+     * @return This <code>Builder</code>.
+     */
+    public Builder setFocusDistance(double focusDistance) {
+      this.focusDistance = focusDistance;
+      return this;
+    }
+
+    /**
+     * Sets the field of view.
+     * @param fov The field of view (in radians).
+     * @return This <code>Builder</code>.
+     */
+    public Builder setFieldOfView(double fov) {
+      this.fov = fov;
+      return this;
+    }
+
+    /**
+     * Sets the aspect ratio.
+     * @param aspect The aspect ratio.
+     * @return This <code>Builder</code>.
+     */
+    public Builder setAspectRatio(double aspect) {
+      this.aspect = aspect;
+      return this;
+    }
+
+    /**
+     * Builds the <code>ThinLens</code>.
+     * @return The new <code>ThinLens</code>.
+     */
+    public ThinLens build() {
+      return new ThinLens(focalLength, aperture, focusDistance, fov, aspect);
+    }
+  }
+
+  /**
+   * Returns a new builder for creating a <code>ThinLens</code>.
+   * @return The new <code>Builder</code>.
+   */
+  public static Builder newBuilder() {
+    return new Builder();
+  }
+
   /**
    * Creates a new <code>ThinLens</code>.
    */
