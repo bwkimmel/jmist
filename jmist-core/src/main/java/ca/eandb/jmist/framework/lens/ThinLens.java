@@ -94,15 +94,15 @@ public final class ThinLens extends AbstractLens {
    * Creates a new <code>ThinLens</code>.
    */
   public ThinLens() {
-    this.focalLength    = DEFAULT_FOCAL_LENGTH;
-    this.aperture      = DEFAULT_APERTURE;
-    this.focusDistance    = DEFAULT_FOCUS_DISTANCE;
-    this.fov        = DEFAULT_FIELD_OF_VIEW;
-    this.aspect        = DEFAULT_ASPECT_RATIO;
-    this.apertureRadius    = 0.5 * focalLength / aperture;
-    this.apertureArea    = Math.PI * apertureRadius * apertureRadius;
-    this.objPlaneWidth    = 2.0 * focusDistance * Math.tan(fov / 2.0);
-    this.objPlaneHeight    = objPlaneWidth / aspect;
+    this.focalLength = DEFAULT_FOCAL_LENGTH;
+    this.aperture = DEFAULT_APERTURE;
+    this.focusDistance = DEFAULT_FOCUS_DISTANCE;
+    this.fov = DEFAULT_FIELD_OF_VIEW;
+    this.aspect = DEFAULT_ASPECT_RATIO;
+    this.apertureRadius = 0.5 * focalLength / aperture;
+    this.apertureArea = Math.PI * apertureRadius * apertureRadius;
+    this.objPlaneWidth = 2.0 * focusDistance * Math.tan(fov / 2.0);
+    this.objPlaneHeight = objPlaneWidth / aspect;
   }
 
   /**
@@ -114,15 +114,15 @@ public final class ThinLens extends AbstractLens {
    * @param aspect The aspect ratio.
    */
   public ThinLens(double focalLength, double aperture, double focusDistance, double fov, double aspect) {
-    this.focalLength    = focalLength;
-    this.aperture      = aperture;
-    this.focusDistance    = focusDistance;
-    this.fov        = fov;
-    this.aspect        = aspect;
-    this.apertureRadius    = 0.5 * focalLength / aperture;
-    this.apertureArea    = Math.PI * apertureRadius * apertureRadius;
-    this.objPlaneWidth    = 2.0 * focusDistance * Math.tan(fov / 2.0);
-    this.objPlaneHeight    = objPlaneWidth / aspect;
+    this.focalLength = focalLength;
+    this.aperture = aperture;
+    this.focusDistance = focusDistance;
+    this.fov = fov;
+    this.aspect = aspect;
+    this.apertureRadius = 0.5 * focalLength / aperture;
+    this.apertureArea = Math.PI * apertureRadius * apertureRadius;
+    this.objPlaneWidth = 2.0 * focusDistance * Math.tan(fov / 2.0);
+    this.objPlaneHeight = objPlaneWidth / aspect;
   }
 
   /* (non-Javadoc)
@@ -171,16 +171,16 @@ public final class ThinLens extends AbstractLens {
         return null;
       }
 
-      double      ratio      = -focusDistance / dir.z();
-      double      x        = ray.origin().x() + ratio * dir.x();
-      double      y        = ray.origin().y() + ratio * dir.y();
+      double ratio = -focusDistance / dir.z();
+      double x = ray.origin().x() + ratio * dir.x();
+      double y = ray.origin().y() + ratio * dir.y();
 
-      final double  u        = 0.5 + x / objPlaneWidth;
+      final double u = 0.5 + x / objPlaneWidth;
       if (!MathUtil.inRangeCC(u, 0.0, 1.0)) {
         return null;
       }
 
-      final double  v        = 0.5 - y / objPlaneHeight;
+      final double v = 0.5 - y / objPlaneHeight;
       if (!MathUtil.inRangeCC(v, 0.0, 1.0)) {
         return null;
       }
