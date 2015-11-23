@@ -66,49 +66,6 @@ public final class OrthographicLens extends AbstractLens {
     this.area = width * height;
   }
 
-//  /* (non-Javadoc)
-//   * @see ca.eandb.jmist.framework.Lens#rayAt(ca.eandb.jmist.math.Point2)
-//   */
-//  public Ray3 rayAt(Point2 p) {
-//    return new Ray3(
-//        new Point3(
-//            (p.x() - 0.5) * this.width,
-//            (0.5 - p.y()) * this.height,
-//            0.0
-//        ),
-//        Vector3.NEGATIVE_K
-//    );
-//  }
-//
-//  /* (non-Javadoc)
-//   * @see ca.eandb.jmist.framework.Lens#areaOfAperture()
-//   */
-//  public double areaOfAperture() {
-//    return area;
-//  }
-//
-//  /* (non-Javadoc)
-//   * @see ca.eandb.jmist.framework.Lens#project(ca.eandb.jmist.math.Point3)
-//   */
-//  public Projection project(final Point3 p) {
-//    if (-p.z() < MathUtil.EPSILON) {
-//      return null;
-//    }
-//    return new Projection() {
-//      public Point2 pointOnImagePlane() {
-//        return new Point2((p.x() / width) + 0.5, 0.5 - (p.y() / height));
-//      }
-//
-//      public Point3 pointOnLens() {
-//        return new Point3(p.x(), p.y(), 0.0);
-//      }
-//
-//      public double importance() {
-//        return 1.0; // FIXME Light tracing will not work until this is corrected.
-//      }
-//    };
-//  }
-
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.Lens#sample(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.path.PathInfo, double, double, double)
    */
