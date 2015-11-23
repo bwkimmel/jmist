@@ -37,22 +37,20 @@ import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Ray3;
 
 /**
- * An image shader that uses a Lens to shade rays corresponding to points
- * on the image plane.
+ * An image shader that uses a Lens to shade rays corresponding to points on the
+ * image plane.
  * @author Brad Kimmel
  */
 public final class CameraImageShader implements ImageShader {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 5027288502738131936L;
 
   /**
-   * Initializes the lens and ray shader to use to shade points on
-   * the image plane.
-   * @param lens The lens to use to generate rays corresponding to
-   *     points on the image plane.
+   * Initializes the lens and ray shader to use to shade points on the image
+   * plane.
+   * @param lens The lens to use to generate rays corresponding to points on the
+   *     image plane.
    * @param rayShader The shader to use to shade rays.
    */
   public CameraImageShader(Lens lens, RayShader rayShader) {
@@ -76,8 +74,7 @@ public final class CameraImageShader implements ImageShader {
   }
 
   /**
-   * The lens to use to obtain rays corresponding to points on the
-   * image plane.
+   * The lens to use to obtain rays corresponding to points on the image plane.
    */
   private final Lens lens;
 
