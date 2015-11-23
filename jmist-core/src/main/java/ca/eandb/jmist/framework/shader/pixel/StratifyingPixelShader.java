@@ -30,20 +30,18 @@ import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.math.Box2;
 
 /**
- * A pixel shader decorator that averages stratified samples from the
- * decorated pixel shader.
+ * A pixel shader decorator that averages stratified samples from the decorated
+ * pixel shader.
  * @author Brad Kimmel
  */
 public final class StratifyingPixelShader implements PixelShader {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 1059443381015930105L;
 
   /**
-   * Initializes the number of rows and columns to divide each pixel
-   * into as well as the underlying decorated pixel shader.
+   * Initializes the number of rows and columns to divide each pixel into as
+   * well as the underlying decorated pixel shader.
    * @param columns The number of columns to divide each pixel into.
    * @param rows The number of rows to divide each pixel into.
    * @param pixelShader The decorated pixel shader.

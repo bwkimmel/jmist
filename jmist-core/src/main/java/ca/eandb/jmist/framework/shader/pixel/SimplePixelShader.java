@@ -36,9 +36,7 @@ import ca.eandb.jmist.math.Box2;
  */
 public final class SimplePixelShader extends ImageRasterizingPixelShader {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -5897498480208145443L;
 
   public SimplePixelShader(ImageShader camera, ColorModel model) {
