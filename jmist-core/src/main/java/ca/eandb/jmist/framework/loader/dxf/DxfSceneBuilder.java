@@ -25,15 +25,12 @@
  */
 package ca.eandb.jmist.framework.loader.dxf;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Map;
 
 import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.accel.BoundingIntervalHierarchy;
 import ca.eandb.jmist.framework.color.ColorModel;
-import ca.eandb.jmist.framework.color.rgb.RGBColorModel;
 import ca.eandb.jmist.framework.geometry.primitive.PolyhedronGeometry;
 import ca.eandb.jmist.framework.material.LambertianMaterial;
 import ca.eandb.jmist.framework.scene.CollapseSceneElement;
@@ -416,20 +413,9 @@ public final class DxfSceneBuilder {
       if (block.geometry.getNumPrimitives() == 0) {
         return;
       }
-//      double tol = 1.0;
-//      if (!MathUtil.equal(angle, 0.0, tol) && !MathUtil.equal(angle, 180.0, tol) && !MathUtil.equal(angle, 360.0, tol)) {// && !MathUtil.equal(angle, 90.0, tol) && !MathUtil.equal(angle, 270.0, tol)) {
-//        System.err.printf("Non-standard angle: %f degrees", angle);
-//        System.err.println();
-//        return;
-//      }
 
       Point3 insertionPoint = new Point3(p[0], p[1], p[2]);
       Vector3 extrusionDir = new Vector3(ext[0], ext[1], ext[2]);
-
-//      if (extrusionDir.minus(Vector3.K).squaredLength() > MathUtil.EPSILON) { System.err.printf("%f %f %f", extrusionDir.x(), extrusionDir.y(), extrusionDir.z()); System.err.println(); return; }
-//      if (!MathUtil.areEqual(scale)) {
-//        System.err.println("Non-uniform scaling");
-//      }
 
       if (block.root == null) {
         int np = block.geometry.getNumPrimitives();
@@ -508,23 +494,6 @@ public final class DxfSceneBuilder {
       rootGroupHandler.parse(state, dxf);
     } while (true);
     return new MaterialSceneElement(new LambertianMaterial(cm.getGray(0.5)), new BoundingIntervalHierarchy(state.root));
-  }
-
-  public static void main(String[] args) {
-    String fn = "C:\\Users\\Brad\\Documents\\11-01-22 Sun Life Atria Q2.dxf";
-    FileReader fr;
-    try {
-      fr = new FileReader(fn);
-    } catch (FileNotFoundException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-      return;
-    }
-    DxfReader dxf = new AsciiDxfReader(fr);
-    DxfSceneBuilder builder = new DxfSceneBuilder();
-    ColorModel cm = RGBColorModel.getInstance();
-    SceneElement elem = builder.createScene(cm, dxf);
-    System.out.println(elem.toString());
   }
 
 }
