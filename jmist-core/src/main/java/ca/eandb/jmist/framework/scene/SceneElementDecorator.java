@@ -63,23 +63,6 @@ public abstract class SceneElementDecorator implements SceneElement, Serializabl
     return inner.boundingSphere();
   }
 
-//  /**
-//   * @return
-//   * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint()
-//   */
-//  public SurfacePoint generateRandomSurfacePoint() {
-//    return inner.generateRandomSurfacePoint();
-//  }
-//
-//  /**
-//   * @param index
-//   * @return
-//   * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(int)
-//   */
-//  public SurfacePoint generateRandomSurfacePoint(int index) {
-//    return inner.generateRandomSurfacePoint(index);
-//  }
-
   /* (non-Javadoc)
    * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(int, ca.eandb.jmist.framework.ShadingContext)
    */
@@ -153,13 +136,5 @@ public abstract class SceneElementDecorator implements SceneElement, Serializabl
   public Light createLight() {
     return inner.createLight();
   }
-
-//  /**
-//   * @return
-//   * @see ca.eandb.jmist.framework.SceneElement#isEmissive()
-//   */
-//  public boolean isEmissive() {
-//    return inner.isEmissive();
-//  }
 
 }
