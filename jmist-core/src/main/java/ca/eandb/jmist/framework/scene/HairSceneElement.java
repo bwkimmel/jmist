@@ -66,21 +66,117 @@ public final class HairSceneElement implements SceneElement {
 
   private final int base;
 
-  private final int amount = 1000;//500000;
+  private final int amount;
 
-  private final int segments = 4;
+  private final int segments;
 
-  private final Vector3 meanInitialVelocity = new Vector3(0.0, 0.0, 0.2);//0.05);
+  private final Vector3 meanInitialVelocity;
 
-  private final double randomInitialVelocity = 0.02;
+  private final double randomInitialVelocity;
 
-  private final double roughness = 0.05;//0.01;
+  private final double roughness;
 
-  private final boolean renderEmitter = true;
+  private final boolean renderEmitter;
 
-  private final double baseWidth = 0.01;
+  private final double baseWidth;
 
-  private final double tipWidth = 0.01;
+  private final double tipWidth;
+
+  public static interface Builder1 {
+    Builder setEmitter(SceneElement emitter);
+  }
+
+  public static final class Builder implements Builder1 {
+    private SceneElement emitter = null;
+    private Material hairMaterial = null;
+    private int amount = 1000;//500000;
+    private int segments = 4;
+    private Vector3 meanInitialVelocity = new Vector3(0.0, 0.0, 0.2);//0.05);
+    private double randomInitialVelocity = 0.02;
+    private double roughness = 0.05;//0.01;
+    private boolean renderEmitter = true;
+    private double baseWidth = 0.01;
+    private double tipWidth = 0.01;
+
+    private Builder() {}
+
+    public Builder setEmitter(SceneElement emitter) {
+      this.emitter = emitter;
+      return this;
+    }
+
+    public Builder setHairMaterial(Material hairMaterial) {
+      this.hairMaterial = hairMaterial;
+      return this;
+    }
+
+    public Builder setAmount(int amount) {
+      this.amount = amount;
+      return this;
+    }
+
+    public Builder setSegments(int segments) {
+      this.segments = segments;
+      return this;
+    }
+
+    public Builder setMeanInitialVelocity(Vector3 meanInitialVelocity) {
+      this.meanInitialVelocity = meanInitialVelocity;
+      return this;
+    }
+
+    public Builder setRandomInitialVelocity(double randomInitialVelocity) {
+      this.randomInitialVelocity = randomInitialVelocity;
+      return this;
+    }
+
+    public Builder setRoughness(double roughness) {
+      this.roughness = roughness;
+      return this;
+    }
+
+    public Builder setRenderEmitter(boolean renderEmitter) {
+      this.renderEmitter = renderEmitter;
+      return this;
+    }
+
+    public Builder setBaseWidth(double baseWidth) {
+      this.baseWidth = baseWidth;
+      return this;
+    }
+
+    public Builder setTipWidth(double tipWidth) {
+      this.tipWidth = tipWidth;
+      return this;
+    }
+
+    public HairSceneElement build() {
+      return new HairSceneElement(emitter, hairMaterial, amount, segments,
+          meanInitialVelocity, randomInitialVelocity, roughness, renderEmitter,
+          baseWidth, tipWidth);
+    }
+  }
+
+  public static Builder1 newBuilder() {
+    return new Builder();
+  }
+
+  private HairSceneElement(SceneElement emitter, Material hairMaterial,
+      int amount, int segments, Vector3 meanInitialVelocity,
+      double randomInitialVelocity, double roughness, boolean renderEmitter,
+      double baseWidth, double tipWidth) {
+    this.emitter = emitter;
+    this.hairMaterial = hairMaterial;
+    this.amount = amount;
+    this.segments = segments;
+    this.meanInitialVelocity = meanInitialVelocity;
+    this.randomInitialVelocity = randomInitialVelocity;
+    this.roughness = roughness;
+    this.renderEmitter = renderEmitter;
+    this.baseWidth = baseWidth;
+    this.tipWidth = tipWidth;
+    this.base = renderEmitter ? emitter.getNumPrimitives() : 0;
+  }
 
   private class Strand implements Bounded3 {
 
@@ -153,16 +249,6 @@ public final class HairSceneElement implements SceneElement {
 
   };
 
-  public HairSceneElement(SceneElement emitter) {
-    this(null, emitter);
-  }
-
-  public HairSceneElement(Material hairMaterial, SceneElement emitter) {
-    this.hairMaterial = hairMaterial;
-    this.emitter = emitter;
-    this.base = renderEmitter ? emitter.getNumPrimitives() : 0;
-  }
-
   private Strand createStrand(int index) {
     Random tempRnd = new Random(index);
     Random rnd = new Random(tempRnd.nextLong());
@@ -178,7 +264,7 @@ public final class HairSceneElement implements SceneElement {
     Vector3 vel = context.getBasis().toStandard(meanInitialVelocity).plus(
         RandomUtil.uniformInsideSphere(randomInitialVelocity, adapter)
             .toCartesian());
-    double dt = 1.0 / (double) segments;
+    double dt = 1.0 / segments;
     double orientation = 2.0 * Math.PI * rnd.nextDouble();
     double co = Math.cos(orientation);
     double so = Math.sin(orientation);
