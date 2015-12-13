@@ -39,9 +39,7 @@ public final class ComposedFunction1 extends CompositeFunction1 {
    */
   private static final long serialVersionUID = 8434811559561689980L;
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Function1#evaluate(double)
-   */
+  @Override
   public double evaluate(double x) {
     for (Function1 f : children()) {
       x = f.evaluate(x);

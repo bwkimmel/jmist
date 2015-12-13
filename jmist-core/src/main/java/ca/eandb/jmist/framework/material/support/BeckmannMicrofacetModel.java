@@ -51,9 +51,6 @@ public final class BeckmannMicrofacetModel implements IsotropicMicrofacetModel {
     this.alpha = alpha;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.material.support.IsotropicMicrofacetModel#getDistributionPDF(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Vector3)
-   */
   @Override
   public double getDistributionPDF(Vector3 m, Vector3 n) {
     double mdotn = m.dot(n);
@@ -69,9 +66,6 @@ public final class BeckmannMicrofacetModel implements IsotropicMicrofacetModel {
     return Math.exp(-t * t / a2) / (Math.PI * a2 * c4);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.material.support.IsotropicMicrofacetModel#getShadowingAndMasking(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Vector3)
-   */
   @Override
   public double getShadowingAndMasking(Vector3 in, Vector3 out, Vector3 m,
       Vector3 n) {
@@ -97,9 +91,6 @@ public final class BeckmannMicrofacetModel implements IsotropicMicrofacetModel {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.material.support.IsotropicMicrofacetModel#sample(double, double)
-   */
   @Override
   public SphericalCoordinates sample(double ru, double rv) {
     return new SphericalCoordinates(

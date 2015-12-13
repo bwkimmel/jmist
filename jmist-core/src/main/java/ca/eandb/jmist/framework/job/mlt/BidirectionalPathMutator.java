@@ -73,9 +73,7 @@ public final class BidirectionalPathMutator implements PathMutator {
 
   private final void bp() {}
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.job.mlt.PathMutator#getTransitionPDF(ca.eandb.jmist.framework.path.Path, ca.eandb.jmist.framework.path.Path)
-   */
+  @Override
   public double getTransitionPDF(Path x, Path y) {
     IntPair slice = getCommonSlice(x, y);
     double pd = getSliceProbability(x, slice);
@@ -287,9 +285,7 @@ public final class BidirectionalPathMutator implements PathMutator {
     return null;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.job.mlt.PathMutator#mutate(ca.eandb.jmist.framework.path.Path, ca.eandb.jmist.framework.Random)
-   */
+  @Override
   public Path mutate(Path x, Random rnd) {
 
     int k = x.getLength();

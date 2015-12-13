@@ -104,9 +104,6 @@ public final class ChannelList implements Attribute {
     return cl;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.openexr.Attribute#write(java.io.DataOutput)
-   */
   @Override
   public void write(DataOutput out) throws IOException {
     ensureSorted();

@@ -54,59 +54,28 @@ public class ModifierSceneElement extends SceneElementDecorator implements
     this.modifier = modifier;
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#intersect(int,
-   *      ca.eandb.jmist.math.Ray3,
-   *      ca.eandb.jmist.framework.IntersectionRecorder)
-   */
   @Override
   public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
     super.intersect(index, ray, new ModifierIntersectionRecorder(recorder));
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#intersect(ca.eandb.jmist.math.Ray3,
-   *      ca.eandb.jmist.framework.IntersectionRecorder)
-   */
   @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
     super.intersect(ray, new ModifierIntersectionRecorder(recorder));
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#generateRandomSurfacePoint(int,
-   *      ca.eandb.jmist.framework.ShadingContext)
-   */
   @Override
   public void generateRandomSurfacePoint(int index, ShadingContext context, double ru, double rv, double rj) {
     super.generateRandomSurfacePoint(index, context, ru, rv, rj);
     modifier.modify(context);
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext)
-   */
   @Override
   public void generateRandomSurfacePoint(ShadingContext context, double ru, double rv, double rj) {
     super.generateRandomSurfacePoint(context, ru, rv, rj);
     modifier.modify(context);
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#generateImportanceSampledSurfacePoint(int,
-   *      ca.eandb.jmist.framework.SurfacePoint,
-   *      ca.eandb.jmist.framework.ShadingContext)
-   */
   @Override
   public double generateImportanceSampledSurfacePoint(int index,
       SurfacePoint x, ShadingContext context, double ru, double rv, double rj) {
@@ -116,12 +85,6 @@ public class ModifierSceneElement extends SceneElementDecorator implements
     return weight;
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#generateImportanceSampledSurfacePoint(ca.eandb.jmist.framework.SurfacePoint,
-   *      ca.eandb.jmist.framework.ShadingContext)
-   */
   @Override
   public double generateImportanceSampledSurfacePoint(SurfacePoint x,
       ShadingContext context, double ru, double rv, double rj) {
@@ -136,11 +99,6 @@ public class ModifierSceneElement extends SceneElementDecorator implements
       super(inner);
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see ca.eandb.jmist.framework.IntersectionRecorderDecorator#record(ca.eandb.jmist.framework.Intersection)
-     */
     @Override
     public void record(Intersection intersection) {
       inner.record(new IntersectionDecorator(intersection) {

@@ -38,9 +38,6 @@ public final class IntegerDxfElement extends AbstractDxfElement {
     this.value = value;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.dxf.AbstractDxfElement#getIntegerValue()
-   */
   @Override
   public int getIntegerValue() {
     return value;

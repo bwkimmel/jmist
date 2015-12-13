@@ -47,17 +47,11 @@ abstract class PlySingletonProperty implements PlyProperty {
     this.descriptor = descriptor;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getPropertyDescriptor()
-   */
   @Override
   public final PropertyDescriptor getPropertyDescriptor() {
     return descriptor;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getCount()
-   */
   @Override
   public final int getCount() {
     return 1;
@@ -74,27 +68,18 @@ abstract class PlySingletonProperty implements PlyProperty {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getNormalizedDoubleValue(int)
-   */
   @Override
   public double getNormalizedDoubleValue(int index) {
     checkIndex(index);
     return getNormalizedDoubleValue();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getDoubleValue(int)
-   */
   @Override
   public double getDoubleValue(int index) {
     checkIndex(index);
     return getDoubleValue();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getIntValue(int)
-   */
   @Override
   public int getIntValue(int index) {
     checkIndex(index);

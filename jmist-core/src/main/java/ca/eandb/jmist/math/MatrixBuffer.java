@@ -185,9 +185,6 @@ public final class MatrixBuffer implements Serializable {
   public List<Double> elementsByRow() {
     return new AbstractList<Double>() {
 
-      /* (non-Javadoc)
-       * @see java.util.AbstractList#iterator()
-       */
       @Override
       public Iterator<Double> iterator() {
         return MatrixBuffer.this.iterator();

@@ -156,9 +156,6 @@ public class CIEXYZ extends Tuple3 implements Spectrum {
     return ColorUtil.convertRGB2XYZ(rgb);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Spectrum#sample(ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public Color sample(WavelengthPacket lambda) {
     return lambda.getColorModel().fromXYZ(this).sample(lambda);

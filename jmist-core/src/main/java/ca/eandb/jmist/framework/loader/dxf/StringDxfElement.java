@@ -37,9 +37,6 @@ public final class StringDxfElement extends AbstractDxfElement {
     this.value = value;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.dxf.AbstractDxfElement#getStringValue()
-   */
   @Override
   public String getStringValue() {
     return value;

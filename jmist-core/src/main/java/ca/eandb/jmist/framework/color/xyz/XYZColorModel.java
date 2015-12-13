@@ -79,34 +79,22 @@ public final class XYZColorModel implements ColorModel {
     /* nothing to do. */
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#fromRGB(double, double, double)
-   */
   @Override
   public Spectrum fromRGB(double r, double g, double b) {
     CIEXYZ xyz = ColorUtil.convertRGB2XYZ(r, g, b);
     return new XYZColor(xyz.X(), xyz.Y(), xyz.Z(), null);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#fromXYZ(double, double, double)
-   */
   @Override
   public Spectrum fromXYZ(double x, double y, double z) {
     return new XYZColor(x, y, z, null);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getBlack()
-   */
   @Override
   public Spectrum getBlack() {
     return XYZColor.BLACK;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getBlack(ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public Color getBlack(WavelengthPacket lambda) {
     return getBlack((XYZWavelengthPacket) lambda);
@@ -116,25 +104,16 @@ public final class XYZColorModel implements ColorModel {
     return new XYZColor(0, 0, 0, lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getContinuous(ca.eandb.jmist.framework.Function1)
-   */
   @Override
   public Spectrum getContinuous(Function1 spectrum) {
     return new XYZContinuousSpectrum(spectrum);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getGray(double)
-   */
   @Override
   public Spectrum getGray(double value) {
     return new XYZColor(value, value, value, null);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getGray(double, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public Color getGray(double value, WavelengthPacket lambda) {
     return getGray(value, (XYZWavelengthPacket) lambda);
@@ -144,17 +123,12 @@ public final class XYZColorModel implements ColorModel {
     return new XYZColor(value, value, value, lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getNumChannels()
-   */
   @Override
   public int getNumChannels() {
     return 3;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#fromChannels(double[], ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
+  @Override
   public Color fromArray(double[] values, WavelengthPacket lambda) {
     if (values.length < 3) {
       throw new IllegalArgumentException("values.length < 3");
@@ -162,17 +136,11 @@ public final class XYZColorModel implements ColorModel {
     return new XYZColor(values[0], values[1], values[2], (XYZWavelengthPacket) lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getWhite()
-   */
   @Override
   public Spectrum getWhite() {
     return XYZColor.WHITE;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getWhite(ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public Color getWhite(WavelengthPacket lambda) {
     return getWhite((XYZWavelengthPacket) lambda);
@@ -182,18 +150,12 @@ public final class XYZColorModel implements ColorModel {
     return new XYZColor(1, 1, 1, lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#sample(ca.eandb.jmist.framework.Random)
-   */
   @Override
   public Color sample(Random random) {
     XYZWavelengthPacket lambda = new XYZWavelengthPacket(X_PDF.sample(random), Y_PDF.sample(random), Z_PDF.sample(random));
     return new XYZColor(X_CONST, Y_CONST, Z_CONST, lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#createRaster(int, int)
-   */
   @Override
   public Raster createRaster(int width, int height) {
     return new DoubleRaster(width, height, 3) {
@@ -204,9 +166,7 @@ public final class XYZColorModel implements ColorModel {
     };
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getChannelName(int)
-   */
+  @Override
   public String getChannelName(int channel) {
     if (channel < 0 || channel >= 3) {
       throw new IllegalArgumentException("Invalid channel");

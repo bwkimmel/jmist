@@ -54,23 +54,17 @@ public final class ScaledLightSample implements LightSample {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.LightSample#castShadowRay(ca.eandb.jmist.framework.VisibilityFunction3)
-   */
+  @Override
   public boolean castShadowRay(VisibilityFunction3 vf) {
     return sample.castShadowRay(vf);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.LightSample#getDirToLight()
-   */
+  @Override
   public Vector3 getDirToLight() {
     return sample.getDirToLight();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.LightSample#getRadiantIntensity()
-   */
+  @Override
   public Color getRadiantIntensity() {
     return sample.getRadiantIntensity().times(factor);
   }

@@ -41,16 +41,12 @@ public abstract class AbstractProbabilityDensityFunction implements
   /** Serialization version ID. */
   private static final long serialVersionUID = -2318384217933195477L;
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#sample(ca.eandb.jmist.framework.Random)
-   */
+  @Override
   public double sample(Random random) {
     return this.warp(RandomUtil.canonical(random));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#evaluate(double[], double[])
-   */
+  @Override
   public double[] evaluate(double[] x, double[] results) {
 
     results = ArrayUtil.initialize(results, x.length);
@@ -63,9 +59,7 @@ public abstract class AbstractProbabilityDensityFunction implements
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#sample(ca.eandb.jmist.framework.Random, double[])
-   */
+  @Override
   public double[] sample(Random random, double[] results) {
 
     for (int i = 0; i < results.length; i++) {
@@ -76,9 +70,7 @@ public abstract class AbstractProbabilityDensityFunction implements
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#warp(double[], double[])
-   */
+  @Override
   public double[] warp(double[] seeds, double[] results) {
 
     if (results == null) {

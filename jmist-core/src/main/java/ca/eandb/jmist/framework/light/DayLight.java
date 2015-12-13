@@ -167,16 +167,12 @@ public final class DayLight extends AbstractLight implements DirectionalTexture3
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.DirectionalTexture3#evaluate(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
+  @Override
   public Color evaluate(Vector3 v, WavelengthPacket lambda) {
     return lambda.getColorModel().getContinuous(new SkyRadianceSpectrum(v)).sample(lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.DirectionalTexture3#evaluate(ca.eandb.jmist.math.Vector3)
-   */
+  @Override
   public Spectrum evaluate(final Vector3 v) {
     return new Spectrum() {
       private static final long serialVersionUID = 7992544267450760499L;
@@ -186,9 +182,7 @@ public final class DayLight extends AbstractLight implements DirectionalTexture3
     };
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random, ca.eandb.jmist.framework.Illuminable)
-   */
+  @Override
   public void illuminate(SurfacePoint x, WavelengthPacket lambda, Random rng, Illuminable target) {
 
     Vector3  source = RandomUtil.uniformOnUpperHemisphere(rng).toCartesian(Basis3.fromW(zenith));
@@ -309,9 +303,7 @@ public final class DayLight extends AbstractLight implements DirectionalTexture3
       this.source = source;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.Function1#evaluate(double)
-     */
+    @Override
     public double evaluate(double wavelength) {
 
       this.ensureReady();
@@ -360,9 +352,7 @@ public final class DayLight extends AbstractLight implements DirectionalTexture3
      */
     private static final long serialVersionUID = 5731188166299456526L;
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.Function1#evaluate(double)
-     */
+    @Override
     public double evaluate(double wavelength) {
 
       double  H0 = MathUtil.interpolate(DL_WAVELENGTHS, SOLAR_RADIANCE, wavelength);

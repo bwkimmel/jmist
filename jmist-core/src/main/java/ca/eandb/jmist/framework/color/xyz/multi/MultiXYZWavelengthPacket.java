@@ -58,9 +58,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
     return wavelengths[channel + owner.getOffsetZ()];
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.WavelengthPacket#getColorModel()
-   */
+  @Override
   public MultiXYZColorModel getColorModel() {
     return owner;
   }

@@ -504,17 +504,11 @@ public final class Tuple extends AbstractList<Double> implements Serializable {
 
   }
 
-  /* (non-Javadoc)
-   * @see java.util.AbstractList#iterator()
-   */
   @Override
   public Iterator<Double> iterator() {
     return new TupleIterator();
   }
 
-  /* (non-Javadoc)
-   * @see java.util.AbstractList#get(int)
-   */
   @Override
   public Double get(int index) {
     return at(index);
@@ -528,16 +522,12 @@ public final class Tuple extends AbstractList<Double> implements Serializable {
     /** The index of the next element. */
     private int index = 0;
 
-    /* (non-Javadoc)
-     * @see java.util.Iterator#hasNext()
-     */
+    @Override
     public boolean hasNext() {
       return index < values.length;
     }
 
-    /* (non-Javadoc)
-     * @see java.util.Iterator#next()
-     */
+    @Override
     public Double next() {
       return values[index++];
     }
@@ -552,9 +542,6 @@ public final class Tuple extends AbstractList<Double> implements Serializable {
     return (double[]) this.values.clone();
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();

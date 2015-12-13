@@ -58,9 +58,7 @@ public final class CameraImageShader implements ImageShader {
     this.rayShader = rayShader;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ImageShader#shadeAt(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
+  @Override
   public Color shadeAt(Point2 p, WavelengthPacket lambda) {
     ScatteredRay sr = lens.rayAt(p, lambda, Random.DEFAULT);
     if (sr != null) {

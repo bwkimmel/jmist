@@ -64,9 +64,7 @@ public final class MonochromeColorModel implements ColorModel {
     /** Serialization version ID. */
     private static final long serialVersionUID = 5347416797625974900L;
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.color.WavelengthPacket#getColorModel()
-     */
+    @Override
     public ColorModel getColorModel() {
       return MonochromeColorModel.this;
     }
@@ -89,9 +87,7 @@ public final class MonochromeColorModel implements ColorModel {
       this.value = value;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.color.Color#toXYZ()
-     */
+    @Override
     public CIEXYZ toXYZ() {
       return ColorUtil.convertSample2XYZ(wavelength, value);
     }
@@ -103,16 +99,12 @@ public final class MonochromeColorModel implements ColorModel {
       return ColorUtil.convertSample2RGB(wavelength, value);
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.color.Color#abs()
-     */
+    @Override
     public Color abs() {
       return new Sample(Math.abs(value));
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.color.Color#divide(ca.eandb.jmist.framework.color.Color)
-     */
+    @Override
     public Color divide(Color other) {
       return divide((Sample) other);
     }
@@ -121,37 +113,27 @@ public final class MonochromeColorModel implements ColorModel {
       return new Sample(value / other.value);
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.color.Color#divide(double)
-     */
+    @Override
     public Color divide(double c) {
       return new Sample(value / c);
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.color.Color#exp()
-     */
+    @Override
     public Color exp() {
       return new Sample(Math.exp(value));
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.color.Color#invert()
-     */
+    @Override
     public Color invert() {
       return new Sample(1.0 / value);
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.color.Color#luminance()
-     */
+    @Override
     public double luminance() {
       return ColorUtil.convertSample2Luminance(wavelength, value);
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.color.Color#minus(ca.eandb.jmist.framework.color.Color)
-     */
+    @Override
     public Color minus(Color other) {
       return minus((Sample) other);
     }
@@ -160,16 +142,12 @@ public final class MonochromeColorModel implements ColorModel {
       return new Sample(value - other.value);
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.color.Color#negative()
-     */
+    @Override
     public Color negative() {
       return new Sample(-value);
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.color.Color#plus(ca.eandb.jmist.framework.color.Color)
-     */
+    @Override
     public Color plus(Color other) {
       return plus((Sample) other);
     }
@@ -178,9 +156,7 @@ public final class MonochromeColorModel implements ColorModel {
       return new Sample(value + other.value);
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.color.Color#pow(ca.eandb.jmist.framework.color.Color)
-     */
+    @Override
     public Color pow(Color other) {
       return pow((Sample) other);
     }
@@ -189,23 +165,17 @@ public final class MonochromeColorModel implements ColorModel {
       return new Sample(Math.pow(value, other.value));
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.color.Color#pow(double)
-     */
+    @Override
     public Color pow(double e) {
       return new Sample(Math.pow(value, e));
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.color.Color#sqrt()
-     */
+    @Override
     public Color sqrt() {
       return new Sample(Math.sqrt(value));
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.color.Color#times(ca.eandb.jmist.framework.color.Color)
-     */
+    @Override
     public Color times(Color other) {
       return times((Sample) other);
     }
@@ -214,30 +184,22 @@ public final class MonochromeColorModel implements ColorModel {
       return new Sample(value * other.value);
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.color.Color#times(double)
-     */
+    @Override
     public Color times(double c) {
       return new Sample(value * c);
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.color.Color#clamp(double, double)
-     */
+    @Override
     public Color clamp(double min, double max) {
       return new Sample(MathUtil.clamp(value, min, max));
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.color.Color#clamp(double)
-     */
+    @Override
     public Color clamp(double max) {
       return new Sample(Math.min(value, max));
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.color.Color#disperse(int)
-     */
+    @Override
     public Color disperse(int channel) {
       if (channel != 0) {
         throw new IndexOutOfBoundsException();
@@ -245,16 +207,12 @@ public final class MonochromeColorModel implements ColorModel {
       return this;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.color.Color#getColorModel()
-     */
+    @Override
     public ColorModel getColorModel() {
       return MonochromeColorModel.this;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.color.Color#getValue(int)
-     */
+    @Override
     public double getValue(int channel) {
       if (channel != 0) {
         throw new IndexOutOfBoundsException();
@@ -262,23 +220,17 @@ public final class MonochromeColorModel implements ColorModel {
       return value;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.color.Color#toArray()
-     */
+    @Override
     public double[] toArray() {
       return new double[]{ value };
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.color.Color#getWavelengthPacket()
-     */
+    @Override
     public WavelengthPacket getWavelengthPacket() {
       return lambda;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.color.Spectrum#sample(ca.eandb.jmist.framework.color.WavelengthPacket)
-     */
+    @Override
     public Color sample(WavelengthPacket lambda) {
       return this;
     }
@@ -289,9 +241,6 @@ public final class MonochromeColorModel implements ColorModel {
     this.wavelength = wavelength;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#fromRGB(double, double, double)
-   */
   @Override
   public Spectrum fromRGB(double r, double g, double b) {
     // TODO choose reflectance at wavelength from RGB triple.
@@ -303,49 +252,32 @@ public final class MonochromeColorModel implements ColorModel {
     return new Sample(y);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#fromSpectrum(ca.eandb.jmist.framework.Function1)
-   */
   @Override
   public Spectrum getContinuous(Function1 spectrum) {
     return new Sample(spectrum.evaluate(wavelength));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getBlack()
-   */
   @Override
   public Spectrum getBlack() {
     return black;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getGray(double)
-   */
   @Override
   public Spectrum getGray(double value) {
     return new Sample(value);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getUnit()
-   */
   @Override
   public Spectrum getWhite() {
     return white;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getNumBands()
-   */
   @Override
   public int getNumChannels() {
     return 1;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#fromChannels(double[], ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
+  @Override
   public Color fromArray(double[] values, WavelengthPacket lambda) {
     if (values.length < 1) {
       throw new IllegalArgumentException("values.length < 1");
@@ -353,41 +285,26 @@ public final class MonochromeColorModel implements ColorModel {
     return new Sample(values[0]);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getBlack(ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public Color getBlack(WavelengthPacket lambda) {
     return black;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getGray(double, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public Color getGray(double value, WavelengthPacket lambda) {
     return new Sample(value);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getWhite(ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public Color getWhite(WavelengthPacket lambda) {
     return white;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#sample(ca.eandb.jmist.framework.Random)
-   */
   @Override
   public Color sample(Random random) {
     return white;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#createRaster(int, int)
-   */
   @Override
   public Raster createRaster(int width, int height) {
     return new DoubleRaster(width, height, 1) {
@@ -398,9 +315,7 @@ public final class MonochromeColorModel implements ColorModel {
     };
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getChannelName(int)
-   */
+  @Override
   public String getChannelName(int channel) {
     if (channel != 0) {
       throw new IllegalArgumentException("Invalid channel");

@@ -42,79 +42,57 @@ public final class BackgroundNode extends AbstractScatteringNode {
     this.direction = sr.getRay().direction();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.ScatteringNode#getSourcePDF()
-   */
+  @Override
   public double getSourcePDF() {
     return 0;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.ScatteringNode#getSourcePDF(ca.eandb.jmist.math.Vector3)
-   */
+  @Override
   public double getSourcePDF(Vector3 v) {
     return 0.0;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.ScatteringNode#getSourceRadiance()
-   */
+  @Override
   public Color getSourceRadiance() {
     return getBlack();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.ScatteringNode#isOnLightSource()
-   */
+  @Override
   public boolean isOnLightSource() {
     return false;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#sample(double, double, double)
-   */
+  @Override
   public ScatteredRay sample(double ru, double rv, double rj) {
     return null;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getCosine(ca.eandb.jmist.math.Vector3)
-   */
+  @Override
   public double getCosine(Vector3 v) {
     return 1.0;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getPosition()
-   */
+  @Override
   public HPoint3 getPosition() {
     return direction;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#scatter(ca.eandb.jmist.math.Vector3)
-   */
+  @Override
   public Color scatter(Vector3 v) {
     return getBlack();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getPDF(ca.eandb.jmist.math.Vector3)
-   */
+  @Override
   public double getPDF(Vector3 v) {
     return 0;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getReversePDF(ca.eandb.jmist.math.Vector3)
-   */
+  @Override
   public double getReversePDF(Vector3 v) {
     return 0;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#reverse(ca.eandb.jmist.framework.path.PathNode, ca.eandb.jmist.framework.path.PathNode)
-   */
+  @Override
   public PathNode reverse(PathNode newParent, PathNode grandChild) {
     return null;
   }

@@ -68,9 +68,7 @@ public final class VisibilityRayShader implements RayShader {
     this.missValue = missValue;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.RayShader#shadeRay(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
+  @Override
   public Color shadeRay(Ray3 ray, WavelengthPacket lambda) {
     if (ray == null || this.visibilityFunction.visibility(ray)) {
       return (missValue != null) ? missValue.sample(lambda) : lambda.getColorModel().getBlack(lambda);

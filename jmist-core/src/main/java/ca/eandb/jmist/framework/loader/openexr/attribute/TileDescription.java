@@ -142,9 +142,6 @@ public final class TileDescription implements Attribute {
     return new TileDescription(xSize, ySize, levelMode, roundingMode);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.openexr.Attribute#write(java.io.DataOutput)
-   */
   @Override
   public void write(DataOutput out) throws IOException {
     out.writeInt(xSize);

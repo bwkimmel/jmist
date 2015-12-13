@@ -77,9 +77,6 @@ public final class AsciiDxfReader implements DxfReader {
       this.lineNumber = lineNumber;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.loader.dxf.AbstractDxfElement#getBooleanValue()
-     */
     @Override
     public boolean getBooleanValue() {
       try {
@@ -89,9 +86,6 @@ public final class AsciiDxfReader implements DxfReader {
       }
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.loader.dxf.AbstractDxfElement#getFloatValue()
-     */
     @Override
     public double getFloatValue() {
       try {
@@ -101,9 +95,6 @@ public final class AsciiDxfReader implements DxfReader {
       }
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.loader.dxf.AbstractDxfElement#getIntegerValue()
-     */
     @Override
     public int getIntegerValue() {
       try {
@@ -113,9 +104,6 @@ public final class AsciiDxfReader implements DxfReader {
       }
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.loader.dxf.AbstractDxfElement#getLongValue()
-     */
     @Override
     public long getLongValue() {
       try {
@@ -125,9 +113,6 @@ public final class AsciiDxfReader implements DxfReader {
       }
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.loader.dxf.AbstractDxfElement#getStringValue()
-     */
     @Override
     public String getStringValue() {
       return valueLine;
@@ -145,9 +130,6 @@ public final class AsciiDxfReader implements DxfReader {
     this.reader = new LineNumberReader(reader);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.dxf.DxfReader#getCurrentElement()
-   */
   @Override
   public synchronized DxfElement getCurrentElement() {
     if (!eof && currentElement == null) {
@@ -156,9 +138,6 @@ public final class AsciiDxfReader implements DxfReader {
     return currentElement;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.dxf.DxfReader#advance()
-   */
   @Override
   public synchronized void advance() throws DxfException {
     if (eof) {

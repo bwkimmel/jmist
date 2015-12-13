@@ -87,9 +87,7 @@ public final class SellmeierFunction1 implements Function1 {
     this(b, c, null);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Function1#evaluate(double)
-   */
+  @Override
   public double evaluate(double x) {
     if (range == null || range.contains(x)) {
       double x2 = x * x;

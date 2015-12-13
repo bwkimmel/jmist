@@ -74,17 +74,11 @@ public final class RGBERadianceFileDisplay implements Display, Serializable {
     this(DEFAULT_FILENAME);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#initialize(int, int, ca.eandb.jmist.framework.color.ColorModel)
-   */
   @Override
   public void initialize(int w, int h, ColorModel colorModel) {
     picture = new RadiancePicture(w, h, Format.RGBE);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#fill(int, int, int, int, ca.eandb.jmist.framework.color.Color)
-   */
   @Override
   public void fill(int x, int y, int w, int h, Color color) {
     RGB rgb = color.toRGB();
@@ -95,17 +89,11 @@ public final class RGBERadianceFileDisplay implements Display, Serializable {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#setPixel(int, int, ca.eandb.jmist.framework.color.Color)
-   */
   @Override
   public void setPixel(int x, int y, Color pixel) {
     picture.setPixelRGB(x, y, pixel.toRGB());
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#setPixels(int, int, ca.eandb.jmist.framework.Raster)
-   */
   @Override
   public void setPixels(int x, int y, Raster pixels) {
     for (int j = 0, h = pixels.getHeight(); j < h; j++) {
@@ -115,9 +103,6 @@ public final class RGBERadianceFileDisplay implements Display, Serializable {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#finish()
-   */
   @Override
   public void finish() {
     HostService service = JdcpUtil.getHostService();

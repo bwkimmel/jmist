@@ -71,18 +71,12 @@ public final class OpenEXRImageWriterSpi extends ImageWriterSpi {
     // TODO Auto-generated constructor stub
   }
 
-  /* (non-Javadoc)
-   * @see javax.imageio.spi.ImageWriterSpi#canEncodeImage(javax.imageio.ImageTypeSpecifier)
-   */
   @Override
   public boolean canEncodeImage(ImageTypeSpecifier type) {
     // TODO Auto-generated method stub
     return false;
   }
 
-  /* (non-Javadoc)
-   * @see javax.imageio.spi.ImageWriterSpi#createWriterInstance(java.lang.Object)
-   */
   @Override
   public ImageWriter createWriterInstance(Object extension)
       throws IOException {
@@ -90,9 +84,6 @@ public final class OpenEXRImageWriterSpi extends ImageWriterSpi {
     return null;
   }
 
-  /* (non-Javadoc)
-   * @see javax.imageio.spi.IIOServiceProvider#getDescription(java.util.Locale)
-   */
   @Override
   public String getDescription(Locale locale) {
     // TODO Auto-generated method stub

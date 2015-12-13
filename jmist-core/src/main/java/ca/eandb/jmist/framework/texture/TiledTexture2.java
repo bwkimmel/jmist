@@ -51,9 +51,6 @@ public final class TiledTexture2 implements Texture2 {
     this.inner = inner;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Texture2#evaluate(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public Color evaluate(Point2 p, WavelengthPacket lambda) {
     p = new Point2(p.x() - Math.floor(p.x()), p.y() - Math.floor(p.y()));

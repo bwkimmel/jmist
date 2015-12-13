@@ -50,9 +50,6 @@ public final class CompositeElementListener implements ElementListener {
     return this;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.ply.ElementListener#element(ca.eandb.jmist.framework.loader.ply.PlyElement)
-   */
   @Override
   public void element(PlyElement element) {
     for (ElementListener listener : listeners) {

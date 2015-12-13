@@ -62,30 +62,17 @@ public final class RoundedBoxGeometry extends PrimitiveGeometry {
     this.bevelRadius = MathUtil.clamp(bevelRadius, 0.0, maxBevelRadius);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-   */
+  @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
     throw new UnimplementedException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#isClosed()
-   */
-  public boolean isClosed() {
-    return true;
-  }
-
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
-   */
+  @Override
   public Box3 boundingBox() {
     return box;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
-   */
+  @Override
   public Sphere boundingSphere() {
     return new Sphere(box.center(), 0.5 * box.diagonal() + bevelRadius);
   }

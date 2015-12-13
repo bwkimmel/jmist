@@ -38,9 +38,6 @@ public final class SumFunction1 extends CompositeFunction1 {
    */
   private static final long serialVersionUID = 2089927530431867078L;
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.function.CompositeFunction1#addChild(ca.eandb.jmist.framework.Function1)
-   */
   @Override
   public SumFunction1 addChild(Function1 child) {
     if (child instanceof SumFunction1) {
@@ -54,9 +51,7 @@ public final class SumFunction1 extends CompositeFunction1 {
     return this;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Function1#evaluate(double)
-   */
+  @Override
   public double evaluate(double x) {
 
     double sum = 0.0;

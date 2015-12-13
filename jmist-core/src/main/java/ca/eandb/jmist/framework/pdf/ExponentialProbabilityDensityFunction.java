@@ -50,17 +50,11 @@ public final class ExponentialProbabilityDensityFunction extends
     this.lambda = lambda;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#warp(double)
-   */
   @Override
   public double warp(double seed) {
     return -Math.log(1.0 - seed) / lambda;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#evaluate(double)
-   */
   @Override
   public double evaluate(double x) {
     return x > 0.0 ? lambda * Math.exp(-lambda * x) : 0.0;

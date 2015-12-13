@@ -70,27 +70,18 @@ public final class OpenEXRImageReaderSpi extends ImageReaderSpi {
     // TODO Auto-generated constructor stub
   }
 
-  /* (non-Javadoc)
-   * @see javax.imageio.spi.ImageReaderSpi#canDecodeInput(java.lang.Object)
-   */
   @Override
   public boolean canDecodeInput(Object source) throws IOException {
     // TODO Auto-generated method stub
     return false;
   }
 
-  /* (non-Javadoc)
-   * @see javax.imageio.spi.ImageReaderSpi#createReaderInstance(java.lang.Object)
-   */
   @Override
   public ImageReader createReaderInstance(Object extension) throws IOException {
     // TODO Auto-generated method stub
     return null;
   }
 
-  /* (non-Javadoc)
-   * @see javax.imageio.spi.IIOServiceProvider#getDescription(java.util.Locale)
-   */
   @Override
   public String getDescription(Locale locale) {
     // TODO Auto-generated method stub

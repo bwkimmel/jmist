@@ -156,16 +156,12 @@ public final class PiecewiseLinearProbabilityDensityFunction extends
     this(x.toDoubleArray(), pdf.toDoubleArray(), false);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#evaluate(double)
-   */
+  @Override
   public double evaluate(double x) {
     return MathUtil.interpolate(this.x, this.pdf, x);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#warp(double)
-   */
+  @Override
   public double warp(double seed) {
 
     /* If the value is out of range, the results are undefined.  Returning

@@ -84,16 +84,12 @@ public final class HeightFieldGeometry extends PrimitiveGeometry {
     this.height = height;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-   */
+  @Override
   public void intersect(Ray3 ray, final IntersectionRecorder recorder) {
 
     this.grid.intersect(ray, recorder.interval(), new Grid3.Visitor() {
 
-      /* (non-Javadoc)
-       * @see ca.eandb.jmist.toolkit.Grid3.Visitor#visit(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.toolkit.Interval, ca.eandb.jmist.toolkit.Grid3.Cell)
-       */
+      @Override
       public boolean visit(Ray3 ray, Interval I, Cell cell) {
 
         /* Get the points at which the ray enters and exits the cell.
@@ -191,9 +187,6 @@ public final class HeightFieldGeometry extends PrimitiveGeometry {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AbstractGeometry#getTextureCoordinates(ca.eandb.jmist.framework.AbstractGeometry.GeometryIntersection)
-   */
   @Override
   protected Point2 getTextureCoordinates(GeometryIntersection x) {
     Point3 p = x.getPosition();
@@ -204,23 +197,12 @@ public final class HeightFieldGeometry extends PrimitiveGeometry {
     );
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#isClosed()
-   */
-  public boolean isClosed() {
-    return false;
-  }
-
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
-   */
+  @Override
   public Box3 boundingBox() {
     return grid.getBoundingBox();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
-   */
+  @Override
   public Sphere boundingSphere() {
 
     List<Point3> points = new ArrayList<Point3>();

@@ -51,74 +51,47 @@ final class TriangulatedMesh implements Mesh {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.mesh.Mesh#getMaxFaceVertexCount()
-   */
   @Override
   public int getMaxFaceVertexCount() {
     return 3;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.mesh.Mesh#isFaceVertexCountFixed()
-   */
   @Override
   public boolean isFaceVertexCountFixed() {
     return true;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.mesh.Mesh#hasVertexNormals()
-   */
   @Override
   public boolean hasVertexNormals() {
     return mesh.hasVertexNormals();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.mesh.Mesh#hasSplitVertexNormals()
-   */
   @Override
   public boolean hasSplitVertexNormals() {
     return mesh.hasSplitVertexNormals();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.mesh.Mesh#hasUVs()
-   */
   @Override
   public boolean hasUVs() {
     return mesh.hasUVs();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.mesh.Mesh#hasSplitUVs()
-   */
   @Override
   public boolean hasSplitUVs() {
     return mesh.hasSplitUVs();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.mesh.Mesh#getFaceCount()
-   */
   @Override
   public int getFaceCount() {
     return faceIndices.size();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.mesh.Mesh#getFace(int)
-   */
   @Override
   public Face getFace(int index) {
     return new Triangle(mesh.getFace(faceIndices.get(index)),
                         Byte.toUnsignedInt(keyVertexIndices.get(index)));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.mesh.Mesh#getFaces()
-   */
   @Override
   public Iterable<Face> getFaces() {
     return () -> new Iterator<Face>() {
@@ -144,25 +117,16 @@ final class TriangulatedMesh implements Mesh {
     };
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.mesh.Mesh#getVertexCount()
-   */
   @Override
   public int getVertexCount() {
     return mesh.getVertexCount();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.mesh.Mesh#getVertex(int)
-   */
   @Override
   public Vertex getVertex(int index) {
     return mesh.getVertex(index);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.mesh.Mesh#getVertices()
-   */
   @Override
   public Iterable<Vertex> getVertices() {
     return mesh.getVertices();

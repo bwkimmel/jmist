@@ -201,9 +201,6 @@ public final class ThinLens extends AbstractLens {
     this.objPlaneHeight = objPlaneWidth / aspect;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Lens#sample(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.path.PathInfo, double, double, double)
-   */
   @Override
   public EyeNode sample(Point2 p, PathInfo pathInfo, double ru, double rv,
       double rj) {
@@ -236,9 +233,6 @@ public final class ThinLens extends AbstractLens {
       this.ray = new Ray3(origin, direction);
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.EyeNode#project(ca.eandb.jmist.math.HPoint3)
-     */
     @Override
     public Point2 project(HPoint3 p) {
       Ray3 pray = new Ray3(ray.origin(), p);
@@ -264,33 +258,21 @@ public final class ThinLens extends AbstractLens {
       return new Point2(u, v);
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#getPDF()
-     */
     @Override
     public double getPDF() {
       return 1.0 / apertureArea;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#isSpecular()
-     */
     @Override
     public boolean isSpecular() {
       return false;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#getPosition()
-     */
     @Override
     public HPoint3 getPosition() {
       return ray.origin();
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#sample(double, double, double)
-     */
     @Override
     public ScatteredRay sample(double ru, double rv, double rj) {
       Vector3 v = ray.direction();
@@ -300,25 +282,16 @@ public final class ThinLens extends AbstractLens {
       return ScatteredRay.diffuse(ray, color, pdf);
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#scatter(ca.eandb.jmist.math.Vector3)
-     */
     @Override
     public Color scatter(Vector3 v) {
       return getGray(getPDF(v));
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#getCosine(ca.eandb.jmist.math.Vector3)
-     */
     @Override
     public double getCosine(Vector3 v) {
       return -v.z() / v.length();
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#getPDF(ca.eandb.jmist.math.Vector3)
-     */
     @Override
     public double getPDF(Vector3 v) {
       v = v.unit();

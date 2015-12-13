@@ -49,9 +49,7 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
   /** Serialization version ID. */
   private static final long serialVersionUID = 2972169138865609527L;
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#intersect(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-   */
+  @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 
     /* Use a special intersection recorder that knows how to combine the
@@ -99,30 +97,22 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
    */
   private final class CsgIntersectionRecorder implements IntersectionRecorder {
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.IntersectionRecorderDecorator#needAllIntersections()
-     */
+    @Override
     public boolean needAllIntersections() {
       return true;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.IntersectionRecorder#isEmpty()
-     */
+    @Override
     public boolean isEmpty() {
       return this.intersectionSet.isEmpty();
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.IntersectionRecorderDecorator#interval()
-     */
+    @Override
     public Interval interval() {
       return Interval.UNIVERSE;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.IntersectionRecorderDecorator#record(ca.eandb.jmist.framework.Intersection)
-     */
+    @Override
     public void record(Intersection intersection) {
       this.intersectionSet.add(new CsgIntersection(this.argumentIndex, intersection));
     }
@@ -211,17 +201,11 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
         this.argumentIndex = argumentIndex;
       }
 
-      /* (non-Javadoc)
-       * @see ca.eandb.jmist.framework.IntersectionDecorator#front()
-       */
       @Override
       public boolean isFront() {
         return this.flipped ? !this.inner.isFront() : this.inner.isFront();
       }
 
-      /* (non-Javadoc)
-       * @see ca.eandb.jmist.framework.IntersectionDecorator#transformShadingContext(ca.eandb.jmist.framework.ShadingContext)
-       */
       @Override
       protected void transformShadingContext(ShadingContext context) {
         context.setPrimitiveIndex(0);

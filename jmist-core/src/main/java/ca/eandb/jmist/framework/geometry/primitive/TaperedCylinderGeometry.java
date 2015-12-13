@@ -79,9 +79,6 @@ public final class TaperedCylinderGeometry extends PrimitiveGeometry {
     this.capped = capped;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
-   */
   @Override
   public Sphere boundingSphere() {
     Point3 center = new Point3(0.0, 0.5 * (height1 + height2), 0.0);
@@ -91,9 +88,6 @@ public final class TaperedCylinderGeometry extends PrimitiveGeometry {
     return new Sphere(center, radius);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
-   */
   @Override
   public Box3 boundingBox() {
     double maxR = Math.max(radius1, radius2);
@@ -103,9 +97,6 @@ public final class TaperedCylinderGeometry extends PrimitiveGeometry {
     return new Box3(-maxR, minH, -maxR, maxR, maxH, maxR);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-   */
   @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 
@@ -158,9 +149,6 @@ public final class TaperedCylinderGeometry extends PrimitiveGeometry {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#getSurfaceArea()
-   */
   @Override
   public double getSurfaceArea() {
     throw new UnsupportedOperationException();
@@ -169,9 +157,6 @@ public final class TaperedCylinderGeometry extends PrimitiveGeometry {
 //        : Math.PI * s * radius;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getBasis(ca.eandb.jmist.framework.geometry.AbstractGeometry.GeometryIntersection)
-   */
   @Override
   protected Basis3 getBasis(GeometryIntersection x) {
     switch (x.getTag()) {
@@ -189,9 +174,6 @@ public final class TaperedCylinderGeometry extends PrimitiveGeometry {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getNormal(ca.eandb.jmist.framework.geometry.AbstractGeometry.GeometryIntersection)
-   */
   @Override
   protected Vector3 getNormal(GeometryIntersection x) {
     switch (x.getTag()) {
@@ -230,9 +212,6 @@ public final class TaperedCylinderGeometry extends PrimitiveGeometry {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getTextureCoordinates(ca.eandb.jmist.framework.geometry.AbstractGeometry.GeometryIntersection)
-   */
   @Override
   protected Point2 getTextureCoordinates(GeometryIntersection x) {
     Point3 p = x.getPosition();
@@ -253,13 +232,6 @@ public final class TaperedCylinderGeometry extends PrimitiveGeometry {
     default:
       throw new IllegalArgumentException("Invalid surface ID");
     }
-  }
-
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#isClosed()
-   */
-  public boolean isClosed() {
-    return capped;
   }
 
 }

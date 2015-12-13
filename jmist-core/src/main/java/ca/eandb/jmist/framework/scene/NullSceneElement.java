@@ -49,123 +49,89 @@ public final class NullSceneElement implements SceneElement {
     /* nothing to do. */
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#createLight()
-   */
+  @Override
   public Light createLight() {
     return null;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#generateImportanceSampledSurfacePoint(int, ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext)
-   */
+  @Override
   public double generateImportanceSampledSurfacePoint(int index,
       SurfacePoint x, ShadingContext context, double ru, double rv, double rj) {
     throw new IndexOutOfBoundsException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#generateImportanceSampledSurfacePoint(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext)
-   */
+  @Override
   public double generateImportanceSampledSurfacePoint(SurfacePoint x,
       ShadingContext context, double ru, double rv, double rj) {
     throw new UnsupportedOperationException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(int, ca.eandb.jmist.framework.ShadingContext)
-   */
+  @Override
   public void generateRandomSurfacePoint(int index, ShadingContext context, double ru, double rv, double rj) {
     throw new IndexOutOfBoundsException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext)
-   */
+  @Override
   public void generateRandomSurfacePoint(ShadingContext context, double ru, double rv, double rj) {
     throw new UnsupportedOperationException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getBoundingBox(int)
-   */
+  @Override
   public Box3 getBoundingBox(int index) {
     return Box3.EMPTY;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getBoundingSphere(int)
-   */
+  @Override
   public Sphere getBoundingSphere(int index) {
     return Sphere.EMPTY;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getNumPrimitives()
-   */
+  @Override
   public int getNumPrimitives() {
     return 0;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getSurfaceArea(int)
-   */
+  @Override
   public double getSurfaceArea(int index) {
     throw new IndexOutOfBoundsException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getSurfaceArea()
-   */
+  @Override
   public double getSurfaceArea() {
     return 0.0;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-   */
+  @Override
   public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
     throw new IndexOutOfBoundsException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-   */
+  @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
     /* nothing to do. */
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#intersects(int, ca.eandb.jmist.math.Box3)
-   */
+  @Override
   public boolean intersects(int index, Box3 box) {
     throw new IndexOutOfBoundsException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#visibility(int, ca.eandb.jmist.math.Ray3)
-   */
+  @Override
   public boolean visibility(int index, Ray3 ray) {
     throw new IndexOutOfBoundsException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
-   */
+  @Override
   public Box3 boundingBox() {
     return Box3.EMPTY;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
-   */
+  @Override
   public Sphere boundingSphere() {
     return Sphere.EMPTY;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.VisibilityFunction3#visibility(ca.eandb.jmist.math.Ray3)
-   */
+  @Override
   public boolean visibility(Ray3 ray) {
     return true;
   }

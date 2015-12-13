@@ -54,81 +54,59 @@ public abstract class TransformedPathNode extends AbstractPathNode {
     this(inner, worldToLocal, worldToLocal.inverse());
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getCosine(ca.eandb.jmist.math.Vector3)
-   */
+  @Override
   public double getCosine(Vector3 v) {
     v = worldToLocal.times(v);
     return inner.getCosine(v);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getCumulativeWeight()
-   */
+  @Override
   public Color getCumulativeWeight() {
     return inner.getCumulativeWeight();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getDepth()
-   */
+  @Override
   public int getDepth() {
     return inner.getDepth();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getGeometricFactor()
-   */
+  @Override
   public double getGeometricFactor() {
     return inner.getGeometricFactor();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getPDF()
-   */
+  @Override
   public double getPDF() {
     return inner.getPDF();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getParent()
-   */
+  @Override
   public PathNode getParent() {
     return inner.getParent();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getPosition()
-   */
+  @Override
   public HPoint3 getPosition() {
     return localToWorld.times(inner.getPosition());
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#isOnLightPath()
-   */
+  @Override
   public boolean isOnLightPath() {
     return inner.isOnLightPath();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#isSpecular()
-   */
+  @Override
   public boolean isSpecular() {
     return inner.isSpecular();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#sample(ca.eandb.jmist.framework.Random)
-   */
+  @Override
   public ScatteredRay sample(double ru, double rv, double rj) {
     ScatteredRay sr = inner.sample(ru, rv, rj);
     return sr != null ? sr.transform(localToWorld) : null;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#scatter(ca.eandb.jmist.math.Vector3)
-   */
+  @Override
   public Color scatter(Vector3 v) {
     v = worldToLocal.times(v);
     return inner.scatter(v);

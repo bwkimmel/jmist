@@ -46,93 +46,67 @@ public class AffineTransformation3 implements AffineTransformable3, Serializable
    */
   private static final long serialVersionUID = -4028593857879980021L;
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AffineTransformable3#transform(ca.eandb.jmist.toolkit.AffineMatrix3)
-   */
+  @Override
   public void transform(AffineMatrix3 T) {
     this.applyTransformation(T);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.LinearTransformable3#transform(ca.eandb.jmist.toolkit.LinearMatrix3)
-   */
+  @Override
   public void transform(LinearMatrix3 T) {
     this.applyTransformation(T);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Rotatable3#rotate(ca.eandb.jmist.toolkit.Vector3, double)
-   */
+  @Override
   public void rotate(Vector3 axis, double angle) {
     this.applyTransformation(LinearMatrix3.rotateMatrix(axis, angle));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Rotatable3#rotateX(double)
-   */
+  @Override
   public void rotateX(double angle) {
     this.applyTransformation(LinearMatrix3.rotateXMatrix(angle));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Rotatable3#rotateY(double)
-   */
+  @Override
   public void rotateY(double angle) {
     this.applyTransformation(LinearMatrix3.rotateYMatrix(angle));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Rotatable3#rotateZ(double)
-   */
+  @Override
   public void rotateZ(double angle) {
     this.applyTransformation(LinearMatrix3.rotateZMatrix(angle));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Translatable3#translate(ca.eandb.jmist.toolkit.Vector3)
-   */
+  @Override
   public void translate(Vector3 v) {
     this.applyTransformation(AffineMatrix3.translateMatrix(v));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Scalable#scale(double)
-   */
+  @Override
   public void scale(double c) {
     this.applyTransformation(LinearMatrix3.scaleMatrix(c));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Stretchable3#stretch(ca.eandb.jmist.toolkit.Vector3, double)
-   */
+  @Override
   public void stretch(Vector3 axis, double c) {
     this.applyTransformation(LinearMatrix3.stretchMatrix(axis, c));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AxisStretchable3#stretch(double, double, double)
-   */
+  @Override
   public void stretch(double cx, double cy, double cz) {
     this.applyTransformation(LinearMatrix3.stretchMatrix(cx, cy, cz));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AxisStretchable3#stretchX(double)
-   */
+  @Override
   public void stretchX(double cx) {
     this.applyTransformation(LinearMatrix3.stretchXMatrix(cx));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AxisStretchable3#stretchY(double)
-   */
+  @Override
   public void stretchY(double cy) {
     this.applyTransformation(LinearMatrix3.stretchYMatrix(cy));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AxisStretchable3#stretchZ(double)
-   */
+  @Override
   public void stretchZ(double cz) {
     this.applyTransformation(LinearMatrix3.stretchZMatrix(cz));
   }

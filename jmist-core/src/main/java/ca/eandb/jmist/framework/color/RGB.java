@@ -162,9 +162,6 @@ public final class RGB extends Tuple3 implements Spectrum {
     return ColorUtil.convertXYZ2RGB(xyz);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Spectrum#sample(ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public Color sample(WavelengthPacket lambda) {
     ColorModel cm = lambda.getColorModel();

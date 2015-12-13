@@ -44,9 +44,7 @@ public final class DirectLightingShader implements Shader {
    */
   private static final long serialVersionUID = -7391459165157437122L;
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
-   */
+  @Override
   public Color shade(ShadingContext sc) {
     Material mat = sc.getMaterial();
     WavelengthPacket lambda = sc.getWavelengthPacket();

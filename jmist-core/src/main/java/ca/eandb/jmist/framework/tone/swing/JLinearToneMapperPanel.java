@@ -221,9 +221,6 @@ public final class JLinearToneMapperPanel extends JToneMapperPanel {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.tone.swing.JToneMapperPanel#fireStateChanged()
-   */
   @Override
   protected void fireStateChanged() {
     if (!suspendChangeEvents) {
@@ -231,9 +228,6 @@ public final class JLinearToneMapperPanel extends JToneMapperPanel {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.tone.ToneMapperFactory#createToneMapper(java.lang.Iterable)
-   */
   @Override
   public ToneMapper createToneMapper(Iterable<CIEXYZ> samples) {
     CIExyY white;

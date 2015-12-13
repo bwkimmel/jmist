@@ -54,9 +54,7 @@ public final class RandomPixelShader extends ImageRasterizingPixelShader impleme
     this.random = random;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.PixelShader#shadePixel(ca.eandb.jmist.math.Box2)
-   */
+  @Override
   public Color shadePixel(Box2 bounds) {
     return shadeAt(bounds.interpolate(random.next(), random.next()));
   }

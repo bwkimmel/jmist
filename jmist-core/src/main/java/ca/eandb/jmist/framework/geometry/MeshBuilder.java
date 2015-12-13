@@ -146,17 +146,13 @@ public final class MeshBuilder implements AffineTransformable3 {
       return new Edge(index2, index1);
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
+    @Override
     public boolean equals(Object obj) {
       return obj instanceof Edge && ((Edge) obj).index1 == index1
           && ((Edge) obj).index2 == index2;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
+    @Override
     public int hashCode() {
       return new Integer(index1 + index2).hashCode();
     }
@@ -531,93 +527,67 @@ public final class MeshBuilder implements AffineTransformable3 {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Rotatable3#rotate(ca.eandb.jmist.math.Vector3, double)
-   */
+  @Override
   public void rotate(Vector3 axis, double angle) {
     trans.rotate(axis, angle);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Rotatable3#rotateX(double)
-   */
+  @Override
   public void rotateX(double angle) {
     trans.rotateX(angle);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Rotatable3#rotateY(double)
-   */
+  @Override
   public void rotateY(double angle) {
     trans.rotateY(angle);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Rotatable3#rotateZ(double)
-   */
+  @Override
   public void rotateZ(double angle) {
     trans.rotateZ(angle);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Scalable#scale(double)
-   */
+  @Override
   public void scale(double c) {
     trans.scale(c);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AxisStretchable3#stretch(double, double, double)
-   */
+  @Override
   public void stretch(double cx, double cy, double cz) {
     trans.stretch(cx, cy, cz);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Stretchable3#stretch(ca.eandb.jmist.math.Vector3, double)
-   */
+  @Override
   public void stretch(Vector3 axis, double c) {
     trans.stretch(axis, c);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AxisStretchable3#stretchX(double)
-   */
+  @Override
   public void stretchX(double cx) {
     trans.stretchX(cx);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AxisStretchable3#stretchY(double)
-   */
+  @Override
   public void stretchY(double cy) {
     trans.stretchY(cy);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AxisStretchable3#stretchZ(double)
-   */
+  @Override
   public void stretchZ(double cz) {
     trans.stretchZ(cz);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AffineTransformable3#transform(ca.eandb.jmist.math.AffineMatrix3)
-   */
+  @Override
   public void transform(AffineMatrix3 T) {
     trans.transform(T);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.LinearTransformable3#transform(ca.eandb.jmist.math.LinearMatrix3)
-   */
+  @Override
   public void transform(LinearMatrix3 T) {
     trans.transform(T);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Translatable3#translate(ca.eandb.jmist.math.Vector3)
-   */
+  @Override
   public void translate(Vector3 v) {
     trans.translate(v);
   }

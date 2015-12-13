@@ -47,33 +47,21 @@ abstract class PlyListProperty implements PlyProperty {
     this.descriptor = descriptor;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getPropertyDescriptor()
-   */
   @Override
   public final PropertyDescriptor getPropertyDescriptor() {
     return descriptor;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getNormalizedDoubleValue()
-   */
   @Override
   public double getNormalizedDoubleValue() {
     return getNormalizedDoubleValue(0);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getDoubleValue()
-   */
   @Override
   public double getDoubleValue() {
     return getDoubleValue(0);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getIntValue()
-   */
   @Override
   public int getIntValue() {
     return getIntValue(0);

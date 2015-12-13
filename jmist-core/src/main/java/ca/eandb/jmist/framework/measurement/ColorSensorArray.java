@@ -53,9 +53,7 @@ public final class ColorSensorArray {
       this.color = color;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.measurement.CollectorSphere.Callback#record(int)
-     */
+    @Override
     public void record(int sensor) {
       ColorSensorArray.this.record(sensor, color);
     }

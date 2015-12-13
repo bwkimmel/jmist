@@ -49,9 +49,7 @@ public final class AbsorptionFunction1 implements Function1 {
     this.k = k;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Function1#evaluate(double)
-   */
+  @Override
   public double evaluate(double x) {
     return 4.0 * Math.PI * k.evaluate(x) / x;
   }

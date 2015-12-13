@@ -76,9 +76,6 @@ public final class TangentSpaceNormalMapModifier implements Modifier {
     this(new Texture2Painter(texture));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Modifier#modify(ca.eandb.jmist.framework.ShadingContext)
-   */
   @Override
   public void modify(ShadingContext context) {
     Basis3 basis = context.getShadingBasis();

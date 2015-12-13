@@ -69,9 +69,6 @@ public final class LinearChannelVisualizer extends StaticColorVisualizer {
     this(channel, 0.0, 1.0);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.display.visualizer.ColorVisualizer#apply(ca.eandb.jmist.framework.color.Color)
-   */
   @Override
   public RGB visualize(Color color) {
     double value = (color.getValue(channel) - range.minimum()) / range.length();

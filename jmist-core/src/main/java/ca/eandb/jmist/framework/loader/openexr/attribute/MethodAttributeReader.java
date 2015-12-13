@@ -49,9 +49,6 @@ final class MethodAttributeReader implements AttributeReader {
     this.method = method;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.openexr.AttributeReader#read(java.io.DataInput, int)
-   */
   @Override
   public Attribute read(DataInput in, int size) throws IOException {
     try {

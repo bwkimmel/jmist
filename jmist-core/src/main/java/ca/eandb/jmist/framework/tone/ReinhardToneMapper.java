@@ -47,9 +47,7 @@ public final class ReinhardToneMapper implements ToneMapper {
     this.yWhiteSquared = yWhite * yWhite;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ToneMapper#apply(ca.eandb.jmist.framework.color.CIEXYZ)
-   */
+  @Override
   public CIEXYZ apply(CIEXYZ hdr) {
     CIExyY xyY = CIExyY.fromXYZ(hdr);
     double Y = xyY.Y() * yScale;

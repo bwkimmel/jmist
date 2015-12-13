@@ -39,23 +39,17 @@ public abstract class AbstractScene implements Scene {
   /** Serialization version ID. */
   private static final long serialVersionUID = -4940169789326164886L;
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
-   */
+  @Override
   public Box3 boundingBox() {
     return getRoot().boundingBox();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
-   */
+  @Override
   public Sphere boundingSphere() {
     return getRoot().boundingSphere();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Scene#getAnimator()
-   */
+  @Override
   public Animator getAnimator() {
     return Animator.STATIC;
   }

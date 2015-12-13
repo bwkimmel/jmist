@@ -29,7 +29,6 @@ import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
 import ca.eandb.jmist.framework.Mask2;
 import ca.eandb.jmist.framework.NearestIntersectionRecorder;
-import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.shader.MinimalShadingContext;
 import ca.eandb.jmist.math.Interval;
@@ -56,9 +55,6 @@ public final class TrimmingSceneElement extends SceneElementDecorator {
     this.trim = trim;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-   */
   @Override
   public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
     Interval I = recorder.interval();
@@ -71,7 +67,7 @@ public final class TrimmingSceneElement extends SceneElementDecorator {
         break;
       }
       Intersection x = rec.nearestIntersection();
-      MinimalShadingContext ctx = new MinimalShadingContext(Random.DEFAULT);
+      MinimalShadingContext ctx = new MinimalShadingContext();
       x.prepareShadingContext(ctx);
       Point2 uv = ctx.getUV();
       if (trim.opacity(new Point2(uv.x(), 1.0 - uv.y())) > 0.5) {
@@ -86,9 +82,6 @@ public final class TrimmingSceneElement extends SceneElementDecorator {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-   */
   @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
     Interval I = recorder.interval();
@@ -101,7 +94,7 @@ public final class TrimmingSceneElement extends SceneElementDecorator {
         break;
       }
       Intersection x = rec.nearestIntersection();
-      MinimalShadingContext ctx = new MinimalShadingContext(Random.DEFAULT);
+      MinimalShadingContext ctx = new MinimalShadingContext();
       x.prepareShadingContext(ctx);
       Point2 uv = ctx.getUV();
       if (trim.opacity(new Point2(uv.x(), 1.0 - uv.y())) > 0.5) {

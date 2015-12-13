@@ -67,9 +67,7 @@ public final class TransformableLens extends AbstractLens implements
     this.inner = inner;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Lens#sample(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.path.PathInfo, ca.eandb.jmist.framework.Random)
-   */
+  @Override
   public EyeNode sample(Point2 p, PathInfo pathInfo, double ru, double rv, double rj) {
     EyeNode eye = inner.sample(p, pathInfo, ru, rv, rj);
     AffineMatrix3 ltow = view.apply(AffineMatrix3.IDENTITY);
@@ -77,93 +75,67 @@ public final class TransformableLens extends AbstractLens implements
     return new TransformedEyeNode(eye, ltow, wtol);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Rotatable3#rotate(ca.eandb.jmist.toolkit.Vector3, double)
-   */
+  @Override
   public void rotate(Vector3 axis, double angle) {
     view.rotate(axis, angle);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Rotatable3#rotateX(double)
-   */
+  @Override
   public void rotateX(double angle) {
     view.rotateX(angle);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Rotatable3#rotateY(double)
-   */
+  @Override
   public void rotateY(double angle) {
     view.rotateY(angle);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Rotatable3#rotateZ(double)
-   */
+  @Override
   public void rotateZ(double angle) {
     view.rotateZ(angle);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Scalable#scale(double)
-   */
+  @Override
   public void scale(double c) {
     view.scale(c);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AxisStretchable3#stretch(double, double, double)
-   */
+  @Override
   public void stretch(double cx, double cy, double cz) {
     view.stretch(cx, cy, cz);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Stretchable3#stretch(ca.eandb.jmist.toolkit.Vector3, double)
-   */
+  @Override
   public void stretch(Vector3 axis, double c) {
     view.stretch(axis, c);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AxisStretchable3#stretchX(double)
-   */
+  @Override
   public void stretchX(double cx) {
     view.stretchX(cx);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AxisStretchable3#stretchY(double)
-   */
+  @Override
   public void stretchY(double cy) {
     view.stretchY(cy);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AxisStretchable3#stretchZ(double)
-   */
+  @Override
   public void stretchZ(double cz) {
     view.stretchZ(cz);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AffineTransformable3#transform(ca.eandb.jmist.toolkit.AffineMatrix3)
-   */
+  @Override
   public void transform(AffineMatrix3 T) {
     view.transform(T);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.LinearTransformable3#transform(ca.eandb.jmist.toolkit.LinearMatrix3)
-   */
+  @Override
   public void transform(LinearMatrix3 T) {
     view.transform(T);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Translatable3#translate(ca.eandb.jmist.toolkit.Vector3)
-   */
+  @Override
   public void translate(Vector3 v) {
     view.translate(v);
   }

@@ -71,30 +71,21 @@ public class DielectricMaterial extends AbstractMaterial {
     this(refractiveIndex, true);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Medium#extinctionIndex(ca.eandb.jmist.math.Point3, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
+  @Override
   public Color extinctionIndex(Point3 p, WavelengthPacket lambda) {
     return lambda.getColorModel().getBlack(lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Medium#refractiveIndex(ca.eandb.jmist.math.Point3, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
+  @Override
   public Color refractiveIndex(Point3 p, WavelengthPacket lambda) {
     return refractiveIndex.sample(lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Medium#transmittance(ca.eandb.jmist.math.Ray3, double, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
+  @Override
   public Color transmittance(Ray3 ray, double distance, WavelengthPacket lambda) {
     return lambda.getColorModel().getWhite(lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, boolean, ca.eandb.jmist.framework.color.WavelengthPacket, double, double, double)
-   */
   @Override
   public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint, WavelengthPacket lambda, double ru, double rv, double rj) {
 

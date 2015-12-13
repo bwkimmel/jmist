@@ -136,9 +136,7 @@ public final class PinholeLens extends AbstractLens {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Lens#sample(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.path.PathInfo, ca.eandb.jmist.framework.Random)
-   */
+  @Override
   public EyeNode sample(Point2 p, PathInfo pathInfo, double ru, double rv, double rj) {
     return new Node(p, pathInfo, ru, rv, rj);
   }
@@ -160,9 +158,7 @@ public final class PinholeLens extends AbstractLens {
       this.pointOnImagePlane = pointOnImagePlane;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.EyeNode#sample(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.Random)
-     */
+    @Override
     public ScatteredRay sample(double ru, double rv, double rj) {
       Point2 p = pointOnImagePlane;
       Vector3 v = new Vector3(
@@ -176,16 +172,12 @@ public final class PinholeLens extends AbstractLens {
       return ScatteredRay.diffuse(ray, color, pdf);
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#scatterTo(ca.eandb.jmist.framework.path.PathNode)
-     */
+    @Override
     public Color scatter(Vector3 v) {
       return getGray(getPDF(v));
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.EyeNode#project(ca.eandb.jmist.math.HPoint3)
-     */
+    @Override
     public Point2 project(HPoint3 x) {
       Ray3 ray = new Ray3(Point3.ORIGIN, x);
       Vector3 v = ray.direction();
@@ -198,37 +190,27 @@ public final class PinholeLens extends AbstractLens {
       return Box2.UNIT.contains(p) ? p : null;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#getCosine(ca.eandb.jmist.math.Vector3)
-     */
+    @Override
     public double getCosine(Vector3 v) {
       return -v.z() / v.length();
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#getPosition()
-     */
+    @Override
     public HPoint3 getPosition() {
       return Point3.ORIGIN;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#getPDF()
-     */
+    @Override
     public double getPDF() {
       return 1.0;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#isSpecular()
-     */
+    @Override
     public boolean isSpecular() {
       return true;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#getPDF(ca.eandb.jmist.math.Vector3)
-     */
+    @Override
     public double getPDF(Vector3 v) {
       double x = -v.x() / v.z();
       double y = -v.y() / v.z();

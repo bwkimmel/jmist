@@ -95,9 +95,7 @@ public final class SceneRayShader implements RayShader {
     this(scene.getRoot(), scene.getLight(), RayShader.BLACK, new ThreadLocalRandom(new SimpleRandom()));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.RayShader#shadeRay(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
+  @Override
   public Color shadeRay(Ray3 ray, WavelengthPacket lambda) {
     Context context = new Context();
     return context.castPrimaryRay(ray, lambda);

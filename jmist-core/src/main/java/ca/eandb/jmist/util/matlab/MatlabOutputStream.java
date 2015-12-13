@@ -69,26 +69,17 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
     this(new ImageOutputStreamAdapter(out));
   }
 
-  /* (non-Javadoc)
-   * @see java.io.DataOutputStream#write(byte[], int, int)
-   */
   @Override
   public synchronized void write(byte[] b, int off, int len)
       throws IOException {
     this.stream().write(b, off, len);
   }
 
-  /* (non-Javadoc)
-   * @see java.io.DataOutputStream#write(int)
-   */
   @Override
   public synchronized void write(int b) throws IOException {
     this.stream().write(b);
   }
 
-  /* (non-Javadoc)
-   * @see java.io.FilterOutputStream#write(byte[])
-   */
   @Override
   public void write(byte[] b) throws IOException {
     this.stream().write(b);
@@ -745,9 +736,7 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 
   }
 
-  /* (non-Javadoc)
-   * @see java.io.DataOutput#writeBoolean(boolean)
-   */
+  @Override
   public void writeBoolean(boolean arg0) throws IOException {
     this.stream().writeBoolean(arg0);
   }
@@ -823,9 +812,7 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
     }
   }
 
-  /* (non-Javadoc)
-   * @see java.io.DataOutput#writeByte(int)
-   */
+  @Override
   public void writeByte(int arg0) throws IOException {
     this.stream().writeByte(arg0);
   }
@@ -878,30 +865,22 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
     }
   }
 
-  /* (non-Javadoc)
-   * @see java.io.DataOutput#writeBytes(java.lang.String)
-   */
+  @Override
   public void writeBytes(String arg0) throws IOException {
     this.stream().writeBytes(arg0);
   }
 
-  /* (non-Javadoc)
-   * @see java.io.DataOutput#writeChar(int)
-   */
+  @Override
   public void writeChar(int arg0) throws IOException {
     this.stream().writeChar(arg0);
   }
 
-  /* (non-Javadoc)
-   * @see java.io.DataOutput#writeChars(java.lang.String)
-   */
+  @Override
   public void writeChars(String arg0) throws IOException {
     this.stream().writeChars(arg0);
   }
 
-  /* (non-Javadoc)
-   * @see java.io.DataOutput#writeDouble(double)
-   */
+  @Override
   public void writeDouble(double arg0) throws IOException {
     this.stream().writeDouble(arg0);
   }
@@ -977,9 +956,7 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
     }
   }
 
-  /* (non-Javadoc)
-   * @see java.io.DataOutput#writeFloat(float)
-   */
+  @Override
   public void writeFloat(float arg0) throws IOException {
     this.stream().writeFloat(arg0);
   }
@@ -1055,9 +1032,7 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
     }
   }
 
-  /* (non-Javadoc)
-   * @see java.io.DataOutput#writeInt(int)
-   */
+  @Override
   public void writeInt(int arg0) throws IOException {
     this.stream().writeInt(arg0);
   }
@@ -1133,9 +1108,7 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
     }
   }
 
-  /* (non-Javadoc)
-   * @see java.io.DataOutput#writeLong(long)
-   */
+  @Override
   public void writeLong(long arg0) throws IOException {
     this.stream().writeLong(arg0);
   }
@@ -1211,9 +1184,7 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
     }
   }
 
-  /* (non-Javadoc)
-   * @see java.io.DataOutput#writeShort(int)
-   */
+  @Override
   public void writeShort(int arg0) throws IOException {
     this.stream().writeShort(arg0);
   }
@@ -1289,9 +1260,7 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
     }
   }
 
-  /* (non-Javadoc)
-   * @see java.io.DataOutput#writeUTF(java.lang.String)
-   */
+  @Override
   public void writeUTF(String arg0) throws IOException {
     this.stream().writeUTF(arg0);
   }
@@ -1358,41 +1327,26 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
       this.out = out;
     }
 
-    /* (non-Javadoc)
-     * @see java.io.OutputStream#write(int)
-     */
     @Override
     public void write(int b) throws IOException {
       this.out.write(b);
     }
 
-    /* (non-Javadoc)
-     * @see java.io.OutputStream#close()
-     */
     @Override
     public void close() throws IOException {
       this.out.close();
     }
 
-    /* (non-Javadoc)
-     * @see java.io.OutputStream#flush()
-     */
     @Override
     public void flush() throws IOException {
       this.out.flush();
     }
 
-    /* (non-Javadoc)
-     * @see java.io.OutputStream#write(byte[], int, int)
-     */
     @Override
     public void write(byte[] b, int off, int len) throws IOException {
       this.out.write(b, off, len);
     }
 
-    /* (non-Javadoc)
-     * @see java.io.OutputStream#write(byte[])
-     */
     @Override
     public void write(byte[] b) throws IOException {
       this.out.write(b);
@@ -1490,9 +1444,6 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
       this.bytes = bytes;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.util.matlab.MatlabOutputStream.CompoundElementOutputStream#writeTo(java.io.DataOutputStream)
-     */
     @Override
     public void writeTo(DataOutputStream out) throws IOException {
 
@@ -1543,9 +1494,6 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
       this.bytes = bytes;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.util.matlab.MatlabOutputStream.CompoundElementOutputStream#writeTo(java.io.DataOutputStream)
-     */
     @Override
     public void writeTo(DataOutputStream out) throws IOException {
 
@@ -1592,9 +1540,6 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
       this.endPosition = out.size() + bytes;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.util.matlab.MatlabOutputStream.CompoundElementOutputStream#writeTo(java.io.DataOutputStream)
-     */
     @Override
     public void writeTo(DataOutputStream out) throws IOException {
 

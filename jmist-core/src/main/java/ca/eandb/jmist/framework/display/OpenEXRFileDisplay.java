@@ -96,9 +96,6 @@ public final class OpenEXRFileDisplay implements Display {
     this.rgbPixelType = rgbPixelType;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#initialize(int, int, ca.eandb.jmist.framework.color.ColorModel)
-   */
   @Override
   public void initialize(int w, int h, ColorModel colorModel) {
     this.colorModel = colorModel;
@@ -120,9 +117,6 @@ public final class OpenEXRFileDisplay implements Display {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#fill(int, int, int, int, ca.eandb.jmist.framework.color.Color)
-   */
   @Override
   public void fill(int x0, int y0, int w, int h, Color color) {
     if (rawPixelType != null) {
@@ -147,9 +141,6 @@ public final class OpenEXRFileDisplay implements Display {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#setPixel(int, int, ca.eandb.jmist.framework.color.Color)
-   */
   @Override
   public void setPixel(int x, int y, Color pixel) {
     if (rawPixelType != null) {
@@ -165,9 +156,6 @@ public final class OpenEXRFileDisplay implements Display {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#setPixels(int, int, ca.eandb.jmist.framework.Raster)
-   */
   @Override
   public void setPixels(int x0, int y0, Raster pixels) {
     int w = pixels.getWidth();
@@ -195,9 +183,6 @@ public final class OpenEXRFileDisplay implements Display {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#finish()
-   */
   @Override
   public void finish() {
     try {

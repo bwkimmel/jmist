@@ -69,66 +69,42 @@ final class BinaryDataReader implements DataReader {
     return new BinaryDataReader(new DataInputStream(in));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.ply.DataReader#readChar()
-   */
   @Override
   public byte readChar() throws IOException {
     return input.readByte();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.ply.DataReader#readUnsignedChar()
-   */
   @Override
   public int readUnsignedChar() throws IOException {
     return input.readUnsignedByte();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.ply.DataReader#readShort()
-   */
   @Override
   public short readShort() throws IOException {
     return input.readShort();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.ply.DataReader#readUnsignedShort()
-   */
   @Override
   public int readUnsignedShort() throws IOException {
     return input.readUnsignedShort();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.ply.DataReader#readInt()
-   */
   @Override
   public int readInt() throws IOException {
     return input.readInt();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.ply.DataReader#readUnsignedInt()
-   */
   @Override
   public long readUnsignedInt() throws IOException {
     int signed = input.readInt();
     return signed > 0 ? (long) signed : (0x100000000L + signed);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.ply.DataReader#readFloat()
-   */
   @Override
   public float readFloat() throws IOException {
     return input.readFloat();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.ply.DataReader#readDouble()
-   */
   @Override
   public double readDouble() throws IOException {
     return input.readDouble();

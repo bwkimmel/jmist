@@ -52,9 +52,7 @@ public final class ConstantShader implements Shader {
     this(new UniformPainter(value));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
-   */
+  @Override
   public Color shade(ShadingContext sc) {
     WavelengthPacket lambda = sc.getWavelengthPacket();
     return painter.getColor(sc, lambda);

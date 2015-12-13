@@ -194,9 +194,6 @@ public final class PhotometerJob extends AbstractParallelizableJob {
             + ((samplesPerMeasurement % samplesPerTask) > 0 ? 1 : 0));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jdcp.job.AbstractParallelizableJob#initialize()
-   */
   @Override
   public void initialize() {
     this.results = new IntegerSensorArray[
@@ -206,11 +203,7 @@ public final class PhotometerJob extends AbstractParallelizableJob {
     }
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see ca.eandb.jmist.framework.ParallelizableJob#getNextTask()
-   */
+  @Override
   public synchronized Object getNextTask() {
     if (outstandingSamplesPerMeasurement < samplesPerMeasurement) {
       PhotometerTask task = this.getPhotometerTask(this.nextMeasurementIndex);
@@ -248,9 +241,7 @@ public final class PhotometerJob extends AbstractParallelizableJob {
     return this.wavelengths[specimenMeasurementIndex % this.wavelengths.length];
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ParallelizableJob#submitTaskResults(java.lang.Object, java.lang.Object, ca.eandb.util.progress.ProgressMonitor)
-   */
+  @Override
   public void submitTaskResults(Object task, Object results,
       ProgressMonitor monitor) {
     PhotometerTask info = (PhotometerTask) task;
@@ -259,16 +250,12 @@ public final class PhotometerJob extends AbstractParallelizableJob {
     monitor.notifyProgress(++this.tasksReturned, this.totalTasks);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ParallelizableJob#isComplete()
-   */
+  @Override
   public boolean isComplete() {
     return this.tasksReturned >= this.totalTasks;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ParallelizableJob#finish()
-   */
+  @Override
   public void finish() {
     PrintStream out = new PrintStream(createFileOutputStream("photometer.csv"));
     this.writeColumnHeadings(out);
@@ -340,9 +327,6 @@ public final class PhotometerJob extends AbstractParallelizableJob {
     out.println();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jdcp.job.AbstractParallelizableJob#archiveState(ca.eandb.util.io.Archive)
-   */
   @Override
   protected void archiveState(Archive ar) throws IOException, ClassNotFoundException {
     results = (IntegerSensorArray[]) ar.archiveObject(results);
@@ -351,9 +335,7 @@ public final class PhotometerJob extends AbstractParallelizableJob {
     tasksReturned = ar.archiveInt(tasksReturned);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ParallelizableJob#worker()
-   */
+  @Override
   public TaskWorker worker() {
     return this.worker;
   }
@@ -391,9 +373,7 @@ public final class PhotometerJob extends AbstractParallelizableJob {
       this.collector = collector;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.TaskWorker#performTask(java.lang.Object, ca.eandb.util.progress.ProgressMonitor)
-     */
+    @Override
     public Object performTask(Object task, ProgressMonitor monitor) {
       Photometer photometer = new Photometer(collector);
       PhotometerTask info = (PhotometerTask) task;

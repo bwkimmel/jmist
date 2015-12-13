@@ -52,9 +52,7 @@ public final class StratifyingPixelShader implements PixelShader {
     this.pixelShader = pixelShader;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.PixelShader#shadePixel(ca.eandb.jmist.math.Box2)
-   */
+  @Override
   public Color shadePixel(Box2 bounds) {
     double x0, x1, y0, y1;
     Color pixel = null;

@@ -42,17 +42,11 @@ public final class SubtractionGeometry extends ConstructiveSolidGeometry {
    */
   private static final long serialVersionUID = -1791060848352601744L;
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.packages.CsgIntersectionRecorder#isInside(int, java.util.BitSet)
-   */
   @Override
   protected boolean isInside(int nArgs, BitSet args) {
     return args.get(0) && args.nextSetBit(1) < 0;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
-   */
   @Override
   public Box3 boundingBox() {
     return this.children().isEmpty()
@@ -60,9 +54,6 @@ public final class SubtractionGeometry extends ConstructiveSolidGeometry {
         : this.children().get(0).boundingBox();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
-   */
   @Override
   public Sphere boundingSphere() {
     return this.children().isEmpty()

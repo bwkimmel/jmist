@@ -64,9 +64,7 @@ public final class PhongShader implements Shader {
     this(new UniformPainter(kd), new UniformPainter(ks), new UniformPainter(ka), new UniformPainter(n));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
-   */
+  @Override
   public Color shade(ShadingContext sc) {
 
     WavelengthPacket lambda = sc.getWavelengthPacket();

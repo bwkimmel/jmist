@@ -306,10 +306,6 @@ public final class Complex implements Serializable {
         return sin().divide(cos());
     }
 
-    /*
-     * (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
     @Override
   public String toString() {
       return Double.toString(re) + " + " + Double.toString(im) + "*I";

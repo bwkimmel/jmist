@@ -116,9 +116,6 @@ public final class Half extends Number implements Comparable<Half>, Serializable
     }
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Comparable#compareTo(java.lang.Object)
-   */
   @Override
   public int compareTo(Half other) {
     return compare(this, other);
@@ -158,9 +155,6 @@ public final class Half extends Number implements Comparable<Half>, Serializable
     }
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#equals(java.lang.Object)
-   */
   @Override
   public boolean equals(Object obj) {
     return obj instanceof Half && equals((Half) obj);
@@ -210,17 +204,11 @@ public final class Half extends Number implements Comparable<Half>, Serializable
     }
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#hashCode()
-   */
   @Override
   public int hashCode() {
     return isNaN() ? super.hashCode() : (new Short(bits)).hashCode();
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Number#intValue()
-   */
   @Override
   public int intValue() {
     int exponentBits = (bits & EXPONENT_MASK) >> EXPONENT_SHIFT;
@@ -240,9 +228,6 @@ public final class Half extends Number implements Comparable<Half>, Serializable
     }
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Number#shortValue()
-   */
   @Override
   public short shortValue() {
     int value = intValue();
@@ -255,9 +240,6 @@ public final class Half extends Number implements Comparable<Half>, Serializable
     }
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Number#byteValue()
-   */
   @Override
   public byte byteValue() {
     int value = intValue();
@@ -296,9 +278,6 @@ public final class Half extends Number implements Comparable<Half>, Serializable
     }
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
   @Override
   public String toString() {
     return Float.toString(floatValue());

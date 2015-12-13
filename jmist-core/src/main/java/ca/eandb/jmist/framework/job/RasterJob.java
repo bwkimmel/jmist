@@ -204,26 +204,18 @@ public final class RasterJob extends AbstractParallelizableJob {
     this.display = display;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jdcp.job.AbstractParallelizableJob#initialize()
-   */
   @Override
   public void initialize() throws IOException {
     display.initialize(width, height, colorModel);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jdcp.job.AbstractParallelizableJob#restoreState(java.io.ObjectInput)
-   */
   @Override
   public void restoreState(ObjectInput input) throws Exception {
     super.restoreState(input);
     this.initialize();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ParallelizableJob#getNextTask()
-   */
+  @Override
   public Object getNextTask() {
     if (this.nextRow < this.rows) {
       /* Get the next cell. */
@@ -336,9 +328,7 @@ public final class RasterJob extends AbstractParallelizableJob {
     return new Cell(xmin, ymin, xmax - xmin + 1, ymax - ymin + 1);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ParallelizableJob#submitTaskResults(java.lang.Object, java.lang.Object, ca.eandb.util.progress.ProgressMonitor)
-   */
+  @Override
   public void submitTaskResults(Object task, Object results, ProgressMonitor monitor) {
     Cell cell = (Cell) task;
     Raster pixels = (Raster) results;
@@ -350,23 +340,16 @@ public final class RasterJob extends AbstractParallelizableJob {
     monitor.notifyProgress(++this.tasksComplete, this.rows * this.cols);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ParallelizableJob#isComplete()
-   */
+  @Override
   public boolean isComplete() {
     return this.tasksComplete >= (this.rows * this.cols);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ParallelizableJob#finish()
-   */
+  @Override
   public void finish() throws IOException {
     display.finish();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jdcp.job.AbstractParallelizableJob#archiveState(ca.eandb.util.io.Archive)
-   */
   @Override
   protected void archiveState(Archive ar) throws IOException {
     nextCol = ar.archiveInt(nextCol);
@@ -374,9 +357,7 @@ public final class RasterJob extends AbstractParallelizableJob {
     tasksComplete = ar.archiveInt(tasksComplete);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ParallelizableJob#worker()
-   */
+  @Override
   public TaskWorker worker() {
     return new RasterTaskWorker(colorModel, pixelShader, width, height);
   }
@@ -420,9 +401,7 @@ public final class RasterJob extends AbstractParallelizableJob {
       this.height = height;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.TaskWorker#performTask(java.lang.Object, ca.eandb.util.progress.ProgressMonitor)
-     */
+    @Override
     public Object performTask(Object task, ProgressMonitor monitor) {
       Cell cell = (Cell) task;
       int numPixels = cell.width * cell.height;

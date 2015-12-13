@@ -63,16 +63,12 @@ public final class RepeatableRandom implements Random {
     return rnd;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Random#createCompatibleRandom()
-   */
+  @Override
   public Random createCompatibleRandom() {
     return new RepeatableRandom(inner.createCompatibleRandom());
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Random#next()
-   */
+  @Override
   public double next() {
     DoubleArray seq = values.get(sequence);
     while (position >= seq.size()) {
@@ -81,9 +77,7 @@ public final class RepeatableRandom implements Random {
     return seq.get(position++);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Random#reset()
-   */
+  @Override
   public void reset() {
     sequence = 0;
     position = 0;

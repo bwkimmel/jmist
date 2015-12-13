@@ -56,107 +56,77 @@ public final class ScaledLightNode extends AbstractPathNode implements
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getCosine(ca.eandb.jmist.framework.path.PathNode)
-   */
+  @Override
   public double getCosine(Vector3 v) {
     return inner.getCosine(v);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getCumulativeWeight()
-   */
+  @Override
   public Color getCumulativeWeight() {
     return inner.getCumulativeWeight().divide(pdf);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getDepth()
-   */
+  @Override
   public int getDepth() {
     return inner.getDepth();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getGeometricFactor()
-   */
+  @Override
   public double getGeometricFactor() {
     return inner.getGeometricFactor();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getPDF()
-   */
+  @Override
   public double getPDF() {
     return inner.getPDF() * pdf;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getParent()
-   */
+  @Override
   public PathNode getParent() {
     return inner.getParent();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getPosition()
-   */
+  @Override
   public HPoint3 getPosition() {
     return inner.getPosition();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getReversePDF()
-   */
+  @Override
   public double getReversePDF() {
     return 1.0;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#isAtInfinity()
-   */
+  @Override
   public boolean isAtInfinity() {
     return inner.isAtInfinity();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#isOnLightPath()
-   */
+  @Override
   public boolean isOnLightPath() {
     return inner.isOnLightPath();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#isSpecular()
-   */
+  @Override
   public boolean isSpecular() {
     return inner.isSpecular();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#sample(double, double, double)
-   */
+  @Override
   public ScatteredRay sample(double ru, double rv, double rj) {
     return inner.sample(ru, rv, rj);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#scatter(ca.eandb.jmist.math.Vector3)
-   */
+  @Override
   public Color scatter(Vector3 v) {
     return inner.scatter(v);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getPDF(ca.eandb.jmist.math.Vector3)
-   */
+  @Override
   public double getPDF(Vector3 v) {
     return inner.getPDF(v);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getReversePDF(ca.eandb.jmist.math.Vector3)
-   */
+  @Override
   public double getReversePDF(Vector3 v) {
     return inner.getReversePDF(v);
   }

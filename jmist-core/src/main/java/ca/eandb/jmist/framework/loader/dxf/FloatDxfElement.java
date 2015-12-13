@@ -38,9 +38,6 @@ public final class FloatDxfElement extends AbstractDxfElement {
     this.value = value;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.dxf.AbstractDxfElement#getFloatValue()
-   */
   @Override
   public double getFloatValue() {
     return value;

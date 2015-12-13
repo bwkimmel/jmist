@@ -74,9 +74,6 @@ public final class MaterialSceneElement extends ModifierSceneElement {
     this.material = material;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#createLight()
-   */
   @Override
   public Light createLight() {
     if (!material.isEmissive()) {
@@ -91,7 +88,7 @@ public final class MaterialSceneElement extends ModifierSceneElement {
 
       public void illuminate(SurfacePoint x, WavelengthPacket lambda, Random rng, Illuminable target) {
 
-        ShadingContext context = new MinimalShadingContext(rng);
+        ShadingContext context = new MinimalShadingContext();
         generateImportanceSampledSurfacePoint(x, context, rng.next(), rng.next(), rng.next());
         context.getModifier().modify(context);
 
@@ -110,7 +107,7 @@ public final class MaterialSceneElement extends ModifierSceneElement {
       }
 
       public LightNode sample(PathInfo pathInfo, double ru, double rv, double rj) {
-        ShadingContext context = new MinimalShadingContext(null);
+        ShadingContext context = new MinimalShadingContext();
         generateRandomSurfacePoint(context, ru, rv, rj);
         context.getModifier().modify(context);
 

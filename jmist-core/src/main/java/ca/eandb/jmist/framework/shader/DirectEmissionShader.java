@@ -43,9 +43,7 @@ public final class DirectEmissionShader implements Shader {
    */
   private static final long serialVersionUID = 8485773800892817133L;
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
-   */
+  @Override
   public Color shade(ShadingContext sc) {
 
     WavelengthPacket lambda = sc.getWavelengthPacket();

@@ -78,9 +78,6 @@ public final class DxfSceneBuilder {
   @SuppressWarnings("unused")
   static final class GroupHandler_BLOCK implements GroupHandler {
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.loader.dxf.SceneBuilder.GroupHandler#parse(ca.eandb.jmist.framework.loader.dxf.SceneBuilder.State, ca.eandb.jmist.framework.loader.dxf.DxfReader)
-     */
     @Override
     public void parse(State state, DxfReader dxf) {
       int flags = 0;
@@ -138,9 +135,6 @@ public final class DxfSceneBuilder {
 
   static final class GroupHandler_ENDBLK implements GroupHandler {
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.loader.dxf.SceneBuilder.GroupHandler#parse(ca.eandb.jmist.framework.loader.dxf.SceneBuilder.State, ca.eandb.jmist.framework.loader.dxf.DxfReader)
-     */
     @Override
     public void parse(State state, DxfReader dxf) {
       state.currentMesh = null;
@@ -152,9 +146,6 @@ public final class DxfSceneBuilder {
 
   static final class xGroupHandler_3DFACE implements GroupHandler {
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.loader.dxf.SceneBuilder.GroupHandler#parse(ca.eandb.jmist.framework.loader.dxf.SceneBuilder.State, ca.eandb.jmist.framework.loader.dxf.DxfReader)
-     */
     @Override
     public void parse(State state, DxfReader dxf) {
 
@@ -237,9 +228,6 @@ public final class DxfSceneBuilder {
   @SuppressWarnings("unused")
   static final class GroupHandler_POLYLINE implements GroupHandler {
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.loader.dxf.SceneBuilder.GroupHandler#parse(ca.eandb.jmist.framework.loader.dxf.SceneBuilder.State, ca.eandb.jmist.framework.loader.dxf.DxfReader)
-     */
     @Override
     public void parse(State state, DxfReader dxf) {
       int flags = 0;
@@ -278,9 +266,6 @@ public final class DxfSceneBuilder {
 
   static final class GroupHandler_VERTEX implements GroupHandler {
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.loader.dxf.SceneBuilder.GroupHandler#parse(ca.eandb.jmist.framework.loader.dxf.SceneBuilder.State, ca.eandb.jmist.framework.loader.dxf.DxfReader)
-     */
     @Override
     public void parse(State state, DxfReader dxf) {
 
@@ -358,9 +343,6 @@ public final class DxfSceneBuilder {
 
   static final class GroupHandler_INSERT implements GroupHandler {
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.loader.dxf.SceneBuilder.GroupHandler#parse(ca.eandb.jmist.framework.loader.dxf.SceneBuilder.State, ca.eandb.jmist.framework.loader.dxf.DxfReader)
-     */
     @Override
     public void parse(State state, DxfReader dxf) {
 
@@ -468,9 +450,6 @@ public final class DxfSceneBuilder {
 
   private static final GroupHandler rootGroupHandler = new GroupHandler() {
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.loader.dxf.SceneBuilder.GroupHandler#parse(ca.eandb.jmist.framework.loader.dxf.SceneBuilder.State, ca.eandb.jmist.framework.loader.dxf.DxfReader)
-     */
     @Override
     public void parse(State state, DxfReader dxf) {
       String key = dxf.getCurrentElement().getStringValue();

@@ -48,9 +48,6 @@ public final class MeanColorMeasure implements ColorMeasure {
     return INSTANCE;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorMeasure#evaluate(ca.eandb.jmist.framework.color.Color)
-   */
   @Override
   public double evaluate(Color c) {
     return ColorUtil.getMeanChannelValue(c);

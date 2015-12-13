@@ -56,10 +56,7 @@ public final class NRooksRandom implements Random {
     initialize();
   }
 
-  /*
-   * (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Random#next()
-   */
+  @Override
   public double next() {
     double result = sources[nextSourceIndex].next();
 
@@ -70,10 +67,7 @@ public final class NRooksRandom implements Random {
     return result;
   }
 
-  /*
-   * (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Random#reset()
-   */
+  @Override
   public void reset() {
     for (int i = 0; i < this.sources.length; i++) {
       this.sources[i].reset();
@@ -91,9 +85,7 @@ public final class NRooksRandom implements Random {
     this.nextSourceIndex = 0;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Random#createCompatibleRandom()
-   */
+  @Override
   public NRooksRandom createCompatibleRandom() {
     return new NRooksRandom(n, dimensions, inner.createCompatibleRandom());
   }

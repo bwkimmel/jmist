@@ -53,23 +53,17 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
     this.interval = interval;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.IntersectionRecorder#needAllIntersections()
-   */
+  @Override
   public boolean needAllIntersections() {
     return false;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.IntersectionRecorder#interval()
-   */
+  @Override
   public Interval interval() {
     return this.interval;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.IntersectionRecorder#record(ca.eandb.jmist.framework.Intersection)
-   */
+  @Override
   public void record(Intersection intersection) {
     if (this.interval.contains(intersection.getDistance(), intersection.getTolerance())) {
       this.nearest = intersection;
@@ -77,9 +71,7 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.IntersectionRecorder#isEmpty()
-   */
+  @Override
   public boolean isEmpty() {
     return (this.nearest == null);
   }

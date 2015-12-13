@@ -106,25 +106,16 @@ public final class JVisualizerDisplay extends JComponent implements Display,
       index = recorded.nextSetBit(0);
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Iterable#iterator()
-     */
     @Override
     public Iterator<Color> iterator() {
       return this;
     }
 
-    /* (non-Javadoc)
-     * @see java.util.Iterator#hasNext()
-     */
     @Override
     public boolean hasNext() {
       return index >= 0;
     }
 
-    /* (non-Javadoc)
-     * @see java.util.Iterator#next()
-     */
     @Override
     public Color next() {
       int w = rawImage.getWidth();
@@ -194,9 +185,6 @@ public final class JVisualizerDisplay extends JComponent implements Display,
     regenerateVisualizer(true);
   }
 
-  /* (non-Javadoc)
-   * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-   */
   @Override
   public void paint(Graphics g) {
 //    super.paintComponent(g);
@@ -282,9 +270,7 @@ public final class JVisualizerDisplay extends JComponent implements Display,
     super.repaint(x0, y0, dx, dy);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#fill(int, int, int, int, ca.eandb.jmist.framework.color.Color)
-   */
+  @Override
   public void fill(int x, int y, int w, int h, Color color) {
     int iw = rawImage.getWidth();
     rawImage.setPixel(x, y, color);
@@ -305,9 +291,7 @@ public final class JVisualizerDisplay extends JComponent implements Display,
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#finish()
-   */
+  @Override
   public void finish() {
     if (visualizerAge > 0) {
       visualizerAge = 0;
@@ -317,9 +301,7 @@ public final class JVisualizerDisplay extends JComponent implements Display,
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#initialize(int, int, ca.eandb.jmist.framework.color.ColorModel)
-   */
+  @Override
   public void initialize(int w, int h, ColorModel colorModel) {
     this.colorModel = colorModel;
     recorded = new BitSet(w * h);
@@ -331,9 +313,7 @@ public final class JVisualizerDisplay extends JComponent implements Display,
     super.setPreferredSize(new Dimension(w, h));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#setPixel(int, int, ca.eandb.jmist.framework.color.Color)
-   */
+  @Override
   public void setPixel(int x, int y, Color pixel) {
     rawImage.setPixel(x, y, pixel);
     recorded.set(y * rawImage.getWidth() + x);
@@ -344,9 +324,7 @@ public final class JVisualizerDisplay extends JComponent implements Display,
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#setPixels(int, int, ca.eandb.jmist.framework.Raster)
-   */
+  @Override
   public void setPixels(int x, int y, Raster pixels) {
     int w = pixels.getWidth();
     int h = pixels.getHeight();
@@ -373,38 +351,28 @@ public final class JVisualizerDisplay extends JComponent implements Display,
     }
   }
 
-  /* (non-Javadoc)
-   * @see javax.swing.Scrollable#getPreferredScrollableViewportSize()
-   */
+  @Override
   public Dimension getPreferredScrollableViewportSize() {
     return getPreferredSize();
   }
 
-  /* (non-Javadoc)
-   * @see javax.swing.Scrollable#getScrollableBlockIncrement(java.awt.Rectangle, int, int)
-   */
+  @Override
   public int getScrollableBlockIncrement(Rectangle visibleRect,
       int orientation, int direction) {
     return 1;
   }
 
-  /* (non-Javadoc)
-   * @see javax.swing.Scrollable#getScrollableTracksViewportHeight()
-   */
+  @Override
   public boolean getScrollableTracksViewportHeight() {
     return false;
   }
 
-  /* (non-Javadoc)
-   * @see javax.swing.Scrollable#getScrollableTracksViewportWidth()
-   */
+  @Override
   public boolean getScrollableTracksViewportWidth() {
     return false;
   }
 
-  /* (non-Javadoc)
-   * @see javax.swing.Scrollable#getScrollableUnitIncrement(java.awt.Rectangle, int, int)
-   */
+  @Override
   public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
         if (orientation == SwingConstants.HORIZONTAL) {
             return visibleRect.width - 1;

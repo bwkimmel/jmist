@@ -27,7 +27,6 @@ package ca.eandb.jmist.framework.path;
 
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.NearestIntersectionRecorder;
-import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.Scene;
 import ca.eandb.jmist.framework.SceneElement;
@@ -94,7 +93,7 @@ public abstract class AbstractPathNode implements PathNode {
     Intersection x = NearestIntersectionRecorder
         .computeNearestIntersection(ray, root);
     if (x != null) {
-      ShadingContext context = new MinimalShadingContext(Random.DEFAULT);
+      ShadingContext context = new MinimalShadingContext();
       x.prepareShadingContext(context);
       context.getModifier().modify(context);
       return new SurfaceNode(this, sr, context, ru, rv, rj);
@@ -103,30 +102,22 @@ public abstract class AbstractPathNode implements PathNode {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#expand(double, double, double)
-   */
+  @Override
   public final ScatteringNode expand(double ru, double rv, double rj) {
     return trace(sample(ru, rv, rj), ru, rv, rj);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#isAtInfinity()
-   */
+  @Override
   public boolean isAtInfinity() {
     return getPosition().isVector();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#isOnEyePath()
-   */
+  @Override
   public final boolean isOnEyePath() {
     return !isOnLightPath();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getPathInfo()
-   */
+  @Override
   public final PathInfo getPathInfo() {
     return pathInfo;
   }

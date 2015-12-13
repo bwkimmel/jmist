@@ -68,9 +68,6 @@ public final class PlySceneElementBuilder implements PlyTarget {
     return geometry;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.ply.PlyTarget#beginSection(ca.eandb.jmist.framework.loader.ply.ElementDescriptor)
-   */
   @Override
   public ElementListener beginSection(ElementDescriptor desc) {
 
@@ -172,9 +169,6 @@ public final class PlySceneElementBuilder implements PlyTarget {
         hasVertexNormals ? face : null);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.ply.PlyTarget#endSection()
-   */
   @Override
   public void endSection() {
     /* nothing to do */

@@ -53,9 +53,6 @@ public final class UniformTexture2 implements Texture2 {
     this.spectrum = spectrum;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Texture2#evaluate(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public Color evaluate(Point2 p, WavelengthPacket lambda) {
     return spectrum.sample(lambda);

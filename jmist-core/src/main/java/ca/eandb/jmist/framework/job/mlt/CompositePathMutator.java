@@ -62,9 +62,7 @@ public final class CompositePathMutator implements PathMutator {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.job.mlt.PathMutator#getTransitionPDF(ca.eandb.jmist.framework.path.Path, ca.eandb.jmist.framework.path.Path)
-   */
+  @Override
   public double getTransitionPDF(Path from, Path to) {
     ensureReady();
 
@@ -77,9 +75,7 @@ public final class CompositePathMutator implements PathMutator {
     return pdf;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.job.mlt.PathMutator#mutate(ca.eandb.jmist.framework.path.Path, ca.eandb.jmist.framework.Random)
-   */
+  @Override
   public Path mutate(Path path, Random rnd) {
     ensureReady();
 

@@ -49,9 +49,6 @@ public final class V2f implements Attribute {
     return new V2f(in.readFloat(), in.readFloat());
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.openexr.Attribute#write(java.io.DataOutput)
-   */
   @Override
   public void write(DataOutput out) throws IOException {
     out.writeFloat(x);

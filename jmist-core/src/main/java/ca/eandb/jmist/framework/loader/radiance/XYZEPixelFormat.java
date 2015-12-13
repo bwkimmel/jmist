@@ -48,30 +48,22 @@ final class XYZEPixelFormat implements PixelFormat {
    */
   private XYZEPixelFormat() {}
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.radiance.PixelFormat#toRGB(int)
-   */
+  @Override
   public RGB toRGB(int raw) {
     return toXYZ(raw).toRGB();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.radiance.PixelFormat#toRaw(ca.eandb.jmist.framework.color.RGB)
-   */
+  @Override
   public int toRaw(RGB rgb) {
     return rgb.toXYZ().toXYZE();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.radiance.PixelFormat#toRaw(ca.eandb.jmist.framework.color.CIEXYZ)
-   */
+  @Override
   public int toRaw(CIEXYZ xyz) {
     return xyz.toXYZE();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.radiance.PixelFormat#toXYZ(int)
-   */
+  @Override
   public CIEXYZ toXYZ(int raw) {
     return CIEXYZ.fromXYZE(raw);
   }

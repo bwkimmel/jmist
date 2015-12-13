@@ -78,30 +78,17 @@ public abstract class AbstractGeometry implements SceneElement {
       return this.tag;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.Intersection#distance()
-     */
+    @Override
     public double getDistance() {
       return this.distance;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.Intersection#front()
-     */
+    @Override
     public boolean isFront() {
       return this.front;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.Intersection#incident()
-     */
-    public Vector3 getIncident() {
-      return this.ray.direction();
-    }
-
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.SurfacePoint#basis()
-     */
+    @Override
     public Basis3 getBasis() {
       if (this.basis == null) {
         this.setBasis(this.geometry.getBasis(this));
@@ -116,9 +103,7 @@ public abstract class AbstractGeometry implements SceneElement {
       return this;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.SurfacePoint#location()
-     */
+    @Override
     public Point3 getPosition() {
       if (this.location == null) {
         this.setLocation(this.ray.pointAt(this.distance));
@@ -132,9 +117,7 @@ public abstract class AbstractGeometry implements SceneElement {
       return this;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.SurfacePoint#shadingBasis()
-     */
+    @Override
     public Basis3 getShadingBasis() {
       if (this.shadingBasis == null) {
         Basis3 basis = this.geometry.getShadingBasis(this);
@@ -151,9 +134,7 @@ public abstract class AbstractGeometry implements SceneElement {
       return this;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.SurfacePoint#shadingNormal()
-     */
+    @Override
     public Vector3 getShadingNormal() {
       if (this.shadingNormal == null) {
         Vector3 normal = shadingBasis != null ? shadingBasis.w() : this.geometry.getShadingNormal(this);
@@ -170,9 +151,7 @@ public abstract class AbstractGeometry implements SceneElement {
       return this;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.SurfacePoint#normal()
-     */
+    @Override
     public Vector3 getNormal() {
       if (this.normal == null) {
         this.setNormal(this.geometry.getNormal(this));
@@ -186,16 +165,12 @@ public abstract class AbstractGeometry implements SceneElement {
       return this;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.SurfacePoint#tangent()
-     */
+    @Override
     public Vector3 getTangent() {
       return this.getBasis().u();
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.SurfacePoint#textureCoordinates()
-     */
+    @Override
     public Point2 getUV() {
       if (this.uv == null) {
         this.setUV(this.geometry.getTextureCoordinates(this));
@@ -209,9 +184,7 @@ public abstract class AbstractGeometry implements SceneElement {
       return this;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.SurfacePoint#getPrimitiveIndex()
-     */
+    @Override
     public int getPrimitiveIndex() {
       return primitiveIndex;
     }
@@ -221,9 +194,7 @@ public abstract class AbstractGeometry implements SceneElement {
       return this;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.Intersection#getTolerance()
-     */
+    @Override
     public double getTolerance() {
       return tolerance;
     }
@@ -308,23 +279,17 @@ public abstract class AbstractGeometry implements SceneElement {
     return Point2.ORIGIN;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getSurfaceArea(int)
-   */
+  @Override
   public double getSurfaceArea(int index) {
     throw new UnsupportedOperationException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#intersects(int, ca.eandb.jmist.math.Box3)
-   */
+  @Override
   public boolean intersects(int index, Box3 box) {
     return box.intersects(getBoundingBox(index));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#intersects(int, ca.eandb.jmist.math.Ray3)
-   */
+  @Override
   public boolean visibility(int index, Ray3 ray) {
     Interval I = new Interval(0.0, ray.limit());
     NearestIntersectionRecorder recorder = new NearestIntersectionRecorder(I);
@@ -332,9 +297,7 @@ public abstract class AbstractGeometry implements SceneElement {
     return recorder.isEmpty();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getSurfaceArea()
-   */
+  @Override
   public double getSurfaceArea() {
     int n = getNumPrimitives();
     double area = 0.0;
@@ -344,9 +307,7 @@ public abstract class AbstractGeometry implements SceneElement {
     return area;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-   */
+  @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
     int n = getNumPrimitives();
     for (int i = 0; i < n; i++) {
@@ -354,47 +315,35 @@ public abstract class AbstractGeometry implements SceneElement {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#visibility(ca.eandb.jmist.math.Ray3)
-   */
+  @Override
   public boolean visibility(Ray3 ray) {
     Intersection x = NearestIntersectionRecorder.computeNearestIntersection(ray, this);
     return (x == null);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#createLight()
-   */
+  @Override
   public Light createLight() {
     return null;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(int, ca.eandb.jmist.framework.ShadingContext)
-   */
+  @Override
   public void generateRandomSurfacePoint(int index, ShadingContext context, double ru, double rv, double rj) {
     throw new UnsupportedOperationException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext)
-   */
+  @Override
   public void generateRandomSurfacePoint(ShadingContext context, double ru, double rv, double rj) {
     throw new UnsupportedOperationException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#generateImportanceSampledSurfacePoint(int, ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext)
-   */
+  @Override
   public double generateImportanceSampledSurfacePoint(int index,
       SurfacePoint x, ShadingContext context, double ru, double rv, double rj) {
     generateRandomSurfacePoint(index, context, ru, rv, rj);
     return 1.0;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#generateImportanceSampledSurfacePoint(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext)
-   */
+  @Override
   public double generateImportanceSampledSurfacePoint(SurfacePoint x,
       ShadingContext context, double ru, double rv, double rj) {
     generateRandomSurfacePoint(context, ru, rv, rj);

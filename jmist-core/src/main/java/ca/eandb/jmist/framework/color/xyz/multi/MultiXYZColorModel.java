@@ -114,75 +114,49 @@ public final class MultiXYZColorModel implements ColorModel {
     return channelsX + channelsY;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#fromRGB(double, double, double)
-   */
   @Override
   public Spectrum fromRGB(double r, double g, double b) {
     CIEXYZ xyz = ColorUtil.convertRGB2XYZ(r, g, b);
     return new XYZColor(xyz.X(), xyz.Y(), xyz.Z(), this);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#fromXYZ(double, double, double)
-   */
   @Override
   public Spectrum fromXYZ(double x, double y, double z) {
     return new XYZColor(x, y, z, this);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getBlack()
-   */
   @Override
   public Spectrum getBlack() {
     return black;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getBlack(ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public Color getBlack(WavelengthPacket lambda) {
     return black.sample(lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getContinuous(ca.eandb.jmist.framework.Function1)
-   */
   @Override
   public Spectrum getContinuous(Function1 spectrum) {
     return new MultiXYZContinuousSpectrum(spectrum);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getGray(double)
-   */
   @Override
   public Spectrum getGray(double value) {
     return new XYZColor(value, value, value, this);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getGray(double, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public Color getGray(double value, WavelengthPacket lambda) {
     Spectrum s = new XYZColor(value, value, value, this);
     return s.sample(lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getNumChannels()
-   */
   @Override
   public int getNumChannels() {
     return channelsX + channelsY + channelsZ;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#fromChannels(double[], ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
+  @Override
   public Color fromArray(double[] values, WavelengthPacket lambda) {
     return fromArray(values, (MultiXYZWavelengthPacket) lambda);
   }
@@ -213,25 +187,16 @@ public final class MultiXYZColorModel implements ColorModel {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getWhite()
-   */
   @Override
   public Spectrum getWhite() {
     return white;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getWhite(ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public Color getWhite(WavelengthPacket lambda) {
     return white.sample(lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#sample(ca.eandb.jmist.framework.Random)
-   */
   @Override
   public Color sample(Random random) {
     int n = getNumChannels();
@@ -253,9 +218,6 @@ public final class MultiXYZColorModel implements ColorModel {
     return new MultiXYZColor(values, wavelengths);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#createRaster(int, int)
-   */
   @Override
   public Raster createRaster(int width, int height) {
     return new DoubleRaster(width, height, 3) {
@@ -279,9 +241,7 @@ public final class MultiXYZColorModel implements ColorModel {
   }
 
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getChannelName(int)
-   */
+  @Override
   public String getChannelName(int channel) {
     if (channel < 0 || channel >= channelsX + channelsY + channelsZ) {
       throw new IllegalArgumentException("Invalid channel");

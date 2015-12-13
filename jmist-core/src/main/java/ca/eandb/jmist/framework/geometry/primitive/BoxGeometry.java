@@ -57,9 +57,7 @@ public final class BoxGeometry extends PrimitiveGeometry {
     this.box = box;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-   */
+  @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 
     // Check for an empty box.
@@ -148,17 +146,11 @@ public final class BoxGeometry extends PrimitiveGeometry {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AbstractGeometry#getBasis(ca.eandb.jmist.framework.AbstractGeometry.GeometryIntersection)
-   */
   @Override
   protected Basis3 getBasis(GeometryIntersection x) {
     return Basis3.fromW(x.getNormal(), Basis3.Orientation.RIGHT_HANDED);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AbstractGeometry#getNormal(ca.eandb.jmist.framework.AbstractGeometry.GeometryIntersection)
-   */
   @Override
   protected Vector3 getNormal(GeometryIntersection x) {
     switch (x.getTag())
@@ -173,9 +165,6 @@ public final class BoxGeometry extends PrimitiveGeometry {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AbstractGeometry#getTextureCoordinates(ca.eandb.jmist.framework.AbstractGeometry.GeometryIntersection)
-   */
   @Override
   protected Point2 getTextureCoordinates(GeometryIntersection x) {
 
@@ -238,30 +227,16 @@ public final class BoxGeometry extends PrimitiveGeometry {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#isClosed()
-   */
-  public boolean isClosed() {
-    return true;
-  }
-
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
-   */
+  @Override
   public Box3 boundingBox() {
     return this.box;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
-   */
+  @Override
   public Sphere boundingSphere() {
     return new Sphere(this.box.center(), this.box.diagonal() / 2.0);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext)
-   */
   @Override
   public void generateRandomSurfacePoint(ShadingContext context, double ru, double rv, double rj) {
     double xyArea = box.lengthX() * box.lengthY();
@@ -299,9 +274,6 @@ public final class BoxGeometry extends PrimitiveGeometry {
     x.prepareShadingContext(context);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getSurfaceArea()
-   */
   @Override
   public double getSurfaceArea() {
     return box.surfaceArea();

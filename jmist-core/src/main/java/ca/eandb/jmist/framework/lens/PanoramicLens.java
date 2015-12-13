@@ -83,9 +83,6 @@ public final class PanoramicLens extends AbstractLens {
     this.height = 2.0 * Math.tan(vfov / 2.0);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Lens#sample(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.path.PathInfo, double, double, double)
-   */
   @Override
   public EyeNode sample(Point2 p, PathInfo pathInfo, double ru, double rv,
       double rj) {
@@ -109,9 +106,7 @@ public final class PanoramicLens extends AbstractLens {
       this.pointOnImagePlane = pointOnImagePlane;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.EyeNode#sample(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.Random)
-     */
+    @Override
     public ScatteredRay sample(double ru, double rv, double rj) {
       Point2 p = pointOnImagePlane;
       double theta = (p.x() - 0.5) * hfov;
@@ -126,16 +121,12 @@ public final class PanoramicLens extends AbstractLens {
       return ScatteredRay.diffuse(ray, color, pdf);
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#scatterTo(ca.eandb.jmist.framework.path.PathNode)
-     */
+    @Override
     public Color scatter(Vector3 v) {
       return getGray(getPDF(v));
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.EyeNode#project(ca.eandb.jmist.math.HPoint3)
-     */
+    @Override
     public Point2 project(HPoint3 x) {
       Ray3 ray = new Ray3(Point3.ORIGIN, x);
       Vector3 v = ray.direction();
@@ -152,37 +143,27 @@ public final class PanoramicLens extends AbstractLens {
           0.5 - h / height);
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#getCosine(ca.eandb.jmist.math.Vector3)
-     */
+    @Override
     public double getCosine(Vector3 v) {
       return Math.hypot(v.x(), v.z()) / v.length();
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#getPosition()
-     */
+    @Override
     public HPoint3 getPosition() {
       return Point3.ORIGIN;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#getPDF()
-     */
+    @Override
     public double getPDF() {
       return 1.0;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#isSpecular()
-     */
+    @Override
     public boolean isSpecular() {
       return true;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#getPDF(ca.eandb.jmist.math.Vector3)
-     */
+    @Override
     public double getPDF(Vector3 v) {
       double theta = Math.atan2(v.x(), -v.z());
       if (Math.abs(theta) > 0.5 * hfov) {

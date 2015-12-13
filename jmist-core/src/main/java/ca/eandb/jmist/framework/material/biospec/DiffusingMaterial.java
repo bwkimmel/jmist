@@ -45,9 +45,6 @@ public final class DiffusingMaterial extends OpaqueMaterial {
   /** Serialization version ID. */
   private static final long serialVersionUID = -7231770766590876956L;
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, boolean, ca.eandb.jmist.framework.color.WavelengthPacket, double, double, double)
-   */
   @Override
   public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint,
       WavelengthPacket lambda, double ru, double rv, double rj) {

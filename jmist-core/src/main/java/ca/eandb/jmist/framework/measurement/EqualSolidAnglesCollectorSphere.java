@@ -69,9 +69,7 @@ public final class EqualSolidAnglesCollectorSphere implements CollectorSphere {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.measurement.CollectorSphere#getSensorCenter(int)
-   */
+  @Override
   public SphericalCoordinates getSensorCenter(int sensor) {
 
     int hemispheres = (upper ? 1 : 0) + (lower ? 1 : 0);
@@ -126,9 +124,7 @@ public final class EqualSolidAnglesCollectorSphere implements CollectorSphere {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.measurement.CollectorSphere#getSensorProjectedSolidAngle(int)
-   */
+  @Override
   public double getSensorProjectedSolidAngle(int sensor) {
 
     int hemispheres = (upper ? 1 : 0) + (lower ? 1 : 0);
@@ -173,9 +169,7 @@ public final class EqualSolidAnglesCollectorSphere implements CollectorSphere {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.measurement.CollectorSphere#getSensorSolidAngle(int)
-   */
+  @Override
   public double getSensorSolidAngle(int sensor) {
     double hemispheres = (upper ? 1.0 : 0.0) + (lower ? 1.0 : 0.0);
     return hemispheres * (2.0 * Math.PI) / (double) this.sensors();
@@ -235,9 +229,7 @@ public final class EqualSolidAnglesCollectorSphere implements CollectorSphere {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.measurement.CollectorSphere#record(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.measurement.CollectorSphere.Callback)
-   */
+  @Override
   public void record(Vector3 v, Callback f) {
     int sensor = getSensor(v);
     if (sensor >= 0) {
@@ -245,9 +237,7 @@ public final class EqualSolidAnglesCollectorSphere implements CollectorSphere {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.measurement.CollectorSphere#record(ca.eandb.jmist.math.SphericalCoordinates, ca.eandb.jmist.framework.measurement.CollectorSphere.Callback)
-   */
+  @Override
   public void record(SphericalCoordinates v, Callback f) {
     int sensor = getSensor(v);
     if (sensor >= 0) {
@@ -255,9 +245,7 @@ public final class EqualSolidAnglesCollectorSphere implements CollectorSphere {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.measurement.CollectorSphere#sensors()
-   */
+  @Override
   public int sensors() {
     return sensors;
   }

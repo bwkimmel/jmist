@@ -147,17 +147,11 @@ public final class JHighlightAnomaliesVisualizerPanel extends
     fireStateChanged();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.display.visualizer.JColorVisualizerPanel#analyze(java.lang.Iterable)
-   */
   @Override
   public boolean analyze(Iterable<Color> samples) {
     return inner.analyze(samples);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.display.visualizer.ColorVisualizer#visualize(ca.eandb.jmist.framework.color.Color)
-   */
   @Override
   public RGB visualize(Color color) {
     RGB rgb = inner.visualize(color);

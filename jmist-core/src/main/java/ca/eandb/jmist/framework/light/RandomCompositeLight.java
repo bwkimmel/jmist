@@ -58,9 +58,7 @@ public final class RandomCompositeLight extends CompositeLight {
     super(children);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random, ca.eandb.jmist.framework.Illuminable)
-   */
+  @Override
   public void illuminate(SurfacePoint x, WavelengthPacket lambda, Random rng, final Illuminable target) {
     int index = RandomUtil.discrete(0, children().size() - 1, rng);
     children().get(index).illuminate(x, lambda, rng, new Illuminable() {
@@ -70,9 +68,7 @@ public final class RandomCompositeLight extends CompositeLight {
     });
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Light#sample(ca.eandb.jmist.framework.path.PathInfo, ca.eandb.jmist.framework.Random)
-   */
+  @Override
   public LightNode sample(PathInfo pathInfo, double ru, double rv, double rj) {
     SeedReference ref = new SeedReference(rj);
     int index = RandomUtil.discrete(0, children().size() - 1, ref);
@@ -80,9 +76,7 @@ public final class RandomCompositeLight extends CompositeLight {
         children().get(index).sample(pathInfo, ru, rv, ref.seed), rj);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Light#getSamplePDF(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.path.PathInfo)
-   */
+  @Override
   public double getSamplePDF(SurfacePoint x, PathInfo pathInfo) {
     double pdf = 0.0;
     for (Light light : children()) {

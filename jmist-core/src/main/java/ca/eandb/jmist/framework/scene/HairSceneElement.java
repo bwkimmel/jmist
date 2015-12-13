@@ -253,7 +253,7 @@ public final class HairSceneElement implements SceneElement {
     Random tempRnd = new Random(index);
     Random rnd = new Random(tempRnd.nextLong());
     RandomAdapter adapter = new RandomAdapter(rnd);
-    MinimalShadingContext context = new MinimalShadingContext(adapter);
+    MinimalShadingContext context = new MinimalShadingContext();
     emitter.generateRandomSurfacePoint(context, rnd.nextDouble(), rnd.nextDouble(), rnd.nextDouble());
     Strand strand = new Strand();
     strand.vertices = new Point3[2 * (segments + 1)];
@@ -290,16 +290,11 @@ public final class HairSceneElement implements SceneElement {
     return strand;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#createLight()
-   */
+  @Override
   public Light createLight() {
     throw new UnsupportedOperationException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#generateImportanceSampledSurfacePoint(int, ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext, double, double, double)
-   */
   @Override
   public double generateImportanceSampledSurfacePoint(int index,
       SurfacePoint x, ShadingContext context, double ru, double rv,
@@ -307,76 +302,49 @@ public final class HairSceneElement implements SceneElement {
     throw new UnsupportedOperationException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#generateImportanceSampledSurfacePoint(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext, double, double, double)
-   */
   @Override
   public double generateImportanceSampledSurfacePoint(SurfacePoint x,
       ShadingContext context, double ru, double rv, double rj) {
     throw new UnsupportedOperationException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(int, ca.eandb.jmist.framework.ShadingContext, double, double, double)
-   */
   @Override
   public void generateRandomSurfacePoint(int index, ShadingContext context,
       double ru, double rv, double rj) {
     throw new UnsupportedOperationException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext, double, double, double)
-   */
   @Override
   public void generateRandomSurfacePoint(ShadingContext context, double ru,
       double rv, double rj) {
     throw new UnsupportedOperationException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getBoundingBox(int)
-   */
   @Override
   public Box3 getBoundingBox(int index) {
     return index < base ? emitter.getBoundingBox(index) : createStrand(index - base).boundingBox();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getBoundingSphere(int)
-   */
   @Override
   public Sphere getBoundingSphere(int index) {
     return index < base ? emitter.getBoundingSphere(index) : createStrand(index - base).boundingSphere();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getNumPrimitives()
-   */
   @Override
   public int getNumPrimitives() {
     return base + amount;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getSurfaceArea()
-   */
   @Override
   public double getSurfaceArea() {
     throw new UnsupportedOperationException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getSurfaceArea(int)
-   */
   @Override
   public double getSurfaceArea(int index) {
     throw new UnsupportedOperationException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-   */
   @Override
   public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
     if (index < base) {
@@ -386,9 +354,6 @@ public final class HairSceneElement implements SceneElement {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-   */
   @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
     // Warning: EXTREMELY SLOW - ALWAYS combine with an accelerator
@@ -400,43 +365,28 @@ public final class HairSceneElement implements SceneElement {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#intersects(int, ca.eandb.jmist.math.Box3)
-   */
   @Override
   public boolean intersects(int index, Box3 box) {
     return index < base ? emitter.intersects(index, box) : createStrand(
         index - base).intersects(box);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#visibility(int, ca.eandb.jmist.math.Ray3)
-   */
   @Override
   public boolean visibility(int index, Ray3 ray) {
     return index < base ? emitter.visibility(index, ray) : createStrand(
         index - base).visibility(ray);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
-   */
   @Override
   public Box3 boundingBox() {
     return emitter.boundingBox().expand(this.meanInitialVelocity.length() + randomInitialVelocity + tipWidth / 2.0);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
-   */
   @Override
   public Sphere boundingSphere() {
     return emitter.boundingSphere().expand(this.meanInitialVelocity.length() + randomInitialVelocity + tipWidth / 2.0);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.VisibilityFunction3#visibility(ca.eandb.jmist.math.Ray3)
-   */
   @Override
   public boolean visibility(Ray3 ray) {
     // Warning: EXTREMELY SLOW - ALWAYS combine with an accelerator

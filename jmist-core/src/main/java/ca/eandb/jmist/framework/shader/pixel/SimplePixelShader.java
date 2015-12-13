@@ -43,9 +43,7 @@ public final class SimplePixelShader extends ImageRasterizingPixelShader {
     super(camera, model);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.PixelShader#shadePixel(ca.eandb.jmist.math.Box2)
-   */
+  @Override
   public Color shadePixel(Box2 bounds) {
     return shadeAt(bounds.center());
   }

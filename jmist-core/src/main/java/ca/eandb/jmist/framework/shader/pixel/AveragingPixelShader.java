@@ -49,9 +49,7 @@ public final class AveragingPixelShader implements PixelShader {
     this.pixelShader = pixelShader;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.PixelShader#shadePixel(ca.eandb.jmist.math.Box2)
-   */
+  @Override
   public Color shadePixel(Box2 bounds) {
     Color pixel = null;
 

@@ -80,9 +80,7 @@ public final class MatlabXYZFileDisplay implements Display, Serializable {
     this(DEFAULT_FILENAME, DEFAULT_IMAGE_NAME);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#fill(int, int, int, int, ca.eandb.jmist.framework.color.Color)
-   */
+  @Override
   public void fill(int x, int y, int w, int h, Color color) {
     for (int dy = 0; dy < h; dy++, y++) {
       int index = (y * width + x) * 3;
@@ -95,9 +93,7 @@ public final class MatlabXYZFileDisplay implements Display, Serializable {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#finish()
-   */
+  @Override
   public void finish() {
     try {
       OutputStream stream = getOutputStream();
@@ -126,18 +122,14 @@ public final class MatlabXYZFileDisplay implements Display, Serializable {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#initialize(int, int, ca.eandb.jmist.framework.color.ColorModel)
-   */
+  @Override
   public void initialize(int w, int h, ColorModel colorModel) {
     this.width = w;
     this.height = h;
     this.array = new double[width * height * 3];
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#setPixel(int, int, ca.eandb.jmist.framework.color.Color)
-   */
+  @Override
   public void setPixel(int x, int y, Color pixel) {
     int index = (y * width + x) * 3;
     CIEXYZ c = pixel.toXYZ();
@@ -146,9 +138,7 @@ public final class MatlabXYZFileDisplay implements Display, Serializable {
     array[index] = c.Z();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#setPixels(int, int, ca.eandb.jmist.framework.Raster)
-   */
+  @Override
   public void setPixels(int x, int y, Raster pixels) {
     int w = pixels.getWidth();
     int h = pixels.getHeight();

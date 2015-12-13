@@ -45,17 +45,11 @@ public final class IntersectionGeometry extends ConstructiveSolidGeometry {
    */
   private static final long serialVersionUID = -91390515433295892L;
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.packages.ConstructiveSolidGeometry#isInside(int, java.util.BitSet)
-   */
   @Override
   protected boolean isInside(int nArgs, BitSet args) {
     return args.nextClearBit(0) >= nArgs;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
-   */
   @Override
   public Box3 boundingBox() {
 
@@ -69,9 +63,6 @@ public final class IntersectionGeometry extends ConstructiveSolidGeometry {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
-   */
   @Override
   public Sphere boundingSphere() {
     Box3 boundingBox = this.boundingBox();

@@ -47,9 +47,7 @@ public final class MeasurementContributionMeasure implements PathMeasure {
     return INSTANCE;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.BidiPathMeasure#evaluate(ca.eandb.jmist.framework.path.PathNode, ca.eandb.jmist.framework.path.PathNode)
-   */
+  @Override
   public Color evaluate(PathNode lightTail, PathNode eyeTail) {
     if (lightTail != null && eyeTail != null) {
       return evaluateInner(lightTail, eyeTail);

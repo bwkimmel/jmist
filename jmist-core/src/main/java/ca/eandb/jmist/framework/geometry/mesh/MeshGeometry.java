@@ -58,9 +58,7 @@ public final class MeshGeometry extends AbstractGeometry {
     this.mesh = MeshUtil.triangulate(mesh);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-   */
+  @Override
   public void intersect(final int index, final Ray3 ray,
                         IntersectionRecorder recorder) {
     Mesh.Face face = mesh.getFace(index);
@@ -105,44 +103,31 @@ public final class MeshGeometry extends AbstractGeometry {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getBoundingBox(int)
-   */
+  @Override
   public Box3 getBoundingBox(int index) {
     return MeshUtil.getBoundingBox(mesh.getFace(index));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getBoundingSphere(int)
-   */
+  @Override
   public Sphere getBoundingSphere(int index) {
     return MeshUtil.getBoundingSphere(mesh.getFace(index));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getNumPrimitives()
-   */
+  @Override
   public int getNumPrimitives() {
     return mesh.getFaceCount();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
-   */
+  @Override
   public Box3 boundingBox() {
     return MeshUtil.getBoundingBox(mesh);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
-   */
+  @Override
   public Sphere boundingSphere() {
     return MeshUtil.getBoundingSphere(mesh);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#generateRandomSurfacePoint(int, ca.eandb.jmist.framework.ShadingContext)
-   */
   @Override
   public void generateRandomSurfacePoint(
       int index, ShadingContext context, double ru, double rv, double rj) {
@@ -153,9 +138,6 @@ public final class MeshGeometry extends AbstractGeometry {
     prepareShadingContext(context, index, ru, rv);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext, double, double, double)
-   */
   @Override
   public void generateRandomSurfacePoint(ShadingContext context, double ru,
       double rv, double rj) {
@@ -174,9 +156,6 @@ public final class MeshGeometry extends AbstractGeometry {
     super.generateRandomSurfacePoint(context, ru, rv, rj);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getSurfaceArea(int)
-   */
   @Override
   public double getSurfaceArea(int index) {
     return getSurfaceArea(mesh.getFace(index));
@@ -189,9 +168,6 @@ public final class MeshGeometry extends AbstractGeometry {
     return GeometryUtil.areaOfTriangle(a, b, c);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getSurfaceArea()
-   */
   @Override
   public double getSurfaceArea() {
     if (surfaceArea < 0.0) {

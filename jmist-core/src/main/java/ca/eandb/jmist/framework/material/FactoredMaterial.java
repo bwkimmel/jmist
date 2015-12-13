@@ -247,9 +247,6 @@ public final class FactoredMaterial extends OpaqueMaterial {
     return fromFacRep(new InputStreamReader(is), cm);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.material.AbstractMaterial#bsdf(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public Color bsdf(SurfacePoint x, Vector3 in, Vector3 out,
       WavelengthPacket lambda) {
@@ -342,18 +339,12 @@ public final class FactoredMaterial extends OpaqueMaterial {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, boolean, ca.eandb.jmist.framework.color.WavelengthPacket, double, double, double)
-   */
   @Override
   public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint,
       WavelengthPacket lambda, double ru, double rv, double rj) {
     throw new UnimplementedException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.material.AbstractMaterial#getScatteringPDF(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Vector3, boolean, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public double getScatteringPDF(SurfacePoint x, Vector3 in, Vector3 out,
       boolean adjoint, WavelengthPacket lambda) {

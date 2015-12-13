@@ -63,9 +63,7 @@ public final class PolyhedronLens extends AbstractLens {
     this.e = e;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Lens#sample(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.path.PathInfo, ca.eandb.jmist.framework.Random)
-   */
+  @Override
   public EyeNode sample(Point2 p, PathInfo pathInfo, double ru, double rv, double rj) {
     return new Node(p, pathInfo, ru, rv, rj);
   }
@@ -79,7 +77,7 @@ public final class PolyhedronLens extends AbstractLens {
     private final double weight;
 
     /** The <code>ShadingContext</code> for this node. */
-    private final ShadingContext context = new MinimalShadingContext(Random.DEFAULT);
+    private final ShadingContext context = new MinimalShadingContext();
 
     /**
      * Creates a <code>Node</code>.
@@ -94,9 +92,7 @@ public final class PolyhedronLens extends AbstractLens {
 //      e.generateRandomSurfacePoint(context, pointOnImagePlane.x(), pointOnImagePlane.y(), 0.0);
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.EyeNode#sample(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.Random)
-     */
+    @Override
     public ScatteredRay sample(double ru, double rv, double rj) {
       if (weight < 0.0) {
         return null;
@@ -113,52 +109,38 @@ public final class PolyhedronLens extends AbstractLens {
       return ScatteredRay.diffuse(ray, color, 1.0 / Math.PI);
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#scatterTo(ca.eandb.jmist.framework.path.PathNode)
-     */
+    @Override
     public Color scatter(Vector3 v) {
       return getGray(getPDF(v));
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.EyeNode#project(ca.eandb.jmist.math.HPoint3)
-     */
+    @Override
     public Point2 project(HPoint3 x) {
       return pointOnImagePlane;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#getCosine(ca.eandb.jmist.math.Vector3)
-     */
+    @Override
     public double getCosine(Vector3 v) {
       Vector3 n = context.getNormal();
       return n.dot(v);
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#getPosition()
-     */
+    @Override
     public HPoint3 getPosition() {
       return context.getPosition();
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#getPDF()
-     */
+    @Override
     public double getPDF() {
       return Math.max(0.0, weight);
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#isSpecular()
-     */
+    @Override
     public boolean isSpecular() {
       return false;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#getPDF(ca.eandb.jmist.math.Vector3)
-     */
+    @Override
     public double getPDF(Vector3 v) {
       if (weight < 0.0) {
         return 0.0;

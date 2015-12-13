@@ -118,9 +118,7 @@ public final class VarianceTargetPixelShader implements PixelShader {
     this(varianceTarget, minSamples, maxSamples, checkInterval, false, pixelShader);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.PixelShader#shadePixel(ca.eandb.jmist.math.Box2)
-   */
+  @Override
   public Color shadePixel(Box2 bounds) {
     Color pixel = pixelShader.shadePixel(bounds);
     Color s = null;

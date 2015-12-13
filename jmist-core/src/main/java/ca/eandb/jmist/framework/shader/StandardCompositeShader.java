@@ -40,9 +40,7 @@ public final class StandardCompositeShader extends CompositeShader {
    */
   private static final long serialVersionUID = -870791462232286251L;
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
-   */
+  @Override
   public Color shade(ShadingContext sc) {
     Color result = sc.getColorModel().getBlack(sc.getWavelengthPacket());
     for (Shader shader : shaders) {

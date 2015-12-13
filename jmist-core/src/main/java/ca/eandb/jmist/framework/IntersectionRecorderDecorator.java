@@ -45,30 +45,22 @@ public abstract class IntersectionRecorderDecorator implements
     this.inner = inner;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.IntersectionRecorder#interval()
-   */
+  @Override
   public Interval interval() {
     return this.inner.interval();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.IntersectionRecorder#needAllIntersections()
-   */
+  @Override
   public boolean needAllIntersections() {
     return this.inner.needAllIntersections();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.IntersectionRecorder#isEmpty()
-   */
+  @Override
   public boolean isEmpty() {
     return this.inner.isEmpty();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.IntersectionRecorder#record(ca.eandb.jmist.framework.Intersection)
-   */
+  @Override
   public abstract void record(Intersection intersection);
 
   /** The decorated <code>IntersectionRecorder</code>. */

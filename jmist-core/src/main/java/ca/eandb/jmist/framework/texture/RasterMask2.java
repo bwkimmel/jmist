@@ -107,9 +107,7 @@ public final class RasterMask2 implements Mask2 {
     return image.getHeight();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Mask2#opacity(ca.eandb.jmist.math.Point2)
-   */
+  @Override
   public double opacity(Point2 p) {
 
     Raster    raster  = image.getRaster();

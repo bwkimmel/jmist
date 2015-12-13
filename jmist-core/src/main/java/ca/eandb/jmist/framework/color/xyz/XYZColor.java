@@ -68,16 +68,12 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
     this.lambda = lambda;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#toXYZ()
-   */
+  @Override
   public CIEXYZ toXYZ() {
     return new CIEXYZ(x, y, z);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#toRGB()
-   */
+  @Override
   public RGB toRGB() {
     return ColorUtil.convertXYZ2RGB(x, y, z);
   }
@@ -86,23 +82,17 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
     return new XYZColor(x, y, z, (lambda == compat.getWavelengthPacket()) ? lambda : null);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#abs()
-   */
+  @Override
   public Color abs() {
     return new XYZColor(Math.abs(x), Math.abs(y), Math.abs(z), lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#clamp(double)
-   */
+  @Override
   public Color clamp(double max) {
     return new XYZColor(Math.min(x, max), Math.min(y, max), Math.min(z, max), lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#clamp(double, double)
-   */
+  @Override
   public Color clamp(double min, double max) {
     return new XYZColor(
         Math.min(Math.max(x, min), max),
@@ -113,9 +103,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#disperse(int)
-   */
+  @Override
   public Color disperse(int channel) {
     switch (channel) {
     case 0:
@@ -128,9 +116,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
     throw new IllegalArgumentException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#divide(ca.eandb.jmist.framework.color.Color)
-   */
+  @Override
   public Color divide(Color other) {
     return divide((XYZColor) other);
   }
@@ -139,30 +125,22 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
     return create(x / other.x, y / other.y, z / other.z, other);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#divide(double)
-   */
+  @Override
   public Color divide(double c) {
     return new XYZColor(x / c, y / c, z / c, lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#exp()
-   */
+  @Override
   public Color exp() {
     return new XYZColor(Math.exp(x), Math.exp(y), Math.exp(z), lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#getColorModel()
-   */
+  @Override
   public ColorModel getColorModel() {
     return XYZColorModel.getInstance();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#getValue(int)
-   */
+  @Override
   public double getValue(int channel) {
     switch (channel) {
     case 0:
@@ -175,30 +153,22 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
     throw new IllegalArgumentException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#getWavelengthPacket()
-   */
+  @Override
   public WavelengthPacket getWavelengthPacket() {
     return lambda;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#invert()
-   */
+  @Override
   public Color invert() {
     return new XYZColor(1.0 / x, 1.0 / y, 1.0 / z, lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#luminance()
-   */
+  @Override
   public double luminance() {
     return ColorUtil.convertXYZ2Luminance(x, y, z);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#minus(ca.eandb.jmist.framework.color.Color)
-   */
+  @Override
   public Color minus(Color other) {
     return minus((XYZColor) other);
   }
@@ -207,16 +177,12 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
     return create(x - other.x, y - other.y, z - other.z, other);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#negative()
-   */
+  @Override
   public Color negative() {
     return new XYZColor(-x, -y, -z, lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#plus(ca.eandb.jmist.framework.color.Color)
-   */
+  @Override
   public Color plus(Color other) {
     return plus((XYZColor) other);
   }
@@ -225,9 +191,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
     return create(x + other.x, y + other.y, z + other.z, other);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#pow(ca.eandb.jmist.framework.color.Color)
-   */
+  @Override
   public Color pow(Color other) {
     return pow((XYZColor) other);
   }
@@ -236,23 +200,17 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
     return create(Math.pow(x, other.x), Math.pow(y, other.y), Math.pow(z, other.z), other);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#pow(double)
-   */
+  @Override
   public Color pow(double e) {
     return new XYZColor(Math.pow(x, e), Math.pow(y, e), Math.pow(z, e), lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#sqrt()
-   */
+  @Override
   public Color sqrt() {
     return new XYZColor(Math.sqrt(x), Math.sqrt(y), Math.sqrt(z), lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#times(ca.eandb.jmist.framework.color.Color)
-   */
+  @Override
   public Color times(Color other) {
     return times((XYZColor) other);
   }
@@ -261,23 +219,17 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
     return create(x * other.x, y * other.y, z * other.z, other);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#times(double)
-   */
+  @Override
   public Color times(double c) {
     return new XYZColor(x * c, y * c, z * c, lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#toArray()
-   */
+  @Override
   public double[] toArray() {
     return new double[]{ x, y, z };
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Spectrum#sample(ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
+  @Override
   public Color sample(WavelengthPacket lambda) {
     return sample((XYZWavelengthPacket) lambda);
   }

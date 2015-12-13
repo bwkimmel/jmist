@@ -66,9 +66,6 @@ public final class OrthographicLens extends AbstractLens {
     this.area = width * height;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Lens#sample(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.path.PathInfo, double, double, double)
-   */
   @Override
   public EyeNode sample(Point2 p, PathInfo pathInfo, double ru, double rv,
       double rj) {
@@ -92,9 +89,7 @@ public final class OrthographicLens extends AbstractLens {
       this.pointOnImagePlane = pointOnImagePlane;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.EyeNode#sample(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.Random)
-     */
+    @Override
     public ScatteredRay sample(double ru, double rv, double rj) {
       Point2 p = pointOnImagePlane;
       Ray3 ray = new Ray3(
@@ -107,16 +102,12 @@ public final class OrthographicLens extends AbstractLens {
       return ScatteredRay.specular(ray, color, 1.0);
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#scatterTo(ca.eandb.jmist.framework.path.PathNode)
-     */
+    @Override
     public Color scatter(Vector3 v) {
       return getBlack();
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.EyeNode#project(ca.eandb.jmist.math.HPoint3)
-     */
+    @Override
     public Point2 project(HPoint3 x) {
       if (!x.isPoint()) {
         return null;
@@ -125,16 +116,12 @@ public final class OrthographicLens extends AbstractLens {
       return new Point2(0.5 + p.x() / width, 0.5 - p.y() / height);
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#getCosine(ca.eandb.jmist.math.Vector3)
-     */
+    @Override
     public double getCosine(Vector3 v) {
       return -v.z() / v.length();
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#getPosition()
-     */
+    @Override
     public HPoint3 getPosition() {
       Point2 p = pointOnImagePlane;
       return new Point3(
@@ -143,23 +130,17 @@ public final class OrthographicLens extends AbstractLens {
           0.0);
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#getPDF()
-     */
+    @Override
     public double getPDF() {
       return 1.0 / area;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#isSpecular()
-     */
+    @Override
     public boolean isSpecular() {
       return false;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#getPDF(ca.eandb.jmist.math.Vector3)
-     */
+    @Override
     public double getPDF(Vector3 v) {
       return 0.0;
     }

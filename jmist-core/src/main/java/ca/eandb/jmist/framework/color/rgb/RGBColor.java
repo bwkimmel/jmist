@@ -73,30 +73,22 @@ import ca.eandb.jmist.math.MathUtil;
     this.b = b;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#toXYZ()
-   */
+  @Override
   public CIEXYZ toXYZ() {
     return ColorUtil.convertRGB2XYZ(r, g, b);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#toRGB()
-   */
+  @Override
   public RGB toRGB() {
     return new RGB(r, g, b);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#abs()
-   */
+  @Override
   public Color abs() {
     return new RGBColor(Math.abs(r), Math.abs(g), Math.abs(b));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#divide(ca.eandb.jmist.framework.color.Color)
-   */
+  @Override
   public Color divide(Color other) {
     return divide((RGBColor) other);
   }
@@ -105,37 +97,27 @@ import ca.eandb.jmist.math.MathUtil;
     return new RGBColor(r / other.r, g / other.g, b / other.b);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#divide(double)
-   */
+  @Override
   public Color divide(double c) {
     return new RGBColor(r / c, g / c, b / c);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#exp()
-   */
+  @Override
   public Color exp() {
     return new RGBColor(Math.exp(r), Math.exp(g), Math.exp(b));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#invert()
-   */
+  @Override
   public Color invert() {
     return new RGBColor(1.0 / r, 1.0 / g, 1.0 / b);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#luminance()
-   */
+  @Override
   public double luminance() {
     return ColorUtil.convertRGB2Luminance(r, g, b);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#minus(ca.eandb.jmist.framework.color.Color)
-   */
+  @Override
   public Color minus(Color other) {
     return minus((RGBColor) other);
   }
@@ -144,16 +126,12 @@ import ca.eandb.jmist.math.MathUtil;
     return new RGBColor(r - other.r, g - other.g, b - other.b);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#negative()
-   */
+  @Override
   public Color negative() {
     return new RGBColor(-r, -g, -b);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#plus(ca.eandb.jmist.framework.color.Color)
-   */
+  @Override
   public Color plus(Color other) {
     return plus((RGBColor) other);
   }
@@ -162,9 +140,7 @@ import ca.eandb.jmist.math.MathUtil;
     return new RGBColor(r + other.r, g + other.g, b + other.b);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#pow(ca.eandb.jmist.framework.color.Color)
-   */
+  @Override
   public Color pow(Color other) {
     return pow((RGBColor) other);
   }
@@ -173,23 +149,17 @@ import ca.eandb.jmist.math.MathUtil;
     return new RGBColor(Math.pow(r, other.r), Math.pow(g, other.g), Math.pow(b, other.b));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#pow(double)
-   */
+  @Override
   public Color pow(double e) {
     return new RGBColor(Math.pow(r, e), Math.pow(g, e), Math.pow(b, e));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#sqrt()
-   */
+  @Override
   public Color sqrt() {
     return new RGBColor(Math.sqrt(r), Math.sqrt(g), Math.sqrt(b));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#times(ca.eandb.jmist.framework.color.Color)
-   */
+  @Override
   public Color times(Color other) {
     return times((RGBColor) other);
   }
@@ -198,16 +168,12 @@ import ca.eandb.jmist.math.MathUtil;
     return new RGBColor(r * other.r, g * other.g, b * other.b);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#times(double)
-   */
+  @Override
   public Color times(double c) {
     return new RGBColor(r * c, g * c, b * c);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#clamp(double, double)
-   */
+  @Override
   public Color clamp(double min, double max) {
     return new RGBColor(
         MathUtil.clamp(r, min, max),
@@ -215,16 +181,12 @@ import ca.eandb.jmist.math.MathUtil;
         MathUtil.clamp(b, min, max));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#clamp(double)
-   */
+  @Override
   public Color clamp(double max) {
     return new RGBColor(Math.min(r, max), Math.min(g, max), Math.min(b, max));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#disperse(int)
-   */
+  @Override
   public Color disperse(int channel) {
     switch (channel) {
     case 0:
@@ -238,16 +200,12 @@ import ca.eandb.jmist.math.MathUtil;
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#getColorModel()
-   */
+  @Override
   public ColorModel getColorModel() {
     return RGBColorModel.getInstance();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#getValue(int)
-   */
+  @Override
   public double getValue(int channel) {
     switch (channel) {
     case 0:
@@ -261,23 +219,17 @@ import ca.eandb.jmist.math.MathUtil;
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#toArray()
-   */
+  @Override
   public double[] toArray() {
     return new double[]{ r, g, b };
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#getWavelengthPacket()
-   */
+  @Override
   public WavelengthPacket getWavelengthPacket() {
     return WAVELENGTH_PACKET;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Spectrum#sample(ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
+  @Override
   public Color sample(WavelengthPacket lambda) {
     return this;
   }

@@ -92,9 +92,6 @@ public final class BlendedMaterial implements Material {
     this(a, b, mask, Medium.VACUUM);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Material#bsdf(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public Color bsdf(SurfacePoint x, Vector3 in, Vector3 out,
       WavelengthPacket lambda) {
@@ -109,9 +106,6 @@ public final class BlendedMaterial implements Material {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Material#emission(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public Color emission(SurfacePoint x, Vector3 out, WavelengthPacket lambda) {
     double t = mask.opacity(x.getUV());
@@ -125,9 +119,6 @@ public final class BlendedMaterial implements Material {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Material#emit(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.color.WavelengthPacket, double, double, double)
-   */
   @Override
   public ScatteredRay emit(SurfacePoint x, WavelengthPacket lambda,
       double ru, double rv, double rj) {
@@ -172,9 +163,6 @@ public final class BlendedMaterial implements Material {
     return result;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Material#getEmissionPDF(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public double getEmissionPDF(SurfacePoint x, Vector3 out,
       WavelengthPacket lambda) {
@@ -195,9 +183,6 @@ public final class BlendedMaterial implements Material {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Material#getScatteringPDF(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Vector3, boolean, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public double getScatteringPDF(SurfacePoint x, Vector3 in, Vector3 out,
       boolean adjoint, WavelengthPacket lambda) {
@@ -214,17 +199,11 @@ public final class BlendedMaterial implements Material {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Material#isEmissive()
-   */
   @Override
   public boolean isEmissive() {
     return a.isEmissive() || b.isEmissive();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Material#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, boolean, ca.eandb.jmist.framework.color.WavelengthPacket, double, double, double)
-   */
   @Override
   public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint,
       WavelengthPacket lambda, double ru, double rv, double rj) {
@@ -241,25 +220,16 @@ public final class BlendedMaterial implements Material {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Medium#extinctionIndex(ca.eandb.jmist.math.Point3, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public Color extinctionIndex(Point3 p, WavelengthPacket lambda) {
     return medium.extinctionIndex(p, lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Medium#refractiveIndex(ca.eandb.jmist.math.Point3, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public Color refractiveIndex(Point3 p, WavelengthPacket lambda) {
     return medium.refractiveIndex(p, lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Medium#transmittance(ca.eandb.jmist.math.Ray3, double, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public Color transmittance(Ray3 ray, double distance,
       WavelengthPacket lambda) {

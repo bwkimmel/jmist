@@ -126,38 +126,28 @@ final class CompactPhotonBuffer implements PhotonBuffer {
     buffer.putShort(plane);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.photonmap.PhotonBuffer#getPosition(int)
-   */
+  @Override
   public Point3 getPosition(int index) {
     int offset = index * ELEMENT_SIZE;
     return new Point3(buffer.getFloat(offset + OFFSET_X), buffer.getFloat(offset + OFFSET_Y), buffer.getFloat(offset + OFFSET_Z));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.photonmap.PhotonBuffer#getPosition(int, int)
-   */
+  @Override
   public double getPosition(int index, int element) {
     return buffer.getFloat(index * ELEMENT_SIZE + OFFSET_X + (element * 4));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.photonmap.PhotonBuffer#getX(int)
-   */
+  @Override
   public double getX(int index) {
     return buffer.getFloat(index * ELEMENT_SIZE + OFFSET_X);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.photonmap.PhotonBuffer#getY(int)
-   */
+  @Override
   public double getY(int index) {
     return buffer.getFloat(index * ELEMENT_SIZE + OFFSET_Y);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.photonmap.PhotonBuffer#getZ(int)
-   */
+  @Override
   public double getZ(int index) {
     return buffer.getFloat(index * ELEMENT_SIZE + OFFSET_Z);
   }
@@ -182,9 +172,7 @@ final class CompactPhotonBuffer implements PhotonBuffer {
     return Vector3.fromCompactDirection(buffer.getShort(index * ELEMENT_SIZE + OFFSET_DIR));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.photonmap.PhotonBuffer#getPlane(int)
-   */
+  @Override
   public short getPlane(int index) {
     return buffer.getShort(index * ELEMENT_SIZE + OFFSET_PLANE);
   }
@@ -208,16 +196,12 @@ final class CompactPhotonBuffer implements PhotonBuffer {
     buffer.putFloat(offset, (float) scale * buffer.getFloat(offset));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.photonmap.PhotonBuffer#setPlane(int, short)
-   */
+  @Override
   public void setPlane(int index, short plane) {
     buffer.putShort(index * ELEMENT_SIZE + OFFSET_PLANE, plane);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.photonmap.PhotonBuffer#copyPhoton(int, int)
-   */
+  @Override
   public void copyPhoton(int src, int dst) {
     buffer.position(src * ELEMENT_SIZE);
     ByteBuffer slice = buffer.slice();

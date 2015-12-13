@@ -72,9 +72,6 @@ public final class MaterialSurfaceScatterer implements SurfaceScatterer {
     this.ambientMedium = ambientMedium;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.scatter.SurfaceScatterer#scatter(ca.eandb.jmist.framework.SurfacePointGeometry, ca.eandb.jmist.math.Vector3, boolean, double, ca.eandb.jmist.framework.Random)
-   */
   @Override
   public Vector3 scatter(final SurfacePointGeometry x, Vector3 v, boolean adjoint,
       double wavelength, Random rnd) {

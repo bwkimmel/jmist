@@ -65,23 +65,17 @@ public abstract class AbstractScatteringNode extends AbstractPathNode implements
     this.onLightPath = parent.isOnLightPath();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getCumulativeWeight()
-   */
+  @Override
   public final Color getCumulativeWeight() {
     return cumulativeWeight;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getDepth()
-   */
+  @Override
   public final int getDepth() {
     return depth;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getGeometricFactor()
-   */
+  @Override
   public final double getGeometricFactor() {
     if (Double.isNaN(geometricFactor)) {
       geometricFactor = PathUtil.getGeometricFactor(parent, this);
@@ -89,23 +83,17 @@ public abstract class AbstractScatteringNode extends AbstractPathNode implements
     return geometricFactor;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getPDF()
-   */
+  @Override
   public final double getPDF() {
     return pdf;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getParent()
-   */
+  @Override
   public final PathNode getParent() {
     return parent;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getReversePDF()
-   */
+  @Override
   public final double getReversePDF() {
     assert(parent != null);
     if (Double.isNaN(reversePDF)) {
@@ -120,16 +108,12 @@ public abstract class AbstractScatteringNode extends AbstractPathNode implements
     return reversePDF;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#isOnLightPath()
-   */
+  @Override
   public final boolean isOnLightPath() {
     return onLightPath;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#isSpecular()
-   */
+  @Override
   public final boolean isSpecular() {
     return specular;
   }

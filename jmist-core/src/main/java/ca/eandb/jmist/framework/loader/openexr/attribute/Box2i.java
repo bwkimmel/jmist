@@ -89,9 +89,6 @@ public final class Box2i implements Attribute {
     return new Box2i(in.readInt(), in.readInt(), in.readInt(), in.readInt());
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.openexr.Attribute#write(java.io.DataOutput)
-   */
   @Override
   public void write(DataOutput out) throws IOException {
     out.writeInt(xMin);

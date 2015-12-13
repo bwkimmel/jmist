@@ -70,23 +70,17 @@ public final class EmissionTestScene extends AbstractScene {
         .setMaterialRange(2, 100, "diffuseLuminaire1");    // small light sources
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Model#getGeometry()
-   */
+  @Override
   public SceneElement getRoot() {
     return root;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Model#getLens()
-   */
+  @Override
   public Lens getLens() {
     return lens;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Model#getLight()
-   */
+  @Override
   public Light getLight() {
     return root.createLight();
   }

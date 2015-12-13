@@ -68,9 +68,6 @@ public final class UniformPiecewiseConstantFunction1 implements Function1 {
     this.values = values.clone();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Function1#evaluate(double)
-   */
   @Override
   public double evaluate(double x) {
     if (domain.contains(x)) {

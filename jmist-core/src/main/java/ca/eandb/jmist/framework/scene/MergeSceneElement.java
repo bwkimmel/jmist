@@ -105,17 +105,11 @@ public final class MergeSceneElement implements SceneElement {
     return lo;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#createLight()
-   */
   @Override
   public Light createLight() {
     throw new UnimplementedException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#generateImportanceSampledSurfacePoint(int, ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext, double, double, double)
-   */
   @Override
   public double generateImportanceSampledSurfacePoint(int index,
       SurfacePoint x, ShadingContext context, double ru, double rv,
@@ -128,18 +122,12 @@ public final class MergeSceneElement implements SceneElement {
     return weight;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#generateImportanceSampledSurfacePoint(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext, double, double, double)
-   */
   @Override
   public double generateImportanceSampledSurfacePoint(SurfacePoint x,
       ShadingContext context, double ru, double rv, double rj) {
     throw new UnimplementedException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(int, ca.eandb.jmist.framework.ShadingContext, double, double, double)
-   */
   @Override
   public void generateRandomSurfacePoint(int index, ShadingContext context,
       double ru, double rv, double rj) {
@@ -150,18 +138,12 @@ public final class MergeSceneElement implements SceneElement {
     context.setPrimitiveIndex(index);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext, double, double, double)
-   */
   @Override
   public void generateRandomSurfacePoint(ShadingContext context, double ru,
       double rv, double rj) {
     throw new UnimplementedException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getBoundingBox(int)
-   */
   @Override
   public Box3 getBoundingBox(int index) {
     checkOffsets();
@@ -170,9 +152,6 @@ public final class MergeSceneElement implements SceneElement {
     return children.get(childIndex).getBoundingBox(childPrimIndex);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getBoundingSphere(int)
-   */
   @Override
   public Sphere getBoundingSphere(int index) {
     checkOffsets();
@@ -181,9 +160,6 @@ public final class MergeSceneElement implements SceneElement {
     return children.get(childIndex).getBoundingSphere(childPrimIndex);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getNumPrimitives()
-   */
   @Override
   public int getNumPrimitives() {
     checkOffsets();
@@ -191,9 +167,6 @@ public final class MergeSceneElement implements SceneElement {
     return numChildren > 0 ? offsets.get(numChildren - 1) + children.get(numChildren - 1).getNumPrimitives() : 0;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getSurfaceArea(int)
-   */
   @Override
   public double getSurfaceArea(int index) {
     checkOffsets();
@@ -212,9 +185,6 @@ public final class MergeSceneElement implements SceneElement {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getSurfaceArea()
-   */
   @Override
   public double getSurfaceArea() {
     if (Double.isNaN(surfaceArea)) {
@@ -223,9 +193,6 @@ public final class MergeSceneElement implements SceneElement {
     return surfaceArea;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-   */
   @Override
   public void intersect(final int index, Ray3 ray, IntersectionRecorder recorder) {
     checkOffsets();
@@ -245,9 +212,6 @@ public final class MergeSceneElement implements SceneElement {
     });
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-   */
   @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
     checkOffsets();
@@ -268,9 +232,6 @@ public final class MergeSceneElement implements SceneElement {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#intersects(int, ca.eandb.jmist.math.Box3)
-   */
   @Override
   public boolean intersects(int index, Box3 box) {
     checkOffsets();
@@ -279,9 +240,6 @@ public final class MergeSceneElement implements SceneElement {
     return children.get(childIndex).intersects(childPrimIndex, box);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#visibility(int, ca.eandb.jmist.math.Ray3)
-   */
   @Override
   public boolean visibility(int index, Ray3 ray) {
     checkOffsets();
@@ -300,9 +258,6 @@ public final class MergeSceneElement implements SceneElement {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
-   */
   @Override
   public Box3 boundingBox() {
     if (bbox == null) {
@@ -311,9 +266,6 @@ public final class MergeSceneElement implements SceneElement {
     return bbox;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
-   */
   @Override
   public Sphere boundingSphere() {
     if (bbox == null) {
@@ -322,9 +274,6 @@ public final class MergeSceneElement implements SceneElement {
     return new Sphere(bbox.center(), 0.5 * bbox.diagonal());
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.VisibilityFunction3#visibility(ca.eandb.jmist.math.Ray3)
-   */
   @Override
   public boolean visibility(Ray3 ray) {
     for (SceneElement child : children) {

@@ -59,24 +59,18 @@ public final class ScatteringAdapterMaterial implements Material {
     this.weight = weight;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Material#bsdf(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
+  @Override
   public Color bsdf(SurfacePoint x, Vector3 in, Vector3 out,
       WavelengthPacket lambda) {
     return inner.bsdf(x, in, out, lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Material#emission(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
+  @Override
   public Color emission(SurfacePoint x, Vector3 out, WavelengthPacket lambda) {
     return inner.emission(x, out, lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Material#emit(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.color.WavelengthPacket, double, double, double)
-   */
+  @Override
   public ScatteredRay emit(SurfacePoint x, WavelengthPacket lambda,
       double ru, double rv, double rj) {
     if (inner.isEmissive()) {
@@ -113,9 +107,7 @@ public final class ScatteringAdapterMaterial implements Material {
     return null;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Material#getEmissionPDF(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
+  @Override
   public double getEmissionPDF(SurfacePoint x, Vector3 out,
       WavelengthPacket lambda) {
     if (inner.isEmissive()) {
@@ -126,9 +118,7 @@ public final class ScatteringAdapterMaterial implements Material {
     return 0.0;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Material#getScatteringPDF(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Vector3, boolean, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
+  @Override
   public double getScatteringPDF(SurfacePoint x, Vector3 in, Vector3 out,
       boolean adjoint, WavelengthPacket lambda) {
     double w = weight * strategy.getWeight(x, lambda);
@@ -136,16 +126,12 @@ public final class ScatteringAdapterMaterial implements Material {
         + (1.0 - w) * inner.getScatteringPDF(x, in, out, adjoint, lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Material#isEmissive()
-   */
+  @Override
   public boolean isEmissive() {
     return inner.isEmissive();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Material#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, boolean, ca.eandb.jmist.framework.color.WavelengthPacket, double, double, double)
-   */
+  @Override
   public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint,
       WavelengthPacket lambda, double ru, double rv, double rj) {
     double w = weight * strategy.getWeight(x, lambda);
@@ -200,23 +186,17 @@ public final class ScatteringAdapterMaterial implements Material {
     return null;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Medium#extinctionIndex(ca.eandb.jmist.math.Point3, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
+  @Override
   public Color extinctionIndex(Point3 p, WavelengthPacket lambda) {
     return inner.extinctionIndex(p, lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Medium#refractiveIndex(ca.eandb.jmist.math.Point3, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
+  @Override
   public Color refractiveIndex(Point3 p, WavelengthPacket lambda) {
     return inner.refractiveIndex(p, lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Medium#transmittance(ca.eandb.jmist.math.Ray3, double, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
+  @Override
   public Color transmittance(Ray3 ray, double distance,
       WavelengthPacket lambda) {
     return inner.transmittance(ray, distance, lambda);

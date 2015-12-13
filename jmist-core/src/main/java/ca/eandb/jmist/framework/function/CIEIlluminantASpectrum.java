@@ -39,9 +39,6 @@ public final class CIEIlluminantASpectrum implements Function1 {
   /** Numerator in formula for CIE Illuminant A distribution. */
   private static final double NUMERATOR = Math.exp(1.435e7 / (2848.0 * 560.0)) - 1.0;
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Function1#evaluate(double)
-   */
   @Override
   public double evaluate(double x) {
     double lambda = x * 1e9; // wavelength (in nm)

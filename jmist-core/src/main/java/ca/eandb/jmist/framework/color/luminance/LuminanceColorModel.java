@@ -71,9 +71,6 @@ public final class LuminanceColorModel implements ColorModel {
     return instance;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#createRaster(int, int)
-   */
   @Override
   public Raster createRaster(int width, int height) {
     return new DoubleRaster(width, height, 1) {
@@ -84,9 +81,6 @@ public final class LuminanceColorModel implements ColorModel {
     };
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#fromArray(double[], ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public Color fromArray(double[] values, WavelengthPacket lambda) {
     if (values.length < 1) {
@@ -95,33 +89,21 @@ public final class LuminanceColorModel implements ColorModel {
     return new LuminanceColor(values[0], (LuminanceWavelengthPacket) lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#fromRGB(double, double, double)
-   */
   @Override
   public Spectrum fromRGB(double r, double g, double b) {
     return new LuminanceColor(ColorUtil.convertRGB2Luminance(r, g, b));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#fromXYZ(double, double, double)
-   */
   @Override
   public Spectrum fromXYZ(double x, double y, double z) {
     return new LuminanceColor(ColorUtil.convertXYZ2Luminance(x, y, z));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getBlack()
-   */
   @Override
   public Spectrum getBlack() {
     return LuminanceColor.BLACK;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getBlack(ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public Color getBlack(WavelengthPacket lambda) {
     return getBlack((LuminanceWavelengthPacket) lambda);
@@ -132,25 +114,16 @@ public final class LuminanceColorModel implements ColorModel {
         : LuminanceColor.BLACK;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getContinuous(ca.eandb.jmist.framework.Function1)
-   */
   @Override
   public Spectrum getContinuous(Function1 spectrum) {
     return new LuminanceContinuousSpectrum(spectrum);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getGray(double)
-   */
   @Override
   public Spectrum getGray(double value) {
     return new LuminanceColor(value);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getGray(double, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public Color getGray(double value, WavelengthPacket lambda) {
     return getGray(value, (LuminanceWavelengthPacket) lambda);
@@ -160,25 +133,16 @@ public final class LuminanceColorModel implements ColorModel {
     return new LuminanceColor(value, lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getNumChannels()
-   */
   @Override
   public int getNumChannels() {
     return 1;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getWhite()
-   */
   @Override
   public Spectrum getWhite() {
     return LuminanceColor.WHITE;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getWhite(ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public Color getWhite(WavelengthPacket lambda) {
     return getWhite((LuminanceWavelengthPacket) lambda);
@@ -189,17 +153,12 @@ public final class LuminanceColorModel implements ColorModel {
         : LuminanceColor.WHITE;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#sample(ca.eandb.jmist.framework.Random)
-   */
   @Override
   public Color sample(Random random) {
     return new LuminanceColor(Y_CONST, Y_PDF.sample(random));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getChannelName(int)
-   */
+  @Override
   public String getChannelName(int channel) {
     if (channel != 0) {
       throw new IllegalArgumentException("Invalid channel");
