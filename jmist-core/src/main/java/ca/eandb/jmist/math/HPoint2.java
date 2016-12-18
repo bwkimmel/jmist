@@ -35,18 +35,6 @@ public abstract class HPoint2 extends Tuple2 {
   /** Serialization version ID. */
   private static final long serialVersionUID = -7913735953929018849L;
 
-  /** The zero <code>HPoint2</code>. */
-  public static final HPoint2 ZERO = Vector2.ZERO;
-
-  /** The standard basis vector in the x-direction. */
-  public static final HPoint2 I = Vector2.I;
-
-  /** The standard basis vector in the y-direction. */
-  public static final HPoint2 J = Vector2.J;
-
-  /** The standard basis vector in the w-direction. */
-  public static final HPoint2 K = Point2.ORIGIN;
-
   /**
    * Initializes the coordinates of this <code>HPoint2</code>.
    * NOTE: This constructor has package scope to prevent classes other than
