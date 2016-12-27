@@ -78,13 +78,18 @@ public final class ProtoRenderFactory {
                                              pixelShader);
     }
     RenderProtos.Size imageSize = jobIn.getImageSize();
-    int rows = jobIn.hasTileSize() ?
-        Math.max(1, imageSize.getX() / jobIn.getTileSize().getX()) : 10;
-    int cols = jobIn.hasTileSize() ?
-        Math.max(1, imageSize.getY() / jobIn.getTileSize().getY()) : 10;
-    return new RasterJob(colorModel, pixelShader, display,
-                         imageSize.getX(), imageSize.getY(),
-                         rows, cols);
+    RasterJob.Builder builder = RasterJob.newBuilder()
+        .setColorModel(colorModel)
+        .setPixelShader(pixelShader)
+        .setDisplay(display)
+        .setImageSize(imageSize.getX(), imageSize.getY());
+    if (jobIn.hasTileSize()) {
+      builder.setTileSize(
+          jobIn.getTileSize().getX(), jobIn.getTileSize().getY());
+    } else {
+      builder.setTileCount(10, 10);
+    }
+    return builder.build();
   }
 
 }
