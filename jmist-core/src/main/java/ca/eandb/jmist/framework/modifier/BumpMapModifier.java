@@ -104,9 +104,6 @@ public final class BumpMapModifier implements Modifier {
         1.0 / height.getWidth(), 1.0 / height.getHeight());
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Modifier#modify(ca.eandb.jmist.framework.ShadingContext)
-   */
   @Override
   public void modify(ShadingContext context) {
 

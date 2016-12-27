@@ -41,25 +41,17 @@ public class SimpleRandom implements Random {
   /** The random number generator to use. */
   private final java.util.Random inner = new java.util.Random();
 
-  /*
-   * (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Random#next()
-   */
+  @Override
   public double next() {
     return inner.nextDouble();
   }
 
-  /*
-   * (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Random#reset()
-   */
+  @Override
   public void reset() {
     // nothing to do.
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Random#createCompatibleRandom()
-   */
+  @Override
   public SimpleRandom createCompatibleRandom() {
     return new SimpleRandom();
   }

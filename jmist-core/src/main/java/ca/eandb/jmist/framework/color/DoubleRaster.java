@@ -52,9 +52,7 @@ public abstract class DoubleRaster implements Raster {
     this.raster = new double[width * height * channels];
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Raster#getPixel(int, int)
-   */
+  @Override
   public final Color getPixel(int x, int y) {
     int index = (y * width + x) * channels;
     return getPixel(raster, index);
@@ -74,39 +72,29 @@ public abstract class DoubleRaster implements Raster {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Raster#addPixel(int, int, ca.eandb.jmist.framework.color.Color)
-   */
+  @Override
   public final void addPixel(int x, int y, Color pixel) {
     int index = (y * width + x) * channels;
     addPixel(raster, index, pixel);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.RasterWriter#getHeight()
-   */
+  @Override
   public final int getHeight() {
     return height;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.RasterWriter#getWidth()
-   */
+  @Override
   public final int getWidth() {
     return width;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.RasterWriter#setPixel(int, int, ca.eandb.jmist.framework.color.Color)
-   */
+  @Override
   public final void setPixel(int x, int y, Color color) {
     int index = (y * width + x) * channels;
     setPixel(raster, index, color);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.RasterWriter#clear()
-   */
+  @Override
   public final void clear() {
     ArrayUtil.setAll(raster, 0.0);
   }

@@ -307,9 +307,6 @@ public final class JVisualizerFrame extends JFrame implements Display {
       }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#initialize(int, int, ca.eandb.jmist.framework.color.ColorModel)
-   */
   @Override
   public void initialize(int w, int h, ColorModel colorModel) {
     width = w;
@@ -317,33 +314,21 @@ public final class JVisualizerFrame extends JFrame implements Display {
     display.initialize(w, h, colorModel);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#fill(int, int, int, int, ca.eandb.jmist.framework.color.Color)
-   */
   @Override
   public void fill(int x, int y, int w, int h, Color color) {
     display.fill(x, y, w, h, color);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#setPixel(int, int, ca.eandb.jmist.framework.color.Color)
-   */
   @Override
   public void setPixel(int x, int y, Color pixel) {
     display.setPixel(x, y, pixel);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#setPixels(int, int, ca.eandb.jmist.framework.Raster)
-   */
   @Override
   public void setPixels(int x, int y, Raster pixels) {
     display.setPixels(x, y, pixels);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#finish()
-   */
   @Override
   public void finish() {
     display.finish();

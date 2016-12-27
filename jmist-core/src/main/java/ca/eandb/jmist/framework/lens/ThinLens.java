@@ -90,19 +90,95 @@ public final class ThinLens extends AbstractLens {
   /** The height of the virtual screen at the focus distance (in meters). */
   private final double objPlaneHeight;
 
+  public static final class Builder {
+    private double focalLength = DEFAULT_FOCAL_LENGTH;
+    private double aperture = DEFAULT_APERTURE;
+    private double focusDistance = DEFAULT_FOCUS_DISTANCE;
+    private double fov = DEFAULT_FIELD_OF_VIEW;
+    private double aspect = DEFAULT_ASPECT_RATIO;
+
+    private Builder() {}
+
+    /**
+     * Sets the focal length.
+     * @param focalLength The focal length (in meters).
+     * @return This <code>Builder</code>.
+     */
+    public Builder setFocalLength(double focalLength) {
+      this.focalLength = focalLength;
+      return this;
+    }
+
+    /**
+     * Sets the aperture size.
+     * @param aperture The aperture (f-number).
+     * @return This <code>Builder</code>.
+     */
+    public Builder setAperture(double aperture) {
+      this.aperture = aperture;
+      return this;
+    }
+
+    /**
+     * Sets the distance to the plane in focus.
+     * @param focusDistance The focus distance (in meters).
+     * @return This <code>Builder</code>.
+     */
+    public Builder setFocusDistance(double focusDistance) {
+      this.focusDistance = focusDistance;
+      return this;
+    }
+
+    /**
+     * Sets the field of view.
+     * @param fov The field of view (in radians).
+     * @return This <code>Builder</code>.
+     */
+    public Builder setFieldOfView(double fov) {
+      this.fov = fov;
+      return this;
+    }
+
+    /**
+     * Sets the aspect ratio.
+     * @param aspect The aspect ratio.
+     * @return This <code>Builder</code>.
+     */
+    public Builder setAspectRatio(double aspect) {
+      this.aspect = aspect;
+      return this;
+    }
+
+    /**
+     * Builds the <code>ThinLens</code>.
+     * @return The new <code>ThinLens</code>.
+     */
+    public ThinLens build() {
+      return new ThinLens(focalLength, aperture, focusDistance, fov, aspect);
+    }
+  }
+
+  /**
+   * Returns a new builder for creating a <code>ThinLens</code>.
+   * @return The new <code>Builder</code>.
+   */
+  public static Builder newBuilder() {
+    return new Builder();
+  }
+
   /**
    * Creates a new <code>ThinLens</code>.
    */
   public ThinLens() {
-    this.focalLength    = DEFAULT_FOCAL_LENGTH;
-    this.aperture      = DEFAULT_APERTURE;
-    this.focusDistance    = DEFAULT_FOCUS_DISTANCE;
-    this.fov        = DEFAULT_FIELD_OF_VIEW;
-    this.aspect        = DEFAULT_ASPECT_RATIO;
-    this.apertureRadius    = 0.5 * focalLength / aperture;
-    this.apertureArea    = Math.PI * apertureRadius * apertureRadius;
-    this.objPlaneWidth    = 2.0 * focusDistance * Math.tan(fov / 2.0);
-    this.objPlaneHeight    = objPlaneWidth / aspect;
+    this.focalLength = DEFAULT_FOCAL_LENGTH;
+    this.aperture = DEFAULT_APERTURE;
+    this.focusDistance = DEFAULT_FOCUS_DISTANCE;
+    this.fov = DEFAULT_FIELD_OF_VIEW;
+    this.aspect = DEFAULT_ASPECT_RATIO;
+    this.apertureRadius = 0.5 * focalLength / aperture;
+    this.apertureArea = Math.PI * apertureRadius * apertureRadius;
+    this.objPlaneWidth = 2.0 * focusDistance * Math.tan(fov / 2.0);
+    this.objPlaneHeight = objPlaneWidth / aspect;
   }
 
   /**
@@ -114,20 +190,17 @@ public final class ThinLens extends AbstractLens {
    * @param aspect The aspect ratio.
    */
   public ThinLens(double focalLength, double aperture, double focusDistance, double fov, double aspect) {
-    this.focalLength    = focalLength;
-    this.aperture      = aperture;
-    this.focusDistance    = focusDistance;
-    this.fov        = fov;
-    this.aspect        = aspect;
-    this.apertureRadius    = 0.5 * focalLength / aperture;
-    this.apertureArea    = Math.PI * apertureRadius * apertureRadius;
-    this.objPlaneWidth    = 2.0 * focusDistance * Math.tan(fov / 2.0);
-    this.objPlaneHeight    = objPlaneWidth / aspect;
+    this.focalLength = focalLength;
+    this.aperture = aperture;
+    this.focusDistance = focusDistance;
+    this.fov = fov;
+    this.aspect = aspect;
+    this.apertureRadius = 0.5 * focalLength / aperture;
+    this.apertureArea = Math.PI * apertureRadius * apertureRadius;
+    this.objPlaneWidth = 2.0 * focusDistance * Math.tan(fov / 2.0);
+    this.objPlaneHeight = objPlaneWidth / aspect;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Lens#sample(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.path.PathInfo, double, double, double)
-   */
   @Override
   public EyeNode sample(Point2 p, PathInfo pathInfo, double ru, double rv,
       double rj) {
@@ -160,9 +233,6 @@ public final class ThinLens extends AbstractLens {
       this.ray = new Ray3(origin, direction);
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.EyeNode#project(ca.eandb.jmist.math.HPoint3)
-     */
     @Override
     public Point2 project(HPoint3 p) {
       Ray3 pray = new Ray3(ray.origin(), p);
@@ -171,16 +241,16 @@ public final class ThinLens extends AbstractLens {
         return null;
       }
 
-      double      ratio      = -focusDistance / dir.z();
-      double      x        = ray.origin().x() + ratio * dir.x();
-      double      y        = ray.origin().y() + ratio * dir.y();
+      double ratio = -focusDistance / dir.z();
+      double x = ray.origin().x() + ratio * dir.x();
+      double y = ray.origin().y() + ratio * dir.y();
 
-      final double  u        = 0.5 + x / objPlaneWidth;
+      final double u = 0.5 + x / objPlaneWidth;
       if (!MathUtil.inRangeCC(u, 0.0, 1.0)) {
         return null;
       }
 
-      final double  v        = 0.5 - y / objPlaneHeight;
+      final double v = 0.5 - y / objPlaneHeight;
       if (!MathUtil.inRangeCC(v, 0.0, 1.0)) {
         return null;
       }
@@ -188,33 +258,21 @@ public final class ThinLens extends AbstractLens {
       return new Point2(u, v);
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#getPDF()
-     */
     @Override
     public double getPDF() {
       return 1.0 / apertureArea;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#isSpecular()
-     */
     @Override
     public boolean isSpecular() {
       return false;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#getPosition()
-     */
     @Override
     public HPoint3 getPosition() {
       return ray.origin();
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#sample(double, double, double)
-     */
     @Override
     public ScatteredRay sample(double ru, double rv, double rj) {
       Vector3 v = ray.direction();
@@ -224,25 +282,16 @@ public final class ThinLens extends AbstractLens {
       return ScatteredRay.diffuse(ray, color, pdf);
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#scatter(ca.eandb.jmist.math.Vector3)
-     */
     @Override
     public Color scatter(Vector3 v) {
       return getGray(getPDF(v));
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#getCosine(ca.eandb.jmist.math.Vector3)
-     */
     @Override
     public double getCosine(Vector3 v) {
       return -v.z() / v.length();
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.path.PathNode#getPDF(ca.eandb.jmist.math.Vector3)
-     */
     @Override
     public double getPDF(Vector3 v) {
       v = v.unit();

@@ -111,9 +111,7 @@ public final class PathTracingShader implements Shader {
     initialize();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
-   */
+  @Override
   public Color shade(ShadingContext sc) {
 
     if (firstBounceRays > 0 && sc.getPathDepth() < 1) {

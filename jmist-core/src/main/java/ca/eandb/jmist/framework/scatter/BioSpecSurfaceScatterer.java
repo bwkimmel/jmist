@@ -1042,9 +1042,7 @@ public final class BioSpecSurfaceScatterer implements SurfaceScatterer {
   }
 
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.scatter.SurfaceScatterer#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, boolean, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random)
-   */
+  @Override
   public Vector3 scatter(SurfacePointGeometry x, Vector3 v, boolean adjoint,
       double lambda, Random rnd) {
 

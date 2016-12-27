@@ -47,65 +47,47 @@ public class AffineTransformation2 implements AffineTransformable2, Serializable
   /** The cumulative transformation matrix. */
   private AffineMatrix2 matrix = null;
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AffineTransformable2#transform(ca.eandb.jmist.math.AffineMatrix2)
-   */
+  @Override
   public void transform(AffineMatrix2 T) {
     this.applyTransformation(T);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.LinearTransformable2#transform(ca.eandb.jmist.math.LinearMatrix2)
-   */
+  @Override
   public void transform(LinearMatrix2 T) {
     this.applyTransformation(T);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Rotatable2#rotate(double)
-   */
+  @Override
   public void rotate(double angle) {
     this.applyTransformation(LinearMatrix2.rotateMatrix(angle));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Translatable2#translate(ca.eandb.jmist.toolkit.Vector2)
-   */
+  @Override
   public void translate(Vector2 v) {
     this.applyTransformation(AffineMatrix2.translateMatrix(v));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Scalable#scale(double)
-   */
+  @Override
   public void scale(double c) {
     this.applyTransformation(LinearMatrix2.scaleMatrix(c));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Stretchable2#stretch(ca.eandb.jmist.toolkit.Vector2, double)
-   */
+  @Override
   public void stretch(Vector2 axis, double c) {
     this.applyTransformation(LinearMatrix2.stretchMatrix(axis, c));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AxisStretchable2#stretch(double, double, double)
-   */
+  @Override
   public void stretch(double cx, double cy) {
     this.applyTransformation(LinearMatrix2.stretchMatrix(cx, cy));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AxisStretchable2#stretchX(double)
-   */
+  @Override
   public void stretchX(double cx) {
     this.applyTransformation(LinearMatrix2.stretchXMatrix(cx));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AxisStretchable2#stretchY(double)
-   */
+  @Override
   public void stretchY(double cy) {
     this.applyTransformation(LinearMatrix2.stretchYMatrix(cy));
   }

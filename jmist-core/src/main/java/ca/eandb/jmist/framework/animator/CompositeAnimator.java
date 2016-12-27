@@ -53,9 +53,6 @@ public final class CompositeAnimator implements Animator {
     return this;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Animator#setTime(double)
-   */
   @Override
   public void setTime(double time) {
     for (Animator child : children) {

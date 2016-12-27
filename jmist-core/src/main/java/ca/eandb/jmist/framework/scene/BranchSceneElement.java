@@ -83,9 +83,7 @@ public final class BranchSceneElement implements SceneElement {
     rnd = new CategoricalRandom(weight);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#createLight()
-   */
+  @Override
   public Light createLight() {
     final List<Light> lights = new ArrayList<Light>();
     Light light = null;
@@ -142,9 +140,7 @@ public final class BranchSceneElement implements SceneElement {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#generateImportanceSampledSurfacePoint(int, ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext)
-   */
+  @Override
   public double generateImportanceSampledSurfacePoint(int index,
       SurfacePoint x, ShadingContext context, double ru, double rv, double rj) {
     double weight = children.get(index).generateImportanceSampledSurfacePoint(x, context, ru, rv, rj);
@@ -152,9 +148,7 @@ public final class BranchSceneElement implements SceneElement {
     return weight;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#generateImportanceSampledSurfacePoint(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext)
-   */
+  @Override
   public double generateImportanceSampledSurfacePoint(SurfacePoint x,
       ShadingContext context, double ru, double rv, double rj) {
     if (rnd == null) {
@@ -165,17 +159,13 @@ public final class BranchSceneElement implements SceneElement {
     return generateImportanceSampledSurfacePoint(index, x, context, ru, rv, ref.seed);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(int, ca.eandb.jmist.framework.ShadingContext)
-   */
+  @Override
   public void generateRandomSurfacePoint(int index, ShadingContext context, double ru, double rv, double rj) {
     children.get(index).generateRandomSurfacePoint(context, ru, rv, rj);
     context.setPrimitiveIndex(index);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext)
-   */
+  @Override
   public void generateRandomSurfacePoint(ShadingContext context, double ru, double rv, double rj) {
     if (rnd == null) {
       buildChildSelector();
@@ -185,37 +175,27 @@ public final class BranchSceneElement implements SceneElement {
     generateRandomSurfacePoint(index, context, ru, rv, ref.seed);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getBoundingBox(int)
-   */
+  @Override
   public Box3 getBoundingBox(int index) {
     return children.get(index).boundingBox();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getBoundingSphere(int)
-   */
+  @Override
   public Sphere getBoundingSphere(int index) {
     return children.get(index).boundingSphere();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getNumPrimitives()
-   */
+  @Override
   public int getNumPrimitives() {
     return children.size();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getSurfaceArea(int)
-   */
+  @Override
   public double getSurfaceArea(int index) {
     return children.get(index).getSurfaceArea();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getSurfaceArea()
-   */
+  @Override
   public double getSurfaceArea() {
     double area = 0.0;
     for (SceneElement child : children) {
@@ -224,9 +204,7 @@ public final class BranchSceneElement implements SceneElement {
     return area;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-   */
+  @Override
   public void intersect(final int index, Ray3 ray, IntersectionRecorder recorder) {
     children.get(index).intersect(ray, new IntersectionRecorderDecorator(recorder) {
       public void record(Intersection intersection) {
@@ -240,18 +218,14 @@ public final class BranchSceneElement implements SceneElement {
     });
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-   */
+  @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
     for (int i = 0; i < children.size(); i++) {
       intersect(i, ray, recorder);
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#intersects(int, ca.eandb.jmist.math.Box3)
-   */
+  @Override
   public boolean intersects(int index, Box3 box) {
     SceneElement child = children.get(index);
     int n = child.getNumPrimitives();
@@ -263,16 +237,12 @@ public final class BranchSceneElement implements SceneElement {
     return false;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#visibility(int, ca.eandb.jmist.math.Ray3)
-   */
+  @Override
   public boolean visibility(int index, Ray3 ray) {
     return children.get(index).visibility(ray);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#visibility(ca.eandb.jmist.math.Ray3)
-   */
+  @Override
   public boolean visibility(Ray3 ray) {
     for (int i = 0; i < children.size(); i++) {
       if (!visibility(i, ray)) {
@@ -282,9 +252,7 @@ public final class BranchSceneElement implements SceneElement {
     return true;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
-   */
+  @Override
   public Box3 boundingBox() {
     BoundingBoxBuilder3 builder = new BoundingBoxBuilder3();
     for (SceneElement child : children) {
@@ -293,9 +261,7 @@ public final class BranchSceneElement implements SceneElement {
     return builder.getBoundingBox();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
-   */
+  @Override
   public Sphere boundingSphere() {
     Box3 boundingBox = boundingBox();
     return new Sphere(boundingBox.center(), boundingBox.diagonal() / 2.0);

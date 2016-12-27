@@ -58,9 +58,6 @@ public abstract class PrimitiveGeometry extends AbstractGeometry {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#generateRandomSurfacePoint(int, ca.eandb.jmist.framework.ShadingContext)
-   */
   @Override
   public final void generateRandomSurfacePoint(int index, ShadingContext context, double ru, double rv, double rj) {
     validate(index);
@@ -80,9 +77,6 @@ public abstract class PrimitiveGeometry extends AbstractGeometry {
     throw new UnsupportedOperationException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#generateImportanceSampledSurfacePoint(int, ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext)
-   */
   @Override
   public final double generateImportanceSampledSurfacePoint(int index,
       SurfacePoint x, ShadingContext context, double ru, double rv, double rj) {
@@ -90,32 +84,23 @@ public abstract class PrimitiveGeometry extends AbstractGeometry {
     return generateImportanceSampledSurfacePoint(0, x, context, ru, rv, rj);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getBoundingBox(int)
-   */
+  @Override
   public final Box3 getBoundingBox(int index) {
     validate(index);
     return boundingBox();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getBoundingSphere(int)
-   */
+  @Override
   public final Sphere getBoundingSphere(int index) {
     validate(index);
     return boundingSphere();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getNumPrimitives()
-   */
+  @Override
   public final int getNumPrimitives() {
     return 1;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getSurfaceArea(int)
-   */
   @Override
   public final double getSurfaceArea(int index) {
     validate(index);
@@ -131,9 +116,7 @@ public abstract class PrimitiveGeometry extends AbstractGeometry {
     throw new UnsupportedOperationException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-   */
+  @Override
   public final void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
     validate(index);
     intersect(ray, recorder);
@@ -148,9 +131,6 @@ public abstract class PrimitiveGeometry extends AbstractGeometry {
    */
   public abstract void intersect(Ray3 ray, IntersectionRecorder recorder);
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#intersects(int, ca.eandb.jmist.math.Ray3)
-   */
   @Override
   public final boolean visibility(int index, Ray3 ray) {
     validate(index);
@@ -170,9 +150,6 @@ public abstract class PrimitiveGeometry extends AbstractGeometry {
     return (x == null);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#intersects(int, ca.eandb.jmist.math.Box3)
-   */
   @Override
   public final boolean intersects(int index, Box3 box) {
     validate(index);

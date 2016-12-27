@@ -40,9 +40,6 @@ public final class NormalShader implements Shader {
   /** Serialization version ID. */
   private static final long serialVersionUID = -4724073342278275837L;
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
-   */
   @Override
   public Color shade(ShadingContext sc) {
     Vector3 n = sc.getShadingNormal();

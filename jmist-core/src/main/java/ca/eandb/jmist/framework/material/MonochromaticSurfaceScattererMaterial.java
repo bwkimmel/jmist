@@ -70,9 +70,6 @@ public final class MonochromaticSurfaceScattererMaterial extends
     this.wavelength = wavelength;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Medium#transmittance(ca.eandb.jmist.math.Ray3, double, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public Color transmittance(Ray3 ray, double distance,
       WavelengthPacket lambda) {
@@ -81,17 +78,11 @@ public final class MonochromaticSurfaceScattererMaterial extends
         : lambda.getColorModel().getBlack(lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Medium#refractiveIndex(ca.eandb.jmist.math.Point3, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public Color refractiveIndex(Point3 p, WavelengthPacket lambda) {
     return null;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Medium#extinctionIndex(ca.eandb.jmist.math.Point3, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public Color extinctionIndex(Point3 p, WavelengthPacket lambda) {
     return null;

@@ -50,49 +50,31 @@ public final class DiracProbabilityDensityFunction implements
     this.value = value;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#sample(ca.eandb.jmist.framework.Random)
-   */
   @Override
   public double sample(Random random) {
     return value;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#warp(double)
-   */
   @Override
   public double warp(double seed) {
     return value;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#evaluate(double)
-   */
   @Override
   public double evaluate(double x) {
     return (x == value) ? Double.POSITIVE_INFINITY : 0.0;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#sample(ca.eandb.jmist.framework.Random, double[])
-   */
   @Override
   public double[] sample(Random random, double[] results) {
     return ArrayUtil.setAll(results, value);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#warp(double[], double[])
-   */
   @Override
   public double[] warp(double[] seeds, double[] results) {
     return ArrayUtil.setAll(results, value);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ProbabilityDensityFunction#evaluate(double[], double[])
-   */
   @Override
   public double[] evaluate(double[] x, double[] results) {
     for (int i = 0; i < x.length; i++) {

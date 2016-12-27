@@ -54,9 +54,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
     this.lambda = lambda;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#toXYZ()
-   */
+  @Override
   public CIEXYZ toXYZ() {
     return new CIEXYZ(X(), Y(), Z());
   }
@@ -96,9 +94,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
     return z / (double) n;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#toRGB()
-   */
+  @Override
   public RGB toRGB() {
     return ColorUtil.convertXYZ2RGB(X(), Y(), Z());
   }
@@ -112,9 +108,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#abs()
-   */
+  @Override
   public Color abs() {
     double[] x = values.clone();
     for (int i = 0; i < x.length; i++) {
@@ -123,9 +117,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
     return new MultiXYZColor(x, lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#clamp(double)
-   */
+  @Override
   public Color clamp(double max) {
     double[] x = values.clone();
     for (int i = 0; i < x.length; i++) {
@@ -134,9 +126,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
     return new MultiXYZColor(x, lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#clamp(double, double)
-   */
+  @Override
   public Color clamp(double min, double max) {
     double[] x = values.clone();
     for (int i = 0; i < x.length; i++) {
@@ -145,9 +135,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
     return new MultiXYZColor(x, lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#disperse(int)
-   */
+  @Override
   public Color disperse(int channel) {
     double[] x = values.clone();
     for (int i = 0; i < x.length; i++) {
@@ -158,9 +146,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
     return new MultiXYZColor(x, lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#divide(ca.eandb.jmist.framework.color.Color)
-   */
+  @Override
   public Color divide(Color other) {
     if (other instanceof XYZColor) {
       return toXYZColor().divide((XYZColor) other);
@@ -177,9 +163,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
     return create(x, other);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#divide(double)
-   */
+  @Override
   public Color divide(double c) {
     double[] x = values.clone();
     for (int i = 0; i < x.length; i++) {
@@ -188,9 +172,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
     return new MultiXYZColor(x, lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#exp()
-   */
+  @Override
   public Color exp() {
     double[] x = values.clone();
     for (int i = 0; i < x.length; i++) {
@@ -199,30 +181,22 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
     return new MultiXYZColor(x, lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#getColorModel()
-   */
+  @Override
   public MultiXYZColorModel getColorModel() {
     return lambda.getColorModel();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#getValue(int)
-   */
+  @Override
   public double getValue(int channel) {
     return values[channel];
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#getWavelengthPacket()
-   */
+  @Override
   public WavelengthPacket getWavelengthPacket() {
     return lambda;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#invert()
-   */
+  @Override
   public Color invert() {
     double[] x = values.clone();
     for (int i = 0; i < x.length; i++) {
@@ -231,16 +205,12 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
     return new MultiXYZColor(x, lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#luminance()
-   */
+  @Override
   public double luminance() {
     return Y();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#minus(ca.eandb.jmist.framework.color.Color)
-   */
+  @Override
   public Color minus(Color other) {
     if (other instanceof XYZColor) {
       return toXYZColor().minus((XYZColor) other);
@@ -257,9 +227,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
     return create(x, other);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#negative()
-   */
+  @Override
   public Color negative() {
     double[] x = values.clone();
     for (int i = 0; i < x.length; i++) {
@@ -268,9 +236,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
     return new MultiXYZColor(x, lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#plus(ca.eandb.jmist.framework.color.Color)
-   */
+  @Override
   public Color plus(Color other) {
     if (other instanceof XYZColor) {
       return toXYZColor().plus((XYZColor) other);
@@ -287,9 +253,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
     return create(x, other);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#pow(ca.eandb.jmist.framework.color.Color)
-   */
+  @Override
   public Color pow(Color other) {
     if (other instanceof XYZColor) {
       return toXYZColor().pow((XYZColor) other);
@@ -305,9 +269,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
     return create(x, other);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#pow(double)
-   */
+  @Override
   public Color pow(double e) {
     double[] x = values.clone();
     for (int i = 0; i < x.length; i++) {
@@ -316,9 +278,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
     return new MultiXYZColor(x, lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#sqrt()
-   */
+  @Override
   public Color sqrt() {
     double[] x = values.clone();
     for (int i = 0; i < x.length; i++) {
@@ -327,9 +287,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
     return new MultiXYZColor(x, lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#times(ca.eandb.jmist.framework.color.Color)
-   */
+  @Override
   public Color times(Color other) {
     if (other instanceof XYZColor) {
       return toXYZColor().times((XYZColor) other);
@@ -346,9 +304,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
     return create(x, other);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#times(double)
-   */
+  @Override
   public Color times(double c) {
     double[] x = values.clone();
     for (int i = 0; i < x.length; i++) {
@@ -357,9 +313,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
     return new MultiXYZColor(x, lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#toArray()
-   */
+  @Override
   public double[] toArray() {
     return values.clone();
   }

@@ -25,11 +25,9 @@
  */
 package ca.eandb.jmist.framework.material.biospec;
 
-import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.ScatteredRay.Type;
 import ca.eandb.jmist.framework.SurfacePoint;
-import ca.eandb.jmist.framework.SurfacePointGeometry;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.material.OpaqueMaterial;
 import ca.eandb.jmist.framework.random.RandomUtil;
@@ -149,60 +147,6 @@ public final class ABMInterfaceMaterial extends OpaqueMaterial {
     // }
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see
-   * ca.eandb.jmist.framework.scatter.SurfaceScatterer#scatter(ca.eandb.jmist
-   * .framework.SurfacePointGeometry, ca.eandb.jmist.math.Vector3, boolean,
-   * ca.eandb.jmist.framework.color.WavelengthPacket,
-   * ca.eandb.jmist.framework.Random)
-   */
-  public Vector3 scatter(SurfacePointGeometry x, Vector3 v, boolean adjoint,
-      double lambda, Random rnd) {
-
-    double n1 = riAbove;
-    double n2 = riBelow;
-    Vector3 N = x.getNormal();
-    double R = Optics.reflectance(v, n1, n2, N);
-
-    boolean fromSide = (v.dot(N) < 0.0);
-    boolean toSide;
-    Vector3 w;
-    double specularity;
-
-    if (RandomUtil.bernoulli(R, rnd)) {
-      toSide = fromSide;
-      specularity = fromSide ? n11 : n22;
-      w = Optics.reflect(v, N);
-    } else {
-      toSide = !fromSide;
-      specularity = fromSide ? n12 : n21;
-      w = Optics.refract(v, n1, n2, N);
-    }
-
-    if (!Double.isInfinite(specularity)) {
-      Basis3 basis = Basis3.fromW(w);
-      do {
-        SphericalCoordinates perturb = new SphericalCoordinates(
-            Math.acos(Math.pow(1.0 - rnd.next(),
-                1.0 / (specularity + 1.0))), 2.0 * Math.PI
-                * rnd.next());
-        w = perturb.toCartesian(basis);
-      } while ((w.dot(N) > 0.0) != toSide);
-    }
-
-    return w;
-  }
-
-  /*
-   * (non-Javadoc)
-   *
-   * @see
-   * ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist
-   * .framework.SurfacePoint, ca.eandb.jmist.math.Vector3, boolean,
-   * ca.eandb.jmist.framework.color.WavelengthPacket, double, double, double)
-   */
   @Override
   public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint,
       WavelengthPacket lambda, double ru, double rv, double rj) {

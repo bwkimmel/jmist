@@ -132,18 +132,12 @@ public final class JCompositeVisualizerPanel extends JColorVisualizerPanel {
     return settingsPanel;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.display.visualizer.JColorVisualizerPanel#analyze(java.lang.Iterable)
-   */
   @Override
   public synchronized boolean analyze(Iterable<Color> samples) {
     JColorVisualizerPanel settingsPanel = getSelectedVisualizer();
     return settingsPanel.analyze(samples);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.display.visualizer.ColorVisualizer#visualize(ca.eandb.jmist.framework.color.Color)
-   */
   @Override
   public RGB visualize(Color color) {
     JColorVisualizerPanel settingsPanel = getSelectedVisualizer();

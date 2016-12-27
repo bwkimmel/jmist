@@ -106,23 +106,17 @@ public final class CornellBoxScene extends AbstractScene {
     this.light = cornellBox.createLight();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Scene#getRoot()
-   */
+  @Override
   public SceneElement getRoot() {
     return cornellBox;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Model#getLight()
-   */
+  @Override
   public Light getLight() {
     return light;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Model#getLens()
-   */
+  @Override
   public Lens getLens() {
     return lens;
   }

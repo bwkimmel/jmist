@@ -329,9 +329,7 @@ public final class PolyhedronGeometry extends AbstractGeometry {
     return -1.0;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-   */
+  @Override
   public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
     intersectFace(index, ray, recorder);
   }
@@ -379,50 +377,35 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getBasis(ca.eandb.jmist.framework.geometry.AbstractGeometry.GeometryIntersection)
-   */
   @Override
   protected Basis3 getBasis(GeometryIntersection x) {
     Face face = faces.get(x.getTag());
     return face.getBasis(x.getPosition());
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getShadingBasis(ca.eandb.jmist.framework.geometry.AbstractGeometry.GeometryIntersection)
-   */
   @Override
   protected Basis3 getShadingBasis(GeometryIntersection x) {
     Basis3 basis = x.getBasis();
     return Basis3.fromWUV(getShadingNormal(x), basis.u(), basis.v());
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getShadingNormal(ca.eandb.jmist.framework.geometry.AbstractGeometry.GeometryIntersection)
-   */
   @Override
   protected Vector3 getShadingNormal(GeometryIntersection x) {
     Face face = faces.get(x.getTag());
     return face.getShadingNormal(x.getPosition());
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getBoundingBox(int)
-   */
+  @Override
   public Box3 getBoundingBox(int index) {
     return faces.get(index).boundingBox();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getBoundingSphere(int)
-   */
+  @Override
   public Sphere getBoundingSphere(int index) {
     return faces.get(index).boundingSphere();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getNumPrimitives()
-   */
+  @Override
   public int getNumPrimitives() {
     return getNumFaces();
   }
@@ -443,9 +426,7 @@ public final class PolyhedronGeometry extends AbstractGeometry {
     return faces.size();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
-   */
+  @Override
   public Box3 boundingBox() {
 
     BoundingBoxBuilder3 builder = new BoundingBoxBuilder3();
@@ -458,16 +439,11 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
-   */
+  @Override
   public Sphere boundingSphere() {
     return Sphere.smallestContaining(this.vertices);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#generateRandomSurfacePoint(int, ca.eandb.jmist.framework.ShadingContext)
-   */
   @Override
   public void generateRandomSurfacePoint(int index, ShadingContext context, double ru, double rv, double rj) {
     Point3 p = faces.get(index).generateRandomSurfacePoint(ru, rv, rj);
@@ -475,9 +451,6 @@ public final class PolyhedronGeometry extends AbstractGeometry {
     x.prepareShadingContext(context);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext, double, double, double)
-   */
   @Override
   public void generateRandomSurfacePoint(ShadingContext context, double ru,
       double rv, double rj) {
@@ -495,17 +468,11 @@ public final class PolyhedronGeometry extends AbstractGeometry {
     super.generateRandomSurfacePoint(context, ru, rv, rj);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getSurfaceArea(int)
-   */
   @Override
   public double getSurfaceArea(int index) {
     return faces.get(index).getSurfaceArea();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getSurfaceArea()
-   */
   @Override
   public double getSurfaceArea() {
     if (surfaceArea < 0.0) {
@@ -520,9 +487,6 @@ public final class PolyhedronGeometry extends AbstractGeometry {
     return surfaceArea;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getTextureCoordinates(ca.eandb.jmist.framework.geometry.AbstractGeometry.GeometryIntersection)
-   */
   @Override
   protected Point2 getTextureCoordinates(GeometryIntersection x) {
     Face face = faces.get(x.getTag());
@@ -575,9 +539,7 @@ public final class PolyhedronGeometry extends AbstractGeometry {
 
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
-     */
+    @Override
     public Box3 boundingBox() {
       BoundingBoxBuilder3 builder = new BoundingBoxBuilder3();
       for (int i = 0; i < indices.length; i++) {
@@ -586,9 +548,7 @@ public final class PolyhedronGeometry extends AbstractGeometry {
       return builder.getBoundingBox();
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
-     */
+    @Override
     public Sphere boundingSphere() {
       List<Point3> verts = new ArrayList<Point3>(indices.length);
       for (int i = 0; i < indices.length; i++) {

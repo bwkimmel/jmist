@@ -25,25 +25,9 @@
  */
 package ca.eandb.jmist.framework.shader;
 
-import ca.eandb.jmist.framework.Random;
 
 /**
  * @author brad
  *
  */
-public class MinimalShadingContext extends AbstractShadingContext {
-
-  private final Random random;
-
-  public MinimalShadingContext(Random random) {
-    this.random = random;
-  }
-
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ShadingContext#getRandom()
-   */
-  public Random getRandom() {
-    return random;
-  }
-
-}
+public class MinimalShadingContext extends AbstractShadingContext {}

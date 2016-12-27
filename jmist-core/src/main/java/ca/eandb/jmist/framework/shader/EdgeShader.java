@@ -53,9 +53,7 @@ public final class EdgeShader implements Shader {
     this.threshold = threshold;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
-   */
+  @Override
   public Color shade(ShadingContext sc) {
     WavelengthPacket lambda = sc.getWavelengthPacket();
     Vector3 n = sc.getNormal();

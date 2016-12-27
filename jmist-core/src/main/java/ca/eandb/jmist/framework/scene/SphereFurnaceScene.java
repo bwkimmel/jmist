@@ -60,23 +60,17 @@ public final class SphereFurnaceScene extends AbstractScene {
         new InsideOutGeometry(new SphereGeometry(Sphere.UNIT)));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Scene#getLens()
-   */
+  @Override
   public Lens getLens() {
     return lens;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Scene#getLight()
-   */
+  @Override
   public Light getLight() {
     return root.createLight();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Scene#getRoot()
-   */
+  @Override
   public SceneElement getRoot() {
     return root;
   }

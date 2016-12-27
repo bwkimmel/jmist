@@ -59,9 +59,6 @@ public final class StringAttribute implements Attribute {
     return new StringAttribute(s.toString());
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.openexr.Attribute#write(java.io.DataOutput)
-   */
   @Override
   public void write(DataOutput out) throws IOException {
     out.writeBytes(value);

@@ -42,9 +42,7 @@ public final class EmissionShader implements Shader {
    */
   private static final long serialVersionUID = 8510365491868392853L;
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
-   */
+  @Override
   public Color shade(ShadingContext sc) {
     WavelengthPacket lambda = sc.getWavelengthPacket();
     Material mat = sc.getMaterial();

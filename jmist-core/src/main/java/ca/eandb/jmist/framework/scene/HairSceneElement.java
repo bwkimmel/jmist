@@ -66,21 +66,117 @@ public final class HairSceneElement implements SceneElement {
 
   private final int base;
 
-  private final int amount = 1000;//500000;
+  private final int amount;
 
-  private final int segments = 4;
+  private final int segments;
 
-  private final Vector3 meanInitialVelocity = new Vector3(0.0, 0.0, 0.2);//0.05);
+  private final Vector3 meanInitialVelocity;
 
-  private final double randomInitialVelocity = 0.02;
+  private final double randomInitialVelocity;
 
-  private final double roughness = 0.05;//0.01;
+  private final double roughness;
 
-  private final boolean renderEmitter = true;
+  private final boolean renderEmitter;
 
-  private final double baseWidth = 0.01;
+  private final double baseWidth;
 
-  private final double tipWidth = 0.01;
+  private final double tipWidth;
+
+  public static interface Builder1 {
+    Builder setEmitter(SceneElement emitter);
+  }
+
+  public static final class Builder implements Builder1 {
+    private SceneElement emitter = null;
+    private Material hairMaterial = null;
+    private int amount = 1000;//500000;
+    private int segments = 4;
+    private Vector3 meanInitialVelocity = new Vector3(0.0, 0.0, 0.2);//0.05);
+    private double randomInitialVelocity = 0.02;
+    private double roughness = 0.05;//0.01;
+    private boolean renderEmitter = true;
+    private double baseWidth = 0.01;
+    private double tipWidth = 0.01;
+
+    private Builder() {}
+
+    public Builder setEmitter(SceneElement emitter) {
+      this.emitter = emitter;
+      return this;
+    }
+
+    public Builder setHairMaterial(Material hairMaterial) {
+      this.hairMaterial = hairMaterial;
+      return this;
+    }
+
+    public Builder setAmount(int amount) {
+      this.amount = amount;
+      return this;
+    }
+
+    public Builder setSegments(int segments) {
+      this.segments = segments;
+      return this;
+    }
+
+    public Builder setMeanInitialVelocity(Vector3 meanInitialVelocity) {
+      this.meanInitialVelocity = meanInitialVelocity;
+      return this;
+    }
+
+    public Builder setRandomInitialVelocity(double randomInitialVelocity) {
+      this.randomInitialVelocity = randomInitialVelocity;
+      return this;
+    }
+
+    public Builder setRoughness(double roughness) {
+      this.roughness = roughness;
+      return this;
+    }
+
+    public Builder setRenderEmitter(boolean renderEmitter) {
+      this.renderEmitter = renderEmitter;
+      return this;
+    }
+
+    public Builder setBaseWidth(double baseWidth) {
+      this.baseWidth = baseWidth;
+      return this;
+    }
+
+    public Builder setTipWidth(double tipWidth) {
+      this.tipWidth = tipWidth;
+      return this;
+    }
+
+    public HairSceneElement build() {
+      return new HairSceneElement(emitter, hairMaterial, amount, segments,
+          meanInitialVelocity, randomInitialVelocity, roughness, renderEmitter,
+          baseWidth, tipWidth);
+    }
+  }
+
+  public static Builder1 newBuilder() {
+    return new Builder();
+  }
+
+  private HairSceneElement(SceneElement emitter, Material hairMaterial,
+      int amount, int segments, Vector3 meanInitialVelocity,
+      double randomInitialVelocity, double roughness, boolean renderEmitter,
+      double baseWidth, double tipWidth) {
+    this.emitter = emitter;
+    this.hairMaterial = hairMaterial;
+    this.amount = amount;
+    this.segments = segments;
+    this.meanInitialVelocity = meanInitialVelocity;
+    this.randomInitialVelocity = randomInitialVelocity;
+    this.roughness = roughness;
+    this.renderEmitter = renderEmitter;
+    this.baseWidth = baseWidth;
+    this.tipWidth = tipWidth;
+    this.base = renderEmitter ? emitter.getNumPrimitives() : 0;
+  }
 
   private class Strand implements Bounded3 {
 
@@ -153,21 +249,11 @@ public final class HairSceneElement implements SceneElement {
 
   };
 
-  public HairSceneElement(SceneElement emitter) {
-    this(null, emitter);
-  }
-
-  public HairSceneElement(Material hairMaterial, SceneElement emitter) {
-    this.hairMaterial = hairMaterial;
-    this.emitter = emitter;
-    this.base = renderEmitter ? emitter.getNumPrimitives() : 0;
-  }
-
   private Strand createStrand(int index) {
     Random tempRnd = new Random(index);
     Random rnd = new Random(tempRnd.nextLong());
     RandomAdapter adapter = new RandomAdapter(rnd);
-    MinimalShadingContext context = new MinimalShadingContext(adapter);
+    MinimalShadingContext context = new MinimalShadingContext();
     emitter.generateRandomSurfacePoint(context, rnd.nextDouble(), rnd.nextDouble(), rnd.nextDouble());
     Strand strand = new Strand();
     strand.vertices = new Point3[2 * (segments + 1)];
@@ -178,7 +264,7 @@ public final class HairSceneElement implements SceneElement {
     Vector3 vel = context.getBasis().toStandard(meanInitialVelocity).plus(
         RandomUtil.uniformInsideSphere(randomInitialVelocity, adapter)
             .toCartesian());
-    double dt = 1.0 / (double) segments;
+    double dt = 1.0 / segments;
     double orientation = 2.0 * Math.PI * rnd.nextDouble();
     double co = Math.cos(orientation);
     double so = Math.sin(orientation);
@@ -204,16 +290,11 @@ public final class HairSceneElement implements SceneElement {
     return strand;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#createLight()
-   */
+  @Override
   public Light createLight() {
     throw new UnsupportedOperationException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#generateImportanceSampledSurfacePoint(int, ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext, double, double, double)
-   */
   @Override
   public double generateImportanceSampledSurfacePoint(int index,
       SurfacePoint x, ShadingContext context, double ru, double rv,
@@ -221,76 +302,49 @@ public final class HairSceneElement implements SceneElement {
     throw new UnsupportedOperationException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#generateImportanceSampledSurfacePoint(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext, double, double, double)
-   */
   @Override
   public double generateImportanceSampledSurfacePoint(SurfacePoint x,
       ShadingContext context, double ru, double rv, double rj) {
     throw new UnsupportedOperationException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(int, ca.eandb.jmist.framework.ShadingContext, double, double, double)
-   */
   @Override
   public void generateRandomSurfacePoint(int index, ShadingContext context,
       double ru, double rv, double rj) {
     throw new UnsupportedOperationException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext, double, double, double)
-   */
   @Override
   public void generateRandomSurfacePoint(ShadingContext context, double ru,
       double rv, double rj) {
     throw new UnsupportedOperationException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getBoundingBox(int)
-   */
   @Override
   public Box3 getBoundingBox(int index) {
     return index < base ? emitter.getBoundingBox(index) : createStrand(index - base).boundingBox();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getBoundingSphere(int)
-   */
   @Override
   public Sphere getBoundingSphere(int index) {
     return index < base ? emitter.getBoundingSphere(index) : createStrand(index - base).boundingSphere();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getNumPrimitives()
-   */
   @Override
   public int getNumPrimitives() {
     return base + amount;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getSurfaceArea()
-   */
   @Override
   public double getSurfaceArea() {
     throw new UnsupportedOperationException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getSurfaceArea(int)
-   */
   @Override
   public double getSurfaceArea(int index) {
     throw new UnsupportedOperationException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-   */
   @Override
   public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
     if (index < base) {
@@ -300,9 +354,6 @@ public final class HairSceneElement implements SceneElement {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-   */
   @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
     // Warning: EXTREMELY SLOW - ALWAYS combine with an accelerator
@@ -314,43 +365,28 @@ public final class HairSceneElement implements SceneElement {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#intersects(int, ca.eandb.jmist.math.Box3)
-   */
   @Override
   public boolean intersects(int index, Box3 box) {
     return index < base ? emitter.intersects(index, box) : createStrand(
         index - base).intersects(box);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#visibility(int, ca.eandb.jmist.math.Ray3)
-   */
   @Override
   public boolean visibility(int index, Ray3 ray) {
     return index < base ? emitter.visibility(index, ray) : createStrand(
         index - base).visibility(ray);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
-   */
   @Override
   public Box3 boundingBox() {
     return emitter.boundingBox().expand(this.meanInitialVelocity.length() + randomInitialVelocity + tipWidth / 2.0);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
-   */
   @Override
   public Sphere boundingSphere() {
     return emitter.boundingSphere().expand(this.meanInitialVelocity.length() + randomInitialVelocity + tipWidth / 2.0);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.VisibilityFunction3#visibility(ca.eandb.jmist.math.Ray3)
-   */
   @Override
   public boolean visibility(Ray3 ray) {
     // Warning: EXTREMELY SLOW - ALWAYS combine with an accelerator

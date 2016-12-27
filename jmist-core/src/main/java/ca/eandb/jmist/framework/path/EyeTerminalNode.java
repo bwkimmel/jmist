@@ -37,16 +37,12 @@ public abstract class EyeTerminalNode extends AbstractTerminalNode implements
     super(pathInfo, ru, rv, rj);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#isOnLightPath()
-   */
+  @Override
   public final boolean isOnLightPath() {
     return false;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#reverse(ca.eandb.jmist.framework.path.PathNode, ca.eandb.jmist.framework.path.PathNode)
-   */
+  @Override
   public PathNode reverse(PathNode newParent, PathNode grandChild) {
     return null;
   }

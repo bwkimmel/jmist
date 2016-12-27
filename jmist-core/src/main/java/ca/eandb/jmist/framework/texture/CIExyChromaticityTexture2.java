@@ -80,9 +80,6 @@ public final class CIExyChromaticityTexture2 implements Texture2 {
     gamutMask = new PolygonMask2(vertices, 100);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Texture2#evaluate(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public Color evaluate(Point2 p, WavelengthPacket lambda) {
     ColorModel cm = lambda.getColorModel();

@@ -89,9 +89,6 @@ public final class Box2f implements Attribute {
     return new Box2f(in.readFloat(), in.readFloat(), in.readFloat(), in.readFloat());
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.openexr.Attribute#write(java.io.DataOutput)
-   */
   @Override
   public void write(DataOutput out) throws IOException {
     out.writeFloat(xMin);

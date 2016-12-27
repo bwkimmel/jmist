@@ -75,9 +75,7 @@ public final class AngularEnvironmentRayShader implements RayShader {
     this.basis = basis;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.RayShader#shadeRay(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
+  @Override
   public Color shadeRay(Ray3 ray, WavelengthPacket lambda) {
     SphericalCoordinates sc = SphericalCoordinates.fromCartesian(ray.direction(), basis);
     double theta = -sc.azimuthal();

@@ -48,9 +48,6 @@ public final class SingleXYZWavelengthPacket implements WavelengthPacket {
     this.lambda = lambda;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.WavelengthPacket#getColorModel()
-   */
   @Override
   public ColorModel getColorModel() {
     return SingleXYZColorModel.getInstance();

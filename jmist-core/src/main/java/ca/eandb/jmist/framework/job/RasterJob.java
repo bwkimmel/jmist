@@ -46,6 +46,139 @@ import ca.eandb.util.progress.ProgressMonitor;
  */
 public final class RasterJob extends AbstractParallelizableJob {
 
+  /** The first step in building a <code>RasterJob</code>. */
+  public static interface Builder1 {
+    /**
+     * Sets the color model to use.
+     * @param colorModel The <code>ColorModel</code>.
+     * @return The next builder step.
+     */
+    Builder2 setColorModel(ColorModel colorModel);
+  }
+
+  /** The second step in building a <code>RasterJob</code>. */
+  public static interface Builder2 {
+    /**
+     * Sets the pixel shader to use.
+     * @param pixelShader The <code>PixelShader</code>.
+     * @return The next builder step.
+     */
+    Builder3 setPixelShader(PixelShader pixelShader);
+  }
+
+  /** The third step in building a <code>RasterJob</code>. */
+  public static interface Builder3 {
+    /**
+     * Sets the display to render the image to.
+     * @param display The <code>Display</code> to render to.
+     * @return The next builder step.
+     */
+    Builder setDisplay(Display display);
+  }
+
+  /** A builder for creating <code>RasterJob</code>s. */
+  public static final class Builder implements Builder1, Builder2, Builder3 {
+    private ColorModel colorModel = null;
+    private PixelShader pixelShader = null;
+    private Display display = null;
+    private int width = 1;
+    private int height = 1;
+    private int cols = 1;
+    private int rows = 1;
+
+    private Builder() {}
+
+    /**
+     * Builds the new <code>RasterJob</code>.
+     * @return The new <code>RasterJob</code>.
+     */
+    public RasterJob build() {
+      return new RasterJob(colorModel, pixelShader, display, width, height,
+                           cols, rows);
+    }
+
+    /**
+     * Sets the color model to use.
+     * @param colorModel The <code>ColorModel</code>.
+     * @return This <code>Builder</code>.
+     */
+    public Builder setColorModel(ColorModel colorModel) {
+      this.colorModel = colorModel;
+      return this;
+    }
+
+    /**
+     * Sets the pixel shader to use.
+     * @param pixelShader The <code>PixelShader</code>.
+     * @return This <code>Builder</code>.
+     */
+    public Builder setPixelShader(PixelShader pixelShader) {
+      this.pixelShader = pixelShader;
+      return this;
+    }
+
+    /**
+     * Sets the display to render the image to.
+     * @param display The <code>Display</code> to render to.
+     * @return This <code>Builder</code>.
+     */
+    public Builder setDisplay(Display display) {
+      this.display = display;
+      return this;
+    }
+
+    /**
+     * Sets the size of the image to render.
+     * @param width The width of the image, in pixels.
+     * @param height The height of the image, in pixels.
+     * @return This <code>Builder</code>.
+     */
+    public Builder setImageSize(int width, int height) {
+      this.width = width;
+      this.height = height;
+      return this;
+    }
+
+    /**
+     * Sets the approximate size of tile to use.
+     * @param tileWidth The approximate tile width, in pixels.
+     * @param tileHeight The approximate tile height, in pixels.
+     * @return This <code>Builder</code>.
+     */
+    public Builder setTileSize(int tileWidth, int tileHeight) {
+      this.cols = Math.max(1, width / tileWidth);
+      this.rows = Math.max(1, height / tileHeight);
+      return this;
+    }
+
+    /**
+     * Sets the number of tiles to use.
+     * @param cols The number of columns to divide the image into.
+     * @param rows The number of rows to divide the image into.
+     * @return This <code>Builder</code>.
+     * @throws IllegalArgumentException If rows &lt;= 0 or cols &lt;= 0.
+     */
+    public Builder setTileCount(int cols, int rows) {
+      if (cols <= 0) {
+        throw new IllegalArgumentException("cols <= 0");
+      }
+      if (rows <= 0) {
+        throw new IllegalArgumentException("rows <= 0");
+      }
+      this.cols = cols;
+      this.rows = rows;
+      return this;
+    }
+  }
+
+  /**
+   * Returns a new builder to create a <code>RasterJob</code>.
+   * @return The new <code>Builder</code>.
+   */
+  public static Builder1 newBuilder() {
+    return new Builder();
+  }
+
   /**
    * Creates a new <code>RasterJob</code>.  This job will
    * divide the image into <code>rows * cols</code> tasks to render roughly
@@ -60,7 +193,8 @@ public final class RasterJob extends AbstractParallelizableJob {
    * @param cols The number of columns to divide the image into.
    * @param rows The number of rows to divide the image into.
    */
-  public RasterJob(ColorModel colorModel, PixelShader pixelShader, Display display, int width, int height, int cols, int rows) {
+  private RasterJob(ColorModel colorModel, PixelShader pixelShader,
+      Display display, int width, int height, int cols, int rows) {
     this.pixelShader = pixelShader;
     this.colorModel = colorModel;
     this.width = width;
@@ -70,30 +204,20 @@ public final class RasterJob extends AbstractParallelizableJob {
     this.display = display;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jdcp.job.AbstractParallelizableJob#initialize()
-   */
   @Override
   public void initialize() throws IOException {
     display.initialize(width, height, colorModel);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jdcp.job.AbstractParallelizableJob#restoreState(java.io.ObjectInput)
-   */
   @Override
   public void restoreState(ObjectInput input) throws Exception {
     super.restoreState(input);
     this.initialize();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ParallelizableJob#getNextTask()
-   */
+  @Override
   public Object getNextTask() {
-
     if (this.nextRow < this.rows) {
-
       /* Get the next cell. */
       Cell cell = this.getCell(this.nextCol++, this.nextRow);
 
@@ -104,14 +228,10 @@ public final class RasterJob extends AbstractParallelizableJob {
       }
 
       return cell;
-
     } else { /* this.nextRow >= this.rows */
-
       /* no remaining tasks. */
       return null;
-
     }
-
   }
 
   /**
@@ -158,7 +278,6 @@ public final class RasterJob extends AbstractParallelizableJob {
    * @return The cell bounds.
    */
   private Cell getCell(int col, int row) {
-
     /* Figure out how big the cells should be:
      *    - Make them as large as possible without exceeding the size
      *      of the image.
@@ -207,42 +326,30 @@ public final class RasterJob extends AbstractParallelizableJob {
     assert(0 <= ymin && ymin <= ymax && ymax < height);
 
     return new Cell(xmin, ymin, xmax - xmin + 1, ymax - ymin + 1);
-
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ParallelizableJob#submitTaskResults(java.lang.Object, java.lang.Object, ca.eandb.util.progress.ProgressMonitor)
-   */
+  @Override
   public void submitTaskResults(Object task, Object results, ProgressMonitor monitor) {
-
-    Cell  cell  = (Cell) task;
-    Raster  pixels  = (Raster) results;
+    Cell cell = (Cell) task;
+    Raster pixels = (Raster) results;
 
     /* Write the submitted results to the raster. */
     display.setPixels(cell.x, cell.y, pixels);
 
     /* Update the progress monitor. */
     monitor.notifyProgress(++this.tasksComplete, this.rows * this.cols);
-
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ParallelizableJob#isComplete()
-   */
+  @Override
   public boolean isComplete() {
     return this.tasksComplete >= (this.rows * this.cols);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ParallelizableJob#finish()
-   */
+  @Override
   public void finish() throws IOException {
     display.finish();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jdcp.job.AbstractParallelizableJob#archiveState(ca.eandb.util.io.Archive)
-   */
   @Override
   protected void archiveState(Archive ar) throws IOException {
     nextCol = ar.archiveInt(nextCol);
@@ -250,9 +357,7 @@ public final class RasterJob extends AbstractParallelizableJob {
     tasksComplete = ar.archiveInt(tasksComplete);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ParallelizableJob#worker()
-   */
+  @Override
   public TaskWorker worker() {
     return new RasterTaskWorker(colorModel, pixelShader, width, height);
   }
@@ -296,52 +401,39 @@ public final class RasterJob extends AbstractParallelizableJob {
       this.height = height;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.TaskWorker#performTask(java.lang.Object, ca.eandb.util.progress.ProgressMonitor)
-     */
+    @Override
     public Object performTask(Object task, ProgressMonitor monitor) {
-
-      Cell  cell        = (Cell) task;
-      int    numPixels      = cell.width * cell.height;
-      Color  pixel;
-      Box2  bounds;
-      double  x0, y0, x1, y1;
-      double  w          = width;
-      double  h          = height;
-      Raster  raster        = colorModel.createRaster(cell.width, cell.height);
+      Cell cell = (Cell) task;
+      int numPixels = cell.width * cell.height;
+      Color pixel;
+      Box2 bounds;
+      double x0, y0, x1, y1;
+      double w = width;
+      double h = height;
+      Raster raster = colorModel.createRaster(cell.width, cell.height);
 
       for (int n = 0, y = cell.y; y < cell.y + cell.height; y++) {
-
         if (!monitor.notifyProgress(n, numPixels))
           return null;
-
-        y0      = y / h;
-        y1      = (y + 1) / h;
+        y0 = y / h;
+        y1 = (y + 1) / h;
 
         for (int x = cell.x; x < cell.x + cell.width; x++, n++) {
-
-          x0    = x / w;
-          x1    = (x + 1) / w;
-
+          x0 = x / w;
+          x1 = (x + 1) / w;
           bounds  = new Box2(x0, y0, x1, y1);
 
           pixel = pixelShader.shadePixel(bounds);
           raster.addPixel(x - cell.x, y - cell.y, pixel);
-
         }
-
       }
 
       monitor.notifyProgress(numPixels, numPixels);
       monitor.notifyComplete();
-
       return raster;
-
     }
 
-    /**
-     * Serialization version ID.
-     */
+    /** Serialization version ID. */
     private static final long serialVersionUID = 8318742231359439076L;
 
   }
@@ -379,9 +471,7 @@ public final class RasterJob extends AbstractParallelizableJob {
   /** The number of tasks that have been completed. */
   private transient int tasksComplete = 0;
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 9173731839475893020L;
 
 }

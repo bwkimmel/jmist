@@ -42,9 +42,6 @@ public final class Vector2 extends HPoint2 {
     super(x, y);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.math.HPoint2#w()
-   */
   @Override
   public double w() {
     return 0.0;

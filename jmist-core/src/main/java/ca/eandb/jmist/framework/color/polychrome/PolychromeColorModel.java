@@ -263,9 +263,6 @@ public final class PolychromeColorModel implements ColorModel {
     this(new Tuple(wavelengths));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#fromRGB(double, double, double)
-   */
   @Override
   public Spectrum fromRGB(double r, double g, double b) {
     PolychromeColor result = new PolychromeColor();
@@ -284,33 +281,21 @@ public final class PolychromeColorModel implements ColorModel {
     return result;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#fromXYZ(double, double, double)
-   */
   @Override
   public Spectrum fromXYZ(double x, double y, double z) {
     return fromRGB(ColorUtil.convertXYZ2RGB(x, y, z));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getBlack()
-   */
   @Override
   public Spectrum getBlack() {
     return black;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getBlack(ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public Color getBlack(WavelengthPacket lambda) {
     return black;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getContinuous(ca.eandb.jmist.framework.Function1)
-   */
   @Override
   public Spectrum getContinuous(Function1 spectrum) {
     PolychromeColor result = new PolychromeColor();
@@ -320,9 +305,6 @@ public final class PolychromeColorModel implements ColorModel {
     return result;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getGray(double)
-   */
   @Override
   public Spectrum getGray(double value) {
     PolychromeColor result = new PolychromeColor();
@@ -330,9 +312,6 @@ public final class PolychromeColorModel implements ColorModel {
     return result;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getGray(double, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public Color getGray(double value, WavelengthPacket lambda) {
     PolychromeColor result = new PolychromeColor();
@@ -340,25 +319,17 @@ public final class PolychromeColorModel implements ColorModel {
     return result;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getNumChannels()
-   */
   @Override
   public int getNumChannels() {
     return wavelengths.size();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getWhite()
-   */
   @Override
   public Spectrum getWhite() {
     return white;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#fromChannels(double[], ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
+  @Override
   public Color fromArray(double[] values, WavelengthPacket lambda) {
     if (values.length < getNumChannels()) {
       throw new IllegalArgumentException("values.length < getNumChannels()");
@@ -370,25 +341,16 @@ public final class PolychromeColorModel implements ColorModel {
     return result;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getWhite(ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public Color getWhite(WavelengthPacket lambda) {
     return white;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#sample(ca.eandb.jmist.framework.Random)
-   */
   @Override
   public Color sample(Random random) {
     return white;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#createRaster(int, int)
-   */
   @Override
   public Raster createRaster(int width, int height) {
     return new DoubleRaster(width, height, wavelengths.size()) {
@@ -403,9 +365,7 @@ public final class PolychromeColorModel implements ColorModel {
     };
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorModel#getChannelName(int)
-   */
+  @Override
   public String getChannelName(int channel) {
     if (channel < 0 || channel >= wavelengths.size()) {
       throw new IllegalArgumentException("Invalid channel");

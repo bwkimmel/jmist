@@ -61,23 +61,17 @@ public interface Random extends Serializable {
      */
     private static final long serialVersionUID = -6299190146689205359L;
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.Random#createCompatibleRandom()
-     */
+    @Override
     public Random createCompatibleRandom() {
       return this;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.Random#next()
-     */
+    @Override
     public double next() {
       return Math.random();
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.Random#reset()
-     */
+    @Override
     public void reset() {
       /* nothing to do. */
     }

@@ -49,9 +49,6 @@ public class InvertibleAffineTransformation2 extends AffineTransformation2
   /** The inverse transformation matrix. */
   private AffineMatrix2 inverse = null;
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AffineTransformation2#rotate(double)
-   */
   @Override
   public void rotate(double angle) {
     super.rotate(angle);
@@ -59,23 +56,12 @@ public class InvertibleAffineTransformation2 extends AffineTransformation2
         .rotateMatrix(-angle));
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see ca.eandb.jmist.framework.AffineTransformation2#scale(double)
-   */
   @Override
   public void scale(double c) {
     super.scale(c);
     this.applyInverseTransformation(LinearMatrix2.scaleMatrix(1.0 / c));
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see ca.eandb.jmist.framework.AffineTransformation2#stretch(double,
-   *      double, double)
-   */
   @Override
   public void stretch(double cx, double cy) {
     super.stretch(cx, cy);
@@ -83,12 +69,6 @@ public class InvertibleAffineTransformation2 extends AffineTransformation2
         1.0 / cy));
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see ca.eandb.jmist.framework.AffineTransformation2#stretch(ca.eandb.jmist.toolkit.Vector2,
-   *      double)
-   */
   @Override
   public void stretch(Vector2 axis, double c) {
     super.stretch(axis, c);
@@ -96,55 +76,30 @@ public class InvertibleAffineTransformation2 extends AffineTransformation2
         1.0 / c));
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see ca.eandb.jmist.framework.AffineTransformation2#stretchX(double)
-   */
   @Override
   public void stretchX(double cx) {
     super.stretchX(cx);
     this.applyInverseTransformation(LinearMatrix2.stretchXMatrix(1.0 / cx));
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see ca.eandb.jmist.framework.AffineTransformation2#stretchY(double)
-   */
   @Override
   public void stretchY(double cy) {
     super.stretchY(cy);
     this.applyInverseTransformation(LinearMatrix2.stretchYMatrix(1.0 / cy));
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see ca.eandb.jmist.framework.AffineTransformation2#transform(ca.eandb.jmist.toolkit.AffineMatrix2)
-   */
   @Override
   public void transform(AffineMatrix2 T) {
     super.transform(T);
     this.applyInverseTransformation(T.inverse());
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see ca.eandb.jmist.framework.AffineTransformation2#transform(ca.eandb.jmist.toolkit.LinearMatrix2)
-   */
   @Override
   public void transform(LinearMatrix2 T) {
     super.transform(T);
     this.applyInverseTransformation(T.inverse());
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see ca.eandb.jmist.framework.AffineTransformation2#translate(ca.eandb.jmist.toolkit.Vector2)
-   */
   @Override
   public void translate(Vector2 v) {
     super.translate(v);
@@ -205,11 +160,6 @@ public class InvertibleAffineTransformation2 extends AffineTransformation2
     }
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see ca.eandb.jmist.framework.AffineTransformation2#apply(ca.eandb.jmist.framework.AffineTransformable2)
-   */
   @Override
   public void apply(AffineTransformable2 to) {
     if (to instanceof InvertibleAffineTransformation2) {
@@ -315,9 +265,6 @@ public class InvertibleAffineTransformation2 extends AffineTransformation2
     return this.inverse != null ? ray.transform(this.inverse) : ray;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AffineTransformation2#reset()
-   */
   @Override
   public void reset() {
     super.reset();

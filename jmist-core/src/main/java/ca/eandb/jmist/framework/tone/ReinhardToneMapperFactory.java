@@ -54,9 +54,7 @@ public final class ReinhardToneMapperFactory implements ToneMapperFactory {
     this(DEFAULT_KEY, DEFAULT_DELTA);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ToneMapperFactory#createToneMapper(java.lang.Iterable)
-   */
+  @Override
   public ToneMapper createToneMapper(Iterable<CIEXYZ> samples) {
     double Yavg = 0.0;
     double Ymax = 0.0;

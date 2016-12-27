@@ -58,9 +58,6 @@ public final class PartialLens extends AbstractLens {
     this.area = bounds.area();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Lens#sample(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.path.PathInfo, double, double, double)
-   */
   @Override
   public EyeNode sample(Point2 p, PathInfo pathInfo, double ru, double rv,
       double rj) {

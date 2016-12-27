@@ -102,11 +102,6 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
       super(inner);
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see ca.eandb.jmist.framework.IntersectionRecorderDecorator#record(ca.eandb.jmist.framework.Intersection)
-     */
     @Override
     public void record(Intersection intersection) {
       inner.record(new IntersectionDecorator(intersection) {
@@ -204,24 +199,11 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
     return setMaterialRange(primitive, 1, name);
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#intersect(int,
-   *      ca.eandb.jmist.math.Ray3,
-   *      ca.eandb.jmist.framework.IntersectionRecorder)
-   */
   @Override
   public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
     super.intersect(index, ray, new MaterialIntersectionRecorder(recorder));
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#intersect(ca.eandb.jmist.math.Ray3,
-   *      ca.eandb.jmist.framework.IntersectionRecorder)
-   */
   @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
     super.intersect(ray, new MaterialIntersectionRecorder(recorder));
@@ -256,11 +238,6 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
     applyMaterial(context);
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#createLight()
-   */
   @Override
   public Light createLight() {
 
@@ -297,7 +274,7 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 
       public void illuminate(SurfacePoint x, WavelengthPacket lambda,
           Random rng, Illuminable target) {
-        ShadingContext context = new MinimalShadingContext(rng);
+        ShadingContext context = new MinimalShadingContext();
 
         int index = rnd.next(rng);
         int primitive = primIndex[index];
@@ -319,7 +296,7 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
       }
 
       public LightNode sample(PathInfo pathInfo, double ru, double rv, double rj) {
-        ShadingContext context = new MinimalShadingContext(null);
+        ShadingContext context = new MinimalShadingContext();
 
         SeedReference ref = new SeedReference(rj);
         int index = rnd.next(ref);
@@ -342,7 +319,7 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 
   private Material lookup(int primIndex) {
     if (primIndex >= 0 && primIndex < map.size()) {
-      int matIndex = (int) map.get(primIndex);
+      int matIndex = map.get(primIndex);
       if (0 <= matIndex && matIndex < materials.size()) {
         return materials.get(matIndex);
       }

@@ -46,9 +46,7 @@ public final class UniformRayShader implements RayShader {
     this.value = value;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.RayShader#shadeRay(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
+  @Override
   public Color shadeRay(Ray3 ray, WavelengthPacket lambda) {
     return value.sample(lambda);
   }

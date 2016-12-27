@@ -72,9 +72,7 @@ public final class DistanceShader implements Shader {
     this(new Interval(0, maxDistance));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Shader#shade(ca.eandb.jmist.framework.ShadingContext)
-   */
+  @Override
   public Color shade(ShadingContext sc) {
 
     WavelengthPacket lambda = sc.getWavelengthPacket();

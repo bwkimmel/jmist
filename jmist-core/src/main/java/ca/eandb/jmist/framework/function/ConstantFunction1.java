@@ -44,9 +44,7 @@ public class ConstantFunction1 implements Function1 {
     this.value = value;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Function1#evaluate(double)
-   */
+  @Override
   public double evaluate(double x) {
     return this.value;
   }

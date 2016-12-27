@@ -69,9 +69,6 @@ public final class CheckerMask2 implements Mask2 {
     this(2);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Mask2#opacity(ca.eandb.jmist.math.Point2)
-   */
   @Override
   public double opacity(Point2 p) {
     int j = (int) (Math.floor(p.x() * nx) + Math.floor(p.y() * ny));

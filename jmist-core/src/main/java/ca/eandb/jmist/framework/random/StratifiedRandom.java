@@ -88,10 +88,7 @@ public final class StratifiedRandom implements Random {
     this(n, new SimpleRandom());
   }
 
-  /*
-   * (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Random#next()
-   */
+  @Override
   public double next() {
 
     // Randomly pick a bucket from which to generate a random number.
@@ -114,17 +111,12 @@ public final class StratifiedRandom implements Random {
 
   }
 
-  /*
-   * (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Random#reset()
-   */
+  @Override
   public void reset() {
     this.nextPartition = this.sequence.length - 1;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Random#createCompatibleRandom()
-   */
+  @Override
   public StratifiedRandom createCompatibleRandom() {
     return new StratifiedRandom(this.sequence.length, inner.createCompatibleRandom());
   }

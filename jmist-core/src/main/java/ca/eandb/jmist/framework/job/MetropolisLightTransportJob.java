@@ -247,9 +247,7 @@ public final class MetropolisLightTransportJob extends
     return path.slice(seed.lightPathLength, seed.eyePathLength);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jdcp.job.ParallelizableJob#getNextTask()
-   */
+  @Override
   public synchronized Object getNextTask() throws Exception {
     if (seedTasksProvided < seedTasks) {
       SeedTaskInfo info = new SeedTaskInfo();
@@ -265,16 +263,12 @@ public final class MetropolisLightTransportJob extends
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jdcp.job.ParallelizableJob#isComplete()
-   */
+  @Override
   public boolean isComplete() throws Exception {
     return tasksSubmitted >= (numberOfSeeds + seedTasks);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jdcp.job.ParallelizableJob#submitTaskResults(java.lang.Object, java.lang.Object, ca.eandb.util.progress.ProgressMonitor)
-   */
+  @Override
   @SuppressWarnings("unchecked")
   public void submitTaskResults(Object task, Object results,
       ProgressMonitor monitor) throws Exception {
@@ -315,9 +309,6 @@ public final class MetropolisLightTransportJob extends
       seeds.addAll(results);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jdcp.job.AbstractParallelizableJob#finish()
-   */
   @Override
   public void finish() throws Exception {
     if (!displayPartialResults) {
@@ -328,9 +319,6 @@ public final class MetropolisLightTransportJob extends
     display.finish();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jdcp.job.AbstractParallelizableJob#initialize()
-   */
   @Override
   public void initialize() throws Exception {
     image = colorModel.createRaster(width, height);
@@ -339,9 +327,7 @@ public final class MetropolisLightTransportJob extends
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jdcp.job.ParallelizableJob#worker()
-   */
+  @Override
   public TaskWorker worker() throws Exception {
     return new Worker();
   }

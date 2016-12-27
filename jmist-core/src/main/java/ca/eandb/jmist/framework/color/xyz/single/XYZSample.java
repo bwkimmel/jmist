@@ -50,42 +50,27 @@ public final class XYZSample implements SingleXYZColor {
     this.lambda = lambda;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.xyz.single.SingleXYZColor#toXYZColor()
-   */
   @Override
   public XYZColor toXYZColor() {
     CIEXYZ c = ColorUtil.convertSample2XYZ(lambda.getWavelength(), value);
     return new XYZColor(c.X(), c.Y(), c.Z());
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.xyz.single.SingleXYZColor#asSample()
-   */
   @Override
   public XYZSample asSample() {
     return this;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#getWavelengthPacket()
-   */
   @Override
   public WavelengthPacket getWavelengthPacket() {
     return lambda;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#getColorModel()
-   */
   @Override
   public ColorModel getColorModel() {
     return SingleXYZColorModel.getInstance();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#times(ca.eandb.jmist.framework.color.Color)
-   */
   @Override
   public Color times(Color other) {
     SingleXYZColor c = (SingleXYZColor) other;
@@ -96,17 +81,11 @@ public final class XYZSample implements SingleXYZColor {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#times(double)
-   */
   @Override
   public Color times(double c) {
     return new XYZSample(value * c, lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#divide(ca.eandb.jmist.framework.color.Color)
-   */
   @Override
   public Color divide(Color other) {
     SingleXYZColor c = (SingleXYZColor) other;
@@ -117,17 +96,11 @@ public final class XYZSample implements SingleXYZColor {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#divide(double)
-   */
   @Override
   public Color divide(double c) {
     return new XYZSample(value / c, lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#plus(ca.eandb.jmist.framework.color.Color)
-   */
   @Override
   public Color plus(Color other) {
     SingleXYZColor c = (SingleXYZColor) other;
@@ -138,9 +111,6 @@ public final class XYZSample implements SingleXYZColor {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#minus(ca.eandb.jmist.framework.color.Color)
-   */
   @Override
   public Color minus(Color other) {
     SingleXYZColor c = (SingleXYZColor) other;
@@ -151,49 +121,31 @@ public final class XYZSample implements SingleXYZColor {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#sqrt()
-   */
   @Override
   public Color sqrt() {
     return new XYZSample(Math.sqrt(value), lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#exp()
-   */
   @Override
   public Color exp() {
     return new XYZSample(Math.exp(value), lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#invert()
-   */
   @Override
   public Color invert() {
     return new XYZSample(1.0 / value, lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#negative()
-   */
   @Override
   public Color negative() {
     return new XYZSample(-value, lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#abs()
-   */
   @Override
   public Color abs() {
     return value >= 0 ? this : negative();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#pow(ca.eandb.jmist.framework.color.Color)
-   */
   @Override
   public Color pow(Color other) {
     SingleXYZColor c = (SingleXYZColor) other;
@@ -204,25 +156,16 @@ public final class XYZSample implements SingleXYZColor {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#pow(double)
-   */
   @Override
   public Color pow(double e) {
     return new XYZSample(Math.pow(value, e), lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#clamp(double)
-   */
   @Override
   public Color clamp(double max) {
     return (value <= max) ? this : new XYZSample(max, lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#clamp(double, double)
-   */
   @Override
   public Color clamp(double min, double max) {
     if (value < min) {
@@ -234,49 +177,31 @@ public final class XYZSample implements SingleXYZColor {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#getValue(int)
-   */
   @Override
   public double getValue(int channel) {
     return value;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#disperse(int)
-   */
   @Override
   public Color disperse(int channel) {
     throw new UnsupportedOperationException();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#luminance()
-   */
   @Override
   public double luminance() {
     return ColorUtil.convertSample2Luminance(lambda.getWavelength(), value);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#toArray()
-   */
   @Override
   public double[] toArray() {
     return new double[] { value, value, value };
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#toXYZ()
-   */
   @Override
   public CIEXYZ toXYZ() {
     return ColorUtil.convertSample2XYZ(lambda.getWavelength(), value);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Color#toRGB()
-   */
   @Override
   public RGB toRGB() {
     return ColorUtil.convertSample2RGB(lambda.getWavelength(), value);

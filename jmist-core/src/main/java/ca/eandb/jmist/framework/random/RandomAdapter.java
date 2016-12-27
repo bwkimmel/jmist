@@ -72,23 +72,17 @@ public final class RandomAdapter implements Random {
     rnd.setSeed(seed);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Random#createCompatibleRandom()
-   */
+  @Override
   public Random createCompatibleRandom() {
     return new RandomAdapter(rnd);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Random#next()
-   */
+  @Override
   public double next() {
     return rnd.nextDouble();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Random#reset()
-   */
+  @Override
   public void reset() {
     /* nothing to do. */
   }

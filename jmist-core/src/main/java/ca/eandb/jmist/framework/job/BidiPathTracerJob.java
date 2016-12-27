@@ -127,9 +127,7 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
         displayPartialResults);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jdcp.job.ParallelizableJob#getNextTask()
-   */
+  @Override
   public synchronized Object getNextTask() throws Exception {
     if (tasksProvided < tasks) {
       return tasksProvided++ < extraPasses ? minPassesPerTask + 1
@@ -139,16 +137,12 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jdcp.job.ParallelizableJob#isComplete()
-   */
+  @Override
   public boolean isComplete() throws Exception {
     return tasksSubmitted == tasks;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jdcp.job.ParallelizableJob#submitTaskResults(java.lang.Object, java.lang.Object, ca.eandb.util.progress.ProgressMonitor)
-   */
+  @Override
   public synchronized void submitTaskResults(Object task, Object results,
       ProgressMonitor monitor) throws Exception {
 
@@ -202,9 +196,6 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
 //    }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jdcp.job.AbstractParallelizableJob#initialize()
-   */
   @Override
   public void initialize() throws Exception {
     raster = colorModel.createRaster(width, height);
@@ -213,9 +204,6 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jdcp.job.AbstractParallelizableJob#finish()
-   */
   @Override
   public void finish() throws Exception {
     if (!displayPartialResults) {
@@ -230,9 +218,7 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
     display.finish();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jdcp.job.ParallelizableJob#worker()
-   */
+  @Override
   public TaskWorker worker() throws Exception {
     return new Worker();
   }
@@ -254,9 +240,7 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
       }
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jdcp.job.TaskWorker#performTask(java.lang.Object, ca.eandb.util.progress.ProgressMonitor)
-     */
+    @Override
     public Object performTask(Object task, ProgressMonitor monitor) {
       int passes = (Integer) task;
       Box2 bounds;

@@ -48,38 +48,28 @@ public final class SurfaceLightNode extends LightTerminalNode {
     this.surf = surf;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getCosine(ca.eandb.jmist.math.Vector3)
-   */
+  @Override
   public double getCosine(Vector3 v) {
     Vector3 n = surf.getShadingNormal();
     return Math.abs(v.unit().dot(n));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getPDF()
-   */
+  @Override
   public double getPDF() {
     return 1.0;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getPosition()
-   */
+  @Override
   public HPoint3 getPosition() {
     return surf.getPosition();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#isSpecular()
-   */
+  @Override
   public boolean isSpecular() {
     return false;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#sample(double, double, double)
-   */
+  @Override
   public ScatteredRay sample(double ru, double rv, double rj) {
     PathInfo path = getPathInfo();
     WavelengthPacket lambda = path.getWavelengthPacket();
@@ -87,9 +77,7 @@ public final class SurfaceLightNode extends LightTerminalNode {
     return material.emit(surf, lambda, ru, rv, rj);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#scatter(ca.eandb.jmist.math.Vector3)
-   */
+  @Override
   public Color scatter(Vector3 v) {
     PathInfo path = getPathInfo();
     WavelengthPacket lambda = path.getWavelengthPacket();
@@ -97,9 +85,7 @@ public final class SurfaceLightNode extends LightTerminalNode {
     return material.emission(surf, v, lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getPDF(ca.eandb.jmist.math.Vector3)
-   */
+  @Override
   public double getPDF(Vector3 v) {
     PathInfo path = getPathInfo();
     WavelengthPacket lambda = path.getWavelengthPacket();

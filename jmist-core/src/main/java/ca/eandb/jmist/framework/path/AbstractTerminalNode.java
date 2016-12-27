@@ -38,44 +38,32 @@ public abstract class AbstractTerminalNode extends AbstractPathNode {
     super(pathInfo, ru, rv, rj);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getCumulativeWeight()
-   */
+  @Override
   public final Color getCumulativeWeight() {
     return getWhite();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getDepth()
-   */
+  @Override
   public final int getDepth() {
     return 0;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getParent()
-   */
+  @Override
   public final PathNode getParent() {
     return null;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getGeometricFactor()
-   */
+  @Override
   public final double getGeometricFactor() {
     return 1.0;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getReversePDF(ca.eandb.jmist.math.Vector3)
-   */
+  @Override
   public final double getReversePDF(Vector3 v) {
     return 1.0;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.PathNode#getReversePDF()
-   */
+  @Override
   public final double getReversePDF() {
     return 1.0;
   }

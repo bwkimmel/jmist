@@ -50,9 +50,6 @@ public final class AutomaticLinearChannelVisualizer extends
     this.inner = new LinearChannelVisualizer(channel);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.display.visualizer.ColorVisualizer#analyze(java.lang.Iterable)
-   */
   @Override
   public boolean analyze(Iterable<Color> samples) {
     double minimum = Double.POSITIVE_INFINITY;
@@ -72,9 +69,6 @@ public final class AutomaticLinearChannelVisualizer extends
     return true;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.display.visualizer.ColorVisualizer#visualize(ca.eandb.jmist.framework.color.Color)
-   */
   @Override
   public RGB visualize(Color color) {
     return inner.visualize(color);

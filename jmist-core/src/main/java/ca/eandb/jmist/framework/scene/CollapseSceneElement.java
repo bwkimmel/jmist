@@ -55,9 +55,6 @@ public final class CollapseSceneElement extends SceneElementDecorator {
     super(inner);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#generateImportanceSampledSurfacePoint(int, ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext, double, double, double)
-   */
   @Override
   public double generateImportanceSampledSurfacePoint(int index,
       SurfacePoint x, ShadingContext context, double ru, double rv,
@@ -68,9 +65,6 @@ public final class CollapseSceneElement extends SceneElementDecorator {
     return generateImportanceSampledSurfacePoint(x, context, ru, rv, rj);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#generateImportanceSampledSurfacePoint(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext, double, double, double)
-   */
   @Override
   public double generateImportanceSampledSurfacePoint(SurfacePoint x,
       ShadingContext context, double ru, double rv, double rj) {
@@ -79,9 +73,6 @@ public final class CollapseSceneElement extends SceneElementDecorator {
     return weight;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#generateRandomSurfacePoint(int, ca.eandb.jmist.framework.ShadingContext, double, double, double)
-   */
   @Override
   public void generateRandomSurfacePoint(int index, ShadingContext context,
       double ru, double rv, double rj) {
@@ -91,9 +82,6 @@ public final class CollapseSceneElement extends SceneElementDecorator {
     generateRandomSurfacePoint(context, ru, rv, rj);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext, double, double, double)
-   */
   @Override
   public void generateRandomSurfacePoint(ShadingContext context, double ru,
       double rv, double rj) {
@@ -101,9 +89,6 @@ public final class CollapseSceneElement extends SceneElementDecorator {
     context.setPrimitiveIndex(0);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#getBoundingBox(int)
-   */
   @Override
   public Box3 getBoundingBox(int index) {
     if (index != 0) {
@@ -112,9 +97,6 @@ public final class CollapseSceneElement extends SceneElementDecorator {
     return super.boundingBox();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#getBoundingSphere(int)
-   */
   @Override
   public Sphere getBoundingSphere(int index) {
     if (index != 0) {
@@ -123,17 +105,11 @@ public final class CollapseSceneElement extends SceneElementDecorator {
     return super.boundingSphere();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#getNumPrimitives()
-   */
   @Override
   public int getNumPrimitives() {
     return 1;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#getSurfaceArea(int)
-   */
   @Override
   public double getSurfaceArea(int index) {
     if (index != 0) {
@@ -142,9 +118,6 @@ public final class CollapseSceneElement extends SceneElementDecorator {
     return super.getSurfaceArea();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-   */
   @Override
   public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
     if (index != 0) {
@@ -153,9 +126,6 @@ public final class CollapseSceneElement extends SceneElementDecorator {
     intersect(ray, recorder);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-   */
   @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
     super.intersect(ray, new IntersectionRecorderDecorator(recorder) {
@@ -170,9 +140,6 @@ public final class CollapseSceneElement extends SceneElementDecorator {
     });
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#intersects(int, ca.eandb.jmist.math.Box3)
-   */
   @Override
   public boolean intersects(int index, Box3 box) {
     if (index != 0) {
@@ -186,9 +153,6 @@ public final class CollapseSceneElement extends SceneElementDecorator {
     return false;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#visibility(int, ca.eandb.jmist.math.Ray3)
-   */
   @Override
   public boolean visibility(int index, Ray3 ray) {
     if (index != 0) {

@@ -41,23 +41,17 @@ public final class SynchronizedRandom implements Random {
     this.inner = inner;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Random#next()
-   */
+  @Override
   public synchronized double next() {
     return this.inner.next();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Random#reset()
-   */
+  @Override
   public synchronized void reset() {
     this.inner.reset();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Random#createCompatibleRandom()
-   */
+  @Override
   public SynchronizedRandom createCompatibleRandom() {
     return new SynchronizedRandom(this.inner.createCompatibleRandom());
   }

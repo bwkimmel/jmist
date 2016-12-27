@@ -65,9 +65,6 @@ public final class ThreadLocalRandom implements Random {
       this.prototype = prototype;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.ThreadLocal#initialValue()
-     */
     @Override
     protected Random initialValue() {
       return prototype.createCompatibleRandom();
@@ -90,23 +87,17 @@ public final class ThreadLocalRandom implements Random {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Random#next()
-   */
+  @Override
   public double next() {
     return this.random.get().next();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Random#reset()
-   */
+  @Override
   public void reset() {
     this.random.get().reset();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Random#createCompatibleRandom()
-   */
+  @Override
   public ThreadLocalRandom createCompatibleRandom() {
     return new ThreadLocalRandom(this.random.get().createCompatibleRandom());
   }

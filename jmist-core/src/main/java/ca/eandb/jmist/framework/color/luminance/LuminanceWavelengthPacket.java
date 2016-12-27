@@ -54,9 +54,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
     return wavelength;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.WavelengthPacket#getColorModel()
-   */
+  @Override
   public ColorModel getColorModel() {
     return LuminanceColorModel.getInstance();
   }

@@ -85,9 +85,6 @@ public final class SliceTexture2 implements Texture2 {
     this(origin, basis.u(), basis.v(), source);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Texture2#evaluate(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public Color evaluate(Point2 p, WavelengthPacket lambda) {
     Point3 q = origin.plus(u.times(p.x())).plus(v.times(p.y()));

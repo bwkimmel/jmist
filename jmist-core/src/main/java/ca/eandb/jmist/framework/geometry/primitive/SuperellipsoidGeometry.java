@@ -66,9 +66,7 @@ public final class SuperellipsoidGeometry extends PrimitiveGeometry {
     this.n = n;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-   */
+  @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 
     List<Double>  a = getIntervals(ray);
@@ -329,17 +327,11 @@ public final class SuperellipsoidGeometry extends PrimitiveGeometry {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AbstractGeometry#getBasis(ca.eandb.jmist.framework.AbstractGeometry.GeometryIntersection)
-   */
   @Override
   protected Basis3 getBasis(GeometryIntersection x) {
     return Basis3.fromW(x.getNormal(), Basis3.Orientation.RIGHT_HANDED);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AbstractGeometry#getNormal(ca.eandb.jmist.framework.AbstractGeometry.GeometryIntersection)
-   */
   @Override
   protected Vector3 getNormal(GeometryIntersection x) {
 
@@ -357,32 +349,18 @@ public final class SuperellipsoidGeometry extends PrimitiveGeometry {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AbstractGeometry#getTextureCoordinates(ca.eandb.jmist.framework.AbstractGeometry.GeometryIntersection)
-   */
   @Override
   protected Point2 getTextureCoordinates(GeometryIntersection x) {
     SphericalCoordinates sc = SphericalCoordinates.fromCartesian(x.getPosition().vectorFromOrigin());
     return new Point2((Math.PI + sc.azimuthal()) / (2.0 * Math.PI), sc.polar() / Math.PI);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#isClosed()
-   */
-  public boolean isClosed() {
-    return true;
-  }
-
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
-   */
+  @Override
   public Box3 boundingBox() {
     return SUPERELLIPSOID_BOUNDING_BOX;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
-   */
+  @Override
   public Sphere boundingSphere() {
     return new Sphere(Point3.ORIGIN, Math.sqrt(2.0));
   }

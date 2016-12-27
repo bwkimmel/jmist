@@ -38,9 +38,6 @@ public final class ProductFunction1 extends CompositeFunction1 {
    */
   private static final long serialVersionUID = 3613122771597657293L;
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.function.CompositeFunction1#addChild(ca.eandb.jmist.framework.Function1)
-   */
   @Override
   public ProductFunction1 addChild(Function1 child) {
     if (child instanceof ProductFunction1) {
@@ -70,9 +67,7 @@ public final class ProductFunction1 extends CompositeFunction1 {
     this.addChild(a).addChild(b);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Function1#evaluate(double)
-   */
+  @Override
   public double evaluate(double x) {
 
     double product = 1.0;

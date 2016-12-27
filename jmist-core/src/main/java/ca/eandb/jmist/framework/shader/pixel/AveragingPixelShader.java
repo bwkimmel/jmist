@@ -31,16 +31,14 @@ import ca.eandb.jmist.framework.color.ColorUtil;
 import ca.eandb.jmist.math.Box2;
 
 /**
- * A pixel shader decorator that averages the results of another
- * pixel shader.
+ * A pixel shader decorator that averages the results of another pixel shader.
  * @author Brad Kimmel
  */
 public final class AveragingPixelShader implements PixelShader {
 
   /**
    * Initializes the inner pixel shader.
-   * @param numSamples The number of samples to average when shading
-   *     a pixel.
+   * @param numSamples The number of samples to average when shading a pixel.
    * @param pixelShader The pixel shader average the results from.
    */
   public AveragingPixelShader(int numSamples, PixelShader pixelShader) {
@@ -51,9 +49,7 @@ public final class AveragingPixelShader implements PixelShader {
     this.pixelShader = pixelShader;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.PixelShader#shadePixel(ca.eandb.jmist.math.Box2)
-   */
+  @Override
   public Color shadePixel(Box2 bounds) {
     Color pixel = null;
 
@@ -64,18 +60,13 @@ public final class AveragingPixelShader implements PixelShader {
     return pixel.divide(numSamples);
   }
 
-  /**
-   * The number of samples to average from the decorated pixel
-   * shader.
-   */
+  /** The number of samples to average from the decorated pixel shader. */
   private final int numSamples;
 
   /** The pixel shader from which to average the results. */
   private final PixelShader pixelShader;
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -1978147732952459483L;
 
 }

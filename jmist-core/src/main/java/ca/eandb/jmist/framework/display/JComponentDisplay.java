@@ -146,9 +146,6 @@ public final class JComponentDisplay extends JComponent implements Display,
     regenerateToneMapper();
   }
 
-  /* (non-Javadoc)
-   * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-   */
   @Override
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
@@ -203,9 +200,7 @@ public final class JComponentDisplay extends JComponent implements Display,
     super.repaint();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#fill(int, int, int, int, ca.eandb.jmist.framework.color.Color)
-   */
+  @Override
   public void fill(int x, int y, int w, int h, Color color) {
     CIEXYZ xyz = color.toXYZ();
     hdrImage.slice(x, y, w, h).setAll(xyz);
@@ -223,9 +218,7 @@ public final class JComponentDisplay extends JComponent implements Display,
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#finish()
-   */
+  @Override
   public void finish() {
     if (toneMapperAge > 0) {
       toneMapper = toneMapperFactory.createToneMapper(hdrImage);
@@ -234,9 +227,7 @@ public final class JComponentDisplay extends JComponent implements Display,
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#initialize(int, int, ca.eandb.jmist.framework.color.ColorModel)
-   */
+  @Override
   public void initialize(int w, int h, ColorModel colorModel) {
     hdrImage = new Array2<CIEXYZ>(w, h);
     ldrImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
@@ -247,9 +238,7 @@ public final class JComponentDisplay extends JComponent implements Display,
     super.setPreferredSize(new Dimension(w, h));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#setPixel(int, int, ca.eandb.jmist.framework.color.Color)
-   */
+  @Override
   public void setPixel(int x, int y, Color pixel) {
     CIEXYZ xyz = pixel.toXYZ();
     hdrImage.set(x, y, xyz);
@@ -260,9 +249,7 @@ public final class JComponentDisplay extends JComponent implements Display,
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#setPixels(int, int, ca.eandb.jmist.framework.Raster)
-   */
+  @Override
   public void setPixels(int x, int y, Raster pixels) {
     int w = pixels.getWidth();
     int h = pixels.getHeight();
@@ -286,38 +273,28 @@ public final class JComponentDisplay extends JComponent implements Display,
     }
   }
 
-  /* (non-Javadoc)
-   * @see javax.swing.Scrollable#getPreferredScrollableViewportSize()
-   */
+  @Override
   public Dimension getPreferredScrollableViewportSize() {
     return getPreferredSize();
   }
 
-  /* (non-Javadoc)
-   * @see javax.swing.Scrollable#getScrollableBlockIncrement(java.awt.Rectangle, int, int)
-   */
+  @Override
   public int getScrollableBlockIncrement(Rectangle visibleRect,
       int orientation, int direction) {
     return 1;
   }
 
-  /* (non-Javadoc)
-   * @see javax.swing.Scrollable#getScrollableTracksViewportHeight()
-   */
+  @Override
   public boolean getScrollableTracksViewportHeight() {
     return false;
   }
 
-  /* (non-Javadoc)
-   * @see javax.swing.Scrollable#getScrollableTracksViewportWidth()
-   */
+  @Override
   public boolean getScrollableTracksViewportWidth() {
     return false;
   }
 
-  /* (non-Javadoc)
-   * @see javax.swing.Scrollable#getScrollableUnitIncrement(java.awt.Rectangle, int, int)
-   */
+  @Override
   public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
         if (orientation == SwingConstants.HORIZONTAL) {
             return visibleRect.width - 1;

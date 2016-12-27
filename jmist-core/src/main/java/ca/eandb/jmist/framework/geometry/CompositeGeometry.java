@@ -64,9 +64,7 @@ public class CompositeGeometry extends AbstractGeometry {
     return this;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
-   */
+  @Override
   public Box3 boundingBox() {
 
     /* The default behavior is pessimistic (i.e., the result is the union
@@ -82,9 +80,7 @@ public class CompositeGeometry extends AbstractGeometry {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
-   */
+  @Override
   public Sphere boundingSphere() {
 
     /* The default behavior is to return the sphere that bounds the
@@ -104,9 +100,7 @@ public class CompositeGeometry extends AbstractGeometry {
     return this.children;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getBoundingBox(int)
-   */
+  @Override
   public Box3 getBoundingBox(int index) {
     int childIndex = getChildIndex(index);
     int offset = offsets.get(childIndex);
@@ -114,9 +108,7 @@ public class CompositeGeometry extends AbstractGeometry {
     return child.getBoundingBox(index - offset);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getBoundingSphere(int)
-   */
+  @Override
   public Sphere getBoundingSphere(int index) {
     int childIndex = getChildIndex(index);
     int offset = offsets.get(childIndex);
@@ -124,9 +116,7 @@ public class CompositeGeometry extends AbstractGeometry {
     return child.getBoundingSphere(index - offset);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getNumPrimitives()
-   */
+  @Override
   public int getNumPrimitives() {
     return offsets.get(offsets.size() - 1);
   }
@@ -144,9 +134,7 @@ public class CompositeGeometry extends AbstractGeometry {
     return childIndex;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-   */
+  @Override
   public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
     int childIndex = getChildIndex(index);
     int offset = offsets.get(childIndex);

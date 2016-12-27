@@ -43,9 +43,7 @@ public final class ConstantToneMapperFactory implements ToneMapperFactory {
     this.toneMapper = toneMapper;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ToneMapperFactory#createToneMapper(java.lang.Iterable)
-   */
+  @Override
   public ToneMapper createToneMapper(Iterable<CIEXYZ> samples) {
     return toneMapper;
   }

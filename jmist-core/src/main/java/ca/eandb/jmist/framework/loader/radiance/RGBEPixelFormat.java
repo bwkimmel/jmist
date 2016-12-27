@@ -48,30 +48,22 @@ final class RGBEPixelFormat implements PixelFormat {
    */
   private RGBEPixelFormat() {}
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.radiance.PixelFormat#toRGB(int)
-   */
+  @Override
   public RGB toRGB(int raw) {
     return RGB.fromRGBE(raw);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.radiance.PixelFormat#toRaw(ca.eandb.jmist.framework.color.RGB)
-   */
+  @Override
   public int toRaw(RGB rgb) {
     return rgb.toRGBE();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.radiance.PixelFormat#toRaw(ca.eandb.jmist.framework.color.CIEXYZ)
-   */
+  @Override
   public int toRaw(CIEXYZ xyz) {
     return xyz.toRGB().toRGBE();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.radiance.PixelFormat#toXYZ(int)
-   */
+  @Override
   public CIEXYZ toXYZ(int raw) {
     return toRGB(raw).toXYZ();
   }

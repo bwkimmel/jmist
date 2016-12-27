@@ -89,9 +89,7 @@ public final class HemisphericalEnvironmentRayShader implements RayShader {
     this.background = background;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.RayShader#shadeRay(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
+  @Override
   public Color shadeRay(Ray3 ray, WavelengthPacket lambda) {
     if (ray.direction().dot(basis.w()) >= 0.0) {
       SphericalCoordinates sc = SphericalCoordinates.fromCartesian(ray.direction(), basis);

@@ -221,9 +221,7 @@ public final class Array2<T> implements Iterable<T> {
     }
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Iterable#iterator()
-   */
+  @Override
   public Iterator<T> iterator() {
     return new Array2Iterator();
   }
@@ -240,16 +238,12 @@ public final class Array2<T> implements Iterable<T> {
     /** The current column. */
     private int col = 0;
 
-    /* (non-Javadoc)
-     * @see java.util.Iterator#hasNext()
-     */
+    @Override
     public boolean hasNext() {
       return row < rows;
     }
 
-    /* (non-Javadoc)
-     * @see java.util.Iterator#next()
-     */
+    @Override
     public T next() {
       T value = get(row, col++);
       if (col >= cols) {

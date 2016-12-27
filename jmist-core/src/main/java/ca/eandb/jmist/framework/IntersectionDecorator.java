@@ -44,30 +44,22 @@ public abstract class IntersectionDecorator implements Intersection {
     this.inner = inner;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Intersection#distance()
-   */
+  @Override
   public double getDistance() {
     return this.inner.getDistance();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Intersection#getTolerance()
-   */
+  @Override
   public double getTolerance() {
     return this.inner.getTolerance();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Intersection#front()
-   */
+  @Override
   public boolean isFront() {
     return this.inner.isFront();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Intersection#prepareShadingContext(ca.eandb.jmist.framework.ShadingContext)
-   */
+  @Override
   public final void prepareShadingContext(ShadingContext context) {
     inner.prepareShadingContext(context);
     transformShadingContext(context);

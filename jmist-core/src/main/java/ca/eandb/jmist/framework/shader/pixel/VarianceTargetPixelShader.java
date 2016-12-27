@@ -43,8 +43,8 @@ public final class VarianceTargetPixelShader implements PixelShader {
   private static final long serialVersionUID = 2790315811680362011L;
 
   /**
-   * The target variance.  Sampling will stop once the variance drops below
-   * this level.
+   * The target variance.  Sampling will stop once the variance drops below this
+   * level.
    */
   private final double varianceTarget;
 
@@ -61,10 +61,10 @@ public final class VarianceTargetPixelShader implements PixelShader {
   private final PixelShader pixelShader;
 
   /**
-   * A value indicating whether to render in test mode.  In test mode, the
-   * color of the pixel returned is a greyscale value indicating how many
-   * samples were used (black represents the minimum number of samples were
-   * used, white indicates that the maximum number of samples were used).
+   * A value indicating whether to render in test mode.  In test mode, the color
+   * of the pixel returned is a greyscale value indicating how many samples were
+   * used (black represents the minimum number of samples were used, white
+   * indicates that the maximum number of samples were used).
    */
   private final boolean testMode;
 
@@ -76,13 +76,12 @@ public final class VarianceTargetPixelShader implements PixelShader {
    * @param maxSamples The maximum number of samples to use.
    * @param checkInterval The number of samples to compute between variance
    *     tests.
-   * @param testMode A value indicating whether to render in test mode.  In
-   *     test mode, the color of the pixel returned is a greyscale value
-   *     indicating how many samples were used (black represents the minimum
-   *     number of samples were used, white indicates that the maximum
-   *     number of samples were used).
-   * @param pixelShader The <code>PixelShader</code> to use to gather
-   *     samples.
+   * @param testMode A value indicating whether to render in test mode.  In test
+   *     mode, the color of the pixel returned is a greyscale value indicating
+   *     how many samples were used (black represents the minimum number of
+   *     samples were used, white indicates that the maximum number of samples
+   *     were used).
+   * @param pixelShader The <code>PixelShader</code> to use to gather samples.
    */
   public VarianceTargetPixelShader(double varianceTarget, int minSamples, int maxSamples, int checkInterval, boolean testMode, PixelShader pixelShader) {
     if (minSamples < 2) {
@@ -113,16 +112,13 @@ public final class VarianceTargetPixelShader implements PixelShader {
    * @param maxSamples The maximum number of samples to use.
    * @param checkInterval The number of samples to compute between variance
    *     tests.
-   * @param pixelShader The <code>PixelShader</code> to use to gather
-   *     samples.
+   * @param pixelShader The <code>PixelShader</code> to use to gather samples.
    */
   public VarianceTargetPixelShader(double varianceTarget, int minSamples, int maxSamples, int checkInterval, PixelShader pixelShader) {
     this(varianceTarget, minSamples, maxSamples, checkInterval, false, pixelShader);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.PixelShader#shadePixel(ca.eandb.jmist.math.Box2)
-   */
+  @Override
   public Color shadePixel(Box2 bounds) {
     Color pixel = pixelShader.shadePixel(bounds);
     Color s = null;
@@ -133,7 +129,7 @@ public final class VarianceTargetPixelShader implements PixelShader {
       if (i >= minSamples) {
         if (--j <= 0) {
           j = checkInterval;
-          if (ColorUtil.getMaxChannelValue(s) < varianceTarget * (double) ((i - 1) * i)) {
+          if (ColorUtil.getMaxChannelValue(s) < varianceTarget * ((i - 1) * i)) {
             break;
           }
         }

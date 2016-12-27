@@ -58,9 +58,7 @@ public final class IntegerSensorArray implements Callback, Serializable {
     Arrays.fill(hits, 0);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.measurement.CollectorSphere.Callback#record(int)
-   */
+  @Override
   public void record(int sensor) {
     hits[sensor]++;
   }

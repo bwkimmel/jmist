@@ -50,25 +50,16 @@ final class PlyFloatProperty extends PlySingletonProperty {
     this.value = value;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getNormalizedDoubleValue()
-   */
   @Override
   public double getNormalizedDoubleValue() {
     return value;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getDoubleValue()
-   */
   @Override
   public double getDoubleValue() {
     return value;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getIntValue()
-   */
   @Override
   public int getIntValue() {
     return (int) value;

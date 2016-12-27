@@ -59,23 +59,17 @@ public final class DirectionalLightSample implements LightSample {
     this(x, direction, radiance, true);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.LightSample#castShadowRay(ca.eandb.jmist.framework.VisibilityFunction3)
-   */
+  @Override
   public boolean castShadowRay(VisibilityFunction3 vf) {
     return shadows && vf.visibility(new Ray3(x.getPosition(), direction));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.LightSample#getRadiantIntensity()
-   */
+  @Override
   public Color getRadiantIntensity() {
     return radiance;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.LightSample#getDirToLight()
-   */
+  @Override
   public Vector3 getDirToLight() {
     return direction;
   }

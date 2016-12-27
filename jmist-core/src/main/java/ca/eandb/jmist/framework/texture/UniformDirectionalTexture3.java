@@ -57,16 +57,12 @@ public final class UniformDirectionalTexture3 implements DirectionalTexture3 {
     this.value = value;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.DirectionalTexture3#evaluate(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
+  @Override
   public Color evaluate(Vector3 v, WavelengthPacket lambda) {
     return value.sample(lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.DirectionalTexture3#evaluate(ca.eandb.jmist.math.Vector3)
-   */
+  @Override
   public Spectrum evaluate(Vector3 v) {
     return value;
   }

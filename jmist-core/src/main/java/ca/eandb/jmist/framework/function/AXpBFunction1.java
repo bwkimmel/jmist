@@ -52,9 +52,7 @@ public final class AXpBFunction1 implements Function1 {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Function1#evaluate(double)
-   */
+  @Override
   public double evaluate(double x) {
     return a * this.inner.evaluate(x) + b;
   }

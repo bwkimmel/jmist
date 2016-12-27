@@ -39,23 +39,17 @@ public abstract class OpaqueMaterial extends AbstractMaterial {
   /** Serialization version ID. */
   private static final long serialVersionUID = -1152259343035236209L;
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Medium#extinctionIndex(ca.eandb.jmist.math.Point3, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
+  @Override
   public Color extinctionIndex(Point3 p, WavelengthPacket lambda) {
     return lambda.getColorModel().getGray(Double.POSITIVE_INFINITY, lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Medium#refractiveIndex(ca.eandb.jmist.math.Point3, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
+  @Override
   public Color refractiveIndex(Point3 p, WavelengthPacket lambda) {
     return lambda.getColorModel().getWhite(lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Medium#transmittance(ca.eandb.jmist.math.Ray3, double, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
+  @Override
   public Color transmittance(Ray3 ray, double distance, WavelengthPacket lambda) {
     return lambda.getColorModel().getBlack(lambda);
   }

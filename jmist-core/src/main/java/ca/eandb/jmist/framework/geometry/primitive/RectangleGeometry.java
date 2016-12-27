@@ -72,9 +72,7 @@ public final class RectangleGeometry extends PrimitiveGeometry {
     this.twoSided = twoSided;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-   */
+  @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 
     boolean  fromTop = ray.direction().dot(plane.normal()) < 0.0;
@@ -115,9 +113,6 @@ public final class RectangleGeometry extends PrimitiveGeometry {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AbstractGeometry#getBasis(ca.eandb.jmist.framework.AbstractGeometry.GeometryIntersection)
-   */
   @Override
   protected Basis3 getBasis(GeometryIntersection x) {
     switch (x.getTag())
@@ -128,9 +123,6 @@ public final class RectangleGeometry extends PrimitiveGeometry {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AbstractGeometry#getNormal(ca.eandb.jmist.framework.AbstractGeometry.GeometryIntersection)
-   */
   @Override
   protected Vector3 getNormal(GeometryIntersection x) {
     switch (x.getTag())
@@ -141,16 +133,7 @@ public final class RectangleGeometry extends PrimitiveGeometry {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#isClosed()
-   */
-  public boolean isClosed() {
-    return false;
-  }
-
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
-   */
+  @Override
   public Box3 boundingBox() {
     BoundingBoxBuilder3 builder = new BoundingBoxBuilder3();
     builder.add(center.plus(basis.u().times( ru)).plus(basis.v().times( rv)));
@@ -160,9 +143,7 @@ public final class RectangleGeometry extends PrimitiveGeometry {
     return builder.getBoundingBox();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
-   */
+  @Override
   public Sphere boundingSphere() {
     return new Sphere(this.center, Math.sqrt(ru * ru * rv * rv));
   }
@@ -222,9 +203,6 @@ public final class RectangleGeometry extends PrimitiveGeometry {
     x.prepareShadingContext(context);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getSurfaceArea()
-   */
   @Override
   public double getSurfaceArea() {
     return (twoSided ? 8.0 : 4.0) * ru * rv;

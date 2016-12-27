@@ -176,9 +176,6 @@ public final class CIEIlluminantDSpectrum implements Function1 {
     return fromCorrelatedColorTemperature(t * (1.4388 / 1.438));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Function1#evaluate(double)
-   */
   @Override
   public double evaluate(double x) {
     return S0.evaluate(x) + m1 * S1.evaluate(x) + m2 * S2.evaluate(x);

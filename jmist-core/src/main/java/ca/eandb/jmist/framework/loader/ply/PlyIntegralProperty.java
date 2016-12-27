@@ -50,25 +50,16 @@ final class PlyIntegralProperty extends PlySingletonProperty {
     this.value = value;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getNormalizedDoubleValue()
-   */
   @Override
   public double getNormalizedDoubleValue() {
     return (double) value / (double) getPropertyDescriptor().getDataType().getMaxValue();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getDoubleValue()
-   */
   @Override
   public double getDoubleValue() {
     return value;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.ply.PlyProperty#getIntValue()
-   */
   @Override
   public int getIntValue() {
     return (int) value;

@@ -58,45 +58,35 @@ public final class CompositeDisplay implements Display, Serializable {
     return this;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#fill(int, int, int, int, ca.eandb.jmist.framework.color.Color)
-   */
+  @Override
   public void fill(int x, int y, int w, int h, Color color) {
     for (Display child : children) {
       child.fill(x, y, w, h, color);
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#finish()
-   */
+  @Override
   public void finish() {
     for (Display child : children) {
       child.finish();
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#initialize(int, int, ca.eandb.jmist.framework.color.ColorModel)
-   */
+  @Override
   public void initialize(int w, int h, ColorModel colorModel) {
     for (Display child : children) {
       child.initialize(w, h, colorModel);
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#setPixel(int, int, ca.eandb.jmist.framework.color.Color)
-   */
+  @Override
   public void setPixel(int x, int y, Color pixel) {
     for (Display child : children) {
       child.setPixel(x, y, pixel);
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#setPixels(int, int, ca.eandb.jmist.framework.Raster)
-   */
+  @Override
   public void setPixels(int x, int y, Raster pixels) {
     for (Display child : children) {
       child.setPixels(x, y, pixels);

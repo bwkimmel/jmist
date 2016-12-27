@@ -422,9 +422,6 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jdcp.job.AbstractParallelizableJob#initialize()
-   */
   @Override
   public void initialize() {
     int numInSensors = worker.incidentCollector.sensors();
@@ -434,11 +431,7 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
     this.cast = new int[channels.length * specimens.length * numInSensors];
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see ca.eandb.jmist.framework.ParallelizableJob#getNextTask()
-   */
+  @Override
   public synchronized Object getNextTask() {
 
     if (outstandingSamplesPerMeasurement < samplesPerMeasurement) {
@@ -495,9 +488,7 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ParallelizableJob#submitTaskResults(java.lang.Object, java.lang.Object, ca.eandb.util.progress.ProgressMonitor)
-   */
+  @Override
   public void submitTaskResults(Object task, Object results,
       ProgressMonitor monitor) {
 
@@ -514,16 +505,12 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ParallelizableJob#isComplete()
-   */
+  @Override
   public boolean isComplete() {
     return this.tasksReturned >= this.totalTasks;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ParallelizableJob#finish()
-   */
+  @Override
   public void finish() throws IOException {
 
     MatlabWriter matlab = new MatlabWriter(createFileOutputStream("tm.mat"));
@@ -585,9 +572,6 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jdcp.job.AbstractParallelizableJob#archiveState(ca.eandb.util.io.Archive)
-   */
   @Override
   protected void archiveState(Archive ar) throws IOException, ClassNotFoundException {
     sca = (int[]) ar.archiveObject(sca);
@@ -598,9 +582,7 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
     tasksReturned = ar.archiveInt(tasksReturned);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ParallelizableJob#worker()
-   */
+  @Override
   public TaskWorker worker() {
     return this.worker;
   }
@@ -673,9 +655,7 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
       this.incidentPointsOutward = incidentPointsOutward;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.TaskWorker#performTask(java.lang.Object, ca.eandb.util.progress.ProgressMonitor)
-     */
+    @Override
     public Object performTask(Object task, ProgressMonitor monitor) {
 
       Task        info      = (Task) task;

@@ -109,9 +109,6 @@ public final class PolygonMask2 implements Mask2 {
     this(vertices, DEFAULT_GRID_SIZE);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Mask2#opacity(ca.eandb.jmist.math.Point2)
-   */
   @Override
   public double opacity(Point2 p) {
     if (boundingBox.contains(p)) {

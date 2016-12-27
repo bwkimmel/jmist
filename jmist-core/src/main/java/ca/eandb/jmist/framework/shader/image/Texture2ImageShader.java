@@ -51,9 +51,6 @@ public final class Texture2ImageShader implements ImageShader {
     this.texture = texture;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.ImageShader#shadeAt(ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public Color shadeAt(Point2 p, WavelengthPacket lambda) {
     return texture.evaluate(p, lambda);

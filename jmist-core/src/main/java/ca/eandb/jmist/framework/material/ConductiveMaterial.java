@@ -76,30 +76,21 @@ public final class ConductiveMaterial extends AbstractMaterial {
     this(n, k, alpha, true);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Medium#extinctionIndex(ca.eandb.jmist.math.Point3, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
+  @Override
   public Color extinctionIndex(Point3 p, WavelengthPacket lambda) {
     return k.sample(lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Medium#refractiveIndex(ca.eandb.jmist.math.Point3, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
+  @Override
   public Color refractiveIndex(Point3 p, WavelengthPacket lambda) {
     return n.sample(lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Medium#transmittance(ca.eandb.jmist.math.Ray3, double, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
+  @Override
   public Color transmittance(Ray3 ray, final double distance, WavelengthPacket lambda) {
     return alpha != null ? alpha.sample(lambda).times(-distance).exp() : lambda.getColorModel().getBlack(lambda);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random, ca.eandb.jmist.framework.ScatteredRayRecorder)
-   */
   @Override
   public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint, WavelengthPacket lambda, double ru, double rv, double rj) {
 

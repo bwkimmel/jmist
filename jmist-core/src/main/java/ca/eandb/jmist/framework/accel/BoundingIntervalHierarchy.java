@@ -494,9 +494,6 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-   */
   @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
     ensureReady();
@@ -573,9 +570,6 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#visibility(ca.eandb.jmist.math.Ray3)
-   */
   @Override
   public boolean visibility(Ray3 ray) {
     NearestIntersectionRecorder recorder = new NearestIntersectionRecorder(new Interval(0.0, ray.limit()));

@@ -82,17 +82,13 @@ public final class ImageFileDisplay implements Display, Serializable {
     this.toneMapperFactory = toneMapperFactory;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#fill(int, int, int, int, ca.eandb.jmist.framework.color.Color)
-   */
+  @Override
   public void fill(int x, int y, int w, int h, Color color) {
     CIEXYZ xyz = color.toXYZ();
     image.slice(x, y, w, h).setAll(xyz);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#finish()
-   */
+  @Override
   public void finish() {
     HostService service = JdcpUtil.getHostService();
     try {
@@ -126,23 +122,17 @@ public final class ImageFileDisplay implements Display, Serializable {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#initialize(int, int, ca.eandb.jmist.framework.color.ColorModel)
-   */
+  @Override
   public void initialize(int w, int h, ColorModel colorModel) {
     image = new Array2<CIEXYZ>(w, h);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#setPixel(int, int, ca.eandb.jmist.framework.color.Color)
-   */
+  @Override
   public void setPixel(int x, int y, Color pixel) {
     image.set(x, y, pixel.toXYZ());
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Display#setPixels(int, int, ca.eandb.jmist.framework.Raster)
-   */
+  @Override
   public void setPixels(int x, int y, Raster pixels) {
     int w = pixels.getWidth();
     int h = pixels.getHeight();

@@ -66,9 +66,7 @@ public final class TransformableGeometry extends AbstractGeometry implements
     this.geometry = geometry;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#intersect(int, ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-   */
+  @Override
   public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
 
     ray      = this.model.applyInverse(ray);
@@ -78,9 +76,6 @@ public final class TransformableGeometry extends AbstractGeometry implements
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-   */
   @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 
@@ -91,9 +86,7 @@ public final class TransformableGeometry extends AbstractGeometry implements
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
-   */
+  @Override
   public Box3 boundingBox() {
 
     BoundingBoxBuilder3 builder = new BoundingBoxBuilder3();
@@ -107,9 +100,7 @@ public final class TransformableGeometry extends AbstractGeometry implements
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
-   */
+  @Override
   public Sphere boundingSphere() {
 
     List<Point3> corners = new ArrayList<Point3>(8);
@@ -123,9 +114,7 @@ public final class TransformableGeometry extends AbstractGeometry implements
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getBoundingBox(int)
-   */
+  @Override
   public Box3 getBoundingBox(int index) {
 
     BoundingBoxBuilder3 builder = new BoundingBoxBuilder3();
@@ -139,9 +128,7 @@ public final class TransformableGeometry extends AbstractGeometry implements
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getBoundingSphere(int)
-   */
+  @Override
   public Sphere getBoundingSphere(int index) {
 
     List<Point3> corners = new ArrayList<Point3>(8);
@@ -155,9 +142,7 @@ public final class TransformableGeometry extends AbstractGeometry implements
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#getNumPrimitives()
-   */
+  @Override
   public int getNumPrimitives() {
     return geometry.getNumPrimitives();
   }
@@ -180,9 +165,6 @@ public final class TransformableGeometry extends AbstractGeometry implements
       super(inner);
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.IntersectionRecorderDecorator#record(ca.eandb.jmist.framework.Intersection)
-     */
     @Override
     public void record(Intersection intersection) {
       this.inner.record(new TransformedIntersection(intersection));
@@ -206,9 +188,6 @@ public final class TransformableGeometry extends AbstractGeometry implements
       super(local);
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.IntersectionDecorator#transformShadingContext(ca.eandb.jmist.framework.ShadingContext)
-     */
     @Override
     protected void transformShadingContext(ShadingContext context) {
       context.setPosition(model.apply(context.getPosition()));
@@ -225,93 +204,67 @@ public final class TransformableGeometry extends AbstractGeometry implements
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AffineTransformable3#transform(ca.eandb.jmist.toolkit.AffineMatrix3)
-   */
+  @Override
   public void transform(AffineMatrix3 T) {
     this.model.transform(T);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.LinearTransformable3#transform(ca.eandb.jmist.toolkit.LinearMatrix3)
-   */
+  @Override
   public void transform(LinearMatrix3 T) {
     this.model.transform(T);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Rotatable3#rotate(ca.eandb.jmist.toolkit.Vector3, double)
-   */
+  @Override
   public void rotate(Vector3 axis, double angle) {
     this.model.rotate(axis, angle);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Rotatable3#rotateX(double)
-   */
+  @Override
   public void rotateX(double angle) {
     this.model.rotateX(angle);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Rotatable3#rotateY(double)
-   */
+  @Override
   public void rotateY(double angle) {
     this.model.rotateY(angle);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Rotatable3#rotateZ(double)
-   */
+  @Override
   public void rotateZ(double angle) {
     this.model.rotateZ(angle);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Translatable3#translate(ca.eandb.jmist.toolkit.Vector3)
-   */
+  @Override
   public void translate(Vector3 v) {
     this.model.translate(v);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Scalable#scale(double)
-   */
+  @Override
   public void scale(double c) {
     this.model.scale(c);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Stretchable3#stretch(ca.eandb.jmist.toolkit.Vector3, double)
-   */
+  @Override
   public void stretch(Vector3 axis, double c) {
     this.model.stretch(axis, c);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AxisStretchable3#stretch(double, double, double)
-   */
+  @Override
   public void stretch(double cx, double cy, double cz) {
     this.model.stretch(cx, cy, cz);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AxisStretchable3#stretchX(double)
-   */
+  @Override
   public void stretchX(double cx) {
     this.model.stretchX(cx);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AxisStretchable3#stretchY(double)
-   */
+  @Override
   public void stretchY(double cy) {
     this.model.stretchY(cy);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AxisStretchable3#stretchZ(double)
-   */
+  @Override
   public void stretchZ(double cz) {
     this.model.stretchZ(cz);
   }

@@ -51,9 +51,7 @@ public final class UniformWeightedStrategy implements BidiPathStrategy {
     this.maxEyeDepth = maxEyeDepth;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.BidiPathStrategy#getWeight(ca.eandb.jmist.framework.path.PathNode, ca.eandb.jmist.framework.path.PathNode)
-   */
+  @Override
   public double getWeight(PathNode lightNode, PathNode eyeNode) {
     int s = lightNode != null ? lightNode.getDepth() + 1 : 0;
     int t = eyeNode != null ? eyeNode.getDepth() + 1 : 0;
@@ -78,9 +76,7 @@ public final class UniformWeightedStrategy implements BidiPathStrategy {
     return 1.0 / (double) k;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.BidiPathStrategy#traceEyePath(ca.eandb.jmist.framework.Lens, ca.eandb.jmist.math.Point2, ca.eandb.jmist.framework.path.PathInfo, ca.eandb.jmist.framework.Random)
-   */
+  @Override
   public PathNode traceEyePath(Lens lens, Point2 p, PathInfo pathInfo,
       Random rnd) {
     if (maxEyeDepth > 0) {
@@ -90,9 +86,7 @@ public final class UniformWeightedStrategy implements BidiPathStrategy {
     return null;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.path.BidiPathStrategy#traceLightPath(ca.eandb.jmist.framework.Light, ca.eandb.jmist.framework.path.PathInfo, ca.eandb.jmist.framework.Random)
-   */
+  @Override
   public PathNode traceLightPath(Light light, PathInfo pathInfo, Random rnd) {
     if (maxLightDepth > 0) {
       PathNode head = light.sample(pathInfo, rnd.next(), rnd.next(), rnd.next());

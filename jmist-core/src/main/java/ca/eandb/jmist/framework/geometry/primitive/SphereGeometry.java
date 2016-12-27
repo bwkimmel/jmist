@@ -66,9 +66,6 @@ public final class SphereGeometry extends PrimitiveGeometry {
     this.sphere = new Sphere(center, radius);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-   */
   @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 
@@ -81,25 +78,16 @@ public final class SphereGeometry extends PrimitiveGeometry {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AbstractGeometry#getBasis(ca.eandb.jmist.framework.AbstractGeometry.GeometryIntersection)
-   */
   @Override
   protected Basis3 getBasis(GeometryIntersection x) {
     return Basis3.fromWV(x.getNormal(), Vector3.NEGATIVE_J, Basis3.Orientation.LEFT_HANDED);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AbstractGeometry#getNormal(ca.eandb.jmist.framework.AbstractGeometry.GeometryIntersection)
-   */
   @Override
   protected Vector3 getNormal(GeometryIntersection x) {
     return this.sphere.normalAt(x.getPosition());
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getTextureCoordinates(ca.eandb.jmist.framework.geometry.AbstractGeometry.GeometryIntersection)
-   */
   @Override
   protected Point2 getTextureCoordinates(GeometryIntersection x) {
     Vector3          n = x.getNormal();
@@ -111,30 +99,16 @@ public final class SphereGeometry extends PrimitiveGeometry {
     );
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#isClosed()
-   */
-  public boolean isClosed() {
-    return true;
-  }
-
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
-   */
+  @Override
   public Box3 boundingBox() {
     return this.sphere.boundingBox();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
-   */
+  @Override
   public Sphere boundingSphere() {
     return this.sphere;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersects(ca.eandb.jmist.math.Box3)
-   */
   @Override
   public boolean intersects(Box3 box) {
 
@@ -180,9 +154,6 @@ public final class SphereGeometry extends PrimitiveGeometry {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext)
-   */
   @Override
   public void generateRandomSurfacePoint(ShadingContext context, double ru, double rv, double rj) {
     Point3 p = sphere.center().plus(RandomUtil.uniformOnSphere(sphere.radius(), ru, rv).toCartesian());
@@ -190,9 +161,6 @@ public final class SphereGeometry extends PrimitiveGeometry {
     x.prepareShadingContext(context);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getSurfaceArea()
-   */
   @Override
   public double getSurfaceArea() {
     return sphere.surfaceArea();

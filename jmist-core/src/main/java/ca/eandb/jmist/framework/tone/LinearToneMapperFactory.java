@@ -49,9 +49,7 @@ public final class LinearToneMapperFactory implements ToneMapperFactory {
     this(DEFAULT_DELTA);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.tone.ToneMapperFactory#createToneMapper(java.lang.Iterable)
-   */
+  @Override
   public ToneMapper createToneMapper(Iterable<CIEXYZ> samples) {
     double Yavg = 0.0;
     double Ymax = 0.0;

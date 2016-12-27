@@ -43,9 +43,7 @@ public final class ModifierModifier implements Modifier {
     this.modifier = modifier;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Modifier#modify(ca.eandb.jmist.framework.ShadingContext)
-   */
+  @Override
   public void modify(ShadingContext context) {
     context.setModifier(modifier);
   }

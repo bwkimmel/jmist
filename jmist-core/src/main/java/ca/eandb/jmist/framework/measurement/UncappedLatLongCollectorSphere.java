@@ -84,9 +84,7 @@ public final class UncappedLatLongCollectorSphere implements CollectorSphere {
     this.slices = slices.clone();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.measurement.CollectorSphere#getSensorCenter(int)
-   */
+  @Override
   public SphericalCoordinates getSensorCenter(int sensor) {
 
     int stack = sensor / (slices.length - 1);
@@ -99,9 +97,7 @@ public final class UncappedLatLongCollectorSphere implements CollectorSphere {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.measurement.CollectorSphere#getSensorProjectedSolidAngle(int)
-   */
+  @Override
   public double getSensorProjectedSolidAngle(int sensor) {
 
     int stack = sensor / (slices.length - 1);
@@ -114,9 +110,7 @@ public final class UncappedLatLongCollectorSphere implements CollectorSphere {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.measurement.CollectorSphere#getSensorSolidAngle(int)
-   */
+  @Override
   public double getSensorSolidAngle(int sensor) {
 
     int stack = sensor / (slices.length - 1);
@@ -156,16 +150,12 @@ public final class UncappedLatLongCollectorSphere implements CollectorSphere {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.measurement.CollectorSphere#record(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.measurement.CollectorSphere.Callback)
-   */
+  @Override
   public void record(Vector3 v, Callback f) {
     record(SphericalCoordinates.fromCartesian(v), f);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.measurement.CollectorSphere#record(ca.eandb.jmist.math.SphericalCoordinates, ca.eandb.jmist.framework.measurement.CollectorSphere.Callback)
-   */
+  @Override
   public void record(SphericalCoordinates v, Callback f) {
     int sensor = getSensor(v);
     if (sensor >= 0) {
@@ -173,9 +163,7 @@ public final class UncappedLatLongCollectorSphere implements CollectorSphere {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.measurement.CollectorSphere#sensors()
-   */
+  @Override
   public int sensors() {
     return (stacks.length - 1) * (slices.length - 1);
   }

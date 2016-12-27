@@ -83,9 +83,6 @@ public interface ColorVisualizer extends Serializable {
     /** Serialization version ID. */
     private static final long serialVersionUID = -7672964360487489245L;
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.display.visualizer.ColorVisualizer#addChangeListener(javax.swing.event.ChangeListener)
-     */
     @Override
     public void addChangeListener(ChangeListener l) {
       /* nothing to do. */
@@ -97,17 +94,11 @@ public interface ColorVisualizer extends Serializable {
       /* nothing to do. */
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.display.visualizer.ColorVisualizer#analyze(java.lang.Iterable)
-     */
     @Override
     public boolean analyze(Iterable<Color> samples) {
       return false;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.display.visualizer.ColorVisualizer#apply(ca.eandb.jmist.framework.color.Color)
-     */
     @Override
     public RGB visualize(Color color) {
       return color.toRGB();

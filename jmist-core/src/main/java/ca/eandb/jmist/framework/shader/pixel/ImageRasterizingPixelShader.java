@@ -34,9 +34,9 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Point2;
 
 /**
- * Represents a pixel shader that rasterizes an image represented by
- * an image shader.  The inheriting pixel shader's sole responsibility
- * will be anti-aliasing.
+ * Represents a pixel shader that rasterizes an image represented by an image
+ * shader.  The inheriting pixel shader's sole responsibility will be
+ * anti-aliasing.
  * @author Brad Kimmel
  */
 public abstract class ImageRasterizingPixelShader implements PixelShader {
@@ -47,7 +47,7 @@ public abstract class ImageRasterizingPixelShader implements PixelShader {
   /**
    * Initializes the image shader to use for this pixel shader.
    * @param shader The <code>ImageShader</code> to use for this pixel shader.
-   * @param model The <code>ColorModel</code> to use for sampling in te
+   * @param model The <code>ColorModel</code> to use for sampling in the
    *     wavelength domain.
    */
   protected ImageRasterizingPixelShader(ImageShader shader, ColorModel model) {
@@ -61,10 +61,10 @@ public abstract class ImageRasterizingPixelShader implements PixelShader {
    * @return The shaded pixel.
    */
   protected Color shadeAt(Point2 p) {
-    Color        sample = model.sample(Random.DEFAULT);
-    WavelengthPacket  lambda = sample.getWavelengthPacket();
+    Color sample = model.sample(Random.DEFAULT);
+    WavelengthPacket lambda = sample.getWavelengthPacket();
 
-    Color        shade = shader.shadeAt(p, lambda);
+    Color shade = shader.shadeAt(p, lambda);
     return shade.times(sample);
   }
 

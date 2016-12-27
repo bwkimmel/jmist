@@ -45,9 +45,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
     this.spectrum = spectrum;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.Spectrum#sample(ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
+  @Override
   public Color sample(WavelengthPacket lambda) {
     return sample((LuminanceWavelengthPacket) lambda);
   }

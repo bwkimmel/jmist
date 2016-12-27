@@ -48,44 +48,32 @@ public final class EmptyScene implements Scene {
     /* nothing to do. */
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Scene#getLens()
-   */
+  @Override
   public Lens getLens() {
     return Lens.NULL;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Scene#getLight()
-   */
+  @Override
   public Light getLight() {
     return Light.NULL;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Scene#getRoot()
-   */
+  @Override
   public SceneElement getRoot() {
     return NullSceneElement.INSTANCE;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
-   */
+  @Override
   public Box3 boundingBox() {
     return Box3.EMPTY;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
-   */
+  @Override
   public Sphere boundingSphere() {
     return Sphere.EMPTY;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Scene#getAnimator()
-   */
+  @Override
   public Animator getAnimator() {
     return Animator.STATIC;
   }

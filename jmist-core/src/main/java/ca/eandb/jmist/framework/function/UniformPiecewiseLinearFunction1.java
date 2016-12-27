@@ -113,9 +113,6 @@ public final class UniformPiecewiseLinearFunction1 implements Function1 {
     return new UniformPiecewiseLinearFunction1(f, domain, count);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Function1#evaluate(double)
-   */
   @Override
   public double evaluate(double x) {
     return MathUtil.interpolate(domain.minimum(), domain.maximum(), values, x);

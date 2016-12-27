@@ -147,9 +147,7 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
     this.displayPartialResults = displayPartialResults;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jdcp.job.ParallelizableJob#getNextTask()
-   */
+  @Override
   public synchronized Object getNextTask() throws Exception {
     if (tasksProvided < tasks) {
       return tasksProvided++ < extraMutations ? minMutationsPerTask + 1
@@ -159,16 +157,12 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jdcp.job.ParallelizableJob#isComplete()
-   */
+  @Override
   public boolean isComplete() throws Exception {
     return tasksSubmitted == tasks;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jdcp.job.ParallelizableJob#submitTaskResults(java.lang.Object, java.lang.Object, ca.eandb.util.progress.ProgressMonitor)
-   */
+  @Override
   public synchronized void submitTaskResults(Object task, Object results,
       ProgressMonitor monitor) throws Exception {
 
@@ -205,9 +199,6 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jdcp.job.AbstractParallelizableJob#initialize()
-   */
   @Override
   public void initialize() throws Exception {
     raster = colorModel.createRaster(width, height);
@@ -216,9 +207,6 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jdcp.job.AbstractParallelizableJob#finish()
-   */
   @Override
   public void finish() throws Exception {
     if (!displayPartialResults) {
@@ -235,9 +223,7 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
     display.finish();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jdcp.job.ParallelizableJob#worker()
-   */
+  @Override
   public TaskWorker worker() throws Exception {
     return new Worker();
   }
@@ -393,9 +379,7 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
       }
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jdcp.job.TaskWorker#performTask(java.lang.Object, ca.eandb.util.progress.ProgressMonitor)
-     */
+    @Override
     public Object performTask(Object task, ProgressMonitor monitor) {
 
       int mutations = (Integer) task;

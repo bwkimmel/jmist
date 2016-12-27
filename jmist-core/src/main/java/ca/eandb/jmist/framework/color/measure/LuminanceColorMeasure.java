@@ -47,9 +47,7 @@ public final class LuminanceColorMeasure implements ColorMeasure {
     return INSTANCE;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.color.ColorMeasure#evaluate(ca.eandb.jmist.framework.color.Color)
-   */
+  @Override
   public double evaluate(Color c) {
     return c != null ? c.luminance() : 0.0;
   }

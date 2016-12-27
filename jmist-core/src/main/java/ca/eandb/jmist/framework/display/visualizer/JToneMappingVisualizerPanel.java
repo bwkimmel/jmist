@@ -75,25 +75,16 @@ public final class JToneMappingVisualizerPanel extends JColorVisualizerPanel {
       this.inner = inner;
     }
 
-    /* (non-Javadoc)
-     * @see java.util.Iterator#hasNext()
-     */
     @Override
     public boolean hasNext() {
       return inner.hasNext();
     }
 
-    /* (non-Javadoc)
-     * @see java.util.Iterator#next()
-     */
     @Override
     public CIEXYZ next() {
       return inner.next().toXYZ();
     }
 
-    /* (non-Javadoc)
-     * @see java.util.Iterator#remove()
-     */
     @Override
     public void remove() {
       inner.remove();
@@ -109,9 +100,6 @@ public final class JToneMappingVisualizerPanel extends JColorVisualizerPanel {
       this.inner = inner;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Iterable#iterator()
-     */
     @Override
     public Iterator<CIEXYZ> iterator() {
       return new SampleIterator(inner.iterator());
@@ -119,9 +107,6 @@ public final class JToneMappingVisualizerPanel extends JColorVisualizerPanel {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.display.visualizer.ColorVisualizer#analyze(java.lang.Iterable)
-   */
   @Override
   public boolean analyze(Iterable<Color> samples) {
     ToneMapper newToneMapper = toneMapperPanel.createToneMapper(new SampleList(samples));
@@ -133,9 +118,6 @@ public final class JToneMappingVisualizerPanel extends JColorVisualizerPanel {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.display.visualizer.ColorVisualizer#visualize(ca.eandb.jmist.framework.color.Color)
-   */
   @Override
   public RGB visualize(Color color) {
     return toneMapper.apply(color.toXYZ()).toRGB();

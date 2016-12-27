@@ -33,7 +33,7 @@ import ca.eandb.jmist.math.Tuple3;
  * @see <a href="http://en.wikipedia.org/wiki/CIE_1931_color_space">CIE 1931 color space</a>
  * @author Brad Kimmel
  */
-public class CIEXYZ extends Tuple3 {
+public class CIEXYZ extends Tuple3 implements Spectrum {
 
   /** Serialization version ID. */
   private static final long serialVersionUID = -3369371416389668782L;
@@ -154,6 +154,11 @@ public class CIEXYZ extends Tuple3 {
 
   public static final CIEXYZ fromRGB(RGB rgb) {
     return ColorUtil.convertRGB2XYZ(rgb);
+  }
+
+  @Override
+  public Color sample(WavelengthPacket lambda) {
+    return lambda.getColorModel().fromXYZ(this).sample(lambda);
   }
 
 }

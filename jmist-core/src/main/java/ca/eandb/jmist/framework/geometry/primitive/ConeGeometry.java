@@ -91,9 +91,7 @@ public final class ConeGeometry extends PrimitiveGeometry {
     this(base, radius, height, true);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-   */
+  @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
 
     if (capped) {
@@ -141,9 +139,6 @@ public final class ConeGeometry extends PrimitiveGeometry {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.PrimitiveGeometry#getSurfaceArea()
-   */
   @Override
   public double getSurfaceArea() {
     double s = Math.hypot(radius, height);
@@ -151,9 +146,6 @@ public final class ConeGeometry extends PrimitiveGeometry {
         : Math.PI * s * radius;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getBasis(ca.eandb.jmist.framework.geometry.AbstractGeometry.GeometryIntersection)
-   */
   @Override
   protected Basis3 getBasis(GeometryIntersection x) {
     switch (x.getTag()) {
@@ -170,9 +162,6 @@ public final class ConeGeometry extends PrimitiveGeometry {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getNormal(ca.eandb.jmist.framework.geometry.AbstractGeometry.GeometryIntersection)
-   */
   @Override
   protected Vector3 getNormal(GeometryIntersection x) {
     switch (x.getTag()) {
@@ -196,9 +185,6 @@ public final class ConeGeometry extends PrimitiveGeometry {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.geometry.AbstractGeometry#getTextureCoordinates(ca.eandb.jmist.framework.geometry.AbstractGeometry.GeometryIntersection)
-   */
   @Override
   protected Point2 getTextureCoordinates(GeometryIntersection x) {
     Point3 p = x.getPosition();
@@ -217,16 +203,7 @@ public final class ConeGeometry extends PrimitiveGeometry {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#isClosed()
-   */
-  public boolean isClosed() {
-    return capped;
-  }
-
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
-   */
+  @Override
   public Box3 boundingBox() {
     return new Box3(
         base.x() - radius,
@@ -237,9 +214,7 @@ public final class ConeGeometry extends PrimitiveGeometry {
         base.z() + radius);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
-   */
+  @Override
   public Sphere boundingSphere() {
     double yc = (height * height - radius * radius) / (2.0 * height);
     return yc > 0.0 ? new Sphere(new Point3(0, yc, 0), height - yc)

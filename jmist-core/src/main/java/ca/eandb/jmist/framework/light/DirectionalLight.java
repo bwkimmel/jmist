@@ -55,9 +55,7 @@ public final class DirectionalLight extends AbstractLight {
     this.shadows = shadows;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Light#illuminate(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random, ca.eandb.jmist.framework.Illuminable)
-   */
+  @Override
   public void illuminate(SurfacePoint x, WavelengthPacket lambda, Random rng, Illuminable target) {
     double dot = x.getShadingNormal().dot(from);
     target.addLightSample(new DirectionalLightSample(x, from, irradiance.sample(lambda).times(dot), shadows));

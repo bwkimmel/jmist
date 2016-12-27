@@ -63,48 +63,23 @@ public abstract class SceneElementDecorator implements SceneElement, Serializabl
     return inner.boundingSphere();
   }
 
-//  /**
-//   * @return
-//   * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint()
-//   */
-//  public SurfacePoint generateRandomSurfacePoint() {
-//    return inner.generateRandomSurfacePoint();
-//  }
-//
-//  /**
-//   * @param index
-//   * @return
-//   * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(int)
-//   */
-//  public SurfacePoint generateRandomSurfacePoint(int index) {
-//    return inner.generateRandomSurfacePoint(index);
-//  }
-
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(int, ca.eandb.jmist.framework.ShadingContext)
-   */
+  @Override
   public void generateRandomSurfacePoint(int index, ShadingContext context, double ru, double rv, double rj) {
     inner.generateRandomSurfacePoint(index, context, ru, rv, rj);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#generateRandomSurfacePoint(ca.eandb.jmist.framework.ShadingContext)
-   */
+  @Override
   public void generateRandomSurfacePoint(ShadingContext context, double ru, double rv, double rj) {
     inner.generateRandomSurfacePoint(context, ru, rv, rj);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#generateImportanceSampledSurfacePoint(int, ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext)
-   */
+  @Override
   public double generateImportanceSampledSurfacePoint(int index,
       SurfacePoint x, ShadingContext context, double ru, double rv, double rj) {
     return inner.generateImportanceSampledSurfacePoint(index, x, context, ru, rv, rj);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.SceneElement#generateImportanceSampledSurfacePoint(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.ShadingContext)
-   */
+  @Override
   public double generateImportanceSampledSurfacePoint(SurfacePoint x,
       ShadingContext context, double ru, double rv, double rj) {
     return inner.generateImportanceSampledSurfacePoint(x, context, ru, rv, rj);
@@ -153,13 +128,5 @@ public abstract class SceneElementDecorator implements SceneElement, Serializabl
   public Light createLight() {
     return inner.createLight();
   }
-
-//  /**
-//   * @return
-//   * @see ca.eandb.jmist.framework.SceneElement#isEmissive()
-//   */
-//  public boolean isEmissive() {
-//    return inner.isEmissive();
-//  }
 
 }

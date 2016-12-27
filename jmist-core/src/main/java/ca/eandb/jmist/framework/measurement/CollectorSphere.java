@@ -50,4 +50,33 @@ public interface CollectorSphere extends Serializable {
 
   SphericalCoordinates getSensorCenter(int sensor);
 
+  /** A dummy <code>CollectorSphere</code> with no sensors. */
+  public static final CollectorSphere NULL = new CollectorSphere() {
+    /** Serialization version ID. */
+    private static final long serialVersionUID = 6788498446054635921L;
+
+    @Override
+    public void record(Vector3 v, Callback f) {}
+
+    @Override
+    public void record(SphericalCoordinates v, Callback f) {}
+
+    @Override
+    public int sensors() { return 0; }
+
+    @Override
+    public double getSensorSolidAngle(int sensor) {
+      throw new IllegalArgumentException("sensor out of range");
+    }
+
+    @Override
+    public double getSensorProjectedSolidAngle(int sensor) {
+      throw new IllegalArgumentException("sensor out of range");
+    }
+
+    @Override
+    public SphericalCoordinates getSensorCenter(int sensor) {
+      throw new IllegalArgumentException("sensor out of range");
+    }
+  };
 }

@@ -49,26 +49,17 @@ public final class V2i implements Attribute {
     return new V2i(in.readInt(), in.readInt());
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.loader.openexr.Attribute#write(java.io.DataOutput)
-   */
   @Override
   public void write(DataOutput out) throws IOException {
     out.writeInt(x);
     out.writeInt(y);
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#clone()
-   */
   @Override
   protected Object clone() throws CloneNotSupportedException {
     return this;
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#equals(java.lang.Object)
-   */
   @Override
   public boolean equals(Object obj) {
     if (obj == null) {
@@ -81,9 +72,6 @@ public final class V2i implements Attribute {
     }
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#hashCode()
-   */
   @Override
   public int hashCode() {
     return Integer.valueOf(x).hashCode() ^ Integer.valueOf(y).hashCode();

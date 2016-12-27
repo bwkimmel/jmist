@@ -101,9 +101,6 @@ public final class BBHSceneElement extends SceneElementDecorator {
       this.recorder = recorder;
     }
 
-    /* (non-Javadoc)
-     * @see ca.eandb.jmist.framework.Visitor#visit(java.lang.Object)
-     */
     @Override
     public boolean visit(Object object) {
       int index = (Integer) object;
@@ -113,18 +110,12 @@ public final class BBHSceneElement extends SceneElementDecorator {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#intersect(ca.eandb.jmist.math.Ray3, ca.eandb.jmist.framework.IntersectionRecorder)
-   */
   @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
     ensureReady();
     bbh.intersect(ray, recorder.interval(), new BBHVisitor(ray, recorder));
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.scene.SceneElementDecorator#visibility(ca.eandb.jmist.math.Ray3)
-   */
   @Override
   public boolean visibility(Ray3 ray) {
     NearestIntersectionRecorder recorder = new NearestIntersectionRecorder(new Interval(0.0, ray.limit()));

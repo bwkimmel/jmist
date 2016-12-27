@@ -35,45 +35,33 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class SpectrophotometerCollectorSphere implements CollectorSphere {
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.measurement.CollectorSphere#getSensorCenter(int)
-   */
+  @Override
   public SphericalCoordinates getSensorCenter(int sensor) {
     assert(0 <= sensor && sensor < 2);
     return sensor == UPPER_HEMISPHERE ? SphericalCoordinates.NORMAL : SphericalCoordinates.ANTINORMAL;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.measurement.CollectorSphere#getSensorProjectedSolidAngle(int)
-   */
+  @Override
   public double getSensorProjectedSolidAngle(int sensor) {
     return Math.PI;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.measurement.CollectorSphere#getSensorSolidAngle(int)
-   */
+  @Override
   public double getSensorSolidAngle(int sensor) {
     return 2.0 * Math.PI;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.measurement.CollectorSphere#record(ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.measurement.CollectorSphere.Callback)
-   */
+  @Override
   public void record(Vector3 v, Callback f) {
     f.record((v.z() > 0.0) ? UPPER_HEMISPHERE : LOWER_HEMISPHERE);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.measurement.CollectorSphere#record(ca.eandb.jmist.math.SphericalCoordinates, ca.eandb.jmist.framework.measurement.CollectorSphere.Callback)
-   */
+  @Override
   public void record(SphericalCoordinates v, Callback f) {
     f.record((v.polar() < (Math.PI / 2.0)) ? UPPER_HEMISPHERE : LOWER_HEMISPHERE);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.measurement.CollectorSphere#sensors()
-   */
+  @Override
   public int sensors() {
     return 2;
   }

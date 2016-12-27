@@ -53,44 +53,32 @@ public abstract class SceneDecorator implements Scene {
     this.inner = inner;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Scene#getLens()
-   */
+  @Override
   public Lens getLens() {
     return inner.getLens();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Scene#getLight()
-   */
+  @Override
   public Light getLight() {
     return inner.getLight();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Scene#getRoot()
-   */
+  @Override
   public SceneElement getRoot() {
     return inner.getRoot();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingBox()
-   */
+  @Override
   public Box3 boundingBox() {
     return inner.boundingBox();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Bounded3#boundingSphere()
-   */
+  @Override
   public Sphere boundingSphere() {
     return inner.boundingSphere();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.Scene#getAnimator()
-   */
+  @Override
   public Animator getAnimator() {
     return inner.getAnimator();
   }

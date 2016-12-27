@@ -49,17 +49,11 @@ public abstract class VolatileColorVisualizer implements ColorVisualizer {
    */
   private final List<ChangeListener> listeners = new ArrayList<ChangeListener>();
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.display.visualizer.ColorVisualizer#addChangeListener(javax.swing.event.ChangeListener)
-   */
   @Override
   public final void addChangeListener(ChangeListener l) {
     listeners.add(l);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.display.visualizer.ColorVisualizer#removeChangeListener(javax.swing.event.ChangeListener)
-   */
   @Override
   public final void removeChangeListener(ChangeListener l) {
     listeners.remove(l);
@@ -75,9 +69,6 @@ public abstract class VolatileColorVisualizer implements ColorVisualizer {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.display.visualizer.ColorVisualizer#analyze(java.lang.Iterable)
-   */
   @Override
   public boolean analyze(Iterable<Color> samples) {
     return false;

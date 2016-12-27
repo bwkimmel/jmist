@@ -129,9 +129,6 @@ public final class JCompositeToneMapperPanel extends JToneMapperPanel {
     fireStateChanged();
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.tone.ToneMapperFactory#createToneMapper(java.lang.Iterable)
-   */
   @Override
   public ToneMapper createToneMapper(Iterable<CIEXYZ> samples) {
     int index = toneMapperComboBox.getSelectedIndex();

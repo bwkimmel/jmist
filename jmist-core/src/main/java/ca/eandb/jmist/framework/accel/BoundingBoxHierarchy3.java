@@ -84,9 +84,7 @@ public final class BoundingBoxHierarchy3 implements RayTraversalStrategy3 {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.RayTraversalStrategy3#intersect(ca.eandb.jmist.toolkit.Ray3, ca.eandb.jmist.toolkit.Interval, ca.eandb.jmist.framework.Visitor)
-   */
+  @Override
   public boolean intersect(Ray3 ray, Interval I, Visitor visitor) {
 
     if (this.leaves.size() > 0) {
@@ -344,9 +342,7 @@ public final class BoundingBoxHierarchy3 implements RayTraversalStrategy3 {
       this.axis = axis;
     }
 
-    /* (non-Javadoc)
-     * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-     */
+    @Override
     public int compare(Node o1, Node o2) {
       Point3 p1 = o1.bound.center();
       Point3 p2 = o2.bound.center();

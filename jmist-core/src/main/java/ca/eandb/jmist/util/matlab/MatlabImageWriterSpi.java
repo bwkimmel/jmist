@@ -50,25 +50,16 @@ public final class MatlabImageWriterSpi extends ImageWriterSpi {
         null, null, null, false, null, null, null, null);
   }
 
-  /* (non-Javadoc)
-   * @see javax.imageio.spi.ImageWriterSpi#canEncodeImage(javax.imageio.ImageTypeSpecifier)
-   */
   @Override
   public boolean canEncodeImage(ImageTypeSpecifier type) {
     return true;
   }
 
-  /* (non-Javadoc)
-   * @see javax.imageio.spi.ImageWriterSpi#createWriterInstance(java.lang.Object)
-   */
   @Override
   public ImageWriter createWriterInstance(Object extension) throws IOException {
     return new MatlabImageWriter(this);
   }
 
-  /* (non-Javadoc)
-   * @see javax.imageio.spi.IIOServiceProvider#getDescription(java.util.Locale)
-   */
   @Override
   public String getDescription(Locale locale) {
     return "jMIST Matlab Image Writer SPI";

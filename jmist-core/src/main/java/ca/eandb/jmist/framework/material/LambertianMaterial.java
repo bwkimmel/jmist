@@ -79,17 +79,11 @@ public final class LambertianMaterial extends OpaqueMaterial {
     this(reflectance != null ? new UniformPainter(reflectance) : null, emittance != null ? new UniformPainter(emittance) : null);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.AbstractMaterial#isEmissive()
-   */
   @Override
   public boolean isEmissive() {
     return (this.emittance != null);
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.material.AbstractMaterial#emission(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public Color emission(SurfacePoint x, Vector3 out, WavelengthPacket lambda) {
     if (this.emittance != null && x.getNormal().dot(out) > 0.0) {
@@ -99,9 +93,6 @@ public final class LambertianMaterial extends OpaqueMaterial {
     }
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.material.AbstractMaterial#emit(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.framework.color.WavelengthPacket, double, double, double)
-   */
   @Override
   public ScatteredRay emit(SurfacePoint x, WavelengthPacket lambda, double ru, double rv, double rj) {
 
@@ -120,9 +111,6 @@ public final class LambertianMaterial extends OpaqueMaterial {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.material.AbstractMaterial#scatter(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, boolean, ca.eandb.jmist.framework.color.WavelengthPacket, ca.eandb.jmist.framework.Random)
-   */
   @Override
   public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint,
       WavelengthPacket lambda, double ru, double rv, double rj) {
@@ -148,9 +136,6 @@ public final class LambertianMaterial extends OpaqueMaterial {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.material.AbstractMaterial#bsdf(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public Color bsdf(SurfacePoint x, Vector3 in, Vector3 out, WavelengthPacket lambda) {
 
@@ -169,18 +154,12 @@ public final class LambertianMaterial extends OpaqueMaterial {
 
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.material.AbstractMaterial#getEmissionPDF(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public double getEmissionPDF(SurfacePoint x, Vector3 out,
       WavelengthPacket lambda) {
     return emittance != null ? 1.0 / Math.PI : 0.0;
   }
 
-  /* (non-Javadoc)
-   * @see ca.eandb.jmist.framework.material.AbstractMaterial#getScatteringPDF(ca.eandb.jmist.framework.SurfacePoint, ca.eandb.jmist.math.Vector3, ca.eandb.jmist.math.Vector3, boolean, ca.eandb.jmist.framework.color.WavelengthPacket)
-   */
   @Override
   public double getScatteringPDF(SurfacePoint x, Vector3 in, Vector3 out,
       boolean adjoint, WavelengthPacket lambda) {
