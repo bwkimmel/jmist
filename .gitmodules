@@ -1,3 +1,0 @@
-[submodule "jmist-blender/ext/protobuf-py3"]
-	path = jmist-blender/ext/protobuf-py3
-	url = git@github.com:bwkimmel/protobuf-py3.git

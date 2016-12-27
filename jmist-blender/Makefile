@@ -1,7 +1,7 @@
 TOPDIR=..
 DIR=$(shell pwd)
 BUILDDIR=build
-PROTO_SRCDIR=ext/build/protobuf-py3
+PROTO_SRCDIR=ext/build/protobuf
 PROTO_HOME=build/protobuf
 PROTOC=$(PROTO_HOME)/bin/protoc
 PYTHON3=python3
@@ -65,17 +65,16 @@ clean:
 distclean: clean
 	rm -rf ext/build
 
-ext/build/protobuf-py3: ext/protobuf-py3
+ext/build/protobuf: ext/protobuf
 	mkdir -p ext/build
 	cp -r $< $@
 
-ext/protobuf-py3: $(TOPDIR)/.gitmodules
-	git submodule update $@
+ext/protobuf: ext/protobuf-python-3.1.0.tar.gz
+	mkdir -p $@
+	tar xzvf $< -C $@ --strip-components 1
 
-$(PROTO_SRCDIR)/autogen.sh: $(PROTO_SRCDIR)
-
-$(PROTO_SRCDIR)/configure: $(PROTO_SRCDIR)/autogen.sh
-	cd $(PROTO_SRCDIR) && ./autogen.sh
+ext/protobuf-python-3.1.0.tar.gz:
+	curl -L 'https://github.com/google/protobuf/releases/download/v3.1.0/protobuf-python-3.1.0.tar.gz' -o $@
 
 $(PROTO_SRCDIR)/Makefile: $(PROTO_SRCDIR)/configure
 	cd $(PROTO_SRCDIR) && ./configure --prefix=$(DIR)/$(PROTO_HOME)
