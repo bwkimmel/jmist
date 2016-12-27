@@ -35,21 +35,6 @@ public abstract class HPoint3 extends Tuple3 {
   /** Serialization version ID. */
   private static final long serialVersionUID = 5667239684184414779L;
 
-  /** The zero <code>HPoint3</code>. */
-  public static final HPoint3 ZERO = Vector3.ZERO;
-
-  /** The standard basis vector in the x-direction. */
-  public static final HPoint3 I = Vector3.I;
-
-  /** The standard basis vector in the y-direction. */
-  public static final HPoint3 J = Vector3.J;
-
-  /** The standard basis vector in the z-direction. */
-  public static final HPoint3 K = Vector3.K;
-
-  /** The standard basis vector in the w-direction. */
-  public static final HPoint3 L = Point3.ORIGIN;
-
   /**
    * Initializes the coordinates of this <code>HPoint3</code>.
    * NOTE: This constructor has package scope to prevent classes other than
