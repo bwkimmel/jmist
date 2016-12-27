@@ -23,9 +23,11 @@
  */
 package ca.eandb.jmist.pipe;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.ByteString.Output;
 
 import ca.eandb.jmist.engine.proto.RenderEngineProtos.Position;
 import ca.eandb.jmist.engine.proto.RenderEngineProtos.Rectangle;
@@ -39,9 +41,6 @@ import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.RGB;
 import ca.eandb.jmist.proto.RenderProtos.Size;
 import ca.eandb.util.io.LittleEndianDataOutputStream;
-
-import com.google.protobuf.ByteString;
-import com.google.protobuf.ByteString.Output;
 
 /**
  *
