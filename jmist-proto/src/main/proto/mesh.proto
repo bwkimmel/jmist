@@ -1,4 +1,4 @@
-syntax = "proto2";
+syntax = "proto3";
 
 option java_package = "ca.eandb.jmist.proto";
 option java_outer_classname = "MeshProtos";
@@ -7,8 +7,8 @@ message VectorSlice {
   enum Format {
     DOUBLE_XYZ = 0;
   }
-  required Format format = 1;
-  required int64 offset = 2;
+  Format format = 1;
+  int64 offset = 2;
 }
 
 message IndexSlice {
@@ -17,16 +17,16 @@ message IndexSlice {
     UINT16 = 1;
     UINT32 = 2;
   }
-  required Format format = 1;
-  required int64 offset = 2;
+  Format format = 1;
+  int64 offset = 2;
 }
 
 message UVSlice {
   enum Format {
     DOUBLE_UV = 0;
   }
-  required Format format = 1;
-  required int32 offset = 2;
+  Format format = 1;
+  int32 offset = 2;
 }
 
 message ColorSlice {
@@ -35,50 +35,50 @@ message ColorSlice {
     DOUBLE_RGBA = 1;
     DOUBLE_XYZ = 2;
   }
-  required Format format = 1;
-  required int64 offset = 2;
+  Format format = 1;
+  int64 offset = 2;
 }
 
 message VertexBlock {
-  optional int64 offset = 1;
-  optional int64 stride = 2;
-  optional int32 count = 3;
-  optional VectorSlice coords = 4;
-  optional VectorSlice normals = 5;
-  optional UVSlice uvs = 6;
-  optional ColorSlice colors = 7;
+  int64 offset = 1;
+  int64 stride = 2;
+  int32 count = 3;
+  VectorSlice coords = 4;
+  VectorSlice normals = 5;
+  UVSlice uvs = 6;
+  ColorSlice colors = 7;
 }
 
 message LoopBlock {
-  optional int64 offset = 1;
-  optional int64 stride = 2;
-  optional int32 count = 3;
-  optional IndexSlice indices = 4;
-  optional VectorSlice normals = 5;
-  optional UVSlice uvs = 6;
-  optional ColorSlice colors = 7;
+  int64 offset = 1;
+  int64 stride = 2;
+  int32 count = 3;
+  IndexSlice indices = 4;
+  VectorSlice normals = 5;
+  UVSlice uvs = 6;
+  ColorSlice colors = 7;
 }
 
 message FaceBlock {
-  optional int64 offset = 1;
-  optional int64 stride = 2;
-  optional int32 count = 3;
-  optional IndexSlice loop_start = 4;
-  optional IndexSlice loop_count = 5;
-  optional IndexSlice materials = 6;
-  optional ColorSlice colors = 7;
+  int64 offset = 1;
+  int64 stride = 2;
+  int32 count = 3;
+  IndexSlice loop_start = 4;
+  IndexSlice loop_count = 5;
+  IndexSlice materials = 6;
+  ColorSlice colors = 7;
 }
 
 message MeshFormat {
-  optional uint64 offset = 1;
-  optional uint32 max_polygon_vertex_count = 2;
+  uint64 offset = 1;
+  uint32 max_polygon_vertex_count = 2;
 
-  optional VertexBlock vertices = 3;
-  optional LoopBlock loops = 4;
-  optional FaceBlock faces = 5;
+  VertexBlock vertices = 3;
+  LoopBlock loops = 4;
+  FaceBlock faces = 5;
 }
 
 message Mesh {
-  required MeshFormat format = 1;
-  required bytes data = 2;
+  MeshFormat format = 1;
+  bytes data = 2;
 }

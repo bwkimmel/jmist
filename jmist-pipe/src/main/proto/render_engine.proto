@@ -1,4 +1,4 @@
-syntax = "proto2";
+syntax = "proto3";
 
 option java_package = "ca.eandb.jmist.engine.proto";
 option java_outer_classname = "RenderEngineProtos";
@@ -6,38 +6,36 @@ option java_outer_classname = "RenderEngineProtos";
 import "render.proto";
 
 message Position {
-  required uint32 x = 1;
-  required uint32 y = 2;
+  uint32 x = 1;
+  uint32 y = 2;
 }
 
 message Rectangle {
-  required Position position = 1;
-  required Size size = 2;
+  Position position = 1;
+  Size size = 2;
 }
 
 message RenderRequest {
-  optional RenderJob job = 1;
-  optional uint32 threads = 2;
-
-
+  RenderJob job = 1;
+  uint32 threads = 2;
 }
 
 message RenderCallback {
-  optional bool done = 1;
-  optional double progress = 2;
-  optional string error = 3;
+  bool done = 1;
+  double progress = 2;
+  string error = 3;
 
   message DrawTile {
-    optional Rectangle tile = 2;
+    Rectangle tile = 2;
 
     enum PixelFormat {
-      DOUBLE_RGBA = 1;
+      DOUBLE_RGBA = 0;
     }
-    optional PixelFormat format = 3;
+    PixelFormat format = 3;
 
-    optional bytes data = 4;
-    optional uint64 offset = 5;
-    optional uint64 length = 6;
+    bytes data = 4;
+    uint64 offset = 5;
+    uint64 length = 6;
   }
-  optional DrawTile draw_tile = 4;
+  DrawTile draw_tile = 4;
 }

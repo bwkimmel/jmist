@@ -1,4 +1,4 @@
-syntax = "proto2";
+syntax = "proto3";
 
 option java_package = "ca.eandb.jmist.proto";
 option java_outer_classname = "RenderProtos";
@@ -6,8 +6,8 @@ option java_outer_classname = "RenderProtos";
 import "scene.proto";
 
 message Size {
-  required uint32 x = 1;
-  required uint32 y = 2;
+  uint32 x = 1;
+  uint32 y = 2;
 }
 
 message ColorModel {
@@ -15,36 +15,36 @@ message ColorModel {
     RGB = 0;
     XYZ = 1;
   }
-  optional Type type = 1 [default = RGB];
+  Type type = 1;
 }
 
 message RenderJob {
 
-  optional Scene scene = 1;
-  optional Size image_size = 2;
-  optional Size tile_size = 3;
-  optional ColorModel color_model = 4;
+  Scene scene = 1;
+  Size image_size = 2;
+  Size tile_size = 3;
+  ColorModel color_model = 4;
 
   enum TileOrdering {
-    CENTER = 1;
-    RANDOM = 2;
-    TOP_TO_BOTTOM = 3;
-    BOTTOM_TO_TOP = 4;
-    LEFT_TO_RIGHT = 5;
-    RIGHT_TO_LEFT = 6;
+    TOP_TO_BOTTOM = 0;
+    BOTTOM_TO_TOP = 1;
+    LEFT_TO_RIGHT = 2;
+    RIGHT_TO_LEFT = 3;
+    CENTER = 4;
+    RANDOM = 5;
   }
-  optional TileOrdering tile_ordering = 5;
+  TileOrdering tile_ordering = 5;
 
-  optional uint32 samples_per_pixel = 6 [default = 1];
+  uint32 samples_per_pixel = 6;
 
-  optional uint32 min_bounces = 7;
-  optional uint32 max_bounces = 8;
+  uint32 min_bounces = 7;
+  uint32 max_bounces = 8;
 
-  optional uint32 max_diffuse_bounces = 9;
-  optional uint32 max_glossy_bounces = 10;
-  optional uint32 max_transmission_bounces = 11;
+  uint32 max_diffuse_bounces = 9;
+  uint32 max_glossy_bounces = 10;
+  uint32 max_transmission_bounces = 11;
 
-  optional double pixel_aspect_x = 12;
-  optional double pixel_aspect_y = 13;
+  double pixel_aspect_x = 12;
+  double pixel_aspect_y = 13;
 
 }

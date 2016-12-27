@@ -1,12 +1,12 @@
-syntax = "proto2";
+syntax = "proto3";
 
 option java_package = "ca.eandb.jmist.proto";
 option java_outer_classname = "CoreProtos";
 
 message Vector3 {
-  required double x = 1;
-  required double y = 2;
-  required double z = 3;
+  double x = 1;
+  double y = 2;
+  double z = 3;
 }
 
 message Color {
@@ -16,7 +16,8 @@ message Color {
     GREY = 2;
     SPECTRUM = 3;
   }
-  required Type type = 1;
+  Type type = 1;
+
   repeated double channels = 2;
   repeated double wavelengths = 3;
 }

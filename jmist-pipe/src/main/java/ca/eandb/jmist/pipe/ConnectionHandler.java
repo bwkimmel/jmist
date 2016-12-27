@@ -84,7 +84,7 @@ public final class ConnectionHandler implements Runnable {
               ParallelizableJobRunner.newBuilder()
                   .setJob(job)
                   .setProgressMonitor(monitor);
-          if (request.hasThreads()) {
+          if (request.getThreads() == 0) {
             runner.setMaxConcurrentWorkers(request.getThreads());
           }
 

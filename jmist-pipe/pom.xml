@@ -10,7 +10,7 @@
   <description>A render engine for Blender using JMIST.</description>
   <build>
     <plugins>
-    <plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
         <version>2.3</version>
@@ -31,24 +31,23 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>com.github.igor-petruk.protobuf</groupId>
-        <artifactId>protobuf-maven-plugin</artifactId>
-        <version>0.6.3</version>
-        <configuration>
-          <protocCommand>${protoc-command}</protocCommand>
-          <inputDirectories>
-            <file>src/main/proto</file>
-          </inputDirectories>
-          <cleanOutputFolder>false</cleanOutputFolder>
-          <includeDirectories>
-            <file>${basedir}/../jmist-proto/src/main/proto</file>
-          </includeDirectories>
-        </configuration>
+        <groupId>com.github.os72</groupId>
+        <artifactId>protoc-jar-maven-plugin</artifactId>
+        <version>3.1.0.2</version>
         <executions>
           <execution>
+            <phase>generate-sources</phase>
             <goals>
               <goal>run</goal>
             </goals>
+            <configuration>
+              <inputDirectories>
+                <file>src/main/proto</file>
+              </inputDirectories>
+              <includeDirectories>
+                <file>${basedir}/../jmist-proto/src/main/proto</file>
+              </includeDirectories>
+            </configuration>
           </execution>
         </executions>
       </plugin>
@@ -68,7 +67,7 @@
     <dependency>
       <groupId>com.google.protobuf</groupId>
       <artifactId>protobuf-java</artifactId>
-      <version>2.5.0</version>
+      <version>3.1.0</version>
     </dependency>
   </dependencies>
 </project>
