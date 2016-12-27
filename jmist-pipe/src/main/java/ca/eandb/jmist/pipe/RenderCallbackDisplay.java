@@ -115,6 +115,7 @@ public final class RenderCallbackDisplay implements Display {
       }
     }
     stream.flush();
+    stream.close();
     return output.toByteString();
   }
 
