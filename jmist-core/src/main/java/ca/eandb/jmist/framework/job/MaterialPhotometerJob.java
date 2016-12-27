@@ -46,8 +46,8 @@ import ca.eandb.util.progress.ProgressMonitor;
 
 /**
  * A <code>ParallelizableJob</code> that measures the scattering distribution of
- * <code>Material</code>s using a virtual goniophotometer [1].<br/>
- * <br/>
+ * <code>Material</code>s using a virtual goniophotometer [1].<br>
+ * <br>
  * [1] Krishnaswamy, A.; Baranoski, G.V.G.; Rokne, J.G.,
  *     <a href="http://dx.doi.org/10.1080/10867651.2004.10504894">Improving the
  *     Reliability/Cost Ratio of Goniophotometric Comparisons</a>, Journal of
@@ -127,7 +127,7 @@ public final class MaterialPhotometerJob extends AbstractParallelizableJob {
      * Sets the number of samples to use for each task.  If this is not set,
      * it defaults to a value determined by the number of tasks per measurement.
      * The default number of tasks per measurement is 1.
-     * @param samplesPerMeasurement The number of samples to use.
+     * @param samplesPerTask The number of samples to use.
      * @return This <code>Builder</code>.
      * @see #setTasksPerMeasurement(long)
      */
