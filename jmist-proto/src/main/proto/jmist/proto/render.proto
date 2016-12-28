@@ -3,7 +3,7 @@ syntax = "proto3";
 option java_package = "ca.eandb.jmist.proto";
 option java_outer_classname = "RenderProtos";
 
-import "scene.proto";
+import "jmist/proto/scene.proto";
 
 message Size {
   uint32 x = 1;

@@ -24,6 +24,9 @@
               <inputDirectories>
                 <file>src/main/proto</file>
               </inputDirectories>
+              <includeDirectories>
+                <file>src/main/proto</file>
+              </includeDirectories>
             </configuration>
           </execution>
         </executions>

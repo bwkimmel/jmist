@@ -33,9 +33,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import ca.eandb.jdcp.job.ParallelizableJob;
 import ca.eandb.jdcp.job.ParallelizableJobRunner;
-import ca.eandb.jmist.engine.proto.RenderEngineProtos.RenderCallback;
-import ca.eandb.jmist.engine.proto.RenderEngineProtos.RenderRequest;
 import ca.eandb.jmist.framework.Display;
+import ca.eandb.jmist.pipe.proto.RenderEngineProtos.RenderCallback;
+import ca.eandb.jmist.pipe.proto.RenderEngineProtos.RenderRequest;
 import ca.eandb.jmist.proto.factory.ProtoRenderFactory;
 import ca.eandb.util.progress.ProgressMonitor;
 

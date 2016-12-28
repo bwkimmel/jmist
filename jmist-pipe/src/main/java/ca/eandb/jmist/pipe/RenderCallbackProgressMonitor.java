@@ -25,7 +25,7 @@ package ca.eandb.jmist.pipe;
 
 import java.util.concurrent.BlockingQueue;
 
-import ca.eandb.jmist.engine.proto.RenderEngineProtos.RenderCallback;
+import ca.eandb.jmist.pipe.proto.RenderEngineProtos.RenderCallback;
 import ca.eandb.util.progress.CancelListener;
 import ca.eandb.util.progress.ProgressMonitor;
 

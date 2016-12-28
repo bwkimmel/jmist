@@ -13,9 +13,9 @@ from jmist.message_reader import MessageReader
 from jmist.message_writer import MessageWriter
 from jmist.scene_exporter import export_scene
 
-import mesh_pb2
-import render_pb2
-import render_engine_pb2
+from jmist.proto import mesh_pb2
+from jmist.proto import render_pb2
+from jmist.pipe.proto import render_engine_pb2
 
 
 class JmistRenderEngine(bpy.types.RenderEngine):

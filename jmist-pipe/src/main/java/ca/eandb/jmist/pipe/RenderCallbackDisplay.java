@@ -29,16 +29,16 @@ import java.util.concurrent.BlockingQueue;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.ByteString.Output;
 
-import ca.eandb.jmist.engine.proto.RenderEngineProtos.Position;
-import ca.eandb.jmist.engine.proto.RenderEngineProtos.Rectangle;
-import ca.eandb.jmist.engine.proto.RenderEngineProtos.RenderCallback;
-import ca.eandb.jmist.engine.proto.RenderEngineProtos.RenderCallback.DrawTile;
-import ca.eandb.jmist.engine.proto.RenderEngineProtos.RenderCallback.DrawTile.PixelFormat;
 import ca.eandb.jmist.framework.Display;
 import ca.eandb.jmist.framework.Raster;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.RGB;
+import ca.eandb.jmist.pipe.proto.RenderEngineProtos.Position;
+import ca.eandb.jmist.pipe.proto.RenderEngineProtos.Rectangle;
+import ca.eandb.jmist.pipe.proto.RenderEngineProtos.RenderCallback;
+import ca.eandb.jmist.pipe.proto.RenderEngineProtos.RenderCallback.DrawTile;
+import ca.eandb.jmist.pipe.proto.RenderEngineProtos.RenderCallback.DrawTile.PixelFormat;
 import ca.eandb.jmist.proto.RenderProtos.Size;
 import ca.eandb.util.io.LittleEndianDataOutputStream;
 

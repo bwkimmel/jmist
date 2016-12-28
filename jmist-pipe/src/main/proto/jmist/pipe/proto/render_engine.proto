@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-option java_package = "ca.eandb.jmist.engine.proto";
+option java_package = "ca.eandb.jmist.pipe.proto";
 option java_outer_classname = "RenderEngineProtos";
 
-import "render.proto";
+import "jmist/proto/render.proto";
 
 message Position {
   uint32 x = 1;
