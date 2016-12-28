@@ -101,7 +101,7 @@ class JmistRenderEngine(bpy.types.RenderEngine):
                                       rendered.tile.size.x,
                                       rendered.tile.size.y)
 
-      layer = tile_result.layers[0]
+      layer = tile_result.layers[0].passes['Combined']
       rect = array('d')
       rect.fromstring(rendered.data)
 
