@@ -13,9 +13,9 @@ from jmist.message_reader import MessageReader
 from jmist.message_writer import MessageWriter
 from jmist.scene_exporter import export_scene
 
-import jmist.proto.mesh_pb2 as mesh_pb2
-import jmist.proto.render_pb2 as render_pb2
-import jmist.proto.render_engine_pb2 as render_engine_pb2
+import mesh_pb2
+import render_pb2
+import render_engine_pb2
 
 
 class JmistRenderEngine(bpy.types.RenderEngine):
@@ -69,13 +69,13 @@ class JmistRenderEngine(bpy.types.RenderEngine):
           if not callback:
             return {"CANCELLED"}
 
-          if callback.HasField('progress'):
+          if callback.progress >= 0.0:
             self.update_progress(callback.progress)
 
           if callback.done:
             return {"FINISHED"}
 
-          if callback.HasField('error'):
+          if callback.error != '':
             raise Exception('JMist Error: %s' % callback.error)
 
           if callback.HasField('draw_tile'):

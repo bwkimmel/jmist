@@ -12,14 +12,12 @@ if "bpy" in locals():
   imp.reload(message_reader)
   imp.reload(message_writer)
   imp.reload(properties)
-  imp.reload(proto)
 else:
   from . import engine
   from . import scene_exporter
   from . import message_reader
   from . import message_writer
   from . import properties
-  from . import proto
 
 import bpy
 

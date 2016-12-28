@@ -2,11 +2,11 @@ import bpy
 import struct
 import sys
 
-import jmist.proto.mesh_pb2 as mesh_pb2
-import jmist.proto.camera_pb2 as camera_pb2
-import jmist.proto.light_pb2 as light_pb2
-import jmist.proto.core_pb2 as core_pb2
-import jmist.proto.scene_pb2 as scene_pb2
+import mesh_pb2
+import camera_pb2
+import light_pb2
+import core_pb2
+import scene_pb2
 
 from io import BytesIO
 
