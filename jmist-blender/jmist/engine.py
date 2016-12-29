@@ -31,7 +31,12 @@ class JmistRenderEngine(bpy.types.RenderEngine):
     try:
 
       request = render_engine_pb2.RenderRequest()
-      request.threads = scene.render.threads
+      if scene.jmist.remote:
+        request.remote_options.host = scene.jmist.remote_host
+        request.remote_options.username = scene.jmist.remote_username
+        request.remote_options.password = scene.jmist.remote_password
+      else:
+        request.local_options.threads = scene.render.threads
 
       scale = scene.render.resolution_percentage / 100.0
 

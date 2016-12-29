@@ -28,15 +28,21 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import ca.eandb.jdcp.JdcpUtil;
 import ca.eandb.jdcp.job.ParallelizableJob;
 import ca.eandb.jdcp.job.ParallelizableJobRunner;
+import ca.eandb.jdcp.remote.JobService;
+import ca.eandb.jdcp.remote.TaskService;
+import ca.eandb.jdcp.server.TemporaryJobServer;
 import ca.eandb.jmist.framework.Display;
 import ca.eandb.jmist.pipe.proto.RenderEngineProtos.RenderCallback;
 import ca.eandb.jmist.pipe.proto.RenderEngineProtos.RenderRequest;
 import ca.eandb.jmist.proto.factory.ProtoRenderFactory;
+import ca.eandb.util.progress.DummyProgressMonitorFactory;
 import ca.eandb.util.progress.ProgressMonitor;
 
 /**
@@ -78,15 +84,15 @@ public final class ConnectionHandler implements Runnable {
           ParallelizableJob job =
               renderFactory.createRenderJob(request.getJob(), display);
 
-          ParallelizableJobRunner.Builder runner =
-              ParallelizableJobRunner.newBuilder()
-                  .setJob(job)
-                  .setProgressMonitor(monitor);
-          if (request.getThreads() == 0) {
-            runner.setMaxConcurrentWorkers(request.getThreads());
+          switch (request.getOptionsCase()) {
+          case OPTIONS_NOT_SET:
+          case LOCAL_OPTIONS:
+            runLocal(job, monitor, request);
+            break;
+          case REMOTE_OPTIONS:
+            runRemote(job, monitor, request);
+            break;
           }
-
-          runner.build().run();
         } catch (Exception e) {
           StringWriter sw = new StringWriter();
           PrintWriter pw = new PrintWriter(sw);
@@ -107,4 +113,41 @@ public final class ConnectionHandler implements Runnable {
     } catch (InterruptedException e) {}
   }
 
+  private void runLocal(
+      ParallelizableJob job, ProgressMonitor monitor,
+      RenderRequest request) throws IOException {
+    ParallelizableJobRunner.Builder runner =
+        ParallelizableJobRunner.newBuilder()
+            .setJob(job)
+            .setProgressMonitor(monitor);
+    RenderRequest.LocalOptions options = request.getLocalOptions();
+    int numThreads = options != null ? options.getThreads() : 0;
+    if (numThreads != 0) {
+      runner.setMaxConcurrentWorkers(numThreads);
+    }
+
+    runner.build().run();
+  }
+
+  private void runRemote(
+      ParallelizableJob job, ProgressMonitor monitor,
+      RenderRequest request) throws Exception {
+    TemporaryJobServer server =
+        new TemporaryJobServer(DummyProgressMonitorFactory.getInstance());
+    server.submitJob(job, "JMist Render");
+    TaskService stub = (TaskService) UnicastRemoteObject.exportObject(
+        server, 0);
+    RenderRequest.RemoteOptions options = request.getRemoteOptions();
+    JobService remoteService =
+        JdcpUtil.connect(
+            options.getHost(), options.getUsername(), options.getPassword());
+    remoteService.registerTaskService("jmist-pipe", stub);
+    while (!server.isComplete()) {
+      try {
+        server.waitForCompletion();
+      } catch (InterruptedException e) {}
+    }
+    remoteService.unregisterTaskService("jmist-pipe");
+    UnicastRemoteObject.unexportObject(server, true);
+  }
 }

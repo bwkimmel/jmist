@@ -17,7 +17,21 @@ message Rectangle {
 
 message RenderRequest {
   RenderJob job = 1;
-  uint32 threads = 2;
+
+  message LocalOptions {
+    uint32 threads = 1;
+  }
+
+  message RemoteOptions {
+    string host = 1;
+    string username = 2;
+    string password = 3;
+  }
+
+  oneof options {
+    LocalOptions local_options = 2;
+    RemoteOptions remote_options = 3;
+  }
 }
 
 message RenderCallback {
