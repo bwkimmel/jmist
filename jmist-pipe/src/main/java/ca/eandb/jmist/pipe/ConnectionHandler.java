@@ -41,7 +41,7 @@ import ca.eandb.jdcp.server.TemporaryJobServer;
 import ca.eandb.jmist.framework.Display;
 import ca.eandb.jmist.pipe.proto.RenderEngineProtos.RenderCallback;
 import ca.eandb.jmist.pipe.proto.RenderEngineProtos.RenderRequest;
-import ca.eandb.jmist.proto.factory.ProtoRenderFactory;
+import ca.eandb.jmist.proto.factory.ProtoRenderJob;
 import ca.eandb.util.progress.DummyProgressMonitorFactory;
 import ca.eandb.util.progress.ProgressMonitor;
 
@@ -69,8 +69,6 @@ public final class ConnectionHandler implements Runnable {
     writerThread.setDaemon(true);
     writerThread.start();
 
-    ProtoRenderFactory renderFactory = new ProtoRenderFactory();
-
     try {
       while (true) {
         RenderRequest request = RenderRequest.parseDelimitedFrom(in);
@@ -81,8 +79,7 @@ public final class ConnectionHandler implements Runnable {
         try {
           Display display = new RenderCallbackDisplay(messages);
           ProgressMonitor monitor = new RenderCallbackProgressMonitor(messages);
-          ParallelizableJob job =
-              renderFactory.createRenderJob(request.getJob(), display);
+          ParallelizableJob job = new ProtoRenderJob(request.getJob(), display);
 
           switch (request.getOptionsCase()) {
           case OPTIONS_NOT_SET:
