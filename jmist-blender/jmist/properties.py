@@ -46,7 +46,8 @@ def get_panels():
       types.RENDER_PT_render,
       types.RENDER_PT_dimensions,
       types.RENDER_PT_performance,
-      types.MATERIAL_PT_preview)
+      types.MATERIAL_PT_preview,
+      types.MATERIAL_PT_diffuse)
 
 
 def draw_debug(self, context):
