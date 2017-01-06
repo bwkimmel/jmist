@@ -69,7 +69,7 @@ def export_lamp(bl_lamp, light):
   light.color.type = core_pb2.Color.RGB
   light.color.channels.extend(bl_lamp.data.color[:])
 
-  light.energy = bl_lamp.data.energy
+  light.energy = bl_lamp.data.energy * 1000
   light.shadow = bl_lamp.data.use_shadow
 
 
