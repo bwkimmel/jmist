@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option java_package = "ca.eandb.jmist.proto";
+option java_outer_classname = "MaterialProtos";
+
+import "jmist/proto/core.proto";
+
+message Material {
+  oneof parameters {
+    LambertianMaterial lambertian_material = 1;
+  }
+}
+
+message LambertianMaterial {
+  Color reflectance = 1;
+}

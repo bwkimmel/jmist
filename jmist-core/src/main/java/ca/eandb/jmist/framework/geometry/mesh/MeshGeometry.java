@@ -25,8 +25,12 @@
  */
 package ca.eandb.jmist.framework.geometry.mesh;
 
+import java.util.Collections;
+import java.util.List;
+
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
+import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.geometry.AbstractGeometry;
 import ca.eandb.jmist.math.Basis3;
@@ -53,9 +57,20 @@ public final class MeshGeometry extends AbstractGeometry {
   /**
    * Creates a new <code>MeshGeometry</code>.
    * @param mesh The <code>Mesh</code> to create the geometry from.
+   * @param materials The <code>List</code> of <code>Material</code>s used by
+   *     this mesh.
+   */
+  public MeshGeometry(Mesh mesh, List<Material> materials) {
+    this.mesh = MeshUtil.triangulate(mesh);
+    this.materials = materials;
+  }
+
+  /**
+   * Creates a new <code>MeshGeometry</code>.
+   * @param mesh The <code>Mesh</code> to create the geometry from.
    */
   public MeshGeometry(Mesh mesh) {
-    this.mesh = MeshUtil.triangulate(mesh);
+    this(mesh, Collections.emptyList());
   }
 
   @Override
@@ -240,9 +255,16 @@ public final class MeshGeometry extends AbstractGeometry {
         context.setShadingNormal(shadingNormal);
       }
     }
+
+    int materialIndex = face.getMaterialIndex();
+    if (materialIndex >= 0 && materialIndex < materials.size()) {
+      context.setMaterial(materials.get(materialIndex));
+    }
   }
 
   private final Mesh mesh;
+
+  private final List<Material> materials;
 
   /** The surface area of this polyhedron. */
   private double surfaceArea = -1.0;

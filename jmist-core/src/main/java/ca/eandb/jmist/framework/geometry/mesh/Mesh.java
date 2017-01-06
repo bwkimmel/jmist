@@ -23,6 +23,7 @@ public interface Mesh {
   public interface Face {
     int getVertexCount();
     Vertex getVertex(int index);
+    int getMaterialIndex();
 
     default Iterable<Vertex> getVertices() {
       return () -> IntStream.range(0,  getVertexCount())

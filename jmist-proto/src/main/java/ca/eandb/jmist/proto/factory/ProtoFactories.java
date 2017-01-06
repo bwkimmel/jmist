@@ -38,6 +38,8 @@ public final class ProtoFactories {
 
   private final ProtoLightFactory lightFactory;
 
+  private final ProtoMaterialFactory materialFactory;
+
   private final ProtoCoreFactory coreFactory;
 
   public ProtoFactories(ColorModel colorModel) {
@@ -45,8 +47,9 @@ public final class ProtoFactories {
     colorFactory = new ProtoColorFactory(colorModel);
     cameraFactory = new ProtoCameraFactory(coreFactory);
     lightFactory = new ProtoLightFactory(colorFactory, coreFactory, colorModel);
+    materialFactory = new ProtoMaterialFactory(colorFactory, colorModel);
     sceneFactory = new ProtoSceneFactory(cameraFactory, coreFactory,
-                                         lightFactory);
+                                         lightFactory, materialFactory);
   }
 
   public ProtoSceneFactory getSceneFactory() {
@@ -63,6 +66,10 @@ public final class ProtoFactories {
 
   public ProtoLightFactory getLightFactory() {
     return lightFactory;
+  }
+
+  public ProtoMaterialFactory getMaterialFactory() {
+    return materialFactory;
   }
 
   public ProtoCoreFactory getCoreFactory() {

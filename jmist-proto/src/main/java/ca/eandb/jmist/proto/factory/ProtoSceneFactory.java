@@ -23,8 +23,12 @@
  */
 package ca.eandb.jmist.proto.factory;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import ca.eandb.jmist.framework.Lens;
 import ca.eandb.jmist.framework.Light;
+import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.Scene;
 import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.accel.BoundingIntervalHierarchy;
@@ -51,13 +55,16 @@ public final class ProtoSceneFactory {
   private final ProtoCameraFactory cameraFactory;
   private final ProtoCoreFactory coreFactory;
   private final ProtoLightFactory lightFactory;
+  private final ProtoMaterialFactory materialFactory;
 
   public ProtoSceneFactory(ProtoCameraFactory cameraFactory,
                            ProtoCoreFactory coreFactory,
-                           ProtoLightFactory lightFactory) {
+                           ProtoLightFactory lightFactory,
+                           ProtoMaterialFactory materialFactory) {
     this.cameraFactory = cameraFactory;
     this.coreFactory = coreFactory;
     this.lightFactory = lightFactory;
+    this.materialFactory = materialFactory;
   }
 
   public Scene createScene(final SceneProtos.Scene sceneIn) {
@@ -86,14 +93,15 @@ public final class ProtoSceneFactory {
   }
 
   private SceneElement createSceneRoot(SceneProtos.Scene sceneIn) {
+    List<Material> materials = createSceneMaterials(sceneIn);
     if (sceneIn.getObjectsCount() == 0) {
       return new MergeSceneElement();
     } else if (sceneIn.getObjectsCount() == 1) {
-      return createObject(sceneIn.getObjects(0));
+      return createObject(sceneIn.getObjects(0), materials);
     } else {
       MergeSceneElement root = new MergeSceneElement();
       for (SceneProtos.Object objectIn : sceneIn.getObjectsList()) {
-        root.addChild(createObject(objectIn));
+        root.addChild(createObject(objectIn, materials));
       }
       return root;
     }
@@ -133,7 +141,8 @@ public final class ProtoSceneFactory {
     }
   }
 
-  private SceneElement createMesh(MeshProtos.Mesh meshIn) {
+  private SceneElement createMesh(
+      MeshProtos.Mesh meshIn, List<Material> materials) {
     MeshProtos.MeshFormat format = meshIn.getFormat();
     MeshProtos.VertexBlock vertices = format.getVertices();
     MeshProtos.LoopBlock loops = format.getLoops();
@@ -153,19 +162,24 @@ public final class ProtoSceneFactory {
         .setLoopStride((int) loops.getStride())
         .setLoopCount(loops.getCount())
         .setLoopVertexIndexReader(getIndexReader(loops.getIndices()))
+        .setLoopNormalSpec(
+            (int) loops.getNormals().getOffset(),
+            getVector3Format(loops.getNormals().getFormat()))
         .setFaceOffset((int) faces.getOffset())
         .setFaceStride((int) faces.getStride())
         .setFaceCount(faces.getCount())
         .setFaceLoopStartReader(getIndexReader(faces.getLoopStart()))
-        .setFaceLoopCountReader(getIndexReader(faces.getLoopCount()));
-    return new MeshGeometry(builder.build());
+        .setFaceLoopCountReader(getIndexReader(faces.getLoopCount()))
+        .setFaceMaterialIndexReader(getIndexReader(faces.getMaterials()));
+    return new MeshGeometry(builder.build(), materials);
   }
 
-  private SceneElement createObject(SceneProtos.Object objectIn) {
+  private SceneElement createObject(
+      SceneProtos.Object objectIn, List<Material> materials) {
     SceneElement obj;
     switch (objectIn.getType()) {
       case MESH:
-        obj = createMesh(objectIn.getMeshObject());
+        obj = createMesh(objectIn.getMeshObject(), materials);
         break;
       default:
         throw new IllegalArgumentException(String.format(
@@ -195,5 +209,11 @@ public final class ProtoSceneFactory {
       }
       return light;
     }
+  }
+
+  private List<Material> createSceneMaterials(SceneProtos.Scene sceneIn) {
+    return sceneIn.getMaterialsList().stream()
+        .map(materialFactory::createMaterial)
+        .collect(Collectors.toList());
   }
 }

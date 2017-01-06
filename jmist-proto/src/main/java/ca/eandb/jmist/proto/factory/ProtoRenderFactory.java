@@ -26,16 +26,26 @@ package ca.eandb.jmist.proto.factory;
 import ca.eandb.jdcp.job.ParallelizableJob;
 import ca.eandb.jmist.framework.Display;
 import ca.eandb.jmist.framework.ImageShader;
+import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.PixelShader;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.RayShader;
 import ca.eandb.jmist.framework.Scene;
+import ca.eandb.jmist.framework.SceneElement;
+import ca.eandb.jmist.framework.Shader;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.rgb.RGBColorModel;
 import ca.eandb.jmist.framework.color.xyz.XYZColorModel;
 import ca.eandb.jmist.framework.job.RasterJob;
+import ca.eandb.jmist.framework.material.LambertianMaterial;
+import ca.eandb.jmist.framework.modifier.CompositeModifier;
+import ca.eandb.jmist.framework.modifier.DefaultMaterialModifier;
+import ca.eandb.jmist.framework.modifier.DefaultShaderModifier;
 import ca.eandb.jmist.framework.random.SimpleRandom;
 import ca.eandb.jmist.framework.random.ThreadLocalRandom;
+import ca.eandb.jmist.framework.scene.ModifierSceneElement;
+import ca.eandb.jmist.framework.scene.SceneDecorator;
+import ca.eandb.jmist.framework.shader.DirectLightingShader;
 import ca.eandb.jmist.framework.shader.image.CameraImageShader;
 import ca.eandb.jmist.framework.shader.pixel.AveragingPixelShader;
 import ca.eandb.jmist.framework.shader.pixel.RandomPixelShader;
@@ -60,13 +70,36 @@ public final class ProtoRenderFactory {
     }
   }
 
+  private Shader createDefaultShader(RenderProtos.RenderJob jobIn) {
+    return new DirectLightingShader();
+  }
+
+  private Material createDefaultMaterial(ColorModel colorModel) {
+    return new LambertianMaterial(colorModel.getGray(0.8));
+  }
+
   public ParallelizableJob createRenderJob(RenderProtos.RenderJob jobIn,
                                            Display display) {
     ColorModel colorModel = jobIn.hasColorModel() ?
         createColorModel(jobIn.getColorModel()) : RGBColorModel.getInstance();
     ProtoFactories factories = new ProtoFactories(colorModel);
     ProtoSceneFactory sceneFactory = factories.getSceneFactory();
-    Scene scene = sceneFactory.createScene(jobIn.getScene());
+    Scene scene = new SceneDecorator(sceneFactory.createScene(jobIn.getScene())) {
+      private static final long serialVersionUID = 1L;
+      private final SceneElement root = new ModifierSceneElement(
+          new CompositeModifier()
+              .addModifier(
+                  new DefaultMaterialModifier(
+                      createDefaultMaterial(colorModel)))
+              .addModifier(
+                  new DefaultShaderModifier(createDefaultShader(jobIn))),
+          super.getRoot());
+
+      @Override
+      public SceneElement getRoot() {
+        return root;
+      }
+    };
     RayShader rayShader = new SceneRayShader(scene);
     ImageShader imageShader = new CameraImageShader(scene.getLens(), rayShader);
     Random pixelRandom = new ThreadLocalRandom(new SimpleRandom());

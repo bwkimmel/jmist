@@ -46,6 +46,8 @@ public final class BufferMesh implements Mesh {
 
   private final IndexReader faceLoopCountReader;
 
+  private final IndexReader faceMaterialIndexReader;
+
   private final IndexReader loopVertexIndexReader;
 
   private final MeshElementReader<Vector3> loopNormalReader;
@@ -76,6 +78,7 @@ public final class BufferMesh implements Mesh {
     private int vertexStride;
     private IndexReader faceLoopStartReader;
     private IndexReader faceLoopCountReader;
+    private IndexReader faceMaterialIndexReader;
     private IndexReader loopVertexIndexReader;
     private MeshElementReader<Vector3> loopNormalReader;
     private MeshElementReader<Point2> loopUVReader;
@@ -87,9 +90,9 @@ public final class BufferMesh implements Mesh {
       return new BufferMesh(faceBuffer, loopBuffer, vertexBuffer,
           maxFaceVertexCount, faceCount, faceOffset, faceStride, loopCount,
           loopOffset, loopStride, vertexCount, vertexOffset, vertexStride,
-          faceLoopStartReader, faceLoopCountReader, loopVertexIndexReader,
-          loopNormalReader, loopUVReader, vertexCoordReader, vertexNormalReader,
-          vertexUVReader);
+          faceLoopStartReader, faceLoopCountReader, faceMaterialIndexReader,
+          loopVertexIndexReader, loopNormalReader, loopUVReader,
+          vertexCoordReader, vertexNormalReader, vertexUVReader);
     }
     public Builder setCommonBuffer(ByteBuffer buffer) {
       faceBuffer = loopBuffer = vertexBuffer = buffer.duplicate();
@@ -155,6 +158,10 @@ public final class BufferMesh implements Mesh {
       this.faceLoopCountReader = faceLoopCountReader;
       return this;
     }
+    public Builder setFaceMaterialIndexReader(IndexReader faceMaterialIndexReader) {
+      this.faceMaterialIndexReader = faceMaterialIndexReader;
+      return this;
+    }
     public Builder setLoopVertexIndexReader(IndexReader loopVertexIndexReader) {
       this.loopVertexIndexReader = loopVertexIndexReader;
       return this;
@@ -186,6 +193,9 @@ public final class BufferMesh implements Mesh {
     public Builder setFaceLoopCountSpec(int offset, IndexFormat format) {
       return setFaceLoopCountReader(format.createReader(offset));
     }
+    public Builder setFaceMaterialIndexSpec(int offset, IndexFormat format) {
+      return setFaceMaterialIndexReader(format.createReader(offset));
+    }
     public Builder setLoopVertexIndexSpec(int offset, IndexFormat format) {
       return setLoopVertexIndexReader(format.createReader(offset));
     }
@@ -215,7 +225,7 @@ public final class BufferMesh implements Mesh {
       int faceOffset, int faceStride, int loopCount, int loopOffset,
       int loopStride, int vertexCount, int vertexOffset, int vertexStride,
       IndexReader faceLoopStartReader, IndexReader faceLoopCountReader,
-      IndexReader loopVertexIndexReader,
+      IndexReader faceMaterialIndexReader, IndexReader loopVertexIndexReader,
       MeshElementReader<Vector3> loopNormalReader,
       MeshElementReader<Point2> loopUVReader,
       MeshElementReader<Point3> vertexCoordReader,
@@ -236,6 +246,7 @@ public final class BufferMesh implements Mesh {
     this.vertexStride = vertexStride;
     this.faceLoopStartReader = faceLoopStartReader;
     this.faceLoopCountReader = faceLoopCountReader;
+    this.faceMaterialIndexReader = faceMaterialIndexReader;
     this.loopVertexIndexReader = loopVertexIndexReader;
     this.loopNormalReader = loopNormalReader;
     this.loopUVReader = loopUVReader;
@@ -429,6 +440,13 @@ public final class BufferMesh implements Mesh {
           return vertex;
         }
       };
+    }
+
+    @Override
+    public int getMaterialIndex() {
+      return faceMaterialIndexReader != null
+          ? faceMaterialIndexReader.read(faceBuffer, faceBase)
+          : 0;
     }
 
   }

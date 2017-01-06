@@ -5,6 +5,7 @@ option java_outer_classname = "SceneProtos";
 
 import "jmist/proto/camera.proto";
 import "jmist/proto/light.proto";
+import "jmist/proto/material.proto";
 import "jmist/proto/mesh.proto";
 
 message Object {
@@ -22,5 +23,6 @@ message Object {
 message Scene {
   Camera camera = 1;
   repeated Light lights = 2;
-  repeated Object objects = 3;
+  repeated Material materials = 3;
+  repeated Object objects = 4;
 }
