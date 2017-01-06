@@ -42,13 +42,12 @@ class JMistRenderSettings(bpy.types.PropertyGroup):
 
 
 def get_panels():
-  types = bpy.types
   return (
-      types.RENDER_PT_render,
-      types.RENDER_PT_dimensions,
-      types.RENDER_PT_performance,
-      types.MATERIAL_PT_preview,
-      types.MATERIAL_PT_diffuse)
+      bpy.types.RENDER_PT_render,
+      bpy.types.RENDER_PT_dimensions,
+      bpy.types.RENDER_PT_performance,
+      bpy.types.MATERIAL_PT_preview,
+      bpy.types.MATERIAL_PT_diffuse)
 
 
 def draw_debug(self, context):
