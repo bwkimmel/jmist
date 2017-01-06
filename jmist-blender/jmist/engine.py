@@ -44,6 +44,7 @@ class JmistRenderEngine(bpy.types.RenderEngine):
       request.job.image_size.y = int(scene.render.resolution_y * scale)
       request.job.tile_size.x = scene.render.tile_x
       request.job.tile_size.y = scene.render.tile_y
+      request.job.samples_per_pixel = int(scene.render.antialiasing_samples)
 
       request.job.color_model.type = render_pb2.ColorModel.RGB
 
