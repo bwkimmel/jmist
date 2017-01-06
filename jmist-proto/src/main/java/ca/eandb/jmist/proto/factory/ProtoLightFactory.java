@@ -69,20 +69,21 @@ public final class ProtoLightFactory {
   private Light createPointLight(LightProtos.Light lightIn) {
     return new PointLight(
         coreFactory.createPoint3(lightIn.getPointLight().getPosition()),
-        colorFactory.createSpectrum(lightIn.getColor()),
+        colorFactory.createSpectrum(lightIn.getColor(), lightIn.getEnergy()),
         lightIn.getShadow());
   }
 
   private Light createDirectionalLight(LightProtos.Light lightIn) {
     return new DirectionalLight(
         coreFactory.createVector3(lightIn.getDirectionalLight().getDirection()),
-        colorFactory.createSpectrum(lightIn.getColor()),
+        colorFactory.createSpectrum(lightIn.getColor(), lightIn.getEnergy()),
         lightIn.getShadow());
   }
 
   private Light createAreaLight(LightProtos.Light lightIn) {
     Material material = new LambertianMaterial(
-        colorModel.getBlack(), colorFactory.createSpectrum(lightIn.getColor()));
+        colorModel.getBlack(),
+        colorFactory.createSpectrum(lightIn.getColor(), lightIn.getEnergy()));
     LightProtos.AreaLight areaLight = lightIn.getAreaLight();
     SceneElement geometry = new RectangleGeometry(
         coreFactory.createPoint3(areaLight.getCenter()),
