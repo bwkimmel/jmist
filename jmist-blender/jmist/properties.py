@@ -1,39 +1,40 @@
 import bpy
 
 class JMistRenderSettings(bpy.types.PropertyGroup):
+  debug = bpy.props.BoolProperty(
+      name="Debug",
+      description="Enable JVM Remote Debugging",
+      default=False)
+  debug_port = bpy.props.IntProperty(
+      name="Debug Port",
+      description="Port number to listen on for remote debugger",
+      default=8000,
+      min=0,
+      max=65535)
+  remote = bpy.props.BoolProperty(
+      name="Remote",
+      description="Render scene on a remote JDCP server",
+      default=False)
+  remote_host = bpy.props.StringProperty(
+      name="Host",
+      description="Hostname of JDCP server to send job to",
+      default="localhost")
+  remote_username = bpy.props.StringProperty(
+      name="Username",
+      description="Username to use to connect to remote JDCP server",
+      default="guest")
+  remote_password = bpy.props.StringProperty(
+      name="Password",
+      description="Password to use to connect to remote JDCP server",
+      default="",
+      subtype='PASSWORD')
+
   @classmethod
   def register(cls):
     bpy.types.Scene.jmist = bpy.props.PointerProperty(
         name="JMist Render Settings",
         description="JMist render settings",
         type=cls)
-    cls.debug = bpy.props.BoolProperty(
-        name="Debug",
-        description="Enable JVM Remote Debugging",
-        default=False)
-    cls.debug_port = bpy.props.IntProperty(
-        name="Debug Port",
-        description="Port number to listen on for remote debugger",
-        default=8000,
-        min=0,
-        max=65535)
-    cls.remote = bpy.props.BoolProperty(
-        name="Remote",
-        description="Render scene on a remote JDCP server",
-        default=False)
-    cls.remote_host = bpy.props.StringProperty(
-        name="Host",
-        description="Hostname of JDCP server to send job to",
-        default="localhost")
-    cls.remote_username = bpy.props.StringProperty(
-        name="Username",
-        description="Username to use to connect to remote JDCP server",
-        default="guest")
-    cls.remote_password = bpy.props.StringProperty(
-        name="Password",
-        description="Password to use to connect to remote JDCP server",
-        default="",
-        subtype='PASSWORD')
 
   @classmethod
   def unregister(cls):
