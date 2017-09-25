@@ -57,12 +57,12 @@
     <dependency>
       <groupId>ca.eandb.jdcp</groupId>
       <artifactId>jdcp-core</artifactId>
-      <version>0.4.1</version>
+      <version>0.4.2</version>
     </dependency>
     <dependency>
       <groupId>ca.eandb.jdcp</groupId>
       <artifactId>jdcp-server</artifactId>
-      <version>0.4.1</version>
+      <version>0.4.2</version>
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
