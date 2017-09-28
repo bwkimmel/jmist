@@ -10,3 +10,5 @@ target/
 dependency-reduced-pom.xml
 jmist-blender/ext/protobuf/
 jmist-blender/ext/protobuf-*.tar.gz
+.idea/
+*.iml
