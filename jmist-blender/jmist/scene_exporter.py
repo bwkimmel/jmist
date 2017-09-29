@@ -17,11 +17,9 @@ class _Context(object):
 
 def export_camera(bl_camera, camera):
   if bl_camera.data.type == 'PERSP':
-    camera.type = camera_pb2.Camera.PINHOLE
     camera.pinhole_camera.angle_x = bl_camera.data.angle_x
     camera.pinhole_camera.angle_y = bl_camera.data.angle_y
   elif bl_camera.data.type == 'ORTHO':
-    camera.type = camera_pb2.Camera.ORTHOGRAPHIC
     camera.orthographic_camera.scale_x = bl_camera.data.sensor_width
     camera.orthographic_camera.scale_y = bl_camera.data.sensor_height
   else:
@@ -39,12 +37,10 @@ def export_camera(bl_camera, camera):
 
 def export_lamp(bl_lamp, light):
   if bl_lamp.data.type == 'POINT':
-    light.type = light_pb2.Light.POINT
     light.point_light.position.x = bl_lamp.location[0]
     light.point_light.position.y = bl_lamp.location[1]
     light.point_light.position.z = bl_lamp.location[2]
   elif bl_lamp.data.type == 'AREA':
-    light.type = light_pb2.Light.AREA
     light.area_light.center.x = bl_lamp.location[0]
     light.area_light.center.y = bl_lamp.location[1]
     light.area_light.center.z = bl_lamp.location[2]
@@ -59,7 +55,6 @@ def export_lamp(bl_lamp, light):
     light.area_light.v.y = -bl_lamp.matrix_world[1][1]
     light.area_light.v.z = -bl_lamp.matrix_world[2][1]
   elif bl_lamp.data.type == 'SUN':
-    light.type = light_pb2.Light.DIRECTIONAL
     light.directional_light.direction.x = bl_lamp.matrix_world[0][2]
     light.directional_light.direction.y = bl_lamp.matrix_world[1][2]
     light.directional_light.direction.z = bl_lamp.matrix_world[2][2]
@@ -135,7 +130,6 @@ def export_mesh(bl_mesh, mesh, context):
 
 def export_object(bl_obj, obj, bl_scene, context):
   if bl_obj.type == 'MESH':
-    obj.type = scene_pb2.Object.MESH
     export_mesh(bl_obj.to_mesh(scene=bl_scene,
                                apply_modifiers=True,
                                settings='RENDER'),

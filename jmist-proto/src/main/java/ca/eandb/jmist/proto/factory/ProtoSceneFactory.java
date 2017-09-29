@@ -177,13 +177,15 @@ public final class ProtoSceneFactory {
   private SceneElement createObject(
       SceneProtos.Object objectIn, List<Material> materials) {
     SceneElement obj;
-    switch (objectIn.getType()) {
-      case MESH:
+    switch (objectIn.getParametersCase()) {
+      case MESH_OBJECT:
         obj = createMesh(objectIn.getMeshObject(), materials);
         break;
+      case PARAMETERS_NOT_SET:
+        throw new IllegalArgumentException("Object parameters not set.");
       default:
         throw new IllegalArgumentException(String.format(
-            "Unrecognized object type: %d", objectIn.getType().getNumber()));
+            "Unrecognized object type: %d", objectIn.getParametersCase().getNumber()));
     }
 
     if (objectIn.getWorldToLocalCount() > 0) {

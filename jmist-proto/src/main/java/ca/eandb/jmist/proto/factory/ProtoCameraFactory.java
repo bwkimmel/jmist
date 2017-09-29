@@ -44,16 +44,18 @@ public final class ProtoCameraFactory {
 
   public Lens createLens(CameraProtos.Camera camera) {
     Lens lens;
-    switch (camera.getType()) {
-      case PINHOLE:
+    switch (camera.getParametersCase()) {
+      case PINHOLE_CAMERA:
         lens = createPinholeLens(camera.getPinholeCamera());
         break;
-      case ORTHOGRAPHIC:
+      case ORTHOGRAPHIC_CAMERA:
         lens = createOrthographicLens(camera.getOrthographicCamera());
         break;
+      case PARAMETERS_NOT_SET:
+        throw new IllegalArgumentException("Camera parameters not set.");
       default:
         throw new IllegalArgumentException(String.format(
-            "Unrecognized camera type: %d.", camera.getType().getNumber()));
+            "Unrecognized camera type: %d.", camera.getParametersCase().getNumber()));
     }
 
     if (camera.getWorldToViewCount() > 0) {

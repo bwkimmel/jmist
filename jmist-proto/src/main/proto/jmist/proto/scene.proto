@@ -9,14 +9,10 @@ import "jmist/proto/material.proto";
 import "jmist/proto/mesh.proto";
 
 message Object {
-  enum Type {
-    MESH = 0;
-  }
-  Type type = 1;
-  repeated double world_to_local = 2;
+  repeated double world_to_local = 1;
 
   oneof parameters {
-    Mesh mesh_object = 3;
+    Mesh mesh_object = 2;
   }
 }
 

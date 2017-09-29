@@ -14,13 +14,10 @@ message OrthographicCamera {
 }
 
 message Camera {
-  enum Type {
-    PINHOLE = 0;
-    ORTHOGRAPHIC = 1;
-  }
-  Type type = 1;
-  repeated double world_to_view = 2;
+  repeated double world_to_view = 1;
 
-  PinholeCamera pinhole_camera = 3;
-  OrthographicCamera orthographic_camera = 4;
+  oneof parameters {
+    PinholeCamera pinhole_camera = 2;
+    OrthographicCamera orthographic_camera = 3;
+  }
 }

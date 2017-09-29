@@ -53,16 +53,18 @@ public final class ProtoLightFactory {
   }
 
   public Light createLight(LightProtos.Light lightIn) {
-    switch (lightIn.getType()) {
-      case POINT:
+    switch (lightIn.getParametersCase()) {
+      case POINT_LIGHT:
         return createPointLight(lightIn);
-      case AREA:
+      case AREA_LIGHT:
         return createAreaLight(lightIn);
-      case DIRECTIONAL:
+      case DIRECTIONAL_LIGHT:
         return createDirectionalLight(lightIn);
+      case PARAMETERS_NOT_SET:
+        throw new IllegalArgumentException("Light parameters not set.");
       default:
         throw new IllegalArgumentException(String.format(
-            "Unrecognized light type: %d.", lightIn.getType().getNumber()));
+            "Unrecognized light type: %d.", lightIn.getParametersCase().getNumber()));
     }
   }
 

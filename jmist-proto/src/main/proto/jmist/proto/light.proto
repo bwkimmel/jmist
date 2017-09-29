@@ -22,20 +22,13 @@ message DirectionalLight {
 }
 
 message Light {
-  enum Type {
-    POINT = 0;
-    AREA = 1;
-    DIRECTIONAL = 2;
-  }
-  Type type = 1;
-
-  double energy = 2;
-  Color color = 3;
-  bool shadow = 4;
+  double energy = 1;
+  Color color = 2;
+  bool shadow = 3;
 
   oneof parameters {
-    PointLight point_light = 5;
-    AreaLight area_light = 6;
-    DirectionalLight directional_light = 7;
+    PointLight point_light = 4;
+    AreaLight area_light = 5;
+    DirectionalLight directional_light = 6;
   }
 }
