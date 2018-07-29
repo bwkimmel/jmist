@@ -1,6 +1,7 @@
 bl_info = {
   "name": "JMist Render Engine",
-  "category": "Render"
+  "category": "Render",
+  "blender": (2, 80, 0)
 }
 
 # To support reload properly, try to access a package var,

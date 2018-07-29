@@ -26,7 +26,8 @@ class JmistRenderEngine(bpy.types.RenderEngine):
   def __init__(self):
     self._lock = threading.Lock()
 
-  def render(self, scene):
+  def render(self, dg):
+    scene = dg.scene
 
     try:
 
@@ -48,7 +49,7 @@ class JmistRenderEngine(bpy.types.RenderEngine):
 
       request.job.color_model.type = render_pb2.ColorModel.RGB
 
-      export_scene(scene, request.job.scene)
+      export_scene(dg, request.job.scene)
       args = ['java', '-server', '-XX:+AggressiveOpts', '-XX:+UseLargePages',
               '-XX:+UseFastAccessorMethods', '-XX:+UseBiasedLocking']
       if scene.jmist.debug:

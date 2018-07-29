@@ -43,11 +43,11 @@ class JMistRenderSettings(bpy.types.PropertyGroup):
 
 def get_panels():
   return (
-      bpy.types.RENDER_PT_render,
+      bpy.types.RENDER_PT_output,
       bpy.types.RENDER_PT_dimensions,
-      bpy.types.RENDER_PT_performance,
+      bpy.types.CYCLES_RENDER_PT_performance_threads,
       bpy.types.MATERIAL_PT_preview,
-      bpy.types.MATERIAL_PT_diffuse)
+      bpy.types.CYCLES_MATERIAL_PT_surface)
 
 
 def draw_debug(self, context):
@@ -75,14 +75,14 @@ def draw_debug(self, context):
 
 
 def register():
-  bpy.types.RENDER_PT_render.append(draw_debug)
+  bpy.types.RENDER_PT_output.append(draw_debug)
   for panel in get_panels():
     panel.COMPAT_ENGINES.add('jmist_renderengine')
   bpy.utils.register_class(JMistRenderSettings)
 
 
 def unregister():
-  bpy.types.RENDER_PT_render.remove(draw_debug)
+  bpy.types.RENDER_PT_output.remove(draw_debug)
   for panel in get_panels():
     panel.COMPAT_ENGINES.remove('jmist_renderengine')
   bpy.utils.unregister_class(JMistRenderSettings)

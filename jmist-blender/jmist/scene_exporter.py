@@ -128,11 +128,10 @@ def export_mesh(bl_mesh, mesh, context):
   mesh.data = out.getvalue()
 
 
-def export_object(bl_obj, obj, bl_scene, context):
+def export_object(bl_obj, obj, bl_dg, context):
   if bl_obj.type == 'MESH':
-    export_mesh(bl_obj.to_mesh(scene=bl_scene,
-                               apply_modifiers=True,
-                               settings='RENDER'),
+    export_mesh(bl_obj.to_mesh(depsgraph=bl_dg,
+                               apply_modifiers=True),
                 obj.mesh_object,
                 context)
   else:
@@ -151,21 +150,21 @@ def export_material(bl_material, material):
       bl_material.diffuse_color[:])
 
 
-def export_scene(bl_scene, scene):
+def export_scene(bl_dg, scene):
   context = _Context()
-  export_camera(bl_scene.camera, scene.camera)
+  export_camera(bl_dg.scene.camera, scene.camera)
   for bl_material in bpy.data.materials:
     context.material_index[bl_material.name] = len(scene.materials)
     export_material(bl_material, scene.materials.add())
-  for bl_obj in bl_scene.objects:
-    if bl_obj.is_visible(bl_scene):
-      if bl_obj.type == 'LAMP':
+  for bl_obj in bl_dg.scene.objects:
+    if bl_obj.visible_get():
+      if bl_obj.type == 'LIGHT':
         export_lamp(bl_obj, scene.lights.add())
       elif bl_obj.type == 'CAMERA':
         pass
       elif bl_obj.type == 'EMPTY':
         pass
       else:
-        export_object(bl_obj, scene.objects.add(), bl_scene=bl_scene,
+        export_object(bl_obj, scene.objects.add(), bl_dg=bl_dg,
                       context=context)
   
