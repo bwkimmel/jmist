@@ -81,7 +81,7 @@ public final class Photon {
 
   /**
    * The <code>Point3</code> at the origin of the ray.
-   * @return The <code>Point3</code> at the origin of the ray. 
+   * @return The <code>Point3</code> at the origin of the ray.
    */
   public Point3 position() {
     return ray.origin();

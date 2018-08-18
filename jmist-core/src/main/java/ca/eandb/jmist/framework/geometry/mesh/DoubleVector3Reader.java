@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package ca.eandb.jmist.framework.geometry.mesh;
 
