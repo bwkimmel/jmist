@@ -59,7 +59,9 @@ def export_lamp(bl_lamp, light):
     light.directional_light.direction.y = bl_lamp.matrix_world[1][2]
     light.directional_light.direction.z = bl_lamp.matrix_world[2][2]
   else:
-    raise Exception('Unsupported lamp type: %s' % bl_lamp.data.type)
+    print('WARNING: unsupported lamp type: %s' % bl_lamp.data.type)
+    return
+#    raise Exception('Unsupported lamp type: %s' % bl_lamp.data.type)
 
   light.color.type = core_pb2.Color.RGB
   light.color.channels.extend(bl_lamp.data.color[:])
@@ -121,8 +123,14 @@ def export_mesh(bl_mesh, mesh, context):
   for poly in bl_mesh.polygons:
     out.write(poly_index_struct.pack(poly.loop_start))
     out.write(poly_count_struct.pack(poly.loop_total))
-    material_index = context.material_index[
-                         bl_mesh.materials[poly.material_index].name]
+    print('len(bl_mesh.materials) == %d, poly.material_index == %d' % (
+      len(bl_mesh.materials), poly.material_index
+    ))
+    if len(bl_mesh.materials) > 0:
+      material_index = context.material_index[
+                           bl_mesh.materials[poly.material_index].name]
+    else:
+      material_index = 0
     out.write(materials_struct.pack(material_index))
 
   mesh.data = out.getvalue()
@@ -135,7 +143,9 @@ def export_object(bl_obj, obj, bl_dg, context):
                 obj.mesh_object,
                 context)
   else:
-    raise Exception('Unrecognized object type: %s' % bl_obj.type)
+    print('WARNING: unrecognized object type: %s' % bl_obj.type)
+    return
+#    raise Exception('Unrecognized object type: %s' % bl_obj.type)
 
   del obj.world_to_local[:]
   obj.world_to_local.extend(
