@@ -794,11 +794,17 @@ public final class PolyhedronGeometry extends AbstractGeometry {
       return Point2.ORIGIN;
     }
 
-    private synchronized void decompose() {
+    private void decompose() {
+      if (decomp == null) {
+        decomposeSync();
+      }
+    }
+
+    private synchronized void decomposeSync() {
       if (decomp != null) {
         return;
       }
-      decomp = new int[3 * (indices.length - 2)];
+      int[] res = new int[3 * (indices.length - 2)];
       double[] weight = new double[indices.length - 2];
 
       // FIXME This does not work for a general polygon.  It will work
@@ -806,15 +812,16 @@ public final class PolyhedronGeometry extends AbstractGeometry {
       // the first vertex and each other vertex are contained inside the
       // polygon).
       for (int i = 0; i < indices.length - 2; i++) {
-        decomp[3 * i] = 0;
-        decomp[3 * i + 1] = i + 1;
-        decomp[3 * i + 2] = i + 2;
+        res[3 * i] = 0;
+        res[3 * i + 1] = i + 1;
+        res[3 * i + 2] = i + 2;
         weight[i] = GeometryUtil.areaOfTriangle(
             vertices.get(indices[0]),
             vertices.get(indices[i + 1]),
             vertices.get(indices[i + 2]));
       }
       rnd = new CategoricalRandom(weight);
+      decomp = res;
     }
 
     private int[] decomp = null;
