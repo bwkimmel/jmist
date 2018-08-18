@@ -223,7 +223,7 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
   private synchronized void build() {
     if (!ready) {
       buffer = new NodeBuffer();
-      items = ArrayUtil.range(0, super.getNumPrimitives() - 1);
+      items = ArrayUtil.range(0, super.getNumPrimitives());
       boundingBox = boundingBox();
       Bound bound = new Bound(boundingBox);
       Clip clip = new Clip();

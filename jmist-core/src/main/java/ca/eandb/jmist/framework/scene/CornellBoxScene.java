@@ -323,11 +323,11 @@ public final class CornellBoxScene extends AbstractScene {
           new int[]{ 14, 15, 23, 22 },
           new int[]{ 15, 12, 20, 23 },
 
-          new int[]{ 16, 17, 18, 19 }, // tall block
-          new int[]{ 16, 17, 25, 24 },
+          new int[]{ 24, 25, 26, 27 }, // tall block
           new int[]{ 17, 18, 26, 25 },
           new int[]{ 18, 19, 27, 26 },
-          new int[]{ 19, 16, 24, 27 }
+          new int[]{ 19, 16, 24, 27 },
+          new int[]{ 16, 17, 25, 24 }
 
       }
   );
