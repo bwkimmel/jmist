@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package ca.eandb.jmist.framework.geometry.mesh;
 
@@ -30,10 +30,10 @@ public interface Mesh {
           .iterator();
     }
   }
-  
+
   int getMaxFaceVertexCount();
   boolean isFaceVertexCountFixed();
-  
+
   boolean hasVertexNormals();
   boolean hasSplitVertexNormals();
   boolean hasUVs();
@@ -47,7 +47,7 @@ public interface Mesh {
         .mapToObj(this::getFace)
         .iterator();
   }
-  
+
   int getVertexCount();
   Vertex getVertex(int index);
 
@@ -56,5 +56,5 @@ public interface Mesh {
         .mapToObj(this::getVertex)
         .iterator();
   }
-  
+
 }
