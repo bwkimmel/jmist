@@ -156,6 +156,11 @@ final class TriangulatedMesh implements Mesh {
           throw new IllegalArgumentException("vertex index out of bounds");
       }
     }
+
+    @Override
+    public int getMaterialIndex() {
+      return face.getMaterialIndex();
+    }
   }
 
 }
