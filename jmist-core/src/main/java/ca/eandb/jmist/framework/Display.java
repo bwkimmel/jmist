@@ -74,4 +74,12 @@ public interface Display {
   /** Finalize the displayed image. */
   void finish();
 
+  /** Sends results into the void, never to be heard from again. */
+  public static final Display NULL = new Display() {
+    @Override public void initialize(int w, int h, ColorModel colorModel) {}
+    @Override public void fill(int x, int y, int w, int h, Color color) {}
+    @Override public void setPixel(int x, int y, Color pixel) {}
+    @Override public void setPixels(int x, int y, Raster pixels) {}
+    @Override public void finish() {}
+  };
 }
