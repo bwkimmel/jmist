@@ -228,7 +228,7 @@ public final class Optics {
    *     of light incident on the interface from the specified direction.
    */
   public static Vector2 polarizedReflectance(Vector3 in, double n1, Complex n2, Vector3 normal) {
-    return polarizedReflectance(in, n1, n2, normal);
+    return polarizedReflectance(in, new Complex(n1), n2, normal);
   }
 
   /**
@@ -246,7 +246,7 @@ public final class Optics {
    *     of light incident on the interface from the specified direction.
    */
   public static Vector2 polarizedReflectance(Vector3 in, Complex n1, double n2, Vector3 normal) {
-    return polarizedReflectance(in, n1, n2, normal);
+    return polarizedReflectance(in, n1, new Complex(n2), normal);
   }
 
   /**
@@ -344,7 +344,7 @@ public final class Optics {
    *     of light incident on the interface from the specified direction.
    */
   public static Vector2 polarizedReflectance(double theta, double n1, Complex n2) {
-    return polarizedReflectance(theta, n1, n2);
+    return polarizedReflectance(theta, new Complex(n1), n2);
   }
 
   /**
@@ -360,7 +360,7 @@ public final class Optics {
    *     of light incident on the interface from the specified direction.
    */
   public static Vector2 polarizedReflectance(double theta, Complex n1, double n2) {
-    return polarizedReflectance(theta, n1, n2);
+    return polarizedReflectance(theta, n1, new Complex(n2));
   }
 
   /**
