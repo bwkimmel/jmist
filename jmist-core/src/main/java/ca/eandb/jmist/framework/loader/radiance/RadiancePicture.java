@@ -330,7 +330,7 @@ public class RadiancePicture implements Serializable {
     byte[] rep = new byte[32768*4];
     int repmult = 1;
     while (reader.read(next) == next.length) {
-      if (next[0] == 255 && next[1] == 255 && next[2] == 255) {
+      if (next[0] == (byte) 255 && next[1] == (byte) 255 && next[2] == (byte) 255) {
         int len = repmult * ubyte2int(next[3]);
         buffer.reset();
         buffer.get(rep, 0, 4);
