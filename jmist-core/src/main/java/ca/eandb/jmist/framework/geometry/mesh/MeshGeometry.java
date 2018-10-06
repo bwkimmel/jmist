@@ -227,19 +227,23 @@ public final class MeshGeometry extends AbstractGeometry {
                       .plus(tac.times(v)));
 
       // See http://www.terathon.com/code/tangent.html
-      double r = 1.0 / (tab.x() * tac.y() - tab.y() * tac.x());
+      double det = tab.x() * tac.y() - tab.y() * tac.x();
+      if (Math.abs(det) > MathUtil.SMALL_EPSILON) {
+        double r = 1.0 / det;
+        tu = new Vector3(
+            r * (tac.y() * ab.x() - tab.y() * ac.x()),
+            r * (tac.y() * ab.y() - tab.y() * ac.y()),
+            r * (tac.y() * ab.z() - tab.y() * ac.z()));
+        tv = new Vector3(
+            r * (tab.x() * ac.x() - tac.x() * ab.x()),
+            r * (tab.x() * ac.y() - tac.x() * ab.y()),
+            r * (tab.x() * ac.z() - tac.x() * ab.z()));
+      }
+    }
 
-      tu = new Vector3(
-          r * (tac.y() * ab.x() - tab.y() * ac.x()),
-          r * (tac.y() * ab.y() - tab.y() * ac.y()),
-          r * (tac.y() * ab.z() - tab.y() * ac.z()));
-      tv = new Vector3(
-          r * (tab.x() * ac.x() - tac.x() * ab.x()),
-          r * (tab.x() * ac.y() - tac.x() * ab.y()),
-          r * (tab.x() * ac.z() - tac.x() * ab.z()));
-
+    if (tu != null) {
       context.setBasis(Basis3.fromWUV(n, tu, tv));
-    } else {  // !mesh.hasUVs()
+    } else {
       context.setNormal(n);
     }
 
@@ -249,7 +253,7 @@ public final class MeshGeometry extends AbstractGeometry {
       Vector3 nc = vc.getNormal();
       Vector3 shadingNormal = na.times(1.0 - u - v)
           .plus(nb.times(u)).plus(nc.times(v)).unit();
-      if (mesh.hasUVs()) {
+      if (tu != null) {
         context.setShadingBasis(Basis3.fromWUV(shadingNormal, tu, tv));
       } else {
         context.setShadingNormal(shadingNormal);
