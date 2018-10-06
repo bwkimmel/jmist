@@ -114,7 +114,7 @@ public final class SceneRayShader implements RayShader {
     public Basis3 basis;
     public Basis3 shadingBasis;
     public Point3 position;
-    public Point2 uv;
+    public Point2 uv = Point2.ORIGIN;
     public Medium medium;
     public Material material;
     public int primitiveIndex;
