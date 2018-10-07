@@ -248,13 +248,23 @@ public final class TransformableSceneElement extends SceneElementDecorator
       AffineMatrix3 matrix = t.apply(AffineMatrix3.IDENTITY);
       scaleFactor = Math.cbrt(matrix.determinant());
 
-      Vector3 u = t.apply(Vector3.I).unit();
-      Vector3 v = t.apply(Vector3.J).unit();
-      Vector3 w = t.apply(Vector3.K).unit();
+      Vector3 u = t.apply(Vector3.I);
+      Vector3 v = t.apply(Vector3.J);
+      Vector3 w = t.apply(Vector3.K);
+      double ulen = u.length();
+      double vlen = v.length();
+      double wlen = w.length();
+      u = u.unit();
+      v = v.unit();
+      w = w.unit();
 
-      shapePreserving = (u.dot(v) < MathUtil.EPSILON)
-          && (v.dot(w) < MathUtil.EPSILON)
-          && (w.dot(u) < MathUtil.EPSILON);
+      shapePreserving =
+             Math.abs(u.dot(v)) < MathUtil.EPSILON
+          && Math.abs(v.dot(w)) < MathUtil.EPSILON
+          && Math.abs(w.dot(u)) < MathUtil.EPSILON
+          && Math.abs(1.0 - ulen / scaleFactor) < MathUtil.EPSILON
+          && Math.abs(1.0 - vlen / scaleFactor) < MathUtil.EPSILON
+          && Math.abs(1.0 - wlen / scaleFactor) < MathUtil.EPSILON;
     }
   }
 
