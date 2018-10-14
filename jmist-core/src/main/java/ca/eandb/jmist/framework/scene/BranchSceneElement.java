@@ -116,7 +116,16 @@ public final class BranchSceneElement implements SceneElement {
         @Override
         public void illuminate(SurfacePoint x, WavelengthPacket lambda,
             Random rnd, Illuminable target) {
-          throw new UnimplementedException();
+          int index = RandomUtil.discrete(0, lightCount - 1, rnd);
+          for (int i = 0, n = lights.size(); i < n; i++) {
+            Light light = lights.get(i);
+            if (light != null) {
+              if (index-- == 0) {
+                light.illuminate(x, lambda, rnd, target);
+                return;
+              }
+            }
+          }
         }
 
         @Override
