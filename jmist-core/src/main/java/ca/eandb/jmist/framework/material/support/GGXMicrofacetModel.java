@@ -25,6 +25,8 @@
  */
 package ca.eandb.jmist.framework.material.support;
 
+import org.apache.commons.math3.util.FastMath;
+
 import ca.eandb.jmist.math.SphericalCoordinates;
 import ca.eandb.jmist.math.Vector3;
 
@@ -60,7 +62,7 @@ public final class GGXMicrofacetModel implements IsotropicMicrofacetModel {
 
     double a2 = alpha * alpha;
     double c4 = mdotn * mdotn * mdotn * mdotn;
-    double t = Math.tan(Math.acos(mdotn));
+    double t = Math.tan(FastMath.acos(mdotn));
     double t2 = t * t;
     double a2pt2 = a2 + t2;
 
@@ -80,9 +82,9 @@ public final class GGXMicrofacetModel implements IsotropicMicrofacetModel {
     }
 
     double a2 = alpha * alpha;
-    double ti = Math.tan(Math.acos(ndoti));
+    double ti = Math.tan(FastMath.acos(ndoti));
     double t2i = ti * ti;
-    double to = Math.tan(Math.acos(ndoto));
+    double to = Math.tan(FastMath.acos(ndoto));
     double t2o = to * to;
 
     return 4.0 / ((1.0 + Math.sqrt(1.0 + a2 * t2i)) * (1.0 + Math.sqrt(1.0 + a2 * t2o)));

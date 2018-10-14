@@ -25,6 +25,8 @@
  */
 package ca.eandb.jmist.framework.material.support;
 
+import org.apache.commons.math3.util.FastMath;
+
 import ca.eandb.jmist.math.SphericalCoordinates;
 import ca.eandb.jmist.math.Vector3;
 
@@ -79,11 +81,11 @@ public final class PhongMicrofacetModel implements IsotropicMicrofacetModel {
       return 0.0;
     }
 
-    double ti = Math.tan(Math.acos(Math.abs(ndoti)));
+    double ti = Math.tan(FastMath.acos(Math.abs(ndoti)));
     double ai = Math.sqrt(0.5 * alpha + 1.0) / ti;
     double gi = ai < 1.6 ? (3.535 * ai + 2.181 * ai * ai) / (1.0 + 2.276 * ai + 2.577 * ai * ai) : 1.0;
 
-    double to = Math.tan(Math.acos(Math.abs(ndoto)));
+    double to = Math.tan(FastMath.acos(Math.abs(ndoto)));
     double ao = Math.sqrt(0.5 * alpha + 1.0) / to;
     double go = ao < 1.6 ? (3.535 * ao + 2.181 * ao * ao) / (1.0 + 2.276 * ao + 2.577 * ao * ao) : 1.0;
 
@@ -94,7 +96,7 @@ public final class PhongMicrofacetModel implements IsotropicMicrofacetModel {
   @Override
   public SphericalCoordinates sample(double ru, double rv) {
     return new SphericalCoordinates(
-        Math.acos(Math.pow(ru, 1.0 / (alpha + 2.0))),
+        FastMath.acos(Math.pow(ru, 1.0 / (alpha + 2.0))),
         2.0 * Math.PI * rv);
   }
 

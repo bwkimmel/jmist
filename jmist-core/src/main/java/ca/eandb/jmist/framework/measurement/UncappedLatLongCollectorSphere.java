@@ -27,6 +27,8 @@ package ca.eandb.jmist.framework.measurement;
 
 import java.util.Arrays;
 
+import org.apache.commons.math3.util.FastMath;
+
 import ca.eandb.jmist.math.SphericalCoordinates;
 import ca.eandb.jmist.math.Vector3;
 
@@ -91,7 +93,7 @@ public final class UncappedLatLongCollectorSphere implements CollectorSphere {
     int slice = sensor % (slices.length - 1);
 
     double phi = 0.5 * (slices[slice] + slices[slice + 1]);
-    double theta = Math.acos(0.5 * (Math.cos(stacks[stack]) + Math.cos(stacks[stack + 1])));
+    double theta = FastMath.acos(0.5 * (Math.cos(stacks[stack]) + Math.cos(stacks[stack + 1])));
 
     return SphericalCoordinates.canonical(theta, phi);
 

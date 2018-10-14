@@ -25,6 +25,8 @@
  */
 package ca.eandb.jmist.framework.scatter;
 
+import org.apache.commons.math3.util.FastMath;
+
 import ca.eandb.jmist.framework.Function1;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.SurfacePointGeometry;
@@ -180,7 +182,7 @@ public final class ABMInterfaceSurfaceScatterer implements SurfaceScatterer {
       Basis3 basis = Basis3.fromW(w);
       do {
         SphericalCoordinates perturb = new SphericalCoordinates(
-            Math.acos(Math.pow(1.0 - rnd.next(), 1.0 / (specularity + 1.0))),
+            FastMath.acos(Math.pow(1.0 - rnd.next(), 1.0 / (specularity + 1.0))),
             2.0 * Math.PI * rnd.next());
         w = perturb.toCartesian(basis);
       } while ((w.dot(N) > 0.0) != toSide);

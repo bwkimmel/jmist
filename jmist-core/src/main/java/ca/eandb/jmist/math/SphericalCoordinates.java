@@ -27,6 +27,8 @@ package ca.eandb.jmist.math;
 
 import java.io.Serializable;
 
+import org.apache.commons.math3.util.FastMath;
+
 /**
  * Three dimensional vector represented using spherical coordinates.  This
  * class is immutable.
@@ -237,7 +239,7 @@ public final class SphericalCoordinates implements Serializable {
     double r = v.length();
 
     return new SphericalCoordinates(
-        Math.acos(v.z() / r),
+        FastMath.acos(v.z() / r),
         Math.atan2(v.y(), v.x()),
         r
     );
@@ -262,7 +264,7 @@ public final class SphericalCoordinates implements Serializable {
     double r = v.length();
 
     return new SphericalCoordinates(
-        Math.acos(z / r),
+        FastMath.acos(z / r),
         Math.atan2(y, x),
         r
     );

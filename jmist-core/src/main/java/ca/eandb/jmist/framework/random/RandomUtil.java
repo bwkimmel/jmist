@@ -25,6 +25,8 @@
  */
 package ca.eandb.jmist.framework.random;
 
+import org.apache.commons.math3.util.FastMath;
+
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.math.Box2;
 import ca.eandb.jmist.math.Box3;
@@ -54,7 +56,7 @@ public final class RandomUtil {
     assert(0.0 <= rv && rv <= 1.0);
 
     return new SphericalCoordinates(
-        Math.acos(Math.sqrt(1.0 - ru)),
+        FastMath.acos(Math.sqrt(1.0 - ru)),
         2.0 * Math.PI * rv
     );
 
@@ -98,7 +100,7 @@ public final class RandomUtil {
     assert(0.0 <= rv && rv <= 1.0);
 
     return new SphericalCoordinates(
-        Math.acos(2.0 * ru - 1.0),
+        FastMath.acos(2.0 * ru - 1.0),
         2.0 * Math.PI * rv,
         radius
     );
@@ -124,7 +126,7 @@ public final class RandomUtil {
     assert(0.0 <= rw && rw <= 1.0);
 
     return new SphericalCoordinates(
-        Math.acos(2.0 * ru - 1.0),
+        FastMath.acos(2.0 * ru - 1.0),
         2.0 * Math.PI * rv,
         radius * Math.cbrt(rw)
     );

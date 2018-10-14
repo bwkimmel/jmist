@@ -29,6 +29,8 @@ import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
+import org.apache.commons.math3.util.FastMath;
+
 /**
  * @author brad
  *
@@ -340,7 +342,7 @@ public final class Half extends Number implements Comparable<Half>, Serializable
   }
 
   public static Half acos(Half a) {
-    return valueOf(Math.acos(a.doubleValue()));
+    return valueOf(FastMath.acos(a.doubleValue()));
   }
 
   public static Half asin(Half a) {

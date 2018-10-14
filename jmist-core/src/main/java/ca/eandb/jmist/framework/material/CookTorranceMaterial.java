@@ -25,6 +25,8 @@
  */
 package ca.eandb.jmist.framework.material;
 
+import org.apache.commons.math3.util.FastMath;
+
 import ca.eandb.jmist.framework.Medium;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.SurfacePoint;
@@ -78,7 +80,7 @@ public final class CookTorranceMaterial extends AbstractMaterial {
     double    EdotH = E.dot(H);
     double    EdotN = E.dot(N);
     double    LdotN = L.dot(N);
-    double    tanAlpha = Math.tan(Math.acos(HdotN));
+    double    tanAlpha = Math.tan(FastMath.acos(HdotN));
     double    cos4Alpha = HdotN * HdotN * HdotN * HdotN;
 
     Medium    medium = x.getAmbientMedium();

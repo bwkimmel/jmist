@@ -25,6 +25,8 @@
  */
 package ca.eandb.jmist.math;
 
+import org.apache.commons.math3.util.FastMath;
+
 /**
  * Solves mathematical equations.
  * @author Brad Kimmel
@@ -199,7 +201,7 @@ public final class Solver {
     } else { // dis < 0.0
 
       // three distinct real roots:
-      double  theta    = Math.acos(-yN / Math.sqrt(h_sq)) / 3.0;
+      double  theta    = FastMath.acos(-yN / Math.sqrt(h_sq)) / 3.0;
       double  delta    = Math.sqrt(delta_sq);
       double  two_d    = 2.0 * delta;
       double  twop3    = 2.0 * Math.PI / 3.0;

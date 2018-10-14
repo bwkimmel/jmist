@@ -31,6 +31,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.math3.util.FastMath;
+
 /**
  * Static mathematical utility methods.
  * @author Brad Kimmel
@@ -79,7 +81,7 @@ public final class MathUtil {
    * @return The arc secant of the value.
    */
   public static double asec(double x) {
-    return Math.acos(1.0 / x);
+    return FastMath.acos(1.0 / x);
   }
 
   /**

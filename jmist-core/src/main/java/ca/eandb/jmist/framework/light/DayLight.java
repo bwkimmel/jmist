@@ -25,6 +25,8 @@
  */
 package ca.eandb.jmist.framework.light;
 
+import org.apache.commons.math3.util.FastMath;
+
 import ca.eandb.jmist.framework.DirectionalTexture3;
 import ca.eandb.jmist.framework.Function1;
 import ca.eandb.jmist.framework.Illuminable;
@@ -108,7 +110,7 @@ public final class DayLight extends AbstractLight implements DirectionalTexture3
     this.solarRadiance = colorModel.getContinuous(new SunRadianceSpectrum());
 
     double  sdotz = sun.dot(zenith);
-    double  theta_s = Math.acos(sdotz);
+    double  theta_s = FastMath.acos(sdotz);
     int    i;
 
     airmass = 1.0 / (sdotz + 0.15 * Math.pow(93.885 - theta_s * (180.0 / Math.PI), -1.253));
@@ -161,7 +163,7 @@ public final class DayLight extends AbstractLight implements DirectionalTexture3
 
     double  zdotI = zenith.dot(I);
     double  sdotI = sun.dot(I);
-    double  gamma = Math.acos(sdotI);
+    double  gamma = FastMath.acos(sdotI);
 
     return (1.0 + F[0] * Math.exp(F[1] / zdotI)) * (1.0 + F[2] * Math.exp(F[3] * gamma) + F[4] * (sdotI * sdotI));
 

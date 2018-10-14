@@ -26,6 +26,8 @@
 package ca.eandb.jmist.math;
 
 
+import org.apache.commons.math3.util.FastMath;
+
 /**
  * The difference between two points in three dimensional space.
  * This class is immutable.
@@ -189,7 +191,7 @@ public final class Vector3 extends HPoint3 {
    * @return The two byte representation of the direction.
    */
   public short toCompactDirection() {
-    int theta = (int) Math.floor(Math.acos(z) * (256.0 / Math.PI));
+    int theta = (int) Math.floor(FastMath.acos(z) * (256.0 / Math.PI));
     if (theta > 255) {
       theta = 255;
     }

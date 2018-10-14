@@ -25,6 +25,8 @@
  */
 package ca.eandb.jmist.framework.measurement;
 
+import org.apache.commons.math3.util.FastMath;
+
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.SphericalCoordinates;
 import ca.eandb.jmist.math.Vector3;
@@ -120,7 +122,7 @@ public final class EqualSolidAnglesCollectorSphere implements CollectorSphere {
       z = -z;
     }
 
-    return SphericalCoordinates.canonical(Math.acos(z), phi);
+    return SphericalCoordinates.canonical(FastMath.acos(z), phi);
 
   }
 

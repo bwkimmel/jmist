@@ -25,6 +25,8 @@
  */
 package ca.eandb.jmist.framework.measurement;
 
+import org.apache.commons.math3.util.FastMath;
+
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.SphericalCoordinates;
 import ca.eandb.jmist.math.Vector3;
@@ -120,7 +122,7 @@ public final class EqualPolarAnglesCollectorSphere implements CollectorSphere {
       double z1 = Math.cos(theta1);
       double z2 = Math.cos(theta2);
       double z = 0.5 * (z1 + z2);
-      theta = Math.acos(z);
+      theta = FastMath.acos(z);
     } else {
       theta = 0.0;
     }

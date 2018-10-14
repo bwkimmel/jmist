@@ -25,6 +25,8 @@
  */
 package ca.eandb.jmist.framework.material;
 
+import org.apache.commons.math3.util.FastMath;
+
 import ca.eandb.jmist.framework.Painter;
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.SurfacePoint;
@@ -160,7 +162,7 @@ public final class ModifiedPhongMaterial extends OpaqueMaterial {
       return ScatteredRay.diffuse(ray, kd.divide(rhod), getScatteringPDF(x, v, out, adjoint, lambda));
     } else if (rj < rhod + rhos) {
       Vector3 r = Optics.reflect(v, x.getNormal());
-      Vector3 out = new SphericalCoordinates(Math.acos(Math.pow(ru, 1.0 / (n + 1.0))), 2.0 * Math.PI * rv).toCartesian(Basis3.fromW(r));
+      Vector3 out = new SphericalCoordinates(FastMath.acos(Math.pow(ru, 1.0 / (n + 1.0))), 2.0 * Math.PI * rv).toCartesian(Basis3.fromW(r));
       double ndoto = x.getNormal().dot(out);
       Color weight = ks.times(((n + 2.0) / (n + 1.0)) * Math.abs(ndoto) / rhos);
       //double rdoto = r.dot(out);

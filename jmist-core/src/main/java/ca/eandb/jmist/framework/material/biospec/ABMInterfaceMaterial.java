@@ -25,6 +25,8 @@
  */
 package ca.eandb.jmist.framework.material.biospec;
 
+import org.apache.commons.math3.util.FastMath;
+
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.ScatteredRay.Type;
 import ca.eandb.jmist.framework.SurfacePoint;
@@ -175,7 +177,7 @@ public final class ABMInterfaceMaterial extends OpaqueMaterial {
       Basis3 basis = Basis3.fromW(w);
       do {
         SphericalCoordinates perturb = new SphericalCoordinates(
-            Math.acos(Math.pow(1.0 - ru, 1.0 / (specularity + 1.0))),
+            FastMath.acos(Math.pow(1.0 - ru, 1.0 / (specularity + 1.0))),
             2.0 * Math.PI * rv);
         w = perturb.toCartesian(basis);
       } while ((w.dot(N) > 0.0) != toSide);

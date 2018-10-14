@@ -25,6 +25,8 @@
  */
 package ca.eandb.jmist.framework.scatter;
 
+import org.apache.commons.math3.util.FastMath;
+
 import ca.eandb.jmist.framework.Function1;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.SurfacePointGeometry;
@@ -73,7 +75,7 @@ public final class TrowbridgeReitzSurfaceScatterer implements SurfaceScatterer {
       double sigma2 = oblateness * oblateness;
       double sigma4 = sigma2 * sigma2;
       Vector3 out;
-      double theta = Math.acos(Math.sqrt(((sigma2 / Math.sqrt(sigma4 + (1.0 - sigma4) * rnd.next())) - 1.0) / (sigma2 - 1.0)));
+      double theta = FastMath.acos(Math.sqrt(((sigma2 / Math.sqrt(sigma4 + (1.0 - sigma4) * rnd.next())) - 1.0) / (sigma2 - 1.0)));
       double phi = 2.0 * Math.PI * rnd.next();
       SphericalCoordinates sc = new SphericalCoordinates(theta, phi);
       Vector3 microN = sc.toCartesian(basis);

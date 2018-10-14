@@ -25,6 +25,8 @@
  */
 package ca.eandb.jmist.framework.material.biospec;
 
+import org.apache.commons.math3.util.FastMath;
+
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
@@ -70,7 +72,7 @@ public final class TrowbridgeReitzMaterial extends OpaqueMaterial {
       double sigma2 = oblateness * oblateness;
       double sigma4 = sigma2 * sigma2;
       Vector3 out;
-      double theta = Math.acos(Math.sqrt(((sigma2 / Math.sqrt(sigma4 + (1.0 - sigma4) * ru)) - 1.0) / (sigma2 - 1.0)));
+      double theta = FastMath.acos(Math.sqrt(((sigma2 / Math.sqrt(sigma4 + (1.0 - sigma4) * ru)) - 1.0) / (sigma2 - 1.0)));
       double phi = 2.0 * Math.PI * rv;
       SphericalCoordinates sc = new SphericalCoordinates(theta, phi);
       Vector3 microN = sc.toCartesian(basis);

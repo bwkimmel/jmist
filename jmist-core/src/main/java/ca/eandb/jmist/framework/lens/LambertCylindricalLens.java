@@ -25,6 +25,8 @@
  */
 package ca.eandb.jmist.framework.lens;
 
+import org.apache.commons.math3.util.FastMath;
+
 import ca.eandb.jmist.framework.ScatteredRay;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.path.EyeNode;
@@ -121,7 +123,7 @@ public final class LambertCylindricalLens extends AbstractLens {
     public ScatteredRay sample(double ru, double rv, double rj) {
       Point2 p = pointOnImagePlane;
       SphericalCoordinates v = new SphericalCoordinates(
-          Math.acos(1.0 - 2.0 * p.y()),
+          FastMath.acos(1.0 - 2.0 * p.y()),
           2.0 * Math.PI * p.x());
       Ray3 ray = new Ray3(Point3.ORIGIN, v.toCartesian(BASIS));
       Color color = getWhite();

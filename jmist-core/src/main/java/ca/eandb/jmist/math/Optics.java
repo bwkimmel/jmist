@@ -26,6 +26,7 @@
 package ca.eandb.jmist.math;
 
 
+import org.apache.commons.math3.util.FastMath;
 
 /**
  * Provides utility methods for geometric optics.
@@ -112,14 +113,14 @@ public final class Optics {
       double eta = n1 / n2;
       double det = 1.0 - eta * eta * (1.0 - cost * cost);
 
-      return Math.acos(Math.sqrt(Math.max(det, 0.0)));
+      return FastMath.acos(Math.sqrt(Math.max(det, 0.0)));
 
     } else { // cost < 0.0
 
       double eta = n2 / n1;
       double det = 1.0 - eta * eta * (1.0 - cost * cost);
 
-      return Math.PI - Math.acos(Math.sqrt(Math.max(det, 0.0)));
+      return Math.PI - FastMath.acos(Math.sqrt(Math.max(det, 0.0)));
 
     }
 
@@ -167,7 +168,7 @@ public final class Optics {
     double            ci = Math.cos(theta);
     RefractResult        rr = Optics.refractAngle(ci, n1, n2);
 
-    return Math.acos(rr.cosT);
+    return FastMath.acos(rr.cosT);
 
   }
 
