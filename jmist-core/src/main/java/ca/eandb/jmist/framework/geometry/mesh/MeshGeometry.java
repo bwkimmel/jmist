@@ -25,14 +25,31 @@
  */
 package ca.eandb.jmist.framework.geometry.mesh;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import ca.eandb.jmist.framework.Illuminable;
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionRecorder;
+import ca.eandb.jmist.framework.Light;
+import ca.eandb.jmist.framework.LightSample;
 import ca.eandb.jmist.framework.Material;
+import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.ShadingContext;
+import ca.eandb.jmist.framework.SurfacePoint;
+import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.geometry.AbstractGeometry;
+import ca.eandb.jmist.framework.light.AbstractLight;
+import ca.eandb.jmist.framework.light.PointLightSample;
+import ca.eandb.jmist.framework.path.LightNode;
+import ca.eandb.jmist.framework.path.PathInfo;
+import ca.eandb.jmist.framework.path.ScaledLightNode;
+import ca.eandb.jmist.framework.path.SurfaceLightNode;
+import ca.eandb.jmist.framework.random.CategoricalRandom;
+import ca.eandb.jmist.framework.random.SeedReference;
+import ca.eandb.jmist.framework.shader.MinimalShadingContext;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.GeometryUtil;
@@ -195,6 +212,90 @@ public final class MeshGeometry extends AbstractGeometry {
       }
     }
     return surfaceArea;
+  }
+
+  @Override
+  public Light createLight() {
+    int emissiveCount = 0;
+    for (Material m : materials) {
+      if (m.isEmissive()) {
+        emissiveCount++;
+      }
+    }
+    if (emissiveCount == 0) {
+      return null;
+    }
+
+    int numFaces = mesh.getFaceCount();
+    ArrayList<Integer> emissive = new ArrayList<Integer>();
+    for (int i = 0; i < numFaces; i++) {
+      if (materials.get(mesh.getFace(i).getMaterialIndex()).isEmissive()) {
+        emissive.add(i);
+      }
+    }
+
+    if (emissive.isEmpty()) {
+      return null;
+    }
+
+    final int[] faceIndex = new int[emissive.size()];
+    final double[] weight = new double[emissive.size()];
+    double totalSurfaceArea = 0.0;
+
+    for (int i = 0; i < emissive.size(); i++) {
+      faceIndex[i] = emissive.get(i);
+      weight[i] = getSurfaceArea(faceIndex[i]); // TODO Factor in radiant exitance of material
+      totalSurfaceArea += weight[i];
+    }
+
+    final double totalWeight = totalSurfaceArea;
+
+    final CategoricalRandom rnd = new CategoricalRandom(weight);
+
+    return new AbstractLight() {
+
+      private static final long serialVersionUID = -8364217558705142738L;
+
+      public void illuminate(SurfacePoint x, WavelengthPacket lambda, Random rng, Illuminable target) {
+        ShadingContext context = new MinimalShadingContext();
+
+        int index = rnd.next(rng);
+        int primitive = faceIndex[index];
+
+        generateImportanceSampledSurfacePoint(primitive, x, context, rng.next(), rng.next(), rng.next());
+        context.getModifier().modify(context);
+
+        Point3 p = context.getPosition();
+        Material mat = context.getMaterial();
+        Vector3 v = x.getPosition().unitVectorFrom(p);
+        Vector3 n = context.getShadingNormal();
+        double d2 = x.getPosition().squaredDistanceTo(p);
+        double atten = Math.max(n.dot(v), 0.0) * totalWeight / (4.0 * Math.PI * d2);
+        Color ri = mat.emission(context, v, lambda).times(atten);
+        LightSample sample = new PointLightSample(x, p, ri);
+
+        target.addLightSample(sample);
+      }
+
+      public LightNode sample(PathInfo pathInfo, double ru, double rv, double rj) {
+        ShadingContext context = new MinimalShadingContext();
+
+        SeedReference ref = new SeedReference(rj);
+        int index = rnd.next(ref);
+        int primitive = faceIndex[index];
+
+        generateRandomSurfacePoint(primitive, context, ru, rv, ref.seed);
+        context.getModifier().modify(context);
+
+        return ScaledLightNode.create(1.0 / totalWeight,
+                                      new SurfaceLightNode(pathInfo, context, ru, rv, ref.seed), rj);
+      }
+
+      public double getSamplePDF(SurfacePoint x, PathInfo pathInfo) {
+        return 1.0 / totalWeight;
+      }
+
+    };
   }
 
   private void prepareShadingContext(

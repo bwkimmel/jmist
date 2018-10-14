@@ -29,14 +29,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.eandb.jmist.framework.BoundingBoxBuilder3;
+import ca.eandb.jmist.framework.Illuminable;
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionDecorator;
 import ca.eandb.jmist.framework.IntersectionRecorder;
 import ca.eandb.jmist.framework.IntersectionRecorderDecorator;
 import ca.eandb.jmist.framework.Light;
+import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.SurfacePoint;
+import ca.eandb.jmist.framework.SurfacePointDecorator;
+import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.framework.light.AbstractLight;
+import ca.eandb.jmist.framework.path.LightNode;
+import ca.eandb.jmist.framework.path.PathInfo;
+import ca.eandb.jmist.framework.path.ScaledLightNode;
+import ca.eandb.jmist.framework.random.RandomUtil;
+import ca.eandb.jmist.framework.random.SeedReference;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
@@ -107,8 +117,77 @@ public final class MergeSceneElement implements SceneElement {
 
   @Override
   public Light createLight() {
-    throw new UnimplementedException();
+    final List<Light> lights = new ArrayList<Light>();
+    Light lastLight = null;
+    int numLights = 0;
+    for (SceneElement child : children) {
+      Light light = child.createLight();
+      lights.add(light);
+      if (light != null) {
+        lastLight = light;
+        numLights++;
+      }
+    }
+    final int lightCount = numLights;
+    switch (numLights) {
+    case 0:
+      return null;
+    case 1:
+      return lastLight;
+    default:
+      return new AbstractLight() {
+
+        /** Serialization version ID. */
+        private static final long serialVersionUID = 6299798465595032610L;
+
+        @Override
+        public double getSamplePDF(final SurfacePoint x, final PathInfo pathInfo) {
+          int index = MergeSceneElement.this.getChildIndex(x.getPrimitiveIndex());
+          SurfacePoint sp = new SurfacePointDecorator(x) {
+            @Override
+            public int getPrimitiveIndex() {
+              return super.getPrimitiveIndex() - offsets.get(index);
+            }
+          };
+          return lights.get(index).getSamplePDF(sp, pathInfo) / (double) lightCount;
+        }
+
+        @Override
+        public void illuminate(SurfacePoint x, WavelengthPacket lambda,
+            Random rnd, Illuminable target) {
+          int index = RandomUtil.discrete(0, lightCount - 1, rnd);
+          for (int i = 0, n = lights.size(); i < n; i++) {
+            Light light = lights.get(i);
+            if (light != null) {
+              if (index-- == 0) {
+                light.illuminate(x, lambda, rnd, target);
+                return;
+              }
+            }
+          }
+        }
+
+        @Override
+        public LightNode sample(PathInfo pathInfo, double ru,
+            double rv, double rj) {
+          SeedReference ref = new SeedReference(rj);
+          int index = RandomUtil.discrete(0, lightCount - 1, ref);
+          for (int i = 0, n = lights.size(); i < n; i++) {
+            Light light = lights.get(i);
+            if (light != null) {
+              if (index-- == 0) {
+                return ScaledLightNode.create(1.0 / (double) lightCount,
+                    light.sample(pathInfo, ru, rv, ref.seed), rj);
+              }
+            }
+          }
+          return null;
+        }
+
+      };
+    }
   }
+
 
   @Override
   public double generateImportanceSampledSurfacePoint(int index,
