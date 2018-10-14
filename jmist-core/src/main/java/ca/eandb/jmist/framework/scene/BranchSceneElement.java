@@ -86,12 +86,13 @@ public final class BranchSceneElement implements SceneElement {
   @Override
   public Light createLight() {
     final List<Light> lights = new ArrayList<Light>();
-    Light light = null;
+    Light lastLight = null;
     int numLights = 0;
     for (SceneElement child : children) {
-      light = child.createLight();
+      Light light = child.createLight();
       lights.add(light);
       if (light != null) {
+        lastLight = light;
         numLights++;
       }
     }
@@ -100,7 +101,7 @@ public final class BranchSceneElement implements SceneElement {
     case 0:
       return null;
     case 1:
-      return light;
+      return lastLight;
     default:
       return new AbstractLight() {
 
@@ -129,7 +130,6 @@ public final class BranchSceneElement implements SceneElement {
               if (index-- == 0) {
                 return ScaledLightNode.create(1.0 / (double) lightCount,
                     light.sample(pathInfo, ru, rv, ref.seed), rj);
-
               }
             }
           }
