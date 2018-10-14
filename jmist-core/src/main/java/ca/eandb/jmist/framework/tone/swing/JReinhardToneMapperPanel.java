@@ -1,6 +1,6 @@
 /**
  * Java Modular Image Synthesis Toolkit (JMIST)
- * Copyright (C) 2008-2013 Bradley W. Kimmel
+ * Copyright (C) 2018 Bradley W. Kimmel
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation

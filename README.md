@@ -23,7 +23,7 @@ nanometers.
 License
 -------
 
-Copyright (c) 2008-2013 Bradley W. Kimmel
+Copyright (c) 2018 Bradley W. Kimmel
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
