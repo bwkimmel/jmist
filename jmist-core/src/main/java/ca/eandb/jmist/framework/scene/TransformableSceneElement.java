@@ -36,6 +36,7 @@ import ca.eandb.jmist.framework.Light;
 import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.SurfacePoint;
+import ca.eandb.jmist.framework.light.TransformableLight;
 import ca.eandb.jmist.math.AffineMatrix3;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Box3;
@@ -105,7 +106,13 @@ public final class TransformableSceneElement extends SceneElementDecorator
 
   @Override
   public Light createLight() {
-    throw new UnimplementedException();
+    Light inner = super.createLight();
+    if (inner == null) {
+      return null;
+    }
+    TransformableLight light = new TransformableLight(inner);
+    t.apply(light);
+    return light;
   }
 
   @Override
