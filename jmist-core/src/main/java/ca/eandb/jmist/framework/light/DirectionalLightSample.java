@@ -61,7 +61,7 @@ public final class DirectionalLightSample implements LightSample {
 
   @Override
   public boolean castShadowRay(VisibilityFunction3 vf) {
-    return shadows && vf.visibility(new Ray3(x.getPosition(), direction));
+    return shadows && !vf.visibility(new Ray3(x.getPosition(), direction));
   }
 
   @Override
