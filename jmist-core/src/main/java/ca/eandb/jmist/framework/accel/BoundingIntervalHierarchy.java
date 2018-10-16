@@ -528,10 +528,11 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
       double lp = buffer.getLeftPlane(node);
       double rp = buffer.getRightPlane(node);
 
-      double ld = (lp - p) / v;
-      double rd = (rp - p) / v;
+      boolean aligned = Math.abs(v) < MathUtil.SMALL_EPSILON;
+      double ld = aligned ? Double.NEGATIVE_INFINITY : (lp - p) / v;
+      double rd = aligned ? Double.POSITIVE_INFINITY : (rp - p) / v;
 
-      if (v > 0.0) { // left to right
+      if (v > MathUtil.SMALL_EPSILON) { // left to right
 
         if (near < ld) {
           int child = buffer.getLeftChild(node);
@@ -548,7 +549,7 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
           }
         }
 
-      } else { // right to left
+      } else { // aligned or right to left
 
         if (near < rd) {
           int child = buffer.getRightChild(node);
@@ -576,6 +577,5 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
     intersect(ray, recorder);
     return recorder.isEmpty();
   }
-
 
 }
