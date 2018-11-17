@@ -62,7 +62,6 @@ public final class BlendedTexture2 implements Texture2 {
    * @param mask The <code>Mask2</code> that controls the interpolation.
    */
   public BlendedTexture2(Texture2 a, Texture2 b, Mask2 mask) {
-    super();
     this.a = a;
     this.b = b;
     this.mask = mask;
