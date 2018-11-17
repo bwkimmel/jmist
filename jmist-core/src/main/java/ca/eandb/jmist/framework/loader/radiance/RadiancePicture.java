@@ -246,10 +246,10 @@ public class RadiancePicture implements Serializable {
     DataInputStream reader = new DataInputStream(stream);
     Format format = Format.RGBE;
     double exposure = 1.0;
-    double[] colorcorr = { 1.0, 1.0, 1.0 };
+    double[] colorcorr = {1.0, 1.0, 1.0};
     String software = "";
     double pixelAspect = 1.0;
-    double[] primaries = { 0.640, 0.330, 0.290, 0.600, 0.150, 0.060, 0.333, 0.333 };
+    double[] primaries = {0.640, 0.330, 0.290, 0.600, 0.150, 0.060, 0.333, 0.333};
     String view = "";
     int size[] = new int[2];
     boolean swap;
@@ -325,7 +325,7 @@ public class RadiancePicture implements Serializable {
     byte[] data = new byte[size[0] * size[1] * 4];
     ByteBuffer buffer = ByteBuffer.wrap(data);
     byte[] next = new byte[4];
-    byte[] rep = new byte[32768*4];
+    byte[] rep = new byte[32768 * 4];
     int repmult = 1;
     while (IOUtils.read(reader, next) == next.length) {
       if (next[0] == (byte) 255 && next[1] == (byte) 255 && next[2] == (byte) 255) {
@@ -381,7 +381,6 @@ public class RadiancePicture implements Serializable {
     picture.pixelAspect = pixelAspect;
 
     return picture;
-
   }
 
   /**
