@@ -79,7 +79,7 @@ public final class SphericalEnvironmentRayShader implements RayShader {
     Point2 uv = new Point2(
         (sc.azimuthal() + Math.PI) / (2.0 * Math.PI),
         sc.polar() / Math.PI);
-    return texture.evaluate(uv, lambda);
+    return texture.evaluate(uv).sample(lambda);
   }
 
 }

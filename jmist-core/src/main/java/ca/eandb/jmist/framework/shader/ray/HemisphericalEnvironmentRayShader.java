@@ -96,7 +96,7 @@ public final class HemisphericalEnvironmentRayShader implements RayShader {
       Point2 uv = new Point2(
           (sc.azimuthal() + Math.PI) / (2.0 * Math.PI),
           2.0 * sc.polar() / Math.PI);
-      return texture.evaluate(uv, lambda);
+      return texture.evaluate(uv).sample(lambda);
     } else {
       return background.shadeRay(ray, lambda);
     }

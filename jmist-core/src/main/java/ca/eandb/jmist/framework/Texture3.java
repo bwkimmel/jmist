@@ -27,7 +27,7 @@ package ca.eandb.jmist.framework;
 
 import java.io.Serializable;
 
-import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Point3;
 
@@ -35,16 +35,18 @@ import ca.eandb.jmist.math.Point3;
  * Maps three dimensional space to colors.
  * @author Brad Kimmel
  */
+@FunctionalInterface
 public interface Texture3 extends Serializable {
 
   /**
-   * Computes the color at the specified <code>Point2</code> in the
+   * Computes the spectrum at the specified <code>Point2</code> in the
    * domain.
    * @param p The <code>Point2</code> in the domain.
-   * @param lambda The <code>WavelengthPacket</code> denoting the wavelengths
-   *     at which to evaluate the texture.
-   * @return The <code>Color</code> at <code>p</code>.
+   * @return The <code>Spectrum</code> at <code>p</code>.
    */
-  Color evaluate(Point3 p, WavelengthPacket lambda);
+  Spectrum evaluate(Point3 p);
+
+  Texture3 BLACK = p -> Spectrum.BLACK;
+  Texture3 WHITE = p -> Spectrum.WHITE;
 
 }

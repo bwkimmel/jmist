@@ -29,6 +29,7 @@ import ca.eandb.jmist.framework.AffineTransformable2;
 import ca.eandb.jmist.framework.InvertibleAffineTransformation2;
 import ca.eandb.jmist.framework.Texture2;
 import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.AffineMatrix2;
 import ca.eandb.jmist.math.LinearMatrix2;
@@ -61,8 +62,8 @@ public final class TransformableTexture2 implements Texture2, AffineTransformabl
   }
 
   @Override
-  public Color evaluate(Point2 p, WavelengthPacket lambda) {
-    return inner.evaluate(transform.applyInverse(p), lambda);
+  public Spectrum evaluate(Point2 p) {
+    return inner.evaluate(transform.applyInverse(p));
   }
 
   @Override

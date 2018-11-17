@@ -35,6 +35,7 @@ import ca.eandb.jmist.framework.color.CIExyY;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.ColorUtil;
+import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Point2;
 
@@ -81,13 +82,11 @@ public final class CIExyChromaticityTexture2 implements Texture2 {
   }
 
   @Override
-  public Color evaluate(Point2 p, WavelengthPacket lambda) {
-    ColorModel cm = lambda.getColorModel();
+  public Spectrum evaluate(Point2 p) {
     if (gamutMask.opacity(p) > 0.5) {
-      CIEXYZ xyz = new CIExyY(p.x(), p.y(), p.y()).toXYZ();
-      return cm.fromXYZ(xyz).sample(lambda);
+      return new CIExyY(p.x(), p.y(), p.y()).toXYZ();
     } else {
-      return cm.getBlack(lambda);
+      return Spectrum.BLACK;
     }
   }
 

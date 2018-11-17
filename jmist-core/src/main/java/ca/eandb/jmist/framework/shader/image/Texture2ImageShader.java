@@ -53,7 +53,7 @@ public final class Texture2ImageShader implements ImageShader {
 
   @Override
   public Color shadeAt(Point2 p, WavelengthPacket lambda) {
-    return texture.evaluate(p, lambda);
+    return texture.evaluate(p).sample(lambda);
   }
 
 }

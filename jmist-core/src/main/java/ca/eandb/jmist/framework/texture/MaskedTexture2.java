@@ -28,6 +28,7 @@ package ca.eandb.jmist.framework.texture;
 import ca.eandb.jmist.framework.Mask2;
 import ca.eandb.jmist.framework.Texture2;
 import ca.eandb.jmist.framework.color.Color;
+import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Point2;
 
@@ -55,8 +56,8 @@ public final class MaskedTexture2 implements Texture2 {
   }
 
   @Override
-  public Color evaluate(Point2 p, WavelengthPacket lambda) {
-    return texture.evaluate(p, lambda).times(mask.opacity(p));
+  public Spectrum evaluate(Point2 p) {
+    return lambda -> texture.evaluate(p).sample(lambda).times(mask.opacity(p));
   }
 
   /** The <code>Texture2</code> to mask. */

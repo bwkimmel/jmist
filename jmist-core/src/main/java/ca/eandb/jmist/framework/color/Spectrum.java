@@ -33,6 +33,7 @@ import java.io.Serializable;
  * from a compatible <code>ColorModel</code>.
  * @author Brad Kimmel
  */
+@FunctionalInterface
 public interface Spectrum extends Serializable {
 
   /**
@@ -42,5 +43,12 @@ public interface Spectrum extends Serializable {
    * @return The <code>Color</code> sample.
    */
   Color sample(WavelengthPacket lambda);
+
+  Spectrum BLACK = lambda -> lambda.getColorModel().getBlack(lambda);
+  Spectrum WHITE = lambda -> lambda.getColorModel().getWhite(lambda);
+
+  static Spectrum mix(double t, Spectrum a, Spectrum b) {
+    return lambda -> a.sample(lambda).times(1.0 - t).plus(b.sample(lambda).times(t));
+  }
 
 }

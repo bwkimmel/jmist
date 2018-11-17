@@ -48,7 +48,7 @@ public final class Texture3Painter implements Painter {
 
   @Override
   public Color getColor(SurfacePoint p, WavelengthPacket lambda) {
-    return texture.evaluate(p.getPosition(), lambda);
+    return texture.evaluate(p.getPosition()).sample(lambda);
   }
 
 }

@@ -83,7 +83,7 @@ public final class AngularEnvironmentRayShader implements RayShader {
     Point2 uv = new Point2(
         0.5 + r * Math.cos(theta),
         0.5 + r * Math.sin(theta));
-    return texture.evaluate(uv, lambda);
+    return texture.evaluate(uv).sample(lambda);
   }
 
 }

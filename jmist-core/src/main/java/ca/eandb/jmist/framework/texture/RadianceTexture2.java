@@ -31,9 +31,7 @@ import java.io.InputStream;
 import java.net.URL;
 
 import ca.eandb.jmist.framework.Texture2;
-import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.framework.color.ColorModel;
-import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.loader.radiance.RadiancePicture;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
@@ -66,25 +64,22 @@ public final class RadianceTexture2 implements Texture2 {
   }
 
   @Override
-  public Color evaluate(Point2 p, WavelengthPacket lambda) {
-
-    double    u    = p.x() - Math.floor(p.x());
-    double    v    = 1.0 - (p.y() - Math.floor(p.y()));
-    int      w    = picture.getSizeX();
-    int      h    = picture.getSizeY();
-    int      x    = MathUtil.clamp((int) Math.floor(u * (double) w), 0, w - 1);
-    int      y    = MathUtil.clamp((int) Math.floor(v * (double) h), 0, h - 1);
-    ColorModel  cm    = lambda.getColorModel();
+  public Spectrum evaluate(Point2 p) {
+    double u = p.x() - Math.floor(p.x());
+    double v = 1.0 - (p.y() - Math.floor(p.y()));
+    int w = picture.getSizeX();
+    int h = picture.getSizeY();
+    int x = MathUtil.clamp((int) Math.floor(u * (double) w), 0, w - 1);
+    int y = MathUtil.clamp((int) Math.floor(v * (double) h), 0, h - 1);
 
     switch (picture.getFormat()) {
       case RGBE:
-        return cm.fromRGB(picture.getPixelRGB(x, y)).sample(lambda);
+        return picture.getPixelRGB(x, y);
       case XYZE:
-        return cm.fromXYZ(picture.getPixelXYZ(x, y)).sample(lambda);
+        return picture.getPixelXYZ(x, y);
       default:
-        return cm.getBlack(lambda);
+        return Spectrum.BLACK;
     }
-
   }
 
 }

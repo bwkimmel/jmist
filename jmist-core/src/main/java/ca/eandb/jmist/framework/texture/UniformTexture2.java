@@ -54,8 +54,8 @@ public final class UniformTexture2 implements Texture2 {
   }
 
   @Override
-  public Color evaluate(Point2 p, WavelengthPacket lambda) {
-    return spectrum.sample(lambda);
+  public Spectrum evaluate(Point2 p) {
+    return spectrum;
   }
 
 }

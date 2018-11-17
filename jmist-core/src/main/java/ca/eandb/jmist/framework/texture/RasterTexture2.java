@@ -37,10 +37,8 @@ import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
 
 import ca.eandb.jmist.framework.Texture2;
-import ca.eandb.jmist.framework.color.Color;
-import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.RGB;
-import ca.eandb.jmist.framework.color.WavelengthPacket;
+import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
 
@@ -119,7 +117,7 @@ public final class RasterTexture2 implements Texture2 {
   }
 
   @Override
-  public Color evaluate(Point2 p, WavelengthPacket lambda) {
+  public Spectrum evaluate(Point2 p) {
     double u = p.x() - Math.floor(p.x());
     double v = p.y() - Math.floor(p.y());
     int w = image.getWidth();
@@ -128,17 +126,15 @@ public final class RasterTexture2 implements Texture2 {
     int y = MathUtil.clamp((int) Math.floor(v * (double) h), 0, h - 1);
     int c = image.getRGB(x, y);
     int a = (c >> 24) & 0xff;
-    ColorModel cm = lambda.getColorModel();
 
     if (a == 0) {
-      return background.evaluate(p, lambda);
+      return background.evaluate(p);
     } else if (a == 255) {
-      return cm.fromRGB(RGB.fromR8G8B8(c)).sample(lambda);
+      return RGB.fromR8G8B8(c);
     } else {
-      double alpha = a / 255.0;
-      Color bg = background.evaluate(p, lambda);
-      Color fg = cm.fromRGB(RGB.fromR8G8B8(c)).sample(lambda);
-      return fg.times(alpha).plus(bg.times(1.0 - alpha));
+      Spectrum bg = background.evaluate(p);
+      Spectrum fg = RGB.fromR8G8B8(c);
+      return Spectrum.mix(a / 255.0, bg, fg);
     }
   }
 
