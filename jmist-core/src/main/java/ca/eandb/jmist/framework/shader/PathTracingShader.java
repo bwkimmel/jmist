@@ -38,6 +38,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.random.NRooksRandom;
 import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.framework.random.SimpleRandom;
+import ca.eandb.jmist.math.Vector3;
 
 /**
  * A <code>Shader</code> that traces up to one randomly selected scattered ray.
@@ -118,8 +119,9 @@ public final class PathTracingShader implements Shader {
       Random sampler = firstBounceSampler.get();
       WavelengthPacket lambda = sc.getWavelengthPacket();
       Color shade = sc.getColorModel().getBlack(lambda);
+      Vector3 in = sc.getIncident();
       for (int i = 0; i < firstBounceRays; i++) {
-        ScatteredRay ray = sc.getMaterial().scatter(sc, sc.getIncident(), true, sc.getWavelengthPacket(), sampler.next(), sampler.next(), sampler.next());
+        ScatteredRay ray = sc.getMaterial().scatter(sc, in, true, lambda, sampler.next(), sampler.next(), sampler.next());
         if (ray != null) {
           shade = shade.plus(sc.castRay(ray).times(ray.getColor()));
         }
