@@ -338,6 +338,9 @@ public class RadiancePicture implements Serializable {
         repmult *= 256;
       } else if (next[0] == 2 && next[1] == 2) {
         int len = 4 * ((ubyte2int(next[2]) << 8) | ubyte2int(next[3]));
+        if (len > rep.length) {
+          throw new IOException(String.format("record too long: %d > 32768", len / 4));
+        }
         ByteBuffer scan = ByteBuffer.wrap(rep, 0, len);
         while (scan.hasRemaining()) {
           int b = reader.read();
