@@ -47,7 +47,7 @@ import ca.eandb.util.progress.ProgressMonitor;
 public final class RasterJob extends AbstractParallelizableJob {
 
   /** The first step in building a <code>RasterJob</code>. */
-  public static interface Builder1 {
+  public interface Builder1 {
     /**
      * Sets the color model to use.
      * @param colorModel The <code>ColorModel</code>.
@@ -57,7 +57,7 @@ public final class RasterJob extends AbstractParallelizableJob {
   }
 
   /** The second step in building a <code>RasterJob</code>. */
-  public static interface Builder2 {
+  public interface Builder2 {
     /**
      * Sets the pixel shader to use.
      * @param pixelShader The <code>PixelShader</code>.
@@ -67,7 +67,7 @@ public final class RasterJob extends AbstractParallelizableJob {
   }
 
   /** The third step in building a <code>RasterJob</code>. */
-  public static interface Builder3 {
+  public interface Builder3 {
     /**
      * Sets the display to render the image to.
      * @param display The <code>Display</code> to render to.
