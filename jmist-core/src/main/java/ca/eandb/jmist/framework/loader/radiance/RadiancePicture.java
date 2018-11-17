@@ -171,11 +171,8 @@ public class RadiancePicture implements Serializable {
    *     file.
    */
   public void write(File file) throws IOException {
-    FileOutputStream stream = new FileOutputStream(file);
-    try {
+    try (FileOutputStream stream = new FileOutputStream(file)) {
       write(stream);
-    } finally {
-      stream.close();
     }
   }
 
@@ -208,11 +205,8 @@ public class RadiancePicture implements Serializable {
    *     file.
    */
   public static RadiancePicture read(File file) throws IOException {
-    FileInputStream stream = new FileInputStream(file);
-    try {
+    try (FileInputStream stream = new FileInputStream(file)) {
       return read(stream);
-    } finally {
-      stream.close();
     }
   }
 
@@ -225,7 +219,9 @@ public class RadiancePicture implements Serializable {
    *     file.
    */
   public static RadiancePicture read(URL url) throws IOException {
-    return read(url.openStream());
+    try (InputStream stream = url.openStream()) {
+      return read(stream);
+    }
   }
 
   /**
