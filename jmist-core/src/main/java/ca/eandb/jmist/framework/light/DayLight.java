@@ -27,22 +27,19 @@ package ca.eandb.jmist.framework.light;
 
 import org.apache.commons.math3.util.FastMath;
 
-import ca.eandb.jmist.framework.DirectionalTexture3;
 import ca.eandb.jmist.framework.Function1;
 import ca.eandb.jmist.framework.Illuminable;
-import ca.eandb.jmist.framework.Photon;
 import ca.eandb.jmist.framework.Random;
+import ca.eandb.jmist.framework.RayShader;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
-import ca.eandb.jmist.framework.path.LightNode;
-import ca.eandb.jmist.framework.path.PathInfo;
 import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.MathUtil;
-import ca.eandb.jmist.math.Sphere;
+import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
 import ca.eandb.jmist.util.ArrayUtil;
 
@@ -50,7 +47,7 @@ import ca.eandb.jmist.util.ArrayUtil;
  * A hemispherical <code>Light</code> that simulates daylight conditions.
  * @author Brad Kimmel
  */
-public final class DayLight extends AbstractLight implements DirectionalTexture3 {
+public final class DayLight extends AbstractLight implements RayShader {
 
   /**
    * Serialization version ID.
@@ -170,18 +167,8 @@ public final class DayLight extends AbstractLight implements DirectionalTexture3
   }
 
   @Override
-  public Color evaluate(Vector3 v, WavelengthPacket lambda) {
-    return lambda.getColorModel().getContinuous(new SkyRadianceSpectrum(v)).sample(lambda);
-  }
-
-  @Override
-  public Spectrum evaluate(final Vector3 v) {
-    return new Spectrum() {
-      private static final long serialVersionUID = 7992544267450760499L;
-      public Color sample(WavelengthPacket lambda) {
-        return evaluate(v, lambda);
-      }
-    };
+  public Color shadeRay(Ray3 ray, WavelengthPacket lambda) {
+    return lambda.getColorModel().getContinuous(new SkyRadianceSpectrum(ray.direction())).sample(lambda);
   }
 
   @Override
