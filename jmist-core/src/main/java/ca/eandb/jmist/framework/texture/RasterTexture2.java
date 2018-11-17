@@ -26,7 +26,6 @@
 package ca.eandb.jmist.framework.texture;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.Raster;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,10 +36,10 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
 
-import ca.eandb.jmist.framework.PixelSpectrumFactory;
 import ca.eandb.jmist.framework.Texture2;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
+import ca.eandb.jmist.framework.color.RGB;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
@@ -52,28 +51,19 @@ import ca.eandb.jmist.math.Point2;
  */
 public final class RasterTexture2 implements Texture2 {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -2712131011948642676L;
 
   /**
    * Creates a new <code>RasterTexture2</code>.
    * @param image The <code>BufferedImage</code> to use as the basis for the
    *     new <code>Texture2</code>.
-   * @param factory The <code>PixelSpectrumFactory</code> to use to create
-   *     spectra from <code>Pixel</code>s.
    * @param background The <code>Texture2</code> to render underneath if the
    *     image has an alpha channel.
    */
-  public RasterTexture2(BufferedImage image, PixelSpectrumFactory factory, Texture2 background) {
-    this.image = image;
-    this.factory = factory;
-    this.background = background;
-  }
-
   public RasterTexture2(BufferedImage image, Texture2 background) {
-    this(image, null, background);
+    this.image = image;
+    this.background = background;
   }
 
   public RasterTexture2(File file, Texture2 background) throws IOException {
@@ -96,15 +86,9 @@ public final class RasterTexture2 implements Texture2 {
    * Creates a new <code>RasterTexture2</code>.
    * @param image The <code>BufferedImage</code> to use as the basis for the
    *     new <code>Texture2</code>.
-   * @param factory The <code>PixelSpectrumFactory</code> to use to create
-   *     spectra from <code>Pixel</code>s.
    */
-  public RasterTexture2(BufferedImage image, PixelSpectrumFactory factory) {
-    this(image, factory, Texture2.BLACK);
-  }
-
   public RasterTexture2(BufferedImage image) {
-    this(image, null, Texture2.BLACK);
+    this(image, Texture2.BLACK);
   }
 
   public RasterTexture2(File file) throws IOException {
@@ -132,69 +116,37 @@ public final class RasterTexture2 implements Texture2 {
       throws ClassNotFoundException, IOException {
     ois.defaultReadObject();
     image = ImageIO.read(ois);
-    placeholder = new ThreadLocal<double[]>();
   }
 
   @Override
   public Color evaluate(Point2 p, WavelengthPacket lambda) {
+    double u = p.x() - Math.floor(p.x());
+    double v = p.y() - Math.floor(p.y());
+    int w = image.getWidth();
+    int h = image.getHeight();
+    int x = MathUtil.clamp((int) Math.floor(u * (double) w), 0, w - 1);
+    int y = MathUtil.clamp((int) Math.floor(v * (double) h), 0, h - 1);
+    int c = image.getRGB(x, y);
+    int a = (c >> 24) & 0xff;
+    ColorModel cm = lambda.getColorModel();
 
-    Raster    raster  = image.getRaster();
-    double    u    = p.x() - Math.floor(p.x());
-    double    v    = p.y() - Math.floor(p.y());
-    int      w    = raster.getWidth();
-    int      h    = raster.getHeight();
-    int      x    = MathUtil.clamp((int) Math.floor(u * (double) w), 0, w - 1);
-    int      y    = MathUtil.clamp((int) Math.floor(v * (double) h), 0, h - 1);
-    double[]  pixel  = raster.getPixel(x, y, placeholder.get());
-    ColorModel  cm    = lambda.getColorModel();
-
-    placeholder.set(pixel);
-
-    if (factory != null) {
-      return cm.getContinuous(factory.createSpectrum(pixel)).sample(lambda);
+    if (a == 0) {
+      return background.evaluate(p, lambda);
+    } else if (a == 255) {
+      return cm.fromRGB(RGB.fromR8G8B8(c)).sample(lambda);
     } else {
-      switch (pixel.length) {
-      case 1:
-        return cm.getGray(pixel[0], lambda);
-      case 3:
-        return cm.fromRGB(pixel[0]/255.0, pixel[1]/255.0, pixel[2]/255.0).sample(lambda);
-      case 4:
-      {
-        double alpha = pixel[3] / 255.0;
-        if (MathUtil.equal(alpha, 1.0)) {
-          return cm.fromRGB(pixel[0]/255.0, pixel[1]/255.0, pixel[2]/255.0).sample(lambda);
-        } else if (MathUtil.equal(alpha, 0.0)) {
-          return background.evaluate(p, lambda);
-        } else {
-          Color bg = background.evaluate(p, lambda);
-          Color fg = cm.fromRGB(pixel[0]/255.0, pixel[1]/255.0, pixel[2]/255.0).sample(lambda);
-          return fg.times(alpha).plus(bg.times(1.0 - alpha));
-        }
-      }
-      default:
-        throw new RuntimeException("Raster has unrecognized number of bands.");
-      }
+      double alpha = a / 255.0;
+      Color bg = background.evaluate(p, lambda);
+      Color fg = cm.fromRGB(RGB.fromR8G8B8(c)).sample(lambda);
+      return fg.times(alpha).plus(bg.times(1.0 - alpha));
     }
-
   }
-
-  /**
-   * A place holder to hold a double array for the pixel, so that one is not
-   * allocated on every call to {@link #evaluate(Point2, WavelengthPacket)}.
-   */
-  private transient ThreadLocal<double[]> placeholder = new ThreadLocal<double[]>();
 
   /**
    * The <code>BufferedImage</code> that serves as the basis for this
    * <code>Texture2</code>.
    */
   private transient BufferedImage image;
-
-  /**
-   * The <code>PixelSpectrumFactory</code> to use to extrapolate
-   * <code>Pixel</code>s.
-   */
-  private final PixelSpectrumFactory factory;
 
   /**
    * The <code>Texture2</code> to render underneath this texture if the image
