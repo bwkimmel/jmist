@@ -246,7 +246,7 @@ public final class AppearanceMapSceneElement extends SceneElementDecorator {
         Vector3 v = x.getPosition().unitVectorFrom(p);
         Vector3 n = context.getShadingNormal();
         double d2 = x.getPosition().squaredDistanceTo(p);
-        double atten = Math.max(n.dot(v), 0.0) * totalWeight / (4.0 * Math.PI * d2);
+        double atten = Math.max(n.dot(v), 0.0) * totalWeight / d2;
         Color ri = mat.emission(context, v, lambda).times(atten);
         LightSample sample = new PointLightSample(x, p, ri);
 
