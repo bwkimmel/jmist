@@ -19,7 +19,7 @@ public class TransformedLightSample implements LightSample {
 
   @Override
   public Vector3 getDirToLight() {
-    return t.apply(inner.getDirToLight());
+    return t.apply(inner.getDirToLight()).unit();
   }
 
   @Override
