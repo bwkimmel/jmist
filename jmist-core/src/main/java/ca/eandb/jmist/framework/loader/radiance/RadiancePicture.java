@@ -39,6 +39,8 @@ import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
+import org.apache.commons.io.IOUtils;
+
 import ca.eandb.jmist.framework.color.CIEXYZ;
 import ca.eandb.jmist.framework.color.RGB;
 import ca.eandb.util.UnimplementedException;
@@ -325,7 +327,7 @@ public class RadiancePicture implements Serializable {
     byte[] next = new byte[4];
     byte[] rep = new byte[32768*4];
     int repmult = 1;
-    while (reader.read(next) == next.length) {
+    while (IOUtils.read(reader, next) == next.length) {
       if (next[0] == (byte) 255 && next[1] == (byte) 255 && next[2] == (byte) 255) {
         int len = repmult * ubyte2int(next[3]);
         buffer.reset();
