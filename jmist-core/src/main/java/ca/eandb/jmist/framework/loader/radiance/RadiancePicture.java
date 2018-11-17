@@ -343,20 +343,15 @@ public class RadiancePicture implements Serializable {
         }
         ByteBuffer scan = ByteBuffer.wrap(rep, 0, len);
         while (scan.hasRemaining()) {
-          int b = reader.read();
-          if (b < 0) {
-            throw new EOFException();
-          } else if (b <= 128) {
+          int b = reader.readUnsignedByte();
+          if (b <= 128) {
             for (int i = 0; i < b; i++) {
-              scan.put((byte) reader.read());
+              scan.put(reader.readByte());
             }
           } else {
-            int value = reader.read();
-            if (value < 0) {
-              throw new EOFException();
-            }
+            byte value = reader.readByte();
             for (int i = 0, n = b & 127; i < n; i++) {
-              scan.put((byte) value);
+              scan.put(value);
             }
           }
         }
