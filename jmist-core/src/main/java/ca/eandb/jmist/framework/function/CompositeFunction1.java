@@ -39,6 +39,9 @@ public abstract class CompositeFunction1 implements Function1 {
   /** Serialization version ID. */
   private static final long serialVersionUID = 5931608814801153372L;
 
+  /** The component spectra. */
+  private final List<Function1> children = new ArrayList<>();
+
   /**
    * Adds a <code>Function1</code> to this <code>CompositeFunction1</code>.
    * @param child The child <code>Function1</code> to add.
@@ -57,8 +60,5 @@ public abstract class CompositeFunction1 implements Function1 {
   protected final List<Function1> children() {
     return this.children;
   }
-
-  /** The component spectra. */
-  private final List<Function1> children = new ArrayList<>();
 
 }

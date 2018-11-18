@@ -45,6 +45,12 @@ public final class MirrorMaterial extends OpaqueMaterial {
   private static final long serialVersionUID = 3451068808276962270L;
 
   /**
+   * The reflectance <code>Painter</code> of this
+   * <code>MirrorMaterial</code>.
+   */
+  private final Painter reflectance;
+
+  /**
    * Creates a new <code>MirrorMaterial</code>.
    * @param reflectance The reflectance <code>Painter</code> of this mirror.
    */
@@ -66,11 +72,5 @@ public final class MirrorMaterial extends OpaqueMaterial {
     return ScatteredRay.specular(new Ray3(x.getPosition(), out),
         reflectance.getColor(x, lambda), 1.0);
   }
-
-  /**
-   * The reflectance <code>Painter</code> of this
-   * <code>MirrorMaterial</code>.
-   */
-  private final Painter reflectance;
 
 }

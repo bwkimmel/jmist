@@ -38,6 +38,12 @@ import ca.eandb.jmist.framework.Random;
  */
 public final class ThreadLocalRandom implements Random {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = -4519791871156787526L;
+
+  /** The inner random number generator. */
+  private final ThreadLocal<Random> random;
+
   /**
    * A thread local container for a random number generator.
    * @author Brad Kimmel
@@ -97,11 +103,5 @@ public final class ThreadLocalRandom implements Random {
   public ThreadLocalRandom createCompatibleRandom() {
     return new ThreadLocalRandom(this.random.get().createCompatibleRandom());
   }
-
-  /** The inner random number generator. */
-  private final ThreadLocal<Random> random;
-
-  /** Serialization version ID. */
-  private static final long serialVersionUID = -4519791871156787526L;
 
 }

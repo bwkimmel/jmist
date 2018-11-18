@@ -41,6 +41,18 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class Grid3 implements Serializable {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = -2612737653304419826L;
+
+  /** The bounding box of this grid. */
+  private final Box3 bound;
+
+  /** The number of cells in each direction. */
+  private final int nx, ny, nz;
+
+  /** The dimensions of the cells along each axis. */
+  private final double dx, dy, dz;
+
   /**
    * Initializes the bounds of the grid and the number of cells
    * in each direction.
@@ -71,6 +83,12 @@ public final class Grid3 implements Serializable {
    * @author Brad Kimmel
    */
   public final class Cell {
+
+    /** The cell indices */
+    private final int cx, cy, cz;
+
+    /** The bounding box of this cell (only computed if requested). */
+    private Box3 bound;
 
     /**
      * Gets the index of this cell along the x-axis.
@@ -104,7 +122,6 @@ public final class Grid3 implements Serializable {
       if (bound == null) {
         bound = cellBounds(this.cx, this.cy, this.cz);
       }
-
       return bound;
     }
 
@@ -120,12 +137,6 @@ public final class Grid3 implements Serializable {
       this.cy = cy;
       this.cz = cz;
     }
-
-    /** The cell indices */
-    private final int cx, cy, cz;
-
-    /** The bounding box of this cell (only computed if requested). */
-    private Box3 bound;
 
   }
 
@@ -302,17 +313,5 @@ public final class Grid3 implements Serializable {
 
     return true;
   }
-
-  /** The bounding box of this grid. */
-  private final Box3 bound;
-
-  /** The number of cells in each direction. */
-  private final int nx, ny, nz;
-
-  /** The dimensions of the cells along each axis. */
-  private final double dx, dy, dz;
-
-  /** Serialization version ID. */
-  private static final long serialVersionUID = -2612737653304419826L;
 
 }

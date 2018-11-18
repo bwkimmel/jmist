@@ -45,6 +45,11 @@ public final class DistanceRayShader implements RayShader {
   /** Serialization version ID. */
   private static final long serialVersionUID = -4530038647449382442L;
 
+  /** The ray caster to use. */
+  private final SceneElement root;
+
+  private final Spectrum missValue;
+
   /**
    * Creates a <code>DistanceRayShader</code>.
    * @param root The <code>SceneElement</code> to use.
@@ -71,10 +76,5 @@ public final class DistanceRayShader implements RayShader {
 
     return (x != null) ? cm.getGray(x.getDistance(), lambda) : (missValue != null) ? missValue.sample(lambda) : cm.getBlack(lambda);
   }
-
-  /** The ray caster to use. */
-  private final SceneElement root;
-
-  private final Spectrum missValue;
 
 }

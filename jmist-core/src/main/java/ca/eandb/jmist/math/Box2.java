@@ -34,6 +34,38 @@ import java.io.Serializable;
  */
 public final class Box2 implements Serializable {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = 2385108773960788026L;
+
+  /**
+   * The box containing all of two dimensional space.
+   * {@code Box2.UNIVERSE.contains(p)} will be true for all p.
+   */
+  public static final Box2 UNIVERSE = new Box2(Interval.UNIVERSE, Interval.UNIVERSE);
+
+  /**
+   * The unit box: [0, 1]^2.
+   */
+  public static final Box2 UNIT = new Box2(0.0, 0.0, 1.0, 1.0);
+
+  /**
+   * The empty box.
+   * {@code Box2.EMPTY.contains(p)} will be false for all p.
+   */
+  public static final Box2 EMPTY = new Box2();
+
+  /** The lower bound along the x-axis. */
+  private double minimumX;
+
+  /** The upper bound along the x-axis. */
+  private double maximumX;
+
+  /** The lower bound along the y-axis. */
+  private double minimumY;
+
+  /** The upper bound along the y-axis. */
+  private double maximumY;
+
   /**
    * Initializes the extents of the box along the x and y axes.
    * @param spanX The extent of the box along the x-axis.
@@ -737,37 +769,5 @@ public final class Box2 implements Serializable {
       return new Box2(minimumX, minimumY, maximumX, maximumY);
     }
   }
-
-  /**
-   * The box containing all of two dimensional space.
-   * {@code Box2.UNIVERSE.contains(p)} will be true for all p.
-   */
-  public static final Box2 UNIVERSE = new Box2(Interval.UNIVERSE, Interval.UNIVERSE);
-
-  /**
-   * The unit box: [0, 1]^2.
-   */
-  public static final Box2 UNIT = new Box2(0.0, 0.0, 1.0, 1.0);
-
-  /**
-   * The empty box.
-   * {@code Box2.EMPTY.contains(p)} will be false for all p.
-   */
-  public static final Box2 EMPTY = new Box2();
-
-  /** The lower bound along the x-axis. */
-  private double minimumX;
-
-  /** The upper bound along the x-axis. */
-  private double maximumX;
-
-  /** The lower bound along the y-axis. */
-  private double minimumY;
-
-  /** The upper bound along the y-axis. */
-  private double maximumY;
-
-  /** Serialization version ID. */
-  private static final long serialVersionUID = 2385108773960788026L;
 
 }

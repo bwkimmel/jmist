@@ -38,6 +38,9 @@ public final class BlackbodySpectrum implements Function1 {
   /** Serialization version ID. */
   private static final long serialVersionUID = 5120826959435651065L;
 
+  /** The temperature of the black body to simulate (in Kelvin). */
+  private final double temperature;
+
   /**
    * Creates a new <code>BlackbodySpectrum</code>.
    * @param temperature The temperature of the black body to simulate (in
@@ -60,8 +63,5 @@ public final class BlackbodySpectrum implements Function1 {
         / (wavelength * Physics.BOLTZMANN_CONSTANT * temperature)) - 1.0));
     return a * b;
   }
-
-  /** The temperature of the black body to simulate (in Kelvin). */
-  private final double temperature;
 
 }

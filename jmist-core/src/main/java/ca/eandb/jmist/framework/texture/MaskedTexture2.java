@@ -40,6 +40,12 @@ public final class MaskedTexture2 implements Texture2 {
   /** Serialization version ID. */
   private static final long serialVersionUID = 6665456950969793279L;
 
+  /** The <code>Texture2</code> to mask. */
+  private final Texture2 texture;
+
+  /** The <code>Mask2</code> to apply to the <code>Texture2</code>. */
+  private final Mask2 mask;
+
   /**
    * Creates a new <code>MaskedTexture2</code>.
    * @param mask The <code>Mask2</code> to apply to the
@@ -55,11 +61,5 @@ public final class MaskedTexture2 implements Texture2 {
   public Spectrum evaluate(Point2 p) {
     return lambda -> texture.evaluate(p).sample(lambda).times(mask.opacity(p));
   }
-
-  /** The <code>Texture2</code> to mask. */
-  private final Texture2 texture;
-
-  /** The <code>Mask2</code> to apply to the <code>Texture2</code>. */
-  private final Mask2 mask;
 
 }

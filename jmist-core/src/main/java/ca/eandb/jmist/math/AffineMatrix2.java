@@ -45,16 +45,15 @@ public final class AffineMatrix2 implements Serializable {
   /** Serialization version ID. */
   private static final long serialVersionUID = 2792329658585793940L;
 
-  /**
-   * The identity matrix ({@code this * IDENTITY == this}).
-   */
+  /** The identity matrix ({@code this * IDENTITY == this}). */
   public static final AffineMatrix2 IDENTITY = new AffineMatrix2(
       1.0, 0.0, 0.0,
       0.0, 1.0, 0.0);
 
   /* Matrix elements */
-  private final double _00, _01, _02,
-             _10, _11, _12;
+  private final double
+      _00, _01, _02,
+      _10, _11, _12;
 
   /**
    * Initializes the matrix from its elements.

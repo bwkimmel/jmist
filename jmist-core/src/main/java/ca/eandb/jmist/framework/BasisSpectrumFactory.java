@@ -41,6 +41,9 @@ public final class BasisSpectrumFactory implements Serializable {
   /** Serialization version ID. */
   private static final long serialVersionUID = 8689123372520021846L;
 
+  /** A <code>List</code> of the basis spectra. */
+  private final List<Function1> basis = new ArrayList<>();
+
   /**
    * Adds a basis <code>Function1</code>.
    * @param spectrum The basis <code>Function1</code> to add.
@@ -68,8 +71,5 @@ public final class BasisSpectrumFactory implements Serializable {
     }
     return sum;
   }
-
-  /** A <code>List</code> of the basis spectra. */
-  private final List<Function1> basis = new ArrayList<>();
 
 }

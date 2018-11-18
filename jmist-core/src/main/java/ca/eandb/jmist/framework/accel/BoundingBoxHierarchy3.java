@@ -49,11 +49,23 @@ public final class BoundingBoxHierarchy3 implements RayTraversalStrategy3 {
   /** Serialization version ID. */
   private static final long serialVersionUID = -7768577656591759503L;
 
+  /** The <code>NodeComparator</code>s for each axis. */
+  private static final NodeComparator[] COMPARATORS = new NodeComparator[]{
+      new NodeComparator(NodeComparator.X_AXIS),
+      new NodeComparator(NodeComparator.Y_AXIS),
+      new NodeComparator(NodeComparator.Z_AXIS)
+  };
+
+  /** The root node of the bounding box tree. */
+  private Node root;
+
+  /** The <code>List</code> of leaf nodes in the bounding box tree. */
+  private final List<Node> leaves = new ArrayList<>();
+
   /**
    * Creates a new <code>BoundingBoxHierarchy3</code>.
    */
-  public BoundingBoxHierarchy3() {
-  }
+  public BoundingBoxHierarchy3() {}
 
   /**
    * Adds a new item to this <code>BoundingBoxHierarchy3</code>.
@@ -302,6 +314,12 @@ public final class BoundingBoxHierarchy3 implements RayTraversalStrategy3 {
     public static final int Z_AXIS = 2;
 
     /**
+     * A value indicating the axis along which the comparison should take
+     * place.
+     */
+    private final int axis;
+
+    /**
      * Creates a new <code>NodeComparator</code>.
      * @param axis A value indicating the axis along which the comparison
      *     should take place.
@@ -324,25 +342,6 @@ public final class BoundingBoxHierarchy3 implements RayTraversalStrategy3 {
       throw new UnsupportedOperationException("invalid axis");
     }
 
-    /**
-     * A value indicating the axis along which the comparison should take
-     * place.
-     */
-    private final int axis;
-
   }
-
-  /** The root node of the bounding box tree. */
-  private Node root;
-
-  /** The <code>List</code> of leaf nodes in the bounding box tree. */
-  private final List<Node> leaves = new ArrayList<>();
-
-  /** The <code>NodeComparator</code>s for each axis. */
-  private static final NodeComparator[] COMPARATORS = new NodeComparator[]{
-      new NodeComparator(NodeComparator.X_AXIS),
-      new NodeComparator(NodeComparator.Y_AXIS),
-      new NodeComparator(NodeComparator.Z_AXIS)
-  };
 
 }

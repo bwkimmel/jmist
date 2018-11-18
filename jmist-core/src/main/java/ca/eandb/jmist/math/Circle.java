@@ -35,6 +35,26 @@ import java.io.Serializable;
  */
 public final class Circle implements Serializable {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = -2497313773493949063L;
+
+  /** A circle containing all points. */
+  public static final Circle UNIVERSE = new Circle(Point2.ORIGIN, Double.POSITIVE_INFINITY);
+
+  /**
+   * The unit circle (the circle centered at the origin with a radius of 1.0).
+   */
+  public static final Circle UNIT = new Circle(Point2.ORIGIN, 1.0);
+
+  /** An empty circle. */
+  public static final Circle EMPTY = new Circle();
+
+  /** The center of the circle. */
+  private final Point2 center;
+
+  /** The radius of the circle. */
+  private final double radius;
+
   /**
    * Initializes the center and radius of the circle.
    * @param center The center of the circle.
@@ -318,25 +338,5 @@ public final class Circle implements Serializable {
       return new Circle(center, radius);
     }
   }
-
-  /** A circle containing all points. */
-  public static final Circle UNIVERSE = new Circle(Point2.ORIGIN, Double.POSITIVE_INFINITY);
-
-  /**
-   * The unit circle (the circle centered at the origin with a radius of 1.0).
-   */
-  public static final Circle UNIT = new Circle(Point2.ORIGIN, 1.0);
-
-  /** An empty circle. */
-  public static final Circle EMPTY = new Circle();
-
-  /** The center of the circle. */
-  private final Point2 center;
-
-  /** The radius of the circle. */
-  private final double radius;
-
-  /** Serialization version ID. */
-  private static final long serialVersionUID = -2497313773493949063L;
 
 }

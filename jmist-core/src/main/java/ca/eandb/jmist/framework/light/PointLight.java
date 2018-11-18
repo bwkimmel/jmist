@@ -49,6 +49,18 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class PointLight extends AbstractLight implements Serializable {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = -5220350307274318220L;
+
+  /** The <code>Point3</code> where the light is to emit from. */
+  private final Point3 position;
+
+  /** The emission <code>Spectrum</code> of the light. */
+  private final Spectrum emittedPower;
+
+  /** A value indicating whether the light should be affected by shadows. */
+  private final boolean shadows;
+
   /**
    * Creates a new <code>PointLight</code>.
    * @param position The <code>Point3</code> where the light is to emit from.
@@ -124,17 +136,5 @@ public final class PointLight extends AbstractLight implements Serializable {
     }
 
   }
-
-  /** The <code>Point3</code> where the light is to emit from. */
-  private final Point3 position;
-
-  /** The emission <code>Spectrum</code> of the light. */
-  private final Spectrum emittedPower;
-
-  /** A value indicating whether the light should be affected by shadows. */
-  private final boolean shadows;
-
-  /** Serialization version ID. */
-  private static final long serialVersionUID = -5220350307274318220L;
 
 }

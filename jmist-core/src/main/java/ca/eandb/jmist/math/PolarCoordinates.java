@@ -34,6 +34,15 @@ import java.io.Serializable;
  */
 public final class PolarCoordinates implements Serializable {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = 138383004537725636L;
+
+  /** The angle (in radians) between the vector and the positive x-axis. */
+  private final double angle;
+
+  /** The length of this vector. */
+  private final double radius;
+
   /**
    * Creates a new unit <code>PolarCoordinates</code>.
    * @param angle The angle (in radians) between the vector and the positive
@@ -196,14 +205,5 @@ public final class PolarCoordinates implements Serializable {
         v.length()
     );
   }
-
-  /** The angle (in radians) between the vector and the positive x-axis. */
-  private final double angle;
-
-  /** The length of this vector. */
-  private final double radius;
-
-  /** Serialization version ID. */
-  private static final long serialVersionUID = 138383004537725636L;
 
 }

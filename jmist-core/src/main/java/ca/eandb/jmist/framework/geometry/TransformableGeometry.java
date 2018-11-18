@@ -56,6 +56,12 @@ public final class TransformableGeometry extends AbstractGeometry implements
   /** Serialization version ID. */
   private static final long serialVersionUID = -1312285205292950959L;
 
+  /** The <code>SceneElement</code> to be made transformable. */
+  private final SceneElement geometry;
+
+  /** The transformation to apply to this <code>SceneElement</code>. */
+  private final InvertibleAffineTransformation3 model = new InvertibleAffineTransformation3();
+
   /**
    * Creates a new <code>TransformableGeometry</code>.
    * @param geometry The <code>SceneElement</code> to make transformable.
@@ -244,11 +250,5 @@ public final class TransformableGeometry extends AbstractGeometry implements
   public void stretchZ(double cz) {
     this.model.stretchZ(cz);
   }
-
-  /** The <code>SceneElement</code> to be made transformable. */
-  private final SceneElement geometry;
-
-  /** The transformation to apply to this <code>SceneElement</code>. */
-  private final InvertibleAffineTransformation3 model = new InvertibleAffineTransformation3();
 
 }

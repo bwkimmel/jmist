@@ -38,6 +38,24 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class EqualPolarAnglesCollectorSphere implements CollectorSphere {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = 6947672588017728172L;
+
+  /** The total number of sensors. */
+  private final int sensors;
+
+  /** The number of stacks per hemisphere. */
+  private final int stacks;
+
+  /** The number of slices. */
+  private final int slices;
+
+  /** A value indicating whether the upper hemisphere is measured. */
+  private final boolean upper;
+
+  /** A value indicating whether the lower hemisphere is measured. */
+  private final boolean lower;
+
   /**
    * Creates a new <code>EqualPolarAnglesCollectorSphere</code>.
    * @param stacks The number of stacks to divide each hemisphere into.
@@ -246,23 +264,5 @@ public final class EqualPolarAnglesCollectorSphere implements CollectorSphere {
   public int sensors() {
     return sensors;
   }
-
-  /** The total number of sensors. */
-  private final int sensors;
-
-  /** The number of stacks per hemisphere. */
-  private final int stacks;
-
-  /** The number of slices. */
-  private final int slices;
-
-  /** A value indicating whether the upper hemisphere is measured. */
-  private final boolean upper;
-
-  /** A value indicating whether the lower hemisphere is measured. */
-  private final boolean lower;
-
-  /** Serialization version ID. */
-  private static final long serialVersionUID = 6947672588017728172L;
 
 }

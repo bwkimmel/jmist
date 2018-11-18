@@ -36,6 +36,15 @@ import ca.eandb.util.progress.ProgressMonitor;
 
 public final class Photometer {
 
+  private static final long DEFAULT_PROGRESS_INTERVAL = 1000;
+
+  private final IntegerSensorArray sensorArray;
+  private final CollectorSphere collectorSphere;
+  private SurfaceScatterer specimen;
+  private SphericalCoordinates incident;
+  private Vector3 in;
+  private double wavelength;
+
   public Photometer(CollectorSphere collectorSphere) {
     this.collectorSphere = collectorSphere;
     this.sensorArray = new IntegerSensorArray(collectorSphere);
@@ -113,14 +122,5 @@ public final class Photometer {
     monitor.notifyProgress(1.0);
     monitor.notifyComplete();
   }
-
-  private final IntegerSensorArray sensorArray;
-  private final CollectorSphere collectorSphere;
-  private SurfaceScatterer specimen;
-  private SphericalCoordinates incident;
-  private Vector3 in;
-  private double wavelength;
-
-  private static final long DEFAULT_PROGRESS_INTERVAL = 1000;
 
 }

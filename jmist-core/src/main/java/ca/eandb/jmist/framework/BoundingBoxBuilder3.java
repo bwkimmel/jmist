@@ -38,6 +38,12 @@ import ca.eandb.jmist.math.Sphere;
  */
 public class BoundingBoxBuilder3 implements Serializable {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = 351994557507294139L;
+
+  private double minimumX, minimumY, minimumZ;
+  private double maximumX, maximumY, maximumZ;
+
   /**
    * Default constructor.
    * Initializes the bounding box builder to return an empty box.
@@ -149,11 +155,5 @@ public class BoundingBoxBuilder3 implements Serializable {
   public boolean isEmpty() {
     return Double.isNaN(minimumX);
   }
-
-  private double minimumX, minimumY, minimumZ;
-  private double maximumX, maximumY, maximumZ;
-
-  /** Serialization version ID. */
-  private static final long serialVersionUID = 351994557507294139L;
 
 }

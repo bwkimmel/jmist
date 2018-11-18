@@ -36,6 +36,15 @@ import ca.eandb.jmist.math.Box2;
  */
 public final class AveragingPixelShader implements PixelShader {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = -1978147732952459483L;
+
+  /** The number of samples to average from the decorated pixel shader. */
+  private final int numSamples;
+
+  /** The pixel shader from which to average the results. */
+  private final PixelShader pixelShader;
+
   /**
    * Initializes the inner pixel shader.
    * @param numSamples The number of samples to average when shading a pixel.
@@ -57,14 +66,5 @@ public final class AveragingPixelShader implements PixelShader {
     }
     return pixel.divide(numSamples);
   }
-
-  /** The number of samples to average from the decorated pixel shader. */
-  private final int numSamples;
-
-  /** The pixel shader from which to average the results. */
-  private final PixelShader pixelShader;
-
-  /** Serialization version ID. */
-  private static final long serialVersionUID = -1978147732952459483L;
 
 }

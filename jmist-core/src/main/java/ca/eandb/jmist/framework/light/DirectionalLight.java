@@ -43,6 +43,18 @@ public final class DirectionalLight extends AbstractLight {
   private static final long serialVersionUID = -1437021256512696489L;
 
   /**
+   * The <code>Vector3</code> indicating the direction from which the light
+   * originates.
+   */
+  private final Vector3 from;
+
+  /** The irradiance <code>Spectrum</code>. */
+  private final Spectrum irradiance;
+
+  /** A value indicating whether shadows should be applied. */
+  private final boolean shadows;
+
+  /**
    * Creates a new <code>DirectionalLight</code>.
    * @param from The <code>Vector3</code> indicating the direction from which
    *     the light originates.
@@ -60,17 +72,5 @@ public final class DirectionalLight extends AbstractLight {
     double dot = x.getShadingNormal().dot(from);
     target.addLightSample(new DirectionalLightSample(x, from, irradiance.sample(lambda).times(dot), shadows));
   }
-
-  /**
-   * The <code>Vector3</code> indicating the direction from which the light
-   * originates.
-   */
-  private final Vector3 from;
-
-  /** The irradiance <code>Spectrum</code>. */
-  private final Spectrum irradiance;
-
-  /** A value indicating whether shadows should be applied. */
-  private final boolean shadows;
 
 }

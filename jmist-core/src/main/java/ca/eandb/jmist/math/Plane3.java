@@ -54,6 +54,15 @@ public final class Plane3 implements Serializable {
   /** The y-z plane with the normal oriented in the -x direction. */
   public static final Plane3 ZY = new Plane3(Vector3.NEGATIVE_I, 0.0);
 
+  /** A <code>Vector3</code> that is normal to the plane. */
+  private final Vector3 normal;
+
+  /**
+   * The altitude of {@link Point3#ORIGIN}.
+   * @see Point3#ORIGIN
+   */
+  private final double d;
+
   /**
    * Creates a <code>Plane3</code>.
    * @param normal The <code>Vector3</code> that is normal to the plane.
@@ -227,14 +236,5 @@ public final class Plane3 implements Serializable {
     return -(normal.dot(p.vectorFromOrigin()) + d)
         / normal.dot(v);
   }
-
-  /** A <code>Vector3</code> that is normal to the plane. */
-  private final Vector3 normal;
-
-  /**
-   * The altitude of {@link Point3#ORIGIN}.
-   * @see Point3#ORIGIN
-   */
-  private final double d;
 
 }

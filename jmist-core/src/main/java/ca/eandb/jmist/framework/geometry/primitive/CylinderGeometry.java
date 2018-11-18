@@ -46,6 +46,27 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class CylinderGeometry extends PrimitiveGeometry {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = 1128440316229322913L;
+
+  /** The point at the base of the cylinder */
+  private final Point3 base;
+
+  /** The radius of the cylinder */
+  private final double radius;
+
+  /** The height of the cylinder */
+  private final double height;
+
+  /** The surface ID for the base of the cylinder. */
+  private static final int CYLINDER_SURFACE_BASE = 0;
+
+  /** The surface ID for the top of the cylinder. */
+  private static final int CYLINDER_SURFACE_TOP = 1;
+
+  /** The surface ID for the body of the cylinder. */
+  private static final int CYLINDER_SURFACE_BODY = 2;
+
   /**
    * Initializes the dimensions of this cylinder.
    * @param base    the center of the base of the cylinder
@@ -191,26 +212,5 @@ public final class CylinderGeometry extends PrimitiveGeometry {
 
     return new Point2(tx, ty);
   }
-
-  /** The point at the base of the cylinder */
-  private final Point3 base;
-
-  /** The radius of the cylinder */
-  private final double radius;
-
-  /** The height of the cylinder */
-  private final double height;
-
-  /** The surface ID for the base of the cylinder. */
-  private static final int CYLINDER_SURFACE_BASE = 0;
-
-  /** The surface ID for the top of the cylinder. */
-  private static final int CYLINDER_SURFACE_TOP = 1;
-
-  /** The surface ID for the body of the cylinder. */
-  private static final int CYLINDER_SURFACE_BODY = 2;
-
-  /** Serialization version ID. */
-  private static final long serialVersionUID = 1128440316229322913L;
 
 }

@@ -43,6 +43,27 @@ import java.io.Serializable;
  */
 public final class LinearMatrix3 implements Serializable {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = -2238797743118681949L;
+
+  /** The identity matrix ({@code this * IDENTITY == this}). */
+  public static final LinearMatrix3 IDENTITY = new LinearMatrix3(
+      1.0, 0.0, 0.0,
+      0.0, 1.0, 0.0,
+      0.0, 0.0, 1.0);
+
+  /** The zero matrix ({@code this + IDENTITY == this}). */
+  public static final LinearMatrix3 ZERO = new LinearMatrix3(
+      0.0, 0.0, 0.0,
+      0.0, 0.0, 0.0,
+      0.0, 0.0, 0.0);
+
+  /* Matrix elements */
+  private final double
+      _00, _01, _02,
+      _10, _11, _12,
+      _20, _21, _22;
+
   /**
    * Initializes the matrix from its elements.
    * @param _00 The element in row 0, column 0.
@@ -378,30 +399,5 @@ public final class LinearMatrix3 implements Serializable {
     // TODO implement this method.
     throw new UnsupportedOperationException("not yet implemented");
   }
-
-  /**
-   * The identity matrix ({@code this * IDENTITY == this}).
-   */
-  public static final LinearMatrix3 IDENTITY = new LinearMatrix3(
-      1.0, 0.0, 0.0,
-      0.0, 1.0, 0.0,
-      0.0, 0.0, 1.0);
-
-  /**
-   * The zero matrix ({@code this + IDENTITY == this}).
-   */
-  public static final LinearMatrix3 ZERO = new LinearMatrix3(
-      0.0, 0.0, 0.0,
-      0.0, 0.0, 0.0,
-      0.0, 0.0, 0.0);
-
-  /* Matrix elements */
-  private final double
-      _00, _01, _02,
-      _10, _11, _12,
-      _20, _21, _22;
-
-  /** Serialization version ID. */
-  private static final long serialVersionUID = -2238797743118681949L;
 
 }

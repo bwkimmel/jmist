@@ -33,6 +33,21 @@ import java.io.Serializable;
  */
 public final class Basis3 implements Serializable {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = 6204667205376195095L;
+
+  /** The standard <code>Basis3</code>. */
+  public static final Basis3 STANDARD = new Basis3(Vector3.I, Vector3.J, Vector3.K);
+
+  /** The first tangent <code>Vector3</code>. */
+  private final Vector3 u;
+
+  /** The second tangent <code>Vector3</code>. */
+  private final Vector3 v;
+
+  /** The normal <code>Vector3</code>. */
+  private final Vector3 w;
+
   /**
    * Creates a new <code>Basis3</code>.  This constructor assumes that the
    * three vectors provided form an orthonormal basis (i.e., each is of unit
@@ -321,20 +336,5 @@ public final class Basis3 implements Serializable {
       _u = _u.opposite();
     return new Basis3(_u, _v, _w);
   }
-
-  /** The standard <code>Basis3</code>. */
-  public static final Basis3 STANDARD = new Basis3(Vector3.I, Vector3.J, Vector3.K);
-
-  /** The first tangent <code>Vector3</code>. */
-  private final Vector3 u;
-
-  /** The second tangent <code>Vector3</code>. */
-  private final Vector3 v;
-
-  /** The normal <code>Vector3</code>. */
-  private final Vector3 w;
-
-  /** Serialization version ID. */
-  private static final long serialVersionUID = 6204667205376195095L;
 
 }

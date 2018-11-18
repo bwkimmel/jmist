@@ -44,6 +44,9 @@ public class AffineTransformation3 implements AffineTransformable3, Serializable
   /** Serialization version ID. */
   private static final long serialVersionUID = -4028593857879980021L;
 
+  /** The cumulative transformation matrix. */
+  private AffineMatrix3 matrix = null;
+
   @Override
   public void transform(AffineMatrix3 T) {
     this.applyTransformation(T);
@@ -218,8 +221,5 @@ public class AffineTransformation3 implements AffineTransformable3, Serializable
   public void reset() {
     this.matrix = null;
   }
-
-  /** The cumulative transformation matrix. */
-  private AffineMatrix3 matrix = null;
 
 }

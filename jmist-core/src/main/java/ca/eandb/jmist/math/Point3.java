@@ -32,6 +32,12 @@ package ca.eandb.jmist.math;
  */
 public final class Point3 extends HPoint3 {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = 15329079129798899L;
+
+  /** The origin of three dimensional space. */
+  public static final Point3 ORIGIN = new Point3(0.0, 0.0, 0.0);
+
   /**
    * Initializes the components for the point.
    * @param x The distance from the origin along the x axis.
@@ -293,11 +299,5 @@ public final class Point3 extends HPoint3 {
 
     return new Point3(x / (double) n, y / (double) n, z / (double) n);
   }
-
-  /** The origin of three dimensional space. */
-  public static final Point3 ORIGIN = new Point3(0.0, 0.0, 0.0);
-
-  /** Serialization version ID. */
-  private static final long serialVersionUID = 15329079129798899L;
 
 }

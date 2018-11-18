@@ -50,6 +50,38 @@ public final class EllipseGeometry extends PrimitiveGeometry {
   private static final long serialVersionUID = 7682212284130537132L;
 
   /**
+   * The surface ID for the top of the disc (the side toward which the normal
+   * points.
+   */
+  private static final int ELLIPSE_SURFACE_TOP = 0;
+
+  /**
+   * The surface ID for the bottom of the disc (the side away from which the
+   * normal points.
+   */
+  private static final int ELLIPSE_SURFACE_BOTTOM = 1;
+
+  /**
+   * The <code>Plane3</code> in which this <code>EllipseGeometry</code> lies.
+   */
+  private final Plane3 plane;
+
+  /** The center of the ellipse. */
+  private final Point3 center;
+
+  /** The orientation of the ellipse. */
+  private final Basis3 basis;
+
+  /** The radius of the ellipse in the direction of the u basis vector. */
+  private final double ru;
+
+  /** The radius of the ellipse in the direction of the v basis vector. */
+  private final double rv;
+
+  /** A value indicating whether this disc is two sided. */
+  private final boolean twoSided;
+
+  /**
    * Creates a new <code>EllipseGeometry</code>.
    * @param center The <code>Point3</code> at the center of the ellipse.
    * @param basis The <code>Basis3</code> indicating the orientation of the
@@ -165,37 +197,5 @@ public final class EllipseGeometry extends PrimitiveGeometry {
   public double getSurfaceArea() {
     return (twoSided ? 2.0 : 1.0) * Math.PI * ru * rv;
   }
-
-  /**
-   * The surface ID for the top of the disc (the side toward which the normal
-   * points.
-   */
-  private static final int ELLIPSE_SURFACE_TOP = 0;
-
-  /**
-   * The surface ID for the bottom of the disc (the side away from which the
-   * normal points.
-   */
-  private static final int ELLIPSE_SURFACE_BOTTOM = 1;
-
-  /**
-   * The <code>Plane3</code> in which this <code>EllipseGeometry</code> lies.
-   */
-  private final Plane3 plane;
-
-  /** The center of the ellipse. */
-  private final Point3 center;
-
-  /** The orientation of the ellipse. */
-  private final Basis3 basis;
-
-  /** The radius of the ellipse in the direction of the u basis vector. */
-  private final double ru;
-
-  /** The radius of the ellipse in the direction of the v basis vector. */
-  private final double rv;
-
-  /** A value indicating whether this disc is two sided. */
-  private final boolean twoSided;
 
 }

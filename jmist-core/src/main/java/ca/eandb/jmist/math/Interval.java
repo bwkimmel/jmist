@@ -34,6 +34,40 @@ import java.io.Serializable;
  */
 public final class Interval implements Serializable {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = -4034510279908046892L;
+
+  /**
+   * The entire real line (-infinity, infinity).
+   * {@code Interval.UNIVERSE.contains(t)} will return true for all t.
+   */
+  public static final Interval UNIVERSE = new Interval(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+
+  /** The unit interval: [0, 1]. */
+  public static final Interval UNIT = new Interval(0.0, 1.0);
+
+  /**
+   * The empty set.
+   * {@code Interval.EMPTY.contains(t)} will return false for all t.
+   */
+  public static final Interval EMPTY = new Interval();
+
+  /**
+   * The interval containing the non-negative real numbers: [0, infinity).
+   */
+  public static final Interval POSITIVE = new Interval(0.0, Double.POSITIVE_INFINITY);
+
+  /**
+   * The interval containing the non-positive real numbers: (-infinity, 0].
+   */
+  public static final Interval NEGATIVE = new Interval(Double.NEGATIVE_INFINITY, 0.0);
+
+  /** The lower bound of this interval. */
+  private final double minimum;
+
+  /** The upper bound of this interval. */
+  private final double maximum;
+
   /**
    * Initializes the endpoints of the interval.
    * Requires {@code minimum <= maximum}
@@ -44,6 +78,11 @@ public final class Interval implements Serializable {
     assert(minimum <= maximum);
     this.minimum = minimum;
     this.maximum = maximum;
+  }
+
+  /** Default constructor (private). */
+  private Interval() {
+    minimum = maximum = Double.NaN;
   }
 
   /**
@@ -215,46 +254,5 @@ public final class Interval implements Serializable {
   public double interpolate(double t) {
     return this.minimum + t * (this.maximum - this.minimum);
   }
-
-  /**
-   * Default constructor.
-   */
-  private Interval() {
-    minimum = maximum = Double.NaN;
-  }
-
-  /**
-   * The entire real line (-infinity, infinity).
-   * {@code Interval.UNIVERSE.contains(t)} will return true for all t.
-   */
-  public static final Interval UNIVERSE = new Interval(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
-
-  /** The unit interval: [0, 1]. */
-  public static final Interval UNIT = new Interval(0.0, 1.0);
-
-  /**
-   * The empty set.
-   * {@code Interval.EMPTY.contains(t)} will return false for all t.
-   */
-  public static final Interval EMPTY = new Interval();
-
-  /**
-   * The interval containing the non-negative real numbers: [0, infinity).
-   */
-  public static final Interval POSITIVE = new Interval(0.0, Double.POSITIVE_INFINITY);
-
-  /**
-   * The interval containing the non-positive real numbers: (-infinity, 0].
-   */
-  public static final Interval NEGATIVE = new Interval(Double.NEGATIVE_INFINITY, 0.0);
-
-  /** The lower bound of this interval. */
-  private final double minimum;
-
-  /** The upper bound of this interval. */
-  private final double maximum;
-
-  /** Serialization version ID. */
-  private static final long serialVersionUID = -4034510279908046892L;
 
 }

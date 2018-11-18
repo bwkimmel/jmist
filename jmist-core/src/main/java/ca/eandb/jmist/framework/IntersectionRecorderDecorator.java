@@ -36,6 +36,9 @@ import ca.eandb.jmist.math.Interval;
 public abstract class IntersectionRecorderDecorator implements
     IntersectionRecorder {
 
+  /** The decorated <code>IntersectionRecorder</code>. */
+  protected final IntersectionRecorder inner;
+
   /**
    * Initializes an <code>IntersectionRecorderDecorator</code>.
    * @param inner The <code>IntersectionRecorder</code> to be decorated.
@@ -61,8 +64,5 @@ public abstract class IntersectionRecorderDecorator implements
 
   @Override
   public abstract void record(Intersection intersection);
-
-  /** The decorated <code>IntersectionRecorder</code>. */
-  protected final IntersectionRecorder inner;
 
 }

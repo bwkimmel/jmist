@@ -36,6 +36,34 @@ import org.apache.commons.math3.util.FastMath;
  */
 public final class SphericalCoordinates implements Serializable {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = -4978227486578315932L;
+
+  /**
+   * The <code>SphericalCoordinates</code> for the normal direction (i.e.,
+   * the polar and azimuthal angles are both zero, the radius is 1.0).
+   */
+  public static final SphericalCoordinates NORMAL = new SphericalCoordinates(0, 0, 1);
+
+  /**
+   * The <code>SphericalCoordinates</code> for the direction opposite to the
+   * normal direction (i.e., the polar angle is PI, the azimuthal angle is
+   * zero, and the radius is 1.0).
+   */
+  public static final SphericalCoordinates ANTINORMAL = new SphericalCoordinates(Math.PI, 0, 1);
+
+  /** The angle (in radians) between the vector and the positive z-axis. */
+  private final double polar;
+
+  /**
+   * The angle (in radians) between the vector projected onto the xy-plane
+   * and the positive x-axis.
+   */
+  private final double azimuthal;
+
+  /** The length of this vector. */
+  private final double radius;
+
   /**
    * Creates a new unit <code>SphericalCoordinates</code>.
    * @param polar The angle (in radians) between the vector and the positive
@@ -368,33 +396,5 @@ public final class SphericalCoordinates implements Serializable {
 
     return new SphericalCoordinates(polar, azimuthal, radius);
   }
-
-  /**
-   * The <code>SphericalCoordinates</code> for the normal direction (i.e.,
-   * the polar and azimuthal angles are both zero, the radius is 1.0).
-   */
-  public static final SphericalCoordinates NORMAL = new SphericalCoordinates(0, 0, 1);
-
-  /**
-   * The <code>SphericalCoordinates</code> for the direction opposite to the
-   * normal direction (i.e., the polar angle is PI, the azimuthal angle is
-   * zero, and the radius is 1.0).
-   */
-  public static final SphericalCoordinates ANTINORMAL = new SphericalCoordinates(Math.PI, 0, 1);
-
-  /** The angle (in radians) between the vector and the positive z-axis. */
-  private final double polar;
-
-  /**
-   * The angle (in radians) between the vector projected onto the xy-plane
-   * and the positive x-axis.
-   */
-  private final double azimuthal;
-
-  /** The length of this vector. */
-  private final double radius;
-
-  /** Serialization version ID. */
-  private static final long serialVersionUID = -4978227486578315932L;
 
 }

@@ -44,6 +44,15 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class LambertianMaterial extends OpaqueMaterial {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = 485410070543495668L;
+
+  /** The reflectance <code>Painter</code> of this <code>Material</code>. */
+  private final Painter reflectance;
+
+  /** The emittance <code>Painter</code> of this <code>Material</code>. */
+  private final Painter emittance;
+
   /**
    * Creates a new <code>LambertianMaterial</code> that does not emit light.
    * @param reflectance The reflectance <code>Painter</code>.
@@ -152,14 +161,5 @@ public final class LambertianMaterial extends OpaqueMaterial {
       boolean adjoint, WavelengthPacket lambda) {
     return reflectance != null ? 1.0 / Math.PI : 0.0;
   }
-
-  /** The reflectance <code>Painter</code> of this <code>Material</code>. */
-  private final Painter reflectance;
-
-  /** The emittance <code>Painter</code> of this <code>Material</code>. */
-  private final Painter emittance;
-
-  /** Serialization version ID. */
-  private static final long serialVersionUID = 485410070543495668L;
 
 }

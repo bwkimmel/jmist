@@ -39,6 +39,15 @@ public final class StratifyingPixelShader implements PixelShader {
   /** Serialization version ID. */
   private static final long serialVersionUID = 1059443381015930105L;
 
+  /** The number of columns to divide each pixel into. */
+  private final int columns;
+
+  /** The number of rows to divide each pixel into. */
+  private final int rows;
+
+  /** The pixel shader to average the results from. */
+  private final PixelShader pixelShader;
+
   /**
    * Initializes the number of rows and columns to divide each pixel into as
    * well as the underlying decorated pixel shader.
@@ -85,14 +94,5 @@ public final class StratifyingPixelShader implements PixelShader {
   public Color add(Color a, Color b) {
     return (a != null) ? a.plus(b) : b;
   }
-
-  /** The number of columns to divide each pixel into. */
-  private final int columns;
-
-  /** The number of rows to divide each pixel into. */
-  private final int rows;
-
-  /** The pixel shader to average the results from. */
-  private final PixelShader pixelShader;
 
 }

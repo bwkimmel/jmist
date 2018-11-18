@@ -49,59 +49,6 @@ public final class EmptyCornellBoxScene extends AbstractScene {
   /** Serialization version ID. */
   private static final long serialVersionUID = 1838010848508780354L;
 
-  /**
-   * Creates a new <code>CornellBoxModel</code>.
-   * @param colorModel The <code>ColorModel</code> to use.
-   */
-  public EmptyCornellBoxScene(ColorModel colorModel) {
-    Material matteWhite = new LambertianMaterial(colorModel.getContinuous(white));
-    Material matteGreen = new LambertianMaterial(colorModel.getContinuous(green));
-    Material matteRed = new LambertianMaterial(colorModel.getContinuous(red));
-    Material matteEmissive = new LambertianMaterial(colorModel.getGray(0.78), colorModel.getContinuous(emission));
-
-    SceneElement materialMap = new MaterialMapSceneElement(geometry)
-        .addMaterial("white", matteWhite)
-        .addMaterial("red", matteRed)
-        .addMaterial("green", matteGreen)
-        .addMaterial("emissive", matteEmissive)
-        .setMaterialRange(0, 4, "white")    // ceiling
-        .setMaterialRange(4, 1, "emissive")    // light
-        .setMaterialRange(5, 1, "white")    // floor
-        .setMaterialRange(6, 1, "white")     // back wall
-        .setMaterialRange(7, 1, "green")     // right wall
-        .setMaterialRange(8, 1, "red");      // left wall
-
-    this.cornellBox = materialMap;
-    this.light = cornellBox.createLight();
-  }
-
-  @Override
-  public SceneElement getRoot() {
-    return cornellBox;
-  }
-
-  @Override
-  public Light getLight() {
-    return light;
-  }
-
-  @Override
-  public Lens getLens() {
-    return lens;
-  }
-
-  /**
-   * Creates the <code>Lens</code> used in the Cornell Box.
-   * @return The <code>Lens</code> used in the Cornell Box.
-   */
-  private static Lens createLens() {
-    TransformableLens lens = new TransformableLens(
-        PinholeLens.fromHfovAndAspect(2.0 * Math.atan2(0.25 / 2.0, 0.35), 1.0));
-    lens.rotateY(Math.PI);
-    lens.translate(new Vector3(278.0, 273.0, -800.0));
-    return lens;
-  }
-
   /** The wavelengths at which the reflectance spectra are given. */
   private static final double[] WAVELENGTHS = ArrayUtil.range(400.0e-9, 700.0e-9, 76);
 
@@ -251,5 +198,58 @@ public final class EmptyCornellBoxScene extends AbstractScene {
 
   /** The root <code>SceneElement</code> for the Cornell box scene. */
   private final SceneElement cornellBox;
+
+  /**
+   * Creates a new <code>CornellBoxModel</code>.
+   * @param colorModel The <code>ColorModel</code> to use.
+   */
+  public EmptyCornellBoxScene(ColorModel colorModel) {
+    Material matteWhite = new LambertianMaterial(colorModel.getContinuous(white));
+    Material matteGreen = new LambertianMaterial(colorModel.getContinuous(green));
+    Material matteRed = new LambertianMaterial(colorModel.getContinuous(red));
+    Material matteEmissive = new LambertianMaterial(colorModel.getGray(0.78), colorModel.getContinuous(emission));
+
+    SceneElement materialMap = new MaterialMapSceneElement(geometry)
+        .addMaterial("white", matteWhite)
+        .addMaterial("red", matteRed)
+        .addMaterial("green", matteGreen)
+        .addMaterial("emissive", matteEmissive)
+        .setMaterialRange(0, 4, "white")    // ceiling
+        .setMaterialRange(4, 1, "emissive")    // light
+        .setMaterialRange(5, 1, "white")    // floor
+        .setMaterialRange(6, 1, "white")     // back wall
+        .setMaterialRange(7, 1, "green")     // right wall
+        .setMaterialRange(8, 1, "red");      // left wall
+
+    this.cornellBox = materialMap;
+    this.light = cornellBox.createLight();
+  }
+
+  @Override
+  public SceneElement getRoot() {
+    return cornellBox;
+  }
+
+  @Override
+  public Light getLight() {
+    return light;
+  }
+
+  @Override
+  public Lens getLens() {
+    return lens;
+  }
+
+  /**
+   * Creates the <code>Lens</code> used in the Cornell Box.
+   * @return The <code>Lens</code> used in the Cornell Box.
+   */
+  private static Lens createLens() {
+    TransformableLens lens = new TransformableLens(
+        PinholeLens.fromHfovAndAspect(2.0 * Math.atan2(0.25 / 2.0, 0.35), 1.0));
+    lens.rotateY(Math.PI);
+    lens.translate(new Vector3(278.0, 273.0, -800.0));
+    return lens;
+  }
 
 }

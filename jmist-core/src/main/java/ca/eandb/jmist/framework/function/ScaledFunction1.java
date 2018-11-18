@@ -36,6 +36,12 @@ public final class ScaledFunction1 implements Function1 {
   /** Serialization version ID. */
   private static final long serialVersionUID = 7790001536461093763L;
 
+  /** The factor by which to multiply the decorated <code>Function1</code>. */
+  private final double factor;
+
+  /** The <code>Function1</code> to be multiplied by a constant factor. */
+  private final Function1 inner;
+
   /**
    * Creates a new <code>ScaledFunction1</code>.
    * @param factor The factor by which to multiply the decorated
@@ -59,11 +65,5 @@ public final class ScaledFunction1 implements Function1 {
   public double evaluate(double x) {
     return this.factor * this.inner.evaluate(x);
   }
-
-  /** The factor by which to multiply the decorated <code>Function1</code>. */
-  private final double factor;
-
-  /** The <code>Function1</code> to be multiplied by a constant factor. */
-  private final Function1 inner;
 
 }

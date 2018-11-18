@@ -48,6 +48,17 @@ public final class TorusGeometry extends PrimitiveGeometry {
   private static final long serialVersionUID = 8573316243171501395L;
 
   /**
+   * The major radius of the torus (i.e., the distance from the center of the
+   * torus to a point in the center of the tube.
+   */
+  private final double major;
+
+  /**
+   * The minor radius of the torus (i.e., the radius of the tube).
+   */
+  private final double minor;
+
+  /**
    * Creates a new <code>TorusGeometry</code>.
    * @param major The major radius of the torus (i.e., the distance from the
    *     center of the torus to a point in the center of the tube.
@@ -130,16 +141,5 @@ public final class TorusGeometry extends PrimitiveGeometry {
   public Sphere boundingSphere() {
     return new Sphere(Point3.ORIGIN, major + minor);
   }
-
-  /**
-   * The major radius of the torus (i.e., the distance from the center of the
-   * torus to a point in the center of the tube.
-   */
-  private final double major;
-
-  /**
-   * The minor radius of the torus (i.e., the radius of the tube).
-   */
-  private final double minor;
 
 }

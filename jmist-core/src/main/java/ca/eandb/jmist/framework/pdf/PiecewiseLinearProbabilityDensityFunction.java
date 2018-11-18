@@ -42,6 +42,24 @@ public final class PiecewiseLinearProbabilityDensityFunction extends
   /** Serialization version ID. */
   private static final long serialVersionUID = -8212588260953242116L;
 
+  /** An array of the domain points. */
+  private final double[] x;
+
+  /**
+   * The values of this probability density functions corresponding to the
+   * domain points in {@link #x}.
+   * @see #x
+   */
+  private final double[] pdf;
+
+  /**
+   * The values of the cumulative density function (the integration of the
+   * probability density function) corresponding to the domain points in
+   * {@link #x}.
+   * @see #x
+   */
+  private final double[] cdf;
+
   /**
    * Creates a new <code>PiecewiseLinearProbabilityDensityFunction</code>.
    * @param x The domain points (must be sorted in ascending order).  Values
@@ -246,23 +264,5 @@ public final class PiecewiseLinearProbabilityDensityFunction extends
 
     }
   }
-
-  /** An array of the domain points. */
-  private final double[] x;
-
-  /**
-   * The values of this probability density functions corresponding to the
-   * domain points in {@link #x}.
-   * @see #x
-   */
-  private final double[] pdf;
-
-  /**
-   * The values of the cumulative density function (the integration of the
-   * probability density function) corresponding to the domain points in
-   * {@link #x}.
-   * @see #x
-   */
-  private final double[] cdf;
 
 }

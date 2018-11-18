@@ -44,6 +44,15 @@ public abstract class ImageRasterizingPixelShader implements PixelShader {
   /** Serialization version ID. */
   private static final long serialVersionUID = -6845318344104841243L;
 
+  /** The <code>ImageShader</code> to use for shading points. */
+  private final ImageShader shader;
+
+  /**
+   * The <code>ColorModel</code> to use for sampling in the wavelength
+   * domain.
+   */
+  private final ColorModel model;
+
   /**
    * Initializes the image shader to use for this pixel shader.
    * @param shader The <code>ImageShader</code> to use for this pixel shader.
@@ -66,14 +75,5 @@ public abstract class ImageRasterizingPixelShader implements PixelShader {
     Color shade = shader.shadeAt(p, lambda);
     return shade.times(sample);
   }
-
-  /** The <code>ImageShader</code> to use for shading points. */
-  private final ImageShader shader;
-
-  /**
-   * The <code>ColorModel</code> to use for sampling in the wavelength
-   * domain.
-   */
-  private final ColorModel model;
 
 }

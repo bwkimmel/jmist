@@ -62,8 +62,9 @@ public final class LinearMatrix2 implements Serializable {
       0.0, 0.0);
 
   /* Matrix elements */
-  private final double _00, _01,
-             _10, _11;
+  private final double
+      _00, _01,
+      _10, _11;
 
   /**
    * Initializes the matrix from its elements.

@@ -45,6 +45,61 @@ import ca.eandb.jmist.math.MathUtil;
  */
 public final class MatlabOutputStream extends OutputStream implements DataOutput {
 
+  /** The bit flag representing a complex array. */
+  private static final byte MATLAB_ARRAY_COMPLEX = 0x08;
+
+  /** The bit flag representing a global array. */
+  private static final byte MATLAB_ARRAY_GLOBAL = 0x04;
+
+  /** The bit flag representing an array to be used for logical indexing. */
+  private static final byte MATLAB_ARRAY_LOGICAL = 0x02;
+
+  /** The index into the array flags element of the flags bitmask. */
+  private static final int MATLAB_ARRAY_FLAGS_INDEX = 2;
+
+  /** The index into the array flags element of the array class indicator. */
+  private static final int MATLAB_ARRAY_CLASS_INDEX = 3;
+
+  /**
+   * The size (in bytes) of the array flags element (not including the tag).
+   */
+  private static final int MATLAB_ARRAY_FLAGS_SIZE = 8;
+
+  /** The size of a tag. */
+  private static final int MATLAB_TAG_SIZE = 8;
+
+  /** The byte interval on which to align data elements. */
+  private static final int MATLAB_BYTE_ALIGNMENT = 8;
+
+  /** The format string for the MATLAB MAT-file header. */
+  private static final String HEADER_FORMAT_STRING = "MATLAB 5.0 MAT-file, Platform: JAVA, Created on: %s, Created by: jMIST.";
+
+  /**
+   * The MAT-file version (The MAT-file format documentation indicates that
+   * third parties should write <code>0x0100</code> for this value).
+   */
+  private static final int MATLAB_FILE_VERSION = 0x0100;
+
+  /** The MAT-file endian indicator. */
+  private static final int MATLAB_ENDIAN_INDICATOR = 0x4D49;
+
+  /** The size of the MAT-file description block in the header</code>. */
+  private static final int MATLAB_DESCRIPTION_SIZE = 124;
+
+  /** The total size of the MAT-file header. */
+  private static final int MATLAB_HEADER_SIZE = 128;
+
+  /**
+   * The <code>Stack</code> of <code>DataOutputStream</code>s to write to.
+   * <code>DataOutputStream</code> are pushed onto this stack as necessary
+   * to write MATLAB data elements and then the contents transferred to the
+   * stream below when the <code>DataOutputStream</code> is popped.  This is
+   * so that, in some cases, the element can be written to a temporary buffer
+   * and then transferred to the underlying stream when the size of the
+   * element is known.
+   */
+  private final Stack<DataOutputStream> streams;
+
   /**
    * Creates a new <code>MatlabOutputStream</code> that writes to an
    * <code>OuptutStream</code>.
@@ -1273,34 +1328,16 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
     return this.streams.peek();
   }
 
-  /** The byte interval on which to align data elements. */
-  private static final int MATLAB_BYTE_ALIGNMENT = 8;
-
-  /** The format string for the MATLAB MAT-file header. */
-  private static final String HEADER_FORMAT_STRING = "MATLAB 5.0 MAT-file, Platform: JAVA, Created on: %s, Created by: jMIST.";
-
-  /**
-   * The MAT-file version (The MAT-file format documentation indicates that
-   * third parties should write <code>0x0100</code> for this value).
-   */
-  private static final int MATLAB_FILE_VERSION = 0x0100;
-
-  /** The MAT-file endian indicator. */
-  private static final int MATLAB_ENDIAN_INDICATOR = 0x4D49;
-
-  /** The size of the MAT-file description block in the header</code>. */
-  private static final int MATLAB_DESCRIPTION_SIZE = 124;
-
-  /** The total size of the MAT-file header. */
-  private static final int MATLAB_HEADER_SIZE = 128;
-
   /**
    * An <code>OutputStream</code> adapter that wraps an
    * <code>ImageOutputStream</code>.
    * @author Brad Kimmel
    */
   private static class ImageOutputStreamAdapter
-    extends OutputStream {
+      extends OutputStream {
+
+    /** The <code>ImageOutputStream</code> being decorated. */
+    private final ImageOutputStream out;
 
     /**
      * Creates a new <code>ImageOutputStreamAdapter</code>.
@@ -1335,9 +1372,6 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
       this.out.write(b);
     }
 
-    /** The <code>ImageOutputStream</code> being decorated. */
-    private final ImageOutputStream out;
-
   }
 
   /**
@@ -1346,7 +1380,7 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
    * @author Brad Kimmel
    */
   private static abstract class CompoundElementOutputStream
-    extends DataOutputStream {
+      extends DataOutputStream {
 
     /**
      * Creates a new <code>CompoundElementOutputStream</code>.
@@ -1412,7 +1446,16 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
    * @author Brad Kimmel
    */
   private static final class BufferedCompoundElementOutputStream
-    extends CompoundElementOutputStream {
+      extends CompoundElementOutputStream {
+
+    /** The <code>MatlabDataType</code> of the element to write. */
+    private final MatlabDataType type;
+
+    /**
+     * The temporary <code>ByteArrayOutputStream</code> to write the
+     * element contents to.
+     */
+    private final ByteArrayOutputStream bytes;
 
     /**
      * Creates a new <code>BufferedCompoundElementOutputStream</code>.
@@ -1445,15 +1488,6 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
       out.flush();
     }
 
-    /** The <code>MatlabDataType</code> of the element to write. */
-    private final MatlabDataType type;
-
-    /**
-     * The temporary <code>ByteArrayOutputStream</code> to write the
-     * element contents to.
-     */
-    private final ByteArrayOutputStream bytes;
-
   }
 
   /**
@@ -1462,7 +1496,10 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
    * @author Brad Kimmel
    */
   private static final class CompressedCompoundElementOutputStream
-    extends CompoundElementOutputStream {
+      extends CompoundElementOutputStream {
+
+    /** The temporary <code>ByteArrayOutputStream</code> to write to. */
+    private final ByteArrayOutputStream bytes;
 
     /**
      * Creates a new <code>CompressedCompoundElementOutputStream</code>.
@@ -1487,9 +1524,6 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
       out.flush();
     }
 
-    /** The temporary <code>ByteArrayOutputStream</code> to write to. */
-    private final ByteArrayOutputStream bytes;
-
   }
 
   /**
@@ -1501,7 +1535,16 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
    * @author Brad Kimmel
    */
   public static final class FixedLengthCompoundElementOutputStream
-    extends CompoundElementOutputStream {
+      extends CompoundElementOutputStream {
+
+    /** The <code>MatlabDataType</code> of the element to write. */
+    private final MatlabDataType type;
+
+    /**
+     * The expected position in the underlying stream after the element is
+     * written.
+     */
+    private final int endPosition;
 
     /**
      * Creates a new <code>FixedLengthCompoundElementOutputStream</code>.
@@ -1539,49 +1582,6 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
       }
     }
 
-    /** The <code>MatlabDataType</code> of the element to write. */
-    private final MatlabDataType type;
-
-    /**
-     * The expected position in the underlying stream after the element is
-     * written.
-     */
-    private final int endPosition;
-
   }
-
-  /** The bit flag representing a complex array. */
-  private static final byte MATLAB_ARRAY_COMPLEX = 0x08;
-
-  /** The bit flag representing a global array. */
-  private static final byte MATLAB_ARRAY_GLOBAL = 0x04;
-
-  /** The bit flag representing an array to be used for logical indexing. */
-  private static final byte MATLAB_ARRAY_LOGICAL = 0x02;
-
-  /** The index into the array flags element of the flags bitmask. */
-  private static final int MATLAB_ARRAY_FLAGS_INDEX = 2;
-
-  /** The index into the array flags element of the array class indicator. */
-  private static final int MATLAB_ARRAY_CLASS_INDEX = 3;
-
-  /**
-   * The size (in bytes) of the array flags element (not including the tag).
-   */
-  private static final int MATLAB_ARRAY_FLAGS_SIZE = 8;
-
-  /** The size of a tag. */
-  private static final int MATLAB_TAG_SIZE = 8;
-
-  /**
-   * The <code>Stack</code> of <code>DataOutputStream</code>s to write to.
-   * <code>DataOutputStream</code> are pushed onto this stack as necessary
-   * to write MATLAB data elements and then the contents transferred to the
-   * stream below when the <code>DataOutputStream</code> is popped.  This is
-   * so that, in some cases, the element can be written to a temporary buffer
-   * and then transferred to the underlying stream when the size of the
-   * element is known.
-   */
-  private final Stack<DataOutputStream> streams;
 
 }

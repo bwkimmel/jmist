@@ -34,6 +34,26 @@ import java.io.Serializable;
  */
 public final class Sphere implements Serializable {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = -7300424778393465269L;
+
+  /** A sphere containing all points. */
+  public static final Sphere UNIVERSE = new Sphere(Point3.ORIGIN, Double.POSITIVE_INFINITY);
+
+  /**
+   * The unit sphere (the sphere centered at the origin with a radius of 1.0).
+   */
+  public static final Sphere UNIT = new Sphere(Point3.ORIGIN, 1.0);
+
+  /** An empty sphere. */
+  public static final Sphere EMPTY = new Sphere();
+
+  /** The center of the sphere. */
+  private final Point3 center;
+
+  /** The radius of the sphere. */
+  private final double radius;
+
   /**
    * Initializes the center and radius of the sphere.
    * @param center The center of the sphere.
@@ -357,29 +377,5 @@ public final class Sphere implements Serializable {
       return new Sphere(center, radius);
     }
   }
-
-  /**
-   * A sphere containing all points.
-   */
-  public static final Sphere UNIVERSE = new Sphere(Point3.ORIGIN, Double.POSITIVE_INFINITY);
-
-  /**
-   * The unit sphere (the sphere centered at the origin with a radius of 1.0).
-   */
-  public static final Sphere UNIT = new Sphere(Point3.ORIGIN, 1.0);
-
-  /**
-   * An empty sphere.
-   */
-  public static final Sphere EMPTY = new Sphere();
-
-  /** The center of the sphere. */
-  private final Point3 center;
-
-  /** The radius of the sphere. */
-  private final double radius;
-
-  /** Serialization version ID. */
-  private static final long serialVersionUID = -7300424778393465269L;
 
 }

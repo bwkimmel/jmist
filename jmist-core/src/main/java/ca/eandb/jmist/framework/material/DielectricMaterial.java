@@ -50,6 +50,12 @@ public class DielectricMaterial extends AbstractMaterial {
   /** Serialization version ID. */
   private static final long serialVersionUID = -9036003391744538613L;
 
+  /** The refractive index <code>Color</code> of this dielectric. */
+  private final Spectrum refractiveIndex;
+
+  /** A value indicating if this material is dispersive. */
+  private final boolean disperse;
+
   /**
    * Creates a new <code>DielectricMaterial</code>.
    * @param refractiveIndex The refractive index <code>Spectrum</code> of
@@ -136,11 +142,5 @@ public class DielectricMaterial extends AbstractMaterial {
 
     return null;
   }
-
-  /** The refractive index <code>Color</code> of this dielectric. */
-  private final Spectrum refractiveIndex;
-
-  /** A value indicating if this material is dispersive. */
-  private final boolean disperse;
 
 }

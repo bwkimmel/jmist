@@ -43,6 +43,9 @@ public final class RandomPixelShader extends ImageRasterizingPixelShader impleme
   /** Serialization version ID. */
   private static final long serialVersionUID = -8237509594777958012L;
 
+  /** The source of random numbers for this pixel shader. */
+  private final Random random;
+
   /**
    * Initializes the source of random numbers and the camera.
    * @param random The source of random numbers to use.
@@ -58,8 +61,5 @@ public final class RandomPixelShader extends ImageRasterizingPixelShader impleme
   public Color shadePixel(Box2 bounds) {
     return shadeAt(bounds.interpolate(random.next(), random.next()));
   }
-
-  /** The source of random numbers for this pixel shader. */
-  private final Random random;
 
 }

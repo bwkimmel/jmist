@@ -39,6 +39,18 @@ import ca.eandb.util.DoubleArray;
  */
 public final class CategoricalRandom implements Serializable {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = 1462018249783769480L;
+
+  /** The cumulative probability function. */
+  private final double[] cpf;
+
+  /**
+   * The <code>Random</code> number generator to use to seed this
+   * <code>CategoricalRandom</code>.
+   */
+  private final Random source;
+
   /**
    * Creates a new <code>CategoricalRandom</code>.
    * @param weights An array of the weights associated with each integer
@@ -177,17 +189,5 @@ public final class CategoricalRandom implements Serializable {
       return cpf[value] - cpf[value - 1];
     }
   }
-
-  /** The cumulative probability function. */
-  private final double[] cpf;
-
-  /**
-   * The <code>Random</code> number generator to use to seed this
-   * <code>CategoricalRandom</code>.
-   */
-  private final Random source;
-
-  /** Serialization version ID. */
-  private static final long serialVersionUID = 1462018249783769480L;
 
 }

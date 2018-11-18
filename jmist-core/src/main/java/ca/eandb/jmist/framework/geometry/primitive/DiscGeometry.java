@@ -50,6 +50,29 @@ public final class DiscGeometry extends PrimitiveGeometry {
   private static final long serialVersionUID = 7682212284130537132L;
 
   /**
+   * The surface ID for the top of the disc (the side toward which the normal
+   * points.
+   */
+  private static final int DISC_SURFACE_TOP = 0;
+
+  /**
+   * The surface ID for the bottom of the disc (the side away from which the
+   * normal points.
+   */
+  private static final int DISC_SURFACE_BOTTOM = 1;
+
+  /**
+   * The <code>Plane3</code> in which this <code>DiscGeometry</code> lies.
+   */
+  private final Plane3 plane;
+
+  /** The bounding <code>Sphere</code>. */
+  private final Sphere boundingSphere;
+
+  /** A value indicating whether this disc is two sided. */
+  private final boolean twoSided;
+
+  /**
    * Creates a new <code>DiscGeometry</code>.
    * @param center The <code>Point3</code> at the center of the disc.
    * @param normal The <code>Vector3</code> that is perpendicular to the
@@ -158,28 +181,5 @@ public final class DiscGeometry extends PrimitiveGeometry {
     double r = boundingSphere.radius();
     return (twoSided ? 2.0 : 1.0) * Math.PI * r * r;
   }
-
-  /**
-   * The surface ID for the top of the disc (the side toward which the normal
-   * points.
-   */
-  private static final int DISC_SURFACE_TOP = 0;
-
-  /**
-   * The surface ID for the bottom of the disc (the side away from which the
-   * normal points.
-   */
-  private static final int DISC_SURFACE_BOTTOM = 1;
-
-  /**
-   * The <code>Plane3</code> in which this <code>DiscGeometry</code> lies.
-   */
-  private final Plane3 plane;
-
-  /** The bounding <code>Sphere</code>. */
-  private final Sphere boundingSphere;
-
-  /** A value indicating whether this disc is two sided. */
-  private final boolean twoSided;
 
 }

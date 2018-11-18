@@ -37,6 +37,15 @@ public final class Ray3 implements Serializable {
   /** Serialization version ID. */
   private static final long serialVersionUID = 599796092151860220L;
 
+  /** The origin of the ray. */
+  private final Point3 origin;
+
+  /** The direction of the ray. */
+  private final Vector3 direction;
+
+  /** The maximum units along the ray. */
+  private final double limit;
+
   /**
    * Creates a <code>Ray3</code>.
    * @param origin The origin of the ray.
@@ -205,14 +214,5 @@ public final class Ray3 implements Serializable {
         limit
     );
   }
-
-  /** The origin of the ray. */
-  private final Point3 origin;
-
-  /** The direction of the ray. */
-  private final Vector3 direction;
-
-  /** The maximum units along the ray. */
-  private final double limit;
 
 }

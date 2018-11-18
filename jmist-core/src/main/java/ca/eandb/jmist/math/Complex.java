@@ -34,6 +34,24 @@ import java.io.Serializable;
  */
 public final class Complex implements Serializable {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = -5588907469158256485L;
+
+  /** The complex number 0 + 0i. */
+  public static final Complex ZERO = new Complex(0.0);
+
+  /** The real unit (1). */
+  public static final Complex ONE = new Complex(1.0, 0.0);
+
+  /** The imaginary unit, sqrt(-1). */
+  public static final Complex I = new Complex(0.0, 1.0);
+
+  /** The real part of this complex number. */
+  private final double re;
+
+  /** The imaginary part of this complex number. */
+  private final double im;
+
   /**
    * Initializes a number on the real line.
    * @param re The real part.
@@ -281,53 +299,29 @@ public final class Complex implements Serializable {
    * Computes the sin of this complex number.
    * @return sin(z), where z is this complex number.
    */
-    public Complex sin() {
+  public Complex sin() {
         return new Complex(Math.sin(re) * Math.cosh(im), Math.cos(re) * Math.sinh(im));
     }
 
-    /**
-     * Computes the cosine of this complex number.
-     * @return cos(z), where z is this complex number.
-     */
-    public Complex cos() {
+  /**
+   * Computes the cosine of this complex number.
+   * @return cos(z), where z is this complex number.
+   */
+  public Complex cos() {
         return new Complex(Math.cos(re) * Math.cosh(im), -Math.sin(re) * Math.sinh(im));
     }
 
-    /**
-     * Computes the tangent of this complex number.
-     * @return tan(z), where z is this complex number.
-     */
-    public Complex tan() {
+  /**
+   * Computes the tangent of this complex number.
+   * @return tan(z), where z is this complex number.
+   */
+  public Complex tan() {
         return sin().divide(cos());
     }
 
-    @Override
+  @Override
   public String toString() {
       return Double.toString(re) + " + " + Double.toString(im) + "*I";
     }
-
-  /**
-   * The complex number 0 + 0i.
-   */
-  public static final Complex ZERO = new Complex(0.0);
-
-  /**
-   * The real unit (1).
-   */
-  public static final Complex ONE = new Complex(1.0, 0.0);
-
-  /**
-   * The imaginary unit, sqrt(-1).
-   */
-  public static final Complex I = new Complex(0.0, 1.0);
-
-  /** The real part of this complex number. */
-  private final double re;
-
-  /** The imaginary part of this complex number. */
-  private final double im;
-
-  /** Serialization version ID. */
-  private static final long serialVersionUID = -5588907469158256485L;
 
 }

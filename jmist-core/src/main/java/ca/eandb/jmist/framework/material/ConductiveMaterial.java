@@ -49,6 +49,18 @@ public final class ConductiveMaterial extends AbstractMaterial {
   /** Serialization version ID. */
   private static final long serialVersionUID = -8516201792111267898L;
 
+  /** The real part of the refractive index. */
+  private final Spectrum n;
+
+  /** The imaginary part of the refractive index. */
+  private final Spectrum k;
+
+  /** The absorption coefficient. */
+  private final Spectrum alpha;
+
+  /** A value indicating if this material is dispersive. */
+  private final boolean disperse;
+
   /**
    * Creates a new <code>ConductiveMaterial</code>.
    * @param n The real part of the refractive index <code>Spectrum</code>.
@@ -145,17 +157,5 @@ public final class ConductiveMaterial extends AbstractMaterial {
 
     return null;
   }
-
-  /** The real part of the refractive index. */
-  private final Spectrum n;
-
-  /** The imaginary part of the refractive index. */
-  private final Spectrum k;
-
-  /** The absorption coefficient. */
-  private final Spectrum alpha;
-
-  /** A value indciating if this material is dispersive. */
-  private final boolean disperse;
 
 }

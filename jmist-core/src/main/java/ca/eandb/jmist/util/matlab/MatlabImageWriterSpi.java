@@ -40,6 +40,26 @@ import javax.imageio.stream.ImageOutputStream;
  */
 public final class MatlabImageWriterSpi extends ImageWriterSpi {
 
+  /** Vendor name. */
+  private static final String VENDOR_NAME = "jmist.org";
+
+  /** Version. */
+  private static final String VERSION = "0.1";
+
+  /** The format names that this <code>ImageWriterSpi</code> handles. */
+  private static final String[] NAMES = new String[] { "mat" };
+
+  /**
+   * The suffixes for the files corresponding to the formats in
+   * {@link #NAMES}.
+   */
+  private static final String[] SUFFIXES = new String[] { "mat" };
+
+  /**
+   * The MIME types for the file formats corresponding to {@link #NAMES}.
+   */
+  private static final String[] MIME_TYPES = new String[] { "application/x-matlab" };
+
   /**
    * Creates a new <code>MatlabImageWriterSpi</code>.
    */
@@ -64,25 +84,5 @@ public final class MatlabImageWriterSpi extends ImageWriterSpi {
   public String getDescription(Locale locale) {
     return "jMIST Matlab Image Writer SPI";
   }
-
-  /** Vendor name. */
-  private static final String VENDOR_NAME = "jmist.org";
-
-  /** Version. */
-  private static final String VERSION = "0.1";
-
-  /** The format names that this <code>ImageWriterSpi</code> handles. */
-  private static final String[] NAMES = new String[] { "mat" };
-
-  /**
-   * The suffixes for the files corresponding to the formats in
-   * {@link #NAMES}.
-   */
-  private static final String[] SUFFIXES = new String[] { "mat" };
-
-  /**
-   * The MIME types for the file formats corresponding to {@link #NAMES}.
-   */
-  private static final String[] MIME_TYPES = new String[] { "application/x-matlab" };
 
 }

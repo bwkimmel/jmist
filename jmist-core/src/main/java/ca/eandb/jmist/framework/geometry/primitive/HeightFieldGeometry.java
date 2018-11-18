@@ -55,6 +55,12 @@ public final class HeightFieldGeometry extends PrimitiveGeometry {
   /** Serialization version ID. */
   private static final long serialVersionUID = -9067100310767210560L;
 
+  /** The <code>Grid3</code> elements of the height field. */
+  private final Grid3 grid;
+
+  /** The <code>Matrix</code> of <code>y</code> coordinates. */
+  private final Matrix height;
+
   /**
    * Creates a new <code>HeightFieldGeometry</code>.
    * @param xz The <code>Box2</code> describing the extent of the height
@@ -72,7 +78,6 @@ public final class HeightFieldGeometry extends PrimitiveGeometry {
     if (xz.isEmpty()) {
       throw new IllegalArgumentException("xz must be non-empty");
     }
-
     if (height.rows() < 2 || height.columns() < 2) {
       throw new IllegalArgumentException("height must have at least two rows and two columns");
     }
@@ -210,11 +215,5 @@ public final class HeightFieldGeometry extends PrimitiveGeometry {
     }
     return Sphere.smallestContaining(points);
   }
-
-  /** The <code>Grid3</code> elements of the height field. */
-  private final Grid3 grid;
-
-  /** The <code>Matrix</code> of <code>y</code> coordinates. */
-  private final Matrix height;
 
 }

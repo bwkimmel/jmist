@@ -49,6 +49,9 @@ public final class SphereGeometry extends PrimitiveGeometry {
   /** Serialization version ID. */
   private static final long serialVersionUID = -3863465919049151682L;
 
+  /** The <code>Sphere</code> describing this <code>SceneElement</code>. */
+  private final Sphere sphere;
+
   /**
    * Creates a new <code>SphereGeometry</code>.
    * @param sphere The <code>Sphere</code> describing to be rendered.
@@ -158,8 +161,5 @@ public final class SphereGeometry extends PrimitiveGeometry {
   public double getSurfaceArea() {
     return sphere.surfaceArea();
   }
-
-  /** The <code>Sphere</code> describing this <code>SceneElement</code>. */
-  private final Sphere sphere;
 
 }

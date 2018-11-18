@@ -34,6 +34,44 @@ import java.io.Serializable;
  */
 public final class Box3 implements Serializable {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = 7423343268287124341L;
+
+  /**
+   * The box containing all of two dimensional space.
+   * {@code Box3.UNIVERSE.contains(p)} will be true for all p.
+   */
+  public static final Box3 UNIVERSE = new Box3(Interval.UNIVERSE, Interval.UNIVERSE, Interval.UNIVERSE);
+
+  /**
+   * The unit box: [0, 1]^3.
+   */
+  public static final Box3 UNIT = new Box3(0.0, 0.0, 0.0, 1.0, 1.0, 1.0);
+
+  /**
+   * The empty box.
+   * {@code Box3.EMPTY.contains(p)} will be false for all p.
+   */
+  public static final Box3 EMPTY = new Box3();
+
+  /** The lower bound along the x-axis. */
+  private double minimumX;
+
+  /** The upper bound along the x-axis. */
+  private double maximumX;
+
+  /** The lower bound along the y-axis. */
+  private double minimumY;
+
+  /** The upper bound along the y-axis. */
+  private double maximumY;
+
+  /** The lower bound along the z-axis. */
+  private double minimumZ;
+
+  /** The upper bound along the z-axis. */
+  private double maximumZ;
+
   /**
    * Initializes the extents of the box along the x, y, and z axes.
    * @param spanX The extent of the box along the x-axis.
@@ -872,43 +910,5 @@ public final class Box3 implements Serializable {
       return new Box3(minimumX, minimumY, minimumZ, maximumX, maximumY, maximumZ);
     }
   }
-
-  /**
-   * The box containing all of two dimensional space.
-   * {@code Box3.UNIVERSE.contains(p)} will be true for all p.
-   */
-  public static final Box3 UNIVERSE = new Box3(Interval.UNIVERSE, Interval.UNIVERSE, Interval.UNIVERSE);
-
-  /**
-   * The unit box: [0, 1]^3.
-   */
-  public static final Box3 UNIT = new Box3(0.0, 0.0, 0.0, 1.0, 1.0, 1.0);
-
-  /**
-   * The empty box.
-   * {@code Box3.EMPTY.contains(p)} will be false for all p.
-   */
-  public static final Box3 EMPTY = new Box3();
-
-  /** The lower bound along the x-axis. */
-  private double minimumX;
-
-  /** The upper bound along the x-axis. */
-  private double maximumX;
-
-  /** The lower bound along the y-axis. */
-  private double minimumY;
-
-  /** The upper bound along the y-axis. */
-  private double maximumY;
-
-  /** The lower bound along the z-axis. */
-  private double minimumZ;
-
-  /** The upper bound along the z-axis. */
-  private double maximumZ;
-
-  /** Serialization version ID. */
-  private static final long serialVersionUID = 7423343268287124341L;
 
 }

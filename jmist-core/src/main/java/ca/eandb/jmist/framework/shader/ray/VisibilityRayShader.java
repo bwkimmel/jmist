@@ -42,6 +42,15 @@ public final class VisibilityRayShader implements RayShader {
   /** Serialization version ID. */
   private static final long serialVersionUID = 6959718984918444342L;
 
+  /** The visibility function to evaluate. */
+  private final VisibilityFunction3 visibilityFunction;
+
+  /** The value to assign to rays that hit an object. */
+  private final Spectrum hitValue;
+
+  /** The value to assign to rays that do not hit an object. */
+  private final Spectrum missValue;
+
   /**
    * Initializes the visibility function to evaluate.
    * @param visibilityFunction The visibility function to evaluate.
@@ -74,14 +83,5 @@ public final class VisibilityRayShader implements RayShader {
       return (hitValue != null) ? hitValue.sample(lambda) : lambda.getColorModel().getWhite(lambda);
     }
   }
-
-  /** The visibility function to evaluate. */
-  private final VisibilityFunction3 visibilityFunction;
-
-  /** The value to assign to rays that hit an object. */
-  private final Spectrum hitValue;
-
-  /** The value to assign to rays that do not hit an object. */
-  private final Spectrum missValue;
 
 }

@@ -34,6 +34,30 @@ import org.apache.commons.math3.util.FastMath;
  */
 public final class Vector3 extends HPoint3 {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = 6028310806663933497L;
+
+  /** The zero vector (represents the vector between two identical points). */
+  public static final Vector3 ZERO = new Vector3(0.0, 0.0, 0.0);
+
+  /** The unit vector along the x-axis. */
+  public static final Vector3 I = new Vector3(1.0, 0.0, 0.0);
+
+  /** The unit vector along the y-axis. */
+  public static final Vector3 J = new Vector3(0.0, 1.0, 0.0);
+
+  /** The unit vector along the z-axis. */
+  public static final Vector3 K = new Vector3(0.0, 0.0, 1.0);
+
+  /** The unit vector along the negative x-axis. */
+  public static final Vector3 NEGATIVE_I = new Vector3(-1.0, 0.0, 0.0);
+
+  /** The unit vector along the negative y-axis. */
+  public static final Vector3 NEGATIVE_J = new Vector3(0.0, -1.0, 0.0);
+
+  /** The unit vector along the negative z-axis. */
+  public static final Vector3 NEGATIVE_K = new Vector3(0.0, 0.0, -1.0);
+
   /**
    * Initializes the components for the vector.
    * @param x The length of the vector along the x axis.
@@ -221,29 +245,5 @@ public final class Vector3 extends HPoint3 {
         Trig.SIN_THETA[theta] * Trig.SIN_PHI[phi],
         Trig.COS_THETA[theta]);
   }
-
-  /** The zero vector (represents the vector between two identical points). */
-  public static final Vector3 ZERO = new Vector3(0.0, 0.0, 0.0);
-
-  /** The unit vector along the x-axis. */
-  public static final Vector3 I = new Vector3(1.0, 0.0, 0.0);
-
-  /** The unit vector along the y-axis. */
-  public static final Vector3 J = new Vector3(0.0, 1.0, 0.0);
-
-  /** The unit vector along the z-axis. */
-  public static final Vector3 K = new Vector3(0.0, 0.0, 1.0);
-
-  /** The unit vector along the negative x-axis. */
-  public static final Vector3 NEGATIVE_I = new Vector3(-1.0, 0.0, 0.0);
-
-  /** The unit vector along the negative y-axis. */
-  public static final Vector3 NEGATIVE_J = new Vector3(0.0, -1.0, 0.0);
-
-  /** The unit vector along the negative z-axis. */
-  public static final Vector3 NEGATIVE_K = new Vector3(0.0, 0.0, -1.0);
-
-  /** Serialization version ID. */
-  private static final long serialVersionUID = 6028310806663933497L;
 
 }

@@ -51,6 +51,45 @@ public final class RectangleGeometry extends PrimitiveGeometry {
   private static final long serialVersionUID = -7544786348196730015L;
 
   /**
+   * The surface id for the side of the rectangle toward which the normal
+   * points.
+   */
+  private static final int RECTANGLE_SURFACE_TOP = 0;
+
+  /**
+   * The surface id for the side of the rectangle away from which the normal
+   * points.
+   */
+  private static final int RECTANGLE_SURFACE_BOTTOM = 1;
+
+  /** The <code>Plane3</code> on which this rectangle lies. */
+  private final Plane3 plane;
+
+  /** The <code>Point3</code> at the center of this rectangle. */
+  private final Point3 center;
+
+  /**
+   * The orthonormal <code>Basis3</code> describing the orientation of this
+   * rectangle.
+   */
+  private final Basis3 basis;
+
+  /**
+   * Half the length of this rectangle along the side parallel to the first
+   * tangent vector (<code>this.basis.u()</code>).
+   */
+  private final double ru;
+
+  /**
+   * Half the length of this rectangle along the side parallel to the second
+   * tangent vector (<code>this.basis.v()</code>).
+   */
+  private final double rv;
+
+  /** A value indicating whether this rectangle is two sided. */
+  private final boolean twoSided;
+
+  /**
    * Creates a new <code>RectangleGeometry</code>.
    * @param center The <code>Point3</code> at the center of the rectangle.
    * @param basis The <code>Basis3</code> describing the orientation of the
@@ -188,44 +227,5 @@ public final class RectangleGeometry extends PrimitiveGeometry {
   public double getSurfaceArea() {
     return (twoSided ? 8.0 : 4.0) * ru * rv;
   }
-
-  /**
-   * The surface id for the side of the rectangle toward which the normal
-   * points.
-   */
-  private static final int RECTANGLE_SURFACE_TOP = 0;
-
-  /**
-   * The surface id for the side of the rectangle away from which the normal
-   * points.
-   */
-  private static final int RECTANGLE_SURFACE_BOTTOM = 1;
-
-  /** The <code>Plane3</code> on which this rectangle lies. */
-  private final Plane3 plane;
-
-  /** The <code>Point3</code> at the center of this rectangle. */
-  private final Point3 center;
-
-  /**
-   * The orthonormal <code>Basis3</code> describing the orientation of this
-   * rectangle.
-   */
-  private final Basis3 basis;
-
-  /**
-   * Half the length of this rectangle along the side parallel to the first
-   * tangent vector (<code>this.basis.u()</code>).
-   */
-  private final double ru;
-
-  /**
-   * Half the length of this rectangle along the side parallel to the second
-   * tangent vector (<code>this.basis.v()</code>).
-   */
-  private final double rv;
-
-  /** A value indicating whether this rectangle is two sided. */
-  private final boolean twoSided;
 
 }

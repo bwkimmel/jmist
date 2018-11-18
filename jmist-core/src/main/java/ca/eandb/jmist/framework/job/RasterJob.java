@@ -46,6 +46,42 @@ import ca.eandb.util.progress.ProgressMonitor;
  */
 public final class RasterJob extends AbstractParallelizableJob {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = 9173731839475893020L;
+
+  /** The <code>Display</code> to render the image to. */
+  private final Display display;
+
+  /** The <code>ColorModel</code> to use to render this image. */
+  private final ColorModel colorModel;
+
+  /**
+   * The <code>PixelShader</code> to use to compute the values of
+   * individual <code>Pixel</code>s.
+   */
+  private final PixelShader pixelShader;
+
+  /** The width of the image to render, in pixels. */
+  private final int width;
+
+  /** The height of the image to render, in pixels. */
+  private final int height;
+
+  /** The number of columns to divide the <code>Raster</code> image into. */
+  private final int cols;
+
+  /** The number of rows to divide the <code>Raster</code> image into. */
+  private final int rows;
+
+  /** The column index of the next task to return. */
+  private transient int nextCol = 0;
+
+  /** The row index of the next task to return. */
+  private transient int nextRow = 0;
+
+  /** The number of tasks that have been completed. */
+  private transient int tasksComplete = 0;
+
   /** The first step in building a <code>RasterJob</code>. */
   public interface Builder1 {
     /**
@@ -437,41 +473,5 @@ public final class RasterJob extends AbstractParallelizableJob {
     private static final long serialVersionUID = 8318742231359439076L;
 
   }
-
-  /** The <code>Display</code> to render the image to. */
-  private final Display display;
-
-  /** The <code>ColorModel</code> to use to render this image. */
-  private final ColorModel colorModel;
-
-  /**
-   * The <code>PixelShader</code> to use to compute the values of
-   * individual <code>Pixel</code>s.
-   */
-  private final PixelShader pixelShader;
-
-  /** The width of the image to render, in pixels. */
-  private final int width;
-
-  /** The height of the image to render, in pixels. */
-  private final int height;
-
-  /** The number of columns to divide the <code>Raster</code> image into. */
-  private final int cols;
-
-  /** The number of rows to divide the <code>Raster</code> image into. */
-  private final int rows;
-
-  /** The column index of the next task to return. */
-  private transient int nextCol = 0;
-
-  /** The row index of the next task to return. */
-  private transient int nextRow = 0;
-
-  /** The number of tasks that have been completed. */
-  private transient int tasksComplete = 0;
-
-  /** Serialization version ID. */
-  private static final long serialVersionUID = 9173731839475893020L;
 
 }

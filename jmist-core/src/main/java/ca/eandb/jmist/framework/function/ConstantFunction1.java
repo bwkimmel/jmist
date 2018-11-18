@@ -34,6 +34,12 @@ import ca.eandb.jmist.framework.Function1;
  */
 public class ConstantFunction1 implements Function1 {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = 8993721217448172058L;
+
+  /** The value of this <code>Function1</code> everywhere. */
+  private final double value;
+
   /**
    * Creates a new <code>ConstantFunction1</code>.
    * @param value The value of the <code>Function1</code> everywhere.
@@ -46,11 +52,5 @@ public class ConstantFunction1 implements Function1 {
   public double evaluate(double x) {
     return this.value;
   }
-
-  /** The value of this <code>Function1</code> everywhere. */
-  private final double value;
-
-  /** Serialization version ID. */
-  private static final long serialVersionUID = 8993721217448172058L;
 
 }

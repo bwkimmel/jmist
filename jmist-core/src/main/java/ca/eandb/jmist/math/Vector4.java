@@ -35,6 +35,33 @@ public final class Vector4 extends Tuple4 {
   /** Serialization version ID. */
   private static final long serialVersionUID = -2237191308578197533L;
 
+  /** The zero vector (represents the vector between two identical points). */
+  public static final Vector4 ZERO = new Vector4(0.0, 0.0, 0.0, 0.0);
+
+  /** The unit vector along the x-axis. */
+  public static final Vector4 I = new Vector4(1.0, 0.0, 0.0, 0.0);
+
+  /** The unit vector along the y-axis. */
+  public static final Vector4 J = new Vector4(0.0, 1.0, 0.0, 0.0);
+
+  /** The unit vector along the z-axis. */
+  public static final Vector4 K = new Vector4(0.0, 0.0, 1.0, 0.0);
+
+  /** The unit vector along the w-axis. */
+  public static final Vector4 L = new Vector4(0.0, 0.0, 0.0, 1.0);
+
+  /** The unit vector along the negative x-axis. */
+  public static final Vector4 NEGATIVE_I = new Vector4(-1.0, 0.0, 0.0, 0.0);
+
+  /** The unit vector along the negative y-axis. */
+  public static final Vector4 NEGATIVE_J = new Vector4(0.0, -1.0, 0.0, 0.0);
+
+  /** The unit vector along the negative z-axis. */
+  public static final Vector4 NEGATIVE_K = new Vector4(0.0, 0.0, -1.0, 0.0);
+
+  /** The unit vector along the negative w-axis. */
+  public static final Vector4 NEGATIVE_L = new Vector4(0.0, 0.0, 0.0, -1.0);
+
   /**
    * Initializes the components for the vector.
    * @param x The length of the vector along the x axis.
@@ -210,32 +237,5 @@ public final class Vector4 extends Tuple4 {
   public Point3 project() {
     return new Point3(x / w, y / w, z / w);
   }
-
-  /** The zero vector (represents the vector between two identical points). */
-  public static final Vector4 ZERO = new Vector4(0.0, 0.0, 0.0, 0.0);
-
-  /** The unit vector along the x-axis. */
-  public static final Vector4 I = new Vector4(1.0, 0.0, 0.0, 0.0);
-
-  /** The unit vector along the y-axis. */
-  public static final Vector4 J = new Vector4(0.0, 1.0, 0.0, 0.0);
-
-  /** The unit vector along the z-axis. */
-  public static final Vector4 K = new Vector4(0.0, 0.0, 1.0, 0.0);
-
-  /** The unit vector along the w-axis. */
-  public static final Vector4 L = new Vector4(0.0, 0.0, 0.0, 1.0);
-
-  /** The unit vector along the negative x-axis. */
-  public static final Vector4 NEGATIVE_I = new Vector4(-1.0, 0.0, 0.0, 0.0);
-
-  /** The unit vector along the negative y-axis. */
-  public static final Vector4 NEGATIVE_J = new Vector4(0.0, -1.0, 0.0, 0.0);
-
-  /** The unit vector along the negative z-axis. */
-  public static final Vector4 NEGATIVE_K = new Vector4(0.0, 0.0, -1.0, 0.0);
-
-  /** The unit vector along the negative w-axis. */
-  public static final Vector4 NEGATIVE_L = new Vector4(0.0, 0.0, 0.0, -1.0);
 
 }

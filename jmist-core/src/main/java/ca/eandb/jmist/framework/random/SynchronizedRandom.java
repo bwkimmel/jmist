@@ -33,6 +33,12 @@ import ca.eandb.jmist.framework.Random;
  */
 public final class SynchronizedRandom implements Random {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = -6623891709591571067L;
+
+  /** The <code>Random</code> to be synchronized. */
+  private final Random inner;
+
   /**
    * Creates a new <code>SynchronizedRandom</code>.
    * @param inner The <code>Random</code> to synchronize.
@@ -55,11 +61,5 @@ public final class SynchronizedRandom implements Random {
   public SynchronizedRandom createCompatibleRandom() {
     return new SynchronizedRandom(this.inner.createCompatibleRandom());
   }
-
-  /** The <code>Random</code> to be synchronized. */
-  private final Random inner;
-
-  /** Serialization version ID. */
-  private static final long serialVersionUID = -6623891709591571067L;
 
 }

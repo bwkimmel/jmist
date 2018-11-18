@@ -45,6 +45,11 @@ public class CompositeGeometry extends AbstractGeometry {
   /** Serialization version ID. */
   private static final long serialVersionUID = 6883326155431617080L;
 
+  /** The child geometries. */
+  private final List<SceneElement> children = new ArrayList<>();
+
+  private final List<Integer> offsets = new ArrayList<>();
+
   public CompositeGeometry() {
     offsets.add(0);
   }
@@ -131,10 +136,5 @@ public class CompositeGeometry extends AbstractGeometry {
     SceneElement child = children.get(childIndex);
     child.intersect(index - offset, ray, recorder);
   }
-
-  /** The child geometries. */
-  private final List<SceneElement> children = new ArrayList<>();
-
-  private final List<Integer> offsets = new ArrayList<>();
 
 }

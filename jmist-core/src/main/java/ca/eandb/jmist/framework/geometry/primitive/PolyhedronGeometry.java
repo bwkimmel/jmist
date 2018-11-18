@@ -68,6 +68,32 @@ public final class PolyhedronGeometry extends AbstractGeometry {
   /** Serialization version ID. */
   private static final long serialVersionUID = 262374288661771750L;
 
+  /** The array of the vertices of this polyhedron. */
+  private final List<Point3> vertices;
+
+  /**
+   * The array of vertex normals corresponding to the vertices in
+   * {@link #vertices}.
+   */
+  private final List<Vector3> normals;
+
+  /** An array of texture coordinates. */
+  private final List<Point2> texCoords;
+
+  /** An array of the <code>Face</code>s of this polyhedron. */
+  private final List<Face> faces = new ArrayList<>();
+
+  /** The surface area of this polyhedron. */
+  private double surfaceArea = -1.0;
+
+  /**
+   * The cosine of the maximum angle to accept between a vertex normal and
+   * the corresponding face normal.  Vertex normals that deviate from the
+   * face normal by more than this will be replaced with the face normal for
+   * the purposes of computing the interpolated normal.
+   */
+  private double minVertexNormalDotProduct = Double.POSITIVE_INFINITY;
+
   /**
    * Creates a new <code>PolyhedronGeometry</code>.
    * @param vertices An array of the vertices of the polyhedron.
@@ -489,6 +515,34 @@ public final class PolyhedronGeometry extends AbstractGeometry {
     /** Serialization version ID. */
     private static final long serialVersionUID = 5733963094194933946L;
 
+    private int[] decomp = null;
+
+    private CategoricalRandom rnd;
+
+    /** The <code>Plane3</code> in which this face lies. */
+    public Plane3 plane;
+
+    /**
+     * The indices into {@link PolyhedronGeometry#vertices} of the vertices
+     * of this face.
+     */
+    public final int[] indices;
+
+    /**
+     * The indices into {@link PolyhedronGeometry#texCoords} of the
+     * texture vertices of this face.
+     */
+    public final int[] texIndices;
+
+    /**
+     * The indices into {@link PolyhedronGeometry#normals} of the normals
+     * for corresponding to the vertices on this face.
+     */
+    public final int[] normalIndices;
+
+    /** The area of this face. */
+    public double area = -1.0;
+
     /**
      * Creates a new <code>Face</code>.
      * @param indices The indices into {@link PolyhedronGeometry#vertices}
@@ -806,60 +860,6 @@ public final class PolyhedronGeometry extends AbstractGeometry {
       decomp = res;
     }
 
-    private int[] decomp = null;
-
-    private CategoricalRandom rnd;
-
-    /** The <code>Plane3</code> in which this face lies. */
-    public Plane3 plane;
-
-    /**
-     * The indices into {@link PolyhedronGeometry#vertices} of the vertices
-     * of this face.
-     */
-    public final int[] indices;
-
-    /**
-     * The indices into {@link PolyhedronGeometry#texCoords} of the
-     * texture vertices of this face.
-     */
-    public final int[] texIndices;
-
-    /**
-     * The indices into {@link PolyhedronGeometry#normals} of the normals
-     * for corresponding to the vertices on this face.
-     */
-    public final int[] normalIndices;
-
-    /** The area of this face. */
-    public double area = -1.0;
-
   }
-
-  /** The array of the vertices of this polyhedron. */
-  private final List<Point3> vertices;
-
-  /**
-   * The array of vertex normals corresponding to the vertices in
-   * {@link #vertices}.
-   */
-  private final List<Vector3> normals;
-
-  /** An array of texture coordinates. */
-  private final List<Point2> texCoords;
-
-  /** An array of the <code>Face</code>s of this polyhedron. */
-  private final List<Face> faces = new ArrayList<>();
-
-  /** The surface area of this polyhedron. */
-  private double surfaceArea = -1.0;
-
-  /**
-   * The cosine of the maximum angle to accept between a vertex normal and
-   * the corresponding face normal.  Vertex normals that deviate from the
-   * face normal by more than this will be replaced with the face normal for
-   * the purposes of computing the interpolated normal.
-   */
-  private double minVertexNormalDotProduct = Double.POSITIVE_INFINITY;
 
 }

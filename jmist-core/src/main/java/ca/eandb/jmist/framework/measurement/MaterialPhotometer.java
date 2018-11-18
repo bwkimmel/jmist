@@ -45,6 +45,17 @@ import ca.eandb.util.progress.ProgressMonitor;
 
 public final class MaterialPhotometer {
 
+  private static final long DEFAULT_PROGRESS_INTERVAL = 1000;
+
+  private final SurfacePoint surfacePoint = new PhotometerSurfacePoint();
+  private final ColorSensorArray sensorArray;
+  private final CollectorSphere collectorSphere;
+  private Medium ambientMedium = Medium.VACUUM;
+  private Material specimen;
+  private SphericalCoordinates incident;
+  private Vector3 in;
+  private WavelengthPacket lambda;
+
   private class PhotometerSurfacePoint implements SurfacePoint {
 
     public Basis3 getBasis() {
@@ -186,16 +197,5 @@ public final class MaterialPhotometer {
     monitor.notifyProgress(1.0);
     monitor.notifyComplete();
   }
-
-  private final SurfacePoint surfacePoint = new PhotometerSurfacePoint();
-  private final ColorSensorArray sensorArray;
-  private final CollectorSphere collectorSphere;
-  private Medium ambientMedium = Medium.VACUUM;
-  private Material specimen;
-  private SphericalCoordinates incident;
-  private Vector3 in;
-  private WavelengthPacket lambda;
-
-  private static final long DEFAULT_PROGRESS_INTERVAL = 1000;
 
 }

@@ -37,6 +37,18 @@ public final class AXpBFunction1 implements Function1 {
   /** Serialization version ID. */
   private static final long serialVersionUID = 6722994298922073207L;
 
+  /** The factor by which to multiply the decorated <code>Function1</code>. */
+  private final double a;
+
+  /**
+   * The value to add to the product of <code>a</code> and the decorated
+   * <code>Function1</code>.
+   */
+  private final double b;
+
+  /** The <code>Function1</code> to be adjusted. */
+  private final Function1 inner;
+
   /**
    * Creates a new <code>ScaledFunction1</code>.
    * @param a The factor by which to multiply the decorated
@@ -55,17 +67,5 @@ public final class AXpBFunction1 implements Function1 {
   public double evaluate(double x) {
     return a * this.inner.evaluate(x) + b;
   }
-
-  /** The factor by which to multiply the decorated <code>Function1</code>. */
-  private final double a;
-
-  /**
-   * The value to add to the product of <code>a</code> and the decorated
-   * <code>Function1</code>.
-   */
-  private final double b;
-
-  /** The <code>Function1</code> to be adjusted. */
-  private final Function1 inner;
 
 }

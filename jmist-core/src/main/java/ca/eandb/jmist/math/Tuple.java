@@ -36,6 +36,19 @@ import java.util.Iterator;
  */
 public final class Tuple extends AbstractList<Double> implements Serializable {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = 5809622978157652345L;
+
+  /**
+   * The empty Tuple (i.e., {@code Tuple.EMPTY.size() == 0}).
+   * @see #isEmpty()
+   * @see #size()
+   */
+  public static final Tuple EMPTY = new Tuple();
+
+  /** The elements of the Tuple. */
+  private final double[] values;
+
   /** Creates an empty Tuple. */
   public Tuple() {
     this.values = new double[0];
@@ -331,6 +344,12 @@ public final class Tuple extends AbstractList<Double> implements Serializable {
     double apply(double a, double b);
   }
 
+  /** A binary operator that adds its operands. */
+  public static final Operator SUM_OPERATOR = (a, b) -> a + b;
+
+  /** A binary operator that multiplies its operands. */
+  public static final Operator PRODUCT_OPERATOR = (a, b) -> a * b;
+
   /**
    * Combines this Tuple with another by applying a binary
    * operator.
@@ -537,24 +556,5 @@ public final class Tuple extends AbstractList<Double> implements Serializable {
     }
     return result;
   }
-
-  /** A binary operator that adds its operands. */
-  public static final Operator SUM_OPERATOR = (a, b) -> a + b;
-
-  /** A binary operator that multiplies its operands. */
-  public static final Operator PRODUCT_OPERATOR = (a, b) -> a * b;
-
-  /**
-   * The empty Tuple (i.e., {@code Tuple.EMPTY.size() == 0}).
-   * @see #isEmpty()
-   * @see #size()
-   */
-  public static final Tuple EMPTY = new Tuple();
-
-  /** The elements of the Tuple. */
-  private final double[] values;
-
-  /** Serialization version ID. */
-  private static final long serialVersionUID = 5809622978157652345L;
 
 }

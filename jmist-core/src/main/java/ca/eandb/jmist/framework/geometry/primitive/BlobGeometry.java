@@ -43,7 +43,6 @@ public final class BlobGeometry extends PrimitiveGeometry {
   @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
     // TODO Auto-generated method stub
-
   }
 
   @Override

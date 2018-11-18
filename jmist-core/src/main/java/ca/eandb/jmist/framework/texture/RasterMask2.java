@@ -52,6 +52,18 @@ public final class RasterMask2 implements Mask2 {
   private static final long serialVersionUID = -2712131011948642676L;
 
   /**
+   * A place holder to hold a double array for the pixel, so that one is not
+   * allocated on every call to {@link #opacity(Point2)}.
+   */
+  private transient ThreadLocal<double[]> placeholder = new ThreadLocal<>();
+
+  /**
+   * The <code>BufferedImage</code> that serves as the basis for this
+   * <code>Texture2</code>.
+   */
+  private transient BufferedImage image;
+
+  /**
    * Creates a new <code>RasterMask2</code>.
    * @param image The <code>BufferedImage</code> to use as the basis for the
    *     new <code>Mask2</code>.
@@ -127,17 +139,5 @@ public final class RasterMask2 implements Mask2 {
       throw new RuntimeException("Raster has unrecognized number of bands.");
     }
   }
-
-  /**
-   * A place holder to hold a double array for the pixel, so that one is not
-   * allocated on every call to {@link #opacity(Point2)}.
-   */
-  private transient ThreadLocal<double[]> placeholder = new ThreadLocal<>();
-
-  /**
-   * The <code>BufferedImage</code> that serves as the basis for this
-   * <code>Texture2</code>.
-   */
-  private transient BufferedImage image;
 
 }

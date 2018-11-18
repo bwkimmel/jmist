@@ -33,6 +33,12 @@ import java.io.Serializable;
  */
 public final class Polynomial implements Serializable {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = -9117582867339363081L;
+
+  /** The coefficients of this polynomial. */
+  private double[] coeff;
+
   /**
    * Initializes the polynomial with the specified coefficients, provided in
    * ascending order by exponent.
@@ -282,11 +288,5 @@ public final class Polynomial implements Serializable {
     assert(this.coeff != null);
     assert(this.coeff.length == 0 || this.coeff[this.coeff.length - 1] != 0.0);
   }
-
-  /** The coefficients of this polynomial. */
-  private double[] coeff;
-
-  /** Serialization version ID. */
-  private static final long serialVersionUID = -9117582867339363081L;
 
 }

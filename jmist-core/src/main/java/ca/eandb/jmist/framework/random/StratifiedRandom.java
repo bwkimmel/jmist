@@ -41,6 +41,30 @@ import ca.eandb.jmist.framework.Random;
  */
 public final class StratifiedRandom implements Random {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = -8086239299607234353L;
+
+  /**
+   * This <code>Random</code> is used to permute the buckets and to select
+   * a random number within each bucket.
+   */
+  private final Random inner;
+
+  /**
+   * This array will hold the indices {@code i}, where {@code 0 <= i < n},
+   * representing each of the {@code n} buckets {@code [i/n, (i+1)/n)}.
+   * During each call to {@link #next()}, we will randomly choose one of
+   * the remaining buckets and generate a random number in that bucket.
+   */
+  private transient int[] sequence;
+
+  /**
+   * The index (into {@link #sequence} of the last unused bucket.  All
+   * buckets in {@link #sequence} after this index have been used, all
+   * buckets not after this index have not yet been used.
+   */
+  private transient int nextPartition;
+
   /**
    * Default constructor.  Creates a random number generator equivalent to
    * a {@link SimpleRandom}.  Also equivalent to {@link #StratifiedRandom(int)}
@@ -161,29 +185,5 @@ public final class StratifiedRandom implements Random {
     int n = ois.readInt();
     this.initialize(n);
   }
-
-  /**
-   * This <code>Random</code> is used to permute the buckets and to select
-   * a random number within each bucket.
-   */
-  private final Random inner;
-
-  /**
-   * This array will hold the indices {@code i}, where {@code 0 <= i < n},
-   * representing each of the {@code n} buckets {@code [i/n, (i+1)/n)}.
-   * During each call to {@link #next()}, we will randomly choose one of
-   * the remaining buckets and generate a random number in that bucket.
-   */
-  private transient int[] sequence;
-
-  /**
-   * The index (into {@link #sequence} of the last unused bucket.  All
-   * buckets in {@link #sequence} after this index have been used, all
-   * buckets not after this index have not yet been used.
-   */
-  private transient int nextPartition;
-
-  /** Serialization version ID. */
-  private static final long serialVersionUID = -8086239299607234353L;
 
 }

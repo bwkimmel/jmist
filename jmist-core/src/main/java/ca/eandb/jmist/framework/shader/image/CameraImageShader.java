@@ -47,6 +47,14 @@ public final class CameraImageShader implements ImageShader {
   private static final long serialVersionUID = 5027288502738131936L;
 
   /**
+   * The lens to use to obtain rays corresponding to points on the image plane.
+   */
+  private final Lens lens;
+
+  /** The shader to use to shade rays. */
+  private final RayShader rayShader;
+
+  /**
    * Initializes the lens and ray shader to use to shade points on the image
    * plane.
    * @param lens The lens to use to generate rays corresponding to points on the
@@ -70,13 +78,5 @@ public final class CameraImageShader implements ImageShader {
       return ColorUtil.getBlack(lambda);
     }
   }
-
-  /**
-   * The lens to use to obtain rays corresponding to points on the image plane.
-   */
-  private final Lens lens;
-
-  /** The shader to use to shade rays. */
-  private final RayShader rayShader;
 
 }

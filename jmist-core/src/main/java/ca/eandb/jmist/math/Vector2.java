@@ -32,6 +32,24 @@ package ca.eandb.jmist.math;
  */
 public final class Vector2 extends HPoint2 {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = -5602669939886701571L;
+
+  /** The zero vector (represents the vector between two identical points). */
+  public static final Vector2 ZERO = new Vector2(0.0, 0.0);
+
+  /** The unit vector along the x-axis. */
+  public static final Vector2 I = new Vector2(1.0, 0.0);
+
+  /** The unit vector along the y-axis. */
+  public static final Vector2 J = new Vector2(0.0, 1.0);
+
+  /** The unit vector along the negative x-axis. */
+  public static final Vector2 NEGATIVE_I = new Vector2(-1.0, 0.0);
+
+  /** The unit vector along the negative y-axis. */
+  public static final Vector2 NEGATIVE_J = new Vector2(0.0, -1.0);
+
   /**
    * Initializes the components for the vector.
    * @param x The length of the vector along the x axis.
@@ -148,23 +166,5 @@ public final class Vector2 extends HPoint2 {
   public Vector2 perp() {
     return new Vector2(-y, x);
   }
-
-  /** The zero vector (represents the vector between two identical points). */
-  public static final Vector2 ZERO = new Vector2(0.0, 0.0);
-
-  /** The unit vector along the x-axis. */
-  public static final Vector2 I = new Vector2(1.0, 0.0);
-
-  /** The unit vector along the y-axis. */
-  public static final Vector2 J = new Vector2(0.0, 1.0);
-
-  /** The unit vector along the negative x-axis. */
-  public static final Vector2 NEGATIVE_I = new Vector2(-1.0, 0.0);
-
-  /** The unit vector along the negative y-axis. */
-  public static final Vector2 NEGATIVE_J = new Vector2(0.0, -1.0);
-
-  /** Serialization version ID. */
-  private static final long serialVersionUID = -5602669939886701571L;
 
 }

@@ -34,6 +34,9 @@ import java.nio.DoubleBuffer;
  */
 public final class DoubleDataBufferAdapter extends DataBuffer {
 
+  /** The <code>DoubleBuffer</code> to adapt. */
+  private final DoubleBuffer buffer;
+
   /**
    * Creates a new <code>DoubleDataBufferAdapter</code>.
    * @param buffer The <code>DoubleBuffer</code> to adapt.
@@ -74,8 +77,5 @@ public final class DoubleDataBufferAdapter extends DataBuffer {
       setElemDouble(i, val);
     }
   }
-
-  /** The <code>DoubleBuffer</code> to adapt. */
-  private final DoubleBuffer buffer;
 
 }

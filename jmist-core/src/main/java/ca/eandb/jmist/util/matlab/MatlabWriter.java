@@ -37,6 +37,12 @@ import ca.eandb.jmist.math.Complex;
  */
 public final class MatlabWriter {
 
+  /** The dimensions for a single element array. */
+  private static final int[] SINGLETON = { 1, 1 };
+
+  /** The underlying <code>MatlabOutputStream</code> to write to. */
+  private final MatlabOutputStream out;
+
   /**
    * Creates a new <code>MatlabWriter</code>.
    * @param out The <code>OutputStream</code> to write to.
@@ -1852,11 +1858,5 @@ public final class MatlabWriter {
     this.out.endElement();
     this.out.endElement();
   }
-
-  /** The underlying <code>MatlabOutputStream</code> to write to. */
-  private final MatlabOutputStream out;
-
-  /** The dimensions for a single element array. */
-  private static final int[] SINGLETON = { 1, 1 };
 
 }

@@ -35,6 +35,15 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class SpectrophotometerCollectorSphere implements CollectorSphere {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = -6289494553073934175L;
+
+  /** The sensor ID for the upper hemisphere sensor. */
+  private static final int UPPER_HEMISPHERE = 0;
+
+  /** The sensor ID for the lower hemisphere sensor. */
+  private static final int LOWER_HEMISPHERE = 1;
+
   @Override
   public SphericalCoordinates getSensorCenter(int sensor) {
     assert(0 <= sensor && sensor < 2);
@@ -65,14 +74,5 @@ public final class SpectrophotometerCollectorSphere implements CollectorSphere {
   public int sensors() {
     return 2;
   }
-
-  /** The sensor ID for the upper hemisphere sensor. */
-  private static final int UPPER_HEMISPHERE = 0;
-
-  /** The sensor ID for the lower hemisphere sensor. */
-  private static final int LOWER_HEMISPHERE = 1;
-
-  /** Serialization version ID. */
-  private static final long serialVersionUID = -6289494553073934175L;
 
 }

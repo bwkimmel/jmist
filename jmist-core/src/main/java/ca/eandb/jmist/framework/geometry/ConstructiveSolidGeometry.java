@@ -93,6 +93,19 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
    */
   private final class CsgIntersectionRecorder implements IntersectionRecorder {
 
+    /**
+     * The index of the component geometry whose intersections are
+     * currently being recorded.
+     */
+    private int argumentIndex = 0;
+
+    /**
+     * The set of all the intersections recorded by each of the component
+     * geometries, sorted by distance (least to greatest).
+     */
+    private final SortedSet<CsgIntersection> intersectionSet = new TreeSet<>(
+        Comparator.comparingDouble(IntersectionDecorator::getDistance));
+
     @Override
     public boolean needAllIntersections() {
       return true;
@@ -181,6 +194,18 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
     private final class CsgIntersection extends IntersectionDecorator {
 
       /**
+       * A value indicating if this <code>CsgIntersection</code> was
+       * flipped from the underlying <code>Intersection</code>.
+       */
+      private boolean flipped = false;
+
+      /**
+       * A value indicating which component geometry the inner
+       * <code>Intersection</code> came from.
+       */
+      private final int argumentIndex;
+
+      /**
        * Creates a new <code>CsgIntersection</code>.
        * @param argumentIndex The
        * @param inner
@@ -235,32 +260,7 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
         this.flipped = (front != inner.isFront());
       }
 
-      /**
-       * A value indicating if this <code>CsgIntersection</code> was
-       * flipped from the underlying <code>Intersection</code>.
-       */
-      private boolean flipped = false;
-
-      /**
-       * A value indicating which component geometry the inner
-       * <code>Intersection</code> came from.
-       */
-      private final int argumentIndex;
-
     }
-
-    /**
-     * The index of the component geometry whose intersections are
-     * currently being recorded.
-     */
-    private int argumentIndex = 0;
-
-    /**
-     * The set of all the intersections recorded by each of the component
-     * geometries, sorted by distance (least to greatest).
-     */
-    private final SortedSet<CsgIntersection> intersectionSet = new TreeSet<>(
-        Comparator.comparingDouble(IntersectionDecorator::getDistance));
 
   }
 

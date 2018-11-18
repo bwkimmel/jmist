@@ -35,6 +35,15 @@ import ca.eandb.jmist.math.Ray3;
  */
 public final class NearestIntersectionRecorder implements IntersectionRecorder {
 
+  /** The nearest intersection that has been recorded so far. */
+  private Intersection nearest = null;
+
+  /**
+   * The <code>Interval</code> within which to accept
+   * <code>Intersection</code>s.
+   */
+  private Interval interval;
+
   /**
    * Creates a new <code>NearestIntersectionRecorder</code> that records
    * <code>Intersection</code>s with a non-negligible positive distance.
@@ -117,14 +126,5 @@ public final class NearestIntersectionRecorder implements IntersectionRecorder {
     geometry.intersect(ray, recorder);
     return recorder.nearestIntersection();
   }
-
-  /** The nearest intersection that has been recorded so far. */
-  private Intersection nearest = null;
-
-  /**
-   * The <code>Interval</code> within which to accept
-   * <code>Intersection</code>s.
-   */
-  private Interval interval;
 
 }

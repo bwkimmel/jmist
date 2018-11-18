@@ -35,6 +35,9 @@ package ca.eandb.jmist.framework;
  */
 public abstract class IntersectionDecorator implements Intersection {
 
+  /** The decorated <code>Intersection</code>. */
+  protected final Intersection inner;
+
   /**
    * Initializes an <code>IntersectionDecorator</code>.
    * @param inner The <code>Intersection</code> to be decorated.
@@ -65,8 +68,5 @@ public abstract class IntersectionDecorator implements Intersection {
   }
 
   protected abstract void transformShadingContext(ShadingContext context);
-
-  /** The decorated <code>Intersection</code>. */
-  protected final Intersection inner;
 
 }

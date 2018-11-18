@@ -52,6 +52,28 @@ public final class SuperellipsoidGeometry extends PrimitiveGeometry {
   /** Serialization version ID. */
   private static final long serialVersionUID = -1585163561012430479L;
 
+  private static final Box3 SUPERELLIPSOID_BOUNDING_BOX = new Box3(-1.0, -1.0, -1.0, 1.0, 1.0, 1.0);
+
+  private static final Plane3[] PLANES = {
+    Plane3.YZ,
+    Plane3.ZX,
+    Plane3.XY,
+    Plane3.throughOrigin(new Vector3( 1.0,  1.0,  0.0)),
+    Plane3.throughOrigin(new Vector3( 1.0,  0.0,  1.0)),
+    Plane3.throughOrigin(new Vector3( 0.0,  1.0,  1.0)),
+    Plane3.throughOrigin(new Vector3( 1.0, -1.0,  0.0)),
+    Plane3.throughOrigin(new Vector3(-1.0,  0.0,  1.0)),
+    Plane3.throughOrigin(new Vector3( 0.0,  1.0, -1.0))
+  };
+
+  private static final double SUPERELLIPSOID_TOLERANCE = 1e-10;
+  private static final int SUPERELLIPSOID_MAX_ITERATIONS = 20;
+  private static final int SUPERELLIPSOID_MAX_NEWTON_ITERATIONS = 20;
+  private static final double SUPERELLIPSOID_DEPTH_TOLERANCE = MathUtil.BIG_EPSILON;
+
+  private final double e;
+  private final double n;
+
   /**
    * Creates a new <code>SuperellipsoidGeometry</code>.
    * @param e The radial exponent.
@@ -340,27 +362,5 @@ public final class SuperellipsoidGeometry extends PrimitiveGeometry {
   public Sphere boundingSphere() {
     return new Sphere(Point3.ORIGIN, Math.sqrt(2.0));
   }
-
-  private static final Box3 SUPERELLIPSOID_BOUNDING_BOX = new Box3(-1.0, -1.0, -1.0, 1.0, 1.0, 1.0);
-
-  private static final Plane3[] PLANES = {
-    Plane3.YZ,
-    Plane3.ZX,
-    Plane3.XY,
-    Plane3.throughOrigin(new Vector3( 1.0,  1.0,  0.0)),
-    Plane3.throughOrigin(new Vector3( 1.0,  0.0,  1.0)),
-    Plane3.throughOrigin(new Vector3( 0.0,  1.0,  1.0)),
-    Plane3.throughOrigin(new Vector3( 1.0, -1.0,  0.0)),
-    Plane3.throughOrigin(new Vector3(-1.0,  0.0,  1.0)),
-    Plane3.throughOrigin(new Vector3( 0.0,  1.0, -1.0))
-  };
-
-  private static final double SUPERELLIPSOID_TOLERANCE = 1e-10;
-  private static final int SUPERELLIPSOID_MAX_ITERATIONS = 20;
-  private static final int SUPERELLIPSOID_MAX_NEWTON_ITERATIONS = 20;
-  private static final double SUPERELLIPSOID_DEPTH_TOLERANCE = MathUtil.BIG_EPSILON;
-
-  private final double e;
-  private final double n;
 
 }

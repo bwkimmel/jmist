@@ -49,6 +49,40 @@ public final class BoxGeometry extends PrimitiveGeometry {
   /** Serialization version ID. */
   private static final long serialVersionUID = 2733253411334817090L;
 
+  /** The surface id for the side facing toward the positive x-axis. */
+  private static final int BOX_SURFACE_MAX_X = 0;
+
+  /** The surface id for the side facing toward the negative x-axis. */
+  private static final int BOX_SURFACE_MIN_X = 1;
+
+  /** The surface id for the side facing toward the positive y-axis. */
+  private static final int BOX_SURFACE_MAX_Y = 2;
+
+  /** The surface id for the side facing toward the negative y-axis. */
+  private static final int BOX_SURFACE_MIN_Y = 3;
+
+  /** The surface id for the side facing toward the positive z-axis. */
+  private static final int BOX_SURFACE_MAX_Z = 4;
+
+  /** The surface id for the side facing toward the negative z-axis. */
+  private static final int BOX_SURFACE_MIN_Z = 5;
+
+  /**
+   * The <code>Box2</code>s that each face on the cube map to in texture
+   * coordinate space.
+   */
+  private static final Box2 FACE_DOMAIN[] = {
+      new Box2(2.0 / 3.0, 1.0 / 4.0, 1.0, 1.0 / 2.0),
+      new Box2(0.0, 1.0 / 4.0, 1.0 / 3.0, 1.0 / 2.0),
+      new Box2(1.0 / 3.0, 0.0, 2.0 / 3.0, 1.0 / 4.0),
+      new Box2(1.0 / 3.0, 1.0 / 2.0, 2.0 / 3.0, 3.0 / 4.0),
+      new Box2(1.0 / 3.0, 1.0 / 4.0, 2.0 / 3.0, 1.0 / 2.0),
+      new Box2(1.0 / 3.0, 3.0 / 4.0, 2.0 / 3.0, 1.0)
+  };
+
+  /** The <code>Box3</code> that represents this <code>SceneElement</code>. */
+  private final Box3 box;
+
   /**
    * Creates a new <code>BoxGeometry</code>.
    * @param box The axis aligned <code>Box3</code> to be rendered.
@@ -272,39 +306,5 @@ public final class BoxGeometry extends PrimitiveGeometry {
   public double getSurfaceArea() {
     return box.surfaceArea();
   }
-
-  /** The surface id for the side facing toward the positive x-axis. */
-  private static final int BOX_SURFACE_MAX_X = 0;
-
-  /** The surface id for the side facing toward the negative x-axis. */
-  private static final int BOX_SURFACE_MIN_X = 1;
-
-  /** The surface id for the side facing toward the positive y-axis. */
-  private static final int BOX_SURFACE_MAX_Y = 2;
-
-  /** The surface id for the side facing toward the negative y-axis. */
-  private static final int BOX_SURFACE_MIN_Y = 3;
-
-  /** The surface id for the side facing toward the positive z-axis. */
-  private static final int BOX_SURFACE_MAX_Z = 4;
-
-  /** The surface id for the side facing toward the negative z-axis. */
-  private static final int BOX_SURFACE_MIN_Z = 5;
-
-  /**
-   * The <code>Box2</code>s that each face on the cube map to in texture
-   * coordinate space.
-   */
-  private static final Box2 FACE_DOMAIN[] = {
-      new Box2(2.0 / 3.0, 1.0 / 4.0, 1.0, 1.0 / 2.0),
-      new Box2(0.0, 1.0 / 4.0, 1.0 / 3.0, 1.0 / 2.0),
-      new Box2(1.0 / 3.0, 0.0, 2.0 / 3.0, 1.0 / 4.0),
-      new Box2(1.0 / 3.0, 1.0 / 2.0, 2.0 / 3.0, 3.0 / 4.0),
-      new Box2(1.0 / 3.0, 1.0 / 4.0, 2.0 / 3.0, 1.0 / 2.0),
-      new Box2(1.0 / 3.0, 3.0 / 4.0, 2.0 / 3.0, 1.0)
-  };
-
-  /** The <code>Box3</code> that represents this <code>SceneElement</code>. */
-  private final Box3 box;
 
 }

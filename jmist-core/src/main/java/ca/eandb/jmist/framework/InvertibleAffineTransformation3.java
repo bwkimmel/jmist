@@ -43,6 +43,12 @@ import ca.eandb.jmist.math.Vector3;
 public class InvertibleAffineTransformation3 extends AffineTransformation3
     implements Serializable {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = -5759913323363262892L;
+
+  /** The inverse transformation matrix. */
+  private AffineMatrix3 inverse = null;
+
   @Override
   public void rotate(Vector3 axis, double angle) {
     super.rotate(axis, angle);
@@ -288,11 +294,5 @@ public class InvertibleAffineTransformation3 extends AffineTransformation3
     super.reset();
     this.inverse = null;
   }
-
-  /** The inverse transformation matrix. */
-  private AffineMatrix3 inverse = null;
-
-  /** Serialization version ID. */
-  private static final long serialVersionUID = -5759913323363262892L;
 
 }

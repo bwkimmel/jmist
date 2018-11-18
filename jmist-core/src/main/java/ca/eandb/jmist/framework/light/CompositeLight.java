@@ -36,6 +36,9 @@ public abstract class CompositeLight extends AbstractLight {
   /** Serialization version ID. */
   private static final long serialVersionUID = -741001548686087987L;
 
+  /** The child lights. */
+  private final List<Light> children = new ArrayList<>();
+
   /**
    * Initializes this <code>CompositeLight</code> with no light sources.
    */
@@ -70,8 +73,5 @@ public abstract class CompositeLight extends AbstractLight {
   protected final List<Light> children() {
     return this.children;
   }
-
-  /** The child lights. */
-  private final List<Light> children = new ArrayList<Light>();
 
 }

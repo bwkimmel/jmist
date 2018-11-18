@@ -53,6 +53,18 @@ public final class RasterTexture2 implements Texture2 {
   private static final long serialVersionUID = -2712131011948642676L;
 
   /**
+   * The <code>BufferedImage</code> that serves as the basis for this
+   * <code>Texture2</code>.
+   */
+  private transient BufferedImage image;
+
+  /**
+   * The <code>Texture2</code> to render underneath this texture if the image
+   * has an alpha channel.
+   */
+  private final Texture2 background;
+
+  /**
    * Creates a new <code>RasterTexture2</code>.
    * @param image The <code>BufferedImage</code> to use as the basis for the
    *     new <code>Texture2</code>.
@@ -137,17 +149,5 @@ public final class RasterTexture2 implements Texture2 {
       return Spectrum.mix(a / 255.0, bg, fg);
     }
   }
-
-  /**
-   * The <code>BufferedImage</code> that serves as the basis for this
-   * <code>Texture2</code>.
-   */
-  private transient BufferedImage image;
-
-  /**
-   * The <code>Texture2</code> to render underneath this texture if the image
-   * has an alpha channel.
-   */
-  private final Texture2 background;
 
 }

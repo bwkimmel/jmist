@@ -43,6 +43,21 @@ import java.io.Serializable;
  */
 public final class AffineMatrix3 implements Serializable {
 
+  /** Serialization version ID. */
+  private static final long serialVersionUID = -8679442263182238771L;
+
+  /** The identity matrix ({@code this * IDENTITY == this}). */
+  public static final AffineMatrix3 IDENTITY = new AffineMatrix3(
+      1.0, 0.0, 0.0, 0.0,
+      0.0, 1.0, 0.0, 0.0,
+      0.0, 0.0, 1.0, 0.0);
+
+  /* Matrix elements */
+  private final double
+      _00, _01, _02, _03,
+      _10, _11, _12, _13,
+      _20, _21, _22, _23;
+
   /**
    * Initializes the matrix from its elements.
    * @param _00 The element in row 0, column 0.
@@ -349,21 +364,5 @@ public final class AffineMatrix3 implements Serializable {
   public static AffineMatrix3 lookAtMatrix(Point3 eye, Point3 target, Vector3 up) {
     return lookMatrix(eye, eye.vectorTo(target), up);
   }
-
-  /**
-   * The identity matrix ({@code this * IDENTITY == this}).
-   */
-  public static final AffineMatrix3 IDENTITY = new AffineMatrix3(
-      1.0, 0.0, 0.0, 0.0,
-      0.0, 1.0, 0.0, 0.0,
-      0.0, 0.0, 1.0, 0.0);
-
-  /* Matrix elements */
-  private final double _00, _01, _02, _03,
-             _10, _11, _12, _13,
-             _20, _21, _22, _23;
-
-  /** Serialization version ID. */
-  private static final long serialVersionUID = -8679442263182238771L;
 
 }

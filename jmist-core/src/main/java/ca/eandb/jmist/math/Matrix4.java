@@ -37,6 +37,27 @@ public final class Matrix4 implements Serializable {
   /** Serialization version ID. */
   private static final long serialVersionUID = -5396312497182111362L;
 
+  /** The identity matrix ({@code this * IDENTITY == this}). */
+  public static final Matrix4 IDENTITY = new Matrix4(
+      1.0, 0.0, 0.0, 0.0,
+      0.0, 1.0, 0.0, 0.0,
+      0.0, 0.0, 1.0, 0.0,
+      0.0, 0.0, 0.0, 1.0);
+
+  /** The zero matrix ({@code this + IDENTITY == this}). */
+  public static final Matrix4 ZERO = new Matrix4(
+      0.0, 0.0, 0.0, 0.0,
+      0.0, 0.0, 0.0, 0.0,
+      0.0, 0.0, 0.0, 0.0,
+      0.0, 0.0, 0.0, 0.0);
+
+  /* Matrix elements */
+  private final double
+      _00, _01, _02, _03,
+      _10, _11, _12, _13,
+      _20, _21, _22, _23,
+      _30, _31, _32, _33;
+
   /**
    * Initializes the matrix from its elements.
    * @param _00 The element in row 0, column 0.
@@ -358,30 +379,5 @@ public final class Matrix4 implements Serializable {
       u.z() * (_20 * v.x() + _21 * v.y() + _22 * v.z() + _23 * v.w()) +
       u.w() * (_30 * v.x() + _31 * v.y() + _32 * v.z() + _33 * v.w());
   }
-
-  /**
-   * The identity matrix ({@code this * IDENTITY == this}).
-   */
-  public static final Matrix4 IDENTITY = new Matrix4(
-      1.0, 0.0, 0.0, 0.0,
-      0.0, 1.0, 0.0, 0.0,
-      0.0, 0.0, 1.0, 0.0,
-      0.0, 0.0, 0.0, 1.0);
-
-  /**
-   * The zero matrix ({@code this + IDENTITY == this}).
-   */
-  public static final Matrix4 ZERO = new Matrix4(
-      0.0, 0.0, 0.0, 0.0,
-      0.0, 0.0, 0.0, 0.0,
-      0.0, 0.0, 0.0, 0.0,
-      0.0, 0.0, 0.0, 0.0);
-
-  /* Matrix elements */
-  private final double
-      _00, _01, _02, _03,
-      _10, _11, _12, _13,
-      _20, _21, _22, _23,
-      _30, _31, _32, _33;
 
 }
