@@ -27,8 +27,6 @@ package ca.eandb.jmist.framework.color;
 
 import java.io.Serializable;
 
-
-
 /**
  * An immutable sample from a <code>Spectrum</code>, which supports various
  * mathematical operations.

@@ -40,15 +40,9 @@ import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.MathUtil;
 
-/**
- * @author Brad
- *
- */
 public final class MonochromeColorModel implements ColorModel {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 7290649793402973937L;
 
   private final double wavelength;
@@ -68,17 +62,12 @@ public final class MonochromeColorModel implements ColorModel {
     public ColorModel getColorModel() {
       return MonochromeColorModel.this;
     }
+
   }
 
-  /**
-   * @author Brad
-   *
-   */
   private final class Sample implements Color, Spectrum, Serializable {
 
-    /**
-     * Serialization version ID.
-     */
+    /** Serialization version ID. */
     private static final long serialVersionUID = -5632987671182335721L;
 
     private final double value;
@@ -92,9 +81,6 @@ public final class MonochromeColorModel implements ColorModel {
       return ColorUtil.convertSample2XYZ(wavelength, value);
     }
 
-    /* s(non-Javadoc)
-     * @see ca.eandb.jmist.framework.color.Color#toRGB()
-     */
     public RGB toRGB() {
       return ColorUtil.convertSample2RGB(wavelength, value);
     }

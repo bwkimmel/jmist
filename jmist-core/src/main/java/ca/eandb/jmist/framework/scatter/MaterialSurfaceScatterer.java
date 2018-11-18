@@ -75,7 +75,6 @@ public final class MaterialSurfaceScatterer implements SurfaceScatterer {
   @Override
   public Vector3 scatter(final SurfacePointGeometry x, Vector3 v, boolean adjoint,
       double wavelength, Random rnd) {
-
     ColorModel cm = new MonochromeColorModel(wavelength);
     Color white = cm.sample(rnd);
     SurfacePoint surf = new SurfacePoint() {
@@ -112,7 +111,6 @@ public final class MaterialSurfaceScatterer implements SurfaceScatterer {
     };
     ScatteredRay sr = material.scatter(surf, v, adjoint, white.getWavelengthPacket(), rnd.next(), rnd.next(), rnd.next());
     return sr != null ? sr.getRay().direction() : null;
-
   }
 
 }

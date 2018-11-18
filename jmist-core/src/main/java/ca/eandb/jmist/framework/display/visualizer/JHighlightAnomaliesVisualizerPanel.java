@@ -29,12 +29,10 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.RGB;
@@ -69,35 +67,19 @@ public final class JHighlightAnomaliesVisualizerPanel extends
   public JHighlightAnomaliesVisualizerPanel(JColorVisualizerPanel inner) {
     super(new GridBagLayout());
     this.inner = inner;
-    this.inner.addChangeListener(new ChangeListener() {
-      public void stateChanged(ChangeEvent e) {
-        inner_OnStateChanged(e);
-      }
-    });
+    this.inner.addChangeListener(this::inner_OnStateChanged);
 
     JLabel label;
     GridBagConstraints c;
 
     highlightNegativeCheckBox = new JCheckBox("Negative");
-    highlightNegativeCheckBox.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        highlightCheckBox_OnActionPerformed(e);
-      }
-    });
+    highlightNegativeCheckBox.addActionListener(this::highlightCheckBox_OnActionPerformed);
 
     highlightOverCheckBox = new JCheckBox("Overexposed");
-    highlightOverCheckBox.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        highlightCheckBox_OnActionPerformed(e);
-      }
-    });
+    highlightOverCheckBox.addActionListener(this::highlightCheckBox_OnActionPerformed);
 
     highlightUnderCheckBox = new JCheckBox("Underexposed");
-    highlightUnderCheckBox.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        highlightCheckBox_OnActionPerformed(e);
-      }
-    });
+    highlightUnderCheckBox.addActionListener(this::highlightCheckBox_OnActionPerformed);
 
     c = new GridBagConstraints();
     c.gridy = 0;

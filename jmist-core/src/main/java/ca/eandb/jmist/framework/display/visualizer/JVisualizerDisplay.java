@@ -37,7 +37,6 @@ import javax.swing.JComponent;
 import javax.swing.Scrollable;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import ca.eandb.jmist.framework.Display;
 import ca.eandb.jmist.framework.Raster;
@@ -152,11 +151,7 @@ public final class JVisualizerDisplay extends JComponent implements Display,
     this.visualizer =  visualizer;
     this.visualizerAgeThresholdFraction = visualizerAgeThresholdFraction;
 
-    visualizer.addChangeListener(new ChangeListener() {
-      public void stateChanged(ChangeEvent e) {
-        visualizer_OnStateChanged(e);
-      }
-    });
+    visualizer.addChangeListener(this::visualizer_OnStateChanged);
   }
 
   public void export(Display display) {
@@ -374,11 +369,11 @@ public final class JVisualizerDisplay extends JComponent implements Display,
 
   @Override
   public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
-        if (orientation == SwingConstants.HORIZONTAL) {
-            return visibleRect.width - 1;
-        } else {
-            return visibleRect.height - 1;
-        }
+    if (orientation == SwingConstants.HORIZONTAL) {
+      return visibleRect.width - 1;
+    } else {
+      return visibleRect.height - 1;
+    }
   }
 
 }

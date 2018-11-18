@@ -27,19 +27,12 @@ package ca.eandb.jmist.framework.job.mlt;
 
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.path.Path;
-import ca.eandb.jmist.framework.random.ThreadLocalRandom;
 
-/**
- * @author Brad
- *
- */
 public final class LensSubpathMutator implements PathMutator {
 
   private final int nx;
 
   private final int ny;
-
-
 
   public LensSubpathMutator(int nx, int ny) {
     this.nx = nx;

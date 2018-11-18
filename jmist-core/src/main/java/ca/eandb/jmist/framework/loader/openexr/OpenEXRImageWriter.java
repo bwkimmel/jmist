@@ -34,10 +34,6 @@ import javax.imageio.ImageWriter;
 import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.spi.ImageWriterSpi;
 
-/**
- * @author brad
- *
- */
 public final class OpenEXRImageWriter extends ImageWriter {
 
   public OpenEXRImageWriter(ImageWriterSpi originatingProvider) {
@@ -76,7 +72,6 @@ public final class OpenEXRImageWriter extends ImageWriter {
   public void write(IIOMetadata streamMetadata, IIOImage image, ImageWriteParam param)
       throws IOException {
     // TODO Auto-generated method stub
-
   }
 
 }

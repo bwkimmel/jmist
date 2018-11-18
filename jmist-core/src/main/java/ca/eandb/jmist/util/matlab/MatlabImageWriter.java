@@ -75,7 +75,6 @@ public final class MatlabImageWriter extends ImageWriter {
   @Override
   public void write(IIOMetadata streamMetadata, IIOImage image,
       ImageWriteParam param) throws IOException {
-
     Raster raster = null;
 
     if (image.hasRaster()) {
@@ -119,7 +118,6 @@ public final class MatlabImageWriter extends ImageWriter {
         out.flush();
       }
     }
-
   }
 
 }

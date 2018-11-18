@@ -46,10 +46,9 @@ public abstract class JToneMapperPanel extends JPanel implements
   /** Serialization version ID. */
   private static final long serialVersionUID = 7574943635232635058L;
 
-  private final Set<ChangeListener> changeListeners = new HashSet<ChangeListener>();
+  private final Set<ChangeListener> changeListeners = new HashSet<>();
 
-  public JToneMapperPanel() {
-  }
+  public JToneMapperPanel() {}
 
   public JToneMapperPanel(LayoutManager layout) {
     super(layout);

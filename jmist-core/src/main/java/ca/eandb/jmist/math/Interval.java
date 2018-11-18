@@ -42,7 +42,6 @@ public final class Interval implements Serializable {
    */
   public Interval(double minimum, double maximum) {
     assert(minimum <= maximum);
-
     this.minimum = minimum;
     this.maximum = maximum;
   }
@@ -230,9 +229,7 @@ public final class Interval implements Serializable {
    */
   public static final Interval UNIVERSE = new Interval(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
 
-  /**
-   * The unit interval: [0, 1].
-   */
+  /** The unit interval: [0, 1]. */
   public static final Interval UNIT = new Interval(0.0, 1.0);
 
   /**
@@ -257,9 +254,7 @@ public final class Interval implements Serializable {
   /** The upper bound of this interval. */
   private final double maximum;
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -4034510279908046892L;
 
 }

@@ -36,9 +36,7 @@ import java.util.Iterator;
  */
 public final class Tuple extends AbstractList<Double> implements Serializable {
 
-  /**
-   * Creates an empty Tuple.
-   */
+  /** Creates an empty Tuple. */
   public Tuple() {
     this.values = new double[0];
   }
@@ -137,7 +135,6 @@ public final class Tuple extends AbstractList<Double> implements Serializable {
    *     Tuple.
    */
   public Tuple append(Tuple other) {
-
     Tuple result = new Tuple(this.values.length + other.values.length);
     int i, j;
 
@@ -152,7 +149,6 @@ public final class Tuple extends AbstractList<Double> implements Serializable {
     }
 
     return result;
-
   }
 
   /**
@@ -165,7 +161,6 @@ public final class Tuple extends AbstractList<Double> implements Serializable {
    * @see #append(Tuple)
    */
   public Tuple append(double value) {
-
     Tuple result = new Tuple(this.values.length + 1);
 
     // Copy the elements of this tuple.
@@ -177,7 +172,6 @@ public final class Tuple extends AbstractList<Double> implements Serializable {
     result.values[result.values.length - 1] = value;
 
     return result;
-
   }
 
   /**
@@ -190,7 +184,6 @@ public final class Tuple extends AbstractList<Double> implements Serializable {
    * @see #append(Tuple)
    */
   public Tuple append(double[] values) {
-
     Tuple result = new Tuple(this.values.length + values.length);
     int i, j;
 
@@ -205,7 +198,6 @@ public final class Tuple extends AbstractList<Double> implements Serializable {
     }
 
     return result;
-
   }
 
   /**
@@ -220,17 +212,12 @@ public final class Tuple extends AbstractList<Double> implements Serializable {
    * @see #size()
    */
   public Tuple left(int length) {
-
     assert(length <= this.values.length);
-
     Tuple result = new Tuple(length);
-
     for (int i = 0; i < length; i++) {
       result.values[i] = this.values[i];
     }
-
     return result;
-
   }
 
   /**
@@ -245,18 +232,13 @@ public final class Tuple extends AbstractList<Double> implements Serializable {
    * @see #size()
    */
   public Tuple right(int length) {
-
     assert(length <= this.values.length);
-
     Tuple result = new Tuple(length);
     int i, j;
-
     for (i = 0, j = this.values.length - length; i < length; i++, j++) {
       result.values[i] = this.values[j];
     }
-
     return result;
-
   }
 
   /**
@@ -271,18 +253,13 @@ public final class Tuple extends AbstractList<Double> implements Serializable {
    * @see #size()
    */
   public Tuple slice(int start, int end) {
-
     assert(0 <= start && end <= this.values.length);
-
     Tuple result = new Tuple(end - start);
     int i, j;
-
     for (i = start, j = 0; i < end; i++, j++) {
       result.values[j] = this.values[i];
     }
-
     return result;
-
   }
 
   /**
@@ -291,16 +268,12 @@ public final class Tuple extends AbstractList<Double> implements Serializable {
    *     in the opposite order.
    */
   public Tuple reverse() {
-
     Tuple result = new Tuple(this.values.length);
     int i, j;
-
     for (i = 0, j = this.values.length - 1; i < this.values.length; i++, j--) {
       result.values[i] = this.values[j];
     }
-
     return result;
-
   }
 
   /**
@@ -312,15 +285,11 @@ public final class Tuple extends AbstractList<Double> implements Serializable {
    * @see #size()
    */
   public Tuple permute(int[] indices) {
-
     Tuple result = new Tuple(indices.length);
-
     for (int i = 0; i < indices.length; i++) {
       result.values[i] = this.values[indices[i]];
     }
-
     return result;
-
   }
 
   /**
@@ -345,11 +314,9 @@ public final class Tuple extends AbstractList<Double> implements Serializable {
    */
   public Tuple map(Tuple.Function f) {
     Tuple result = new Tuple(this.values.length);
-
     for (int i = 0; i < this.values.length; i++) {
       result.values[i] = f.apply(this.values[i]);
     }
-
     return result;
   }
 
@@ -379,17 +346,12 @@ public final class Tuple extends AbstractList<Double> implements Serializable {
    * @see #size()
    */
   public Tuple combine(Tuple other, Tuple.Operator operator) {
-
     assert(this.values.length == other.values.length);
-
     Tuple result = new Tuple(this.values.length);
-
     for (int i = 0; i < this.values.length; i++) {
       result.values[i] = operator.apply(this.values[i], other.values[i]);
     }
-
     return result;
-
   }
 
   /**
@@ -412,11 +374,9 @@ public final class Tuple extends AbstractList<Double> implements Serializable {
   public double reduce(Tuple.Operator operator) {
     if (this.values.length != 0) {
       double result = this.values[0];
-
       for (int i = 1; i < this.values.length; i++) {
         result = operator.apply(result, this.values[i]);
       }
-
       return result;
     } else {
       return Double.NaN;
@@ -445,11 +405,9 @@ public final class Tuple extends AbstractList<Double> implements Serializable {
    */
   public double reduce(Tuple.Operator operator, double initializer) {
     double result = initializer;
-
     for (int i = 0; i < this.values.length; i++) {
       result = operator.apply(result, this.values[i]);
     }
-
     return result;
   }
 
@@ -470,7 +428,6 @@ public final class Tuple extends AbstractList<Double> implements Serializable {
    * @see Tuple.Filter
    */
   public Tuple filter(Tuple.Filter filter) {
-
     Tuple result;
     BitSet mask = new BitSet(this.values.length);
     int count = 0;
@@ -501,7 +458,6 @@ public final class Tuple extends AbstractList<Double> implements Serializable {
     }
 
     return result;
-
   }
 
   @Override
@@ -575,38 +531,18 @@ public final class Tuple extends AbstractList<Double> implements Serializable {
    *     ones.
    */
   public static Tuple ones(int length) {
-
     Tuple result = new Tuple(length);
-
     for (int i = 0; i < length; i++) {
       result.values[i] = 1.0;
     }
-
     return result;
-
   }
 
-  /**
-   * A binary operator that adds its operands.
-   */
-  public static final Operator SUM_OPERATOR = new Operator() {
+  /** A binary operator that adds its operands. */
+  public static final Operator SUM_OPERATOR = (a, b) -> a + b;
 
-    public double apply(double a, double b) {
-      return a + b;
-    }
-
-  };
-
-  /**
-   * A binary operator that multiplies its operands.
-   */
-  public static final Operator PRODUCT_OPERATOR = new Operator() {
-
-    public double apply(double a, double b) {
-      return a * b;
-    }
-
-  };
+  /** A binary operator that multiplies its operands. */
+  public static final Operator PRODUCT_OPERATOR = (a, b) -> a * b;
 
   /**
    * The empty Tuple (i.e., {@code Tuple.EMPTY.size() == 0}).

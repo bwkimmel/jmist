@@ -36,10 +36,6 @@ import ca.eandb.jmist.framework.loader.radiance.RadiancePicture;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
 
-/**
- * @author Brad
- *
- */
 public final class RadianceTexture2 implements Texture2 {
 
   /** Serialized version ID. */

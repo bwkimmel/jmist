@@ -30,10 +30,6 @@ import org.apache.commons.math3.util.FastMath;
 import ca.eandb.jmist.math.SphericalCoordinates;
 import ca.eandb.jmist.math.Vector3;
 
-/**
- * @author Brad Kimmel
- *
- */
 public final class GGXMicrofacetModel implements IsotropicMicrofacetModel {
 
   /** Serialization version ID. */

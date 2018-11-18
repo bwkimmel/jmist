@@ -46,7 +46,7 @@ public interface Function1 extends Serializable {
   /**
    * The identity <code>Function1</code>.
    */
-  public static final Function1 IDENTITY = new Function1() {
+  Function1 IDENTITY = new Function1() {
     private static final long serialVersionUID = -1707801506094527459L;
     public double evaluate(double x) {
       return x;
@@ -56,25 +56,25 @@ public interface Function1 extends Serializable {
   /**
    * A <code>Function1</code> that evaluates to zero everywhere.
    */
-  public static final Function1 ZERO = new ConstantFunction1(0.0);
+  Function1 ZERO = new ConstantFunction1(0.0);
 
   /**
    * A <code>Function1</code> that evaluates to one everywhere.
    */
-  public static final Function1 ONE = new ConstantFunction1(1.0);
+  Function1 ONE = new ConstantFunction1(1.0);
 
   /**
    * A <code>Function1</code> whose value is <code>POSITIVE_INFINITY</code>
    * everywhere.
    * @see Double#POSITIVE_INFINITY
    */
-  public static final Function1 POSITIVE_INFINITY = new ConstantFunction1(Double.POSITIVE_INFINITY);
+  Function1 POSITIVE_INFINITY = new ConstantFunction1(Double.POSITIVE_INFINITY);
 
   /**
    * A <code>Function1</code> whose value is <code>NEGATIVE_INFINITY</code>
    * at all wavelengths.
    * @see Double#NEGATIVE_INFINITY
    */
-  public static final Function1 NEGATIVE_INFINITY = new ConstantFunction1(Double.NEGATIVE_INFINITY);
+  Function1 NEGATIVE_INFINITY = new ConstantFunction1(Double.NEGATIVE_INFINITY);
 
 }

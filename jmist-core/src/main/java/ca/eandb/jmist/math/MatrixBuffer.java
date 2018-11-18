@@ -95,11 +95,9 @@ public final class MatrixBuffer implements Serializable {
     if (offset < 0) {
       throw new IllegalArgumentException("offset must be non-negative");
     }
-
     if (rows < 0 || cols < 0) {
       throw new IllegalArgumentException("rows and cols must be non-negative");
     }
-
     if ((offset + (cols - 1) * colStride + (rows - 1) * rowStride)
         >= elements.limit()) {
       throw new IllegalArgumentException("not enough elements");
@@ -221,7 +219,6 @@ public final class MatrixBuffer implements Serializable {
    */
   public double minimum() {
     double min = Double.POSITIVE_INFINITY;
-
     for (int r = 0, rpos = offset; r < rows; r++, rpos += rowStride) {
       for (int c = 0, pos = rpos; c < cols; c++, pos += colStride) {
         if (elements.get(pos) < min) {
@@ -229,7 +226,6 @@ public final class MatrixBuffer implements Serializable {
         }
       }
     }
-
     return min;
   }
 
@@ -239,7 +235,6 @@ public final class MatrixBuffer implements Serializable {
    */
   public double maximum() {
     double max = Double.NEGATIVE_INFINITY;
-
     for (int r = 0, rpos = offset; r < rows; r++, rpos += rowStride) {
       for (int c = 0, pos = rpos; c < cols; c++, pos += colStride) {
         if (elements.get(pos) > max) {
@@ -247,7 +242,6 @@ public final class MatrixBuffer implements Serializable {
         }
       }
     }
-
     return max;
   }
 
@@ -258,7 +252,6 @@ public final class MatrixBuffer implements Serializable {
   public Interval range() {
     double min = Double.POSITIVE_INFINITY;
     double max = Double.NEGATIVE_INFINITY;
-
     for (int r = 0, rpos = offset; r < rows; r++, rpos += rowStride) {
       for (int c = 0, pos = rpos; c < cols; c++, pos += colStride) {
         if (elements.get(pos) > max) {
@@ -269,7 +262,6 @@ public final class MatrixBuffer implements Serializable {
         }
       }
     }
-
     return new Interval(min, max);
   }
 
@@ -279,13 +271,11 @@ public final class MatrixBuffer implements Serializable {
    */
   public double sum() {
     double sum = 0.0;
-
     for (int r = 0, rpos = offset; r < rows; r++, rpos += rowStride) {
       for (int c = 0, pos = rpos; c < cols; c++, pos += colStride) {
         sum += elements.get(pos);
       }
     }
-
     return sum;
   }
 

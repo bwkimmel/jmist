@@ -51,7 +51,6 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
 
   @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
-
     /* Use a special intersection recorder that knows how to combine the
      * results of multiple sets of intersections.
      */
@@ -61,19 +60,16 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
      * turn.
      */
     for (SceneElement geometry : this.children()) {
-
       geometry.intersect(ray, csg);
 
       /* Advance to next argument. */
       csg.advance();
-
     }
 
     /* combine the results and transfer the resulting intesections to the
      * provided intersection recorder.
      */
     csg.transfer(recorder);
-
   }
 
   /**
@@ -125,18 +121,16 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
      *     the resulting intersections to.
      */
     public void transfer(IntersectionRecorder recorder) {
-
-      int              nArgs      = this.argumentIndex;
-      BitSet            args      = new BitSet(nArgs);
-      Iterator<CsgIntersection>  i        = this.intersectionSet.iterator();
-      boolean            fromInside    = false;
-      boolean            toInside;
+      int nArgs = this.argumentIndex;
+      BitSet args = new BitSet(nArgs);
+      Iterator<CsgIntersection> i = this.intersectionSet.iterator();
+      boolean fromInside = false;
+      boolean toInside;
 
       /* Loop through each intersection. */
       while (i.hasNext()) {
-
-        CsgIntersection      x        = i.next();
-        Intersection      inner      = x.getInnerIntersection();
+        CsgIntersection x = i.next();
+        Intersection inner = x.getInnerIntersection();
 
         assert(x.getArgumentIndex() < nArgs);
 
@@ -151,7 +145,6 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
          */
         if (fromInside != toInside
             && recorder.interval().contains(inner.getDistance(), inner.getTolerance())) {
-
           /* The intersection is a front intersection if the ray
            * is passing into the geometry.
            */
@@ -164,13 +157,9 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
           if (!recorder.needAllIntersections()) {
             break;
           }
-
         }
-
         fromInside = toInside;
-
       } /* i.hasNext() */
-
     }
 
     /**
@@ -270,14 +259,8 @@ public abstract class ConstructiveSolidGeometry extends CompositeGeometry {
      * The set of all the intersections recorded by each of the component
      * geometries, sorted by distance (least to greatest).
      */
-    private final SortedSet<CsgIntersection> intersectionSet = new TreeSet<CsgIntersection>(
-        new Comparator<Intersection>() {
-
-          public int compare(Intersection arg0, Intersection arg1) {
-            return Double.compare(arg0.getDistance(), arg1.getDistance());
-          }
-
-        });
+    private final SortedSet<CsgIntersection> intersectionSet = new TreeSet<>(
+        Comparator.comparingDouble(IntersectionDecorator::getDistance));
 
   }
 

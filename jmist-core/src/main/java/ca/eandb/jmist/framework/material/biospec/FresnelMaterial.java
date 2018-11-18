@@ -63,7 +63,6 @@ public final class FresnelMaterial extends OpaqueMaterial {
   @Override
   public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint,
       WavelengthPacket lambda, double ru, double rv, double rj) {
-
     double n1 = riAbove;
     double n2 = riBelow;
     Vector3 N = x.getNormal();
@@ -78,7 +77,6 @@ public final class FresnelMaterial extends OpaqueMaterial {
       return ScatteredRay.transmitSpecular(new Ray3(x.getPosition(), v),
           lambda.getColorModel().getWhite(lambda), 1.0);
     }
-
   }
 
 }

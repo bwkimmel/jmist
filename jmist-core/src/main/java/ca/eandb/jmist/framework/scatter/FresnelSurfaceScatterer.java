@@ -71,7 +71,6 @@ public final class FresnelSurfaceScatterer implements SurfaceScatterer {
   @Override
   public Vector3 scatter(SurfacePointGeometry x, Vector3 v, boolean adjoint,
       double lambda, Random rnd) {
-
     double n1 = riAbove.evaluate(lambda);
     double n2 = riBelow.evaluate(lambda);
     Vector3 N = x.getNormal();

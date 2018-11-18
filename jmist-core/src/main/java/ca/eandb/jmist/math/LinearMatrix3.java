@@ -396,13 +396,12 @@ public final class LinearMatrix3 implements Serializable {
       0.0, 0.0, 0.0);
 
   /* Matrix elements */
-  private final double _00, _01, _02,
-             _10, _11, _12,
-             _20, _21, _22;
+  private final double
+      _00, _01, _02,
+      _10, _11, _12,
+      _20, _21, _22;
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -2238797743118681949L;
 
 }

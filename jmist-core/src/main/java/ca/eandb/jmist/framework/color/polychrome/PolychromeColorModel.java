@@ -39,24 +39,14 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Tuple;
 import ca.eandb.jmist.util.ArrayUtil;
 
-/**
- * @author brad
- *
- */
 public final class PolychromeColorModel implements ColorModel {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -8677900690679611296L;
 
   private final Tuple wavelengths;
 
-  private final WavelengthPacket lambda = new WavelengthPacket() {
-    public ColorModel getColorModel() {
-      return PolychromeColorModel.this;
-    }
-  };
+  private final WavelengthPacket lambda = () -> PolychromeColorModel.this;
 
   private final PolychromeColor black;
 
@@ -64,9 +54,7 @@ public final class PolychromeColorModel implements ColorModel {
 
   private final class PolychromeColor implements Color, Spectrum {
 
-    /**
-     * Serialization version ID.
-     */
+    /** Serialization version ID. */
     private static final long serialVersionUID = 2799919416159189985L;
 
     private final double[] values = new double[wavelengths.size()];

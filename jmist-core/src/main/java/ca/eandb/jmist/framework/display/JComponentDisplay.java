@@ -34,7 +34,6 @@ import javax.swing.JComponent;
 import javax.swing.Scrollable;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import ca.eandb.jmist.framework.Display;
 import ca.eandb.jmist.framework.Raster;
@@ -128,11 +127,7 @@ public final class JComponentDisplay extends JComponent implements Display,
     this.toneMapperAgeThresholdFraction = toneMapperAgeThresholdFraction;
 
     if (toneMapperFactory instanceof JToneMapperPanel) {
-      ((JToneMapperPanel) toneMapperFactory).addChangeListener(new ChangeListener() {
-        public void stateChanged(ChangeEvent e) {
-          toneMapperFactory_OnStateChanged(e);
-        }
-      });
+      ((JToneMapperPanel) toneMapperFactory).addChangeListener(this::toneMapperFactory_OnStateChanged);
     }
   }
 
@@ -229,7 +224,7 @@ public final class JComponentDisplay extends JComponent implements Display,
 
   @Override
   public void initialize(int w, int h, ColorModel colorModel) {
-    hdrImage = new Array2<CIEXYZ>(w, h);
+    hdrImage = new Array2<>(w, h);
     ldrImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
     toneMapper = null;
     toneMapperAgeThreshold = (int) Math
@@ -296,11 +291,11 @@ public final class JComponentDisplay extends JComponent implements Display,
 
   @Override
   public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
-        if (orientation == SwingConstants.HORIZONTAL) {
-            return visibleRect.width - 1;
-        } else {
-            return visibleRect.height - 1;
-        }
+    if (orientation == SwingConstants.HORIZONTAL) {
+      return visibleRect.width - 1;
+    } else {
+      return visibleRect.height - 1;
+    }
   }
 
 }

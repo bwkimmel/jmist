@@ -8,10 +8,6 @@ import java.util.Iterator;
 import ca.eandb.util.ByteArray;
 import ca.eandb.util.IntegerArray;
 
-/**
- * @author bwkimmel
- *
- */
 final class TriangulatedMesh implements Mesh {
 
   private final Mesh mesh;

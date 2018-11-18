@@ -41,7 +41,7 @@ public interface Modifier extends Serializable {
   void modify(ShadingContext context);
 
   /** A dummy <code>Modifier</code> that applies no change. */
-  public static final Modifier IDENTITY = new Modifier() {
+  Modifier IDENTITY = new Modifier() {
     private static final long serialVersionUID = -280297069210221264L;
     public void modify(ShadingContext context) {
       /* nothing to do. */

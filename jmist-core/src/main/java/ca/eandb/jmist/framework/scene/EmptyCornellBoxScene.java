@@ -95,15 +95,11 @@ public final class EmptyCornellBoxScene extends AbstractScene {
    * @return The <code>Lens</code> used in the Cornell Box.
    */
   private static Lens createLens() {
-
     TransformableLens lens = new TransformableLens(
         PinholeLens.fromHfovAndAspect(2.0 * Math.atan2(0.25 / 2.0, 0.35), 1.0));
-
     lens.rotateY(Math.PI);
     lens.translate(new Vector3(278.0, 273.0, -800.0));
-
     return lens;
-
   }
 
   /** The wavelengths at which the reflectance spectra are given. */

@@ -33,15 +33,9 @@ import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Vector3;
 
-/**
- * @author brad
- *
- */
 public final class DirectLightingShader implements Shader {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -7391459165157437122L;
 
   @Override

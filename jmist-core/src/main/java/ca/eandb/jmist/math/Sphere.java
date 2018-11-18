@@ -27,7 +27,6 @@ package ca.eandb.jmist.math;
 
 import java.io.Serializable;
 
-
 /**
  * A sphere in two dimensional space (the set of points at most a
  * constant distance from a fixed point).
@@ -42,7 +41,6 @@ public final class Sphere implements Serializable {
    */
   public Sphere(Point3 center, double radius) {
     assert(radius >= 0.0);
-
     this.center = center;
     this.radius = radius;
   }
@@ -143,7 +141,6 @@ public final class Sphere implements Serializable {
    * @see Interval#isEmpty()
    */
   public boolean intersects(Ray3 ray) {
-
     //
     // Algorithm from:
     //
@@ -152,23 +149,19 @@ public final class Sphere implements Serializable {
     // Morgan Kaufmann Publishers, Inc., San Francisco, CA, 2002
     // Section 2.2
     //
-
     if (isEmpty()) {
       return false;
     }
 
-    double    r2 = radius * radius;
-    Vector3    oc = ray.origin().vectorTo(center);
-    double    L2oc = oc.dot(oc);
-
+    double r2 = radius * radius;
+    Vector3 oc = ray.origin().vectorTo(center);
+    double L2oc = oc.dot(oc);
     if (L2oc < r2) return true;
 
-    double    tca = oc.dot(ray.direction());
-
+    double tca = oc.dot(ray.direction());
     if (tca < 0.0) return false;
 
     return ray.pointAt(tca).squaredDistanceTo(center) < r2;
-
   }
 
   /**
@@ -184,7 +177,6 @@ public final class Sphere implements Serializable {
    * @see Interval#contains(double)
    */
   public Interval intersect(Ray3 ray) {
-
     //
     // Algorithm from:
     //
@@ -200,14 +192,14 @@ public final class Sphere implements Serializable {
     }
 
     // Check if the ray starts from within the box.
-    double    d2 = ray.direction().squaredLength();
-    double    r2 = radius * radius / d2;
-    Vector3    oc = ray.origin().vectorTo(center);
-    double    L2oc = oc.dot(oc) / d2;
-    boolean    startInside = (L2oc < r2);
+    double d2 = ray.direction().squaredLength();
+    double r2 = radius * radius / d2;
+    Vector3 oc = ray.origin().vectorTo(center);
+    double L2oc = oc.dot(oc) / d2;
+    boolean startInside = (L2oc < r2);
 
     // distance along ray to point on ray closest to center of sphere (equation (A10)).
-    double    tca = oc.dot(ray.direction()) / d2;
+    double tca = oc.dot(ray.direction()) / d2;
 
     // if the ray starts outside the sphere and points away from the center of the
     // sphere, then the ray does not hit the sphere.
@@ -216,17 +208,16 @@ public final class Sphere implements Serializable {
     }
 
     // compute half chord distance squared (equation (A13)).
-    double    t2hc = r2 - L2oc + (tca * tca);
+    double t2hc = r2 - L2oc + (tca * tca);
 
     if (t2hc < 0.0) {
       return Interval.EMPTY;
     }
 
-    double    thc = Math.sqrt(t2hc);
+    double thc = Math.sqrt(t2hc);
 
     // compute interval (equation (A14)).
     return new Interval(tca - thc, tca + thc);
-
   }
 
   /**
@@ -271,19 +262,15 @@ public final class Sphere implements Serializable {
    * @return The smallest <code>Sphere</code> containing the given points.
    */
   public static Sphere smallestContaining(Iterable<Point3> points) {
-
     Point3 center = Point3.centroid(points);
     double radius = 0.0;
-
     for (Point3 p : points) {
       double distance = center.distanceTo(p);
       if (distance > radius) {
         radius = distance;
       }
     }
-
     return new Sphere(center, radius);
-
   }
 
   /**
@@ -392,9 +379,7 @@ public final class Sphere implements Serializable {
   /** The radius of the sphere. */
   private final double radius;
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -7300424778393465269L;
 
 }

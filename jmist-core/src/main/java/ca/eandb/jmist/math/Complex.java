@@ -74,19 +74,15 @@ public final class Complex implements Serializable {
    * @throws IllegalArgumentException if <code>re.length != im.length</code>.
    */
   public static Complex[] array(double[] re, double[] im) {
-
     if (re.length != im.length) {
       throw new IllegalArgumentException("re.length != im.length");
     }
 
     Complex[] result = new Complex[re.length];
-
     for (int i = 0; i < result.length; i++) {
       result[i] = new Complex(re[i], im[i]);
     }
-
     return result;
-
   }
 
   /**
@@ -237,8 +233,7 @@ public final class Complex implements Serializable {
    * @return The square root.
    */
   public static Complex sqrt(double x) {
-    return x >= 0.0 ? new Complex(Math.sqrt(x))
-            : new Complex(0.0, Math.sqrt(-x));
+    return x >= 0.0 ? new Complex(Math.sqrt(x)) : new Complex(0.0, Math.sqrt(-x));
   }
 
   /**
@@ -273,8 +268,8 @@ public final class Complex implements Serializable {
    * @return The complex number raised to the given exponent.
    */
   public Complex pow(Complex exponent) {
-    double theta  = this.arg();
-    double r    = this.abs();
+    double theta = this.arg();
+    double r = this.abs();
 
     return polar(
         Math.pow(r, exponent.re) * Math.exp(-exponent.im * theta),
@@ -332,9 +327,7 @@ public final class Complex implements Serializable {
   /** The imaginary part of this complex number. */
   private final double im;
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -5588907469158256485L;
 
 }

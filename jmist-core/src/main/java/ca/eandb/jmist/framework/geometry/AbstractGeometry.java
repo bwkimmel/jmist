@@ -52,19 +52,8 @@ public abstract class AbstractGeometry implements SceneElement {
   /** Serialization version ID. */
   private static final long serialVersionUID = -2662537214883018706L;
 
-  /**
-   * @author Brad Kimmel
-   *
-   */
   protected static class GeometryIntersection implements Intersection, SurfacePoint {
 
-    /**
-     * @param geometry
-     * @param ray
-     * @param distance
-     * @param front
-     * @param tag
-     */
     private GeometryIntersection(AbstractGeometry geometry, Ray3 ray,
         double distance, boolean front, int surfaceId) {
       this.geometry = geometry;
@@ -93,7 +82,6 @@ public abstract class AbstractGeometry implements SceneElement {
       if (this.basis == null) {
         this.setBasis(this.geometry.getBasis(this));
       }
-
       return this.basis;
     }
 
@@ -108,7 +96,6 @@ public abstract class AbstractGeometry implements SceneElement {
       if (this.location == null) {
         this.setLocation(this.ray.pointAt(this.distance));
       }
-
       return this.location;
     }
 
@@ -156,7 +143,6 @@ public abstract class AbstractGeometry implements SceneElement {
       if (this.normal == null) {
         this.setNormal(this.geometry.getNormal(this));
       }
-
       return this.normal;
     }
 
@@ -175,7 +161,6 @@ public abstract class AbstractGeometry implements SceneElement {
       if (this.uv == null) {
         this.setUV(this.geometry.getTextureCoordinates(this));
       }
-
       return this.uv;
     }
 
@@ -222,41 +207,35 @@ public abstract class AbstractGeometry implements SceneElement {
 
     private static final double DEFAULT_TOLERANCE = MathUtil.TINY_EPSILON;
 
-    private AbstractGeometry  geometry;
-    private Ray3        ray;
-    private double        distance;
-    private boolean        front;
-    private int          tag;
-    private int          primitiveIndex  = 0;
-    private Point3        location    = null;
-    private Basis3        basis      = null;
-    private Vector3        normal      = null;
-    private Basis3        shadingBasis  = null;
-    private Vector3        shadingNormal  = null;
-    private Point2        uv        = null;
-    private double        tolerance    = DEFAULT_TOLERANCE;
+    private AbstractGeometry geometry;
+    private Ray3 ray;
+    private double distance;
+    private boolean front;
+    private int tag;
+    private int primitiveIndex = 0;
+    private Point3 location = null;
+    private Basis3 basis = null;
+    private Vector3 normal = null;
+    private Basis3 shadingBasis = null;
+    private Vector3 shadingNormal = null;
+    private Point2 uv = null;
+    private double tolerance = DEFAULT_TOLERANCE;
 
   }
 
   protected final GeometryIntersection newIntersection(Ray3 ray,
       double distance, boolean front, int surfaceId) {
-
     return new GeometryIntersection(this, ray, distance,
         front, surfaceId);
-
   }
 
   protected final GeometryIntersection newSurfacePoint(Point3 p, boolean front, int surfaceId) {
-
     return new GeometryIntersection(this, new Ray3(p, Vector3.ZERO), 0.0,
         front, surfaceId);
-
   }
 
   protected final GeometryIntersection newSurfacePoint(Point3 p, int surfaceId) {
-
     return this.newSurfacePoint(p, true, surfaceId);
-
   }
 
   protected Basis3 getShadingBasis(GeometryIntersection x) {

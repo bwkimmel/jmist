@@ -49,19 +49,19 @@ public final class ThinLens extends AbstractLens {
   private static final long serialVersionUID = -4932532440872351450L;
 
   /** The default field of view (in radians). */
-  public static final double  DEFAULT_FIELD_OF_VIEW    = Math.PI / 2.0;
+  public static final double  DEFAULT_FIELD_OF_VIEW = Math.PI / 2.0;
 
   /** The default aspect ratio. */
-  public static final double  DEFAULT_ASPECT_RATIO    = 1.0;
+  public static final double  DEFAULT_ASPECT_RATIO = 1.0;
 
   /** The default focal length (in meters). */
-  public static final double  DEFAULT_FOCAL_LENGTH    = 0.050;
+  public static final double  DEFAULT_FOCAL_LENGTH = 0.050;
 
   /** The default aperture (f-number). */
-  public static final double  DEFAULT_APERTURE      = 3.6;
+  public static final double  DEFAULT_APERTURE = 3.6;
 
   /** The default distance to the plane in focus (in meters). */
-  public static final double  DEFAULT_FOCUS_DISTANCE    = 1.0;
+  public static final double  DEFAULT_FOCUS_DISTANCE = 1.0;
 
   /** The focal length (in meters). */
   private final double focalLength;

@@ -30,10 +30,6 @@ import ca.eandb.jmist.framework.Scene;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Sphere;
 
-/**
- * @author brad
- *
- */
 public abstract class AbstractScene implements Scene {
 
   /** Serialization version ID. */

@@ -30,10 +30,6 @@ import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.SurfacePointGeometry;
 import ca.eandb.jmist.math.Vector3;
 
-/**
- * @author brad
- *
- */
 public final class AbsorbingSurfaceScatterer implements SurfaceScatterer {
 
   /** Serialization version ID. */
@@ -60,10 +56,8 @@ public final class AbsorbingSurfaceScatterer implements SurfaceScatterer {
   @Override
   public Vector3 scatter(SurfacePointGeometry x, Vector3 v,
       boolean adjoint, double lambda, Random rnd) {
-
     double abs = absorptionCoefficient.evaluate(lambda);
     double p = -Math.log(1.0 - rnd.next()) * Math.abs(x.getNormal().dot(v)) / abs;
-
     return (p > thickness) ? v : null;
   }
 

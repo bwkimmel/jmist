@@ -28,10 +28,6 @@ package ca.eandb.jmist.framework.display.visualizer;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.RGB;
 
-/**
- * @author brad
- *
- */
 public final class AutomaticLinearChannelVisualizer extends
     NonVolatileColorVisualizer {
 

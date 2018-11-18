@@ -40,10 +40,6 @@ import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.SphericalCoordinates;
 import ca.eandb.jmist.math.Vector3;
 
-/**
- * @author Brad
- *
- */
 public final class IsotropicWardMaterial extends OpaqueMaterial {
 
   /** Serialization version ID. */
@@ -68,7 +64,6 @@ public final class IsotropicWardMaterial extends OpaqueMaterial {
   @Override
   public Color bsdf(SurfacePoint x, Vector3 in, Vector3 out,
       WavelengthPacket lambda) {
-
     Vector3 N = x.getNormal();
     if (-N.dot(in) <= 0.0 || N.dot(out) <= 0.0) {
       return lambda.getColorModel().getBlack(lambda);
@@ -99,13 +94,11 @@ public final class IsotropicWardMaterial extends OpaqueMaterial {
     Color S = s.times(k);
 
     return D.plus(S);
-
   }
 
   @Override
   public double getScatteringPDF(SurfacePoint x, Vector3 in, Vector3 out,
       boolean adjoint, WavelengthPacket lambda) {
-
     Vector3 N = x.getNormal();
     if (-N.dot(in) <= 0.0 || N.dot(out) <= 0.0) {
       return 0.0;
@@ -146,7 +139,6 @@ public final class IsotropicWardMaterial extends OpaqueMaterial {
   @Override
   public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint,
       WavelengthPacket lambda, double ru, double rv, double rj) {
-
     Vector3 n = x.getNormal();
     if (n.dot(v) > 0.0) {
       return null;
@@ -162,22 +154,17 @@ public final class IsotropicWardMaterial extends OpaqueMaterial {
     Vector3 out;
 
     if (RandomUtil.bernoulli(davg / total, rj)) { // diffuse
-
       do {
         out = RandomUtil.diffuse(ru, rv).toCartesian(basis);
       } while (n.dot(out) <= 0.0);
-
     } else { // specular
-
       do {
         SphericalCoordinates sc = new SphericalCoordinates(
             Math.atan(alpha * Math.sqrt(-Math.log(1.0 - ru))),
             2.0 * Math.PI * rv);
-
         Vector3 h = sc.toCartesian(basis);
         out = Optics.reflect(v, h);
       } while (n.dot(out) <= 0.0);
-
     }
 
     Ray3 ray = new Ray3(x.getPosition(), out);
@@ -185,7 +172,6 @@ public final class IsotropicWardMaterial extends OpaqueMaterial {
     Color value = bsdf(x, v, out, lambda).divide(pdf);
 
     return ScatteredRay.diffuse(ray, value, pdf);
-
   }
 
 }

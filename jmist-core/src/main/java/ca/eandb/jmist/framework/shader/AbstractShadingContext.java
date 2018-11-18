@@ -30,9 +30,9 @@ import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.Medium;
 import ca.eandb.jmist.framework.Modifier;
 import ca.eandb.jmist.framework.ScatteredRay;
+import ca.eandb.jmist.framework.ScatteredRay.Type;
 import ca.eandb.jmist.framework.Shader;
 import ca.eandb.jmist.framework.ShadingContext;
-import ca.eandb.jmist.framework.ScatteredRay.Type;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
@@ -42,21 +42,17 @@ import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
 
-/**
- * @author brad
- *
- */
 public abstract class AbstractShadingContext implements ShadingContext {
 
-  private Medium    ambientMedium;
-  private Basis3    basis;
-  private Material  material;
-  private Modifier  modifier;
-  private Point3    position;
-  private int      primitiveIndex;
-  private Shader    shader;
-  private Basis3    shadingBasis;
-  private Point2    uv;
+  private Medium ambientMedium;
+  private Basis3 basis;
+  private Material material;
+  private Modifier modifier;
+  private Point3 position;
+  private int primitiveIndex;
+  private Shader shader;
+  private Basis3 shadingBasis;
+  private Point2 uv;
 
   @Override
   public Color castRay(ScatteredRay ray) {
@@ -228,14 +224,12 @@ public abstract class AbstractShadingContext implements ShadingContext {
 
   @Override
   public Basis3 getShadingBasis() {
-    return shadingBasis != null ? shadingBasis : (basis != null ? basis
-        : Basis3.STANDARD);
+    return shadingBasis != null ? shadingBasis : (basis != null ? basis : Basis3.STANDARD);
   }
 
   @Override
   public Vector3 getShadingNormal() {
-    return shadingBasis != null ? shadingBasis.w() : (basis != null ? basis
-        .w() : Vector3.K);
+    return shadingBasis != null ? shadingBasis.w() : (basis != null ? basis.w() : Vector3.K);
   }
 
   @Override

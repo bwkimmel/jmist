@@ -33,10 +33,6 @@ import ca.eandb.jmist.framework.color.RGB;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 
-/**
- * @author brad
- *
- */
 /* package */ final class XYZColor implements Color, Spectrum {
 
   /** Serialization version ID. */
@@ -50,11 +46,6 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
 
   private final MultiXYZColorModel owner;
 
-  /**
-   * @param x
-   * @param y
-   * @param z
-   */
   public XYZColor(double x, double y, double z, MultiXYZColorModel owner) {
     this.x = x;
     this.y = y;
@@ -94,8 +85,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
         Math.min(Math.max(y, min), max),
         Math.min(Math.max(z, min), max),
         owner
-        );
-
+    );
   }
 
   @Override

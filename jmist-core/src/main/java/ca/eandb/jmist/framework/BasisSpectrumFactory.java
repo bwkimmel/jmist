@@ -38,9 +38,7 @@ import ca.eandb.jmist.framework.function.SumFunction1;
  */
 public final class BasisSpectrumFactory implements Serializable {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 8689123372520021846L;
 
   /**
@@ -63,19 +61,15 @@ public final class BasisSpectrumFactory implements Serializable {
    * @return The <code>Function1</code> at the specified coordinates.
    */
   public Function1 create(double... coefficients) {
-
-    SumFunction1  sum    = new SumFunction1();
-    int        n    = Math.min(coefficients.length, this.basis.size());
-
+    SumFunction1 sum = new SumFunction1();
+    int n = Math.min(coefficients.length, this.basis.size());
     for (int i = 0; i < n; i++) {
       sum.addChild(new ScaledFunction1(coefficients[i], this.basis.get(i)));
     }
-
     return sum;
-
   }
 
   /** A <code>List</code> of the basis spectra. */
-  private final List<Function1> basis = new ArrayList<Function1>();
+  private final List<Function1> basis = new ArrayList<>();
 
 }

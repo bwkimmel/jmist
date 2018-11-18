@@ -25,10 +25,6 @@
  */
 package ca.eandb.jmist.framework.loader.openexr.attribute;
 
-/**
- * @author brad
- *
- */
 public enum EnvironmentMapType {
 
   LATLONG(0),

@@ -32,31 +32,21 @@ import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 
-/**
- * @author brad
- *
- */
 public final class DirectEmissionShader implements Shader {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 8485773800892817133L;
 
   @Override
   public Color shade(ShadingContext sc) {
-
     WavelengthPacket lambda = sc.getWavelengthPacket();
-
     if (sc.getPathDepth() == sc.getPathDepthByType(ScatteredRay.Type.SPECULAR)) {
       Material mat = sc.getMaterial();
       if (mat.isEmissive()) {
         return mat.emission(sc, sc.getIncident().opposite(), lambda);
       }
     }
-
     return sc.getColorModel().getBlack(lambda);
-
   }
 
 }

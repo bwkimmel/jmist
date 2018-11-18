@@ -27,10 +27,6 @@ package ca.eandb.jmist.framework.loader.openexr.attribute;
 
 import java.util.Comparator;
 
-/**
- * @author brad
- *
- */
 /* package */ final class LexigraphicalChannelComparator implements Comparator<Channel> {
 
   @Override

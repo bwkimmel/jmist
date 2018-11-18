@@ -75,7 +75,7 @@ public interface Display {
   void finish();
 
   /** Sends results into the void, never to be heard from again. */
-  public static final Display NULL = new Display() {
+  Display NULL = new Display() {
     @Override public void initialize(int w, int h, ColorModel colorModel) {}
     @Override public void fill(int x, int y, int w, int h, Color color) {}
     @Override public void setPixel(int x, int y, Color pixel) {}

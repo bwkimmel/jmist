@@ -33,10 +33,6 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.path.LightNode;
 import ca.eandb.jmist.framework.path.PathInfo;
 
-/**
- * @author brad
- *
- */
 public abstract class AbstractLight implements Light {
 
   /** Serialization version ID. */

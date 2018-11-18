@@ -37,10 +37,6 @@ import ca.eandb.jmist.math.HPoint3;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Vector3;
 
-/**
- *
- * @author Brad Kimmel
- */
 public final class PartialLens extends AbstractLens {
 
   /** Serialization version ID. */
@@ -78,10 +74,10 @@ public final class PartialLens extends AbstractLens {
     public Point2 project(HPoint3 x) {
       Point2 p = inner.project(x);
       return p != null && bounds.contains(p)
-        ? new Point2(
-          (p.x() - bounds.minimumX()) / bounds.lengthX(),
-          (p.y() - bounds.minimumY()) / bounds.lengthY())
-        : null;
+          ? new Point2(
+            (p.x() - bounds.minimumX()) / bounds.lengthX(),
+            (p.y() - bounds.minimumY()) / bounds.lengthY())
+          : null;
     }
 
     @Override

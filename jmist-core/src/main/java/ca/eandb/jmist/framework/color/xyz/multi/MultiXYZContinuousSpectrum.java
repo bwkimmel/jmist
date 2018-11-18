@@ -30,10 +30,6 @@ import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 
-/**
- * @author brad
- *
- */
 /* package */ final class MultiXYZContinuousSpectrum implements Spectrum {
 
   /** Serialization version ID. */
@@ -41,9 +37,6 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
 
   private final Function1 spectrum;
 
-  /**
-   * @param spectrum
-   */
   public MultiXYZContinuousSpectrum(Function1 spectrum) {
     this.spectrum = spectrum;
   }
@@ -54,7 +47,7 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
   }
 
   public Color sample(MultiXYZWavelengthPacket lambda) {
-    MultiXYZColorModel owner = (MultiXYZColorModel) lambda.getColorModel();
+    MultiXYZColorModel owner = lambda.getColorModel();
     double[] values = new double[owner.getNumChannels()];
     for (int i = 0; i < values.length; i++) {
       values[i] = spectrum.evaluate(lambda.getLambda(i));

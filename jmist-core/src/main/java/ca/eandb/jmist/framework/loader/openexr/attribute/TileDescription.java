@@ -29,11 +29,6 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-
-/**
- * @author brad
- *
- */
 @OpenEXRAttributeType("tiledesc")
 public final class TileDescription implements Attribute {
 
@@ -101,30 +96,18 @@ public final class TileDescription implements Attribute {
     this.roundingMode = roundingMode;
   }
 
-  /**
-   * @return the xSize
-   */
   public final int getXSize() {
     return xSize;
   }
 
-  /**
-   * @return the ySize
-   */
   public final int getYSize() {
     return ySize;
   }
 
-  /**
-   * @return the levelMode
-   */
   public final LevelMode getLevelMode() {
     return levelMode;
   }
 
-  /**
-   * @return the roundingMode
-   */
   public final RoundingMode getRoundingMode() {
     return roundingMode;
   }

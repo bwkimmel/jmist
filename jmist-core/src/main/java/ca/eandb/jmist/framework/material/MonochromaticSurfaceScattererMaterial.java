@@ -91,11 +91,8 @@ public final class MonochromaticSurfaceScattererMaterial extends
   @Override
   public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint,
       WavelengthPacket lambda, double ru, double rv, double rj) {
-
     Vector3 r = surface.scatter(x, v, adjoint, wavelength, rnd);
-
     if (r != null) {
-
       Vector3 n = x.getNormal();
       Point3 p = x.getPosition();
       Ray3 ray = new Ray3(p, r);
@@ -107,11 +104,9 @@ public final class MonochromaticSurfaceScattererMaterial extends
       } else {
         return ScatteredRay.transmitSpecular(ray, color, 0);
       }
-
     } else { // absorbed
       return null;
     }
-
   }
 
 }

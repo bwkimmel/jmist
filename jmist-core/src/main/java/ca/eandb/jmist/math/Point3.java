@@ -25,8 +25,6 @@
  */
 package ca.eandb.jmist.math;
 
-
-
 /**
  * A location in three dimensional space.
  * This class is immutable.
@@ -214,13 +212,11 @@ public final class Point3 extends HPoint3 {
    */
   public static Point3 bilinearInterpolate(Point3 _00, Point3 _10,
       Point3 _01, Point3 _11, double t, double u) {
-
     return new Point3(
         MathUtil.bilinearInterpolate(_00.x, _10.x, _01.x, _11.x, t, u),
         MathUtil.bilinearInterpolate(_00.y, _10.y, _01.y, _11.y, t, u),
         MathUtil.bilinearInterpolate(_00.z, _10.z, _01.z, _11.z, t, u)
     );
-
   }
 
   /**
@@ -241,13 +237,11 @@ public final class Point3 extends HPoint3 {
   public static Point3 trilinearInterpolate(Point3 _000, Point3 _100,
       Point3 _010, Point3 _110, Point3 _001, Point3 _101, Point3 _011,
       Point3 _111, double t, double u, double v) {
-
     return new Point3(
         MathUtil.trilinearInterpolate(_000.x, _100.x, _010.x, _110.x, _001.x, _101.x, _011.x, _111.x, t, u, v),
         MathUtil.trilinearInterpolate(_000.y, _100.y, _010.y, _110.y, _001.y, _101.y, _011.y, _111.y, t, u, v),
         MathUtil.trilinearInterpolate(_000.z, _100.z, _010.z, _110.z, _001.z, _101.z, _011.z, _111.z, t, u, v)
     );
-
   }
 
   /**
@@ -285,7 +279,6 @@ public final class Point3 extends HPoint3 {
    * @return The centroid of the given collection of points.
    */
   public static Point3 centroid(Iterable<Point3> points) {
-
     double x = 0.0;
     double y = 0.0;
     double z = 0.0;
@@ -299,17 +292,12 @@ public final class Point3 extends HPoint3 {
     }
 
     return new Point3(x / (double) n, y / (double) n, z / (double) n);
-
   }
 
-  /**
-   * The origin of three dimensional space.
-   */
+  /** The origin of three dimensional space. */
   public static final Point3 ORIGIN = new Point3(0.0, 0.0, 0.0);
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 15329079129798899L;
 
 }

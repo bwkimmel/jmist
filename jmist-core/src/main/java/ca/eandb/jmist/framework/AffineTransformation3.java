@@ -41,9 +41,7 @@ import ca.eandb.jmist.math.Vector3;
  */
 public class AffineTransformation3 implements AffineTransformable3, Serializable {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -4028593857879980021L;
 
   @Override

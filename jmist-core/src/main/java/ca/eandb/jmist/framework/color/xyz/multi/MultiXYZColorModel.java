@@ -39,10 +39,6 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.pdf.PiecewiseLinearProbabilityDensityFunction;
 import ca.eandb.jmist.math.MathUtil;
 
-/**
- * @author brad
- *
- */
 public final class MultiXYZColorModel implements ColorModel {
 
   /** Serialization version ID. */
@@ -239,7 +235,6 @@ public final class MultiXYZColorModel implements ColorModel {
       }
     };
   }
-
 
   @Override
   public String getChannelName(int channel) {

@@ -51,7 +51,6 @@ public final class EqualSolidAnglesCollectorSphere implements CollectorSphere {
    *     <code>lower</code> are <code>false</code>.
    */
   public EqualSolidAnglesCollectorSphere(int stacks, int slices, boolean upper, boolean lower) {
-
     if (!upper && !lower) {
       throw new IllegalArgumentException("One of upper or lower must be true.");
     }
@@ -68,12 +67,10 @@ public final class EqualSolidAnglesCollectorSphere implements CollectorSphere {
     this.slices = slices;
     this.upper = upper;
     this.lower = lower;
-
   }
 
   @Override
   public SphericalCoordinates getSensorCenter(int sensor) {
-
     int hemispheres = (upper ? 1 : 0) + (lower ? 1 : 0);
     assert(hemispheres > 0);
 
@@ -123,12 +120,10 @@ public final class EqualSolidAnglesCollectorSphere implements CollectorSphere {
     }
 
     return SphericalCoordinates.canonical(FastMath.acos(z), phi);
-
   }
 
   @Override
   public double getSensorProjectedSolidAngle(int sensor) {
-
     int hemispheres = (upper ? 1 : 0) + (lower ? 1 : 0);
     int patchesPerHemisphere = this.sensors() / hemispheres;
 
@@ -148,9 +143,7 @@ public final class EqualSolidAnglesCollectorSphere implements CollectorSphere {
     }
 
     assert(0 <= sensor && sensor < patchesPerHemisphere);
-
     int stack = (sensor > 0) ? (sensor - 1) / slices + 1 : 0;
-
     double t0 = 1.0 / (double) patchesPerHemisphere;
 
     if (sensor > 0) {
@@ -193,9 +186,7 @@ public final class EqualSolidAnglesCollectorSphere implements CollectorSphere {
    * @return The sensor struck by the specified vector.
    */
   private int getSensor(double azimuthal, double z) {
-
     boolean hitUpper = z > 0.0;
-
     if ((hitUpper && !upper) || (!hitUpper && !lower)) {
       return -1;
     }
@@ -206,11 +197,9 @@ public final class EqualSolidAnglesCollectorSphere implements CollectorSphere {
     int patchesPerHemisphere = this.sensors() / hemispheres;
 
     double t0 = 1.0 / (double) patchesPerHemisphere;
-
     if (z >= 1.0 - t0) {
       return 0;
     }
-
     if (z < -1.0 + t0) {
       return this.sensors() - 1;
     }
@@ -228,7 +217,6 @@ public final class EqualSolidAnglesCollectorSphere implements CollectorSphere {
     slice = MathUtil.clamp(slice, 0, slices - 1);
 
     return 1 + (stack - 1) * slices + slice;
-
   }
 
   @Override
@@ -267,9 +255,7 @@ public final class EqualSolidAnglesCollectorSphere implements CollectorSphere {
   /** A value indicating whether the lower hemisphere is measured. */
   private final boolean lower;
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 6947672588017728172L;
 
 }

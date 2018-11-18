@@ -30,9 +30,6 @@ import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.math.HPoint3;
 import ca.eandb.jmist.math.Vector3;
 
-/**
- * @author Brad Kimmel
- */
 public final class BackgroundNode extends AbstractScatteringNode {
 
   private final Vector3 direction;

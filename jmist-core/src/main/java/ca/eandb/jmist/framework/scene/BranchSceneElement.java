@@ -50,7 +50,6 @@ import ca.eandb.jmist.framework.random.SeedReference;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
-import ca.eandb.util.UnimplementedException;
 
 /**
  * A composite <code>SceneElement</code>.  Each child <code>SceneElement</code>
@@ -62,7 +61,7 @@ public final class BranchSceneElement implements SceneElement {
   /** Serialization version ID. */
   private static final long serialVersionUID = -8500645819577622768L;
 
-  private final List<SceneElement> children = new ArrayList<SceneElement>();
+  private final List<SceneElement> children = new ArrayList<>();
 
   private CategoricalRandom rnd = null;
 
@@ -85,7 +84,7 @@ public final class BranchSceneElement implements SceneElement {
 
   @Override
   public Light createLight() {
-    final List<Light> lights = new ArrayList<Light>();
+    final List<Light> lights = new ArrayList<>();
     Light lastLight = null;
     int numLights = 0;
     for (SceneElement child : children) {

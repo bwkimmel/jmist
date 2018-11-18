@@ -27,7 +27,6 @@ package ca.eandb.jmist.framework;
 
 import ca.eandb.jmist.math.AffineMatrix2;
 
-
 /**
  * A two dimensional object that can be transformed according to an affine transformation
  * (linear transformations plus translations).

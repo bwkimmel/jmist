@@ -29,11 +29,6 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-
-/**
- * @author brad
- *
- */
 @OpenEXRAttributeType("chromaticities")
 public final class Chromaticities implements Attribute {
 

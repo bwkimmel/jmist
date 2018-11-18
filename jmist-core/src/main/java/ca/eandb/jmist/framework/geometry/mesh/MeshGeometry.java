@@ -227,7 +227,7 @@ public final class MeshGeometry extends AbstractGeometry {
     }
 
     int numFaces = mesh.getFaceCount();
-    ArrayList<Integer> emissive = new ArrayList<Integer>();
+    ArrayList<Integer> emissive = new ArrayList<>();
     for (int i = 0; i < numFaces; i++) {
       if (materials.get(mesh.getFace(i).getMaterialIndex()).isEmissive()) {
         emissive.add(i);

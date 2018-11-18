@@ -31,15 +31,9 @@ import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 
-/**
- * @author brad
- *
- */
 public final class ProductPainter implements Painter {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -2530604202721199134L;
 
   private final Painter a;

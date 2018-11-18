@@ -27,9 +27,9 @@ package ca.eandb.jmist.framework.material;
 
 import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.ScatteredRay;
+import ca.eandb.jmist.framework.ScatteredRay.Type;
 import ca.eandb.jmist.framework.ScatteringStrategy;
 import ca.eandb.jmist.framework.SurfacePoint;
-import ca.eandb.jmist.framework.ScatteredRay.Type;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.random.RandomUtil;
@@ -38,10 +38,6 @@ import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
 
-/**
- * @author brad
- *
- */
 public final class ScatteringAdapterMaterial implements Material {
 
   /** Serialization version ID. */
@@ -167,8 +163,6 @@ public final class ScatteringAdapterMaterial implements Material {
         }
       }
     }
-
-
 
 //    if (RandomUtil.bernoulli(weight, ref)) {
 //      ScatteredRay sr = strategy.scatter(x, v, adjoint, lambda, ru, rv, ref.seed);

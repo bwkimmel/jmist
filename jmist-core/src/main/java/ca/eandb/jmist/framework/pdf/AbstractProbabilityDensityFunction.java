@@ -48,31 +48,23 @@ public abstract class AbstractProbabilityDensityFunction implements
 
   @Override
   public double[] evaluate(double[] x, double[] results) {
-
     results = ArrayUtil.initialize(results, x.length);
-
     for (int i = 0; i < results.length; i++) {
       results[i] = this.evaluate(x[i]);
     }
-
     return results;
-
   }
 
   @Override
   public double[] sample(Random random, double[] results) {
-
     for (int i = 0; i < results.length; i++) {
       results[i] = this.sample(random);
     }
-
     return results;
-
   }
 
   @Override
   public double[] warp(double[] seeds, double[] results) {
-
     if (results == null) {
       results = new double[seeds.length];
     } else if (results.length != seeds.length) {
@@ -82,9 +74,7 @@ public abstract class AbstractProbabilityDensityFunction implements
     for (int i = 0; i < results.length; i++) {
       results[i] = this.warp(seeds[i]);
     }
-
     return results;
-
   }
 
 }

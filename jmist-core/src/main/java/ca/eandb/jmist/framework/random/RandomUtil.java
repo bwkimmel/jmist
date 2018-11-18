@@ -39,7 +39,6 @@ import ca.eandb.jmist.math.SphericalCoordinates;
 import ca.eandb.jmist.math.Vector2;
 import ca.eandb.jmist.math.Vector3;
 
-
 /**
  * Static utility methods for random algorithms.
  * @author Brad Kimmel
@@ -51,15 +50,12 @@ public final class RandomUtil {
   }
 
   public static SphericalCoordinates diffuse(double ru, double rv) {
-
     assert(0.0 <= ru && ru <= 1.0);
     assert(0.0 <= rv && rv <= 1.0);
-
     return new SphericalCoordinates(
         FastMath.acos(Math.sqrt(1.0 - ru)),
         2.0 * Math.PI * rv
     );
-
   }
 
   public static SphericalCoordinates uniformOnUpperHemisphere(Random random) {
@@ -71,15 +67,11 @@ public final class RandomUtil {
   }
 
   public static SphericalCoordinates uniformOnUpperHemisphere(double radius, double ru, double rv) {
-
     // TODO implement this directly so it's more efficient.
     SphericalCoordinates result = uniformOnSphere(radius, ru, rv);
-
     if (result.polar() > (Math.PI / 2.0))
       result = new SphericalCoordinates(Math.PI - result.polar(), result.azimuthal(), radius);
-
     return result;
-
   }
 
   public static SphericalCoordinates uniformOnSphere(Random random) {
@@ -95,16 +87,13 @@ public final class RandomUtil {
   }
 
   public static SphericalCoordinates uniformOnSphere(double radius, double ru, double rv) {
-
     assert(0.0 <= ru && ru <= 1.0);
     assert(0.0 <= rv && rv <= 1.0);
-
     return new SphericalCoordinates(
         FastMath.acos(2.0 * ru - 1.0),
         2.0 * Math.PI * rv,
         radius
     );
-
   }
 
   public static SphericalCoordinates uniformInsideSphere(Random random) {
@@ -120,17 +109,14 @@ public final class RandomUtil {
   }
 
   public static SphericalCoordinates uniformInsideSphere(double radius, double ru, double rv, double rw) {
-
     assert(0.0 <= ru && ru <= 1.0);
     assert(0.0 <= rv && rv <= 1.0);
     assert(0.0 <= rw && rw <= 1.0);
-
     return new SphericalCoordinates(
         FastMath.acos(2.0 * ru - 1.0),
         2.0 * Math.PI * rv,
         radius * Math.cbrt(rw)
     );
-
   }
 
   public static PolarCoordinates uniformOnDisc(Random random) {
@@ -146,15 +132,12 @@ public final class RandomUtil {
   }
 
   public static PolarCoordinates uniformOnDisc(double radius, double ru, double rv) {
-
     assert(0.0 <= ru && ru <= 1.0);
     assert(0.0 <= rv && rv <= 1.0);
-
     return new PolarCoordinates(
         2.0 * Math.PI * ru,
         radius * Math.sqrt(rv)
     );
-
   }
 
   public static Point3 uniformOnTriangle(Point3 a, Point3 b, Point3 c, Random random) {
@@ -232,24 +215,18 @@ public final class RandomUtil {
   }
 
   public static int categorical(double[] weights, double seed) {
-
-    double  x    = seed * MathUtil.sum(weights);
-    double  mark  = 0.0;
-
+    double x = seed * MathUtil.sum(weights);
+    double mark = 0.0;
     for (int i = 0; i < weights.length; i++) {
       if (x < (mark += weights[i])) {
         return i;
       }
     }
-
     return weights.length - 1;
-
   }
 
   public static int categorical(double[] weights, SeedReference ref) {
-
     ref.seed *= MathUtil.sum(weights);
-
     int n = weights.length - 1;
     for (int i = 0; i < n; i++) {
       if (ref.seed < weights[i]) {
@@ -263,7 +240,6 @@ public final class RandomUtil {
     ref.seed /= weights[n];
     if (ref.seed < 0.0 || ref.seed > 1.0) bp();
     return n;
-
   }
 
   public static int discrete(int minimum, int maximum, Random random) {

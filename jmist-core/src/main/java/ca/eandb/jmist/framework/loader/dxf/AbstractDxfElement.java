@@ -25,10 +25,6 @@
  */
 package ca.eandb.jmist.framework.loader.dxf;
 
-/**
- * @author Brad
- *
- */
 public abstract class AbstractDxfElement implements DxfElement {
 
   private final int groupCode;

@@ -45,9 +45,7 @@ public final class ThreadLocalRandom implements Random {
   private final class Container extends ThreadLocal<Random> implements
       Serializable {
 
-    /**
-     * Serialization version ID.
-     */
+    /** Serialization version ID. */
     private static final long serialVersionUID = 2870785400712895313L;
 
     /**
@@ -77,14 +75,12 @@ public final class ThreadLocalRandom implements Random {
    * @param prototype The prototype
    */
   public ThreadLocalRandom(final Random prototype) {
-
     this.random = new Container(prototype);
 
     /* Don't bother creating a copy of the prototype for the thread on
      * which this ThreadLocalRandom instance was created.
      */
     this.random.set(prototype);
-
   }
 
   @Override
@@ -105,9 +101,7 @@ public final class ThreadLocalRandom implements Random {
   /** The inner random number generator. */
   private final ThreadLocal<Random> random;
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -4519791871156787526L;
 
 }

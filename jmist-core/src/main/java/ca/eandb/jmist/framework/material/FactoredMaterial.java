@@ -22,10 +22,6 @@ import ca.eandb.jmist.math.SphericalCoordinates;
 import ca.eandb.jmist.math.Vector3;
 import ca.eandb.util.UnimplementedException;
 
-/**
- * @author brad
- *
- */
 public final class FactoredMaterial extends OpaqueMaterial {
 
   /** Serialization version ID. */
@@ -102,7 +98,6 @@ public final class FactoredMaterial extends OpaqueMaterial {
     int index = 0;
 
     while ((line = r.readLine()) != null) {
-
       // skip empty lines
       line = line.trim();
       if (line.isEmpty()) {
@@ -110,9 +105,7 @@ public final class FactoredMaterial extends OpaqueMaterial {
       }
 
       String entry[] = line.split(":", 2);
-
       if (entry.length == 2) { // header
-
         String key = entry[0].trim().toLowerCase();
         String value = entry[1].trim();
 
@@ -133,18 +126,13 @@ public final class FactoredMaterial extends OpaqueMaterial {
         } else if (key.equals("phi_p count") || key.equals("phi_2 count")) {
           phiPCount = Integer.valueOf(value);
         }
-
       } else if (entry.length == 1) { // data
-
         if (data == null) { // first line of data
-
           // Check that all header entries were present
           if (outerTerms <= 0 || innerTerms <= 0 || thetaOutCount <= 0 ||
               phiOutCount <= 0 || thetaPCount <= 0 || zCount <= 0 ||
               phiPCount <= 0 || param == null) {
-
             throw new IllegalArgumentException("Missing parameters (is file of correct format?)");
-
           }
 
           int count =
@@ -163,7 +151,6 @@ public final class FactoredMaterial extends OpaqueMaterial {
 
           System.out.println(String.format("Count = %d", count));
           data = new double[count];
-
         }
 
         String values[] = line.split("\\s+");
@@ -173,9 +160,7 @@ public final class FactoredMaterial extends OpaqueMaterial {
           }
           index++;
         }
-
       }
-
     }
 
     System.out.println(String.format("Expected data: %d", data.length));
@@ -232,7 +217,6 @@ public final class FactoredMaterial extends OpaqueMaterial {
     }
 
     return new FactoredMaterial(F, G, u, v, Fc, Gc, cm);
-
   }
 
   public static FactoredMaterial fromFacRep(Reader r, ColorModel cm) throws IOException {
@@ -250,7 +234,6 @@ public final class FactoredMaterial extends OpaqueMaterial {
   @Override
   public Color bsdf(SurfacePoint x, Vector3 in, Vector3 out,
       WavelengthPacket lambda) {
-
     Vector3 p = out.unit().minus(in.unit()).unit();
     Basis3 basis = x.getShadingBasis();
     SphericalCoordinates omegaO = SphericalCoordinates.fromCartesian(out, basis).canonical();
@@ -336,7 +319,6 @@ public final class FactoredMaterial extends OpaqueMaterial {
 //
 //
     return colorModel.fromRGB(r, g, b).sample(lambda);
-
   }
 
   @Override

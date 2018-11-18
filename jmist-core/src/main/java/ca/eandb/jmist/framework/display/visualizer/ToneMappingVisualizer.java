@@ -28,7 +28,6 @@ package ca.eandb.jmist.framework.display.visualizer;
 import java.util.Iterator;
 
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import ca.eandb.jmist.framework.color.CIEXYZ;
 import ca.eandb.jmist.framework.color.Color;
@@ -38,10 +37,6 @@ import ca.eandb.jmist.framework.tone.ToneMapper;
 import ca.eandb.jmist.framework.tone.ToneMapperFactory;
 import ca.eandb.jmist.framework.tone.swing.JToneMapperPanel;
 
-/**
- * @author brad
- *
- */
 public final class ToneMappingVisualizer extends VolatileColorVisualizer {
 
   /** Serialization version ID. */
@@ -55,11 +50,7 @@ public final class ToneMappingVisualizer extends VolatileColorVisualizer {
     this.factory = factory;
 
     if (factory instanceof JToneMapperPanel) {
-      ((JToneMapperPanel) factory).addChangeListener(new ChangeListener() {
-        public void stateChanged(ChangeEvent e) {
-          factory_OnStateChanged(e);
-        }
-      });
+      ((JToneMapperPanel) factory).addChangeListener(this::factory_OnStateChanged);
     }
   }
 

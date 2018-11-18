@@ -39,15 +39,9 @@ import ca.eandb.jmist.framework.path.ScaledLightNode;
 import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.framework.random.SeedReference;
 
-/**
- * @author Brad Kimmel
- *
- */
 public final class RandomCompositeLight extends CompositeLight {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 6951460238617706023L;
 
   public RandomCompositeLight() {

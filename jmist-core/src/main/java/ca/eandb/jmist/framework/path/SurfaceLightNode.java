@@ -35,10 +35,6 @@ import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
 
-/**
- * @author Brad
- *
- */
 public final class SurfaceLightNode extends LightTerminalNode {
 
   private final SurfacePoint surf;

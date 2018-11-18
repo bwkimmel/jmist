@@ -29,10 +29,6 @@ import ca.eandb.jmist.framework.color.CIEXYZ;
 import ca.eandb.jmist.framework.color.CIExyY;
 import ca.eandb.jmist.framework.color.ColorUtil;
 
-/**
- * @author Brad
- *
- */
 public final class ReinhardToneMapper implements ToneMapper {
 
   /** Serialization version ID. */

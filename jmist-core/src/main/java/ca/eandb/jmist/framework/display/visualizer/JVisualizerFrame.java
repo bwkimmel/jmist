@@ -28,7 +28,6 @@ package ca.eandb.jmist.framework.display.visualizer;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
@@ -55,10 +54,6 @@ import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.util.io.FileUtil;
 
-/**
- * @author brad
- *
- */
 public final class JVisualizerFrame extends JFrame implements Display {
 
   /** Serialization version ID. */
@@ -86,7 +81,7 @@ public final class JVisualizerFrame extends JFrame implements Display {
 
   private int height;
 
-  private static enum ZoomMode {
+  private enum ZoomMode {
     NORMAL,
     FIT,
     FILL
@@ -122,11 +117,7 @@ public final class JVisualizerFrame extends JFrame implements Display {
     menuItem = new JMenuItem("Save", KeyEvent.VK_S);
     menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
     menuItem.getAccessibleContext().setAccessibleDescription("Save the image to a file.");
-    menuItem.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        save_OnActionPerformed(e);
-      }
-    });
+    menuItem.addActionListener(this::save_OnActionPerformed);
     menu.add(menuItem);
     menuBar.add(menu);
 
@@ -136,50 +127,30 @@ public final class JVisualizerFrame extends JFrame implements Display {
     menuItem = new JMenuItem("Zoom In");
     menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_EQUALS, ActionEvent.CTRL_MASK));
     menuItem.getAccessibleContext().setAccessibleDescription("Enlarge the image");
-    menuItem.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        zoomIn_OnActionPerformed(e);
-      }
-    });
+    menuItem.addActionListener(this::zoomIn_OnActionPerformed);
     menu.add(menuItem);
 
     menuItem = new JMenuItem("Zoom Out");
     menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, ActionEvent.CTRL_MASK));
     menuItem.getAccessibleContext().setAccessibleDescription("Shrink the image");
-    menuItem.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        zoomOut_OnActionPerformed(e);
-      }
-    });
+    menuItem.addActionListener(this::zoomOut_OnActionPerformed);
     menu.add(menuItem);
 
     menuItem = new JMenuItem("Normal Size");
     menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_0, ActionEvent.CTRL_MASK));
     menuItem.getAccessibleContext().setAccessibleDescription("Show the image at its normal size");
-    menuItem.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        normalSize_OnActionPerformed(e);
-      }
-    });
+    menuItem.addActionListener(this::normalSize_OnActionPerformed);
     menu.add(menuItem);
 
     menuItem = fitInWindowMenuItem = new JCheckBoxMenuItem("Fit in Window");
     menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, ActionEvent.CTRL_MASK | ActionEvent.SHIFT_MASK));
     menuItem.getAccessibleContext().setAccessibleDescription("Adjust the zoom ratio so that the image becomes fully visible");
-    menuItem.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        fitInWindow_OnActionPerformed(e);
-      }
-    });
+    menuItem.addActionListener(this::fitInWindow_OnActionPerformed);
     menu.add(menuItem);
 
     menuItem = fillWindowMenuItem = new JCheckBoxMenuItem("Fill Window");
     menuItem.getAccessibleContext().setAccessibleDescription("Adjust the zoom ratio so that the image fills the window");
-    menuItem.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        fillWindow_OnActionPerformed(e);
-      }
-    });
+    menuItem.addActionListener(this::fillWindow_OnActionPerformed);
     menu.add(menuItem);
     menuBar.add(menu);
 
@@ -274,37 +245,37 @@ public final class JVisualizerFrame extends JFrame implements Display {
 
   private void save_OnActionPerformed(ActionEvent event) {
     JFileChooser chooser = new JFileChooser();
-      FileNameExtensionFilter filter = new FileNameExtensionFilter(
-          "Image Files", ImageIO.getWriterFileSuffixes());
-      chooser.setFileFilter(filter);
+    FileNameExtensionFilter filter = new FileNameExtensionFilter(
+        "Image Files", ImageIO.getWriterFileSuffixes());
+    chooser.setFileFilter(filter);
     chooser.setAcceptAllFileFilterUsed(false);
-      int returnVal = chooser.showSaveDialog(this);
-      if (returnVal == JFileChooser.APPROVE_OPTION) {
-        File file = chooser.getSelectedFile();
+    int returnVal = chooser.showSaveDialog(this);
+    if (returnVal == JFileChooser.APPROVE_OPTION) {
+      File file = chooser.getSelectedFile();
       if (file.exists()) {
         String message = String
             .format("The file `%s' already exists.  Do you wish to overwrite this file?",
-                file.getName());
+                    file.getName());
         if (JOptionPane.showConfirmDialog(this, message, "File Exists",
-            JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) != JOptionPane.YES_OPTION) {
+                                          JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) != JOptionPane.YES_OPTION) {
           return;
         }
       }
-        String suffix = FileUtil.getExtension(file.getName());
-        try {
+      String suffix = FileUtil.getExtension(file.getName());
+      try {
         boolean foundWriter = ImageIO.write(display.getRenderedImage(),
-            suffix, file);
+                                            suffix, file);
         if (!foundWriter) {
           String message = String.format(
               "Invalid image file format (%s)", suffix);
           JOptionPane.showMessageDialog(this, message,
-              "Error saving image", JOptionPane.WARNING_MESSAGE);
+                                        "Error saving image", JOptionPane.WARNING_MESSAGE);
         }
       } catch (IOException e) {
         JOptionPane.showMessageDialog(this, e.getMessage(),
-            "Error saving image", JOptionPane.WARNING_MESSAGE);
+                                      "Error saving image", JOptionPane.WARNING_MESSAGE);
       }
-      }
+    }
   }
 
   @Override

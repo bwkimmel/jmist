@@ -37,10 +37,6 @@ import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.tone.swing.JToneMapperPanel;
 
-/**
- * @author brad
- *
- */
 public abstract class JColorVisualizerPanel extends JPanel implements
     ColorVisualizer {
 
@@ -51,7 +47,7 @@ public abstract class JColorVisualizerPanel extends JPanel implements
    * The <code>List</code> of <code>ChangeListener</code>s to be notified
    * when the visualization function changes.
    */
-  private final List<ChangeListener> listeners = new ArrayList<ChangeListener>();
+  private final List<ChangeListener> listeners = new ArrayList<>();
 
   public JColorVisualizerPanel() {
     super();

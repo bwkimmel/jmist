@@ -41,15 +41,9 @@ import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Vector3;
 
-/**
- * @author Brad Kimmel
- *
- */
 public final class EmissionTestScene extends AbstractScene {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 6575937866746786596L;
 
   private static final PrimitiveListGeometry geometry;
@@ -86,17 +80,16 @@ public final class EmissionTestScene extends AbstractScene {
   }
 
   static {
-
     geometry = new PrimitiveListGeometry()
-      .addPrimitive( // large light source
-        new RectangleGeometry(
-          new Point3(-200.0, 50.0, 0.0),
-          Basis3.fromW(Vector3.I),
-          100.0, 100.0,
-          false))
-      .addPrimitive( // floor
-        new BoxGeometry(
-          new Box3(-200.0, -10.0, -200.0, 200.0, 0.0, 200.0)));
+        .addPrimitive( // large light source
+            new RectangleGeometry(
+                new Point3(-200.0, 50.0, 0.0),
+                Basis3.fromW(Vector3.I),
+                100.0, 100.0,
+                false))
+        .addPrimitive( // floor
+            new BoxGeometry(
+                new Box3(-200.0, -10.0, -200.0, 200.0, 0.0, 200.0)));
 
     for (int i = 0; i < 10; i++) {
       for (int j = 0; j < 10; j++) {
@@ -112,7 +105,6 @@ public final class EmissionTestScene extends AbstractScene {
 
     lens.rotateX(-Math.PI / 2.0);
     lens.translate(new Vector3(0.0, 550.0, 50.0));
-
   }
 
 }

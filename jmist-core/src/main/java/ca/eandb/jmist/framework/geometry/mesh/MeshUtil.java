@@ -9,10 +9,6 @@ import ca.eandb.jmist.framework.BoundingBoxBuilder3;
 import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Sphere;
 
-/**
- * @author bwkimmel
- *
- */
 public final class MeshUtil {
 
   private MeshUtil() {}

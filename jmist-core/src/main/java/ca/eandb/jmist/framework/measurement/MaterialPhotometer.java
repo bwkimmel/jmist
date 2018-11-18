@@ -43,10 +43,6 @@ import ca.eandb.jmist.math.Vector3;
 import ca.eandb.util.progress.DummyProgressMonitor;
 import ca.eandb.util.progress.ProgressMonitor;
 
-/**
- * @author Brad Kimmel
- *
- */
 public final class MaterialPhotometer {
 
   private class PhotometerSurfacePoint implements SurfacePoint {
@@ -156,25 +152,19 @@ public final class MaterialPhotometer {
   }
 
   public void castPhotons(long n, ProgressMonitor monitor, long progressInterval) {
-
     long untilCallback = 0;
     Random rng = new SimpleRandom();
     int sqrt = (int) Math.floor(Math.sqrt(n));
     int nbox = sqrt * sqrt;
 
     for (int i = 0; i < n; i++) {
-
       if (--untilCallback <= 0) {
-
         double progress = (double) i / (double) n;
-
         if (!monitor.notifyProgress(progress)) {
           monitor.notifyCancelled();
           return;
         }
-
         untilCallback = progressInterval;
-
       }
 
       double ru = rng.next();
@@ -187,17 +177,14 @@ public final class MaterialPhotometer {
       }
 
       ScatteredRay sr = specimen.scatter(surfacePoint, in, false, lambda, ru, rv, rj);
-
       if (sr != null) {
         Callback f = sensorArray.createCallback(sr.getColor());
         collectorSphere.record(sr.getRay().direction(), f);
       }
-
     }
 
     monitor.notifyProgress(1.0);
     monitor.notifyComplete();
-
   }
 
   private final SurfacePoint surfacePoint = new PhotometerSurfacePoint();

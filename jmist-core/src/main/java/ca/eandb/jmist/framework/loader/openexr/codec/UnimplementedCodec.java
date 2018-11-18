@@ -30,10 +30,6 @@ import javax.imageio.stream.IIOByteBuffer;
 import ca.eandb.jmist.framework.loader.openexr.attribute.Box2i;
 import ca.eandb.util.UnimplementedException;
 
-/**
- * @author brad
- *
- */
 public final class UnimplementedCodec implements Codec {
 
   private static final UnimplementedCodec INSTANCE = new UnimplementedCodec();

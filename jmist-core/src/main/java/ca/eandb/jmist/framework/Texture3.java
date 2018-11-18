@@ -28,7 +28,6 @@ package ca.eandb.jmist.framework;
 import java.io.Serializable;
 
 import ca.eandb.jmist.framework.color.Spectrum;
-import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Point3;
 
 /**

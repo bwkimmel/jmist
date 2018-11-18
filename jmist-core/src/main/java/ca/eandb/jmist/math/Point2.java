@@ -25,8 +25,6 @@
  */
 package ca.eandb.jmist.math;
 
-
-
 /**
  * A location in two dimensional space.
  * This class is immutable.
@@ -205,12 +203,10 @@ public final class Point2 extends HPoint2 {
    */
   public static Point2 bilinearInterpolate(Point2 _00, Point2 _10,
       Point2 _01, Point2 _11, double t, double u) {
-
     return new Point2(
         MathUtil.bilinearInterpolate(_00.x, _10.x, _01.x, _11.x, t, u),
         MathUtil.bilinearInterpolate(_00.y, _10.y, _01.y, _11.y, t, u)
     );
-
   }
 
   /**
@@ -231,12 +227,10 @@ public final class Point2 extends HPoint2 {
   public static Point2 trilinearInterpolate(Point2 _000, Point2 _100,
       Point2 _010, Point2 _110, Point2 _001, Point2 _101, Point2 _011,
       Point2 _111, double t, double u, double v) {
-
     return new Point2(
         MathUtil.trilinearInterpolate(_000.x, _100.x, _010.x, _110.x, _001.x, _101.x, _011.x, _111.x, t, u, v),
         MathUtil.trilinearInterpolate(_000.y, _100.y, _010.y, _110.y, _001.y, _101.y, _011.y, _111.y, t, u, v)
     );
-
   }
 
   /**
@@ -273,7 +267,6 @@ public final class Point2 extends HPoint2 {
    * @return The centroid of the given collection of points.
    */
   public static Point2 centroid(Iterable<Point2> points) {
-
     double x = 0.0;
     double y = 0.0;
     int n = 0;
@@ -285,17 +278,12 @@ public final class Point2 extends HPoint2 {
     }
 
     return new Point2(x / (double) n, y / (double) n);
-
   }
 
-  /**
-   * The origin of three dimensional space.
-   */
+  /** The origin of three dimensional space. */
   public static final Point2 ORIGIN = new Point2(0.0, 0.0);
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 5124476444817020178L;
 
 }

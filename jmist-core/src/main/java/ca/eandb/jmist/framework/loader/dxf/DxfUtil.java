@@ -32,10 +32,6 @@ import java.util.Map;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Vector3;
 
-/**
- * @author Brad
- *
- */
 public final class DxfUtil {
 
   public static DxfReader createDxfReader(Reader reader) {
@@ -66,7 +62,6 @@ public final class DxfUtil {
       if (dxf.getCurrentElement().getStringValue().equals(name)) {
         break;
       }
-
       dxf.advance();
     }
   }
@@ -81,12 +76,9 @@ public final class DxfUtil {
 
   public static Map<String, DxfElement> parseHeader(DxfReader dxf) {
     advanceToSection("HEADER", dxf);
-
-    Map<String, DxfElement> header = new HashMap<String, DxfElement>();
-
+    Map<String, DxfElement> header = new HashMap<>();
     while (true) {
       DxfElement elem = dxf.getCurrentElement();
-
       if (elem.getGroupCode() == 0 && elem.getStringValue().equals("ENDSEC")) {
         break;
       } else if (elem.getGroupCode() == 9) {
@@ -94,10 +86,8 @@ public final class DxfUtil {
         dxf.advance();
         header.put(var, dxf.getCurrentElement());
       }
-
       dxf.advance();
     }
-
     return header;
   }
 

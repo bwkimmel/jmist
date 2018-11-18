@@ -114,7 +114,6 @@ public final class ModifiedPhongMaterial extends OpaqueMaterial {
   @Override
   public double getScatteringPDF(SurfacePoint x, Vector3 in, Vector3 out,
       boolean adjoint, WavelengthPacket lambda) {
-
     double vdotn = -in.dot(x.getNormal());
     double odotn = out.dot(x.getNormal());
     if ((vdotn > 0.0) != (odotn > 0.0)) {
@@ -136,7 +135,6 @@ public final class ModifiedPhongMaterial extends OpaqueMaterial {
     double pdfs = rdoto > 0.0 ? rhos * (Math.pow(rdoto, n) / Math.abs(odotn)) * (n + 1.0) / (2.0 * Math.PI) : 0.0;
 
     return pdfd + pdfs;
-
   }
 
   @Override

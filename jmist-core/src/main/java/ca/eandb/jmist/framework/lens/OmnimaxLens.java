@@ -77,7 +77,7 @@ public final class OmnimaxLens extends AbstractLens {
     @Override
     public Point2 project(HPoint3 q) {
       Vector3 v = q.isPoint() ? q.toPoint3().unitVectorFromOrigin()
-                          : q.toVector3().unit();
+                              : q.toVector3().unit();
       Vector3 half = new Vector3(0.5 * v.x(), 0.5 * v.y(),
           0.5 * (v.z() - 1.0)).unit();
       double x = 0.5 * (half.x() + 1.0);

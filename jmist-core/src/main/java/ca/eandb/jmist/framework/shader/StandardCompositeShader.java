@@ -29,15 +29,9 @@ import ca.eandb.jmist.framework.Shader;
 import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.color.Color;
 
-/**
- * @author brad
- *
- */
 public final class StandardCompositeShader extends CompositeShader {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -870791462232286251L;
 
   @Override

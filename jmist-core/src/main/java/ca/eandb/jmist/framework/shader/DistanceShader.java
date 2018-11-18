@@ -32,10 +32,6 @@ import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Interval;
 
-/**
- * @author brad
- *
- */
 public final class DistanceShader implements Shader {
 
   /** Serialization version ID. */
@@ -74,7 +70,6 @@ public final class DistanceShader implements Shader {
 
   @Override
   public Color shade(ShadingContext sc) {
-
     WavelengthPacket lambda = sc.getWavelengthPacket();
     double d = sc.getDistance();
     if (distanceInterval.contains(d)) {
@@ -87,7 +82,6 @@ public final class DistanceShader implements Shader {
     } else {
       return getColorBlackDefault(farValue, lambda);
     }
-
   }
 
   public Color getColorWhiteDefault(Spectrum s, WavelengthPacket lambda) {

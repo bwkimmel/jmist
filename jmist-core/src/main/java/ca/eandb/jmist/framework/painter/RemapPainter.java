@@ -31,10 +31,6 @@ import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Interval;
 
-/**
- * @author brad
- *
- */
 public final class RemapPainter implements Painter {
 
   /** Serialization version ID. */

@@ -38,7 +38,6 @@ import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
 
 import ca.eandb.jmist.framework.Mask2;
-import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
 
@@ -49,9 +48,7 @@ import ca.eandb.jmist.math.Point2;
  */
 public final class RasterMask2 implements Mask2 {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -2712131011948642676L;
 
   /**
@@ -88,7 +85,7 @@ public final class RasterMask2 implements Mask2 {
       throws ClassNotFoundException, IOException {
     ois.defaultReadObject();
     image = ImageIO.read(ois);
-    placeholder = new ThreadLocal<double[]>();
+    placeholder = new ThreadLocal<>();
   }
 
   /**
@@ -109,15 +106,14 @@ public final class RasterMask2 implements Mask2 {
 
   @Override
   public double opacity(Point2 p) {
-
-    Raster    raster  = image.getRaster();
-    double    u    = p.x() - Math.floor(p.x());
-    double    v    = p.y() - Math.floor(p.y());
-    int      w    = raster.getWidth();
-    int      h    = raster.getHeight();
-    int      x    = MathUtil.clamp((int) Math.floor(u * (double) w), 0, w - 1);
-    int      y    = MathUtil.clamp((int) Math.floor(v * (double) h), 0, h - 1);
-    double[]  pixel  = raster.getPixel(x, y, placeholder.get());
+    Raster raster = image.getRaster();
+    double u = p.x() - Math.floor(p.x());
+    double v = p.y() - Math.floor(p.y());
+    int w = raster.getWidth();
+    int h = raster.getHeight();
+    int x = MathUtil.clamp((int) Math.floor(u * (double) w), 0, w - 1);
+    int y = MathUtil.clamp((int) Math.floor(v * (double) h), 0, h - 1);
+    double[] pixel = raster.getPixel(x, y, placeholder.get());
 
     placeholder.set(pixel);
 
@@ -130,14 +126,13 @@ public final class RasterMask2 implements Mask2 {
     default:
       throw new RuntimeException("Raster has unrecognized number of bands.");
     }
-
   }
 
   /**
    * A place holder to hold a double array for the pixel, so that one is not
-   * allocated on every call to {@link #evaluate(Point2, WavelengthPacket)}.
+   * allocated on every call to {@link #opacity(Point2)}.
    */
-  private transient ThreadLocal<double[]> placeholder = new ThreadLocal<double[]>();
+  private transient ThreadLocal<double[]> placeholder = new ThreadLocal<>();
 
   /**
    * The <code>BufferedImage</code> that serves as the basis for this

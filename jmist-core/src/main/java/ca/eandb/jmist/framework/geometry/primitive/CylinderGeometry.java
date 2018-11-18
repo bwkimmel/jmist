@@ -60,121 +60,95 @@ public final class CylinderGeometry extends PrimitiveGeometry {
 
   @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
-
-    Interval  I    = recorder.interval();
-    Point3    p;
-    double    t;
+    Interval I = recorder.interval();
+    Point3 p;
+    double t;
 
     // first check for intersection of ray with the caps on the ends of the cylinder
 
     // check bottom cap
     t = (this.base.y() - ray.origin().y()) / ray.direction().y();
-    if (I.contains(t))
-    {
+    if (I.contains(t)) {
       p = ray.pointAt(t);
-
-      if (this.base.squaredDistanceTo(p) < this.radius * this.radius)
-      {
+      if (this.base.squaredDistanceTo(p) < this.radius * this.radius) {
         Intersection x = super.newIntersection(ray, t, (ray.direction().y() > 0.0), CYLINDER_SURFACE_BASE)
-          .setLocation(p);
-
+            .setLocation(p);
         recorder.record(x);
       }
     }
 
     // check top cap
     t = (this.base.y() + this.height - ray.origin().y()) / ray.direction().y();
-    if (I.contains(t))
-    {
+    if (I.contains(t)) {
       p = ray.pointAt(t);
-
       double r = (p.x() - this.base.x()) * (p.x() - this.base.x()) + (p.z() - this.base.z()) * (p.z() - this.base.z());
-
-      if (r < this.radius * this.radius)
-      {
+      if (r < this.radius * this.radius) {
         Intersection x = super.newIntersection(ray, t, (ray.direction().y() < 0.0), CYLINDER_SURFACE_TOP)
-          .setLocation(p);
-
+            .setLocation(p);
         recorder.record(x);
       }
     }
 
     // now check for intersection of ray with the body
-    Vector3    orig  = this.base.vectorTo(ray.origin());
-    Vector3    dir    = ray.direction();
+    Vector3 orig = this.base.vectorTo(ray.origin());
+    Vector3 dir = ray.direction();
 
-    Polynomial  f    = new Polynomial(
-                orig.x() * orig.x() + orig.z() * orig.z() - this.radius * this.radius,
-                2.0 * (orig.x() * dir.x() + orig.z() * dir.z()),
-                dir.x() * dir.x() + dir.z() * dir.z()
-              );
-    double[]  x    = f.roots();
+    Polynomial f = new Polynomial(
+        orig.x() * orig.x() + orig.z() * orig.z() - this.radius * this.radius,
+        2.0 * (orig.x() * dir.x() + orig.z() * dir.z()),
+        dir.x() * dir.x() + dir.z() * dir.z()
+    );
+    double[] x = f.roots();
 
-    if (x.length == 2)
-    {
+    if (x.length == 2) {
       // for each solution, make sure the point lies between the base and the apex
       p = ray.pointAt(x[0]);
-      if (MathUtil.inRangeOO(p.y(), this.base.y(), this.base.y() + this.height))
-      {
+      if (MathUtil.inRangeOO(p.y(), this.base.y(), this.base.y() + this.height)) {
         Intersection isect = super.newIntersection(ray, x[0], (x[0] < x[1]), CYLINDER_SURFACE_BODY)
-          .setLocation(p);
-
+            .setLocation(p);
         recorder.record(isect);
       }
 
       p = ray.pointAt(x[1]);
-      if (MathUtil.inRangeOO(p.y(), this.base.y(), this.base.y() + this.height))
-      {
+      if (MathUtil.inRangeOO(p.y(), this.base.y(), this.base.y() + this.height)) {
         Intersection isect = super.newIntersection(ray, x[1], (x[0] > x[1]), CYLINDER_SURFACE_BODY)
-          .setLocation(p);
-
+            .setLocation(p);
         recorder.record(isect);
       }
     }
-
   }
 
   @Override
   public Box3 boundingBox() {
-
     return new Box3(
-      this.base.x() - this.radius,
-      this.base.y(),
-      this.base.z() - this.radius,
-      this.base.x() + this.radius,
-      this.base.y() + this.height,
-      this.base.z() + this.radius
+        this.base.x() - this.radius,
+        this.base.y(),
+        this.base.z() - this.radius,
+        this.base.x() + this.radius,
+        this.base.y() + this.height,
+        this.base.z() + this.radius
     );
-
   }
 
   @Override
   public Sphere boundingSphere() {
-
-    double  h = this.height / 2.0;
-    double  r = Math.sqrt(this.radius * this.radius + h * h);
-    Point3  c = new Point3(this.base.x(), this.base.y() + h, this.base.z());
-
+    double h = this.height / 2.0;
+    double r = Math.sqrt(this.radius * this.radius + h * h);
+    Point3 c = new Point3(this.base.x(), this.base.y() + h, this.base.z());
     return new Sphere(c, r);
-
   }
 
   @Override
   protected Basis3 getBasis(GeometryIntersection x) {
-
     Vector3 n = this.getNormal(x);
     Vector3 r = this.base.vectorTo(x.getPosition());
     Vector3 u = new Vector3(-r.z(), 0.0, r.x());
-
     return Basis3.fromWU(n, u, Basis3.Orientation.RIGHT_HANDED);
-
   }
 
   @Override
   protected Vector3 getNormal(GeometryIntersection x) {
-
     switch (x.getTag()) {
-
     case CYLINDER_SURFACE_BASE:
       return Vector3.J.opposite();
 
@@ -188,20 +162,16 @@ public final class CylinderGeometry extends PrimitiveGeometry {
 
     default:
       throw new IllegalArgumentException("Invalid surface ID.");
-
     }
-
   }
 
   @Override
   protected Point2 getTextureCoordinates(GeometryIntersection x) {
-
-    Vector3    r    = this.base.vectorTo(x.getPosition());
-    double    tx    = (Math.PI + Math.atan2(r.z(), r.x())) / (2.0 * Math.PI);
-    double    ty;
+    Vector3 r = this.base.vectorTo(x.getPosition());
+    double tx = (Math.PI + Math.atan2(r.z(), r.x())) / (2.0 * Math.PI);
+    double ty;
 
     switch (x.getTag()) {
-
     case CYLINDER_SURFACE_BASE:
       ty = Math.sqrt(r.x() * r.x() + r.z() * r.z()) / (4.0 * this.radius);
       break;
@@ -217,11 +187,9 @@ public final class CylinderGeometry extends PrimitiveGeometry {
 
     default:
       throw new IllegalArgumentException("Invalid surface ID.");
-
     }
 
     return new Point2(tx, ty);
-
   }
 
   /** The point at the base of the cylinder */
@@ -242,9 +210,7 @@ public final class CylinderGeometry extends PrimitiveGeometry {
   /** The surface ID for the body of the cylinder. */
   private static final int CYLINDER_SURFACE_BODY = 2;
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 1128440316229322913L;
 
 }

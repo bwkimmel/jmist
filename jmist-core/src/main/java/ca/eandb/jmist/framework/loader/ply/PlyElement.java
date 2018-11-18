@@ -38,7 +38,7 @@ public final class PlyElement {
   private final ElementDescriptor descriptor;
 
   /** The properties of this element. */
-  private final Map<String, PlyProperty> properties = new HashMap<String, PlyProperty>();
+  private final Map<String, PlyProperty> properties = new HashMap<>();
 
   /**
    * Creates a new <code>PlyElement</code> (only accessible within this

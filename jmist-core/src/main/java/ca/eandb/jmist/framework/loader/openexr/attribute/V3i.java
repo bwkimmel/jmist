@@ -29,11 +29,6 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-
-/**
- * @author brad
- *
- */
 @OpenEXRAttributeType("v3i")
 public final class V3i implements Attribute {
 
@@ -59,7 +54,7 @@ public final class V3i implements Attribute {
   }
 
   @Override
-  protected Object clone() throws CloneNotSupportedException {
+  protected Object clone() {
     return this;
   }
 

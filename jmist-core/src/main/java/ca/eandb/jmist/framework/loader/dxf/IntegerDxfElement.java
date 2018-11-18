@@ -25,10 +25,6 @@
  */
 package ca.eandb.jmist.framework.loader.dxf;
 
-/**
- * @author Brad
- *
- */
 public final class IntegerDxfElement extends AbstractDxfElement {
 
   private final int value;

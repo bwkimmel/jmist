@@ -30,10 +30,6 @@ import java.io.ObjectInputStream;
 
 import ca.eandb.jmist.framework.Random;
 
-/**
- * @author Brad Kimmel
- *
- */
 public final class NRooksRandom implements Random {
 
   /** Serialization version ID. */
@@ -59,11 +55,9 @@ public final class NRooksRandom implements Random {
   @Override
   public double next() {
     double result = sources[nextSourceIndex].next();
-
     if (++this.nextSourceIndex >= this.sources.length) {
       this.nextSourceIndex = 0;
     }
-
     return result;
   }
 
@@ -77,11 +71,9 @@ public final class NRooksRandom implements Random {
 
   private void initialize() {
     this.sources = new StratifiedRandom[dimensions];
-
     for (int i = 0; i < dimensions; i++) {
       this.sources[i] = new StratifiedRandom(n, inner);
     }
-
     this.nextSourceIndex = 0;
   }
 

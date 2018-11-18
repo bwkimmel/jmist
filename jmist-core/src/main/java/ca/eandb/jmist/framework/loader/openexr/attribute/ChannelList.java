@@ -35,19 +35,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-/**
- * @author brad
- *
- */
 @OpenEXRAttributeType("chlist")
 public final class ChannelList implements Attribute {
 
   private static final Comparator<Channel> CHANNEL_COMPARATOR = new LexigraphicalChannelComparator();
 
-  private final List<Channel> channels = new ArrayList<Channel>();
+  private final List<Channel> channels = new ArrayList<>();
 
-  private final Map<String, Integer> lookup = new HashMap<String, Integer>();
+  private final Map<String, Integer> lookup = new HashMap<>();
 
   private boolean isSorted = true;
 

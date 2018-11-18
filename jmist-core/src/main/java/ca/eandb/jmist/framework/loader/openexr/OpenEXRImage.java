@@ -29,7 +29,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -40,7 +39,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.imageio.stream.FileImageInputStream;
 import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.IIOByteBuffer;
 import javax.imageio.stream.ImageInputStream;
@@ -66,10 +64,6 @@ import ca.eandb.util.UnexpectedException;
 import ca.eandb.util.UnimplementedException;
 import ca.eandb.util.io.StreamUtil;
 
-/**
- * @author brad
- *
- */
 public final class OpenEXRImage {
 
   private static final int MAGIC = 20000630;
@@ -81,9 +75,8 @@ public final class OpenEXRImage {
   private static final int VERSION = 2;
 
   private static final Map<String, Class<?>> ATTRIBUTE_TYPES;
-  static
-  {
-    Map<String, Class<?>> types = new HashMap<String, Class<?>>();
+  static {
+    Map<String, Class<?>> types = new HashMap<>();
     types.put("channels", ChannelList.class);
     types.put("compression", CompressionMethod.class);
     types.put("dataWindow", Box2i.class);
@@ -95,9 +88,9 @@ public final class OpenEXRImage {
     ATTRIBUTE_TYPES = Collections.unmodifiableMap(types);
   }
 
-  private final Map<String, Attribute> attributes = new HashMap<String, Attribute>();
+  private final Map<String, Attribute> attributes = new HashMap<>();
 
-  private final Map<String, Buffer> data = new HashMap<String, Buffer>();
+  private final Map<String, Buffer> data = new HashMap<>();
 
   public OpenEXRImage(int w, int h) {
     this(new Box2i(0, 0, w - 1, h - 1));

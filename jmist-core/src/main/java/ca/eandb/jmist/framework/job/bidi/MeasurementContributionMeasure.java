@@ -31,9 +31,6 @@ import ca.eandb.jmist.framework.path.PathNode;
 import ca.eandb.jmist.framework.path.PathUtil;
 import ca.eandb.jmist.framework.path.ScatteringNode;
 
-/**
- * @author Brad Kimmel
- */
 public final class MeasurementContributionMeasure implements PathMeasure {
 
   /** Serialization version ID. */
@@ -51,8 +48,7 @@ public final class MeasurementContributionMeasure implements PathMeasure {
   public Color evaluate(PathNode lightTail, PathNode eyeTail) {
     if (lightTail != null && eyeTail != null) {
       return evaluateInner(lightTail, eyeTail);
-    } else if (lightTail == null && eyeTail != null
-        && eyeTail instanceof ScatteringNode) {
+    } else if (lightTail == null && eyeTail instanceof ScatteringNode) {
       return evaluateEyePathOnLight((ScatteringNode) eyeTail);
     } else {
       return null;

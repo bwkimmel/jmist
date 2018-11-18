@@ -73,31 +73,22 @@ public final class BoundingBoxHierarchy3 implements RayTraversalStrategy3 {
    *     calls to this method may be chained.
    */
   public BoundingBoxHierarchy3 addItem(Object item, Box3 bound) {
-
     /* Invalidate the tree if we've already built it. */
     this.root = null;
 
     /* Add the new leaf node. */
     this.leaves.add(new Node(item, bound));
-
     return this;
-
   }
 
   @Override
   public boolean intersect(Ray3 ray, Interval I, Visitor visitor) {
-
     if (this.leaves.size() > 0) {
-
       /* Rebuild the tree if necessary. */
       this.ensureReady();
-
       return this.root.intersect(ray, I, visitor);
-
     }
-
     return true;
-
   }
 
   /**
@@ -145,13 +136,9 @@ public final class BoundingBoxHierarchy3 implements RayTraversalStrategy3 {
    *     specified leaf <code>Node</code>s.
    */
   private Node rebuild(Node[] nodes, int fromIndex, int toIndex) {
-
     assert(toIndex >= fromIndex);
-
     int len = toIndex - fromIndex + 1;
-
     if (len > 2) {
-
       /* This is a binary tree, so we deal with more than two nodes by
        * splitting the list in half and a subtree for each half.
        */
@@ -162,22 +149,16 @@ public final class BoundingBoxHierarchy3 implements RayTraversalStrategy3 {
           this.rebuild(nodes, fromIndex, midIndex),
           this.rebuild(nodes, midIndex + 1, toIndex)
       );
-
     } else if (len == 2) {
-
       /* If there are two nodes, create a single node with the two leaves
        * as its children.
        */
       return new Node(nodes[fromIndex], nodes[toIndex]);
-
     } else { /* len == 1 */
-
       /* If there is only one node, then it is the subtree. */
       assert(len == 1);
       return nodes[fromIndex];
-
     }
-
   }
 
   /**
@@ -194,7 +175,6 @@ public final class BoundingBoxHierarchy3 implements RayTraversalStrategy3 {
    *     longest.
    */
   private Comparator<Node> getComparator(Node[] nodes, int fromIndex, int toIndex) {
-
     Box3 bound = getBoundingBox(nodes, fromIndex, toIndex);
 
     if (bound.lengthX() > bound.lengthY() && bound.lengthX() > bound.lengthZ()) {
@@ -204,7 +184,6 @@ public final class BoundingBoxHierarchy3 implements RayTraversalStrategy3 {
     } else {
       return COMPARATORS[NodeComparator.Z_AXIS];
     }
-
   }
 
   /**
@@ -219,15 +198,11 @@ public final class BoundingBoxHierarchy3 implements RayTraversalStrategy3 {
    *     boxes of the specified <code>Node</code>s.
    */
   private Box3 getBoundingBox(Node[] nodes, int fromIndex, int toIndex) {
-
     BoundingBoxBuilder3 builder = new BoundingBoxBuilder3();
-
     for (int i = fromIndex; i <= toIndex; i++) {
       builder.add(nodes[i].bound);
     }
-
     return builder.getBoundingBox();
-
   }
 
   /**
@@ -285,25 +260,18 @@ public final class BoundingBoxHierarchy3 implements RayTraversalStrategy3 {
      *     without being cancelled.
      */
     public boolean intersect(Ray3 ray, Interval I, Visitor visitor) {
-
       if (this.bound.intersects(ray, I)) {
-
         if (item != null && !visitor.visit(item)) {
           return false;
         }
-
         if (a != null && !a.intersect(ray, I, visitor)) {
           return false;
         }
-
         if (b != null && !b.intersect(ray, I, visitor)) {
           return false;
         }
-
       }
-
       return true;
-
     }
 
   }
@@ -368,7 +336,7 @@ public final class BoundingBoxHierarchy3 implements RayTraversalStrategy3 {
   private Node root;
 
   /** The <code>List</code> of leaf nodes in the bounding box tree. */
-  private final List<Node> leaves = new ArrayList<Node>();
+  private final List<Node> leaves = new ArrayList<>();
 
   /** The <code>NodeComparator</code>s for each axis. */
   private static final NodeComparator[] COMPARATORS = new NodeComparator[]{

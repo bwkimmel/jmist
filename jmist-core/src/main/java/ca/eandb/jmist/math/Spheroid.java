@@ -312,9 +312,9 @@ public final class Spheroid implements Serializable {
     double rw = 2.0 * basis.w().dot(r) / (c * c);
 
     return new Vector3(
-      ru * basis.u().x() + rv * basis.v().x() + rw * basis.w().x(),
-      ru * basis.u().y() + rv * basis.v().y() + rw * basis.w().y(),
-      ru * basis.u().z() + rv * basis.v().z() + rw * basis.w().z()
+        ru * basis.u().x() + rv * basis.v().x() + rw * basis.w().x(),
+        ru * basis.u().y() + rv * basis.v().y() + rw * basis.w().y(),
+        ru * basis.u().z() + rv * basis.v().z() + rw * basis.w().z()
     );
   }
 

@@ -35,10 +35,6 @@ import javax.imageio.ImageTypeSpecifier;
 import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.spi.ImageReaderSpi;
 
-/**
- * @author brad
- *
- */
 public final class OpenEXRImageReader extends ImageReader {
 
   public OpenEXRImageReader(ImageReaderSpi originatingProvider) {

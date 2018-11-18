@@ -31,22 +31,15 @@ import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
 
-/**
- * @author Brad Kimmel
- *
- */
 public final class PolygonalSurfaceOfRevolutionGeometry extends
     AbstractGeometry {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 5027391031027922071L;
 
   @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
     // TODO Auto-generated method stub
-
   }
 
   @Override
@@ -82,7 +75,6 @@ public final class PolygonalSurfaceOfRevolutionGeometry extends
   @Override
   public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
     // TODO Auto-generated method stub
-
   }
 
 }

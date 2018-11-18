@@ -30,10 +30,6 @@ import java.io.Serializable;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.path.PathNode;
 
-/**
- * @author brad
- *
- */
 public interface PathMeasure extends Serializable {
 
   Color evaluate(PathNode lightTail, PathNode eyeTail);

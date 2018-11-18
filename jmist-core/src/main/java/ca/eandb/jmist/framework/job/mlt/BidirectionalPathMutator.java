@@ -31,7 +31,6 @@ import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.job.bidi.MeasurementContributionMeasure;
 import ca.eandb.jmist.framework.job.bidi.PathMeasure;
-import ca.eandb.jmist.framework.path.LightNode;
 import ca.eandb.jmist.framework.path.Path;
 import ca.eandb.jmist.framework.path.PathInfo;
 import ca.eandb.jmist.framework.path.PathNode;
@@ -42,10 +41,6 @@ import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
 
-/**
- * @author brad
- *
- */
 public final class BidirectionalPathMutator implements PathMutator {
 
   /** Serialization version ID. */
@@ -219,7 +214,6 @@ public final class BidirectionalPathMutator implements PathMutator {
    *     <code>s &gt; slice.s || t &gt; slice.t</code>.
    */
   private IntPair getCommonSlice(Path x, Path y) {
-
     PathNode[] xNodes = x.toPathNodes();
     PathNode[] yNodes = y.toPathNodes();
     int k = Math.min(xNodes.length, yNodes.length);
@@ -245,7 +239,6 @@ public final class BidirectionalPathMutator implements PathMutator {
     t -= 1;
 
     return new IntPair(s, t);
-
   }
 
   private double getSliceProbability(Path x, IntPair slice) {
@@ -287,7 +280,6 @@ public final class BidirectionalPathMutator implements PathMutator {
 
   @Override
   public Path mutate(Path x, Random rnd) {
-
     int k = x.getLength();
     CategoricalRandom r = generateDeletedSubpathProbabilities(x);
     IntPair slice = getSlice(x, r.next(rnd));
@@ -350,7 +342,6 @@ public final class BidirectionalPathMutator implements PathMutator {
     }
 
     return null;
-
   }
 
   private double[] getAllUnweightedContributions(Path x) {

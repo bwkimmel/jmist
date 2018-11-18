@@ -52,9 +52,7 @@ import ca.eandb.jmist.math.Sphere;
  */
 public final class HeightFieldGeometry extends PrimitiveGeometry {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -9067100310767210560L;
 
   /**
@@ -86,12 +84,10 @@ public final class HeightFieldGeometry extends PrimitiveGeometry {
 
   @Override
   public void intersect(Ray3 ray, final IntersectionRecorder recorder) {
-
     this.grid.intersect(ray, recorder.interval(), new Grid3.Visitor() {
 
       @Override
       public boolean visit(Ray3 ray, Interval I, Cell cell) {
-
         /* Get the points at which the ray enters and exits the cell.
          */
         Point3 p0 = ray.pointAt(I.minimum());
@@ -173,18 +169,14 @@ public final class HeightFieldGeometry extends PrimitiveGeometry {
               hit = true;
             }
           }
-
         }
 
         /* If we got a hit, and if the recorder does not need all
          * intersections, then we are done.
          */
         return !hit || recorder.needAllIntersections();
-
       }
-
     });
-
   }
 
   @Override
@@ -204,8 +196,7 @@ public final class HeightFieldGeometry extends PrimitiveGeometry {
 
   @Override
   public Sphere boundingSphere() {
-
-    List<Point3> points = new ArrayList<Point3>();
+    List<Point3> points = new ArrayList<>();
     Box3 bounds = grid.getBoundingBox();
     int nx = height.rows();
     int nz = height.columns();
@@ -217,9 +208,7 @@ public final class HeightFieldGeometry extends PrimitiveGeometry {
         points.add(new Point3(bounds.interpolateX(x), height.at(ix, iz), bounds.interpolateZ(z)));
       }
     }
-
     return Sphere.smallestContaining(points);
-
   }
 
   /** The <code>Grid3</code> elements of the height field. */

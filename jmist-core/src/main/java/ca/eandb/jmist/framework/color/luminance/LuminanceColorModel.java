@@ -38,10 +38,6 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.pdf.PiecewiseLinearProbabilityDensityFunction;
 import ca.eandb.jmist.math.MathUtil;
 
-/**
- * @author Brad
- *
- */
 public final class LuminanceColorModel implements ColorModel {
 
   /** Serialization version ID. */

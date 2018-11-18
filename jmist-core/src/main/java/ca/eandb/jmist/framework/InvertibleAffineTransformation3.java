@@ -292,9 +292,7 @@ public class InvertibleAffineTransformation3 extends AffineTransformation3
   /** The inverse transformation matrix. */
   private AffineMatrix3 inverse = null;
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -5759913323363262892L;
 
 }

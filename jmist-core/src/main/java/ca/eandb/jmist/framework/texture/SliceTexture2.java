@@ -27,9 +27,7 @@ package ca.eandb.jmist.framework.texture;
 
 import ca.eandb.jmist.framework.Texture2;
 import ca.eandb.jmist.framework.Texture3;
-import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.Spectrum;
-import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Basis3;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;

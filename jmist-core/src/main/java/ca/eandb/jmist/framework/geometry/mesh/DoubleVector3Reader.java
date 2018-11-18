@@ -7,10 +7,6 @@ import java.nio.ByteBuffer;
 
 import ca.eandb.jmist.math.Vector3;
 
-/**
- * @author bwkimmel
- *
- */
 public final class DoubleVector3Reader implements MeshElementReader<Vector3> {
 
   @Override

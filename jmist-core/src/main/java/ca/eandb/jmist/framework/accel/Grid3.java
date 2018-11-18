@@ -134,7 +134,7 @@ public final class Grid3 implements Serializable {
    * to notify the caller about each cell passed through by the ray.
    * @see Grid3#intersect(Ray3, Interval, ca.eandb.jmist.framework.accel.Grid3.Visitor)
    */
-  public static interface Visitor {
+  public interface Visitor {
 
     /**
      * Notifies the caller to Grid3.intersect that the ray has
@@ -182,14 +182,13 @@ public final class Grid3 implements Serializable {
    */
   public Box3 cellBounds(int cx, int cy, int cz) {
     assert(this.hasCellAt(cx, cy, cz));
-
     return new Box3(
-      bound.minimumX() + (double) cx * dx,
-      bound.minimumY() + (double) cy * dy,
-      bound.minimumZ() + (double) cz * dz,
-      bound.minimumX() + (double) (cx + 1) * dx,
-      bound.minimumY() + (double) (cy + 1) * dy,
-      bound.minimumZ() + (double) (cz + 1) * dz
+        bound.minimumX() + (double) cx * dx,
+        bound.minimumY() + (double) cy * dy,
+        bound.minimumZ() + (double) cz * dz,
+        bound.minimumX() + (double) (cx + 1) * dx,
+        bound.minimumY() + (double) (cy + 1) * dy,
+        bound.minimumZ() + (double) (cz + 1) * dz
     );
   }
 
@@ -249,24 +248,21 @@ public final class Grid3 implements Serializable {
    * @see Interval#intersects(Interval)
    */
   public boolean intersect(Ray3 ray, Interval I, Visitor visitor) {
-
     I = I.intersect(bound.intersect(ray));
-
     if (I.isEmpty()) { // missed the grid entirely
       return false;
     }
 
-    Interval  cellI = new Interval(I.minimum(), I.minimum());
-    Vector3    d = ray.direction();
-    Point3    p = ray.pointAt(I.minimum());
-    Cell    cell;
-    Cell    nextCell = this.nearestCell(p);
-    double    rx = p.x() - (bound.minimumX() + (double) nextCell.cx * dx);
-    double    ry = p.y() - (bound.minimumY() + (double) nextCell.cy * dy);
-    double    rz = p.z() - (bound.minimumZ() + (double) nextCell.cz * dz);
+    Interval cellI = new Interval(I.minimum(), I.minimum());
+    Vector3 d = ray.direction();
+    Point3 p = ray.pointAt(I.minimum());
+    Cell cell;
+    Cell nextCell = this.nearestCell(p);
+    double rx = p.x() - (bound.minimumX() + (double) nextCell.cx * dx);
+    double ry = p.y() - (bound.minimumY() + (double) nextCell.cy * dy);
+    double rz = p.z() - (bound.minimumZ() + (double) nextCell.cz * dz);
 
     do {
-
       cell = nextCell;
 
       double  tx, ty, tz, t;
@@ -302,27 +298,21 @@ public final class Grid3 implements Serializable {
         visitor.visit(ray, cellI, cell);
         break;
       }
-
-
     } while (I.intersects(cellI) && visitor.visit(ray, cellI, cell) && this.hasCellAt(nextCell.cx, nextCell.cy, nextCell.cz));
 
     return true;
-
   }
 
-
   /** The bounding box of this grid. */
-  private final Box3    bound;
+  private final Box3 bound;
 
   /** The number of cells in each direction. */
-  private final int    nx, ny, nz;
+  private final int nx, ny, nz;
 
   /** The dimensions of the cells along each axis. */
-  private final double  dx, dy, dz;
+  private final double dx, dy, dz;
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -2612737653304419826L;
 
 }

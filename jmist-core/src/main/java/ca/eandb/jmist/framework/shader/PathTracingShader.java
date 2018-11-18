@@ -92,17 +92,9 @@ public final class PathTracingShader implements Shader {
 
   /** Sets up the random number generated used by this shader. */
   private void initialize() {
-    rnd = new ThreadLocal<Random>() {
-      protected Random initialValue() {
-        return new SimpleRandom();
-      }
-    };
+    rnd = ThreadLocal.withInitial(SimpleRandom::new);
     if (firstBounceRays > 0) {
-      firstBounceSampler = new ThreadLocal<Random>() {
-        protected Random initialValue() {
-          return new NRooksRandom(firstBounceRays, 3, rnd.get());
-        }
-      };
+      firstBounceSampler = ThreadLocal.withInitial(() -> new NRooksRandom(firstBounceRays, 3, rnd.get()));
     }
   }
 
@@ -114,7 +106,6 @@ public final class PathTracingShader implements Shader {
 
   @Override
   public Color shade(ShadingContext sc) {
-
     if (firstBounceRays > 0 && sc.getPathDepth() < 1) {
       Random sampler = firstBounceSampler.get();
       WavelengthPacket lambda = sc.getWavelengthPacket();
@@ -147,7 +138,6 @@ public final class PathTracingShader implements Shader {
 
     WavelengthPacket lambda = sc.getWavelengthPacket();
     return sc.getColorModel().getBlack(lambda);
-
   }
 
 }

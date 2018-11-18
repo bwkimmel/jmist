@@ -27,7 +27,6 @@ package ca.eandb.jmist.framework;
 
 import java.io.Serializable;
 
-
 /**
  * A scene to be rendered.
  * @author Brad Kimmel

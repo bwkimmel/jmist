@@ -38,10 +38,6 @@ import ca.eandb.jmist.framework.path.ScaledLightNode;
 import ca.eandb.jmist.framework.random.RandomUtil;
 import ca.eandb.jmist.framework.random.SeedReference;
 
-/**
- * @author Brad Kimmel
- *
- */
 public final class SimpleCompositeLight extends CompositeLight {
 
   /** Serialization version ID. */

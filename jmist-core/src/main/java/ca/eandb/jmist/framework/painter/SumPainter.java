@@ -31,10 +31,6 @@ import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorUtil;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 
-/**
- * @author brad
- *
- */
 public final class SumPainter extends CompositePainter {
 
   /** Serialization version ID. */

@@ -94,7 +94,6 @@ public final class LambertianSurfaceScatterer implements SurfaceScatterer {
   @Override
   public Vector3 scatter(SurfacePointGeometry x, Vector3 v,
       boolean adjoint, double lambda, Random rnd) {
-
     double r = reflectance.evaluate(lambda);
     double u = rnd.next() - r;
     if (u < 0.0) {
@@ -107,7 +106,6 @@ public final class LambertianSurfaceScatterer implements SurfaceScatterer {
       Vector3 out = RandomUtil.diffuse(rnd).toCartesian(x.getBasis());
       return (v.dot(x.getNormal()) < 0.0) ? out.opposite() : out;
     }
-
     return null;
   }
 

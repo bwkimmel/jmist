@@ -93,29 +93,27 @@ public final class ConductiveMaterial extends AbstractMaterial {
 
   @Override
   public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint, WavelengthPacket lambda, double ru, double rv, double rj) {
-
-    ColorModel  cm      = lambda.getColorModel();
-    Point3    p      = x.getPosition();
-    Medium    medium    = x.getAmbientMedium();
-    Color    n1      = medium.refractiveIndex(p, lambda);
-    Color    k1      = medium.extinctionIndex(p, lambda);
-    Color    n2      = n.sample(lambda);
-    Color    k2      = k.sample(lambda);
-    Vector3    normal    = x.getShadingNormal();
-    boolean    fromSide  = x.getNormal().dot(v) < 0.0;
-    Color    R      = MaterialUtil.reflectance(v, n1, k1, n2, k2, normal);
-    Color    T      = cm.getWhite(lambda).minus(R);
-    double    r      = ColorUtil.getMeanChannelValue(R);
+    ColorModel cm = lambda.getColorModel();
+    Point3 p = x.getPosition();
+    Medium medium = x.getAmbientMedium();
+    Color n1 = medium.refractiveIndex(p, lambda);
+    Color k1 = medium.extinctionIndex(p, lambda);
+    Color n2 = n.sample(lambda);
+    Color k2 = k.sample(lambda);
+    Vector3 normal = x.getShadingNormal();
+    boolean fromSide = x.getNormal().dot(v) < 0.0;
+    Color R = MaterialUtil.reflectance(v, n1, k1, n2, k2, normal);
+    Color T = cm.getWhite(lambda).minus(R);
+    double r = ColorUtil.getMeanChannelValue(R);
 
     if (RandomUtil.bernoulli(r, rj)) {
-      Vector3    out    = Optics.reflect(v, normal);
-      boolean    toSide  = x.getNormal().dot(out) >= 0.0;
+      Vector3 out = Optics.reflect(v, normal);
+      boolean toSide = x.getNormal().dot(out) >= 0.0;
 
       if (fromSide == toSide) {
         return ScatteredRay.specular(new Ray3(p, out), R.divide(r), r);
       }
     } else {
-
       if (alpha != null) {
 //        if (disperse) {
 //          for (int i = 0, channels = cm.getNumChannels(); i < channels; i++) {
@@ -129,25 +127,23 @@ public final class ConductiveMaterial extends AbstractMaterial {
 //            }
 //          }
 //        } else { // !disperse
-          double    n1avg  = ColorUtil.getMeanChannelValue(n1);
-          double    k1avg  = ColorUtil.getMeanChannelValue(k1);
-          double    n2avg  = ColorUtil.getMeanChannelValue(n2);
-          double    k2avg  = ColorUtil.getMeanChannelValue(k2);
-          Complex    eta1  = new Complex(n1avg, k1avg);
-          Complex    eta2  = new Complex(n2avg, k2avg);
-          Vector3    out    = Optics.refract(v, eta1, eta2, normal);
-          boolean    toSide  = x.getNormal().dot(out) >= 0.0;
+          double n1avg = ColorUtil.getMeanChannelValue(n1);
+          double k1avg = ColorUtil.getMeanChannelValue(k1);
+          double n2avg = ColorUtil.getMeanChannelValue(n2);
+          double k2avg = ColorUtil.getMeanChannelValue(k2);
+          Complex eta1 = new Complex(n1avg, k1avg);
+          Complex eta2 = new Complex(n2avg, k2avg);
+          Vector3 out = Optics.refract(v, eta1, eta2, normal);
+          boolean toSide = x.getNormal().dot(out) >= 0.0;
 
           if (fromSide != toSide) {
             return ScatteredRay.transmitSpecular(new Ray3(p, out), T.divide(1 - r), 1 - r);
           }
 //        }
       }
-
     }
 
     return null;
-
   }
 
   /** The real part of the refractive index. */

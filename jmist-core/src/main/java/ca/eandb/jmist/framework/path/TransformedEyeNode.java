@@ -30,10 +30,6 @@ import ca.eandb.jmist.math.HPoint3;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Vector3;
 
-/**
- * @author Brad
- *
- */
 public final class TransformedEyeNode extends TransformedPathNode implements
     EyeNode {
 

@@ -3,8 +3,8 @@ package ca.eandb.jmist.framework.material;
 import org.apache.commons.math3.util.FastMath;
 
 import ca.eandb.jmist.framework.Painter;
-import ca.eandb.jmist.framework.ShaderParameter;
 import ca.eandb.jmist.framework.ScatteredRay;
+import ca.eandb.jmist.framework.ShaderParameter;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.Spectrum;

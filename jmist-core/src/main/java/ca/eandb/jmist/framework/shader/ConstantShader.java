@@ -33,10 +33,6 @@ import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.painter.UniformPainter;
 
-/**
- * @author brad
- *
- */
 public final class ConstantShader implements Shader {
 
   /** Serialization version ID. */

@@ -29,10 +29,6 @@ import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorMeasure;
 import ca.eandb.jmist.framework.color.ColorUtil;
 
-/**
- * @author Brad
- *
- */
 public final class MeanColorMeasure implements ColorMeasure {
 
   /** Serialization version ID. */

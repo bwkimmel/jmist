@@ -28,10 +28,6 @@ package ca.eandb.jmist.framework.loader.obj;
 import ca.eandb.jmist.framework.Material;
 import ca.eandb.jmist.framework.Shader;
 
-/**
- * @author brad
- *
- */
 interface AppearanceVisitor {
 
   void visit(String name, Material material, Shader shader);

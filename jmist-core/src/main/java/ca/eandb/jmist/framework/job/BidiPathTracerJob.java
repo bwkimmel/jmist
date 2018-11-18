@@ -128,7 +128,7 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
   }
 
   @Override
-  public synchronized Object getNextTask() throws Exception {
+  public synchronized Object getNextTask() {
     if (tasksProvided < tasks) {
       return tasksProvided++ < extraPasses ? minPassesPerTask + 1
           : minPassesPerTask;
@@ -138,14 +138,13 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
   }
 
   @Override
-  public boolean isComplete() throws Exception {
+  public boolean isComplete() {
     return tasksSubmitted == tasks;
   }
 
   @Override
   public synchronized void submitTaskResults(Object task, Object results,
-      ProgressMonitor monitor) throws Exception {
-
+      ProgressMonitor monitor) {
     int taskPasses = (Integer) task;
     Raster taskRaster = (Raster) results;
 
@@ -178,7 +177,6 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
     } else {
       monitor.notifyStatusChanged("Waiting for partial results");
     }
-
   }
 
   private synchronized void writeContribList() {
@@ -197,7 +195,7 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
   }
 
   @Override
-  public void initialize() throws Exception {
+  public void initialize() {
     raster = colorModel.createRaster(width, height);
     if (displayPartialResults) {
       display.initialize(width, height, colorModel);
@@ -205,7 +203,7 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
   }
 
   @Override
-  public void finish() throws Exception {
+  public void finish() {
     if (!displayPartialResults) {
       for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
@@ -219,7 +217,7 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
   }
 
   @Override
-  public TaskWorker worker() throws Exception {
+  public TaskWorker worker() {
     return new Worker();
   }
 
@@ -228,17 +226,8 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
     /** Serialization version ID. */
     private static final long serialVersionUID = -7848301189373426210L;
 
-    private transient ThreadLocal<Raster> raster = null;
-
-    private synchronized void initialize() {
-      if (raster == null) {
-        raster = new ThreadLocal<Raster>() {
-          protected Raster initialValue() {
-            return colorModel.createRaster(width, height);
-          }
-        };
-      }
-    }
+    private transient ThreadLocal<Raster> raster =
+        ThreadLocal.withInitial(() -> colorModel.createRaster(width, height));
 
     @Override
     public Object performTask(Object task, ProgressMonitor monitor) {
@@ -254,7 +243,6 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
       Lens lens = scene.getLens();
       Animator animator = scene.getAnimator();
 
-      initialize();
       raster.get().clear();
 
       for (int n = 0, y = 0; y < height; y++) {
@@ -296,7 +284,6 @@ public final class BidiPathTracerJob extends AbstractParallelizableJob {
       monitor.notifyComplete();
 
       return raster.get();
-
     }
 
 //

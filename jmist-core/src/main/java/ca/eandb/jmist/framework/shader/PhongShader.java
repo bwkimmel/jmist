@@ -36,10 +36,6 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.painter.UniformPainter;
 import ca.eandb.jmist.math.Vector3;
 
-/**
- * @author Brad Kimmel
- *
- */
 public final class PhongShader implements Shader {
 
   /** Serialization version ID. */
@@ -66,7 +62,6 @@ public final class PhongShader implements Shader {
 
   @Override
   public Color shade(ShadingContext sc) {
-
     WavelengthPacket lambda = sc.getWavelengthPacket();
     ColorModel cm = sc.getColorModel();
 
@@ -96,7 +91,6 @@ public final class PhongShader implements Shader {
     a = a.times(ka);
 
     return d.plus(s).plus(a);
-
   }
 
 }

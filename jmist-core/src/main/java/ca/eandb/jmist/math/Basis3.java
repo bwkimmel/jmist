@@ -200,15 +200,11 @@ public final class Basis3 implements Serializable {
   }
 
   public static Basis3 fromUV(Vector3 u, Vector3 v, Orientation orientation) {
-
     Vector3 _u = u.unit();
     Vector3 _v = v.minus(_u.times(_u.dot(v))).unit();
-
     Vector3 _w = (orientation == Orientation.RIGHT_HANDED ? _u.cross(_v)
         : _v.cross(_u));
-
     return new Basis3(_u, _v, _w);
-
   }
 
   public static Basis3 fromUW(Vector3 u, Vector3 w) {
@@ -216,15 +212,11 @@ public final class Basis3 implements Serializable {
   }
 
   public static Basis3 fromUW(Vector3 u, Vector3 w, Orientation orientation) {
-
     Vector3 _u = u.unit();
     Vector3 _w = w.minus(_u.times(_u.dot(w))).unit();
-
     Vector3 _v = (orientation == Orientation.LEFT_HANDED ? _u.cross(_w)
         : _w.cross(_u));
-
     return new Basis3(_u, _v, _w);
-
   }
 
   public static Basis3 fromVU(Vector3 v, Vector3 u) {
@@ -232,13 +224,10 @@ public final class Basis3 implements Serializable {
   }
 
   public static Basis3 fromVU(Vector3 v, Vector3 u, Orientation orientation) {
-
     Vector3 _v = v.unit();
     Vector3 _u = u.minus(_v.times(_v.dot(u))).unit();
-
     Vector3 _w = (orientation == Orientation.LEFT_HANDED ? _v.cross(_u)
         : _u.cross(_v));
-
     return new Basis3(_u, _v, _w);
 
   }
@@ -248,15 +237,11 @@ public final class Basis3 implements Serializable {
   }
 
   public static Basis3 fromVW(Vector3 v, Vector3 w, Orientation orientation) {
-
     Vector3 _v = v.unit();
     Vector3 _w = w.minus(_v.times(_v.dot(w))).unit();
-
     Vector3 _u = (orientation == Orientation.RIGHT_HANDED ? _v.cross(_w)
         : _w.cross(_v));
-
     return new Basis3(_u, _v, _w);
-
   }
 
   public static Basis3 fromWU(Vector3 w, Vector3 u) {
@@ -264,15 +249,11 @@ public final class Basis3 implements Serializable {
   }
 
   public static Basis3 fromWU(Vector3 w, Vector3 u, Orientation orientation) {
-
     Vector3 _w = w.unit();
     Vector3 _u = u.minus(_w.times(_w.dot(u))).unit();
-
     Vector3 _v = (orientation == Orientation.RIGHT_HANDED ? _w.cross(_u)
         : _u.cross(_w));
-
     return new Basis3(_u, _v, _w);
-
   }
 
   public static Basis3 fromWV(Vector3 w, Vector3 v) {
@@ -280,104 +261,68 @@ public final class Basis3 implements Serializable {
   }
 
   public static Basis3 fromWV(Vector3 w, Vector3 v, Orientation orientation) {
-
     Vector3 _w = w.unit();
     Vector3 _v = v.minus(_w.times(_w.dot(v))).unit();
-
     Vector3 _u = (orientation == Orientation.LEFT_HANDED ? _w.cross(_v)
         : _v.cross(_w));
-
     return new Basis3(_u, _v, _w);
-
   }
 
   public static Basis3 fromUVW(Vector3 u, Vector3 v, Vector3 w) {
-
     Vector3 _u = u.unit();
     Vector3 _v = v.minus(_u.times(_u.dot(v))).unit();
-
     Vector3 _w = _u.cross(_v);
-
     if (_w.dot(w) < 0.0)
       _w = _w.opposite();
-
     return new Basis3(_u, _v, _w);
-
   }
 
   public static Basis3 fromUWV(Vector3 u, Vector3 w, Vector3 v) {
-
     Vector3 _u = u.unit();
     Vector3 _w = w.minus(_u.times(_u.dot(w))).unit();
-
     Vector3 _v = _u.cross(_w);
-
     if (_v.dot(v) < 0.0)
       _v = _v.opposite();
-
     return new Basis3(_u, _v, _w);
-
   }
 
   public static Basis3 fromVUW(Vector3 v, Vector3 u, Vector3 w) {
-
     Vector3 _v = v.unit();
     Vector3 _u = u.minus(_v.times(_v.dot(u))).unit();
-
     Vector3 _w = _v.cross(_u);
-
     if (_w.dot(w) < 0.0)
       _w = _w.opposite();
-
     return new Basis3(_u, _v, _w);
-
   }
 
   public static Basis3 fromVWU(Vector3 v, Vector3 w, Vector3 u) {
-
     Vector3 _v = v.unit();
     Vector3 _w = w.minus(_v.times(_v.dot(w))).unit();
-
     Vector3 _u = _v.cross(_w);
-
     if (_u.dot(u) < 0.0)
       _u = _u.opposite();
-
     return new Basis3(_u, _v, _w);
-
   }
 
   public static Basis3 fromWUV(Vector3 w, Vector3 u, Vector3 v) {
-
     Vector3 _w = w.unit();
     Vector3 _u = u.minus(_w.times(_w.dot(u))).unit();
-
     Vector3 _v = _w.cross(_u);
-
     if (_v.dot(v) < 0.0)
       _v = _v.opposite();
-
     return new Basis3(_u, _v, _w);
-
   }
 
   public static Basis3 fromWVU(Vector3 w, Vector3 v, Vector3 u) {
-
     Vector3 _w = w.unit();
     Vector3 _v = v.minus(_w.times(_w.dot(v))).unit();
-
     Vector3 _u = _w.cross(_v);
-
     if (_u.dot(u) < 0.0)
       _u = _u.opposite();
-
     return new Basis3(_u, _v, _w);
-
   }
 
-  /**
-   * The standard <code>Basis3</code>.
-   */
+  /** The standard <code>Basis3</code>. */
   public static final Basis3 STANDARD = new Basis3(Vector3.I, Vector3.J, Vector3.K);
 
   /** The first tangent <code>Vector3</code>. */
@@ -389,9 +334,7 @@ public final class Basis3 implements Serializable {
   /** The normal <code>Vector3</code>. */
   private final Vector3 w;
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 6204667205376195095L;
 
 }

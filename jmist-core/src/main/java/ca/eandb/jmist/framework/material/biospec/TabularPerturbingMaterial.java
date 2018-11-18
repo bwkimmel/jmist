@@ -38,10 +38,6 @@ import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.SphericalCoordinates;
 import ca.eandb.jmist.math.Vector3;
 
-/**
- * @author bwkimmel
- *
- */
 public class TabularPerturbingMaterial extends OpaqueMaterial {
 
 //  private final double[] wavelengths;
@@ -64,7 +60,6 @@ public class TabularPerturbingMaterial extends OpaqueMaterial {
   @Override
   public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint,
       WavelengthPacket lambda, double ru, double rv, double rj) {
-
     Basis3 basis = Basis3.fromW(v);
     Vector3 N = x.getNormal();
     boolean inDir = (v.dot(N) < 0.0);

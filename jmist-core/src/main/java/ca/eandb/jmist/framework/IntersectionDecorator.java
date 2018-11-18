@@ -25,7 +25,6 @@
  */
 package ca.eandb.jmist.framework;
 
-
 /**
  * An abstract <code>Intersection</code> that decorates another (e.g., by
  * applying a transformation).  Default implementations are provided that call

@@ -38,10 +38,6 @@ import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.SphericalCoordinates;
 import ca.eandb.jmist.math.Vector3;
 
-/**
- * @author bwkimmel
- *
- */
 public final class TrowbridgeReitzMaterial extends OpaqueMaterial {
 
   /** Serialization version ID. */

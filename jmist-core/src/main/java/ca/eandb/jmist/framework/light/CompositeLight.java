@@ -31,10 +31,6 @@ import java.util.List;
 
 import ca.eandb.jmist.framework.Light;
 
-/**
- * @author Brad Kimmel
- *
- */
 public abstract class CompositeLight extends AbstractLight {
 
   /** Serialization version ID. */

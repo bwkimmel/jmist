@@ -37,10 +37,6 @@ import ca.eandb.jmist.framework.loader.openexr.codec.IdentityCodec;
 import ca.eandb.jmist.framework.loader.openexr.codec.PizCodec;
 import ca.eandb.jmist.framework.loader.openexr.codec.UnimplementedCodec;
 
-/**
- * @author brad
- *
- */
 @OpenEXRAttributeType("compression")
 public enum CompressionMethod implements Attribute {
 
@@ -65,9 +61,6 @@ public enum CompressionMethod implements Attribute {
     this.codec = codec;
   }
 
-  /**
-   * @return the scanLinesPerBlock
-   */
   public final int getScanLinesPerBlock() {
     return scanLinesPerBlock;
   }

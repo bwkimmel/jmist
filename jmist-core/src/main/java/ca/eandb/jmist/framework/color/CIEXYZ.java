@@ -124,10 +124,10 @@ public class CIEXYZ extends Tuple3 implements Spectrum {
     v = Double.longBitsToDouble((bits & 0x800fffffffffffffL) | 0x3fe0000000000000L) * 256.0 / v;
 
     return
-      (MathUtil.clamp((int) Math.floor(x * v), 0, 255) << 24) |
-      (MathUtil.clamp((int) Math.floor(y * v), 0, 255) << 16) |
-      (MathUtil.clamp((int) Math.floor(z * v), 0, 255) <<  8) |
-      MathUtil.clamp(e + 128, 0, 255);
+        (MathUtil.clamp((int) Math.floor(x * v), 0, 255) << 24) |
+        (MathUtil.clamp((int) Math.floor(y * v), 0, 255) << 16) |
+        (MathUtil.clamp((int) Math.floor(z * v), 0, 255) <<  8) |
+        MathUtil.clamp(e + 128, 0, 255);
   }
 
   public static CIEXYZ fromXYZE(int xyze) {

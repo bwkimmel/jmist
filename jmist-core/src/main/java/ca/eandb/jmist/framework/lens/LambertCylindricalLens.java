@@ -83,7 +83,7 @@ public final class LambertCylindricalLens extends AbstractLens {
     @Override
     public Point2 project(HPoint3 q) {
       Vector3 v = q.isPoint() ? q.toPoint3().unitVectorFromOrigin()
-                          : q.toVector3().unit();
+                              : q.toVector3().unit();
       SphericalCoordinates sc = SphericalCoordinates.fromCartesian(v,
           BASIS);
       double x = sc.azimuthal() / (2.0 * Math.PI);

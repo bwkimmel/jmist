@@ -9,18 +9,15 @@ import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Vector3;
 
-/**
- *
- */
 public interface Mesh {
 	
-  public interface Vertex {
+  interface Vertex {
     Point3 getPosition();
     Vector3 getNormal();
     Point2 getUV();
   }
 	
-  public interface Face {
+  interface Face {
     int getVertexCount();
     Vertex getVertex(int index);
     int getMaterialIndex();

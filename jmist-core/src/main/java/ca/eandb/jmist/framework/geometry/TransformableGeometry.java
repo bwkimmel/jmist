@@ -30,12 +30,12 @@ import java.util.List;
 
 import ca.eandb.jmist.framework.AffineTransformable3;
 import ca.eandb.jmist.framework.BoundingBoxBuilder3;
-import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.Intersection;
 import ca.eandb.jmist.framework.IntersectionDecorator;
 import ca.eandb.jmist.framework.IntersectionRecorder;
 import ca.eandb.jmist.framework.IntersectionRecorderDecorator;
 import ca.eandb.jmist.framework.InvertibleAffineTransformation3;
+import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.math.AffineMatrix3;
 import ca.eandb.jmist.math.Basis3;
@@ -53,9 +53,7 @@ import ca.eandb.jmist.math.Vector3;
 public final class TransformableGeometry extends AbstractGeometry implements
     AffineTransformable3 {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -1312285205292950959L;
 
   /**
@@ -68,78 +66,56 @@ public final class TransformableGeometry extends AbstractGeometry implements
 
   @Override
   public void intersect(int index, Ray3 ray, IntersectionRecorder recorder) {
-
-    ray      = this.model.applyInverse(ray);
-    recorder  = new TransformedIntersectionRecorder(recorder);
-
+    ray = this.model.applyInverse(ray);
+    recorder = new TransformedIntersectionRecorder(recorder);
     geometry.intersect(index, ray, recorder);
-
   }
 
   @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
-
-    ray      = this.model.applyInverse(ray);
-    recorder  = new TransformedIntersectionRecorder(recorder);
-
+    ray = this.model.applyInverse(ray);
+    recorder = new TransformedIntersectionRecorder(recorder);
     geometry.intersect(ray, recorder);
-
   }
 
   @Override
   public Box3 boundingBox() {
-
     BoundingBoxBuilder3 builder = new BoundingBoxBuilder3();
-
     Box3 childBoundingBox = geometry.boundingBox();
     for (int i = 0; i < 8; i++) {
       builder.add(this.model.apply(childBoundingBox.corner(i)));
     }
-
     return builder.getBoundingBox();
-
   }
 
   @Override
   public Sphere boundingSphere() {
-
-    List<Point3> corners = new ArrayList<Point3>(8);
-
+    List<Point3> corners = new ArrayList<>(8);
     Box3 childBoundingBox = geometry.boundingBox();
     for (int i = 0; i < 8; i++) {
       corners.add(this.model.apply(childBoundingBox.corner(i)));
     }
-
     return Sphere.smallestContaining(corners);
-
   }
 
   @Override
   public Box3 getBoundingBox(int index) {
-
     BoundingBoxBuilder3 builder = new BoundingBoxBuilder3();
-
     Box3 childBoundingBox = geometry.getBoundingBox(index);
     for (int i = 0; i < 8; i++) {
       builder.add(this.model.apply(childBoundingBox.corner(i)));
     }
-
     return builder.getBoundingBox();
-
   }
 
   @Override
   public Sphere getBoundingSphere(int index) {
-
-    List<Point3> corners = new ArrayList<Point3>(8);
-
+    List<Point3> corners = new ArrayList<>(8);
     Box3 childBoundingBox = geometry.getBoundingBox(index);
     for (int i = 0; i < 8; i++) {
       corners.add(this.model.apply(childBoundingBox.corner(i)));
     }
-
     return Sphere.smallestContaining(corners);
-
   }
 
   @Override

@@ -27,9 +27,7 @@ package ca.eandb.jmist.framework.texture;
 
 import ca.eandb.jmist.framework.Mask2;
 import ca.eandb.jmist.framework.Texture2;
-import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.Spectrum;
-import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Point2;
 
 /**
@@ -39,9 +37,7 @@ import ca.eandb.jmist.math.Point2;
  */
 public final class MaskedTexture2 implements Texture2 {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 6665456950969793279L;
 
   /**

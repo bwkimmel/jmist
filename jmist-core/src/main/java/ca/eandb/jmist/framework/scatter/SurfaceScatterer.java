@@ -55,7 +55,7 @@ public interface SurfaceScatterer extends Serializable {
       double wavelength, Random rnd);
 
   /** A <code>SurfaceScatterer</code> that absorbs all incident light. */
-  public static final SurfaceScatterer ABSORB = new SurfaceScatterer() {
+  SurfaceScatterer ABSORB = new SurfaceScatterer() {
     private static final long serialVersionUID = 8194517746654987095L;
     public Vector3 scatter(SurfacePointGeometry x, Vector3 v,
         boolean adjoint, double wavelength, Random rnd) {
@@ -64,7 +64,7 @@ public interface SurfaceScatterer extends Serializable {
   };
 
   /** A <code>SurfaceScatterer</code> that transmits all incident light. */
-  public static final SurfaceScatterer TRANSMIT = new SurfaceScatterer() {
+  SurfaceScatterer TRANSMIT = new SurfaceScatterer() {
     private static final long serialVersionUID = -927167595504776971L;
     public Vector3 scatter(SurfacePointGeometry x, Vector3 v,
         boolean adjoint, double wavelength, Random rnd) {
@@ -73,7 +73,7 @@ public interface SurfaceScatterer extends Serializable {
   };
 
   /** A <code>SurfaceScatterer</code> that reflects all incident light. */
-  public static final SurfaceScatterer REFLECT = new SurfaceScatterer() {
+  SurfaceScatterer REFLECT = new SurfaceScatterer() {
     private static final long serialVersionUID = 3125984180868998388L;
     public Vector3 scatter(SurfacePointGeometry x, Vector3 v,
         boolean adjoint, double wavelength, Random rnd) {

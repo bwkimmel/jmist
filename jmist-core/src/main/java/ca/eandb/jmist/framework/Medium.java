@@ -42,14 +42,9 @@ public interface Medium extends Serializable {
   Color refractiveIndex(Point3 p, WavelengthPacket lambda);
   Color extinctionIndex(Point3 p, WavelengthPacket lambda);
 
-  /**
-   * A vacuum <code>Medium</code>.
-   */
-  public static final Medium VACUUM = new Medium() {
-
-    /**
-     * Serialization version ID.
-     */
+  /** A vacuum <code>Medium</code>. */
+  Medium VACUUM = new Medium() {
+    /** Serialization version ID. */
     private static final long serialVersionUID = -8943232335015406093L;
 
     @Override
@@ -66,7 +61,6 @@ public interface Medium extends Serializable {
     public Color transmittance(Ray3 ray, double distance, WavelengthPacket lambda) {
       return lambda.getColorModel().getWhite(lambda);
     }
-
   };
 
 }

@@ -28,10 +28,6 @@ package ca.eandb.jmist.framework.modifier;
 import ca.eandb.jmist.framework.Modifier;
 import ca.eandb.jmist.framework.ShadingContext;
 
-/**
- * @author brad
- *
- */
 public final class ModifierModifier implements Modifier {
 
   /** Serialization version ID. */

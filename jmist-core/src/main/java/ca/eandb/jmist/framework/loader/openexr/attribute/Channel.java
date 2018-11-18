@@ -29,12 +29,6 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-
-
-/**
- * @author brad
- *
- */
 public final class Channel implements Attribute {
 
   private final String name;
@@ -66,37 +60,22 @@ public final class Channel implements Attribute {
     }
   }
 
-  /**
-   * @return the name
-   */
   public final String getName() {
     return name;
   }
 
-  /**
-   * @return the pixelType
-   */
   public final PixelType getPixelType() {
     return pixelType;
   }
 
-  /**
-   * @return the pLinear
-   */
   public final byte getpLinear() {
     return pLinear;
   }
 
-  /**
-   * @return the xSampling
-   */
   public final int getxSampling() {
     return xSampling;
   }
 
-  /**
-   * @return the ySampling
-   */
   public final int getySampling() {
     return ySampling;
   }

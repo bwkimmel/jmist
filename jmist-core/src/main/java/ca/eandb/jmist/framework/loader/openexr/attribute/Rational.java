@@ -25,10 +25,4 @@
  */
 package ca.eandb.jmist.framework.loader.openexr.attribute;
 
-/**
- * @author brad
- *
- */
-public final class Rational {
-
-}
+public final class Rational {}

@@ -67,7 +67,6 @@ public final class MirrorSurfaceScatterer implements SurfaceScatterer {
   public Vector3 scatter(SurfacePointGeometry x, Vector3 v, boolean adjoint,
       double wavelength, Random rnd) {
     double R = reflectance.evaluate(wavelength);
-
     if (RandomUtil.bernoulli(R, rnd)) {
       Vector3 N = x.getNormal();
       return Optics.reflect(v, N);

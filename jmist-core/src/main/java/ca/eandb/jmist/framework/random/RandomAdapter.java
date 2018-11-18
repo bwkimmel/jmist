@@ -33,9 +33,7 @@ import ca.eandb.jmist.framework.Random;
  */
 public final class RandomAdapter implements Random {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 3052795767906803323L;
 
   /** The wrapped <code>java.util.Random</code>. */

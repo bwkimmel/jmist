@@ -45,13 +45,10 @@ public final class DiffusingSurfaceScatterer implements SurfaceScatterer {
   @Override
   public Vector3 scatter(SurfacePointGeometry x, Vector3 v,
       boolean adjoint, double lambda, Random rnd) {
-
     Vector3 N = x.getNormal();
-
     if (v.dot(N) < 0.0) {
       N = N.opposite();
     }
-
     return RandomUtil.diffuse(rnd).toCartesian(Basis3.fromW(N));
   }
 

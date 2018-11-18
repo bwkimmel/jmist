@@ -410,7 +410,6 @@ public final class MaterialPhotometerJob extends AbstractParallelizableJob {
 
     /**
      * Creates a new <code>PhotometerTaskWorker</code>.
-     * @param specimen The <code>SurfaceScatterer</code> to be measured.
      * @param collector The prototype <code>CollectorSphere</code> from
      *     which clones are constructed to record hits to.
      */

@@ -38,16 +38,12 @@ import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
 
-/**
- * @author brad
- *
- */
 public final class PrimitiveListGeometry extends AbstractGeometry {
 
   /** Serialization version ID. */
   private static final long serialVersionUID = -7468724116325274242L;
 
-  private final List<PrimitiveGeometry> primitives = new ArrayList<PrimitiveGeometry>();
+  private final List<PrimitiveGeometry> primitives = new ArrayList<>();
 
   public PrimitiveListGeometry addPrimitive(PrimitiveGeometry primitive) {
     primitives.add(primitive);

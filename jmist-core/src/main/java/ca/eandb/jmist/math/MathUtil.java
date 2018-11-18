@@ -338,7 +338,6 @@ public final class MathUtil {
    *     within <code>epsilon</code> of one another.
    */
   public static boolean areEqual(double[] array, double epsilon) {
-
     if (array.length < 2) {
       return true;
     }
@@ -357,9 +356,7 @@ public final class MathUtil {
         return false;
       }
     }
-
     return true;
-
   }
 
   /**
@@ -371,7 +368,6 @@ public final class MathUtil {
    *     within <code>epsilon</code> of one another.
    */
   public static boolean areEqual(Iterable<Double> values, double epsilon) {
-
     double min = Double.POSITIVE_INFINITY;
     double max = Double.NEGATIVE_INFINITY;
 
@@ -386,9 +382,7 @@ public final class MathUtil {
         return false;
       }
     }
-
     return true;
-
   }
 
   /**
@@ -1238,7 +1232,6 @@ public final class MathUtil {
    * @return The y-coordinate corresponding to <code>x0</code>.
    */
   public static double interpolate(double[] xs, double[] ys, double x) {
-
     if (x <= xs[0]) {
       return ys[0];
     }
@@ -1255,9 +1248,7 @@ public final class MathUtil {
     }
 
     assert(index < xs.length - 1);
-
     return interpolate(xs[index - 1], ys[index - 1], xs[index], ys[index], x);
-
   }
 
   /**
@@ -1270,7 +1261,6 @@ public final class MathUtil {
    * @return The y-coordinate corresponding to <code>x</code>.
    */
   public static double interpolateWrapped(double[] xs, double[] ys, double x) {
-
     int n = xs.length;
     double x0 = xs[0];
     double x1 = xs[n - 1];
@@ -1293,7 +1283,6 @@ public final class MathUtil {
     if (j == n - 1) { j = 0; }
 
     return interpolate(xs[i], ys[i], xs[index], ys[j], x);
-
   }
 
   /**
@@ -1324,7 +1313,6 @@ public final class MathUtil {
    * @return The y-coordinate corresponding to <code>x</code>.
    */
   public static double interpolate(List<Double> xs, List<Double> ys, double x) {
-
     if (x <= xs.get(0)) {
       return ys.get(0);
     }
@@ -1343,9 +1331,7 @@ public final class MathUtil {
     }
 
     assert(index < n - 1);
-
     return interpolate(xs.get(index - 1), ys.get(index - 1), xs.get(index), ys.get(index), x);
-
   }
 
   /**
@@ -1358,7 +1344,6 @@ public final class MathUtil {
    * @return The y-coordinate corresponding to <code>x</code>.
    */
   public static double interpolateWrapped(List<Double> xs, List<Double> ys, double x) {
-
     int n = xs.size();
     double x0 = xs.get(0);
     double x1 = xs.get(n - 1);
@@ -1381,7 +1366,6 @@ public final class MathUtil {
     if (j == n - 1) { j = 0; }
 
     return interpolate(xs.get(i), ys.get(i), xs.get(index), ys.get(j), x);
-
   }
 
   /**
@@ -1412,7 +1396,6 @@ public final class MathUtil {
    * @return The y-coordinate corresponding to <code>x</code>.
    */
   public static double interpolate(double x0, double x1, double[] y, double x) {
-
     if (x <= x0) {
       return y[0];
     }
@@ -1424,7 +1407,6 @@ public final class MathUtil {
     int i = (int) Math.floor(t);
 
     return interpolate(y[i], y[i + 1], t - i);
-
   }
 
   /**
@@ -1437,7 +1419,6 @@ public final class MathUtil {
    * @return The y-coordinate corresponding to <code>x</code>.
    */
   public static double interpolateWrapped(double x0, double x1, double[] y, double x) {
-
     double t = (x - x0) / (x1 - x0);
     t -= Math.floor(t);
     t *= y.length;
@@ -1447,9 +1428,7 @@ public final class MathUtil {
     if (j == y.length) { j = 0; }
 
     assert(0 <= i && i < y.length);
-
     return interpolate(y[i], y[j], t - i);
-
   }
 
   /**
@@ -1481,7 +1460,6 @@ public final class MathUtil {
    * @return The y-coordinate corresponding to <code>x</code>.
    */
   public static double interpolate(double x0, double x1, List<Double> y, double x) {
-
     if (x <= x0) {
       return y.get(0);
     }
@@ -1493,7 +1471,6 @@ public final class MathUtil {
     int i = (int) Math.floor(t);
 
     return interpolate(y.get(i), y.get(i + 1), t - i);
-
   }
 
   /**
@@ -1506,7 +1483,6 @@ public final class MathUtil {
    * @return The y-coordinate corresponding to <code>x</code>.
    */
   public static double interpolateWrapped(double x0, double x1, List<Double> y, double x) {
-
     double t = (x - x0) / (x1 - x0);
     t -= Math.floor(t);
     t *= y.size();
@@ -1516,9 +1492,7 @@ public final class MathUtil {
     if (j == y.size()) { j = 0; }
 
     assert(0 <= i && i < y.size());
-
     return interpolate(y.get(i), y.get(j), t - i);
-
   }
 
   /**
@@ -1533,13 +1507,11 @@ public final class MathUtil {
    */
   public static double bilinearInterpolate(double _00, double _10,
       double _01, double _11, double t, double u) {
-
     return interpolate(
         interpolate(_00, _10, t),
         interpolate(_01, _11, t),
         u
     );
-
   }
 
   /**
@@ -1632,7 +1604,6 @@ public final class MathUtil {
    */
   public static double bilinearInterpolate(List<Double> xs, List<Double> ys,
       Matrix z, double x, double y, boolean wrapX, boolean wrapY) {
-
     int nx = xs.size();
     int ny = ys.size();
     if (nx != z.rows() + (wrapX ? 1 : 0) || ny != z.columns() + (wrapY ? 1 : 0)) {
@@ -1689,7 +1660,6 @@ public final class MathUtil {
     double _11 = z.at(jx, jy);
 
     return bilinearInterpolate(_00, _10, _01, _11, tx, ty);
-
   }
 
   /**
@@ -1733,7 +1703,6 @@ public final class MathUtil {
   public static double bilinearInterpolate(
       double x0, double x1, double y0, double y1,
       Matrix z, double x, double y, boolean wrapX, boolean wrapY) {
-
     if ((!wrapX && z.rows() < 2) || (!wrapY && z.columns() < 2)) {
       throw new IllegalArgumentException(
           "Matrix z must have length 2 in each non-wrapping dimension");
@@ -1771,7 +1740,6 @@ public final class MathUtil {
     double _11 = z.at(jx, jy);
 
     return bilinearInterpolate(_00, _10, _01, _11, tx - ix, ty - iy);
-
   }
 
   /**
@@ -1792,13 +1760,11 @@ public final class MathUtil {
   public static double trilinearInterpolate(double _000, double _100,
       double _010, double _110, double _001, double _101, double _011,
       double _111, double t, double u, double v) {
-
     return interpolate(
         bilinearInterpolate(_000, _001, _010, _011, u, v),
         bilinearInterpolate(_100, _101, _110, _111, u, v),
         t
     );
-
   }
 
   /**
@@ -2165,30 +2131,30 @@ public final class MathUtil {
    * A comparison threshold value to be used when a very high degree
    * of precision is expected.
    */
-  public static final double TINY_EPSILON    = 1e-12;
+  public static final double TINY_EPSILON = 1e-12;
 
   /**
    * A comparison threshold value to be used when a high degree of
    * precision is expected.
    */
-  public static final double SMALL_EPSILON  = 1e-9;
+  public static final double SMALL_EPSILON = 1e-9;
 
   /**
    * A comparison threshold value to be used when a normal degree of
    * precision is expected.
    */
-  public static final double EPSILON      = 1e-6;
+  public static final double EPSILON = 1e-6;
 
   /**
    * A comparison threshold value to be used when a low degree of
    * precision is expected.
    */
-  public static final double BIG_EPSILON    = 1e-4;
+  public static final double BIG_EPSILON = 1e-4;
 
   /**
    * The difference between 1.0 and the next highest representable value.
    */
-  public static final double MACHINE_EPSILON  = Math.ulp(1.0);
+  public static final double MACHINE_EPSILON = Math.ulp(1.0);
 
   /**
    * This class contains only static utility methods and static constants,

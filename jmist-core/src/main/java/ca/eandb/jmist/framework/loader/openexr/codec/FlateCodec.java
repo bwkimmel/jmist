@@ -35,10 +35,6 @@ import javax.imageio.stream.IIOByteBuffer;
 import ca.eandb.jmist.framework.loader.openexr.attribute.Box2i;
 import ca.eandb.util.UnexpectedException;
 
-/**
- * @author brad
- *
- */
 public final class FlateCodec implements Codec {
 
   private static final FlateCodec INSTANCE = new FlateCodec();
@@ -93,7 +89,6 @@ public final class FlateCodec implements Codec {
     } catch (IOException e) {
       throw new UnexpectedException(e);
     }
-
   }
 
   @Override

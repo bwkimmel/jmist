@@ -53,7 +53,7 @@ public interface Painter extends Serializable {
   Color getColor(SurfacePoint p, WavelengthPacket lambda);
 
   /** A <code>Painter</code> that always returns black. */
-  public static final Painter BLACK = new Painter() {
+  Painter BLACK = new Painter() {
     private static final long serialVersionUID = -8689283716208944079L;
     public Color getColor(SurfacePoint p, WavelengthPacket lambda) {
       return lambda.getColorModel().getBlack(lambda);

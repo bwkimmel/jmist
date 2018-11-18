@@ -33,10 +33,6 @@ import ca.eandb.jmist.framework.path.PathNode;
 import ca.eandb.jmist.framework.path.PathUtil;
 import ca.eandb.jmist.math.Point2;
 
-/**
- * @author Brad
- *
- */
 public final class PathTracingStrategy implements BidiPathStrategy {
 
   /** Serialization version ID. */

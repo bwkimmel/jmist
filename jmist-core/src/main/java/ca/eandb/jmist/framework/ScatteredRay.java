@@ -37,7 +37,7 @@ import ca.eandb.jmist.math.Ray3;
 public final class ScatteredRay {
 
   /** Describes the type of scattering. */
-  public static enum Type {
+  public enum Type {
 
     /** Scattering in all directions uniformly (more-or-less). */
     DIFFUSE,

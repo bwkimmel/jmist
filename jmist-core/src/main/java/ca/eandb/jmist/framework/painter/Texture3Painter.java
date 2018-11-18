@@ -31,10 +31,6 @@ import ca.eandb.jmist.framework.Texture3;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 
-/**
- * @author brad
- *
- */
 public final class Texture3Painter implements Painter {
 
   /** Serialization version ID. */

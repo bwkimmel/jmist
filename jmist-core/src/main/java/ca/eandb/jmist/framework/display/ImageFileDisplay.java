@@ -124,7 +124,7 @@ public final class ImageFileDisplay implements Display, Serializable {
 
   @Override
   public void initialize(int w, int h, ColorModel colorModel) {
-    image = new Array2<CIEXYZ>(w, h);
+    image = new Array2<>(w, h);
   }
 
   @Override

@@ -152,7 +152,6 @@ public final class ABMInterfaceMaterial extends OpaqueMaterial {
   @Override
   public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint,
       WavelengthPacket lambda, double ru, double rv, double rj) {
-
     double n1 = riAbove;
     double n2 = riBelow;
     Vector3 N = x.getNormal();

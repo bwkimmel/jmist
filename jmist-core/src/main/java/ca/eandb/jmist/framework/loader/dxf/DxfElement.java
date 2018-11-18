@@ -25,10 +25,6 @@
  */
 package ca.eandb.jmist.framework.loader.dxf;
 
-/**
- * @author Brad
- *
- */
 public interface DxfElement {
 
   int getGroupCode();

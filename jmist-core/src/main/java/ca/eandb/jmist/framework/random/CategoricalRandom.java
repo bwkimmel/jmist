@@ -187,9 +187,7 @@ public final class CategoricalRandom implements Serializable {
    */
   private final Random source;
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 1462018249783769480L;
 
 }

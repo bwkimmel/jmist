@@ -49,9 +49,7 @@ import ca.eandb.jmist.util.ArrayUtil;
  */
 public final class DayLight extends AbstractLight implements RayShader {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -90334267528359013L;
 
   /**
@@ -92,7 +90,6 @@ public final class DayLight extends AbstractLight implements RayShader {
    * @param colorModel The <code>ColorModel</code> to use.
    */
   public DayLight(Vector3 sun, Vector3 zenith, double turbidity, boolean shadows, ColorModel colorModel) {
-
     this.sun = sun.unit();
     this.zenith = zenith.unit();
     this.l = 0.0035;
@@ -106,36 +103,34 @@ public final class DayLight extends AbstractLight implements RayShader {
     this.shadows = shadows;
     this.solarRadiance = colorModel.getContinuous(new SunRadianceSpectrum());
 
-    double  sdotz = sun.dot(zenith);
-    double  theta_s = FastMath.acos(sdotz);
-    int    i;
+    double sdotz = sun.dot(zenith);
+    double theta_s = FastMath.acos(sdotz);
+    int i;
 
     airmass = 1.0 / (sdotz + 0.15 * Math.pow(93.885 - theta_s * (180.0 / Math.PI), -1.253));
 
-    for (i = 0; i < 5; i++)
-    {
+    for (i = 0; i < 5; i++) {
       FY[i] = TY0[i] + turbidity * TY1[i];
       Fx[i] = Tx0[i] + turbidity * Tx1[i];
       Fy[i] = Ty0[i] + turbidity * Ty1[i];
     }
 
-    double  chi = (4.0 / 9.0 - turbidity / 120.0) * (Math.PI - 2.0 * theta_s);
-    double  Yz = (4.0453 * turbidity - 4.9710) * Math.tan(chi) - 0.2155 * turbidity + 2.4192;
+    double chi = (4.0 / 9.0 - turbidity / 120.0) * (Math.PI - 2.0 * theta_s);
+    double Yz = (4.0453 * turbidity - 4.9710) * Math.tan(chi) - 0.2155 * turbidity + 2.4192;
 
-    double  T2 = turbidity * turbidity;
-    double  theta_s2 = theta_s * theta_s;
-    double  theta_s3 = theta_s * theta_s2;
+    double T2 = turbidity * turbidity;
+    double theta_s2 = theta_s * theta_s;
+    double theta_s3 = theta_s * theta_s2;
 
-    double  xz = (T2 * Txz[0][0] + turbidity * Txz[1][0] + Txz[2][0]) * theta_s3 +
-             (T2 * Txz[0][1] + turbidity * Txz[1][1] + Txz[2][1]) * theta_s2 +
-             (T2 * Txz[0][2] + turbidity * Txz[1][2] + Txz[2][2]) * theta_s  +
-             (T2 * Txz[0][3] + turbidity * Txz[1][3] + Txz[2][3]);
+    double xz = (T2 * Txz[0][0] + turbidity * Txz[1][0] + Txz[2][0]) * theta_s3 +
+        (T2 * Txz[0][1] + turbidity * Txz[1][1] + Txz[2][1]) * theta_s2 +
+        (T2 * Txz[0][2] + turbidity * Txz[1][2] + Txz[2][2]) * theta_s  +
+        (T2 * Txz[0][3] + turbidity * Txz[1][3] + Txz[2][3]);
 
-    double  yz = (T2 * Tyz[0][0] + turbidity * Tyz[1][0] + Tyz[2][0]) * theta_s3 +
-             (T2 * Tyz[0][1] + turbidity * Tyz[1][1] + Tyz[2][1]) * theta_s2 +
-             (T2 * Tyz[0][2] + turbidity * Tyz[1][2] + Tyz[2][2]) * theta_s  +
-             (T2 * Tyz[0][3] + turbidity * Tyz[1][3] + Tyz[2][3]);
-
+    double yz = (T2 * Tyz[0][0] + turbidity * Tyz[1][0] + Tyz[2][0]) * theta_s3 +
+        (T2 * Tyz[0][1] + turbidity * Tyz[1][1] + Tyz[2][1]) * theta_s2 +
+        (T2 * Tyz[0][2] + turbidity * Tyz[1][2] + Tyz[2][2]) * theta_s  +
+        (T2 * Tyz[0][3] + turbidity * Tyz[1][3] + Tyz[2][3]);
 
     Y0 = Yz / computeF(zenith, FY);
     x0 = xz / computeF(zenith, Fx);
@@ -146,24 +141,20 @@ public final class DayLight extends AbstractLight implements RayShader {
 
     tau_o = new double[DL_WAVELENGTHS.length];
     tau_wa = new double[DL_WAVELENGTHS.length];
-    for (i = 0; i < DL_WAVELENGTHS.length; i++)
-    {
+    for (i = 0; i < DL_WAVELENGTHS.length; i++) {
       tau_o[i] = Math.exp(-ko[i] * l * airmass);
       tau_wa[i] = Math.exp(-0.2385 * kwa[i] * w * airmass / Math.pow(1.0 + 20.07 * kwa[i] * w * airmass, 0.45));
     }
-
   }
 
   private double computeF(Vector3 I, double[] F) {
-
     assert(F.length == 5);
 
-    double  zdotI = zenith.dot(I);
-    double  sdotI = sun.dot(I);
-    double  gamma = FastMath.acos(sdotI);
+    double zdotI = zenith.dot(I);
+    double sdotI = sun.dot(I);
+    double gamma = FastMath.acos(sdotI);
 
     return (1.0 + F[0] * Math.exp(F[1] / zdotI)) * (1.0 + F[2] * Math.exp(F[3] * gamma) + F[4] * (sdotI * sdotI));
-
   }
 
   @Override
@@ -173,8 +164,7 @@ public final class DayLight extends AbstractLight implements RayShader {
 
   @Override
   public void illuminate(SurfacePoint x, WavelengthPacket lambda, Random rng, Illuminable target) {
-
-    Vector3  source = RandomUtil.uniformOnUpperHemisphere(rng).toCartesian(Basis3.fromW(zenith));
+    Vector3 source = RandomUtil.uniformOnUpperHemisphere(rng).toCartesian(Basis3.fromW(zenith));
 
     if (source.dot(x.getNormal()) > 0.0) {
       double sdotn = source.dot(x.getShadingNormal());
@@ -186,7 +176,6 @@ public final class DayLight extends AbstractLight implements RayShader {
       double sdotn = sun.dot(x.getShadingNormal());
       target.addLightSample(new DirectionalLightSample(x, sun, solarRadiance.sample(lambda).times(sdotn), shadows));
     }
-
   }
 
 /*
@@ -216,11 +205,11 @@ public final class DayLight extends AbstractLight implements RayShader {
 
   public static void main(String[] args) {
 
-    ArgumentProcessor<Options> argProcessor = new ArgumentProcessor<Options>();
-    argProcessor.addOption("sun", 's', new DirectionFieldOption<Options>("sun"));
-    argProcessor.addOption("zenith", 'z', new DirectionFieldOption<Options>("zenith"));
-    argProcessor.addOption("turbidity", 't', new DoubleFieldOption<Options>("turbidity"));
-    argProcessor.addOption("solar", 'S', new BooleanFieldOption<Options>("solar"));
+    ArgumentProcessor<Options> argProcessor = new ArgumentProcessor<>();
+    argProcessor.addOption("sun", 's', new DirectionFieldOption<>("sun"));
+    argProcessor.addOption("zenith", 'z', new DirectionFieldOption<>("zenith"));
+    argProcessor.addOption("turbidity", 't', new DoubleFieldOption<>("turbidity"));
+    argProcessor.addOption("solar", 'S', new BooleanFieldOption<>("solar"));
 
     Options opts = new Options();
     argProcessor.process(args, opts);
@@ -279,9 +268,7 @@ public final class DayLight extends AbstractLight implements RayShader {
    */
   private final class SkyRadianceSpectrum implements Function1 {
 
-    /**
-     * Serialization version ID.
-     */
+    /** Serialization version ID. */
     private static final long serialVersionUID = 2392467375771116179L;
 
     /**
@@ -294,31 +281,29 @@ public final class DayLight extends AbstractLight implements RayShader {
 
     @Override
     public double evaluate(double wavelength) {
-
       this.ensureReady();
-      double  S0_lambda = MathUtil.interpolate(DL_WAVELENGTHS, S0, wavelength);
-      double  S1_lambda = MathUtil.interpolate(DL_WAVELENGTHS, S1, wavelength);
-      double  S2_lambda = MathUtil.interpolate(DL_WAVELENGTHS, S2, wavelength);
-
+      double S0_lambda = MathUtil.interpolate(DL_WAVELENGTHS, S0, wavelength);
+      double S1_lambda = MathUtil.interpolate(DL_WAVELENGTHS, S1, wavelength);
+      double S2_lambda = MathUtil.interpolate(DL_WAVELENGTHS, S2, wavelength);
       return Yfactor * (S0_lambda + M1 * S1_lambda + M2 * S2_lambda);
-
     }
 
     /**
      * Performs common computation prior to sampling this
      * <code>Function1</code>.
      */
-    private void ensureReady() {
-      if (!ready) {
-        Y = Math.max(Y0 * computeF(source, FY), 0.0);
-        x = x0 * computeF(source, Fx);
-        y = y0 * computeF(source, Fy);
-        M1 = (-1.3515 - 1.7703 * x + 5.9114 * y) / (0.0241 + 0.2562 * x - 0.7341 * y);
-        M2 = (0.0300 - 31.4424 * x + 30.0717 * y) / (0.0241 + 0.2562 * x - 0.7341 * y);
-        YS = YS0 + M1 * YS1 + M2 * YS2;
-        Yfactor = Y / YS;
-        ready = true;
+    private synchronized void ensureReady() {
+      if (ready) {
+        return;
       }
+      Y = Math.max(Y0 * computeF(source, FY), 0.0);
+      x = x0 * computeF(source, Fx);
+      y = y0 * computeF(source, Fy);
+      M1 = (-1.3515 - 1.7703 * x + 5.9114 * y) / (0.0241 + 0.2562 * x - 0.7341 * y);
+      M2 = (0.0300 - 31.4424 * x + 30.0717 * y) / (0.0241 + 0.2562 * x - 0.7341 * y);
+      YS = YS0 + M1 * YS1 + M2 * YS2;
+      Yfactor = Y / YS;
+      ready = true;
     }
 
     private boolean ready = false;
@@ -336,22 +321,17 @@ public final class DayLight extends AbstractLight implements RayShader {
    */
   private final class SunRadianceSpectrum implements Function1 {
 
-    /**
-     * Serialization version ID.
-     */
+    /** Serialization version ID. */
     private static final long serialVersionUID = 5731188166299456526L;
 
     @Override
     public double evaluate(double wavelength) {
-
-      double  H0 = MathUtil.interpolate(DL_WAVELENGTHS, SOLAR_RADIANCE, wavelength);
-      double  tau_r = Math.exp(-0.008735 * Math.pow(wavelength, -4.08 * airmass));
-      double  tau_a = Math.exp(-beta * Math.pow(wavelength, -alpha * airmass));
-      double  tau_o = MathUtil.interpolate(DL_WAVELENGTHS, DayLight.this.tau_o, wavelength);
-      double  tau_wa = MathUtil.interpolate(DL_WAVELENGTHS, DayLight.this.tau_wa, wavelength);
-
+      double H0 = MathUtil.interpolate(DL_WAVELENGTHS, SOLAR_RADIANCE, wavelength);
+      double tau_r = Math.exp(-0.008735 * Math.pow(wavelength, -4.08 * airmass));
+      double tau_a = Math.exp(-beta * Math.pow(wavelength, -alpha * airmass));
+      double tau_o = MathUtil.interpolate(DL_WAVELENGTHS, DayLight.this.tau_o, wavelength);
+      double tau_wa = MathUtil.interpolate(DL_WAVELENGTHS, DayLight.this.tau_wa, wavelength);
       return H0 * tau_r * tau_a * tau_o * tau_wa;
-
     }
 
   }
@@ -440,16 +420,16 @@ public final class DayLight extends AbstractLight implements RayShader {
     {  0.1535, -0.2676,  0.0667,  0.2669 }
   };
 
-  private final Vector3  zenith;
-  private final Vector3  sun;
-  private final boolean  daytime;
-  private final double  airmass;
-  private final double  Y0, x0, y0;
-  private final double[]  FY, Fx, Fy;
-  private final double[]  tau_o, tau_wa;
-  private final double  alpha, beta;
-  private final double  w, l;
-  private final boolean  shadows;
-  private final Spectrum  solarRadiance;
+  private final Vector3 zenith;
+  private final Vector3 sun;
+  private final boolean daytime;
+  private final double airmass;
+  private final double Y0, x0, y0;
+  private final double[] FY, Fx, Fy;
+  private final double[] tau_o, tau_wa;
+  private final double alpha, beta;
+  private final double w, l;
+  private final boolean shadows;
+  private final Spectrum solarRadiance;
 
 }

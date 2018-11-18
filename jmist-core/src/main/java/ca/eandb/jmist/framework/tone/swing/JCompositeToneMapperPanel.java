@@ -30,7 +30,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,15 +38,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import ca.eandb.jmist.framework.color.CIEXYZ;
 import ca.eandb.jmist.framework.tone.ToneMapper;
 
-/**
- * @author brad
- *
- */
 public final class JCompositeToneMapperPanel extends JToneMapperPanel {
 
   /** Serialization version ID. */
@@ -60,22 +54,9 @@ public final class JCompositeToneMapperPanel extends JToneMapperPanel {
   private final JPanel settingsContainerPanel;
   private final CardLayout settingsContainerLayout;
 
-  private final ChangeListener settingsPanelChangeListener = new ChangeListener() {
-    public void stateChanged(ChangeEvent e) {
-      settingsPanel_OnStateChanged(e);
-    }
-  };
-
-  /**
-   *
-   */
   public JCompositeToneMapperPanel() {
     toneMapperComboBox = new JComboBox<>();
-    toneMapperComboBox.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        toneMapperComboBox_OnActionPerformed(e);
-      }
-    });
+    toneMapperComboBox.addActionListener(this::toneMapperComboBox_OnActionPerformed);
 
     settingsContainerLayout = new CardLayout();
     settingsContainerPanel = new JPanel(settingsContainerLayout);
@@ -112,7 +93,7 @@ public final class JCompositeToneMapperPanel extends JToneMapperPanel {
     toneMapperComboBox.addItem(name);
     settingsContainerPanel.add(panel, name);
     settingsPanels.add(panel);
-    panel.addChangeListener(settingsPanelChangeListener);
+    panel.addChangeListener(this::settingsPanel_OnStateChanged);
     return this;
   }
 
@@ -143,11 +124,7 @@ public final class JCompositeToneMapperPanel extends JToneMapperPanel {
       .addChild("Linear", new JLinearToneMapperPanel())
       .addChild("Reinhard", new JReinhardToneMapperPanel())
       ;
-    factory.addChangeListener(new ChangeListener() {
-      public void stateChanged(ChangeEvent e) {
-        System.out.println("fireStateChanged()");
-      }
-    });
+    factory.addChangeListener(e -> System.out.println("fireStateChanged()"));
     frame.add(factory);
     frame.pack();
     frame.setVisible(true);

@@ -29,11 +29,6 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-
-/**
- * @author brad
- *
- */
 @OpenEXRAttributeType("string")
 public final class StringAttribute implements Attribute {
 
@@ -43,9 +38,6 @@ public final class StringAttribute implements Attribute {
     this.value = value;
   }
 
-  /**
-   * @return the value
-   */
   public String getValue() {
     return value;
   }

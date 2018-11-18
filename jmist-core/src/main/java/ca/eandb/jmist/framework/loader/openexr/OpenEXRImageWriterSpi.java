@@ -32,10 +32,6 @@ import javax.imageio.ImageTypeSpecifier;
 import javax.imageio.ImageWriter;
 import javax.imageio.spi.ImageWriterSpi;
 
-/**
- * @author brad
- *
- */
 public final class OpenEXRImageWriterSpi extends ImageWriterSpi {
 
   public OpenEXRImageWriterSpi() {

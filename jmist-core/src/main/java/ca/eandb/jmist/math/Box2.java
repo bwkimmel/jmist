@@ -27,7 +27,6 @@ package ca.eandb.jmist.math;
 
 import java.io.Serializable;
 
-
 /**
  * An axis-aligned two dimensional box.
  * This class is immutable.
@@ -334,7 +333,6 @@ public final class Box2 implements Serializable {
    * @see Interval#intersects(Interval)
    */
   public boolean intersects(Ray2 ray, Interval I) {
-
     // Check for an empty box.
     if (isEmpty()) {
       return false;
@@ -347,8 +345,8 @@ public final class Box2 implements Serializable {
 
     assert(ray.direction().x() != 0.0 || ray.direction().y() != 0.0);
 
-    double  t;
-    Point2  p;
+    double t;
+    Point2 p;
 
     // Check for intersection with each of the six sides of the box.
     if (ray.direction().x() != 0.0) {
@@ -390,7 +388,6 @@ public final class Box2 implements Serializable {
     // If we didn't find any intersection points, then the
     // ray does not intersect the box.
     return false;
-
   }
 
   /**
@@ -406,7 +403,6 @@ public final class Box2 implements Serializable {
    * @see Interval#contains(double)
    */
   public Interval intersect(Ray2 ray) {
-
     // Check for an empty box.
     if (isEmpty()) {
       return Interval.EMPTY;
@@ -414,9 +410,9 @@ public final class Box2 implements Serializable {
 
     assert(ray.direction().x() != 0.0 || ray.direction().y() != 0.0);
 
-    double[]  t = new double[2];
-    int      n = 0;
-    Point2    p;
+    double[] t = new double[2];
+    int n = 0;
+    Point2 p;
 
     // Check for intersection with each of the six sides of the box.
     if (ray.direction().x() != 0.0) {
@@ -457,7 +453,6 @@ public final class Box2 implements Serializable {
 
     // If we didn't find two intersection points, then the
     return Interval.EMPTY;
-
   }
 
   /**
@@ -493,14 +488,14 @@ public final class Box2 implements Serializable {
    * @return The normal at the specified point.
    */
   public Vector2 normalAt(Point2 p) {
-    double  cx = (minimumX + maximumX) / 2.0;
-    double  cy = (minimumY + maximumY) / 2.0;
+    double cx = (minimumX + maximumX) / 2.0;
+    double cy = (minimumY + maximumY) / 2.0;
 
-    double  rx = this.lengthX() / 2.0;
-    double  ry = this.lengthY() / 2.0;
+    double rx = this.lengthX() / 2.0;
+    double ry = this.lengthY() / 2.0;
 
-    double  dx = (p.x() - cx) / rx;
-    double  dy = (p.y() - cy) / ry;
+    double dx = (p.x() - cx) / rx;
+    double dy = (p.y() - cy) / ry;
 
     if (Math.abs(dx) > Math.abs(dy)) {
       return new Vector2(Math.signum(dx), 0.0);
@@ -608,7 +603,6 @@ public final class Box2 implements Serializable {
    *     points.
    */
   public static Box2 smallestContainingPoints(Iterable<Point2> points) {
-
     double minimumX = Double.POSITIVE_INFINITY;
     double minimumY = Double.POSITIVE_INFINITY;
     double maximumX = Double.NEGATIVE_INFINITY;
@@ -630,7 +624,6 @@ public final class Box2 implements Serializable {
     }
 
     return Box2.getInstance(minimumX, minimumY, maximumX, maximumY);
-
   }
 
   /**
@@ -641,7 +634,6 @@ public final class Box2 implements Serializable {
    *     <code>b</code>.
    */
   public static Box2 smallestContaining(Box2 a, Box2 b) {
-
     if (a.isEmpty()) {
       return b;
     }
@@ -655,7 +647,6 @@ public final class Box2 implements Serializable {
         Math.max(a.maximumX, b.maximumX),
         Math.max(a.maximumY, b.maximumY)
     );
-
   }
 
   /**
@@ -667,7 +658,6 @@ public final class Box2 implements Serializable {
    *     boxes.
    */
   public static Box2 smallestContaining(Iterable<Box2> boxes) {
-
     double minimumX = Double.POSITIVE_INFINITY;
     double minimumY = Double.POSITIVE_INFINITY;
     double maximumX = Double.NEGATIVE_INFINITY;
@@ -691,7 +681,6 @@ public final class Box2 implements Serializable {
     }
 
     return Box2.getInstance(minimumX, minimumY, maximumX, maximumY);
-
   }
 
   /**
@@ -700,7 +689,6 @@ public final class Box2 implements Serializable {
    * @return The intersection of the given boxes.
    */
   public static Box2 intersection(Iterable<Box2> boxes) {
-
     double minimumX = Double.NEGATIVE_INFINITY;
     double minimumY = Double.NEGATIVE_INFINITY;
     double maximumX = Double.POSITIVE_INFINITY;
@@ -724,7 +712,6 @@ public final class Box2 implements Serializable {
     }
 
     return Box2.getInstance(minimumX, minimumY, maximumX, maximumY);
-
   }
 
   /**
@@ -780,9 +767,7 @@ public final class Box2 implements Serializable {
   /** The upper bound along the y-axis. */
   private double maximumY;
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 2385108773960788026L;
 
 }

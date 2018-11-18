@@ -42,9 +42,7 @@ import ca.eandb.jmist.math.Ray3;
  */
 public final class DistanceRayShader implements RayShader {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -4530038647449382442L;
 
   /**

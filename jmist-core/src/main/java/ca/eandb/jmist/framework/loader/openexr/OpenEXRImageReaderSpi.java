@@ -31,10 +31,6 @@ import java.util.Locale;
 import javax.imageio.ImageReader;
 import javax.imageio.spi.ImageReaderSpi;
 
-/**
- * @author brad
- *
- */
 public final class OpenEXRImageReaderSpi extends ImageReaderSpi {
 
   public OpenEXRImageReaderSpi() {

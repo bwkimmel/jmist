@@ -30,10 +30,6 @@ import ca.eandb.jmist.framework.VisibilityFunction3;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.math.Vector3;
 
-/**
- * @author brad
- *
- */
 public final class ScaledLightSample implements LightSample {
 
   private final double factor;

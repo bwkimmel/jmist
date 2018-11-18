@@ -49,7 +49,7 @@ public interface Shader extends Serializable {
   Color shade(ShadingContext sc);
 
   /** A dummy <code>Shader</code> that always returns black. */
-  public static final Shader BLACK = new Shader() {
+  Shader BLACK = new Shader() {
     private static final long serialVersionUID = 7697217516861477920L;
     public Color shade(ShadingContext sc) {
       return sc.getWavelengthPacket().getColorModel().getBlack(

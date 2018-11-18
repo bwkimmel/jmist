@@ -72,12 +72,10 @@ public final class EllipseGeometry extends PrimitiveGeometry {
   @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
     boolean fromTop = this.plane.altitude(ray.origin()) > 0.0;
-
     if (!twoSided && !fromTop)
       return;
 
     double t = this.plane.intersect(ray);
-
     if (recorder.interval().contains(t)) {
       Point3 p = ray.pointAt(t);
       Vector3 r = center.vectorTo(p);

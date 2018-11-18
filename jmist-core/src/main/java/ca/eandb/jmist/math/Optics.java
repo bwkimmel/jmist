@@ -25,7 +25,6 @@
  */
 package ca.eandb.jmist.math;
 
-
 import org.apache.commons.math3.util.FastMath;
 
 /**
@@ -57,7 +56,6 @@ public final class Optics {
    * @return The direction of the refracted ray.
    */
   public static Vector3 refract(Vector3 in, double n1, double n2, Vector3 normal) {
-
     //
     // Compute the refracted vector using Heckbert's method, see
     //
@@ -91,7 +89,6 @@ public final class Optics {
       return in.times(eta).plus(normal.times(eta * c1 + c2)).unit();
 
     }
-
   }
 
   /**
@@ -105,9 +102,7 @@ public final class Optics {
    *     the anti-normal.
    */
   public static double refract(double theta, double n1, double n2) {
-
     double cost = Math.cos(theta);
-
     if (cost >= 0.0) {
 
       double eta = n1 / n2;
@@ -140,17 +135,14 @@ public final class Optics {
    * @return The direction of the refracted ray.
    */
   public static Vector3 refract(Vector3 in, Complex n1, Complex n2, Vector3 normal) {
-
-    double            ci = -in.dot(normal);
-    RefractResult        rr = Optics.refractAngle(ci, n1, n2);
+    double ci = -in.dot(normal);
+    RefractResult rr = Optics.refractAngle(ci, n1, n2);
 
     // return the refracted vector, recall that I + ci * N already has
     // the length sin(theta_i), so we need only divide by nEff to resize
     // to sin(theta'_t), see Born & Wolf, sec. 13.2, equation (9).
-    Vector3            out = in.divide(rr.nEff).plus(normal.times(-rr.cosT + ci / rr.nEff));
-
+    Vector3 out = in.divide(rr.nEff).plus(normal.times(-rr.cosT + ci / rr.nEff));
     return out;
-
   }
 
   /**
@@ -164,12 +156,9 @@ public final class Optics {
    *     the anti-normal.
    */
   public static double refract(double theta, Complex n1, Complex n2) {
-
-    double            ci = Math.cos(theta);
-    RefractResult        rr = Optics.refractAngle(ci, n1, n2);
-
+    double ci = Math.cos(theta);
+    RefractResult rr = Optics.refractAngle(ci, n1, n2);
     return FastMath.acos(rr.cosT);
-
   }
 
   /**
@@ -187,7 +176,6 @@ public final class Optics {
    *     of light incident on the interface from the specified direction.
    */
   public static Vector2 polarizedReflectance(Vector3 in, double n1, double n2, Vector3 normal) {
-
     double cost = -in.dot(normal);
     double sin2t = 1.0 - cost * cost;
     double n;
@@ -211,7 +199,6 @@ public final class Optics {
     double TM = (nSquared * cost - A) / (nSquared * cost + A);
 
     return new Vector2(MathUtil.clamp(TE * TE, 0.0, 1.0), MathUtil.clamp(TM * TM, 0.0, 1.0));
-
   }
 
   /**
@@ -265,10 +252,9 @@ public final class Optics {
    *     of light incident on the interface from the specified direction.
    */
   public static Vector2 polarizedReflectance(Vector3 in, Complex n1, Complex n2, Vector3 normal) {
-
-    double    cost = -in.dot(normal);
-    double    sin2t = 1.0 - cost * cost;
-    Complex    n;
+    double cost = -in.dot(normal);
+    double sin2t = 1.0 - cost * cost;
+    Complex n;
 
     if (cost < 0.0) {
       n = n1.divide(n2);
@@ -277,19 +263,18 @@ public final class Optics {
       n = n2.divide(n1);
     }
 
-    Complex    nSquared = n.times(n);
+    Complex nSquared = n.times(n);
 
-    Complex    A = nSquared.minus(sin2t).sqrt();
+    Complex A = nSquared.minus(sin2t).sqrt();
 
     // TE = (cost - A) / (cost + A)
     // TM = (n^2 * cost - A) / (n^2 * cost + A)
-    Complex    absTE = A.negative().plus(cost).divide(A.plus(cost));
-    Complex    absTM = nSquared.times(cost).minus(A).divide(nSquared.times(cost).plus(A));
+    Complex absTE = A.negative().plus(cost).divide(A.plus(cost));
+    Complex absTM = nSquared.times(cost).minus(A).divide(nSquared.times(cost).plus(A));
 
     return new Vector2(
         MathUtil.clamp(absTE.times(absTE).abs(), 0.0, 1.0),
         MathUtil.clamp(absTM.times(absTM).abs(), 0.0, 1.0));
-
   }
 
   /**
@@ -305,7 +290,6 @@ public final class Optics {
    *     of light incident on the interface from the specified direction.
    */
   public static Vector2 polarizedReflectance(double theta, double n1, double n2) {
-
     double cost = Math.cos(theta);
     double sin2t = 1.0 - cost * cost;
     double n;
@@ -329,7 +313,6 @@ public final class Optics {
     double TM = (nSquared * cost - A) / (nSquared * cost + A);
 
     return new Vector2(MathUtil.clamp(TE * TE, 0.0, 1.0), MathUtil.clamp(TM * TM, 0.0, 1.0));
-
   }
 
   /**
@@ -377,10 +360,9 @@ public final class Optics {
    *     of light incident on the interface from the specified direction.
    */
   public static Vector2 polarizedReflectance(double theta, Complex n1, Complex n2) {
-
-    double    cost = Math.cos(theta);
-    double    sin2t = 1.0 - cost * cost;
-    Complex    n;
+    double cost = Math.cos(theta);
+    double sin2t = 1.0 - cost * cost;
+    Complex n;
 
     if (cost < 0.0) {
       n = n1.divide(n2);
@@ -389,19 +371,18 @@ public final class Optics {
       n = n2.divide(n1);
     }
 
-    Complex    nSquared = n.times(n);
+    Complex nSquared = n.times(n);
 
-    Complex    A = nSquared.minus(sin2t).sqrt();
+    Complex A = nSquared.minus(sin2t).sqrt();
 
     // TE = (cost - A) / (cost + A)
     // TM = (n^2 * cost - A) / (n^2 * cost + A)
-    Complex    absTE = A.negative().plus(cost).divide(A.plus(cost));
-    Complex    absTM = nSquared.times(cost).minus(A).divide(nSquared.times(cost).plus(A));
+    Complex absTE = A.negative().plus(cost).divide(A.plus(cost));
+    Complex absTM = nSquared.times(cost).minus(A).divide(nSquared.times(cost).plus(A));
 
     return new Vector2(
         MathUtil.clamp(absTE.times(absTE).abs(), 0.0, 1.0),
         MathUtil.clamp(absTM.times(absTM).abs(), 0.0, 1.0));
-
   }
 
   /**
@@ -570,9 +551,7 @@ public final class Optics {
    * @see Optics.RefractResult
    */
   private static RefractResult refractAngle(double ci, Complex n1, Complex n2) {
-
     if (ci < 0.0) {
-
       //
       // if the ray comes from the other side, rewrite the problem
       // with the normal pointing toward the incident direction.
@@ -580,7 +559,6 @@ public final class Optics {
       RefractResult result = refractAngle(-ci, n2, n1);
       result.cosT = -result.cosT;
       return result;
-
     }
 
     Complex eta = n2.divide(n1);
@@ -619,7 +597,6 @@ public final class Optics {
     result.nEff = np;
 
     return result;
-
   }
 
   /**

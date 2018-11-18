@@ -46,6 +46,10 @@ public final class PointSpotLight extends AbstractLight implements Serializable 
    * @param position The <code>Point3</code> where the light is to emit from.
    * @param axis The <code>Vector3</code> indicating the direction that the
    *     spot light is pointed.
+   * @param angle The angle, in radians, between the axis and the edge of the
+   *     spot light.
+   * @param blend The fraction of <code>angle</code>at which to begin blending
+   *     the spot toward black.
    * @param emittedPower The <code>Spectrum</code> representing the emitted
    *     power of the light.
    * @param shadows A value indicating whether the light should be affected
@@ -62,7 +66,6 @@ public final class PointSpotLight extends AbstractLight implements Serializable 
 
   @Override
   public void illuminate(SurfacePoint x, WavelengthPacket lambda, Random rng, Illuminable target) {
-
     Vector3 lightIn = x.getPosition().vectorTo(this.position);
     double dSquared = lightIn.squaredLength();
 
@@ -80,7 +83,6 @@ public final class PointSpotLight extends AbstractLight implements Serializable 
     }
 
     target.addLightSample(new PointLightSample(x, position, emittedPower.sample(lambda).times(attenuation), shadows));
-
   }
 
   /** The <code>Point3</code> where the light is to emit from. */
@@ -96,9 +98,7 @@ public final class PointSpotLight extends AbstractLight implements Serializable 
   /** A value indicating whether the light should be affected by shadows. */
   private final boolean shadows;
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -5220350307274318220L;
 
 }

@@ -51,14 +51,10 @@ public interface Random extends Serializable {
    */
   Random createCompatibleRandom();
 
-  /**
-   * A default implementation of <code>Random</code>.
-   */
-  public static final Random DEFAULT = new Random() {
+  /** A default implementation of <code>Random</code>. */
+  Random DEFAULT = new Random() {
 
-    /**
-     * Serialization version ID.
-     */
+    /** Serialization version ID. */
     private static final long serialVersionUID = -6299190146689205359L;
 
     @Override

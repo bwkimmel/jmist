@@ -29,7 +29,6 @@ import java.awt.BorderLayout;
 import java.util.Iterator;
 
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import ca.eandb.jmist.framework.color.CIEXYZ;
 import ca.eandb.jmist.framework.color.Color;
@@ -37,10 +36,6 @@ import ca.eandb.jmist.framework.color.RGB;
 import ca.eandb.jmist.framework.tone.ToneMapper;
 import ca.eandb.jmist.framework.tone.swing.JToneMapperPanel;
 
-/**
- * @author brad
- *
- */
 public final class JToneMappingVisualizerPanel extends JColorVisualizerPanel {
 
   /** Serialization version ID. */
@@ -56,11 +51,7 @@ public final class JToneMappingVisualizerPanel extends JColorVisualizerPanel {
 
     add(toneMapperPanel, BorderLayout.CENTER);
 
-    toneMapperPanel.addChangeListener(new ChangeListener() {
-      public void stateChanged(ChangeEvent e) {
-        toneMapperPanel_OnStateChanged(e);
-      }
-    });
+    toneMapperPanel.addChangeListener(this::toneMapperPanel_OnStateChanged);
   }
 
   private void toneMapperPanel_OnStateChanged(ChangeEvent e) {

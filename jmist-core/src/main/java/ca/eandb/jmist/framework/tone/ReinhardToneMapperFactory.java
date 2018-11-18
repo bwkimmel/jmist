@@ -28,10 +28,6 @@ package ca.eandb.jmist.framework.tone;
 import ca.eandb.jmist.framework.color.CIEXYZ;
 import ca.eandb.jmist.math.MathUtil;
 
-/**
- * @author Brad
- *
- */
 public final class ReinhardToneMapperFactory implements ToneMapperFactory {
 
   /** Serialization version ID. */

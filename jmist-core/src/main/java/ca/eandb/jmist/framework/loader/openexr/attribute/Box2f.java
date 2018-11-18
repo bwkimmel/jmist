@@ -29,11 +29,6 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-
-/**
- * @author brad
- *
- */
 @OpenEXRAttributeType("box2f")
 public final class Box2f implements Attribute {
 
@@ -49,30 +44,18 @@ public final class Box2f implements Attribute {
     this.yMax = yMax;
   }
 
-  /**
-   * @return the xMin
-   */
   public float getXMin() {
     return xMin;
   }
 
-  /**
-   * @return the yMin
-   */
   public float getYMin() {
     return yMin;
   }
 
-  /**
-   * @return the xMax
-   */
   public float getXMax() {
     return xMax;
   }
 
-  /**
-   * @return the yMax
-   */
   public float getYMax() {
     return yMax;
   }

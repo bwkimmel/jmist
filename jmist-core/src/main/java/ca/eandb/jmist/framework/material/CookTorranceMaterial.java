@@ -38,9 +38,6 @@ import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
 import ca.eandb.util.UnimplementedException;
 
-/**
- * @author Brad Kimmel
- */
 public final class CookTorranceMaterial extends AbstractMaterial {
 
   /** Serialization version ID. */
@@ -72,25 +69,25 @@ public final class CookTorranceMaterial extends AbstractMaterial {
 
   @Override
   public Color bsdf(SurfacePoint x, Vector3 in, Vector3 out, WavelengthPacket lambda) {
-    Vector3    E = out;
-    Vector3    L = in.opposite();
-    Vector3    H = L.plus(E).unit();
-    Vector3    N = x.getShadingNormal();
-    double    HdotN = H.dot(N);
-    double    EdotH = E.dot(H);
-    double    EdotN = E.dot(N);
-    double    LdotN = L.dot(N);
-    double    tanAlpha = Math.tan(FastMath.acos(HdotN));
-    double    cos4Alpha = HdotN * HdotN * HdotN * HdotN;
+    Vector3 E = out;
+    Vector3 L = in.opposite();
+    Vector3 H = L.plus(E).unit();
+    Vector3 N = x.getShadingNormal();
+    double HdotN = H.dot(N);
+    double EdotH = E.dot(H);
+    double EdotN = E.dot(N);
+    double LdotN = L.dot(N);
+    double tanAlpha = Math.tan(FastMath.acos(HdotN));
+    double cos4Alpha = HdotN * HdotN * HdotN * HdotN;
 
-    Medium    medium = x.getAmbientMedium();
-    Color    n1 = medium.refractiveIndex(x.getPosition(), lambda);
-    Color    k1 = medium.extinctionIndex(x.getPosition(), lambda);
-    Color    n2 = n.sample(lambda);
-    Color    k2 = k.sample(lambda);
-    Color    F = MaterialUtil.reflectance(E, n1, k1, n2, k2, N);
-    double    D = Math.exp(-(tanAlpha * tanAlpha / mSquared)) / (Math.PI * mSquared * cos4Alpha);
-    double    G = Math.min(1.0, Math.min(2.0 * HdotN * EdotN / EdotH, 2.0 * HdotN * LdotN / EdotH));
+    Medium medium = x.getAmbientMedium();
+    Color n1 = medium.refractiveIndex(x.getPosition(), lambda);
+    Color k1 = medium.extinctionIndex(x.getPosition(), lambda);
+    Color n2 = n.sample(lambda);
+    Color k2 = k.sample(lambda);
+    Color F = MaterialUtil.reflectance(E, n1, k1, n2, k2, N);
+    double D = Math.exp(-(tanAlpha * tanAlpha / mSquared)) / (Math.PI * mSquared * cos4Alpha);
+    double G = Math.min(1.0, Math.min(2.0 * HdotN * EdotN / EdotH, 2.0 * HdotN * LdotN / EdotH));
 
     return F.times(D * G / (4.0 * EdotN * LdotN));
   }

@@ -363,9 +363,7 @@ public final class AffineMatrix3 implements Serializable {
              _10, _11, _12, _13,
              _20, _21, _22, _23;
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -8679442263182238771L;
 
 }

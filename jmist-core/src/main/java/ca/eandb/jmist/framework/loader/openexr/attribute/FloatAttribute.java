@@ -29,11 +29,6 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-
-/**
- * @author brad
- *
- */
 @OpenEXRAttributeType("float")
 public final class FloatAttribute implements Attribute {
 
@@ -43,9 +38,6 @@ public final class FloatAttribute implements Attribute {
     this.value = value;
   }
 
-  /**
-   * @return the value
-   */
   public float getValue() {
     return value;
   }

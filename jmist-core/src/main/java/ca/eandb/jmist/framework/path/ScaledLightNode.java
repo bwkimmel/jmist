@@ -30,10 +30,6 @@ import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.math.HPoint3;
 import ca.eandb.jmist.math.Vector3;
 
-/**
- * @author Brad
- *
- */
 public final class ScaledLightNode extends AbstractPathNode implements
     LightNode {
 

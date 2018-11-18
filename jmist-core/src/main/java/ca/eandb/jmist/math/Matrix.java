@@ -353,7 +353,6 @@ public final class Matrix implements Serializable {
    * @see #columns()
    */
   public static void multiply(Matrix A, Matrix B, MatrixBuffer R) {
-
     if (A.columns() != B.rows()) {
       throw new IllegalArgumentException("Cannot multiply matrices: wrong dimensions.");
     }
@@ -374,7 +373,6 @@ public final class Matrix implements Serializable {
         }
       }
     }
-
   }
 
   /**
@@ -395,14 +393,12 @@ public final class Matrix implements Serializable {
    * @see #columns()
    */
   public static void multiplyElements(Matrix A, Matrix B, MatrixBuffer R) {
-
     int rows = A.rows();
     int cols = A.columns();
 
     if (rows != B.rows() || cols != B.columns()) {
       throw new IllegalArgumentException("Cannot multiply element-wise matrices of different dimensions.");
     }
-
     if (rows != R.rows() || cols != R.columns()) {
       throw new IllegalArgumentException("Target MatrixBuffer has wrong dimensions.");
     }
@@ -412,7 +408,6 @@ public final class Matrix implements Serializable {
         R.set(r, c, A.at(r, c) * B.at(r, c));
       }
     }
-
   }
 
   /**
@@ -433,14 +428,12 @@ public final class Matrix implements Serializable {
    * @see #columns()
    */
   public static void divideElements(Matrix A, Matrix B, MatrixBuffer R) {
-
     int rows = A.rows();
     int cols = A.columns();
 
     if (rows != B.rows() || cols != B.columns()) {
       throw new IllegalArgumentException("Cannot divide element-wise matrices of different dimensions.");
     }
-
     if (rows != R.rows() || cols != R.columns()) {
       throw new IllegalArgumentException("Target MatrixBuffer has wrong dimensions.");
     }
@@ -450,7 +443,6 @@ public final class Matrix implements Serializable {
         R.set(r, c, A.at(r, c) / B.at(r, c));
       }
     }
-
   }
 
   /**
@@ -471,14 +463,12 @@ public final class Matrix implements Serializable {
    * @see #columns()
    */
   public static void add(Matrix A, Matrix B, MatrixBuffer R) {
-
     int rows = A.rows();
     int cols = A.columns();
 
     if (rows != B.rows() || cols != B.columns()) {
       throw new IllegalArgumentException("Cannot add matrices of different dimensions.");
     }
-
     if (rows != R.rows() || cols != R.columns()) {
       throw new IllegalArgumentException("Target MatrixBuffer has wrong dimensions.");
     }
@@ -488,7 +478,6 @@ public final class Matrix implements Serializable {
         R.set(r, c, A.at(r, c) + B.at(r, c));
       }
     }
-
   }
 
   /**
@@ -509,14 +498,12 @@ public final class Matrix implements Serializable {
    * @see #columns()
    */
   public static void subtract(Matrix A, Matrix B, MatrixBuffer R) {
-
     int rows = A.rows();
     int cols = A.columns();
 
     if (rows != B.rows() || cols != B.columns()) {
       throw new IllegalArgumentException("Cannot subtract matrices of different dimensions.");
     }
-
     if (rows != R.rows() || cols != R.columns()) {
       throw new IllegalArgumentException("Target MatrixBuffer has wrong dimensions.");
     }
@@ -526,7 +513,6 @@ public final class Matrix implements Serializable {
         R.set(r, c, A.at(r, c) - B.at(r, c));
       }
     }
-
   }
 
   /**
@@ -541,7 +527,6 @@ public final class Matrix implements Serializable {
    * @see #columns()
    */
   public Matrix times(Matrix other) {
-
     if (this.columns() != other.rows()) {
       throw new IllegalArgumentException("Cannot multiply matrices: wrong dimensions.");
     }
@@ -560,7 +545,6 @@ public final class Matrix implements Serializable {
     }
 
     return Matrix.rowMajor(rows, cols, elements);
-
   }
 
   /**
@@ -573,9 +557,8 @@ public final class Matrix implements Serializable {
    *     dimensions than <code>this</code>.
    */
   public Matrix plus(Matrix other) {
-
     int rows = this.rows();
-    int cols = other.columns();
+    int cols = this.columns();
 
     if (rows != other.rows() || cols != other.columns()) {
       throw new IllegalArgumentException("Cannot add matrices of different dimensions.");
@@ -589,7 +572,6 @@ public final class Matrix implements Serializable {
     }
 
     return Matrix.rowMajor(rows, cols, elements);
-
   }
 
   /**
@@ -603,9 +585,8 @@ public final class Matrix implements Serializable {
    *     dimensions than <code>this</code>.
    */
   public Matrix minus(Matrix other) {
-
     int rows = this.rows();
-    int cols = other.columns();
+    int cols = this.columns();
 
     if (rows != other.rows() || cols != other.columns()) {
       throw new IllegalArgumentException("Cannot subtract matrices of different dimensions.");
@@ -619,7 +600,6 @@ public final class Matrix implements Serializable {
     }
 
     return Matrix.rowMajor(rows, cols, elements);
-
   }
 
 }

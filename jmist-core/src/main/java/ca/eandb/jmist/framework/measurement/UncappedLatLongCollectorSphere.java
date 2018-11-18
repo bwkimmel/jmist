@@ -88,7 +88,6 @@ public final class UncappedLatLongCollectorSphere implements CollectorSphere {
 
   @Override
   public SphericalCoordinates getSensorCenter(int sensor) {
-
     int stack = sensor / (slices.length - 1);
     int slice = sensor % (slices.length - 1);
 
@@ -96,40 +95,31 @@ public final class UncappedLatLongCollectorSphere implements CollectorSphere {
     double theta = FastMath.acos(0.5 * (Math.cos(stacks[stack]) + Math.cos(stacks[stack + 1])));
 
     return SphericalCoordinates.canonical(theta, phi);
-
   }
 
   @Override
   public double getSensorProjectedSolidAngle(int sensor) {
-
     int stack = sensor / (slices.length - 1);
     int slice = sensor % (slices.length - 1);
-
     return 0.25
         * (slices[slice + 1] - slices[slice])
         * (Math.cos(2.0 * stacks[stack])
             - Math.cos(2.0 * stacks[stack + 1]));
-
   }
 
   @Override
   public double getSensorSolidAngle(int sensor) {
-
     int stack = sensor / (slices.length - 1);
     int slice = sensor % (slices.length - 1);
-
     return (slices[slice + 1] - slices[slice])
         * (Math.cos(stacks[stack]) - Math.cos(stacks[stack + 1]));
-
   }
 
   private int getSensor(SphericalCoordinates v) {
-
     v = v.canonical();
 
     double theta = v.polar();
     double phi = v.azimuthal();
-
     phi -= 2.0 * Math.PI * Math.floor((phi - slices[0]) / (2.0 * Math.PI));
 
     if (theta < stacks[0] || theta > stacks[stacks.length - 1] || phi > slices[slices.length - 1]) {
@@ -149,7 +139,6 @@ public final class UncappedLatLongCollectorSphere implements CollectorSphere {
     slice = Math.max(slice - 1, 0);
 
     return stack * (slices.length - 1) + slice;
-
   }
 
   @Override

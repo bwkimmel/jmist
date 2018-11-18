@@ -50,7 +50,7 @@ public interface ToneMapperFactory extends Serializable {
    * <code>ToneMapper.IDENTITY</code>
    * @see ToneMapper#IDENTITY
    */
-  public static final ToneMapperFactory IDENTITY_FACTORY = new ToneMapperFactory() {
+  ToneMapperFactory IDENTITY_FACTORY = new ToneMapperFactory() {
     private static final long serialVersionUID = 827095046468759801L;
     public ToneMapper createToneMapper(Iterable<CIEXYZ> samples) {
       return ToneMapper.IDENTITY;

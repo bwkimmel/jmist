@@ -32,10 +32,6 @@ import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Vector3;
 
-/**
- * @author brad
- *
- */
 public final class EdgeShader implements Shader {
 
   /** Serialization version ID. */

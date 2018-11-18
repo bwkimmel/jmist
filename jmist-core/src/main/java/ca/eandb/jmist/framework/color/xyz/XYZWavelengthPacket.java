@@ -28,10 +28,6 @@ package ca.eandb.jmist.framework.color.xyz;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 
-/**
- * @author brad
- *
- */
 /* package */ final class XYZWavelengthPacket implements WavelengthPacket {
 
   private final double lambdaX;
@@ -40,34 +36,20 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
 
   private final double lambdaZ;
 
-  /**
-   * @param lambdaX
-   * @param lambdaY
-   * @param lambdaZ
-   */
   public XYZWavelengthPacket(double lambdaX, double lambdaY, double lambdaZ) {
     this.lambdaX = lambdaX;
     this.lambdaY = lambdaY;
     this.lambdaZ = lambdaZ;
   }
 
-  /**
-   * @return the lambdaX
-   */
   public double getLambdaX() {
     return lambdaX;
   }
 
-  /**
-   * @return the lambdaY
-   */
   public double getLambdaY() {
     return lambdaY;
   }
 
-  /**
-   * @return the lambdaZ
-   */
   public double getLambdaZ() {
     return lambdaZ;
   }

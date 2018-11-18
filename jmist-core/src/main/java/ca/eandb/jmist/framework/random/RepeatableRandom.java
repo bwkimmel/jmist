@@ -31,10 +31,6 @@ import java.util.List;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.util.DoubleArray;
 
-/**
- * @author Brad
- *
- */
 public final class RepeatableRandom implements Random {
 
   /** Serialization version ID. */
@@ -42,7 +38,7 @@ public final class RepeatableRandom implements Random {
 
   private final Random inner;
 
-  private final List<DoubleArray> values = new ArrayList<DoubleArray>();
+  private final List<DoubleArray> values = new ArrayList<>();
 
   private int sequence = 0;
 

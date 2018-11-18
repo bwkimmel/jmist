@@ -140,9 +140,7 @@ public class BoundingBoxBuilder2 implements Serializable {
   private double minimumX, minimumY;
   private double maximumX, maximumY;
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 351994557507294139L;
 
 }

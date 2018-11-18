@@ -201,7 +201,6 @@ public final class BrilliantCut {
    *     provided to determine the cut geometry.
    */
   public static MeshBuilder createMeshBuilder(Info cut) {
-
     validateInfo(cut);
 
     double radius = 0.5 * cut.diameter;
@@ -226,7 +225,6 @@ public final class BrilliantCut {
     b.translate(new Vector3(0, 0, culetBottom));
 
     for (int i = 0; i < 8; i++) {
-
       double theta0 = 2.0 * Math.PI * ((double) i) / 8.0;
       double theta1 = 2.0 * Math.PI * (((double) i) + 0.5) / 8.0;
       double theta2 = 2.0 * Math.PI * (((double) i) + 1.0) / 8.0;
@@ -289,12 +287,10 @@ public final class BrilliantCut {
       r = ray.pointAt(planeMain.intersect(ray));
       planeGirdle = Plane3.throughPoints(q, p, r);
       b.slice(planeGirdle, true);
-
     }
 
     b.mergeVertices(MathUtil.EPSILON);
     return b;
-
   }
 
   /**

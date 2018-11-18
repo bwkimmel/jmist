@@ -37,10 +37,6 @@ import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Vector3;
 
-/**
- * @author Brad
- *
- */
 public final class MultipleImportanceSamplingStrategy implements BidiPathStrategy {
 
   /** Serialization version ID. */
@@ -92,7 +88,6 @@ public final class MultipleImportanceSamplingStrategy implements BidiPathStrateg
 
   @Override
   public double getWeight(PathNode lightNode, PathNode eyeNode) {
-
     int s = getNodeDepth(lightNode);
     int t = getNodeDepth(eyeNode);
     int k = s + t - 1;

@@ -39,9 +39,7 @@ import ca.eandb.jmist.math.Ray3;
  */
 public final class VisibilityRayShader implements RayShader {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 6959718984918444342L;
 
   /**

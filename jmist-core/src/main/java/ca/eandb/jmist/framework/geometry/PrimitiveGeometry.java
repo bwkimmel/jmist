@@ -169,21 +169,15 @@ public abstract class PrimitiveGeometry extends AbstractGeometry {
 
   protected final GeometryIntersection newIntersection(Ray3 ray,
       double distance, boolean front) {
-
     return super.newIntersection(ray, distance, front, 0);
-
   }
 
   protected final GeometryIntersection newSurfacePoint(Point3 p, boolean front) {
-
     return super.newSurfacePoint(p, front, 0);
-
   }
 
   protected final GeometryIntersection newSurfacePoint(Point3 p) {
-
     return super.newSurfacePoint(p, true, 0);
-
   }
 
 }

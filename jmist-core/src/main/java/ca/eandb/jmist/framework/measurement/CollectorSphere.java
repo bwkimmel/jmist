@@ -30,13 +30,9 @@ import java.io.Serializable;
 import ca.eandb.jmist.math.SphericalCoordinates;
 import ca.eandb.jmist.math.Vector3;
 
-/**
- * @author Brad Kimmel
- *
- */
 public interface CollectorSphere extends Serializable {
 
-  public static interface Callback {
+  interface Callback {
     void record(int sensor);
   };
 
@@ -51,7 +47,7 @@ public interface CollectorSphere extends Serializable {
   SphericalCoordinates getSensorCenter(int sensor);
 
   /** A dummy <code>CollectorSphere</code> with no sensors. */
-  public static final CollectorSphere NULL = new CollectorSphere() {
+  CollectorSphere NULL = new CollectorSphere() {
     /** Serialization version ID. */
     private static final long serialVersionUID = 6788498446054635921L;
 

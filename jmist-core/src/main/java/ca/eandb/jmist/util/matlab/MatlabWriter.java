@@ -263,7 +263,6 @@ public final class MatlabWriter {
    *     <code>dimensions</code> is not equal to <code>pr.length</code>.
    */
   public void write(String name, double[] pr, double[] pi, int[] dimensions, int[] strides, boolean global) throws IOException {
-
     this.out.beginElement(MatlabDataType.COMPRESSED);
     this.out.beginArrayElement(name, MatlabArrayType.DOUBLE,
         MatlabDataType.DOUBLE, pi != null, global, false, dimensions,
@@ -275,7 +274,6 @@ public final class MatlabWriter {
     }
     this.out.endElement();
     this.out.endElement();
-
   }
 
   /**
@@ -434,7 +432,6 @@ public final class MatlabWriter {
    *     <code>dimensions</code> is not equal to <code>pr.length</code>.
    */
   public void write(String name, float[] pr, float[] pi, int[] dimensions, int[] strides, boolean global) throws IOException {
-
     this.out.beginElement(MatlabDataType.COMPRESSED);
     this.out.beginArrayElement(name, MatlabArrayType.SINGLE,
         MatlabDataType.SINGLE, pi != null, global, false, dimensions,
@@ -446,7 +443,6 @@ public final class MatlabWriter {
     }
     this.out.endElement();
     this.out.endElement();
-
   }
 
   /**
@@ -519,7 +515,6 @@ public final class MatlabWriter {
    * @throws IOException if writing to the underlying stream fails.
    */
   private void writeString(String value) throws IOException {
-
     int length = value.length();
 
     this.out.beginArrayElement("", MatlabArrayType.CHAR,
@@ -528,7 +523,6 @@ public final class MatlabWriter {
 
     this.out.writeElement(value);
     this.out.endElement();
-
   }
 
   /**
@@ -649,7 +643,6 @@ public final class MatlabWriter {
    *     <code>dimensions</code> is not equal to <code>array.length</code>.
    */
   public void write(String name, String[] p, int[] dimensions, int[] strides, boolean global) throws IOException {
-
     this.out.beginElement(MatlabDataType.COMPRESSED);
     this.out.beginArrayElement(name, MatlabArrayType.CELL,
         MatlabDataType.MATRIX, false, global, false, dimensions,
@@ -659,7 +652,6 @@ public final class MatlabWriter {
 
     this.out.endElement();
     this.out.endElement();
-
   }
 
   /**
@@ -754,7 +746,6 @@ public final class MatlabWriter {
    *     <code>dimensions</code> is not equal to <code>pr.length</code>.
    */
   public void write(String name, int[] pr, int[] pi, int[] dimensions, int[] strides, boolean global) throws IOException {
-
     this.out.beginElement(MatlabDataType.COMPRESSED);
     this.out.beginArrayElement(name, MatlabArrayType.INT32,
         MatlabDataType.INT32, pi != null, global, false, dimensions,
@@ -766,7 +757,6 @@ public final class MatlabWriter {
     }
     this.out.endElement();
     this.out.endElement();
-
   }
 
   /**
@@ -925,7 +915,6 @@ public final class MatlabWriter {
    *     <code>dimensions</code> is not equal to <code>pr.length</code>.
    */
   public void write(String name, short[] pr, short[] pi, int[] dimensions, int[] strides, boolean global) throws IOException {
-
     this.out.beginElement(MatlabDataType.COMPRESSED);
     this.out.beginArrayElement(name, MatlabArrayType.INT16,
         MatlabDataType.INT16, pi != null, global, false, dimensions,
@@ -937,7 +926,6 @@ public final class MatlabWriter {
     }
     this.out.endElement();
     this.out.endElement();
-
   }
 
   /**
@@ -1096,7 +1084,6 @@ public final class MatlabWriter {
    *     <code>dimensions</code> is not equal to <code>pr.length</code>.
    */
   public void write(String name, byte[] pr, byte[] pi, int[] dimensions, int[] strides, boolean global) throws IOException {
-
     this.out.beginElement(MatlabDataType.COMPRESSED);
     this.out.beginArrayElement(name, MatlabArrayType.INT8,
         MatlabDataType.INT8, pi != null, global, false, dimensions,
@@ -1108,7 +1095,6 @@ public final class MatlabWriter {
     }
     this.out.endElement();
     this.out.endElement();
-
   }
 
   /**
@@ -1267,7 +1253,6 @@ public final class MatlabWriter {
    *     <code>dimensions</code> is not equal to <code>pr.length</code>.
    */
   public void writeUnsigned(String name, int[] pr, int[] pi, int[] dimensions, int[] strides, boolean global) throws IOException {
-
     this.out.beginElement(MatlabDataType.COMPRESSED);
     this.out.beginArrayElement(name, MatlabArrayType.UINT32,
         MatlabDataType.UINT32, pi != null, global, false, dimensions,
@@ -1279,7 +1264,6 @@ public final class MatlabWriter {
     }
     this.out.endElement();
     this.out.endElement();
-
   }
 
   /**
@@ -1438,7 +1422,6 @@ public final class MatlabWriter {
    *     <code>dimensions</code> is not equal to <code>pr.length</code>.
    */
   public void writeUnsigned(String name, short[] pr, short[] pi, int[] dimensions, int[] strides, boolean global) throws IOException {
-
     this.out.beginElement(MatlabDataType.COMPRESSED);
     this.out.beginArrayElement(name, MatlabArrayType.UINT16,
         MatlabDataType.UINT16, pi != null, global, false, dimensions,
@@ -1450,7 +1433,6 @@ public final class MatlabWriter {
     }
     this.out.endElement();
     this.out.endElement();
-
   }
 
   /**
@@ -1609,7 +1591,6 @@ public final class MatlabWriter {
    *     <code>dimensions</code> is not equal to <code>pr.length</code>.
    */
   public void writeUnsigned(String name, byte[] pr, byte[] pi, int[] dimensions, int[] strides, boolean global) throws IOException {
-
     this.out.beginElement(MatlabDataType.COMPRESSED);
     this.out.beginArrayElement(name, MatlabArrayType.UINT8,
         MatlabDataType.UINT8, pi != null, global, false, dimensions,
@@ -1621,7 +1602,6 @@ public final class MatlabWriter {
     }
     this.out.endElement();
     this.out.endElement();
-
   }
 
   /**
@@ -1726,7 +1706,6 @@ public final class MatlabWriter {
    *     <code>dimensions</code> is not equal to <code>array.length</code>.
    */
   public void write(String name, Complex[] array, int[] dimensions, boolean global) throws IOException {
-
     this.out.beginElement(MatlabDataType.COMPRESSED);
     this.out.beginArrayElement(name, MatlabArrayType.DOUBLE,
         MatlabDataType.DOUBLE, true, global, false, dimensions,
@@ -1735,7 +1714,6 @@ public final class MatlabWriter {
     this.out.writeElement(array);
     this.out.endElement();
     this.out.endElement();
-
   }
 
   /**
@@ -1824,7 +1802,6 @@ public final class MatlabWriter {
    *     <code>dimensions</code> is not equal to <code>array.length</code>.
    */
   public void write(String name, boolean[] array, int[] dimensions, int[] strides, boolean global) throws IOException {
-
     this.out.beginElement(MatlabDataType.COMPRESSED);
     this.out.beginArrayElement(name, MatlabArrayType.UINT8,
         MatlabDataType.INT8, false, global, true, dimensions,
@@ -1833,7 +1810,6 @@ public final class MatlabWriter {
     this.out.writeElement(array, dimensions, strides);
     this.out.endElement();
     this.out.endElement();
-
   }
 
   /**
@@ -1865,7 +1841,6 @@ public final class MatlabWriter {
    * @throws IOException if writing to the underlying stream fails.
    */
   public void write(String name, String value, boolean global) throws IOException {
-
     int length = value.length();
 
     this.out.beginElement(MatlabDataType.COMPRESSED);
@@ -1876,7 +1851,6 @@ public final class MatlabWriter {
     this.out.writeElement(value);
     this.out.endElement();
     this.out.endElement();
-
   }
 
   /** The underlying <code>MatlabOutputStream</code> to write to. */

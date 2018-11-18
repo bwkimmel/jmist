@@ -68,16 +68,12 @@ public final class SuperellipsoidGeometry extends PrimitiveGeometry {
 
   @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
+    List<Double> a = getIntervals(ray);
+    List<Double> f = new ArrayList<>(a.size());
+    boolean front = true;
 
-    List<Double>  a = getIntervals(ray);
-    List<Double>  f = new ArrayList<Double>(a.size());
-    boolean      front = true;
-
-    for (int i = 0; i < a.size() - 1; i++)
-    {
-
+    for (int i = 0; i < a.size() - 1; i++) {
       if (i == 0) f.add(evaluate(ray.pointAt(a.get(0))));
-
       f.add(evaluate(ray.pointAt(a.get(i + 1))));
 
       if (Math.signum(f.get(i)) != Math.signum(f.get(i + 1))) {
@@ -88,14 +84,11 @@ public final class SuperellipsoidGeometry extends PrimitiveGeometry {
           if (!recorder.needAllIntersections()) return;
         }
         front = !front;
-
       } else {
-
-          // interval may contain a dual root or two individual roots
+        // interval may contain a dual root or two individual roots
         double[] t = new double[2];
 
         if (checkRoot(ray, a.get(i), a.get(i + 1), f.get(i), f.get(i + 1), t)) {
-
           if (recorder.needAllIntersections() || t[0] > SUPERELLIPSOID_DEPTH_TOLERANCE) {
             recorder.record(super.newIntersection(ray, t[0], front));
             if (!recorder.needAllIntersections()) return;
@@ -107,20 +100,14 @@ public final class SuperellipsoidGeometry extends PrimitiveGeometry {
             if (!recorder.needAllIntersections()) return;
           }
           front = !front;
-
         }
-
       }
-
     }
-
   }
 
   private static List<Double> getIntervals(Ray3 ray) {
-
-    ArrayList<Double> vt = new ArrayList<Double>(11);
+    ArrayList<Double> vt = new ArrayList<>(11);
     Interval I = SUPERELLIPSOID_BOUNDING_BOX.intersect(ray);
-
     if (I.isEmpty())
       return vt;
 
@@ -135,7 +122,6 @@ public final class SuperellipsoidGeometry extends PrimitiveGeometry {
 
     Collections.sort(vt);
     return vt;
-
   }
 
   private double evaluate(Point3 p) {
@@ -155,17 +141,16 @@ public final class SuperellipsoidGeometry extends PrimitiveGeometry {
   };
 
   private EvaluateResult evaluate(Ray3 ray, double t) {
-
-    Point3  p = ray.pointAt(t);
-    Vector3  d = ray.direction();
-    double  X2e_1 = Math.pow(Math.abs(p.x()), 2.0 / e - 1.0);
-    double  Y2e_1 = Math.pow(Math.abs(p.y()), 2.0 / e - 1.0);
-    double  Z2n_1 = Math.pow(Math.abs(p.z()), 2.0 / n - 1.0);
-    double  X2e = Math.abs(p.x()) * X2e_1;
-    double  Y2e = Math.abs(p.y()) * Y2e_1;
-    double  Z2n = Math.abs(p.z()) * Z2n_1;
-    double  A_1 = Math.pow(X2e + Y2e, e / n - 1.0);
-    double  A = (X2e + Y2e) * A_1;
+    Point3 p = ray.pointAt(t);
+    Vector3 d = ray.direction();
+    double X2e_1 = Math.pow(Math.abs(p.x()), 2.0 / e - 1.0);
+    double Y2e_1 = Math.pow(Math.abs(p.y()), 2.0 / e - 1.0);
+    double Z2n_1 = Math.pow(Math.abs(p.z()), 2.0 / n - 1.0);
+    double X2e = Math.abs(p.x()) * X2e_1;
+    double Y2e = Math.abs(p.y()) * Y2e_1;
+    double Z2n = Math.abs(p.z()) * Z2n_1;
+    double A_1 = Math.pow(X2e + Y2e, e / n - 1.0);
+    double A = (X2e + Y2e) * A_1;
 
     return new EvaluateResult(
         A + Z2n - 1.0,
@@ -175,17 +160,14 @@ public final class SuperellipsoidGeometry extends PrimitiveGeometry {
                 * Math.signum(p.y())) + Z2n_1 * d.z()
             * Math.signum(p.z()))
     );
-
   }
 
   private double findRoot(Ray3 ray, double a, double b) {
-
-    Point3  pa = ray.pointAt(a), pb = ray.pointAt(b);
-    double  va = evaluate(pa), vb = evaluate(pb);
+    Point3 pa = ray.pointAt(a), pb = ray.pointAt(b);
+    double va = evaluate(pa), vb = evaluate(pb);
 
     if (Math.abs(va) < SUPERELLIPSOID_TOLERANCE)
       return a;
-
     if (Math.abs(vb) < SUPERELLIPSOID_TOLERANCE)
       return b;
 
@@ -195,7 +177,7 @@ public final class SuperellipsoidGeometry extends PrimitiveGeometry {
 
       assert(va * vb < 0.0);
 
-      double  m = (0.0 - va) / (vb - va);
+      double m = (0.0 - va) / (vb - va);
       assert(MathUtil.inRangeOO(m, 0.0, 1.0));
       t0 = MathUtil.interpolate(a, b, m);
       t1 = MathUtil.interpolate(a, b, 0.5);
@@ -241,20 +223,17 @@ public final class SuperellipsoidGeometry extends PrimitiveGeometry {
     }
 
     return (Math.abs(va) < Math.abs(vb)) ? a : b;
-
   }
 
   private boolean checkRoot(Ray3 ray, double a, double b, double va, double vb, double[] t) {
-
-    boolean  found_root = false;
-    int    i;
-    double  last_vt = Double.POSITIVE_INFINITY;
+    boolean found_root = false;
+    int i;
+    double last_vt = Double.POSITIVE_INFINITY;
 
     t[0] = a + MathUtil.BIG_EPSILON * (b - a);
 
     for (i = 0; i < SUPERELLIPSOID_MAX_NEWTON_ITERATIONS; i++) {
       EvaluateResult r = evaluate(ray, t[0]);
-
       if (Double.isNaN(r.value))
         return false;
 
@@ -324,7 +303,6 @@ public final class SuperellipsoidGeometry extends PrimitiveGeometry {
     }
 
     return true;
-
   }
 
   @Override
@@ -334,19 +312,17 @@ public final class SuperellipsoidGeometry extends PrimitiveGeometry {
 
   @Override
   protected Vector3 getNormal(GeometryIntersection x) {
-
-    Point3  p = x.getPosition();
-    double  A = Math.pow(Math.pow(Math.abs(p.x()), 2.0 / e) + Math.pow(Math.abs(p.y()), 2.0 / e), e / n - 1.0);
-    double  X = A * Math.pow(Math.abs(p.x()), 2.0 / e - 1.0);
-    double  Y = A * Math.pow(Math.abs(p.y()), 2.0 / e - 1.0);
-    double  Z = Math.pow(Math.abs(p.z()), 2.0 / n - 1.0);
+    Point3 p = x.getPosition();
+    double A = Math.pow(Math.pow(Math.abs(p.x()), 2.0 / e) + Math.pow(Math.abs(p.y()), 2.0 / e), e / n - 1.0);
+    double X = A * Math.pow(Math.abs(p.x()), 2.0 / e - 1.0);
+    double Y = A * Math.pow(Math.abs(p.y()), 2.0 / e - 1.0);
+    double Z = Math.pow(Math.abs(p.z()), 2.0 / n - 1.0);
 
     return new Vector3(
       Math.signum(p.x()) * X,
       Math.signum(p.y()) * Y,
       Math.signum(p.z()) * Z
     ).unit();
-
   }
 
   @Override

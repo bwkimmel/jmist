@@ -30,13 +30,10 @@ import ca.eandb.jmist.framework.Function1;
 /**
  * A <code>CompositeFunction1</code> that represents the composition of its
  * children.
- * @author brad
  */
 public final class ComposedFunction1 extends CompositeFunction1 {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 8434811559561689980L;
 
   @Override

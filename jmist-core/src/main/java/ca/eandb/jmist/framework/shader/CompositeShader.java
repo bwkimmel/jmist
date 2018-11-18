@@ -42,7 +42,7 @@ public abstract class CompositeShader implements Shader {
   protected List<Shader> shaders;
 
   protected CompositeShader() {
-    shaders = new ArrayList<Shader>();
+    shaders = new ArrayList<>();
   }
 
   protected CompositeShader(List<Shader> shaders) {

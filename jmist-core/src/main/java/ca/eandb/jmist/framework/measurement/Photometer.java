@@ -34,10 +34,6 @@ import ca.eandb.jmist.math.Vector3;
 import ca.eandb.util.progress.DummyProgressMonitor;
 import ca.eandb.util.progress.ProgressMonitor;
 
-/**
- * @author Brad Kimmel
- *
- */
 public final class Photometer {
 
   public Photometer(CollectorSphere collectorSphere) {
@@ -95,36 +91,27 @@ public final class Photometer {
   }
 
   public void castPhotons(long n, ProgressMonitor monitor, long progressInterval) {
-
     long untilCallback = 0;
     Random rng = new SimpleRandom();
 
     for (int i = 0; i < n; i++) {
-
       if (--untilCallback <= 0) {
-
         double progress = (double) i / (double) n;
-
         if (!monitor.notifyProgress(progress)) {
           monitor.notifyCancelled();
           return;
         }
-
         untilCallback = progressInterval;
-
       }
 
       Vector3 v = specimen.scatter(SurfacePointGeometry.STANDARD, in, false, wavelength, rng);
-
       if (v != null) {
         collectorSphere.record(v, sensorArray);
       }
-
     }
 
     monitor.notifyProgress(1.0);
     monitor.notifyComplete();
-
   }
 
   private final IntegerSensorArray sensorArray;

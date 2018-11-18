@@ -109,8 +109,8 @@ final class LineReader {
    */
   public String readLine() throws IOException {
     StringBuilder line = new StringBuilder();
-    char c;
-    while ((c = (char) read()) >= 0) {
+    int c;
+    while ((c = read()) >= 0) {
       if (c == '\n' || c == '\r') {
         if ((c == '\n' && peek() == '\r') || (c == '\r' && peek() == '\n')) {
           read();

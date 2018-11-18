@@ -27,7 +27,6 @@ package ca.eandb.jmist.math;
 
 import java.io.Serializable;
 
-
 /**
  * A circle in two dimensional space (the set of points at most a
  * constant distance from a fixed point).
@@ -43,7 +42,6 @@ public final class Circle implements Serializable {
    */
   public Circle(Point2 center, double radius) {
     assert(radius >= 0.0);
-
     this.center = center;
     this.radius = radius;
   }
@@ -144,7 +142,6 @@ public final class Circle implements Serializable {
    * @see Interval#isEmpty()
    */
   public boolean intersects(Ray2 ray) {
-
     //
     // Algorithm from:
     //
@@ -158,18 +155,17 @@ public final class Circle implements Serializable {
       return false;
     }
 
-    double    r2 = radius * radius;
-    Vector2    oc = ray.origin().vectorTo(center);
-    double    L2oc = oc.dot(oc);
+    double r2 = radius * radius;
+    Vector2 oc = ray.origin().vectorTo(center);
+    double L2oc = oc.dot(oc);
 
     if (L2oc < r2) return true;
 
-    double    tca = oc.dot(ray.direction());
+    double tca = oc.dot(ray.direction());
 
     if (tca < 0.0) return false;
 
     return ray.pointAt(tca).squaredDistanceTo(center) < r2;
-
   }
 
   /**
@@ -185,7 +181,6 @@ public final class Circle implements Serializable {
    * @see Interval#contains(double)
    */
   public Interval intersect(Ray2 ray) {
-
     //
     // Algorithm from:
     //
@@ -201,13 +196,13 @@ public final class Circle implements Serializable {
     }
 
     // Check if the ray starts from within the box.
-    double    r2 = radius * radius;
-    Vector2    oc = ray.origin().vectorTo(center);
-    double    L2oc = oc.dot(oc);
-    boolean    startInside = (L2oc < r2);
+    double r2 = radius * radius;
+    Vector2 oc = ray.origin().vectorTo(center);
+    double L2oc = oc.dot(oc);
+    boolean startInside = (L2oc < r2);
 
     // distance along ray to point on ray closest to center of sphere (equation (A10)).
-    double    tca = oc.dot(ray.direction());
+    double tca = oc.dot(ray.direction());
 
     // if the ray starts outside the sphere and points away from the center of the
     // sphwere, then the ray does not hit the sphere.
@@ -216,17 +211,16 @@ public final class Circle implements Serializable {
     }
 
     // compute half chord distance squared (equation (A13)).
-    double    t2hc = r2 - L2oc + (tca * tca);
+    double t2hc = r2 - L2oc + (tca * tca);
 
     if (t2hc < 0.0) {
       return Interval.EMPTY;
     }
 
-    double    thc = Math.sqrt(t2hc);
+    double thc = Math.sqrt(t2hc);
 
     // compute interval (equation (A14)).
     return new Interval(tca - thc, tca + thc);
-
   }
 
   /**
@@ -271,7 +265,6 @@ public final class Circle implements Serializable {
    * @return The smallest <code>Circle</code> containing the given points.
    */
   public static Circle smallestContaining(Iterable<Point2> points) {
-
     Point2 center = Point2.centroid(points);
     double radius = 0.0;
 
@@ -283,7 +276,6 @@ public final class Circle implements Serializable {
     }
 
     return new Circle(center, radius);
-
   }
 
   /**
@@ -327,9 +319,7 @@ public final class Circle implements Serializable {
     }
   }
 
-  /**
-   * A circle containing all points.
-   */
+  /** A circle containing all points. */
   public static final Circle UNIVERSE = new Circle(Point2.ORIGIN, Double.POSITIVE_INFINITY);
 
   /**
@@ -337,9 +327,7 @@ public final class Circle implements Serializable {
    */
   public static final Circle UNIT = new Circle(Point2.ORIGIN, 1.0);
 
-  /**
-   * An empty circle.
-   */
+  /** An empty circle. */
   public static final Circle EMPTY = new Circle();
 
   /** The center of the circle. */
@@ -348,9 +336,7 @@ public final class Circle implements Serializable {
   /** The radius of the circle. */
   private final double radius;
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -2497313773493949063L;
 
 }

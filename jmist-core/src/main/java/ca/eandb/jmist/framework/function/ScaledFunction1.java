@@ -33,9 +33,7 @@ import ca.eandb.jmist.framework.Function1;
  */
 public final class ScaledFunction1 implements Function1 {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 7790001536461093763L;
 
   /**
@@ -46,7 +44,6 @@ public final class ScaledFunction1 implements Function1 {
    *     factor.
    */
   public ScaledFunction1(double factor, Function1 inner) {
-
     /* Combine successive ScaledFunction1 instances into one. */
     while (inner instanceof ScaledFunction1) {
       ScaledFunction1 f = (ScaledFunction1) inner;
@@ -56,7 +53,6 @@ public final class ScaledFunction1 implements Function1 {
 
     this.factor = factor;
     this.inner = inner;
-
   }
 
   @Override

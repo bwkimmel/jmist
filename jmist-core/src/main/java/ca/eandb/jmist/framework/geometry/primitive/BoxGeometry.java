@@ -59,91 +59,88 @@ public final class BoxGeometry extends PrimitiveGeometry {
 
   @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
-
     // Check for an empty box.
-    if (!this.box.isEmpty()) {
+    if (this.box.isEmpty()) {
+      return;
+    }
+    assert (ray.direction().x() != 0.0 || ray.direction().y() != 0.0 || ray.direction().z() != 0.0);
 
-      assert(ray.direction().x() != 0.0 || ray.direction().y() != 0.0 || ray.direction().z() != 0.0);
+    double t;
+    int n = 0;
+    Point3 p;
 
-      double    t;
-      int      n = 0;
-      Point3    p;
-
-      // Check for intersection with each of the six sides of the box.
-      if (ray.direction().x() != 0.0) {
-        t = (box.minimumX() - ray.origin().x()) / ray.direction().x();
-        if (t > 0.0) {
-          p = ray.pointAt(t);
-          if (box.minimumY() < p.y() && p.y() < box.maximumY() && box.minimumZ() < p.z() && p.z() < box.maximumZ()) {
-            Intersection x = super.newIntersection(ray, t, ray.direction().x() > 0.0, BOX_SURFACE_MIN_X)
-              .setLocation(p);
-            recorder.record(x);
-            if (++n == 2) return;
-          }
-        }
-
-        t = (box.maximumX() - ray.origin().x()) / ray.direction().x();
-        if (t > 0.0) {
-          p = ray.pointAt(t);
-          if (box.minimumY() < p.y() && p.y() < box.maximumY() && box.minimumZ() < p.z() && p.z() < box.maximumZ()) {
-            Intersection x = super.newIntersection(ray, t, ray.direction().x() < 0.0, BOX_SURFACE_MAX_X)
-              .setLocation(p);
-            recorder.record(x);
-            if (++n == 2) return;
-          }
+    // Check for intersection with each of the six sides of the box.
+    if (ray.direction().x() != 0.0) {
+      t = (box.minimumX() - ray.origin().x()) / ray.direction().x();
+      if (t > 0.0) {
+        p = ray.pointAt(t);
+        if (box.minimumY() < p.y() && p.y() < box.maximumY() && box.minimumZ() < p.z() && p.z() < box.maximumZ()) {
+          Intersection x = super.newIntersection(ray, t, ray.direction().x() > 0.0, BOX_SURFACE_MIN_X)
+                                .setLocation(p);
+          recorder.record(x);
+          if (++n == 2) return;
         }
       }
 
-      if (ray.direction().y() != 0.0) {
-        t = (box.minimumY() - ray.origin().y()) / ray.direction().y();
-        if (t > 0.0) {
-          p = ray.pointAt(t);
-          if (box.minimumX() < p.x() && p.x() < box.maximumX() && box.minimumZ() < p.z() && p.z() < box.maximumZ()) {
-            Intersection x = super.newIntersection(ray, t, ray.direction().y() > 0.0, BOX_SURFACE_MIN_Y)
-              .setLocation(p);
-            recorder.record(x);
-            if (++n == 2) return;
-          }
-        }
-
-        t = (box.maximumY() - ray.origin().y()) / ray.direction().y();
-        if (t > 0.0) {
-          p = ray.pointAt(t);
-          if (box.minimumX() < p.x() && p.x() < box.maximumX() && box.minimumZ() < p.z() && p.z() < box.maximumZ()) {
-            Intersection x = super.newIntersection(ray, t, ray.direction().y() < 0.0, BOX_SURFACE_MAX_Y)
-              .setLocation(p);
-            recorder.record(x);
-            if (++n == 2) return;
-          }
+      t = (box.maximumX() - ray.origin().x()) / ray.direction().x();
+      if (t > 0.0) {
+        p = ray.pointAt(t);
+        if (box.minimumY() < p.y() && p.y() < box.maximumY() && box.minimumZ() < p.z() && p.z() < box.maximumZ()) {
+          Intersection x = super.newIntersection(ray, t, ray.direction().x() < 0.0, BOX_SURFACE_MAX_X)
+                                .setLocation(p);
+          recorder.record(x);
+          if (++n == 2) return;
         }
       }
-
-      if (ray.direction().z() != 0.0) {
-        t = (box.minimumZ() - ray.origin().z()) / ray.direction().z();
-        if (t > 0.0) {
-          p = ray.pointAt(t);
-          if (box.minimumX() < p.x() && p.x() < box.maximumX() && box.minimumY() < p.y() && p.y() < box.maximumY()) {
-            Intersection x = super.newIntersection(ray, t, ray.direction().z() > 0.0, BOX_SURFACE_MIN_Z)
-              .setLocation(p);
-            recorder.record(x);
-            if (++n == 2) return;
-          }
-        }
-
-        t = (box.maximumZ() - ray.origin().z()) / ray.direction().z();
-        if (t > 0.0) {
-          p = ray.pointAt(t);
-          if (box.minimumX() < p.x() && p.x() < box.maximumX() && box.minimumY() < p.y() && p.y() < box.maximumY()) {
-            Intersection x = super.newIntersection(ray, t, ray.direction().z() < 0.0, BOX_SURFACE_MAX_Z)
-              .setLocation(p);
-            recorder.record(x);
-            if (++n == 2) return;
-          }
-        }
-      }
-
     }
 
+    if (ray.direction().y() != 0.0) {
+      t = (box.minimumY() - ray.origin().y()) / ray.direction().y();
+      if (t > 0.0) {
+        p = ray.pointAt(t);
+        if (box.minimumX() < p.x() && p.x() < box.maximumX() && box.minimumZ() < p.z() && p.z() < box.maximumZ()) {
+          Intersection x = super.newIntersection(ray, t, ray.direction().y() > 0.0, BOX_SURFACE_MIN_Y)
+                                .setLocation(p);
+          recorder.record(x);
+          if (++n == 2) return;
+        }
+      }
+
+      t = (box.maximumY() - ray.origin().y()) / ray.direction().y();
+      if (t > 0.0) {
+        p = ray.pointAt(t);
+        if (box.minimumX() < p.x() && p.x() < box.maximumX() && box.minimumZ() < p.z() && p.z() < box.maximumZ()) {
+          Intersection x = super.newIntersection(ray, t, ray.direction().y() < 0.0, BOX_SURFACE_MAX_Y)
+                                .setLocation(p);
+          recorder.record(x);
+          if (++n == 2) return;
+        }
+      }
+    }
+
+    if (ray.direction().z() != 0.0) {
+      t = (box.minimumZ() - ray.origin().z()) / ray.direction().z();
+      if (t > 0.0) {
+        p = ray.pointAt(t);
+        if (box.minimumX() < p.x() && p.x() < box.maximumX() && box.minimumY() < p.y() && p.y() < box.maximumY()) {
+          Intersection x = super.newIntersection(ray, t, ray.direction().z() > 0.0, BOX_SURFACE_MIN_Z)
+                                .setLocation(p);
+          recorder.record(x);
+          if (++n == 2) return;
+        }
+      }
+
+      t = (box.maximumZ() - ray.origin().z()) / ray.direction().z();
+      if (t > 0.0) {
+        p = ray.pointAt(t);
+        if (box.minimumX() < p.x() && p.x() < box.maximumX() && box.minimumY() < p.y() && p.y() < box.maximumY()) {
+          Intersection x = super.newIntersection(ray, t, ray.direction().z() < 0.0, BOX_SURFACE_MAX_Z)
+                                .setLocation(p);
+          recorder.record(x);
+          if (++n == 2) return;
+        }
+      }
+    }
   }
 
   @Override
@@ -153,26 +150,23 @@ public final class BoxGeometry extends PrimitiveGeometry {
 
   @Override
   protected Vector3 getNormal(GeometryIntersection x) {
-    switch (x.getTag())
-    {
-    case BOX_SURFACE_MAX_X:  return Vector3.I;
-    case BOX_SURFACE_MIN_X:  return Vector3.NEGATIVE_I;
-    case BOX_SURFACE_MAX_Y:  return Vector3.J;
-    case BOX_SURFACE_MIN_Y:  return Vector3.NEGATIVE_J;
-    case BOX_SURFACE_MAX_Z:  return Vector3.K;
-    case BOX_SURFACE_MIN_Z:  return Vector3.NEGATIVE_K;
-    default:        assert(false); return null;
+    switch (x.getTag()) {
+    case BOX_SURFACE_MAX_X: return Vector3.I;
+    case BOX_SURFACE_MIN_X: return Vector3.NEGATIVE_I;
+    case BOX_SURFACE_MAX_Y: return Vector3.J;
+    case BOX_SURFACE_MIN_Y: return Vector3.NEGATIVE_J;
+    case BOX_SURFACE_MAX_Z: return Vector3.K;
+    case BOX_SURFACE_MIN_Z: return Vector3.NEGATIVE_K;
+    default: assert(false); return null;
     }
   }
 
   @Override
   protected Point2 getTextureCoordinates(GeometryIntersection x) {
+    Point2 facePoint;
+    Point3 p = x.getPosition();
 
-    Point2  facePoint;
-    Point3  p = x.getPosition();
-
-    switch (x.getTag())
-    {
+    switch (x.getTag()) {
     case BOX_SURFACE_MAX_X:
       facePoint = new Point2(
           (box.maximumZ() - p.z()) / box.lengthX(),
@@ -217,14 +211,12 @@ public final class BoxGeometry extends PrimitiveGeometry {
 
     default:
       throw new IllegalArgumentException("invalid surface id");
-
     }
 
     return new Point2(
-      FACE_DOMAIN[x.getTag()].minimumX() + facePoint.x() * FACE_DOMAIN[x.getTag()].lengthX(),
-      FACE_DOMAIN[x.getTag()].minimumY() + facePoint.y() * FACE_DOMAIN[x.getTag()].lengthY()
+        FACE_DOMAIN[x.getTag()].minimumX() + facePoint.x() * FACE_DOMAIN[x.getTag()].lengthX(),
+        FACE_DOMAIN[x.getTag()].minimumY() + facePoint.y() * FACE_DOMAIN[x.getTag()].lengthY()
     );
-
   }
 
   @Override
@@ -259,13 +251,15 @@ public final class BoxGeometry extends PrimitiveGeometry {
           dir ? box.maximumZ() : box.minimumZ());
     } else if (ref.seed < xyArea + xzArea) {
       id = dir ? BOX_SURFACE_MAX_Y : BOX_SURFACE_MIN_Y;
-      p = new Point3(RandomUtil.uniform(box.spanX(), ru),
+      p = new Point3(
+          RandomUtil.uniform(box.spanX(), ru),
           dir ? box.maximumY() : box.minimumY(),
           RandomUtil.uniform(box.spanZ(), rv));
 
     } else {
       id = dir ? BOX_SURFACE_MAX_X : BOX_SURFACE_MIN_X;
-      p = new Point3(dir ? box.maximumX() : box.minimumX(),
+      p = new Point3(
+          dir ? box.maximumX() : box.minimumX(),
           RandomUtil.uniform(box.spanY(), ru),
           RandomUtil.uniform(box.spanZ(), rv));
     }

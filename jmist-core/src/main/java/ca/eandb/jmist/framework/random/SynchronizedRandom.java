@@ -59,9 +59,7 @@ public final class SynchronizedRandom implements Random {
   /** The <code>Random</code> to be synchronized. */
   private final Random inner;
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -6623891709591571067L;
 
 }

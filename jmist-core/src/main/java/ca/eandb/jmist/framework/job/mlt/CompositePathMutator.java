@@ -33,13 +33,9 @@ import ca.eandb.jmist.framework.path.Path;
 import ca.eandb.jmist.framework.random.CategoricalRandom;
 import ca.eandb.util.DoubleArray;
 
-/**
- * @author brad
- *
- */
 public final class CompositePathMutator implements PathMutator {
 
-  private final List<PathMutator> mutators = new ArrayList<PathMutator>();
+  private final List<PathMutator> mutators = new ArrayList<>();
 
   private final DoubleArray weights = new DoubleArray();
 

@@ -95,28 +95,20 @@ public final class LambertianMaterial extends OpaqueMaterial {
 
   @Override
   public ScatteredRay emit(SurfacePoint x, WavelengthPacket lambda, double ru, double rv, double rj) {
-
     if (this.emittance != null) {
-
       SphericalCoordinates out = RandomUtil.diffuse(ru, rv);
       Ray3 ray = new Ray3(x.getPosition(), out.toCartesian(x.getShadingBasis()));
-
       if (x.getNormal().dot(ray.direction()) > 0.0) {
         return ScatteredRay.diffuse(ray, emittance.getColor(x, lambda), 1.0 / Math.PI);
       }
-
     }
-
     return null;
-
   }
 
   @Override
   public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint,
       WavelengthPacket lambda, double ru, double rv, double rj) {
-
     if (this.reflectance != null) {
-
       boolean fromFront = x.getNormal().dot(v) < 0.0;
       SphericalCoordinates out = RandomUtil.diffuse(ru, rv);
       if (!fromFront) {
@@ -129,16 +121,12 @@ public final class LambertianMaterial extends OpaqueMaterial {
       if (fromFront == toFront) {
         return ScatteredRay.diffuse(ray, reflectance.getColor(x, lambda), 1.0 / Math.PI);
       }
-
     }
-
     return null;
-
   }
 
   @Override
   public Color bsdf(SurfacePoint x, Vector3 in, Vector3 out, WavelengthPacket lambda) {
-
     Vector3 n = x.getNormal();
     boolean fromFront = (n.dot(in) < 0.0);
     boolean toFront = (n.dot(out) > 0.0);
@@ -151,7 +139,6 @@ public final class LambertianMaterial extends OpaqueMaterial {
     } else {
       return lambda.getColorModel().getBlack(lambda);
     }
-
   }
 
   @Override
@@ -166,17 +153,13 @@ public final class LambertianMaterial extends OpaqueMaterial {
     return reflectance != null ? 1.0 / Math.PI : 0.0;
   }
 
-
-
   /** The reflectance <code>Painter</code> of this <code>Material</code>. */
   private final Painter reflectance;
 
   /** The emittance <code>Painter</code> of this <code>Material</code>. */
   private final Painter emittance;
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 485410070543495668L;
 
 }

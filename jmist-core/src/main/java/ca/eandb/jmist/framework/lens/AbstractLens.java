@@ -33,10 +33,6 @@ import ca.eandb.jmist.framework.path.EyeNode;
 import ca.eandb.jmist.framework.path.PathInfo;
 import ca.eandb.jmist.math.Point2;
 
-/**
- * @author brad
- *
- */
 public abstract class AbstractLens implements Lens {
 
   /** Serialization version ID. */

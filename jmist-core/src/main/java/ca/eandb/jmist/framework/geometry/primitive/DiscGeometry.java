@@ -65,65 +65,51 @@ public final class DiscGeometry extends PrimitiveGeometry {
 
   @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
-
-    boolean  fromTop = this.plane.altitude(ray.origin()) > 0.0;
-
+    boolean fromTop = this.plane.altitude(ray.origin()) > 0.0;
     if (!twoSided && !fromTop)
       return;
 
     double t = this.plane.intersect(ray);
-
     if (recorder.interval().contains(t)) {
-
       Point3 p = ray.pointAt(t);
-
       if (this.boundingSphere.contains(p)) {
-
         GeometryIntersection x = super.newIntersection(ray, t, true, fromTop ? DISC_SURFACE_TOP : DISC_SURFACE_BOTTOM)
           .setLocation(p);
-
         recorder.record(x);
-
       }
-
     }
-
   }
 
   @Override
   protected Basis3 getBasis(GeometryIntersection x) {
     switch (x.getTag()) {
-    case DISC_SURFACE_TOP:    return Basis3.fromW(this.plane.normal(), Basis3.Orientation.RIGHT_HANDED);
-    case DISC_SURFACE_BOTTOM:  return Basis3.fromW(this.plane.normal().opposite(), Basis3.Orientation.RIGHT_HANDED);
-    default:          assert(false); return null;
+    case DISC_SURFACE_TOP: return Basis3.fromW(this.plane.normal(), Basis3.Orientation.RIGHT_HANDED);
+    case DISC_SURFACE_BOTTOM: return Basis3.fromW(this.plane.normal().opposite(), Basis3.Orientation.RIGHT_HANDED);
+    default: assert(false); return null;
     }
   }
 
   @Override
   protected Vector3 getNormal(GeometryIntersection x) {
     switch (x.getTag()) {
-    case DISC_SURFACE_TOP:    return this.plane.normal();
-    case DISC_SURFACE_BOTTOM:  return this.plane.normal().opposite();
-    default:          assert(false); return null;
+    case DISC_SURFACE_TOP: return this.plane.normal();
+    case DISC_SURFACE_BOTTOM: return this.plane.normal().opposite();
+    default: assert(false); return null;
     }
   }
 
   @Override
   protected Point2 getTextureCoordinates(GeometryIntersection x) {
-
     Basis3 basis = x.getBasis();
     Vector3 r = x.getPosition().vectorFrom(this.boundingSphere.center());
-
     return new Point2(
         0.5 * (1.0 + r.dot(basis.u()) / this.boundingSphere.radius()),
         0.5 * (1.0 + r.dot(basis.v()) / this.boundingSphere.radius())
     );
-
   }
 
   @Override
   public Box3 boundingBox() {
-
     Basis3 basis = Basis3.fromW(this.plane.normal(), Basis3.Orientation.RIGHT_HANDED);
     Vector3 u = basis.u();
     Vector3 v = basis.v();
@@ -142,8 +128,7 @@ public final class DiscGeometry extends PrimitiveGeometry {
         c.x() + ri,
         c.y() + rj,
         c.z() + rk
-        );
-
+    );
   }
 
   @Override

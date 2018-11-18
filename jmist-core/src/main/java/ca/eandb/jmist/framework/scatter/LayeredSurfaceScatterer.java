@@ -47,7 +47,7 @@ public final class LayeredSurfaceScatterer implements SurfaceScatterer {
    * A <code>List</code> of the <code>SurfaceScatterer</code>s representing
    * the layers of this <code>SurfaceScatterer</code>.
    */
-  private final List<SurfaceScatterer> layers = new ArrayList<SurfaceScatterer>();
+  private final List<SurfaceScatterer> layers = new ArrayList<>();
 
   /**
    * Adds a <code>SurfaceScatterer</code> as a new layer on the top.
@@ -97,21 +97,17 @@ public final class LayeredSurfaceScatterer implements SurfaceScatterer {
   @Override
   public Vector3 scatter(SurfacePointGeometry x, Vector3 v, boolean adjoint,
       double lambda, Random rnd) {
-
     Vector3 N = x.getNormal();
-    int  depth = (v.dot(N) > 0.0) ? (layers.size() - 1) : 0;
+    int depth = (v.dot(N) > 0.0) ? (layers.size() - 1) : 0;
     int dir;
 
     do  {
-
       SurfaceScatterer layer = layers.get(depth);
       v = layer.scatter(x, v, adjoint, lambda, rnd);
-
       if (v == null) break;
 
       dir = (v.dot(N) > 0.0) ? -1 : 1;
       depth += dir;
-
     } while (depth >= 0 && depth < layers.size());
 
     return v;

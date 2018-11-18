@@ -31,10 +31,6 @@ import java.util.Arrays;
 import ca.eandb.jmist.framework.measurement.CollectorSphere.Callback;
 import ca.eandb.jmist.math.MathUtil;
 
-/**
- * @author Brad
- *
- */
 public final class IntegerSensorArray implements Callback, Serializable {
 
   /** Serialization version ID. */

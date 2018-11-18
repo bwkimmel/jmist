@@ -53,7 +53,7 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
    *     <code>OutputStream</code> fails.
    */
   public MatlabOutputStream(OutputStream out) throws IOException {
-    this.streams = new Stack<DataOutputStream>();
+    this.streams = new Stack<>();
     this.streams.push(new DataOutputStream(out));
     this.writeHeader();
   }
@@ -181,7 +181,6 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
   public void beginArrayElement(String name, MatlabArrayType arrayType,
       MatlabDataType dataType, boolean complex, boolean global,
       boolean logical, int[] dimensions, int elements) throws IOException {
-
     assert(dataType.size > 0);
 
     if (dimensions != null) {
@@ -191,7 +190,6 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
     }
 
     if (dataType.size > 0) {
-
       int bytes = 0;
 
       /* size of array flags */
@@ -214,15 +212,12 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
       this.beginElement(MatlabDataType.MATRIX, bytes);
 
     } else { // dataType.size == 0
-
       this.beginElement(MatlabDataType.MATRIX);
-
     }
 
     this.writeArrayFlagsElement(arrayType, complex, global, logical);
     this.writeArrayDimensionsElement(dimensions);
     this.writeArrayNameElement(name);
-
   }
 
   /**
@@ -388,7 +383,6 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
    * @throws IOException if writing to the underlying stream fails.
    */
   public void writeElement(Complex[] array) throws IOException {
-
     this.writePrimitiveElementTag(MatlabDataType.DOUBLE, array.length);
     for (int i = 0; i < array.length; i++) {
       this.stream().writeDouble(array[i].re());
@@ -398,7 +392,6 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
     for (int i = 0; i < array.length; i++) {
       this.stream().writeDouble(array[i].im());
     }
-
   }
 
   /**
@@ -559,17 +552,14 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
    * @throws IOException if writing to the underlying stream fails.
    */
   public void writeArrayFlagsElement(MatlabArrayType type, boolean complex, boolean global, boolean logical) throws IOException {
-
     byte[] flags = new byte[MATLAB_ARRAY_FLAGS_SIZE];
 
     if (complex) {
       flags[MATLAB_ARRAY_FLAGS_INDEX] |= MATLAB_ARRAY_COMPLEX;
     }
-
     if (global) {
       flags[MATLAB_ARRAY_FLAGS_INDEX] |= MATLAB_ARRAY_GLOBAL;
     }
-
     if (logical) {
       flags[MATLAB_ARRAY_FLAGS_INDEX] |= MATLAB_ARRAY_LOGICAL;
     }
@@ -578,7 +568,6 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 
     this.writeElementTag(MatlabDataType.UINT32, MATLAB_ARRAY_FLAGS_SIZE);
     this.stream().write(flags);
-
   }
 
   /**
@@ -650,7 +639,6 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
    * @throws IOException if writing to <code>out</code> fails.
    */
   private static final void writeElementTagTo(DataOutputStream out, MatlabDataType type, int bytes) throws IOException {
-
     /* IMPORTANT: COMPRESSED elements are not byte aligned.  This is NOT in
      * the MAT-file format documentation.  This was determined through
      * reverse engineering of MAT-files generated from MATLAB.
@@ -661,7 +649,6 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 
     out.writeInt(type.value);
     out.writeInt(bytes);
-
   }
 
   /**
@@ -672,7 +659,6 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
    */
   private static void writePaddingTo(DataOutputStream out, int amount) throws IOException {
     assert(amount >= 0);
-
     if (amount > 0) {
       out.write(new byte[amount]);
     }
@@ -696,7 +682,6 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
    */
   private void writePadding(int amount) throws IOException {
     assert(amount >= 0);
-
     if (amount > 0) {
       this.stream().write(new byte[amount]);
     }
@@ -720,7 +705,6 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
    * @throws IOException if writing to the underlying stream fails.
    */
   private void writeHeader() throws IOException {
-
     assert(this.stream().size() == 0);
 
     String description = String.format(HEADER_FORMAT_STRING, new Date().toString());
@@ -733,7 +717,6 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
     this.stream().writeShort(MATLAB_ENDIAN_INDICATOR);
 
     assert(this.stream().size() == MATLAB_HEADER_SIZE);
-
   }
 
   @Override
@@ -1446,7 +1429,6 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 
     @Override
     public void writeTo(DataOutputStream out) throws IOException {
-
       /* From "MATLAB 7 MAT-File Format", Page 1-10:
        *
        * "For data elements representing MATLAB arrays, (type miMATRIX),
@@ -1461,7 +1443,6 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
       writeElementTagTo(out, this.type, bytes.size());
       this.bytes.writeTo(out);
       out.flush();
-
     }
 
     /** The <code>MatlabDataType</code> of the element to write. */
@@ -1496,7 +1477,6 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 
     @Override
     public void writeTo(DataOutputStream out) throws IOException {
-
       this.flush();
 
       DeflaterOutputStream deflater = (DeflaterOutputStream) this.out;
@@ -1505,7 +1485,6 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
       writeElementTagTo(out, MatlabDataType.COMPRESSED, bytes.size());
       bytes.writeTo(out);
       out.flush();
-
     }
 
     /** The temporary <code>ByteArrayOutputStream</code> to write to. */
@@ -1542,7 +1521,6 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
 
     @Override
     public void writeTo(DataOutputStream out) throws IOException {
-
       /* From "MATLAB 7 MAT-File Format", Page 1-10:
        *
        * "For data elements representing MATLAB arrays, (type miMATRIX),
@@ -1559,7 +1537,6 @@ public final class MatlabOutputStream extends OutputStream implements DataOutput
       if (out.size() != endPosition) {
         throw new IllegalStateException(String.format("incorrect array length, current position is %d (should be %d).", out.size(), this.endPosition));
       }
-
     }
 
     /** The <code>MatlabDataType</code> of the element to write. */

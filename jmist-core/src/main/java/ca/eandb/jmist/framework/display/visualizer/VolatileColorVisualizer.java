@@ -47,7 +47,7 @@ public abstract class VolatileColorVisualizer implements ColorVisualizer {
    * The <code>List</code> of <code>ChangeListener</code>s to be notified
    * when the visualization function changes.
    */
-  private final List<ChangeListener> listeners = new ArrayList<ChangeListener>();
+  private final List<ChangeListener> listeners = new ArrayList<>();
 
   @Override
   public final void addChangeListener(ChangeListener l) {

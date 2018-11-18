@@ -65,17 +65,15 @@ public final class PointLight extends AbstractLight implements Serializable {
 
   @Override
   public void illuminate(SurfacePoint x, WavelengthPacket lambda, Random rng, Illuminable target) {
-
-    Vector3    lightIn      = x.getPosition().vectorTo(this.position);
-    double    dSquared    = lightIn.squaredLength();
+    Vector3 lightIn = x.getPosition().vectorTo(this.position);
+    double dSquared = lightIn.squaredLength();
 
     lightIn = lightIn.divide(Math.sqrt(dSquared));
 
-    double    ndotl      = x.getShadingNormal().dot(lightIn);
-    double    attenuation    = Math.abs(ndotl) / (4.0 * Math.PI * dSquared);
+    double ndotl = x.getShadingNormal().dot(lightIn);
+    double attenuation = Math.abs(ndotl) / (4.0 * Math.PI * dSquared);
 
     target.addLightSample(new PointLightSample(x, position, emittedPower.sample(lambda).times(attenuation), shadows));
-
   }
 
   @Override
@@ -136,9 +134,7 @@ public final class PointLight extends AbstractLight implements Serializable {
   /** A value indicating whether the light should be affected by shadows. */
   private final boolean shadows;
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -5220350307274318220L;
 
 }

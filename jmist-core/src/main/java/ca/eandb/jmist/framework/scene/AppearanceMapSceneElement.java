@@ -59,20 +59,14 @@ import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
 import ca.eandb.util.ByteArray;
 
-/**
- * @author Brad
- *
- */
 public final class AppearanceMapSceneElement extends SceneElementDecorator {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 280928578847394472L;
 
   private ByteArray map = new ByteArray();
 
-  private List<Appearance> app = new ArrayList<Appearance>();
+  private List<Appearance> app = new ArrayList<>();
 
   private HashMap<String, Integer> nameLookup = null;
 
@@ -97,9 +91,6 @@ public final class AppearanceMapSceneElement extends SceneElementDecorator {
 
   private class AppearanceIntersectionRecorder extends IntersectionRecorderDecorator {
 
-    /**
-     * @param inner
-     */
     public AppearanceIntersectionRecorder(IntersectionRecorder inner) {
       super(inner);
     }
@@ -126,7 +117,7 @@ public final class AppearanceMapSceneElement extends SceneElementDecorator {
 
   public AppearanceMapSceneElement addAppearance(String key, Material material, Shader shader) {
     if (nameLookup == null) {
-      nameLookup = new HashMap<String, Integer>();
+      nameLookup = new HashMap<>();
     }
     nameLookup.put(key, addAppearance(material, shader));
     return this;
@@ -203,7 +194,7 @@ public final class AppearanceMapSceneElement extends SceneElementDecorator {
   public Light createLight() {
 
     int numPrim = super.getNumPrimitives();
-    ArrayList<Integer> emissive = new ArrayList<Integer>();
+    ArrayList<Integer> emissive = new ArrayList<>();
     for (int i = 0; i < numPrim; i++) {
       if (lookup(i).material.isEmissive()) {
         emissive.add(i);
@@ -284,9 +275,6 @@ public final class AppearanceMapSceneElement extends SceneElementDecorator {
     return null;
   }
 
-  /**
-   * @param context
-   */
   private void applyAppearance(ShadingContext context) {
     int primIndex = context.getPrimitiveIndex();
     Appearance a = lookup(primIndex);
@@ -295,6 +283,5 @@ public final class AppearanceMapSceneElement extends SceneElementDecorator {
       context.setShader(a.shader);
     }
   }
-
 
 }

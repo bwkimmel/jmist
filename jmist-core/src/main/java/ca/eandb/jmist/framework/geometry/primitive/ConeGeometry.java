@@ -93,7 +93,6 @@ public final class ConeGeometry extends PrimitiveGeometry {
 
   @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
-
     if (capped) {
       double t = Plane3.XZ.intersect(ray);
 
@@ -136,7 +135,6 @@ public final class ConeGeometry extends PrimitiveGeometry {
         }
       }
     }
-
   }
 
   @Override

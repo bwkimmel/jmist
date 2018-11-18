@@ -27,8 +27,6 @@ package ca.eandb.jmist.framework;
 
 /**
  * Something that can be illuminated.
- * @author brad
- *
  */
 public interface Illuminable {
 

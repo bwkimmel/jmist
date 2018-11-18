@@ -34,10 +34,6 @@ import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.SphericalCoordinates;
 import ca.eandb.jmist.math.Vector3;
 
-/**
- * @author bwkimmel
- *
- */
 public class TabularPerturbingSurfaceScatterer implements SurfaceScatterer {
 
   /** Serialization version ID. */
@@ -62,7 +58,6 @@ public class TabularPerturbingSurfaceScatterer implements SurfaceScatterer {
   @Override
   public Vector3 scatter(SurfacePointGeometry x, Vector3 v, boolean adjoint,
       double lambda, Random rnd) {
-
     double[] lut0;
     double[] lut1 = null;
     double t = 0.0;

@@ -49,82 +49,53 @@ import ca.eandb.jmist.framework.shader.PhongShader;
 import ca.eandb.jmist.framework.texture.RasterTexture2;
 import ca.eandb.util.UnimplementedException;
 
-/**
- * @author brad
- *
- */
 final class WavefrontMaterialReader {
 
   private static Map<String, LineInterpreter> lineInterpreters;
 
-  private static LineInterpreter LI_DEFAULT = new LineInterpreter() {
-    public void process(String[] args, State state) {
-      state.addWarningMessage(String.format("Unrecognized command: `%s'", args[0]));
-    }
+  private static LineInterpreter LI_DEFAULT =
+      (args, state) -> state.addWarningMessage(String.format("Unrecognized command: `%s'", args[0]));
+
+  private static LineInterpreter LI_NEWMTL = (args, state) -> state.newMaterial(args[1]);
+
+  private static LineInterpreter LI_MAP = (args, state) -> {
+    String name = args[0].replaceFirst("^map_", "");
+    state.setMap(name, args[1]);
   };
 
-  private static LineInterpreter LI_NEWMTL = new LineInterpreter() {
-    public void process(String[] args, State state) throws IOException {
-      state.newMaterial(args[1]);
+  private static LineInterpreter LI_COLOR = (args, state) -> {
+    String name = args[0];
+    Spectrum s;
+
+    if (args[1].equals("xyz")) {
+      double x = Double.parseDouble(args[2]);
+      double y = (args.length > 3) ? Double.parseDouble(args[3]) : x;
+      double z = (args.length > 3) ? Double.parseDouble(args[4]) : x;
+      s = state.colorModel.fromXYZ(x, y, z);
+    } else if (args[1].equals("spectral")) {
+      state.addWarningMessage("spectral is unsupported");
+      s = state.colorModel.getWhite();
+    } else {
+      double r = Double.parseDouble(args[1]);
+      double g = (args.length > 2) ? Double.parseDouble(args[2]) : r;
+      double b = (args.length > 2) ? Double.parseDouble(args[3]) : r;
+      s = state.colorModel.fromRGB(r, g, b);
     }
+
+    state.setColor(name, s);
   };
 
-  private static LineInterpreter LI_MAP = new LineInterpreter() {
-    public void process(String[] args, State state) {
-      String name = args[0].replaceFirst("^map_", "");
-      state.setMap(name, args[1]);
-    }
-  };
+  private static LineInterpreter LI_NS =
+      (args, state) -> state.setExponent(Double.parseDouble(args[1]));
 
-  private static LineInterpreter LI_COLOR = new LineInterpreter() {
-    public void process(String[] args, State state) {
+  private static LineInterpreter LI_SHARPNESS =
+      (args, state) -> state.setSharpness(Double.parseDouble(args[1]));
 
-      String name = args[0];
-      Spectrum s;
+  private static LineInterpreter LI_OPTICAL_DENSITY =
+      (args, state) -> state.setRefractiveIndex(Double.parseDouble(args[1]));
 
-      if (args[1].equals("xyz")) {
-        double x = Double.parseDouble(args[2]);
-        double y = (args.length > 3) ? Double.parseDouble(args[3]) : x;
-        double z = (args.length > 3) ? Double.parseDouble(args[4]) : x;
-        s = state.colorModel.fromXYZ(x, y, z);
-      } else if (args[1].equals("spectral")) {
-        state.addWarningMessage("spectral is unsupported");
-        s = state.colorModel.getWhite();
-      } else {
-        double r = Double.parseDouble(args[1]);
-        double g = (args.length > 2) ? Double.parseDouble(args[2]) : r;
-        double b = (args.length > 2) ? Double.parseDouble(args[3]) : r;
-        s = state.colorModel.fromRGB(r, g, b);
-      }
-
-      state.setColor(name, s);
-
-    }
-  };
-
-  private static LineInterpreter LI_NS = new LineInterpreter() {
-    public void process(String[] args, State state) {
-      state.setExponent(Double.parseDouble(args[1]));
-    }
-  };
-
-  private static LineInterpreter LI_SHARPNESS = new LineInterpreter() {
-    public void process(String[] args, State state) {
-      state.setSharpness(Double.parseDouble(args[1]));
-    }
-  };
-
-  private static LineInterpreter LI_OPTICAL_DENSITY = new LineInterpreter() {
-    public void process(String[] args, State state) {
-      state.setRefractiveIndex(Double.parseDouble(args[1]));
-    }
-  };
-
-  private static LineInterpreter LI_ILLUM = new LineInterpreter() {
-    public void process(String[] args, State state) {
-      state.setIlluminationModel(Integer.parseInt(args[1]));
-    }
-  };
+  private static LineInterpreter LI_ILLUM =
+      (args, state) -> state.setIlluminationModel(Integer.parseInt(args[1]));
 
   public void read(File file, ColorModel cm, AppearanceVisitor visitor) throws IOException {
     FileInputStream stream = new FileInputStream(file);
@@ -132,7 +103,6 @@ final class WavefrontMaterialReader {
     State state = new State(file.getParentFile(), cm, visitor);
 
     while (true) {
-
       String line = reader.readLine();
       if (line == null) {
         break;
@@ -142,17 +112,14 @@ final class WavefrontMaterialReader {
       }
 
       line = line.replaceAll("#.*$", "");
-
       String[] args = line.split("\\s+");
       if (args.length > 0) {
         LineInterpreter interp = getLineInterpreter(args[0]);
         interp.process(args, state);
       }
-
     }
 
     state.visitMaterial();
-
   }
 
   private LineInterpreter getLineInterpreter(String key) {
@@ -163,7 +130,7 @@ final class WavefrontMaterialReader {
   }
 
   private static void initialize() {
-    lineInterpreters = new HashMap<String, LineInterpreter>();
+    lineInterpreters = new HashMap<>();
 
     lineInterpreters.put("newmtl", LI_NEWMTL);
     lineInterpreters.put("Ka", LI_COLOR);
@@ -185,8 +152,8 @@ final class WavefrontMaterialReader {
     public final ColorModel colorModel;
     private final AppearanceVisitor visitor;
     private String currentMaterialName = null;
-    private Map<String, Spectrum> colors = new HashMap<String, Spectrum>();
-    private Map<String, String> maps = new HashMap<String, String>();
+    private Map<String, Spectrum> colors = new HashMap<>();
+    private Map<String, String> maps = new HashMap<>();
     private double exponent;
     private double sharpness;
     private double refractiveIndex;
@@ -224,9 +191,9 @@ final class WavefrontMaterialReader {
 
     private void visitMaterial() throws IOException {
       if (currentMaterialName != null) {
-        Material material = Material.BLACK; // FIXME
-        Shader shader = null;
-        Painter ka, kd, ks, tf;
+        Material material;
+        Shader shader;
+        Painter ka, kd, ks;
 
         switch (illum) {
         case 0:
@@ -304,7 +271,6 @@ final class WavefrontMaterialReader {
 
     public void addWarningMessage(String format) {
       // TODO Auto-generated method stub
-
     }
 
     public void finish() throws IOException {
@@ -314,9 +280,7 @@ final class WavefrontMaterialReader {
   }
 
   private interface LineInterpreter {
-
     void process(String[] args, State state) throws IOException;
-
   }
 
 }

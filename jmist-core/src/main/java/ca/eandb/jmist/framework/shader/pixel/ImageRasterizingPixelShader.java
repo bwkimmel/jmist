@@ -63,7 +63,6 @@ public abstract class ImageRasterizingPixelShader implements PixelShader {
   protected Color shadeAt(Point2 p) {
     Color sample = model.sample(Random.DEFAULT);
     WavelengthPacket lambda = sample.getWavelengthPacket();
-
     Color shade = shader.shadeAt(p, lambda);
     return shade.times(sample);
   }

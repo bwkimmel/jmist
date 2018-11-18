@@ -30,7 +30,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,15 +37,10 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.RGB;
 
-/**
- * @author brad
- *
- */
 public final class JCompositeVisualizerPanel extends JColorVisualizerPanel {
 
   /** Serialization version ID. */
@@ -59,23 +53,10 @@ public final class JCompositeVisualizerPanel extends JColorVisualizerPanel {
   private final JPanel settingsContainerPanel;
   private final CardLayout settingsContainerLayout;
 
-  private final ChangeListener settingsPanelChangeListener = new ChangeListener() {
-    public void stateChanged(ChangeEvent e) {
-      settingsPanel_OnStateChanged(e);
-    }
-  };
-
-  /**
-   *
-   */
   public JCompositeVisualizerPanel() {
     super(new GridBagLayout());
     visualizerComboBox = new JComboBox<>();
-    visualizerComboBox.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        visualizerComboBox_OnActionPerformed(e);
-      }
-    });
+    visualizerComboBox.addActionListener(this::visualizerComboBox_OnActionPerformed);
 
     settingsContainerLayout = new CardLayout();
     settingsContainerPanel = new JPanel(settingsContainerLayout);
@@ -109,7 +90,7 @@ public final class JCompositeVisualizerPanel extends JColorVisualizerPanel {
     visualizerComboBox.addItem(name);
     settingsContainerPanel.add(panel, name);
     settingsPanels.add(panel);
-    panel.addChangeListener(settingsPanelChangeListener);
+    panel.addChangeListener(this::settingsPanel_OnStateChanged);
     return this;
   }
 

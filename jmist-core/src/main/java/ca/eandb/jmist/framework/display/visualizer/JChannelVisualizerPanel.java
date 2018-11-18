@@ -29,7 +29,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -39,10 +38,6 @@ import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.RGB;
 
-/**
- * @author brad
- *
- */
 public final class JChannelVisualizerPanel extends JColorVisualizerPanel {
 
   /** Serialization version ID. */
@@ -50,7 +45,7 @@ public final class JChannelVisualizerPanel extends JColorVisualizerPanel {
 
   private final JComboBox<String> channelComboBox;
 
-  private ColorVisualizer visualizer = null;
+  private ColorVisualizer visualizer;
 
   public JChannelVisualizerPanel(ColorModel cm) {
     super(new GridBagLayout());
@@ -61,11 +56,7 @@ public final class JChannelVisualizerPanel extends JColorVisualizerPanel {
       channelComboBox.addItem(title);
     }
 
-    channelComboBox.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        channelComboBox_OnActionPerformed(e);
-      }
-    });
+    channelComboBox.addActionListener(this::channelComboBox_OnActionPerformed);
 
     visualizer = new AutomaticLinearChannelVisualizer(0, false);
 

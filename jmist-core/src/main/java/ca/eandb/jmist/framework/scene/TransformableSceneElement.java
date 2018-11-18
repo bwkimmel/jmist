@@ -46,7 +46,6 @@ import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
 import ca.eandb.jmist.math.Vector3;
-import ca.eandb.util.UnimplementedException;
 
 /**
  * A decorator <code>SceneElement</code> that transforms the underlying

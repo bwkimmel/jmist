@@ -53,10 +53,10 @@ import ca.eandb.util.IntegerArray;
 public final class MeshBuilder implements AffineTransformable3 {
 
   /** A <code>List</code> of vertices. */
-  private final List<Vertex> vertices = new ArrayList<Vertex>();
+  private final List<Vertex> vertices = new ArrayList<>();
 
   /** A <code>List</code> of faces. */
-  private final List<Face> faces = new ArrayList<Face>();
+  private final List<Face> faces = new ArrayList<>();
 
   /**
    * The pending <code>AffineTransformation3</code> to be applied to the
@@ -64,9 +64,7 @@ public final class MeshBuilder implements AffineTransformable3 {
    */
   private final AffineTransformation3 trans = new AffineTransformation3();
 
-  /**
-   * A mesh vertex.
-   */
+  /** A mesh vertex. */
   private static final class Vertex {
 
     /** The <code>Point3</code> indicating the position of the vertex. */
@@ -89,9 +87,7 @@ public final class MeshBuilder implements AffineTransformable3 {
 
   }
 
-  /**
-   * A mesh face.
-   */
+  /** A mesh face. */
   private static final class Face {
 
     /**
@@ -115,9 +111,7 @@ public final class MeshBuilder implements AffineTransformable3 {
 
   };
 
-  /**
-   * An edge joining two vertices.
-   */
+  /** An edge joining two vertices. */
   private static final class Edge {
 
     /** Index into {@link MeshBuilder#vertices} of the first vertex. */

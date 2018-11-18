@@ -43,9 +43,7 @@ public final class Trig {
   /** 256 sine values uniformly spaced from zero to 2*pi. */
   public static final double[] SIN_PHI = new double[256];
 
-  /**
-   * Precomputed trigonometric quantities.
-   */
+  /** Precomputed trigonometric quantities. */
   static {
     for (int i = 0; i < 256; i++) {
       double angle = (double) i * (1.0 / 256.0) * Math.PI;

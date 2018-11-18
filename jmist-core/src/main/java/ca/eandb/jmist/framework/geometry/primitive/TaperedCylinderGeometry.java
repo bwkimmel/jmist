@@ -38,10 +38,6 @@ import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
 import ca.eandb.jmist.math.Vector3;
 
-/**
- * @author brad
- *
- */
 public final class TaperedCylinderGeometry extends PrimitiveGeometry {
 
   /** Serialization version ID. */
@@ -99,7 +95,6 @@ public final class TaperedCylinderGeometry extends PrimitiveGeometry {
 
   @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
-
     double dr = radius2 - radius1;
     double dh = height2 - height1;
     double det = radius1 * height2 - radius2 * height1;
@@ -145,8 +140,6 @@ public final class TaperedCylinderGeometry extends PrimitiveGeometry {
         }
       }
     }
-
-
   }
 
   @Override

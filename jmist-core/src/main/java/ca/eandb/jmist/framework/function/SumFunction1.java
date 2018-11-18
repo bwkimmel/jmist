@@ -33,9 +33,7 @@ import ca.eandb.jmist.framework.Function1;
  */
 public final class SumFunction1 extends CompositeFunction1 {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 2089927530431867078L;
 
   @Override
@@ -53,15 +51,11 @@ public final class SumFunction1 extends CompositeFunction1 {
 
   @Override
   public double evaluate(double x) {
-
     double sum = 0.0;
-
     for (Function1 component : this.children()) {
       sum += component.evaluate(x);
     }
-
     return sum;
-
   }
 
 }

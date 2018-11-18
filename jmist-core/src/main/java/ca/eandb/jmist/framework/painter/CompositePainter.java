@@ -40,7 +40,7 @@ public abstract class CompositePainter implements Painter {
   private static final long serialVersionUID = -141503160433974383L;
 
   /** The component painters. */
-  private final List<Painter> children = new ArrayList<Painter>();
+  private final List<Painter> children = new ArrayList<>();
 
   /**
    * Adds a <code>Painter</code> to this <code>CompositePainter</code>.

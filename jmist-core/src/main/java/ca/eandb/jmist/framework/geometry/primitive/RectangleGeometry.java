@@ -74,24 +74,18 @@ public final class RectangleGeometry extends PrimitiveGeometry {
 
   @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
-
     boolean  fromTop = ray.direction().dot(plane.normal()) < 0.0;
-
     if (!twoSided && !fromTop)
       return;
 
     double t = this.plane.intersect(ray);
-
     if (recorder.interval().contains(t)) {
-
       Point3 p = ray.pointAt(t);
       Vector3 dp = p.vectorFrom(this.center);
 
       double u = 0.5 + 0.5 * dp.dot(basis.u()) / ru;
       double v = 0.5 + 0.5 * dp.dot(basis.v()) / rv;
-
       if (MathUtil.inRangeCC(u, 0.0, 1.0) && MathUtil.inRangeCC(v, 0.0, 1.0)) {
-
         // If the rectangle is two sided, adjust the 2D inversion to include
         // the information about which side was intersected (i.e., each side
         // of the rectangle will use one half of the texture map).
@@ -102,34 +96,28 @@ public final class RectangleGeometry extends PrimitiveGeometry {
         }
 
         Intersection x = super.newIntersection(ray, t, true, fromTop ? RECTANGLE_SURFACE_TOP : RECTANGLE_SURFACE_BOTTOM)
-          .setLocation(p)
-          .setUV(new Point2(u, v));
-
+            .setLocation(p)
+            .setUV(new Point2(u, v));
         recorder.record(x);
-
       }
-
     }
-
   }
 
   @Override
   protected Basis3 getBasis(GeometryIntersection x) {
-    switch (x.getTag())
-    {
-    case RECTANGLE_SURFACE_TOP:    return this.basis;
-    case RECTANGLE_SURFACE_BOTTOM:  return this.basis.opposite();
-    default:            throw new IllegalArgumentException("invalid surface id");
+    switch (x.getTag()) {
+    case RECTANGLE_SURFACE_TOP: return this.basis;
+    case RECTANGLE_SURFACE_BOTTOM: return this.basis.opposite();
+    default: throw new IllegalArgumentException("invalid surface id");
     }
   }
 
   @Override
   protected Vector3 getNormal(GeometryIntersection x) {
-    switch (x.getTag())
-    {
-    case RECTANGLE_SURFACE_TOP:    return this.plane.normal();
-    case RECTANGLE_SURFACE_BOTTOM:  return this.plane.normal().opposite();
-    default:            throw new IllegalArgumentException("invalid surface id");
+    switch (x.getTag()) {
+    case RECTANGLE_SURFACE_TOP: return this.plane.normal();
+    case RECTANGLE_SURFACE_BOTTOM: return this.plane.normal().opposite();
+    default: throw new IllegalArgumentException("invalid surface id");
     }
   }
 
@@ -153,7 +141,6 @@ public final class RectangleGeometry extends PrimitiveGeometry {
 //   */
 //  public void illuminate(SurfacePoint x, VisibilityFunction3 vf,
 //      Illuminable target) {
-//
 //    /* Pick a point at random on the surface of the rectangle. */
 //    double u = 2.0 * random.next() - 1.0;
 //    double v = 2.0 * random.next() - 1.0;
@@ -164,7 +151,6 @@ public final class RectangleGeometry extends PrimitiveGeometry {
 //     * point on the rectangle.
 //     */
 //    if (vf.visibility(p, x.location())) {
-//
 //      // FIXME Select from appropriate side when two-sided.
 //      Intersection sp = super.newIntersection(null, 0.0, true, RECTANGLE_SURFACE_TOP)
 //        .setLocation(p)
@@ -181,14 +167,9 @@ public final class RectangleGeometry extends PrimitiveGeometry {
 //
 //      /* Illuminate the point. */
 //      target.illuminate(from, radiance.times(attenuation));
-//
 //    }
-//
 //  }
 
-  /*
-   *
-   */
   @Override
   public void generateRandomSurfacePoint(ShadingContext context, double xu, double xv, double xj) {
     Point3 p = center

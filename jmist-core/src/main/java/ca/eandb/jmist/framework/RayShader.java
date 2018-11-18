@@ -49,10 +49,8 @@ public interface RayShader extends Serializable {
    */
   Color shadeRay(Ray3 ray, WavelengthPacket lambda);
 
-  /**
-   * A <code>RayShader</code> that shades all rays black.
-   */
-  public static final RayShader BLACK = new RayShader() {
+  /** A <code>RayShader</code> that shades all rays black. */
+  RayShader BLACK = new RayShader() {
     private static final long serialVersionUID = -6360034977196703057L;
     public Color shadeRay(Ray3 ray, WavelengthPacket lambda) {
       return lambda.getColorModel().getBlack(lambda);

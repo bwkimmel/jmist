@@ -39,16 +39,12 @@ import ca.eandb.jmist.framework.random.SimpleRandom;
 import ca.eandb.jmist.framework.random.ThreadLocalRandom;
 import ca.eandb.jmist.math.Vector3;
 
-/**
- * @author brad
- *
- */
 public final class SequentialMaterial extends OpaqueMaterial {
 
   /** Serialization version ID. */
   private static final long serialVersionUID = -6825571743685716845L;
 
-  private final List<Material> inner = new ArrayList<Material>();
+  private final List<Material> inner = new ArrayList<>();
 
   private final Random rnd = new ThreadLocalRandom(new SimpleRandom());
 
@@ -60,7 +56,6 @@ public final class SequentialMaterial extends OpaqueMaterial {
   @Override
   public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint,
       WavelengthPacket lambda, double ru, double rv, double rj) {
-
     ScatteredRay sr = null;
     Color col = lambda.getColorModel().getWhite(lambda);
 

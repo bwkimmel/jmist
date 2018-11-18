@@ -48,9 +48,7 @@ import ca.eandb.util.UnexpectedException;
  */
 public final class MatlabXYZFileDisplay implements Display, Serializable {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 4433336367833663738L;
 
   private static final String DEFAULT_FILENAME = "output.mat";

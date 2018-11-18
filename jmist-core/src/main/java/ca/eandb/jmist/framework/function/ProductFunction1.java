@@ -33,9 +33,7 @@ import ca.eandb.jmist.framework.Function1;
  */
 public final class ProductFunction1 extends CompositeFunction1 {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 3613122771597657293L;
 
   @Override
@@ -69,15 +67,11 @@ public final class ProductFunction1 extends CompositeFunction1 {
 
   @Override
   public double evaluate(double x) {
-
     double product = 1.0;
-
     for (Function1 child : this.children()) {
       product *= child.evaluate(x);
     }
-
     return product;
-
   }
 
 }

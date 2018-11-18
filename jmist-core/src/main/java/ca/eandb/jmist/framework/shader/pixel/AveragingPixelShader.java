@@ -52,11 +52,9 @@ public final class AveragingPixelShader implements PixelShader {
   @Override
   public Color shadePixel(Box2 bounds) {
     Color pixel = null;
-
     for (int i = 0; i < this.numSamples; i++) {
       pixel = ColorUtil.add(pixel, pixelShader.shadePixel(bounds));
     }
-
     return pixel.divide(numSamples);
   }
 

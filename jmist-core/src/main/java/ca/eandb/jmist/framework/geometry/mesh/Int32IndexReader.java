@@ -5,10 +5,6 @@ package ca.eandb.jmist.framework.geometry.mesh;
 
 import java.nio.ByteBuffer;
 
-/**
- * @author bwkimmel
- *
- */
 public final class Int32IndexReader implements IndexReader {
 
   @Override

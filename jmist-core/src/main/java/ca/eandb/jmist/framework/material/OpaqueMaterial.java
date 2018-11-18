@@ -30,10 +30,6 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
 
-/**
- * @author Brad Kimmel
- *
- */
 public abstract class OpaqueMaterial extends AbstractMaterial {
 
   /** Serialization version ID. */

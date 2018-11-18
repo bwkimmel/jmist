@@ -31,10 +31,6 @@ import java.nio.ByteOrder;
 
 import org.apache.commons.math3.util.FastMath;
 
-/**
- * @author brad
- *
- */
 public final class Half extends Number implements Comparable<Half>, Serializable {
 
   /** Serialization version ID. */

@@ -37,7 +37,6 @@ import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.shader.MinimalShadingContext;
 import ca.eandb.jmist.math.Ray3;
 
-
 /**
  * Abstract base class for <code>PathNode</code>s.
  * @author Brad Kimmel

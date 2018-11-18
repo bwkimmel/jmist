@@ -51,7 +51,6 @@ public final class EqualPolarAnglesCollectorSphere implements CollectorSphere {
    *     <code>lower</code> are <code>false</code>.
    */
   public EqualPolarAnglesCollectorSphere(int stacks, int slices, boolean upper, boolean lower) {
-
     if (!upper && !lower) {
       throw new IllegalArgumentException("One of upper or lower must be true.");
     }
@@ -68,12 +67,10 @@ public final class EqualPolarAnglesCollectorSphere implements CollectorSphere {
     this.slices = slices;
     this.upper = upper;
     this.lower = lower;
-
   }
 
   @Override
   public SphericalCoordinates getSensorCenter(int sensor) {
-
     int hemispheres = (upper ? 1 : 0) + (lower ? 1 : 0);
     assert(hemispheres > 0);
 
@@ -132,12 +129,10 @@ public final class EqualPolarAnglesCollectorSphere implements CollectorSphere {
     }
 
     return SphericalCoordinates.canonical(theta, phi);
-
   }
 
   @Override
   public double getSensorProjectedSolidAngle(int sensor) {
-
     int hemispheres = (upper ? 1 : 0) + (lower ? 1 : 0);
     int patchesPerHemisphere = this.sensors() / hemispheres;
 
@@ -166,12 +161,10 @@ public final class EqualPolarAnglesCollectorSphere implements CollectorSphere {
     return sensor > 0 ?
         0.5 * Math.PI * (Math.cos(2.0 * theta1) - Math.cos(2.0 * theta2)) / (double) slices :
         0.5 * Math.PI * (Math.cos(2.0 * theta1) - Math.cos(2.0 * theta2));
-
   }
 
   @Override
   public double getSensorSolidAngle(int sensor) {
-
     int hemispheres = (upper ? 1 : 0) + (lower ? 1 : 0);
     int patchesPerHemisphere = this.sensors() / hemispheres;
 
@@ -200,7 +193,6 @@ public final class EqualPolarAnglesCollectorSphere implements CollectorSphere {
     return sensor > 0 ?
         2.0 * Math.PI * (Math.cos(theta1) - Math.cos(theta2)) / (double) slices :
         2.0 * Math.PI * (Math.cos(theta1) - Math.cos(theta2));
-
   }
 
   private int getSensor(SphericalCoordinates v) {
@@ -235,7 +227,6 @@ public final class EqualPolarAnglesCollectorSphere implements CollectorSphere {
 
       return 1 + (stack - 1) * slices + slice;
     }
-
   }
 
   @Override
@@ -271,9 +262,7 @@ public final class EqualPolarAnglesCollectorSphere implements CollectorSphere {
   /** A value indicating whether the lower hemisphere is measured. */
   private final boolean lower;
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 6947672588017728172L;
 
 }

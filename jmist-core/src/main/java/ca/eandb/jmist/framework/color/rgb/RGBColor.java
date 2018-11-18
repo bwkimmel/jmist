@@ -34,27 +34,16 @@ import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.math.MathUtil;
 
-
-/**
- * @author Brad
- *
- */
 /* package */ final class RGBColor implements Color, Spectrum {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -1599907078097936372L;
 
   public static final RGBColor BLACK = new RGBColor(0, 0, 0);
 
   public static final RGBColor WHITE = new RGBColor(1, 1, 1);
 
-  private static final WavelengthPacket WAVELENGTH_PACKET = new WavelengthPacket() {
-    public ColorModel getColorModel() {
-      return RGBColorModel.getInstance();
-    }
-  };
+  private static final WavelengthPacket WAVELENGTH_PACKET = RGBColorModel::getInstance;
 
   private final double r;
 
@@ -62,11 +51,6 @@ import ca.eandb.jmist.math.MathUtil;
 
   private final double b;
 
-  /**
-   * @param r
-   * @param g
-   * @param b
-   */
   public RGBColor(double r, double g, double b) {
     this.r = r;
     this.g = g;

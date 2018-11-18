@@ -37,10 +37,6 @@ import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Tuple;
 import ca.eandb.jmist.math.Vector3;
 
-/**
- * @author brad
- *
- */
 public final class XYZColor implements SingleXYZColor, Spectrum {
 
   /** Serialization version ID */
@@ -65,11 +61,8 @@ public final class XYZColor implements SingleXYZColor, Spectrum {
 
     for (int i = 0; i < 3; i++) {
       final int _i = i;
-      Tuple basis = ColorUtil.XYZ_WAVELENGTHS.map(new Tuple.Function() {
-        public double apply(double value) {
-          return MathUtil.inRangeCO(value, (400 + (100 * _i)) * 1e-9, (500 + (100 * _i)) * 1e-9) ? 1.0 : 0.0;
-        }
-      });
+      Tuple basis = ColorUtil.XYZ_WAVELENGTHS.map(
+          value -> MathUtil.inRangeCO(value, (400 + (100 * _i)) * 1e-9, (500 + (100 * _i)) * 1e-9) ? 1.0 : 0.0);
 
       a[0][i] = MathUtil.trapz(ColorUtil.XYZ_WAVELENGTHS, ColorUtil.X_BAR.combine(basis, Tuple.PRODUCT_OPERATOR));
       a[1][i] = MathUtil.trapz(ColorUtil.XYZ_WAVELENGTHS, ColorUtil.Y_BAR.combine(basis, Tuple.PRODUCT_OPERATOR));

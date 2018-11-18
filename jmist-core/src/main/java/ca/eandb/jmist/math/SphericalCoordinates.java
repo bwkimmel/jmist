@@ -162,7 +162,6 @@ public final class SphericalCoordinates implements Serializable {
    *     of this vector.
    */
   public SphericalCoordinates canonical() {
-
     /* If the vector is already in canonical form, don't create a new
      * one.
      */
@@ -171,7 +170,6 @@ public final class SphericalCoordinates implements Serializable {
     }
 
     return SphericalCoordinates.canonical(this.polar, this.azimuthal, this.radius);
-
   }
 
   /**
@@ -190,18 +188,15 @@ public final class SphericalCoordinates implements Serializable {
    *     vector.
    */
   public Vector3 toCartesian() {
-
     double sp = Math.sin(this.polar);
     double sa = Math.sin(this.azimuthal);
     double cp = Math.cos(this.polar);
     double ca = Math.cos(this.azimuthal);
-
     return new Vector3(
         this.radius * sp * ca,
         this.radius * sp * sa,
         this.radius * cp
     );
-
   }
 
   /**
@@ -213,17 +208,14 @@ public final class SphericalCoordinates implements Serializable {
    *     vector relative to the specified <code>Basis3</code>.
    */
   public Vector3 toCartesian(Basis3 basis) {
-
     double sp = Math.sin(this.polar);
     double sa = Math.sin(this.azimuthal);
     double cp = Math.cos(this.polar);
     double ca = Math.cos(this.azimuthal);
-
     // FIXME this is grossly inefficient.
     return basis.u().times(this.radius * sp * ca)
         .plus(basis.v().times(this.radius * sp * sa))
         .plus(basis.w().times(this.radius * cp));
-
   }
 
   /**
@@ -235,15 +227,12 @@ public final class SphericalCoordinates implements Serializable {
    *     same vector as <code>v</code>.
    */
   public static SphericalCoordinates fromCartesian(Vector3 v) {
-
     double r = v.length();
-
     return new SphericalCoordinates(
         FastMath.acos(v.z() / r),
         Math.atan2(v.y(), v.x()),
         r
     );
-
   }
 
   /**
@@ -257,18 +246,15 @@ public final class SphericalCoordinates implements Serializable {
    *     same vector as <code>v</code>.
    */
   public static SphericalCoordinates fromCartesian(Vector3 v, Basis3 basis) {
-
     double x = basis.u().dot(v);
     double y = basis.v().dot(v);
     double z = basis.w().dot(v);
     double r = v.length();
-
     return new SphericalCoordinates(
         FastMath.acos(z / r),
         Math.atan2(y, x),
         r
     );
-
   }
 
   /**
@@ -358,7 +344,6 @@ public final class SphericalCoordinates implements Serializable {
    *     of this vector.
    */
   public static SphericalCoordinates canonical(double polar, double azimuthal, double radius) {
-
     /* If the radius is negative, compensate by adding PI to the polar
      * angle.
      */
@@ -382,7 +367,6 @@ public final class SphericalCoordinates implements Serializable {
     azimuthal = canonicalize(azimuthal);
 
     return new SphericalCoordinates(polar, azimuthal, radius);
-
   }
 
   /**
@@ -410,9 +394,7 @@ public final class SphericalCoordinates implements Serializable {
   /** The length of this vector. */
   private final double radius;
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -4978227486578315932L;
 
 }

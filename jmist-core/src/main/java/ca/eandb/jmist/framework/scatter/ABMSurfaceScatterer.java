@@ -102,7 +102,7 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
     private final Function1 absorptionCoefficient;
 
     /** The per-thread thickness of the absorbing medium (in meters). */
-    private final ThreadLocal<Double> thickness = new ThreadLocal<Double>();
+    private final ThreadLocal<Double> thickness = new ThreadLocal<>();
 
     /**
      * Creates a new
@@ -126,10 +126,8 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
     @Override
     public Vector3 scatter(SurfacePointGeometry x, Vector3 v,
         boolean adjoint, double lambda, Random rnd) {
-
       double abs = absorptionCoefficient.evaluate(lambda);
       double p = -Math.log(1.0 - rnd.next()) * Math.cos(x.getNormal().dot(v)) / abs;
-
       return (p > thickness.get()) ? v : null;
     }
 
@@ -229,19 +227,15 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
   };
 
   static {
-
     // convert everything to base SI units
     for (int i = 0; i < WAVELENGTHS.length; i++) {
-
       // convert cm^2/g to m^2/kg  (divide by 10)
       SAC_CHLOROPHYLL_AB_VALUES[i] /= 10.0;
       SAC_CAROTENOIDS_VALUES[i] /= 10.0;
 
       // convert cm^-1 to m^-1  (multiply by 100)
       SAC_WATER_VALUES[i] *= 100.0;
-
     }
-
   }
 
   /**
@@ -775,9 +769,8 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
   @Override
   public Vector3 scatter(SurfacePointGeometry x, Vector3 v, boolean adjoint,
       double lambda, Random rnd) {
-
-    if (subsurface.getNumLayers() == 0) { // check once before proceeding to
-                                        // avoid unnecessary synchronization.
+    // check once before proceeding to avoid unnecessary synchronization.
+    if (subsurface.getNumLayers() == 0) {
       checkBuild();
     }
 
@@ -837,7 +830,6 @@ public final class ABMSurfaceScatterer implements SurfaceScatterer {
 
     Runnable runner = new ParallelizableJobRunner(job, dir, Executors.newFixedThreadPool(threads, new BackgroundThreadFactory()), threads, panel, panel.createProgressMonitor("Rendering Cornell Box"));//Runtime.getRuntime().availableProcessors());
     runner.run();
-
   }
 
 }

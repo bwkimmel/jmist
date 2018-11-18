@@ -148,7 +148,7 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
   }
 
   @Override
-  public synchronized Object getNextTask() throws Exception {
+  public synchronized Object getNextTask() {
     if (tasksProvided < tasks) {
       return tasksProvided++ < extraMutations ? minMutationsPerTask + 1
           : minMutationsPerTask;
@@ -158,14 +158,13 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
   }
 
   @Override
-  public boolean isComplete() throws Exception {
+  public boolean isComplete() {
     return tasksSubmitted == tasks;
   }
 
   @Override
   public synchronized void submitTaskResults(Object task, Object results,
-      ProgressMonitor monitor) throws Exception {
-
+      ProgressMonitor monitor) {
     int taskMutations = (Integer) task;
     Raster taskRaster = (Raster) results;
 
@@ -196,11 +195,10 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
     } else {
       monitor.notifyStatusChanged("Waiting for partial results");
     }
-
   }
 
   @Override
-  public void initialize() throws Exception {
+  public void initialize() {
     raster = colorModel.createRaster(width, height);
     if (displayPartialResults) {
       display.initialize(width, height, colorModel);
@@ -208,7 +206,7 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
   }
 
   @Override
-  public void finish() throws Exception {
+  public void finish() {
     if (!displayPartialResults) {
       double mutationsPerPixel = (double) mutations
           / (double) (width * height);
@@ -224,7 +222,7 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
   }
 
   @Override
-  public TaskWorker worker() throws Exception {
+  public TaskWorker worker() {
     return new Worker();
   }
 
@@ -242,61 +240,39 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
     /** Serialization version ID. */
     private static final long serialVersionUID = -7848301189373426210L;
 
-    private transient ThreadLocal<Raster> raster;
+    private transient ThreadLocal<Raster> raster =
+        ThreadLocal.withInitial(() -> colorModel.createRaster(width, height));
 
-    private transient ThreadLocal<RepeatableRandom> seqX;
+    private transient ThreadLocal<RepeatableRandom> seqX =
+        ThreadLocal.withInitial(() -> new RepeatableRandom(KelemenMetropolisLightTransportJob.this.random));
 
-    private transient ThreadLocal<RepeatableRandom> seqY;
+    private transient ThreadLocal<RepeatableRandom> seqY =
+        ThreadLocal.withInitial(() -> new RepeatableRandom(KelemenMetropolisLightTransportJob.this.random));
 
-    private transient ThreadLocal<CategoricalRandom> mutationType;
-
-    private synchronized void initialize() {
-      if (raster == null) {
-        raster = new ThreadLocal<Raster>() {
-          protected Raster initialValue() {
-            return colorModel.createRaster(width, height);
-          }
-        };
-        seqX = new ThreadLocal<RepeatableRandom>() {
-          public RepeatableRandom initialValue() {
-            return new RepeatableRandom(
-                KelemenMetropolisLightTransportJob.this.random);
-          }
-        };
-        seqY = new ThreadLocal<RepeatableRandom>() {
-          public RepeatableRandom initialValue() {
-            return new RepeatableRandom(
-                KelemenMetropolisLightTransportJob.this.random);
-          }
-        };
-        mutationType = new ThreadLocal<CategoricalRandom>() {
-          final double[] weights = new double[]{ 40, 0, 60 };
-          public CategoricalRandom initialValue() {
-            return new CategoricalRandom(weights);
-          }
-        };
+    private transient ThreadLocal<CategoricalRandom> mutationType = new ThreadLocal<CategoricalRandom>() {
+      final double[] weights = new double[]{ 40, 0, 60 };
+      public CategoricalRandom initialValue() {
+        return new CategoricalRandom(weights);
       }
-    }
+    };
 
     private Path generateNewPath() {
       RepeatableRandom seq = (RepeatableRandom) seqX.get().createCompatibleRandom();
       seqY.set(seq);
 
-      Point2 p      = RandomUtil.canonical2(seq);
+      Point2 p = RandomUtil.canonical2(seq);
       seq.mark();
 
-      Color sample    = colorModel.sample(seq);
+      Color sample = colorModel.sample(seq);
       seq.mark();
 
-      PathInfo pi      = new PathInfo(scene, sample.getWavelengthPacket());
-      Lens lens      = scene.getLens();
-      PathNode eyeTail  = strategy.traceEyePath(lens, p,
-                    pi, seq);
+      PathInfo pi = new PathInfo(scene, sample.getWavelengthPacket());
+      Lens lens = scene.getLens();
+      PathNode eyeTail = strategy.traceEyePath(lens, p, pi, seq);
       seq.mark();
 
-      Light light      = scene.getLight();
-      PathNode lightTail  = strategy.traceLightPath(
-                    light, pi, seq);
+      Light light = scene.getLight();
+      PathNode lightTail = strategy.traceLightPath(light, pi, seq);
       seq.mark();
 
       return new Path(lightTail, eyeTail);
@@ -308,19 +284,18 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
       seq.reset();
 
       seq.mutate(width);
-      Point2 p      = RandomUtil.canonical2(seq);
+      Point2 p = RandomUtil.canonical2(seq);
       seq.mark();
 
-      Color sample    = colorModel.sample(seq);
+      Color sample = colorModel.sample(seq);
       seq.mark();
 
-      PathInfo pi      = new PathInfo(scene, sample.getWavelengthPacket());
-      Lens lens      = scene.getLens();
-      PathNode eyeTail  = strategy.traceEyePath(lens, p,
-                    pi, seq);
+      PathInfo pi = new PathInfo(scene, sample.getWavelengthPacket());
+      Lens lens = scene.getLens();
+      PathNode eyeTail = strategy.traceEyePath(lens, p, pi, seq);
       seq.mark();
 
-      PathNode lightTail  = path.getLightTail();
+      PathNode lightTail = path.getLightTail();
       seq.mark();
 
       return new Path(lightTail, eyeTail);
@@ -332,24 +307,22 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
       seq.reset();
 
       seq.mutate(width);
-      Point2 p      = RandomUtil.canonical2(seq);
+      Point2 p = RandomUtil.canonical2(seq);
       seq.mark();
 
       seq.mutate(width);
-      Color sample    = colorModel.sample(seq);
+      Color sample = colorModel.sample(seq);
       seq.mark();
 
       seq.mutate(width);
-      PathInfo pi      = new PathInfo(scene, sample.getWavelengthPacket());
-      Lens lens      = scene.getLens();
-      PathNode eyeTail  = strategy.traceEyePath(lens, p,
-                    pi, seq);
+      PathInfo pi = new PathInfo(scene, sample.getWavelengthPacket());
+      Lens lens = scene.getLens();
+      PathNode eyeTail = strategy.traceEyePath(lens, p, pi, seq);
       seq.mark();
 
       seq.mutate(width);
-      Light light      = scene.getLight();
-      PathNode lightTail  = strategy.traceLightPath(
-                    light, pi, seq);
+      Light light = scene.getLight();
+      PathNode lightTail = strategy.traceLightPath(light, pi, seq);
       seq.mark();
 
       return new Path(lightTail, eyeTail);
@@ -381,7 +354,6 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
 
     @Override
     public Object performTask(Object task, ProgressMonitor monitor) {
-
       int mutations = (Integer) task;
       int numPixels = width * height;
       double mutationsPerPixel = (double) mutations / (double) numPixels;
@@ -458,7 +430,6 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
       monitor.notifyComplete();
 
       return raster.get();
-
     }
 
 //
@@ -508,8 +479,7 @@ public final class KelemenMetropolisLightTransportJob extends AbstractParalleliz
         PathNode eyeNode = eyeTail;
         while (true) {
 
-          Color c = joinAt(lightNode, eyeNode, lightImageWeight,
-              contrib);
+          Color c = joinAt(lightNode, eyeNode, lightImageWeight, contrib);
           score = ColorUtil.add(score, c);
 
           if (eyeNode == null) {

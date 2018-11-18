@@ -28,10 +28,6 @@ package ca.eandb.jmist.framework.color.measure;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorMeasure;
 
-/**
- * @author Brad
- *
- */
 public final class LuminanceColorMeasure implements ColorMeasure {
 
   /** Serialization version ID. */

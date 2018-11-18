@@ -106,7 +106,6 @@ public final class BumpMapModifier implements Modifier {
 
   @Override
   public void modify(ShadingContext context) {
-
     Basis3 basis = context.getShadingBasis();
 
     Point2 p = context.getUV();
@@ -122,7 +121,6 @@ public final class BumpMapModifier implements Modifier {
 
     basis = Basis3.fromWUV(n, u, v);
     context.setShadingBasis(basis);
-
   }
 
 }

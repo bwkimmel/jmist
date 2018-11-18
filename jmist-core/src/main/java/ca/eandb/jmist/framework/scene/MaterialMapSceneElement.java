@@ -66,9 +66,7 @@ import ca.eandb.util.ByteArray;
  */
 public final class MaterialMapSceneElement extends SceneElementDecorator {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 3360256839104414544L;
 
   /**
@@ -79,7 +77,7 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
   private ByteArray map = new ByteArray();
 
   /** The <code>List</code> of <code>Material</code>s to apply. */
-  private List<Material> materials = new ArrayList<Material>();
+  private List<Material> materials = new ArrayList<>();
 
   /** Lookup for materials by name. */
   private HashMap<String, Integer> nameLookup = null;
@@ -95,9 +93,6 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
   private class MaterialIntersectionRecorder extends
       IntersectionRecorderDecorator {
 
-    /**
-     * @param inner
-     */
     public MaterialIntersectionRecorder(IntersectionRecorder inner) {
       super(inner);
     }
@@ -135,7 +130,7 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
    */
   public MaterialMapSceneElement addMaterial(String key, Material material) {
     if (nameLookup == null) {
-      nameLookup = new HashMap<String, Integer>();
+      nameLookup = new HashMap<>();
     }
     nameLookup.put(key, addMaterial(material));
     return this;
@@ -242,7 +237,7 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
   public Light createLight() {
 
     int numPrim = super.getNumPrimitives();
-    ArrayList<Integer> emissive = new ArrayList<Integer>();
+    ArrayList<Integer> emissive = new ArrayList<>();
     for (int i = 0; i < numPrim; i++) {
       if (lookup(i).isEmissive()) {
         emissive.add(i);
@@ -259,9 +254,7 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
 
     for (int i = 0; i < emissive.size(); i++) {
       primIndex[i] = emissive.get(i);
-      weight[i] = super.getSurfaceArea(primIndex[i]); // TODO Factor in
-                              // radiant exitance
-                              // of material
+      weight[i] = super.getSurfaceArea(primIndex[i]); // TODO Factor in radiant exitance of material
       totalSurfaceArea += weight[i];
     }
 
@@ -327,9 +320,6 @@ public final class MaterialMapSceneElement extends SceneElementDecorator {
     return null;
   }
 
-  /**
-   * @param context
-   */
   private void applyMaterial(ShadingContext context) {
     int primIndex = context.getPrimitiveIndex();
     Material mat = lookup(primIndex);

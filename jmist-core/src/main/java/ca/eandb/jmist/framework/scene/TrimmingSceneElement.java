@@ -79,7 +79,6 @@ public final class TrimmingSceneElement extends SceneElementDecorator {
       ray = ray.advance(x.getDistance());
       I = new Interval(0, I.maximum() - x.getDistance());
     } while (true);
-
   }
 
   @Override
@@ -106,7 +105,6 @@ public final class TrimmingSceneElement extends SceneElementDecorator {
       ray = ray.advance(x.getDistance());
       I = new Interval(0, I.maximum() - x.getDistance());
     } while (true);
-
   }
 
 }

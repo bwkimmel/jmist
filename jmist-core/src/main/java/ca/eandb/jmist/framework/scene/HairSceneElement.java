@@ -82,7 +82,7 @@ public final class HairSceneElement implements SceneElement {
 
   private final double tipWidth;
 
-  public static interface Builder1 {
+  public interface Builder1 {
     Builder setEmitter(SceneElement emitter);
   }
 
@@ -397,7 +397,5 @@ public final class HairSceneElement implements SceneElement {
     }
     return renderEmitter ? emitter.visibility(ray) : true;
   }
-
-
 
 }

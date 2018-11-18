@@ -122,7 +122,6 @@ public final class PlyReader {
    *     stream.
    */
   public void read(InputStream is, PlyTarget target, ProgressMonitor monitor) throws IOException {
-
     PushbackInputStream in = new PushbackInputStream(is, 1024);
     LineReader reader = new LineReader(in, 1024);
 
@@ -130,7 +129,7 @@ public final class PlyReader {
     boolean magic = false;
     boolean inHeader = true;
 
-    List<ElementDescriptor> elements = new ArrayList<ElementDescriptor>();
+    List<ElementDescriptor> elements = new ArrayList<>();
     List<PropertyDescriptor> properties = null;
     DataReader dataReader = null;
     int totalElements = 0;
@@ -142,7 +141,6 @@ public final class PlyReader {
     }
 
     while (inHeader) {
-
       lineNumber++;
       String line = reader.readLine();
       if (line == null) {
@@ -193,7 +191,7 @@ public final class PlyReader {
         int count = Integer.valueOf(args[2]);
 
         totalElements += count;
-        properties = new ArrayList<PropertyDescriptor>();
+        properties = new ArrayList<>();
         elements.add(new ElementDescriptor(name, count, properties));
         break;
       }
@@ -231,7 +229,6 @@ public final class PlyReader {
             "Unrecognized command (%s) on line %d",
             args[0], lineNumber));
       }
-
     }
 
     if (format == null) {
@@ -279,7 +276,6 @@ public final class PlyReader {
 
     monitor.notifyProgress(elementsRead, totalElements);
     monitor.notifyComplete();
-
   }
 
   /**

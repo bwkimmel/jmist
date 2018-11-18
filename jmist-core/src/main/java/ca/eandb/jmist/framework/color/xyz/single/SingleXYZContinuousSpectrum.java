@@ -30,10 +30,6 @@ import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 
-/**
- * @author brad
- *
- */
 public final class SingleXYZContinuousSpectrum implements Spectrum {
 
   /** Serialization version ID. */

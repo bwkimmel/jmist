@@ -25,7 +25,6 @@
  */
 package ca.eandb.jmist.framework;
 
-
 /**
  * A two dimensional object that can be stretched along the coordinate axes.
  * @author Brad Kimmel

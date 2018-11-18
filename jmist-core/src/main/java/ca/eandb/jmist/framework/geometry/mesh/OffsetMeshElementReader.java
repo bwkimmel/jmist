@@ -5,10 +5,6 @@ package ca.eandb.jmist.framework.geometry.mesh;
 
 import java.nio.ByteBuffer;
 
-/**
- * @author bwkimmel
- *
- */
 public final class OffsetMeshElementReader<T> implements MeshElementReader<T> {
 
   private final MeshElementReader<T> inner;

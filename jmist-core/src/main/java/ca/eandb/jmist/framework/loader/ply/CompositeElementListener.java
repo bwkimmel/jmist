@@ -35,7 +35,7 @@ import java.util.List;
 public final class CompositeElementListener implements ElementListener {
 
   /** The <code>List</code> of child <code>ElementListener</code>s. */
-  private final List<ElementListener> listeners = new LinkedList<ElementListener>();
+  private final List<ElementListener> listeners = new LinkedList<>();
 
   /** Creates a new <code>CompositeElementListener</code>. */
   public CompositeElementListener() {}

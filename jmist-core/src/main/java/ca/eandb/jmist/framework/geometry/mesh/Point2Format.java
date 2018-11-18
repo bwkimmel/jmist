@@ -5,10 +5,6 @@ package ca.eandb.jmist.framework.geometry.mesh;
 
 import ca.eandb.jmist.math.Point2;
 
-/**
- * @author bwkimmel
- *
- */
 public enum Point2Format {
   DOUBLE_XY(new DoublePoint2Reader());
 
@@ -20,6 +16,6 @@ public enum Point2Format {
 
   public MeshElementReader<Point2> createReader(int offset) {
     return offset == 0
-        ? reader : new OffsetMeshElementReader<Point2>(offset, reader);
+        ? reader : new OffsetMeshElementReader<>(offset, reader);
   }
 }

@@ -103,19 +103,19 @@ public final class SphericalLens extends AbstractLens {
     public ScatteredRay sample(double ru, double rv, double rj) {
       Point2 p = pointOnImagePlane;
 
-        double    nx = (p.x() - 0.5) * hfov;
-        double    ny = (0.5 - p.y()) * vfov;
+      double nx = (p.x() - 0.5) * hfov;
+      double ny = (0.5 - p.y()) * vfov;
 
-        double    sx = Math.sin(nx);
-        double    sy = Math.sin(ny);
-        double    cx = Math.cos(nx);
-        double    cy = Math.cos(ny);
+      double sx = Math.sin(nx);
+      double sy = Math.sin(ny);
+      double cx = Math.cos(nx);
+      double cy = Math.cos(ny);
 
-        Ray3    ray = new Ray3(
-                  Point3.ORIGIN,
-                  new Vector3(-sx * cy, sy, -cx * cy));
-        Color    color = getWhite();
-        double    pdf = 1.0 / solidAngle;
+      Ray3 ray = new Ray3(
+          Point3.ORIGIN,
+          new Vector3(-sx * cy, sy, -cx * cy));
+      Color color = getWhite();
+      double pdf = 1.0 / solidAngle;
       return ScatteredRay.diffuse(ray, color, pdf);
     }
 

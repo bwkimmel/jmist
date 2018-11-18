@@ -248,7 +248,7 @@ public final class MetropolisLightTransportJob extends
   }
 
   @Override
-  public synchronized Object getNextTask() throws Exception {
+  public synchronized Object getNextTask() {
     if (seedTasksProvided < seedTasks) {
       SeedTaskInfo info = new SeedTaskInfo();
       info.initialRandomSeed = nextRandomSeed;
@@ -264,14 +264,14 @@ public final class MetropolisLightTransportJob extends
   }
 
   @Override
-  public boolean isComplete() throws Exception {
+  public boolean isComplete() {
     return tasksSubmitted >= (numberOfSeeds + seedTasks);
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public void submitTaskResults(Object task, Object results,
-      ProgressMonitor monitor) throws Exception {
+      ProgressMonitor monitor) {
 
     if (task instanceof PathSeed) {
       submitTaskResults_MLT((Raster) results);
@@ -310,7 +310,7 @@ public final class MetropolisLightTransportJob extends
   }
 
   @Override
-  public void finish() throws Exception {
+  public void finish() {
     if (!displayPartialResults) {
       display.initialize(width, height, colorModel);
       display.setPixels(0, 0, image);
@@ -320,7 +320,7 @@ public final class MetropolisLightTransportJob extends
   }
 
   @Override
-  public void initialize() throws Exception {
+  public void initialize() {
     image = colorModel.createRaster(width, height);
     if (displayPartialResults) {
       display.initialize(width, height, colorModel);
@@ -328,7 +328,7 @@ public final class MetropolisLightTransportJob extends
   }
 
   @Override
-  public TaskWorker worker() throws Exception {
+  public TaskWorker worker() {
     return new Worker();
   }
 
@@ -337,11 +337,8 @@ public final class MetropolisLightTransportJob extends
     /** Serialization version ID. */
     private static final long serialVersionUID = 2227396964245126946L;
 
-    private final ThreadLocal<Raster> raster = new ThreadLocal<Raster>() {
-      protected Raster initialValue() {
-        return colorModel.createRaster(width, height);
-      }
-    };
+    private final ThreadLocal<Raster> raster =
+        ThreadLocal.withInitial(() -> colorModel.createRaster(width, height));
 
     private final Random random = new ThreadLocalRandom(
         MetropolisLightTransportJob.this.random);
@@ -367,11 +364,9 @@ public final class MetropolisLightTransportJob extends
 
     private Object performTask_generateSeeds(long initialRandomSeed,
         int numPathSeeds, ProgressMonitor monitor) {
-
       monitor.notifyStatusChanged("Generating seeds for MLT");
 
-      int callbackInterval = Math.min(1000,
-          Math.max(1, pairsPerSeedTask / 100));
+      int callbackInterval = Math.min(1000, Math.max(1, pairsPerSeedTask / 100));
       int nextCallback = 0;
 
       DoubleArray weight = new DoubleArray();
@@ -412,7 +407,7 @@ public final class MetropolisLightTransportJob extends
       double x = 0.5;
       int x0 = (int) Math.floor(x);
       int x1;
-      List<PathSeed> seeds = new ArrayList<PathSeed>();
+      List<PathSeed> seeds = new ArrayList<>();
 
       for (int i = 0, n = 0; i < pairsPerSeedTask; i++) {
         int s0 = lightPathLength[i];
@@ -437,15 +432,12 @@ public final class MetropolisLightTransportJob extends
       monitor.notifyComplete();
 
       return seeds;
-
     }
 
     private void join(PathNode lightTail, PathNode eyeTail,
         DoubleArray weights) {
-
       PathNode lightNode = lightTail;
       while (true) {
-
         PathNode eyeNode = eyeTail;
         while (true) {
           Color c = pathMeasure.evaluate(lightNode, eyeNode);
@@ -462,14 +454,11 @@ public final class MetropolisLightTransportJob extends
         }
         lightNode = lightNode.getParent();
       }
-
     }
 
     private Object performTask_MLT(PathSeed seed, int mutations,
         ProgressMonitor monitor) {
-
-      int callbackInterval = Math  .min(10000,
-          Math.max(1, mutations / 100));
+      int callbackInterval = Math.min(10000, Math.max(1, mutations / 100));
       int nextCallback = 0;
 
       Path x = generatePath(seed);

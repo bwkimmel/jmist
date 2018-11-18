@@ -32,10 +32,6 @@ import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
 
-/**
- * @author brad
- *
- */
 public final class DirectionalLightSample implements LightSample {
 
   private final SurfacePoint x;

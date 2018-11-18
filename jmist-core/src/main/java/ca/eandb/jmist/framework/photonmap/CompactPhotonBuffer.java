@@ -78,7 +78,7 @@ final class CompactPhotonBuffer implements PhotonBuffer {
    * value indicating the orientation of the dividing plane is stored.
    * Zero represents the YZ-plane, one represents the XZ-plane, and two
    * represents the XY-plane.
-   * @see #store(float, float, float, float, short, short)
+   * @see #store(Point3, double, Vector3, short)
    */
   private static final int OFFSET_PLANE = 18;
 
@@ -94,10 +94,10 @@ final class CompactPhotonBuffer implements PhotonBuffer {
 
   /**
    * Moves the cursor to the specified index.  Subsequent calls to
-   * {@link #store(float, float, float, float, short, short)} will write
+   * {@link #store(Point3, double, Vector3, short)} will write
    * photons starting at that index.
    * @param index The location to move the cursor to.
-   * @see #store(float, float, float, float, short, short)
+   * @see #store(Point3, double, Vector3, short)
    */
   public void moveTo(int index) {
     buffer.position(index * ELEMENT_SIZE);
@@ -105,9 +105,7 @@ final class CompactPhotonBuffer implements PhotonBuffer {
 
   /**
    * Stores a photon at the current cursor position.
-   * @param x The x coordinate of the photon.
-   * @param y The y coordinate of the photon.
-   * @param z The z coordinate of the photon.
+   * @param p The location of the photon.
    * @param power The power of the photon.
    * @param dir The compact direction of the photon (see
    *     {@link ca.eandb.jmist.math.Vector3#toCompactDirection()}).

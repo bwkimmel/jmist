@@ -25,10 +25,6 @@
  */
 package ca.eandb.jmist.framework.loader.dxf;
 
-/**
- * @author Brad
- *
- */
 public final class FloatDxfElement extends AbstractDxfElement {
 
   private final double value;

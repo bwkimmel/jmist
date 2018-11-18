@@ -143,7 +143,6 @@ public final class PolarCoordinates implements Serializable {
    *     of this vector.
    */
   public PolarCoordinates canonical() {
-
     /* If the vector is already in canonical form, don't create a new
      * one.
      */
@@ -159,7 +158,6 @@ public final class PolarCoordinates implements Serializable {
     }
 
     return new PolarCoordinates(canonicalize(newAngle),  Math.abs(this.radius));
-
   }
 
   /**
@@ -205,9 +203,7 @@ public final class PolarCoordinates implements Serializable {
   /** The length of this vector. */
   private final double radius;
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 138383004537725636L;
 
 }

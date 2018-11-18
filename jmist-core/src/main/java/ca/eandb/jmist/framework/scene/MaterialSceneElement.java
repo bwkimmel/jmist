@@ -57,9 +57,7 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class MaterialSceneElement extends ModifierSceneElement {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -3086927820777987668L;
 
   private final Material material;
@@ -87,7 +85,6 @@ public final class MaterialSceneElement extends ModifierSceneElement {
       private static final long serialVersionUID = -2578460152471816304L;
 
       public void illuminate(SurfacePoint x, WavelengthPacket lambda, Random rng, Illuminable target) {
-
         ShadingContext context = new MinimalShadingContext();
         generateImportanceSampledSurfacePoint(x, context, rng.next(), rng.next(), rng.next());
         context.getModifier().modify(context);
@@ -101,9 +98,7 @@ public final class MaterialSceneElement extends ModifierSceneElement {
         Color ri = mat.emission(context, v, lambda).times(atten);
 
         LightSample sample = new PointLightSample(x, p, ri);
-
         target.addLightSample(sample);
-
       }
 
       public LightNode sample(PathInfo pathInfo, double ru, double rv, double rj) {
@@ -132,16 +127,11 @@ public final class MaterialSceneElement extends ModifierSceneElement {
 
   private static final class MaterialModifier implements Modifier {
 
-    /**
-     * Serialization version ID.
-     */
+    /** Serialization version ID. */
     private static final long serialVersionUID = -2275096890951731906L;
 
     private final Material material;
 
-    /**
-     * @param material
-     */
     public MaterialModifier(Material material) {
       this.material = material;
     }

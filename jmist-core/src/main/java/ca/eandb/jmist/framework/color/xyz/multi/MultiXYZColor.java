@@ -31,10 +31,6 @@ import ca.eandb.jmist.framework.color.ColorUtil;
 import ca.eandb.jmist.framework.color.RGB;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 
-/**
- * @author brad
- *
- */
 /* package */ final class MultiXYZColor implements Color {
 
   /** Serialization version ID. */
@@ -44,11 +40,6 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
 
   private final MultiXYZWavelengthPacket lambda;
 
-  /**
-   * @param x
-   * @param y
-   * @param z
-   */
   public MultiXYZColor(double[] values, MultiXYZWavelengthPacket lambda) {
     this.values = values;
     this.lambda = lambda;

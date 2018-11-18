@@ -40,7 +40,7 @@ public final class PlySceneElementBuilder implements PlyTarget {
 
   /** Possible names for the vertex index property on the face element. */
   private static final String[] VERTEX_INDEX_PROP_NAMES = {
-    "vertex_index", "vertex_indices"
+      "vertex_index", "vertex_indices"
   };
 
   /** The result <code>SceneElement</code>. */

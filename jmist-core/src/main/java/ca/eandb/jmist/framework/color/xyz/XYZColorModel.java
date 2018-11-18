@@ -39,15 +39,9 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.pdf.PiecewiseLinearProbabilityDensityFunction;
 import ca.eandb.jmist.math.MathUtil;
 
-/**
- * @author brad
- *
- */
 public final class XYZColorModel implements ColorModel {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 1316752091233635632L;
 
   private static final ProbabilityDensityFunction X_PDF = new PiecewiseLinearProbabilityDensityFunction(ColorUtil.XYZ_WAVELENGTHS, ColorUtil.X_BAR);

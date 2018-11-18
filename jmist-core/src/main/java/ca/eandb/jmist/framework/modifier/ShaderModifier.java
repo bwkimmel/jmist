@@ -29,10 +29,6 @@ import ca.eandb.jmist.framework.Modifier;
 import ca.eandb.jmist.framework.Shader;
 import ca.eandb.jmist.framework.ShadingContext;
 
-/**
- * @author brad
- *
- */
 public final class ShaderModifier implements Modifier {
 
   /** Serialization version ID. */

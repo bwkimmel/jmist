@@ -145,12 +145,11 @@ public interface Material extends Medium, Serializable {
    */
   Color emission(SurfacePoint x, Vector3 out, WavelengthPacket lambda);
 
-
   /**
    * A <code>Material</code> that absorbs all light and does not
    * emit.
    */
-  public static final Material BLACK = new Material() {
+  Material BLACK = new Material() {
 
     private static final long serialVersionUID = 4301103342747509476L;
 

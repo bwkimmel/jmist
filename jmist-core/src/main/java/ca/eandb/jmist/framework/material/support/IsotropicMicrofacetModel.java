@@ -30,9 +30,6 @@ import java.io.Serializable;
 import ca.eandb.jmist.math.SphericalCoordinates;
 import ca.eandb.jmist.math.Vector3;
 
-/**
- * @author Brad Kimmel
- */
 public interface IsotropicMicrofacetModel extends Serializable {
 
   double getDistributionPDF(Vector3 m, Vector3 n);

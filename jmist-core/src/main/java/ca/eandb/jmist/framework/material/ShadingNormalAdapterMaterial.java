@@ -38,10 +38,6 @@ import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Vector3;
 
-/**
- * @author Brad
- *
- */
 public final class ShadingNormalAdapterMaterial implements Material {
 
   /** Serialization version ID. */
@@ -137,7 +133,6 @@ public final class ShadingNormalAdapterMaterial implements Material {
   @Override
   public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint,
       WavelengthPacket lambda, double ru, double rv, double rj) {
-
     SurfacePoint adapter = new SurfacePointAdapter(x);
     ScatteredRay sr = inner.scatter(adapter, v, adjoint, lambda, ru, rv, rj);
 
@@ -154,7 +149,6 @@ public final class ShadingNormalAdapterMaterial implements Material {
     }
 
     return null;
-
   }
 
   @Override
@@ -166,7 +160,6 @@ public final class ShadingNormalAdapterMaterial implements Material {
   @Override
   public double getScatteringPDF(SurfacePoint x, Vector3 in, Vector3 out,
       boolean adjoint, WavelengthPacket lambda) {
-
     double idotn = -in.dot(x.getNormal());
     double idots = -in.dot(x.getShadingNormal());
     double odotn = out.dot(x.getNormal());
@@ -183,7 +176,6 @@ public final class ShadingNormalAdapterMaterial implements Material {
     } else {
       return 0.0;
     }
-
   }
 
   @Override
@@ -195,7 +187,6 @@ public final class ShadingNormalAdapterMaterial implements Material {
   @Override
   public Color bsdf(SurfacePoint x, Vector3 in, Vector3 out,
       WavelengthPacket lambda) {
-
     double idotn = -in.dot(x.getNormal());
     double idots = -in.dot(x.getShadingNormal());
     double odotn = out.dot(x.getNormal());

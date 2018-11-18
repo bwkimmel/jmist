@@ -27,7 +27,6 @@ package ca.eandb.jmist.math;
 
 import java.io.Serializable;
 
-
 /**
  * Represents a polynomial.
  * @author Brad Kimmel
@@ -41,14 +40,11 @@ public final class Polynomial implements Serializable {
    *     exponent.
    */
   public Polynomial(double... coeff) {
-
     for (int exponent = coeff.length - 1; exponent >= 0; exponent--) {
       this.initializeCoefficient(exponent, coeff[exponent]);
     }
-
     this.initializeZero();
     this.checkInvariant();
-
   }
 
   /**
@@ -78,17 +74,13 @@ public final class Polynomial implements Serializable {
    * @return The value of this <code>Polynomial</code> at <code>x</code>.
    */
   public double at(double x) {
-
     double value = 0.0;
     double power = 1.0;
-
     for (int i = 0; i < this.coeff.length; i++) {
       value += this.coeff[i] * power;
       power *= x;
     }
-
     return value;
-
   }
 
   /**
@@ -98,17 +90,13 @@ public final class Polynomial implements Serializable {
    * @return The value of this <code>Polynomial</code> at <code>z</code>.
    */
   public Complex at(Complex z) {
-
     Complex value = Complex.ZERO;
     Complex power = Complex.ONE;
-
     for (int i = 0; i < this.coeff.length; i++) {
       value = value.plus(power.times(this.coeff[i]));
       power = power.times(z);
     }
-
     return value;
-
   }
 
   /**
@@ -117,10 +105,9 @@ public final class Polynomial implements Serializable {
    * @return The sum of the two polynomials.
    */
   public Polynomial plus(Polynomial other) {
-
-    int      maxDegree  = Math.max(this.degree(), other.degree());
-    Polynomial  sum      = new Polynomial();
-    double    coeff;
+    int maxDegree = Math.max(this.degree(), other.degree());
+    Polynomial sum = new Polynomial();
+    double coeff;
 
     for (int exponent = maxDegree; exponent >= 0; exponent--) {
       coeff = this.coefficient(exponent) + other.coefficient(exponent);
@@ -129,9 +116,7 @@ public final class Polynomial implements Serializable {
 
     sum.initializeZero();
     sum.checkInvariant();
-
     return sum;
-
   }
 
   /**
@@ -140,10 +125,9 @@ public final class Polynomial implements Serializable {
    * @return The difference between the two polynomials.
    */
   public Polynomial minus(Polynomial other) {
-
-    int      maxDegree  = Math.max(this.degree(), other.degree());
-    Polynomial  difference  = new Polynomial();
-    double    coeff;
+    int maxDegree = Math.max(this.degree(), other.degree());
+    Polynomial difference = new Polynomial();
+    double coeff;
 
     for (int exponent = maxDegree; exponent >= 0; exponent--) {
       coeff = this.coefficient(exponent) - other.coefficient(exponent);
@@ -152,9 +136,7 @@ public final class Polynomial implements Serializable {
 
     difference.initializeZero();
     difference.checkInvariant();
-
     return difference;
-
   }
 
   /**
@@ -163,29 +145,22 @@ public final class Polynomial implements Serializable {
    * @return The product of the two polynomials.
    */
   public Polynomial times(Polynomial other) {
-
-    int      maxDegree  = this.degree() + other.degree();
-    Polynomial  product    = new Polynomial();
-    double    coeff;
-    int      i, j;
+    int maxDegree = this.degree() + other.degree();
+    Polynomial product = new Polynomial();
+    double coeff;
+    int i, j;
 
     for (int exponent = maxDegree; exponent >= 0; exponent--) {
-
       coeff = 0.0;
-
       for (i = 0, j = exponent; j >= 0; i++, j--) {
         coeff += this.coefficient(i) * other.coefficient(j);
       }
-
       product.initializeCoefficient(exponent, coeff);
-
     }
 
     product.initializeZero();
     product.checkInvariant();
-
     return product;
-
   }
 
   /**
@@ -233,17 +208,14 @@ public final class Polynomial implements Serializable {
    *     unknown quantity.
    */
   public String toString(String variableName) {
-
-    int        degree  = this.degree();
-    StringBuilder  result  = new StringBuilder();
-    double      coeff;
+    int degree = this.degree();
+    StringBuilder result = new StringBuilder();
+    double coeff;
 
     if (degree >= 0) {
 
       for (int exponent = 0; exponent <= degree; exponent++) {
-
         coeff = this.coefficient(exponent);
-
         if (exponent > 0) {
           result.append(coeff >= 0.0 ? " + " : " - ");
           result.append(Math.abs(coeff));
@@ -254,17 +226,13 @@ public final class Polynomial implements Serializable {
         result.append(variableName);
         result.append("^");
         result.append(exponent);
-
       }
 
     } else { // degree < 0
-
       result.append(0);
-
     }
 
     return result.toString();
-
   }
 
   /**
@@ -284,17 +252,14 @@ public final class Polynomial implements Serializable {
    * @param coeff The value of the coefficient to initialize.
    */
   private void initializeCoefficient(int exponent, double coeff) {
-
     if (this.coeff == null) {
       if (coeff != 0.0) {
         this.coeff = new double[exponent + 1];
       }
     }
-
     if (this.coeff != null) {
       this.coeff[exponent] = coeff;
     }
-
   }
 
   /**
@@ -318,14 +283,10 @@ public final class Polynomial implements Serializable {
     assert(this.coeff.length == 0 || this.coeff[this.coeff.length - 1] != 0.0);
   }
 
-  /**
-   * The coefficients of this polynomial.
-   */
+  /** The coefficients of this polynomial. */
   private double[] coeff;
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -9117582867339363081L;
 
 }

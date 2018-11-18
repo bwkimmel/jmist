@@ -25,9 +25,4 @@
  */
 package ca.eandb.jmist.framework.shader;
 
-
-/**
- * @author brad
- *
- */
 public class MinimalShadingContext extends AbstractShadingContext {}

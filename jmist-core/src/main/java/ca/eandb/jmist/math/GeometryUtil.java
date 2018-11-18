@@ -51,7 +51,6 @@ public final class GeometryUtil {
   }
 
   public static boolean triangleIntersectsTriangle(Point2 a1, Point2 b1, Point2 c1, Point2 a2, Point2 b2, Point2 c2) {
-
     Point2 p1 = Point2.centroid(a1, b1, c1);
     Point2 p2 = Point2.centroid(a2, b2, c2);
     if (pointInTriangle(p1, a2, b2, c2) || pointInTriangle(p2, a1, b1, c1)) {
@@ -68,7 +67,6 @@ public final class GeometryUtil {
         }
       }
     }
-
     return false;
   }
 
@@ -189,9 +187,7 @@ public final class GeometryUtil {
     }
   }
 
-  /**
-   * This class cannot be instantiated.
-   */
+  /** This class cannot be instantiated. */
   private GeometryUtil() {}
 
 }

@@ -35,9 +35,7 @@ import ca.eandb.jmist.math.Physics;
  */
 public final class BlackbodySpectrum implements Function1 {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 5120826959435651065L;
 
   /**
@@ -46,13 +44,11 @@ public final class BlackbodySpectrum implements Function1 {
    *     Kelvin).
    */
   public BlackbodySpectrum(double temperature) {
-    super();
     this.temperature = temperature;
   }
 
   @Override
   public double evaluate(double wavelength) {
-
     if (MathUtil.isZero(temperature)) {
       return 0.0;
     }
@@ -60,12 +56,9 @@ public final class BlackbodySpectrum implements Function1 {
     double a = (2.0 * Math.PI * Physics.PLANCK_CONSTANT
         * Physics.SPEED_OF_LIGHT * Physics.SPEED_OF_LIGHT)
         / Math.pow(wavelength, 5.0);
-
     double b = (1.0 / (Math.exp((Physics.PLANCK_CONSTANT * Physics.SPEED_OF_LIGHT)
         / (wavelength * Physics.BOLTZMANN_CONSTANT * temperature)) - 1.0));
-
     return a * b;
-
   }
 
   /** The temperature of the black body to simulate (in Kelvin). */

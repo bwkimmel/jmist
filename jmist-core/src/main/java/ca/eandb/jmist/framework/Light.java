@@ -31,7 +31,6 @@ import ca.eandb.jmist.framework.color.WavelengthPacket;
 import ca.eandb.jmist.framework.path.LightNode;
 import ca.eandb.jmist.framework.path.PathInfo;
 
-
 /**
  * A light source.
  * @author Brad Kimmel
@@ -82,7 +81,7 @@ public interface Light extends Serializable {
   double getSamplePDF(SurfacePoint x, PathInfo pathInfo);
 
   /** A dummy <code>Light</code> that emits no illumination. */
-  public static final Light NULL = new Light() {
+  Light NULL = new Light() {
     private static final long serialVersionUID = 5058166013868688853L;
     public ScatteredRay emit(WavelengthPacket lambda, Random rnd) {
       return null;

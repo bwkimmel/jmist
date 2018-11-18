@@ -42,9 +42,7 @@ import ca.eandb.jmist.math.Ray3;
  */
 public final class InsideOutGeometry extends SceneElementDecorator {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -3257320253470920058L;
 
   /**

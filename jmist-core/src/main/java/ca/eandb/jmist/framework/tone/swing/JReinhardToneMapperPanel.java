@@ -29,24 +29,18 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import ca.eandb.jmist.framework.color.CIEXYZ;
 import ca.eandb.jmist.framework.tone.ReinhardToneMapper;
 import ca.eandb.jmist.framework.tone.ToneMapper;
 import ca.eandb.util.ui.JNumberLine;
 
-/**
- * @author brad
- *
- */
 public final class JReinhardToneMapperPanel extends JToneMapperPanel {
 
   /** Serialization version ID. */
@@ -63,9 +57,6 @@ public final class JReinhardToneMapperPanel extends JToneMapperPanel {
 
   private boolean suspendChangeEvents = false;
 
-  /**
-   *
-   */
   public JReinhardToneMapperPanel() {
     autoCheckBox = new JCheckBox("Automatic", true);
     whiteSlider = new JNumberLine(MIN_STOP, MAX_STOP, 0);
@@ -74,24 +65,9 @@ public final class JReinhardToneMapperPanel extends JToneMapperPanel {
     whiteSlider.setEnabled(false);
     scaleSlider.setEnabled(false);
 
-    autoCheckBox.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        autoCheckBox_OnActionPerformed(e);
-      }
-    });
-
-    whiteSlider.addChangeListener(new ChangeListener() {
-      public void stateChanged(ChangeEvent e) {
-        whiteSlider_OnStateChanged(e);
-      }
-    });
-
-    scaleSlider.addChangeListener(new ChangeListener() {
-      public void stateChanged(ChangeEvent e) {
-        scaleSlider_OnStateChanged(e);
-      }
-    });
-
+    autoCheckBox.addActionListener(this::autoCheckBox_OnActionPerformed);
+    whiteSlider.addChangeListener(this::whiteSlider_OnStateChanged);
+    scaleSlider.addChangeListener(this::scaleSlider_OnStateChanged);
 
     setLayout(new GridBagLayout());
 
@@ -228,7 +204,6 @@ public final class JReinhardToneMapperPanel extends JToneMapperPanel {
     frame.add(factory);
     frame.pack();
     frame.setVisible(true);
-
   }
 
 }

@@ -72,7 +72,6 @@ public final class ArrayUtil {
    *     <code>null</code> and <code>array.length != length</code>.
    */
   public static double[] initialize(double[] array, int length) {
-
     if (array == null) {
       return new double[length];
     } else if (array.length != length) {
@@ -80,9 +79,7 @@ public final class ArrayUtil {
           "Invalid array length: expected %d but got %d.", length,
           array.length));
     }
-
     return ArrayUtil.reset(array);
-
   }
 
   /**
@@ -96,7 +93,6 @@ public final class ArrayUtil {
    *     <code>null</code> and <code>array.length != length</code>.
    */
   public static int[] initialize(int[] array, int length) {
-
     if (array == null) {
       return new int[length];
     } else if (array.length != length) {
@@ -104,9 +100,7 @@ public final class ArrayUtil {
           "Invalid array length: expected %d but got %d.", length,
           array.length));
     }
-
     return ArrayUtil.reset(array);
-
   }
 
   /**
@@ -122,7 +116,6 @@ public final class ArrayUtil {
    *     <code>null</code> and <code>array.length != length</code>.
    */
   public static double[] initialize(double[] array, int length, double value) {
-
     if (array == null) {
       array = new double[length];
     } else if (array.length != length) {
@@ -130,9 +123,7 @@ public final class ArrayUtil {
           "Invalid array length: expected %d but got %d.", length,
           array.length));
     }
-
     return ArrayUtil.setAll(array, value);
-
   }
 
   /**
@@ -148,7 +139,6 @@ public final class ArrayUtil {
    *     <code>null</code> and <code>array.length != length</code>.
    */
   public static int[] initialize(int[] array, int length, int value) {
-
     if (array == null) {
       array = new int[length];
     } else if (array.length != length) {
@@ -156,9 +146,7 @@ public final class ArrayUtil {
           "Invalid array length: expected %d but got %d.", length,
           array.length));
     }
-
     return ArrayUtil.setAll(array, value);
-
   }
 
   /**
@@ -193,16 +181,12 @@ public final class ArrayUtil {
    */
   public static double[] setRange(double[] target, int targetStart,
       double[] source, int sourceStart, int length) {
-
     assert(target.length <= targetStart + length);
     assert(source.length <= sourceStart + length);
-
     for (int i = sourceStart, j = targetStart, n = 0; n < length; i++, j++, n++) {
       target[j] = source[i];
     }
-
     return target;
-
   }
 
   /**
@@ -243,7 +227,6 @@ public final class ArrayUtil {
    *     for <code>0 &lt;= i &lt; array.length</code>.
    */
   public static double[] fillRange(double[] array, double first, double last) {
-
     if (array == null) {
       throw new IllegalArgumentException("array is null");
     }
@@ -252,9 +235,7 @@ public final class ArrayUtil {
       double t = i / (double) (array.length - 1);
       array[i] = first + t * (last - first);
     }
-
     return array;
-
   }
 
   /**
@@ -298,7 +279,6 @@ public final class ArrayUtil {
     for (int i = 0, value = start; i < array.length; i++, value += step) {
       array[i] = value;
     }
-
     return array;
   }
 

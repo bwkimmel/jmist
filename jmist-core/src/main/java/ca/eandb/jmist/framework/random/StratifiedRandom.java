@@ -90,25 +90,23 @@ public final class StratifiedRandom implements Random {
 
   @Override
   public double next() {
-
     // Randomly pick a bucket from which to generate a random number.
-    int j              = RandomUtil.discrete(0, this.nextPartition, inner);
+    int j = RandomUtil.discrete(0, this.nextPartition, inner);
 
     // Swap the bucket index to the back portion of the list so that
     // we don't use it again (until the next block).
-    int temp            = this.sequence[j];
-    this.sequence[j]        = this.sequence[nextPartition];
-    this.sequence[nextPartition]  = temp;
+    int temp = this.sequence[j];
+    this.sequence[j] = this.sequence[nextPartition];
+    this.sequence[nextPartition] = temp;
 
     // Decrement the index to mark the current bucket as used.  If all
     // buckets have been used after this call, then reset.
     if (--nextPartition < 0) {
-      this.nextPartition      = this.sequence.length - 1;
+      this.nextPartition = this.sequence.length - 1;
     }
 
     // Generate a random number in the chosen bucket.
     return (((double) temp) + RandomUtil.canonical(inner)) / ((double) this.sequence.length);
-
   }
 
   @Override
@@ -145,16 +143,12 @@ public final class StratifiedRandom implements Random {
    *     into.
    */
   private void initialize(int n) {
-
-    this.nextPartition    = n - 1;
-    this.sequence      = new int[n];
-
+    this.nextPartition = n - 1;
+    this.sequence = new int[n];
     for (int i = 0; i < this.sequence.length; i++) {
-      this.sequence[i]  = i;
+      this.sequence[i] = i;
     }
-
   }
-
 
   private void writeObject(ObjectOutputStream oos) throws IOException {
     oos.defaultWriteObject();
@@ -189,9 +183,7 @@ public final class StratifiedRandom implements Random {
    */
   private transient int nextPartition;
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -8086239299607234353L;
 
 }

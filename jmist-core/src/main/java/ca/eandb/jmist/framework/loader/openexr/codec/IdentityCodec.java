@@ -29,11 +29,6 @@ import javax.imageio.stream.IIOByteBuffer;
 
 import ca.eandb.jmist.framework.loader.openexr.attribute.Box2i;
 
-
-/**
- * @author brad
- *
- */
 public final class IdentityCodec implements Codec {
 
   private static final IdentityCodec INSTANCE = new IdentityCodec();

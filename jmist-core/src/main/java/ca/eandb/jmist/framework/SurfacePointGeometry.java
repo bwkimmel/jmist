@@ -89,7 +89,7 @@ public interface SurfacePointGeometry {
    * A surface point at the origin oriented according to the standard basis
    * (the normal in the positive z-direction).
    */
-  public static final SurfacePointGeometry STANDARD = new SurfacePointGeometry() {
+  SurfacePointGeometry STANDARD = new SurfacePointGeometry() {
     public Basis3 getBasis() {
       return Basis3.STANDARD;
     }

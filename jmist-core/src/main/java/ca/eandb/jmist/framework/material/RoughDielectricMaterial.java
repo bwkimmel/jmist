@@ -195,7 +195,6 @@ public final class RoughDielectricMaterial extends AbstractMaterial {
   @Override
   public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint,
       WavelengthPacket lambda, double ru, double rv, double rj) {
-
     Vector3 n = x.getNormal();
     Vector3 m = microfacets.sample(ru, rv).toCartesian(x.getBasis());
     double mdoti = Math.abs(m.dot(v));
@@ -214,6 +213,5 @@ public final class RoughDielectricMaterial extends AbstractMaterial {
     double pdf = getScatteringPDF(x, v, out, adjoint, lambda);
 
     return new ScatteredRay(new Ray3(x.getPosition(), out), lambda.getColorModel().getGray(weight, lambda), ScatteredRay.Type.GLOSSY, pdf, !reflected);
-
   }
 }

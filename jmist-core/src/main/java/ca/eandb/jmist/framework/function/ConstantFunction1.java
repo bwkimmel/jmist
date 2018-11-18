@@ -27,8 +27,6 @@ package ca.eandb.jmist.framework.function;
 
 import ca.eandb.jmist.framework.Function1;
 
-
-
 /**
  * A <code>Function1</code> that has the same value everywhere.  This
  * class is immutable.
@@ -52,9 +50,7 @@ public class ConstantFunction1 implements Function1 {
   /** The value of this <code>Function1</code> everywhere. */
   private final double value;
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 8993721217448172058L;
 
 }

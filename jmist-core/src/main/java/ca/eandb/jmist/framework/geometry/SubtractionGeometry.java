@@ -37,9 +37,7 @@ import ca.eandb.jmist.math.Sphere;
  */
 public final class SubtractionGeometry extends ConstructiveSolidGeometry {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -1791060848352601744L;
 
   @Override

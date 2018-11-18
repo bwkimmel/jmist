@@ -176,7 +176,7 @@ public final class Array2<T> implements Iterable<T> {
     if (row + rows > this.rows || col + cols > this.cols) {
       throw new IndexOutOfBoundsException();
     }
-    return new Array2<T>(rows, cols, rowStride, indexOf(row, col), elements);
+    return new Array2<>(rows, cols, rowStride, indexOf(row, col), elements);
   }
 
   /**

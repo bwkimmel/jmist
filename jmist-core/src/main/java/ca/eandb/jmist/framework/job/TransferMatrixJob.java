@@ -36,7 +36,6 @@ import ca.eandb.jmist.framework.ProbabilityDensityFunction;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.SurfacePointGeometry;
 import ca.eandb.jmist.framework.measurement.CollectorSphere;
-import ca.eandb.jmist.framework.measurement.CollectorSphere.Callback;
 import ca.eandb.jmist.framework.measurement.SpectrophotometerCollectorSphere;
 import ca.eandb.jmist.framework.pdf.DiracProbabilityDensityFunction;
 import ca.eandb.jmist.framework.random.RandomUtil;
@@ -49,17 +48,13 @@ import ca.eandb.jmist.util.matlab.MatlabWriter;
 import ca.eandb.util.io.Archive;
 import ca.eandb.util.progress.ProgressMonitor;
 
-/**
- * @author Brad Kimmel
- *
- */
 public final class TransferMatrixJob extends AbstractParallelizableJob {
 
   /** Serialization version ID. */
   private static final long serialVersionUID = 843938200854073006L;
 
   /** Parameterization strategy for exitant vector. */
-  public static interface ExitantVectorStrategy extends Serializable {
+  public interface ExitantVectorStrategy extends Serializable {
 
     /**
      * Compute the vector to record to represent the outgoing direction.
@@ -72,7 +67,7 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
   }
 
   /** Parameterization strategies for the exitant vector. */
-  public static enum ExitantVectorStrategies implements ExitantVectorStrategy {
+  public enum ExitantVectorStrategies implements ExitantVectorStrategy {
 
     /** Record the exitant vector directly. */
     DIRECT {
@@ -141,10 +136,10 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
     /** Default number of samples per measurement. */
     public static final long DEFAULT_SAMPLES_PER_MEASUREMENT = 10000;
 
-    private final List<SurfaceScatterer> specimens = new ArrayList<SurfaceScatterer>();
-    private final List<String> specimenNames = new ArrayList<String>();
-    private final List<ProbabilityDensityFunction> channels = new ArrayList<ProbabilityDensityFunction>();
-    private final List<String> channelNames = new ArrayList<String>();
+    private final List<SurfaceScatterer> specimens = new ArrayList<>();
+    private final List<String> specimenNames = new ArrayList<>();
+    private final List<ProbabilityDensityFunction> channels = new ArrayList<>();
+    private final List<String> channelNames = new ArrayList<>();
     private boolean adjoint = false;
     private long samplesPerMeasurement = 0;
     private long samplesPerTask = 0;
@@ -404,22 +399,16 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
       ExitantVectorStrategy exitantVectorStrategy,
       CollectorSphere incidentCollector, CollectorSphere exitantCollector,
       boolean incidentPointsOutward) {
-
-    this.worker            = new PhotometerTaskWorker(
-                        incidentCollector, exitantCollector,
-                        exitantVectorStrategy, adjoint,
-                        incidentPointsOutward);
-    this.specimens          = specimens;
-    this.specimenNames        = specimenNames;
-    this.channels          = channels;
-    this.channelNames        = channelNames;
-    this.samplesPerMeasurement    = samplesPerMeasurement;
-    this.samplesPerTask        = samplesPerTask;
-    this.totalTasks          = specimens.length
-                        * channels.length
-                        * ((int) (samplesPerMeasurement / samplesPerTask) + ((samplesPerMeasurement % samplesPerTask) > 0 ? 1
-                            : 0));
-
+    this.worker = new PhotometerTaskWorker(
+        incidentCollector, exitantCollector, exitantVectorStrategy, adjoint, incidentPointsOutward);
+    this.specimens = specimens;
+    this.specimenNames = specimenNames;
+    this.channels = channels;
+    this.channelNames = channelNames;
+    this.samplesPerMeasurement = samplesPerMeasurement;
+    this.samplesPerTask = samplesPerTask;
+    this.totalTasks = specimens.length * channels.length *
+        ((int) (samplesPerMeasurement / samplesPerTask) + ((samplesPerMeasurement % samplesPerTask) > 0 ? 1 : 0));
   }
 
   @Override
@@ -433,24 +422,16 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 
   @Override
   public synchronized Object getNextTask() {
-
     if (outstandingSamplesPerMeasurement < samplesPerMeasurement) {
-
       Task task = this.getPhotometerTask(this.nextMeasurementIndex);
-
       if (++this.nextMeasurementIndex >= channels.length * specimens.length) {
         this.outstandingSamplesPerMeasurement += this.samplesPerTask;
         this.nextMeasurementIndex = 0;
       }
-
       return task;
-
     } else {
-
       return null;
-
     }
-
   }
 
   private Task getPhotometerTask(int measurementIndex) {
@@ -491,18 +472,16 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
   @Override
   public void submitTaskResults(Object task, Object results,
       ProgressMonitor monitor) {
-
-    Task    info      = (Task) task;
-    TaskResult  tr        = (TaskResult) results;
-    int      numInSensors  = worker.incidentCollector.sensors();
-    int      numOutSensors  = worker.exitantCollector.sensors();
+    Task info = (Task) task;
+    TaskResult tr = (TaskResult) results;
+    int numInSensors = worker.incidentCollector.sensors();
+    int numOutSensors = worker.exitantCollector.sensors();
 
     MathUtil.addRange(sca, info.measurementIndex * numInSensors * numOutSensors, tr.sca);
     MathUtil.addRange(abs, info.measurementIndex * numInSensors, tr.abs);
     MathUtil.addRange(cast, info.measurementIndex * numInSensors, tr.cast);
 
     monitor.notifyProgress(++this.tasksReturned, this.totalTasks);
-
   }
 
   @Override
@@ -512,7 +491,6 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 
   @Override
   public void finish() throws IOException {
-
     MatlabWriter matlab = new MatlabWriter(createFileOutputStream("tm.mat"));
 
     int numInSensors = worker.incidentCollector.sensors();
@@ -528,7 +506,6 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
     writeCollectorSphere("exitant", worker.exitantCollector, matlab);
 
     matlab.close();
-
   }
 
   /**
@@ -541,7 +518,6 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
    *     <code>MatlabWriter</code>.
    */
   private void writeCollectorSphere(String name, CollectorSphere collector, MatlabWriter matlab) throws IOException {
-
     int numSensors = collector.sensors();
     double[] polar = new double[numSensors];
     double[] azimuthal = new double[numSensors];
@@ -569,7 +545,6 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
     matlab.write(name + "_sensorSolidAngle", solidAngle);
     matlab.write(name + "_sensorProjectedSolidAngle", projectedSolidAngle);
     matlab.write(name + "_sensorCenter", center, new int[]{ 3, numSensors });
-
   }
 
   @Override
@@ -592,18 +567,18 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
     /** Serialization version ID. */
     private static final long serialVersionUID = -5989258164757195409L;
 
-    public final SurfaceScatterer      specimen;
-    public final ProbabilityDensityFunction  channel;
-    public final long            samples;
-    public final int            measurementIndex;
+    public final SurfaceScatterer specimen;
+    public final ProbabilityDensityFunction channel;
+    public final long samples;
+    public final int measurementIndex;
 
     public Task(SurfaceScatterer specimen,
         ProbabilityDensityFunction channel,
         long samples, int measurementIndex) {
-      this.specimen      = specimen;
-      this.channel      = channel;
-      this.samples      = samples;
-      this.measurementIndex  = measurementIndex;
+      this.specimen = specimen;
+      this.channel = channel;
+      this.samples = samples;
+      this.measurementIndex = measurementIndex;
     }
 
   }
@@ -636,7 +611,6 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 
     /**
      * Creates a new <code>PhotometerTaskWorker</code>.
-     * @param specimen The <code>SurfaceScatterer</code> to be measured.
      * @param incidentCollector The prototype <code>CollectorSphere</code>
      *     from which clones are constructed to record hits to (incident
      *     direction).
@@ -657,15 +631,14 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 
     @Override
     public Object performTask(Object task, ProgressMonitor monitor) {
-
-      Task        info      = (Task) task;
-      Random        rng        = new SimpleRandom();
-      final int      numInSensors  = incidentCollector.sensors();
-      final int      numOutSensors  = exitantCollector.sensors();
-      final TaskResult  result      = new TaskResult(numInSensors, numOutSensors);
-      final long      progInterval  = MathUtil.clamp(info.samples / 1000, 1, 1000);
-      long        progCountdown  = 1;
-      final int[]      sensor0      = new int[]{ -1 };
+      Task info = (Task) task;
+      Random rng = new SimpleRandom();
+      final int numInSensors = incidentCollector.sensors();
+      final int numOutSensors = exitantCollector.sensors();
+      final TaskResult result = new TaskResult(numInSensors, numOutSensors);
+      final long progInterval = MathUtil.clamp(info.samples / 1000, 1, 1000);
+      long progCountdown = 1;
+      final int[] sensor0 = new int[]{ -1 };
 
       for (long i = 0; i < info.samples; i++) {
 
@@ -681,11 +654,9 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
         sensor0[0] = -1;
         do {
           in = RandomUtil.uniformOnSphere(rng).toCartesian();
-          incidentCollector.record(in, new Callback() {
-            public void record(int sensor) {
-              result.cast[sensor]++;
-              sensor0[0] = sensor;
-            }
+          incidentCollector.record(in, sensor -> {
+            result.cast[sensor]++;
+            sensor0[0] = sensor;
           });
         } while (sensor0[0] < 0);
         in = incidentPointsOutward ? in.opposite() : in;
@@ -695,11 +666,7 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
 
         if (v != null) {
           v = exitantVectorStrategy.getExitantVector(in, v);
-          exitantCollector.record(v, new Callback() {
-            public void record(int sensor) {
-              result.sca[sensor0[0] * numOutSensors + sensor]++;
-            }
-          });
+          exitantCollector.record(v, sensor -> result.sca[sensor0[0] * numOutSensors + sensor]++);
         } else {
           result.abs[sensor0[0]]++;
         }
@@ -710,7 +677,6 @@ public final class TransferMatrixJob extends AbstractParallelizableJob {
       monitor.notifyComplete();
 
       return result;
-
     }
 
   }

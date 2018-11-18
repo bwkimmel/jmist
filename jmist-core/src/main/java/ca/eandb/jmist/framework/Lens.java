@@ -71,7 +71,7 @@ public interface Lens extends Serializable {
   EyeNode sample(Point2 p, PathInfo pathInfo, double ru, double rv, double rj);
 
   /** A dummy <code>Lens</code> that does not render anything. */
-  public static final Lens NULL = new Lens() {
+  Lens NULL = new Lens() {
     private static final long serialVersionUID = 2076070894932926479L;
     public ScatteredRay rayAt(Point2 p, WavelengthPacket lambda, Random rnd) {
       return null;

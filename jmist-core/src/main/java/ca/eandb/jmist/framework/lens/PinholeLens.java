@@ -79,7 +79,6 @@ public final class PinholeLens extends AbstractLens {
    * @return The new <code>PinholeLens</code>.
    */
   public static PinholeLens fromHfovAndAspect(double horizontalFieldOfView, double aspectRatio) {
-
     // Compute the width and height of the virtual
     // image plane from the provided field of view
     // and aspect ratio.  The image plane is assumed
@@ -87,7 +86,6 @@ public final class PinholeLens extends AbstractLens {
     double width = 2.0 * Math.tan(0.5 * horizontalFieldOfView);
     double height = width / aspectRatio;
     return new PinholeLens(width, height);
-
   }
 
   /**
@@ -101,7 +99,6 @@ public final class PinholeLens extends AbstractLens {
    * @return The new <code>PinholeLens</code>.
    */
   public static PinholeLens fromVfovAndAspect(double verticalFieldOfView, double aspectRatio) {
-
     // Compute the width and height of the virtual
     // image plane from the provided field of view
     // and aspect ratio.  The image plane is assumed
@@ -109,7 +106,6 @@ public final class PinholeLens extends AbstractLens {
     double height = 2.0 * Math.tan(0.5 * verticalFieldOfView);
     double width = height * aspectRatio;
     return new PinholeLens(width, height);
-
   }
 
   /**
@@ -125,7 +121,6 @@ public final class PinholeLens extends AbstractLens {
    */
   public static PinholeLens fromFieldOfView(double horizontalFieldOfView,
       double verticalFieldOfView) {
-
     // Compute the width and height of the virtual
     // image plane from the provided field of view
     // and aspect ratio.  The image plane is assumed
@@ -133,7 +128,6 @@ public final class PinholeLens extends AbstractLens {
     double width = 2.0 * Math.tan(0.5 * horizontalFieldOfView);
     double height = 2.0 * Math.tan(0.5 * verticalFieldOfView);
     return new PinholeLens(width, height);
-
   }
 
   @Override

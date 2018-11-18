@@ -29,7 +29,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -37,7 +36,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import ca.eandb.jmist.framework.color.CIEXYZ;
 import ca.eandb.jmist.framework.color.CIExyY;
@@ -45,10 +43,6 @@ import ca.eandb.jmist.framework.tone.LinearToneMapper;
 import ca.eandb.jmist.framework.tone.ToneMapper;
 import ca.eandb.util.ui.JNumberLine;
 
-/**
- * @author brad
- *
- */
 public final class JLinearToneMapperPanel extends JToneMapperPanel {
 
   /** Serialization version ID. */
@@ -68,9 +62,6 @@ public final class JLinearToneMapperPanel extends JToneMapperPanel {
 
   private boolean suspendChangeEvents = false;
 
-  /**
-   *
-   */
   public JLinearToneMapperPanel() {
     autoCheckBox = new JCheckBox("Automatic", true);
     whiteLuminanceSlider = new JNumberLine(MIN_STOP, MAX_STOP, 0);
@@ -81,29 +72,10 @@ public final class JLinearToneMapperPanel extends JToneMapperPanel {
     whiteXChromaticitySlider.setEnabled(false);
     whiteYChromaticitySlider.setEnabled(false);
 
-    autoCheckBox.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        autoCheckBox_OnActionPerformed(e);
-      }
-    });
-
-    whiteLuminanceSlider.addChangeListener(new ChangeListener() {
-      public void stateChanged(ChangeEvent e) {
-        whiteLuminanceSlider_OnStateChanged(e);
-      }
-    });
-
-    whiteXChromaticitySlider.addChangeListener(new ChangeListener() {
-      public void stateChanged(ChangeEvent e) {
-        whiteXChromaticitySlider_OnStateChanged(e);
-      }
-    });
-
-    whiteYChromaticitySlider.addChangeListener(new ChangeListener() {
-      public void stateChanged(ChangeEvent e) {
-        whiteYChromaticitySlider_OnStateChanged(e);
-      }
-    });
+    autoCheckBox.addActionListener(this::autoCheckBox_OnActionPerformed);
+    whiteLuminanceSlider.addChangeListener(this::whiteLuminanceSlider_OnStateChanged);
+    whiteXChromaticitySlider.addChangeListener(this::whiteXChromaticitySlider_OnStateChanged);
+    whiteYChromaticitySlider.addChangeListener(this::whiteYChromaticitySlider_OnStateChanged);
 
     JLabel label;
 
@@ -275,7 +247,6 @@ public final class JLinearToneMapperPanel extends JToneMapperPanel {
     frame.add(factory);
     frame.pack();
     frame.setVisible(true);
-
   }
 
 }

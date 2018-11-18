@@ -29,12 +29,6 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-
-
-/**
- * @author brad
- *
- */
 public enum PixelType implements Attribute {
 
   UINT(0, 4),

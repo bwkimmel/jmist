@@ -95,7 +95,7 @@ public final class ABMMaterial extends OpaqueMaterial {
     private final Spectrum absorptionCoefficient;
 
     /** The per-thread thickness of the absorbing medium (in meters). */
-    private final ThreadLocal<Double> thickness = new ThreadLocal<Double>();
+    private final ThreadLocal<Double> thickness = new ThreadLocal<>();
 
     /**
      * Creates a new
@@ -120,7 +120,6 @@ public final class ABMMaterial extends OpaqueMaterial {
     @Override
     public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint,
         WavelengthPacket lambda, double ru, double rv, double rj) {
-
       Color col = absorptionCoefficient.sample(lambda);
 //      double abs = ColorUtil.getMeanChannelValue(col);
 //
@@ -139,7 +138,6 @@ public final class ABMMaterial extends OpaqueMaterial {
 
       col = col.times(-thickness.get() / Math.cos(Math.abs(x.getNormal().dot(v)))).exp();
       return ScatteredRay.transmitSpecular(new Ray3(x.getPosition(), v), col, 1.0);
-
     }
 
   }
@@ -788,9 +786,8 @@ public final class ABMMaterial extends OpaqueMaterial {
   @Override
   public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint,
       WavelengthPacket lambda, double ru, double rv, double rj) {
-
-    if (subsurface.getNumLayers() == 0) { // check once before proceeding to
-                                        // avoid unnecessary synchronization.
+    // check once before proceeding to avoid unnecessary synchronization.
+    if (subsurface.getNumLayers() == 0) {
       checkBuild();
     }
 

@@ -37,10 +37,6 @@ import ca.eandb.jmist.math.Optics;
 import ca.eandb.jmist.math.SphericalCoordinates;
 import ca.eandb.jmist.math.Vector3;
 
-/**
- * @author bwkimmel
- *
- */
 public final class TrowbridgeReitzSurfaceScatterer implements SurfaceScatterer {
 
   /** Serialization version ID. */

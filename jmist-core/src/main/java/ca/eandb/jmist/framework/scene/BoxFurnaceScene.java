@@ -45,9 +45,7 @@ import ca.eandb.jmist.math.Box3;
  */
 public final class BoxFurnaceScene extends AbstractScene {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 8454473677375672984L;
 
   private static final Lens lens = new FisheyeLens();

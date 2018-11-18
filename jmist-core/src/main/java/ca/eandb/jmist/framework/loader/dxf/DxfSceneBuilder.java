@@ -43,10 +43,6 @@ import ca.eandb.jmist.math.MathUtil;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Vector3;
 
-/**
- * @author Brad
- *
- */
 public final class DxfSceneBuilder {
 
   private static final int ACCEL_THRESHOLD = Integer.MAX_VALUE;
@@ -61,7 +57,7 @@ public final class DxfSceneBuilder {
   private static final class State {
     public String currentSection;
 
-    public Map<String, Block> blocks = new HashMap<String, Block>();
+    public Map<String, Block> blocks = new HashMap<>();
 
     public Block currentBlock = null;
     public PolyhedronGeometry currentMesh = null;
@@ -69,10 +65,8 @@ public final class DxfSceneBuilder {
     public PolyhedronGeometry _3dfaces = null;
   }
 
-  private static interface GroupHandler {
-
+  private interface GroupHandler {
     void parse(State state, DxfReader dxf);
-
   }
 
   @SuppressWarnings("unused")
@@ -148,7 +142,6 @@ public final class DxfSceneBuilder {
 
     @Override
     public void parse(State state, DxfReader dxf) {
-
       double[] v = {
           0.0, 0.0, 0.0,
           0.0, 0.0, 0.0,
@@ -165,7 +158,6 @@ public final class DxfSceneBuilder {
         gc = elem.getGroupCode();
 
         switch (gc) {
-
         case 10:
         case 11:
         case 12:
@@ -182,12 +174,10 @@ public final class DxfSceneBuilder {
           int ci = (gc - 10) / 10;
           v[3 * vi + ci] = elem.getFloatValue();
           break;
-
         }
       } while (gc != 0);
 
-      PolyhedronGeometry mesh = null;
-
+      PolyhedronGeometry mesh;
       if (state.currentSection.equals("ENTITIES")) {
         if (state._3dfaces == null) {
           state._3dfaces = new PolyhedronGeometry();
@@ -220,7 +210,6 @@ public final class DxfSceneBuilder {
       if (nv > 3) { // quad
         mesh.addFace(new int[]{ offset + 2, offset + 3, offset + 0 });
       }
-
     }
 
   }
@@ -268,7 +257,6 @@ public final class DxfSceneBuilder {
 
     @Override
     public void parse(State state, DxfReader dxf) {
-
       DxfElement elem;
       int flags = 0;
       double[] v = { 0.0, 0.0, 0.0 };
@@ -281,7 +269,6 @@ public final class DxfSceneBuilder {
         gc = elem.getGroupCode();
 
         switch (gc) {
-
         case 10:
         case 20:
         case 30:
@@ -305,7 +292,6 @@ public final class DxfSceneBuilder {
         case 74:
           f[gc - 71] = elem.getIntegerValue();
           break;
-
         }
       } while (gc != 0);
 
@@ -319,19 +305,16 @@ public final class DxfSceneBuilder {
           }
         }
       }
-
     }
 
   }
 
   static final class GroupHandler_SECTION implements GroupHandler {
-
     public void parse(State state, DxfReader dxf) {
       DxfUtil.advanceToGroupCode(2, dxf);
       state.currentSection = dxf.getCurrentElement().getStringValue();
       dxf.advance();
     }
-
   }
 
   static final class GroupHandler_ENDSEC implements GroupHandler {
@@ -345,7 +328,6 @@ public final class DxfSceneBuilder {
 
     @Override
     public void parse(State state, DxfReader dxf) {
-
       DxfElement elem;
       double[] p = { 0.0, 0.0, 0.0 };
       double[] scale = { 1.0, 1.0, 1.0 };
@@ -361,7 +343,6 @@ public final class DxfSceneBuilder {
         gc = elem.getGroupCode();
 
         switch (gc) {
-
         case 2:
           ref = elem.getStringValue();
           break;
@@ -387,7 +368,6 @@ public final class DxfSceneBuilder {
         case 230:
           ext[(gc - 210) / 10] = elem.getFloatValue();
           break;
-
         }
       } while (gc != 0);
 
@@ -429,7 +409,7 @@ public final class DxfSceneBuilder {
 
   }
 
-  private static final Map<String, GroupHandler> handlers = new HashMap<String, GroupHandler>();
+  private static final Map<String, GroupHandler> handlers = new HashMap<>();
   {
     Class<?>[] classes = DxfSceneBuilder.class.getDeclaredClasses();
     for (Class<?> clazz : classes) {
@@ -448,19 +428,14 @@ public final class DxfSceneBuilder {
     }
   }
 
-  private static final GroupHandler rootGroupHandler = new GroupHandler() {
-
-    @Override
-    public void parse(State state, DxfReader dxf) {
-      String key = dxf.getCurrentElement().getStringValue();
-      GroupHandler handler = handlers.get(key);
-      if (handler != null) {
-        handler.parse(state, dxf);
-      } else {
-        dxf.advance();
-      }
+  private static final GroupHandler rootGroupHandler = (state, dxf) -> {
+    String key = dxf.getCurrentElement().getStringValue();
+    GroupHandler handler = handlers.get(key);
+    if (handler != null) {
+      handler.parse(state, dxf);
+    } else {
+      dxf.advance();
     }
-
   };
 
   public SceneElement createScene(ColorModel cm, DxfReader dxf) {

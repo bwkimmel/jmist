@@ -31,20 +31,11 @@ import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
 
-/**
- * @author Brad Kimmel
- *
- */
 public final class BlobGeometry extends PrimitiveGeometry {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 228798680340979029L;
 
-  /**
-   *
-   */
   public BlobGeometry() {
     // TODO Auto-generated constructor stub
   }

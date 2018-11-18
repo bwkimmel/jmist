@@ -40,9 +40,7 @@ import ca.eandb.jmist.math.Sphere;
  */
 public final class IntersectionGeometry extends ConstructiveSolidGeometry {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -91390515433295892L;
 
   @Override
@@ -52,15 +50,11 @@ public final class IntersectionGeometry extends ConstructiveSolidGeometry {
 
   @Override
   public Box3 boundingBox() {
-
-    Collection<Box3> boxes = new ArrayList<Box3>();
-
+    Collection<Box3> boxes = new ArrayList<>();
     for (SceneElement geometry : this.children()) {
       boxes.add(geometry.boundingBox());
     }
-
     return Box3.intersection(boxes);
-
   }
 
   @Override

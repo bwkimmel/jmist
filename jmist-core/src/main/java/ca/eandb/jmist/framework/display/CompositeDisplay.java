@@ -46,7 +46,7 @@ public final class CompositeDisplay implements Display, Serializable {
   private static final long serialVersionUID = 1296043359308113088L;
 
   /** The <code>List</code> of child <code>Display</code>s to draw to. */
-  private final List<Display> children = new ArrayList<Display>();
+  private final List<Display> children = new ArrayList<>();
 
   /**
    * Adds a new child <code>Display</code>.

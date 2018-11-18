@@ -33,13 +33,9 @@ import java.util.Map;
 
 import ca.eandb.util.UnexpectedException;
 
-/**
- * @author brad
- *
- */
 public final class AttributeFactory {
 
-  private Map<String, AttributeReader> readers = new HashMap<String, AttributeReader>();
+  private Map<String, AttributeReader> readers = new HashMap<>();
 
   private static AttributeFactory INSTANCE;
 

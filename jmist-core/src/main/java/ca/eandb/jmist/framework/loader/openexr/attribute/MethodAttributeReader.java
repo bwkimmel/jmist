@@ -32,10 +32,6 @@ import java.lang.reflect.Method;
 
 import ca.eandb.util.UnexpectedException;
 
-/**
- * @author brad
- *
- */
 final class MethodAttributeReader implements AttributeReader {
 
   private final Method method;
@@ -53,9 +49,7 @@ final class MethodAttributeReader implements AttributeReader {
   public Attribute read(DataInput in, int size) throws IOException {
     try {
       return (Attribute) method.invoke(null, in, size);
-    } catch (IllegalArgumentException e) {
-      throw new UnexpectedException(e);
-    } catch (IllegalAccessException e) {
+    } catch (IllegalArgumentException | IllegalAccessException e) {
       throw new UnexpectedException(e);
     } catch (InvocationTargetException e) {
       if (e.getCause() instanceof IOException) {

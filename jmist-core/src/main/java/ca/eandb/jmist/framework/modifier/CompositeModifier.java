@@ -31,10 +31,6 @@ import java.util.Collection;
 import ca.eandb.jmist.framework.Modifier;
 import ca.eandb.jmist.framework.ShadingContext;
 
-/**
- * @author brad
- *
- */
 public final class CompositeModifier implements Modifier {
 
   /** Serialization version ID. */
@@ -47,7 +43,7 @@ public final class CompositeModifier implements Modifier {
   }
 
   public CompositeModifier() {
-    this(new ArrayList<Modifier>());
+    this(new ArrayList<>());
   }
 
   @Override

@@ -29,11 +29,6 @@ import java.io.IOException;
 import java.io.LineNumberReader;
 import java.io.Reader;
 
-
-/**
- * @author Brad
- *
- */
 public final class AsciiDxfReader implements DxfReader {
 
   private static final class AsciiDxfException extends DxfException {
@@ -41,36 +36,22 @@ public final class AsciiDxfReader implements DxfReader {
     /** Serialization version ID. */
     private static final long serialVersionUID = -360078728659801927L;
 
-    /**
-     * @param message
-     * @param cause
-     */
     public AsciiDxfException(int lineNumber, String message, Throwable cause) {
       super(String.format("%d: %s", lineNumber, message), cause);
     }
 
-    /**
-     * @param message
-     */
     public AsciiDxfException(int lineNumber, String message) {
       super(String.format("%d: %s", lineNumber, message));
     }
 
   }
 
-  /**
-   * @author Brad
-   *
-   */
   private static final class AsciiDxfElement extends AbstractDxfElement {
 
     private final String valueLine;
 
     private final int lineNumber;
 
-    /**
-     * @param groupCode
-     */
     public AsciiDxfElement(int groupCode, String valueLine, int lineNumber) {
       super(groupCode);
       this.valueLine = valueLine;

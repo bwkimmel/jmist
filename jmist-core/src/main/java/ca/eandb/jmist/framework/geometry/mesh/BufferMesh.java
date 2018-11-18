@@ -11,9 +11,6 @@ import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Vector3;
 
-/**
- *
- */
 public final class BufferMesh implements Mesh {
 
   private final ByteBuffer faceBuffer;

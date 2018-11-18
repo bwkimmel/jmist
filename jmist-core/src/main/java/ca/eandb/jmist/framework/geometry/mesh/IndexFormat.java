@@ -3,10 +3,6 @@
  */
 package ca.eandb.jmist.framework.geometry.mesh;
 
-/**
- * @author bwkimmel
- *
- */
 public enum IndexFormat {
   INT32(new Int32IndexReader());
 

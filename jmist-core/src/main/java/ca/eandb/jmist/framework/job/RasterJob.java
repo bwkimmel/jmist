@@ -421,7 +421,7 @@ public final class RasterJob extends AbstractParallelizableJob {
         for (int x = cell.x; x < cell.x + cell.width; x++, n++) {
           x0 = x / w;
           x1 = (x + 1) / w;
-          bounds  = new Box2(x0, y0, x1, y1);
+          bounds = new Box2(x0, y0, x1, y1);
 
           pixel = pixelShader.shadePixel(bounds);
           raster.addPixel(x - cell.x, y - cell.y, pixel);

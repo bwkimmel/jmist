@@ -27,7 +27,6 @@ package ca.eandb.jmist.math;
 
 import java.io.Serializable;
 
-
 /**
  * An axis-aligned three dimensional box.
  * This class is immutable.
@@ -398,7 +397,6 @@ public final class Box3 implements Serializable {
    * @see Interval#intersects(Interval)
    */
   public boolean intersects(Ray3 ray, Interval I) {
-
     // Check for an empty box.
     if (isEmpty()) {
       return false;
@@ -443,7 +441,6 @@ public final class Box3 implements Serializable {
     if (tzmax < tmax)
       tmax = tzmax;
     return ((tmin < t1) && (tmax > t0));
-
   }
 
   /**
@@ -459,7 +456,6 @@ public final class Box3 implements Serializable {
    * @see Interval#contains(double)
    */
   public Interval intersect(Ray3 ray) {
-
     // Check for an empty box.
     if (isEmpty()) {
       return Interval.EMPTY;
@@ -467,9 +463,9 @@ public final class Box3 implements Serializable {
 
     assert(ray.direction().x() != 0.0 || ray.direction().y() != 0.0 || ray.direction().z() != 0.0);
 
-    double[]  t = new double[2];
-    int      n = 0;
-    Point3    p;
+    double[] t = new double[2];
+    int n = 0;
+    Point3 p;
 
     // Check for intersection with each of the six sides of the box.
     if (ray.direction().x() != 0.0) {
@@ -535,7 +531,6 @@ public final class Box3 implements Serializable {
     // If we didn't find any intersection points, then the
     // ray does not intersect the box.
     return Interval.EMPTY;
-
   }
 
   /**
@@ -547,8 +542,8 @@ public final class Box3 implements Serializable {
    */
   public boolean nearBoundary(Point3 p) {
     return ((MathUtil.equal(p.x(), minimumX) || MathUtil.equal(p.x(), maximumX)) && (minimumY <= p.y() && p.y() <= maximumY && minimumZ <= p.z() && p.z() <= maximumZ)) ||
-      ((MathUtil.equal(p.y(), minimumY) || MathUtil.equal(p.y(), maximumY)) && (minimumX <= p.x() && p.x() <= maximumX && minimumZ <= p.z() && p.z() <= maximumZ)) ||
-      ((MathUtil.equal(p.z(), minimumZ) || MathUtil.equal(p.z(), maximumZ)) && (minimumX <= p.x() && p.x() <= maximumX && minimumY <= p.y() && p.y() <= maximumY));
+        ((MathUtil.equal(p.y(), minimumY) || MathUtil.equal(p.y(), maximumY)) && (minimumX <= p.x() && p.x() <= maximumX && minimumZ <= p.z() && p.z() <= maximumZ)) ||
+        ((MathUtil.equal(p.z(), minimumZ) || MathUtil.equal(p.z(), maximumZ)) && (minimumX <= p.x() && p.x() <= maximumX && minimumY <= p.y() && p.y() <= maximumY));
   }
 
   /**
@@ -561,8 +556,8 @@ public final class Box3 implements Serializable {
    */
   public boolean nearBoundary(Point3 p, double epsilon) {
     return ((MathUtil.equal(p.x(), minimumX, epsilon) || MathUtil.equal(p.x(), maximumX, epsilon)) && (minimumY <= p.y() && p.y() <= maximumY && minimumZ <= p.z() && p.z() <= maximumZ)) ||
-      ((MathUtil.equal(p.y(), minimumY, epsilon) || MathUtil.equal(p.y(), maximumY, epsilon)) && (minimumX <= p.x() && p.x() <= maximumX && minimumZ <= p.z() && p.z() <= maximumZ)) ||
-      ((MathUtil.equal(p.z(), minimumZ, epsilon) || MathUtil.equal(p.z(), maximumZ, epsilon)) && (minimumX <= p.x() && p.x() <= maximumX && minimumY <= p.y() && p.y() <= maximumY));
+        ((MathUtil.equal(p.y(), minimumY, epsilon) || MathUtil.equal(p.y(), maximumY, epsilon)) && (minimumX <= p.x() && p.x() <= maximumX && minimumZ <= p.z() && p.z() <= maximumZ)) ||
+        ((MathUtil.equal(p.z(), minimumZ, epsilon) || MathUtil.equal(p.z(), maximumZ, epsilon)) && (minimumX <= p.x() && p.x() <= maximumX && minimumY <= p.y() && p.y() <= maximumY));
   }
 
   /**
@@ -573,17 +568,17 @@ public final class Box3 implements Serializable {
    * @return The normal at the specified point.
    */
   public Vector3 normalAt(Point3 p) {
-    double  cx = (minimumX + maximumX) / 2.0;
-    double  cy = (minimumY + maximumY) / 2.0;
-    double  cz = (minimumZ + maximumZ) / 2.0;
+    double cx = (minimumX + maximumX) / 2.0;
+    double cy = (minimumY + maximumY) / 2.0;
+    double cz = (minimumZ + maximumZ) / 2.0;
 
-    double  rx = this.lengthX() / 2.0;
-    double  ry = this.lengthY() / 2.0;
-    double  rz = this.lengthZ() / 2.0;
+    double rx = this.lengthX() / 2.0;
+    double ry = this.lengthY() / 2.0;
+    double rz = this.lengthZ() / 2.0;
 
-    double  dx = (p.x() - cx) / rx;
-    double  dy = (p.y() - cy) / ry;
-    double  dz = (p.z() - cz) / rz;
+    double dx = (p.x() - cx) / rx;
+    double dy = (p.y() - cy) / ry;
+    double dz = (p.z() - cz) / rz;
 
     if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > Math.abs(dz)) {
       return new Vector3(Math.signum(dx), 0.0, 0.0);
@@ -713,7 +708,6 @@ public final class Box3 implements Serializable {
    *     points.
    */
   public static Box3 smallestContainingPoints(Iterable<Point3> points) {
-
     double minimumX = Double.POSITIVE_INFINITY;
     double minimumY = Double.POSITIVE_INFINITY;
     double minimumZ = Double.POSITIVE_INFINITY;
@@ -743,7 +737,6 @@ public final class Box3 implements Serializable {
     }
 
     return Box3.getInstance(minimumX, minimumY, minimumZ, maximumX, maximumY, maximumZ);
-
   }
 
   /**
@@ -754,7 +747,6 @@ public final class Box3 implements Serializable {
    *     <code>b</code>.
    */
   public static Box3 smallestContaining(Box3 a, Box3 b) {
-
     if (a.isEmpty()) {
       return b;
     }
@@ -770,7 +762,6 @@ public final class Box3 implements Serializable {
         Math.max(a.maximumY, b.maximumY),
         Math.max(a.maximumZ, b.maximumZ)
     );
-
   }
 
   /**
@@ -782,7 +773,6 @@ public final class Box3 implements Serializable {
    *     boxes.
    */
   public static Box3 smallestContaining(Iterable<Box3> boxes) {
-
     double minimumX = Double.POSITIVE_INFINITY;
     double minimumY = Double.POSITIVE_INFINITY;
     double minimumZ = Double.POSITIVE_INFINITY;
@@ -814,7 +804,6 @@ public final class Box3 implements Serializable {
     }
 
     return Box3.getInstance(minimumX, minimumY, minimumZ, maximumX, maximumY, maximumZ);
-
   }
 
   /**
@@ -823,7 +812,6 @@ public final class Box3 implements Serializable {
    * @return The intersection of the given boxes.
    */
   public static Box3 intersection(Iterable<Box3> boxes) {
-
     double minimumX = Double.NEGATIVE_INFINITY;
     double minimumY = Double.NEGATIVE_INFINITY;
     double minimumZ = Double.NEGATIVE_INFINITY;
@@ -855,7 +843,6 @@ public final class Box3 implements Serializable {
     }
 
     return Box3.getInstance(minimumX, minimumY, minimumZ, maximumX, maximumY, maximumZ);
-
   }
 
   /**
@@ -921,9 +908,7 @@ public final class Box3 implements Serializable {
   /** The upper bound along the z-axis. */
   private double maximumZ;
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 7423343268287124341L;
 
 }

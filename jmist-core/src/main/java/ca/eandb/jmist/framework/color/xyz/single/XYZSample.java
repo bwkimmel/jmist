@@ -32,10 +32,6 @@ import ca.eandb.jmist.framework.color.ColorUtil;
 import ca.eandb.jmist.framework.color.RGB;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 
-/**
- * @author brad
- *
- */
 public final class XYZSample implements SingleXYZColor {
 
   /** Serialization version ID. */

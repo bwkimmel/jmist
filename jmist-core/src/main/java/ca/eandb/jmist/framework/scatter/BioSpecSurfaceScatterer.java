@@ -1045,7 +1045,6 @@ public final class BioSpecSurfaceScatterer implements SurfaceScatterer {
   @Override
   public Vector3 scatter(SurfacePointGeometry x, Vector3 v, boolean adjoint,
       double lambda, Random rnd) {
-
     if (subsurface == null) {
       synchronized (this) {
         if (subsurface == null) {

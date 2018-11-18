@@ -30,10 +30,6 @@ import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.Spectrum;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 
-/**
- * @author Brad
- *
- */
 /* package */ final class LuminanceContinuousSpectrum implements Spectrum {
 
   /** Serialization version ID. */

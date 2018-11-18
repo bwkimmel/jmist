@@ -41,7 +41,7 @@ public final class SequentialSurfaceScatterer implements SurfaceScatterer {
   /** Serialization version ID. */
   private static final long serialVersionUID = 2843506781652498601L;
 
-  private final List<SurfaceScatterer> inner = new ArrayList<SurfaceScatterer>();
+  private final List<SurfaceScatterer> inner = new ArrayList<>();
 
   public SequentialSurfaceScatterer addScatterer(SurfaceScatterer e) {
     inner.add(e);
@@ -51,12 +51,10 @@ public final class SequentialSurfaceScatterer implements SurfaceScatterer {
   @Override
   public Vector3 scatter(SurfacePointGeometry x, Vector3 v,
       boolean adjoint, double lambda, Random rnd) {
-
     for (SurfaceScatterer e : inner) {
       v = e.scatter(x, v, adjoint, lambda, rnd);
       if (v == null) break;
     }
-
     return v;
   }
 

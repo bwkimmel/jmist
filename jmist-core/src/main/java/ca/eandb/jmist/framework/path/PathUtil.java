@@ -74,15 +74,12 @@ public final class PathUtil {
   }
 
   public static Color join(PathNode a, PathNode b) {
-
     Vector3 v = PathUtil.getDirection(a, b);
-
     if (v == null) {
       return null;
     }
 
     double g = PathUtil.getGeometricFactor(a, b);
-
     if (g <= 0.0) {
       return null;
     }
@@ -93,14 +90,10 @@ public final class PathUtil {
 
     if (ColorUtil.getTotalChannelValue(c) > 0.0
         && PathUtil.visibility(a, b)) {
-
       c = c.times(g);
-
       c = c.times(a.getCumulativeWeight()).times(
           b.getCumulativeWeight());
-
       return c;
-
     } else { // No mutual scattering or nodes not mutually visible
       return null;
     }

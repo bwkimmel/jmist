@@ -34,10 +34,6 @@ import ca.eandb.jmist.framework.path.PathInfo;
 import ca.eandb.jmist.framework.path.PathNode;
 import ca.eandb.jmist.math.Point2;
 
-/**
- * @author Brad
- *
- */
 public interface BidiPathStrategy extends Serializable {
 
   PathNode traceLightPath(Light light, PathInfo pathInfo, Random rnd);

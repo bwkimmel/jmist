@@ -434,7 +434,6 @@ public final class PhotonMap {
       default: return Double.NaN;
       }
     }
-
   }
 
 }

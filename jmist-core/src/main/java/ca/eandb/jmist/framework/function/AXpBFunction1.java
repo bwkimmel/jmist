@@ -49,7 +49,6 @@ public final class AXpBFunction1 implements Function1 {
     this.a = a;
     this.b = b;
     this.inner = inner;
-
   }
 
   @Override

@@ -29,10 +29,6 @@ import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.path.Path;
 import ca.eandb.jmist.framework.path.PathNode;
 
-/**
- * @author brad
- *
- */
 public final class LensPerturbationPathMutator implements PathMutator {
 
   @Override
@@ -43,7 +39,6 @@ public final class LensPerturbationPathMutator implements PathMutator {
 
   @Override
   public Path mutate(Path path, Random rnd) {
-
     int s = path.getLightPathLength();
     int t = path.getEyePathLength();
 
@@ -58,7 +53,6 @@ public final class LensPerturbationPathMutator implements PathMutator {
     newEyeTail = newEyeTail.expand(rnd.next(), rnd.next(), rnd.next()); // FIXME
 
     return new Path(newLightTail, newEyeTail);
-
   }
 
 }

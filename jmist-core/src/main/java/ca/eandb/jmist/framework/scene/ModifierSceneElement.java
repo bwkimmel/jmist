@@ -37,10 +37,6 @@ import ca.eandb.jmist.framework.ShadingContext;
 import ca.eandb.jmist.framework.SurfacePoint;
 import ca.eandb.jmist.math.Ray3;
 
-/**
- * @author brad
- *
- */
 public class ModifierSceneElement extends SceneElementDecorator implements
     Serializable {
 

@@ -68,14 +68,11 @@ public final class SphereGeometry extends PrimitiveGeometry {
 
   @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
-
     Interval I = this.sphere.intersect(ray);
-
     if (!I.isEmpty()) {
       recorder.record(super.newIntersection(ray, I.minimum(), true));
       recorder.record(super.newIntersection(ray, I.maximum(), false));
     }
-
   }
 
   @Override
@@ -90,9 +87,8 @@ public final class SphereGeometry extends PrimitiveGeometry {
 
   @Override
   protected Point2 getTextureCoordinates(GeometryIntersection x) {
-    Vector3          n = x.getNormal();
-    SphericalCoordinates  sc = SphericalCoordinates.fromCartesian(new Vector3(n.x(), -n.z(), n.y()));
-
+    Vector3 n = x.getNormal();
+    SphericalCoordinates sc = SphericalCoordinates.fromCartesian(new Vector3(n.x(), -n.z(), n.y()));
     return new Point2(
         (Math.PI + sc.azimuthal()) / (2.0 * Math.PI),
         sc.polar() / Math.PI
@@ -111,10 +107,8 @@ public final class SphereGeometry extends PrimitiveGeometry {
 
   @Override
   public boolean intersects(Box3 box) {
-
     boolean foundCornerInside = false;
     boolean foundCornerOutside = false;
-
     for (int i = 0; i < 8; i++) {
       if (this.sphere.contains(box.corner(i))) {
         foundCornerInside = true;
@@ -151,7 +145,6 @@ public final class SphereGeometry extends PrimitiveGeometry {
     }
 
     return false;
-
   }
 
   @Override

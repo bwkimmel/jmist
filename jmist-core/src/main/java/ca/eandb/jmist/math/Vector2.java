@@ -25,7 +25,6 @@
  */
 package ca.eandb.jmist.math;
 
-
 /**
  * The difference between two points in two dimensional space.
  * This class is immutable.
@@ -150,34 +149,22 @@ public final class Vector2 extends HPoint2 {
     return new Vector2(-y, x);
   }
 
-  /**
-   * The zero vector (represents the vector between two identical points).
-   */
+  /** The zero vector (represents the vector between two identical points). */
   public static final Vector2 ZERO = new Vector2(0.0, 0.0);
 
-  /**
-   * The unit vector along the x-axis.
-   */
+  /** The unit vector along the x-axis. */
   public static final Vector2 I = new Vector2(1.0, 0.0);
 
-  /**
-   * The unit vector along the y-axis.
-   */
+  /** The unit vector along the y-axis. */
   public static final Vector2 J = new Vector2(0.0, 1.0);
 
-  /**
-   * The unit vector along the negative x-axis.
-   */
+  /** The unit vector along the negative x-axis. */
   public static final Vector2 NEGATIVE_I = new Vector2(-1.0, 0.0);
 
-  /**
-   * The unit vector along the negative y-axis.
-   */
+  /** The unit vector along the negative y-axis. */
   public static final Vector2 NEGATIVE_J = new Vector2(0.0, -1.0);
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -5602669939886701571L;
 
 }

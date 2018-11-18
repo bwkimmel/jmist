@@ -78,7 +78,7 @@ public interface ColorVisualizer extends Serializable {
    *
    * @see ca.eandb.jmist.framework.color.Color#toRGB()
    */
-  public static ColorVisualizer DEFAULT = new ColorVisualizer() {
+  ColorVisualizer DEFAULT = new ColorVisualizer() {
 
     /** Serialization version ID. */
     private static final long serialVersionUID = -7672964360487489245L;
@@ -86,7 +86,6 @@ public interface ColorVisualizer extends Serializable {
     @Override
     public void addChangeListener(ChangeListener l) {
       /* nothing to do. */
-
     }
 
     @Override

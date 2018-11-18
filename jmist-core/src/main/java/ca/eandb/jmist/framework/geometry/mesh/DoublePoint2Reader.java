@@ -7,10 +7,6 @@ import java.nio.ByteBuffer;
 
 import ca.eandb.jmist.math.Point2;
 
-/**
- * @author bwkimmel
- *
- */
 public final class DoublePoint2Reader implements MeshElementReader<Point2> {
 
   @Override

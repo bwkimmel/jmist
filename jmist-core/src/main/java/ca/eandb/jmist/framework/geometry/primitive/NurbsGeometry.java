@@ -32,10 +32,6 @@ import ca.eandb.jmist.math.Box3;
 import ca.eandb.jmist.math.Ray3;
 import ca.eandb.jmist.math.Sphere;
 
-/**
- * @author Brad Kimmel
- *
- */
 public final class NurbsGeometry extends PrimitiveGeometry {
 
   /** Serialization version ID. */
@@ -48,7 +44,6 @@ public final class NurbsGeometry extends PrimitiveGeometry {
   @Override
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
     // TODO Auto-generated method stub
-
   }
 
   @Override

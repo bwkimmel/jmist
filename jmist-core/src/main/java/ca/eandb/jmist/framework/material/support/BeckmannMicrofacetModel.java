@@ -30,10 +30,6 @@ import org.apache.commons.math3.util.FastMath;
 import ca.eandb.jmist.math.SphericalCoordinates;
 import ca.eandb.jmist.math.Vector3;
 
-/**
- * @author Brad
- *
- */
 public final class BeckmannMicrofacetModel implements IsotropicMicrofacetModel {
 
   /** Serialization version ID. */
@@ -56,7 +52,6 @@ public final class BeckmannMicrofacetModel implements IsotropicMicrofacetModel {
   @Override
   public double getDistributionPDF(Vector3 m, Vector3 n) {
     double mdotn = m.dot(n);
-
     if (mdotn <= 0.0) {
       return 0.0;
     }
@@ -71,7 +66,6 @@ public final class BeckmannMicrofacetModel implements IsotropicMicrofacetModel {
   @Override
   public double getShadowingAndMasking(Vector3 in, Vector3 out, Vector3 m,
       Vector3 n) {
-
     double ndoti = -n.dot(in);
     double ndoto = n.dot(out);
     double mdoti = -m.dot(in);
@@ -90,7 +84,6 @@ public final class BeckmannMicrofacetModel implements IsotropicMicrofacetModel {
     double go = ao < 1.6 ? (3.535 * ao + 2.181 * ao * ao) / (1.0 + 2.276 * ao + 2.577 * ao * ao) : 1.0;
 
     return gi * go;
-
   }
 
   @Override

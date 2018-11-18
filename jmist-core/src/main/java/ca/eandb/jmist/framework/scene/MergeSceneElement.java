@@ -65,7 +65,7 @@ public final class MergeSceneElement implements SceneElement {
   /** Serialization version ID. */
   private static final long serialVersionUID = -5677918761822356900L;
 
-  private final List<SceneElement> children = new ArrayList<SceneElement>();
+  private final List<SceneElement> children = new ArrayList<>();
 
   private transient IntegerArray offsets = null;
 
@@ -117,7 +117,7 @@ public final class MergeSceneElement implements SceneElement {
 
   @Override
   public Light createLight() {
-    final List<Light> lights = new ArrayList<Light>();
+    final List<Light> lights = new ArrayList<>();
     Light lastLight = null;
     int numLights = 0;
     for (SceneElement child : children) {

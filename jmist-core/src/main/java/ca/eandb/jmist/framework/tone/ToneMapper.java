@@ -45,7 +45,7 @@ public interface ToneMapper extends Serializable {
   /**
    * A <code>ToneMapper</code> that does not change the input.
    */
-  public static final ToneMapper IDENTITY = new ToneMapper() {
+  ToneMapper IDENTITY = new ToneMapper() {
     private static final long serialVersionUID = -1553891189627013915L;
     public CIEXYZ apply(CIEXYZ hdr) {
       return hdr;

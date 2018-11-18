@@ -41,9 +41,7 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class MirrorMaterial extends OpaqueMaterial {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = 3451068808276962270L;
 
   /**
@@ -64,12 +62,9 @@ public final class MirrorMaterial extends OpaqueMaterial {
 
   @Override
   public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint, WavelengthPacket lambda, double ru, double rv, double rj) {
-
     Vector3 out = Optics.reflect(v, x.getShadingNormal());
-
     return ScatteredRay.specular(new Ray3(x.getPosition(), out),
         reflectance.getColor(x, lambda), 1.0);
-
   }
 
   /**

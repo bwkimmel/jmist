@@ -41,11 +41,11 @@ import ca.eandb.jmist.framework.NearestIntersectionRecorder;
 import ca.eandb.jmist.framework.Random;
 import ca.eandb.jmist.framework.RayShader;
 import ca.eandb.jmist.framework.ScatteredRay;
+import ca.eandb.jmist.framework.ScatteredRay.Type;
 import ca.eandb.jmist.framework.Scene;
 import ca.eandb.jmist.framework.SceneElement;
 import ca.eandb.jmist.framework.Shader;
 import ca.eandb.jmist.framework.ShadingContext;
-import ca.eandb.jmist.framework.ScatteredRay.Type;
 import ca.eandb.jmist.framework.color.Color;
 import ca.eandb.jmist.framework.color.ColorModel;
 import ca.eandb.jmist.framework.color.WavelengthPacket;
@@ -63,9 +63,7 @@ import ca.eandb.jmist.math.Vector3;
  */
 public final class SceneRayShader implements RayShader {
 
-  /**
-   * Serialization version ID.
-   */
+  /** Serialization version ID. */
   private static final long serialVersionUID = -1662354927701351486L;
 
   private final Light light;
@@ -102,7 +100,6 @@ public final class SceneRayShader implements RayShader {
   }
 
   private final class LocalContext {
-
     public double distance;
     public Color importance;
     public Ray3 ray;
@@ -118,15 +115,14 @@ public final class SceneRayShader implements RayShader {
     public Medium medium;
     public Material material;
     public int primitiveIndex;
-
   }
 
   private class Context implements ShadingContext, Illuminable {
 
-    private final Stack<LocalContext> stack = new Stack<LocalContext>();
-    private final EnumMap<ScatteredRay.Type, Integer> depth = new EnumMap<ScatteredRay.Type, Integer>(ScatteredRay.Type.class);
+    private final Stack<LocalContext> stack = new Stack<>();
+    private final EnumMap<ScatteredRay.Type, Integer> depth = new EnumMap<>(ScatteredRay.Type.class);
     private int totalDepth = 0;
-    private final Stack<Medium> media = new Stack<Medium>();
+    private final Stack<Medium> media = new Stack<>();
 
     public Color castPrimaryRay(Ray3 ray, WavelengthPacket lambda) {
       Intersection x = NearestIntersectionRecorder.computeNearestIntersection(ray, root);
@@ -230,7 +226,7 @@ public final class SceneRayShader implements RayShader {
     public Iterable<LightSample> getLightSamples() {
       List<LightSample> samples = stack.peek().samples;
       if (samples == null) {
-        samples = new ArrayList<LightSample>();
+        samples = new ArrayList<>();
         stack.peek().samples = samples;
         light.illuminate(this, getWavelengthPacket(), rng, this);
       }
@@ -243,7 +239,7 @@ public final class SceneRayShader implements RayShader {
 
     public int getPathDepthByType(Type type) {
       Integer d = depth.get(type);
-      return (d != null ? d.intValue() : 0);
+      return (d != null ? d : 0);
     }
 
     public ScatteredRay getScatteredRay() {

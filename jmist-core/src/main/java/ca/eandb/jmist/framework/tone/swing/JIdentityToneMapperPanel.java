@@ -28,10 +28,6 @@ package ca.eandb.jmist.framework.tone.swing;
 import ca.eandb.jmist.framework.color.CIEXYZ;
 import ca.eandb.jmist.framework.tone.ToneMapper;
 
-/**
- * @author brad
- *
- */
 public final class JIdentityToneMapperPanel extends JToneMapperPanel {
 
   /** Serialization version ID. */

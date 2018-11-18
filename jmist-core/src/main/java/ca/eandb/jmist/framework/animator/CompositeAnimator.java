@@ -41,7 +41,7 @@ public final class CompositeAnimator implements Animator {
   private static final long serialVersionUID = 1091240735157061218L;
 
   /** The <code>List</code> of child <code>Animator</code>s. */
-  private final List<Animator> children = new ArrayList<Animator>();
+  private final List<Animator> children = new ArrayList<>();
 
   /**
    * Adds a child <code>Animator</code>.

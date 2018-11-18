@@ -25,7 +25,6 @@
  */
 package ca.eandb.jmist.math;
 
-
 /**
  * The difference between two points in four dimensional space.
  * This class is immutable.
@@ -212,49 +211,31 @@ public final class Vector4 extends Tuple4 {
     return new Point3(x / w, y / w, z / w);
   }
 
-  /**
-   * The zero vector (represents the vector between two identical points).
-   */
+  /** The zero vector (represents the vector between two identical points). */
   public static final Vector4 ZERO = new Vector4(0.0, 0.0, 0.0, 0.0);
 
-  /**
-   * The unit vector along the x-axis.
-   */
+  /** The unit vector along the x-axis. */
   public static final Vector4 I = new Vector4(1.0, 0.0, 0.0, 0.0);
 
-  /**
-   * The unit vector along the y-axis.
-   */
+  /** The unit vector along the y-axis. */
   public static final Vector4 J = new Vector4(0.0, 1.0, 0.0, 0.0);
 
-  /**
-   * The unit vector along the z-axis.
-   */
+  /** The unit vector along the z-axis. */
   public static final Vector4 K = new Vector4(0.0, 0.0, 1.0, 0.0);
 
-  /**
-   * The unit vector along the w-axis.
-   */
+  /** The unit vector along the w-axis. */
   public static final Vector4 L = new Vector4(0.0, 0.0, 0.0, 1.0);
 
-  /**
-   * The unit vector along the negative x-axis.
-   */
+  /** The unit vector along the negative x-axis. */
   public static final Vector4 NEGATIVE_I = new Vector4(-1.0, 0.0, 0.0, 0.0);
 
-  /**
-   * The unit vector along the negative y-axis.
-   */
+  /** The unit vector along the negative y-axis. */
   public static final Vector4 NEGATIVE_J = new Vector4(0.0, -1.0, 0.0, 0.0);
 
-  /**
-   * The unit vector along the negative z-axis.
-   */
+  /** The unit vector along the negative z-axis. */
   public static final Vector4 NEGATIVE_K = new Vector4(0.0, 0.0, -1.0, 0.0);
 
-  /**
-   * The unit vector along the negative w-axis.
-   */
+  /** The unit vector along the negative w-axis. */
   public static final Vector4 NEGATIVE_L = new Vector4(0.0, 0.0, 0.0, -1.0);
 
 }

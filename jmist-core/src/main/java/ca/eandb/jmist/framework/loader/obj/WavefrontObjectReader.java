@@ -49,10 +49,6 @@ import ca.eandb.jmist.math.Point2;
 import ca.eandb.jmist.math.Point3;
 import ca.eandb.jmist.math.Vector3;
 
-/**
- * @author Brad Kimmel
- *
- */
 public final class WavefrontObjectReader {
 
   public synchronized SceneElement read(File in, ColorModel cm) throws IOException {
@@ -60,7 +56,7 @@ public final class WavefrontObjectReader {
   }
 
   public synchronized SceneElement read(File in, double scale, ColorModel cm) throws IOException {
-    return read(in, new HashMap<String, Material>(), scale, cm);
+    return read(in, new HashMap<>(), scale, cm);
   }
 
   public synchronized SceneElement read(File in, Map<String, Material> materials, double scale, ColorModel cm) throws IOException {
@@ -72,7 +68,7 @@ public final class WavefrontObjectReader {
   }
 
   public synchronized SceneElement read(File in, double scale, ColorModel cm, Map<String, SceneElement> groups) throws IOException {
-    return read(in, new HashMap<String, Material>(), scale, cm, groups);
+    return read(in, new HashMap<>(), scale, cm, groups);
   }
 
   public synchronized SceneElement read(File in, Map<String, Material> materials, double scale, ColorModel cm, Map<String, SceneElement> groups) throws IOException {
@@ -87,7 +83,6 @@ public final class WavefrontObjectReader {
     }
 
     while (true) {
-
       String line = reader.readLine();
       if (line == null) {
         break;
@@ -96,7 +91,6 @@ public final class WavefrontObjectReader {
         line = line.substring(0, line.length() - 1) + " " + reader.readLine();
       }
       line = line.replaceAll("#.*$", "");
-
       String[] args = line.split("\\s+");
       if (args.length > 0) {
         LineInterpreter interp = getLineInterpreter(args[0]);
@@ -108,12 +102,10 @@ public final class WavefrontObjectReader {
           return null;
         }
       }
-
     }
 
     state.endGroup();
     return state.result;
-
   }
 
   public void addMaterial(String name, Material material) {
@@ -154,9 +146,6 @@ public final class WavefrontObjectReader {
 
   private static class State {
 
-    /**
-     * @param geometry
-     */
     public State(File directory, double scale, ColorModel colorModel, Map<String, SceneElement> groups) {
       this.directory = directory;
       this.scale = scale;
@@ -166,12 +155,10 @@ public final class WavefrontObjectReader {
 
     public void addErrorMessage(String format) {
       // TODO Auto-generated method stub
-
     }
 
     public void addWarningMessage(String format) {
       // TODO Auto-generated method stub
-
     }
 
     public void endGroup() {
@@ -255,12 +242,12 @@ public final class WavefrontObjectReader {
       }
     }
 
-    //private final Map<String, Material> materials = new HashMap<String, Material>();
-    private final List<Point3> vs = new ArrayList<Point3>();
-    private final List<Point2> vts = new ArrayList<Point2>();
-    private final List<Vector3> vns = new ArrayList<Vector3>();
-    private final List<Double> weights = new ArrayList<Double>();
-    private final Set<String> appearanceNames = new HashSet<String>();
+    //private final Map<String, Material> materials = new HashMap<>();
+    private final List<Point3> vs = new ArrayList<>();
+    private final List<Point2> vts = new ArrayList<>();
+    private final List<Vector3> vns = new ArrayList<>();
+    private final List<Double> weights = new ArrayList<>();
+    private final Set<String> appearanceNames = new HashSet<>();
 
     private String activeMaterialName = null;
 
@@ -282,10 +269,8 @@ public final class WavefrontObjectReader {
 
   }
 
-  private static interface LineInterpreter {
-
+  private interface LineInterpreter {
     void process(String[] args, State state);
-
   }
 
   private LineInterpreter getLineInterpreter(String key) {
@@ -296,7 +281,7 @@ public final class WavefrontObjectReader {
   }
 
   private static void initialize() {
-    lineInterpreters = new HashMap<String, LineInterpreter>();
+    lineInterpreters = new HashMap<>();
 
     lineInterpreters.put("v", LI_V);
     lineInterpreters.put("vt", LI_VT);
@@ -309,146 +294,106 @@ public final class WavefrontObjectReader {
 
   private static Map<String, LineInterpreter> lineInterpreters = null;
 
-  private static LineInterpreter LI_DEFAULT = new LineInterpreter() {
+  private static LineInterpreter LI_DEFAULT =
+      (args, state) -> state.addWarningMessage(String.format("Unrecognized command: `%s'", args[0]));
 
-    public void process(String[] args, State state) {
-      state.addWarningMessage(String.format("Unrecognized command: `%s'", args[0]));
-    }
+  private static LineInterpreter LI_V = (args, state) -> {
+    checkArgs(args, state, 3, 4);
 
+    state.addVertex(
+        new Point3(
+            Double.parseDouble(args[1]),
+            Double.parseDouble(args[2]),
+            Double.parseDouble(args[3])
+        ),
+        args.length > 4 ? Double.parseDouble(args[4]) : 1.0
+    );
   };
 
-  private static LineInterpreter LI_V = new LineInterpreter() {
+  private static LineInterpreter LI_VT = (args, state) -> {
+    checkArgs(args, state, 2, 3);
 
-    public void process(String[] args, State state) {
-      checkArgs(args, state, 3, 4);
-
-      state.addVertex(
-          new Point3(
-              Double.parseDouble(args[1]),
-              Double.parseDouble(args[2]),
-              Double.parseDouble(args[3])
-          ),
-          args.length > 4 ? Double.parseDouble(args[4]) : 1.0
-      );
-
-    }
-
+    state.addTexCoord(
+        new Point2(
+            Double.parseDouble(args[1]),
+            Double.parseDouble(args[2])));
   };
 
-  private static LineInterpreter LI_VT = new LineInterpreter() {
+  private static LineInterpreter LI_VN = (args, state) -> {
+    checkArgs(args, state, 3, 3);
 
-    public void process(String[] args, State state) {
-      checkArgs(args, state, 2, 3);
-
-      state.addTexCoord(
-          new Point2(
-              Double.parseDouble(args[1]),
-              Double.parseDouble(args[2])));
-    }
-
+    state.addNormal(
+        new Vector3(
+            Double.parseDouble(args[1]),
+            Double.parseDouble(args[2]),
+            Double.parseDouble(args[3])));
   };
 
-  private static LineInterpreter LI_VN = new LineInterpreter() {
+  private static LineInterpreter LI_F = (args, state) -> {
+    checkArgs(args, state, 3, Integer.MAX_VALUE);
 
-    public void process(String[] args, State state) {
-      checkArgs(args, state, 3, 3);
+    List<Integer> vertexIndexList = new ArrayList<>();
+    List<Integer> textureIndexList = new ArrayList<>();
+    List<Integer> normalIndexList = new ArrayList<>();
 
-      state.addNormal(
-          new Vector3(
-              Double.parseDouble(args[1]),
-              Double.parseDouble(args[2]),
-              Double.parseDouble(args[3])));
-    }
+    for (int i = 1; i < args.length; i++) {
+      String[] indices = args[i].split("/", 3);
 
-  };
-
-  private static LineInterpreter LI_F = new LineInterpreter() {
-
-    public void process(String[] args, State state) {
-      checkArgs(args, state, 3, Integer.MAX_VALUE);
-
-      List<Integer> vertexIndexList = new ArrayList<Integer>();
-      List<Integer> textureIndexList = new ArrayList<Integer>();
-      List<Integer> normalIndexList = new ArrayList<Integer>();
-
-      for (int i = 1; i < args.length; i++) {
-        String[] indices = args[i].split("/", 3);
-
-        vertexIndexList.add(Integer.parseInt(indices[0]));
-        if (indices.length > 1 && !indices[1].equals("")) {
-          textureIndexList.add(Integer.parseInt(indices[1]));
-        }
-        if (indices.length > 2 && !indices[2].equals("")) {
-          normalIndexList.add(Integer.parseInt(indices[2]));
-        }
+      vertexIndexList.add(Integer.parseInt(indices[0]));
+      if (indices.length > 1 && !indices[1].equals("")) {
+        textureIndexList.add(Integer.parseInt(indices[1]));
       }
-
-      int[] vertexIndices = !vertexIndexList.isEmpty() ? new int[vertexIndexList.size()] : null;
-      for (int i = 0; i < vertexIndexList.size(); i++) {
-        vertexIndices[i] = vertexIndexList.get(i);
+      if (indices.length > 2 && !indices[2].equals("")) {
+        normalIndexList.add(Integer.parseInt(indices[2]));
       }
-
-      int[] textureIndices = !textureIndexList.isEmpty() ? new int[textureIndexList.size()] : null;
-      for (int i = 0; i < textureIndexList.size(); i++) {
-        textureIndices[i] = textureIndexList.get(i);
-      }
-
-      int[] normalIndices = !normalIndexList.isEmpty() ? new int[normalIndexList.size()] : null;
-      for (int i = 0; i < normalIndexList.size(); i++) {
-        normalIndices[i] = normalIndexList.get(i);
-      }
-
-      state.addFace(vertexIndices, textureIndices, normalIndices);
     }
 
-  };
-
-  private static LineInterpreter LI_USEMTL = new LineInterpreter() {
-
-    public void process(String[] args, State state) {
-      checkArgs(args, state, 1);
-      state.setActiveMaterial(args[1]);
+    int[] vertexIndices = !vertexIndexList.isEmpty() ? new int[vertexIndexList.size()] : null;
+    for (int i = 0; i < vertexIndexList.size(); i++) {
+      vertexIndices[i] = vertexIndexList.get(i);
     }
 
+    int[] textureIndices = !textureIndexList.isEmpty() ? new int[textureIndexList.size()] : null;
+    for (int i = 0; i < textureIndexList.size(); i++) {
+      textureIndices[i] = textureIndexList.get(i);
+    }
+
+    int[] normalIndices = !normalIndexList.isEmpty() ? new int[normalIndexList.size()] : null;
+    for (int i = 0; i < normalIndexList.size(); i++) {
+      normalIndices[i] = normalIndexList.get(i);
+    }
+
+    state.addFace(vertexIndices, textureIndices, normalIndices);
   };
 
-  private static LineInterpreter LI_MTLLIB = new LineInterpreter() {
+  private static LineInterpreter LI_USEMTL = (args, state) -> {
+    checkArgs(args, state, 1);
+    state.setActiveMaterial(args[1]);
+  };
 
-    public void process(String[] args, final State state) {
-
-      WavefrontMaterialReader reader = new WavefrontMaterialReader();
-      for (int i = 1; i < args.length; i++) {
-        File file = new File(state.directory, args[i]);
-        try {
-          reader.read(file, state.colorModel, new AppearanceVisitor() {
-            public void visit(String name, Material material,
-                Shader shader) {
-              if (!state.hasAppearance(name)) {
-                state.addAppearance(name, material, shader);
-              }
-            }
-          });
-        } catch (FileNotFoundException e) {
-          state.addErrorMessage("File not found: " + args[i]);
-          e.printStackTrace();
-        } catch (IOException e) {
-          state.addErrorMessage("Could not read file: " + args[i]);
-          e.printStackTrace();
-        }
-
+  private static LineInterpreter LI_MTLLIB = (args, state) -> {
+    WavefrontMaterialReader reader = new WavefrontMaterialReader();
+    for (int i = 1; i < args.length; i++) {
+      File file = new File(state.directory, args[i]);
+      try {
+        reader.read(file, state.colorModel, (name, material, shader) -> {
+          if (!state.hasAppearance(name)) {
+            state.addAppearance(name, material, shader);
+          }
+        });
+      } catch (FileNotFoundException e) {
+        state.addErrorMessage("File not found: " + args[i]);
+        e.printStackTrace();
+      } catch (IOException e) {
+        state.addErrorMessage("Could not read file: " + args[i]);
+        e.printStackTrace();
       }
-
     }
-
-  };
-  private static LineInterpreter LI_G = new LineInterpreter() {
-
-    public void process(String[] args, State state) {
-      checkArgs(args, state, 1);
-      state.beginGroup(args[1]);
-    }
-
   };
 
+  private static LineInterpreter LI_G = (args, state) -> {
+    checkArgs(args, state, 1);
+    state.beginGroup(args[1]);
+  };
 
 }

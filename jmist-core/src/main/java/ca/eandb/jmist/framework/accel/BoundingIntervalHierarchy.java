@@ -505,7 +505,6 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
 
   private void intersectNode(int node, double near, double far, Ray3 ray,
       IntersectionRecorder recorder) {
-
     if (far < near) {
       return;
     }
@@ -568,7 +567,6 @@ public final class BoundingIntervalHierarchy extends SceneElementDecorator {
 
       }
     }
-
   }
 
   @Override

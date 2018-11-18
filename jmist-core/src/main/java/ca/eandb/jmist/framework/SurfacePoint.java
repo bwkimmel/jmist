@@ -25,7 +25,6 @@
  */
 package ca.eandb.jmist.framework;
 
-
 /**
  * Represents the properties of a point on the surface of some element in a
  * scene.

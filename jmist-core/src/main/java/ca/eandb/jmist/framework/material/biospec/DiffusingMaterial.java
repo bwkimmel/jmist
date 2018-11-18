@@ -48,9 +48,7 @@ public final class DiffusingMaterial extends OpaqueMaterial {
   @Override
   public ScatteredRay scatter(SurfacePoint x, Vector3 v, boolean adjoint,
       WavelengthPacket lambda, double ru, double rv, double rj) {
-
     Vector3 N = x.getNormal();
-
     if (v.dot(N) < 0.0) {
       N = N.opposite();
     }

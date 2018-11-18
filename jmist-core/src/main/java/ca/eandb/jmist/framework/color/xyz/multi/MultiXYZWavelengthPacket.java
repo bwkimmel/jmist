@@ -27,10 +27,6 @@ package ca.eandb.jmist.framework.color.xyz.multi;
 
 import ca.eandb.jmist.framework.color.WavelengthPacket;
 
-/**
- * @author Brad
- *
- */
 /* package */ final class MultiXYZWavelengthPacket implements WavelengthPacket {
 
   private final MultiXYZColorModel owner;

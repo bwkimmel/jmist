@@ -59,6 +59,6 @@ public abstract class CompositeFunction1 implements Function1 {
   }
 
   /** The component spectra. */
-  private final List<Function1> children = new ArrayList<Function1>();
+  private final List<Function1> children = new ArrayList<>();
 
 }

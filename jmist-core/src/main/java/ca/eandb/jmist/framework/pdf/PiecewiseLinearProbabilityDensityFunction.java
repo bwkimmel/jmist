@@ -61,7 +61,6 @@ public final class PiecewiseLinearProbabilityDensityFunction extends
    *     elements.
    */
   private PiecewiseLinearProbabilityDensityFunction(double[] x, double[] pdf, boolean clone) {
-
     if (x.length != pdf.length) {
       throw new IllegalArgumentException("x.length != pdf.length");
     }
@@ -93,7 +92,6 @@ public final class PiecewiseLinearProbabilityDensityFunction extends
       this.pdf[i] /= sum;
       this.cdf[i] /= sum;
     }
-
   }
 
   /**
@@ -163,7 +161,6 @@ public final class PiecewiseLinearProbabilityDensityFunction extends
 
   @Override
   public double warp(double seed) {
-
     /* If the value is out of range, the results are undefined.  Returning
      * the lowest domain point if the seed is negative and the highest
      * domain point if the seed is at least 1 seems reasonable -- since
@@ -248,7 +245,6 @@ public final class PiecewiseLinearProbabilityDensityFunction extends
       return MathUtil.interpolate(cdf[i], x[i], cdf[i + 1], x[i + 1], seed);
 
     }
-
   }
 
   /** An array of the domain points. */
