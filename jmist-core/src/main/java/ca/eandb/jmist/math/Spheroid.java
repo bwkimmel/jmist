@@ -516,4 +516,13 @@ public final class Spheroid implements Serializable {
     }
   }
 
+  public Box3 boundingBox(){
+    double rx = Math.sqrt(Math.pow(a * basis.u().x(), 2.0) + Math.pow(a * basis.v().x(), 2.0) + Math.pow(c * basis.w().x(), 2.0));
+    double ry = Math.sqrt(Math.pow(a * basis.u().y(), 2.0) + Math.pow(a * basis.v().y(), 2.0) + Math.pow(c * basis.w().y(), 2.0));
+    double rz = Math.sqrt(Math.pow(a * basis.u().z(), 2.0) + Math.pow(a * basis.v().z(), 2.0) + Math.pow(c * basis.w().z(), 2.0));
+
+    return new Box3(
+        center.x() - rx, center.y() - ry, center.z() - rz,
+        center.x() + rx, center.y() + ry, center.z() + rz);
+  }
 }
