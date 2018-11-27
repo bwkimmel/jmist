@@ -2,7 +2,6 @@ package ca.eandb.jmist.framework.geometry.primitive;
 
 import ca.eandb.jmist.framework.IntersectionRecorder;
 import ca.eandb.jmist.framework.geometry.PrimitiveGeometry;
-import ca.eandb.jmist.framework.geometry.AbstractGeometry;
 import ca.eandb.jmist.math.*;
 
 public final class SpheroidGeometry extends PrimitiveGeometry {
@@ -15,7 +14,7 @@ public final class SpheroidGeometry extends PrimitiveGeometry {
 
   /**
   * Creates a new <code>SpheroidGeometry</code>.
-  * @param spheroid The <code>Spheroid</code> describing to be rendered.
+  * @param spheroid The <code>Spheroid</code> to be rendered.
   */
   public SpheroidGeometry(Spheroid spheroid) {
     this.spheroid = spheroid;
@@ -25,23 +24,23 @@ public final class SpheroidGeometry extends PrimitiveGeometry {
   public void intersect(Ray3 ray, IntersectionRecorder recorder) {
     Interval I = spheroid.intersect(ray);
     if (!I.isEmpty()) {
-      recorder.record(super.newIntersection(ray, I.minimum(),true));
-      recorder.record(super.newIntersection(ray, I.maximum(),false));
+      recorder.record(super.newIntersection(ray, I.minimum(), true));
+      recorder.record(super.newIntersection(ray, I.maximum(), false));
     }
   }
 
   @Override
-  protected Basis3 getBasis(AbstractGeometry.GeometryIntersection x) {
+  protected Basis3 getBasis(GeometryIntersection x) {
     return Basis3.fromWV(x.getNormal(), spheroid.basis().w());
   }
 
   @Override
-  protected Vector3 getNormal(AbstractGeometry.GeometryIntersection x) {
-    return this.spheroid.normalAt(x.getPosition());
+  protected Vector3 getNormal(GeometryIntersection x) {
+    return spheroid.normalAt(x.getPosition());
   }
 
   /**
-   * Texture taken from sphere, so a sphereoid is a distorted sphere.
+   * Texture taken from sphere, so a spheroid is a distorted sphere.
    * If a and c are equal it looks like a sphere.
    */
   @Override
@@ -56,7 +55,7 @@ public final class SpheroidGeometry extends PrimitiveGeometry {
 
   @Override
   public Box3 boundingBox() {
-    return this.spheroid.boundingBox();
+    return spheroid.boundingBox();
   }
 
   @Override
