@@ -204,6 +204,15 @@ public final class MathUtil {
   }
 
   /**
+   * Returns the square of a number, cheaper than Math.pow
+   * @param x number to be squared.
+   * @return x * x
+   */
+  public static double sqr(double x) {
+    return x * x;
+  }
+
+  /**
    * Returns the smallest (closest to negative infinity) integer that is at
    * least as large as <code>a / b</code>.
    * @param a The numerator.
