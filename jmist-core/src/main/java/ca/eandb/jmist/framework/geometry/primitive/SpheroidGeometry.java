@@ -9,13 +9,13 @@ public final class SpheroidGeometry extends PrimitiveGeometry {
   /** Serialization version ID. */
   private static final long serialVersionUID = -3401239873145509127L;
 
-  /**The <code>Spheroid</code> describing this <code>SceneElement</code>. */
+  /** The <code>Spheroid</code> describing this <code>SceneElement</code>. */
   private final Spheroid spheroid;
 
   /**
-  * Creates a new <code>SpheroidGeometry</code>.
-  * @param spheroid The <code>Spheroid</code> to be rendered.
-  */
+   * Creates a new <code>SpheroidGeometry</code>.
+   * @param spheroid The <code>Spheroid</code> to be rendered.
+   */
   public SpheroidGeometry(Spheroid spheroid) {
     this.spheroid = spheroid;
   }
