@@ -26,6 +26,7 @@
 package ca.eandb.jmist.framework;
 
 import java.io.Serializable;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * A random number generator.
@@ -64,7 +65,7 @@ public interface Random extends Serializable {
 
     @Override
     public double next() {
-      return Math.random();
+      return ThreadLocalRandom.current().nextDouble();
     }
 
     @Override
