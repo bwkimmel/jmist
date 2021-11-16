@@ -1252,11 +1252,11 @@ public final class MathUtil {
     if (index < 0) {
       index = -(index + 1);
     }
-    while (index < xs.length - 1 && !(x < xs[index + 1])) {
+    while (index < xs.length - 1 && !(x < xs[index])) {
       index++;
     }
 
-    assert(index < xs.length - 1);
+    assert(index < xs.length);
     return interpolate(xs[index - 1], ys[index - 1], xs[index], ys[index], x);
   }
 
@@ -1281,11 +1281,11 @@ public final class MathUtil {
     if (index < 0) {
       index = -(index + 1);
     }
-    while (index < n - 1 && !(x < xs[index + 1])) {
+    while (index < n - 1 && !(x < xs[index])) {
       index++;
     }
 
-    assert(index < n - 1);
+    assert(index < n);
 
     int i = index - 1;
     int j = index;
@@ -1335,11 +1335,11 @@ public final class MathUtil {
     if (index < 0) {
       index = -(index + 1);
     }
-    while (index < n - 1 && !(x < xs.get(index + 1))) {
+    while (index < n - 1 && !(x < xs.get(index))) {
       index++;
     }
 
-    assert(index < n - 1);
+    assert(index < n);
     return interpolate(xs.get(index - 1), ys.get(index - 1), xs.get(index), ys.get(index), x);
   }
 
@@ -1364,11 +1364,11 @@ public final class MathUtil {
     if (index < 0) {
       index = -(index + 1);
     }
-    while (index < n - 1 && !(x < xs.get(index + 1))) {
+    while (index < n - 1 && !(x < xs.get(index))) {
       index++;
     }
 
-    assert(index < n - 1);
+    assert(index < n);
 
     int i = index - 1;
     int j = index;
@@ -1636,7 +1636,7 @@ public final class MathUtil {
     if (ix < 0) {
       ix = -(ix + 1);
     }
-    while (ix < nx - 1 && !(x < xs.get(ix + 1))) {
+    while (ix < nx - 1 && !(x < xs.get(ix))) {
       ix++;
     }
 
@@ -1644,11 +1644,13 @@ public final class MathUtil {
     if (iy < 0) {
       iy = -(iy + 1);
     }
-    while (iy < ny - 1 && !(y < ys.get(iy + 1))) {
+    while (iy < ny - 1 && !(y < ys.get(iy))) {
       iy++;
     }
 
-    assert(ix < nx - 1 && iy < ny - 1);
+    assert(ix < nx && iy < ny);
+    ix--;
+    iy--;
 
     double x0 = xs.get(ix);
     double x1 = xs.get(ix + 1);
