@@ -5,6 +5,8 @@ target/
 .settings/
 .project
 .classpath
+release.properties
+*.releaseBackup
 *.versionsBackup
 .idea/
 *.iml
