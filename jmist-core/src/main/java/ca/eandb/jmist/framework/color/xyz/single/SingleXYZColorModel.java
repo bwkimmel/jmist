@@ -61,7 +61,7 @@ public final class SingleXYZColorModel implements ColorModel {
    * Gets the single instance of this <code>ColorModel</code>.
    * @return The single instance of this <code>ColorModel</code>.
    */
-  public synchronized static SingleXYZColorModel getInstance() {
+  public static SingleXYZColorModel getInstance() {
     return instance;
   }
 
